@@ -58,6 +58,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract superclass for widgets used to enable or disable formatters.<p>
@@ -74,8 +75,8 @@ public abstract class A_CmsFormatterWidget extends CmsSelectWidget {
          */
         public int compare(I_CmsFormatterBean first, I_CmsFormatterBean second) {
 
-            SortedSet<String> firstSet = new TreeSet<String>(first.getResourceTypeNames());
-            SortedSet<String> secondSet = new TreeSet<String>(second.getResourceTypeNames());
+            SortedSet<@RUntainted String> firstSet = new TreeSet<@RUntainted String>(first.getResourceTypeNames());
+            SortedSet<@RUntainted String> secondSet = new TreeSet<@RUntainted String>(second.getResourceTypeNames());
             return ComparisonChain.start().compare(firstSet.toString(), secondSet.toString()).compare(
                 first.getRank(),
                 second.getRank()).result();
@@ -120,7 +121,7 @@ public abstract class A_CmsFormatterWidget extends CmsSelectWidget {
      *
      * @return the created widget option
      */
-    public static CmsSelectWidgetOption getWidgetOptionForType(CmsObject cms, String typeName) {
+    public static CmsSelectWidgetOption getWidgetOptionForType(CmsObject cms, @RUntainted String typeName) {
 
         String niceTypeName = typeName;
         try {
@@ -145,7 +146,7 @@ public abstract class A_CmsFormatterWidget extends CmsSelectWidget {
      *
      * @return the message string
      */
-    static String getMessage(CmsObject cms, String message, Object... args) {
+    static String getMessage(CmsObject cms, @RUntainted String message, @RUntainted Object... args) {
 
         Locale locale = OpenCms.getWorkplaceManager().getWorkplaceLocale(cms);
         return Messages.get().getBundle(locale).key(message, args);
@@ -178,7 +179,7 @@ public abstract class A_CmsFormatterWidget extends CmsSelectWidget {
      * @see org.opencms.widgets.I_CmsADEWidget#getWidgetName()
      */
     @Override
-    public String getWidgetName() {
+    public @RUntainted String getWidgetName() {
 
         return A_CmsFormatterWidget.class.getName();
     }
@@ -207,7 +208,7 @@ public abstract class A_CmsFormatterWidget extends CmsSelectWidget {
      *
      * @return the set of values which have already been selected
      */
-    protected abstract Set<String> getSelectedInFile(CmsConfigurationReader reader, CmsXmlContent content);
+    protected abstract Set<@RUntainted String> getSelectedInFile(CmsConfigurationReader reader, CmsXmlContent content);
 
     /**
      * Gets the options corresponding to the schemas which define formatters.<p>
@@ -281,7 +282,7 @@ public abstract class A_CmsFormatterWidget extends CmsSelectWidget {
                 CmsFile contentFile = cms.readFile(content);
                 CmsXmlContent xmlContent = CmsXmlContentFactory.unmarshal(cms, contentFile);
                 CmsConfigurationReader reader = new CmsConfigurationReader(cms);
-                Set<String> selected = getSelectedInFile(reader, xmlContent);
+                Set<@RUntainted String> selected = getSelectedInFile(reader, xmlContent);
                 for (String formatterKey : selected) {
                     if (CmsUUID.isValidUUID(formatterKey)) {
                         CmsFormatterConfigurationCacheState cacheState = OpenCms.getADEManager().getCachedFormatters(

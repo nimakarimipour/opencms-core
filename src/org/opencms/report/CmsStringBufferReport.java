@@ -28,6 +28,7 @@
 package org.opencms.report;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Report class used to write the output of a report to a StringBuffer.<p>
@@ -48,7 +49,7 @@ public class CmsStringBufferReport extends A_CmsReport {
      *
      * @param locale the locale to use for the output language
      */
-    public CmsStringBufferReport(Locale locale) {
+    public CmsStringBufferReport(@RUntainted Locale locale) {
 
         init(locale, null);
 

@@ -48,6 +48,7 @@ import org.apache.commons.logging.Log;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.search.Sort;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class to access the search facility within a jsp.<p>
@@ -91,7 +92,7 @@ public class CmsSearch {
     protected CmsSearchParameters m_parameterRestriction;
 
     /** The search parameters used for searching, build out of the given individual parameter values. */
-    protected CmsSearchParameters m_parameters;
+    protected @RUntainted CmsSearchParameters m_parameters;
 
     /** The URL which leads to the previous result page. */
     protected String m_prevUrl;
@@ -427,7 +428,7 @@ public class CmsSearch {
      *
      * @return the search parameters used for searching, build out of the given individual parameter values
      */
-    public CmsSearchParameters getParameters() {
+    public @RUntainted CmsSearchParameters getParameters() {
 
         if (m_parameterRestriction != null) {
             m_parameters = m_parameters.restrict(m_parameterRestriction);
@@ -478,7 +479,7 @@ public class CmsSearch {
      *
      * @return the minimum search query length
      */
-    public int getQueryLength() {
+    public @RUntainted int getQueryLength() {
 
         return m_parameters.getQueryLength();
     }
@@ -665,7 +666,7 @@ public class CmsSearch {
      *
      * @param calculateCategories if <code>true</code>, the category count will be calculated for the next search
      */
-    public void setCalculateCategories(boolean calculateCategories) {
+    public void setCalculateCategories(@RUntainted boolean calculateCategories) {
 
         m_parameters.setCalculateCategories(calculateCategories);
     }
@@ -681,7 +682,7 @@ public class CmsSearch {
      */
     public void setCategories(String[] categories) {
 
-        List<String> setCategories = new ArrayList<String>();
+        List<@RUntainted String> setCategories = new ArrayList<@RUntainted String>();
         if (categories != null) {
             if (categories.length != 0) {
                 // ensure all categories are not null, trimmed, not-empty and lowercased
@@ -742,7 +743,7 @@ public class CmsSearch {
      *
      * @param fields the fields to search
      */
-    public void setField(String[] fields) {
+    public void setField(@RUntainted String[] fields) {
 
         m_parameters.setFields(Arrays.asList(fields));
         resetLastResult();
@@ -755,7 +756,7 @@ public class CmsSearch {
      *
      * @param indexName the name of the index
      */
-    public void setIndex(String indexName) {
+    public void setIndex(@RUntainted String indexName) {
 
         resetLastResult();
         if (CmsStringUtil.isNotEmpty(indexName)) {
@@ -791,7 +792,7 @@ public class CmsSearch {
      *
      * @param maxDateCreated the maximum creation date to set
      */
-    public void setMaxDateCreated(String maxDateCreated) {
+    public void setMaxDateCreated(@RUntainted String maxDateCreated) {
 
         m_parameters.setMaxDateCreated(CmsStringUtil.getLongValue(maxDateCreated, Long.MAX_VALUE, "maxDateCreated"));
     }
@@ -801,7 +802,7 @@ public class CmsSearch {
      *
      * @param maxDateLastModified the maximum last modification date to set
      */
-    public void setMaxDateLastModified(String maxDateLastModified) {
+    public void setMaxDateLastModified(@RUntainted String maxDateLastModified) {
 
         m_parameters.setMaxDateLastModified(
             CmsStringUtil.getLongValue(maxDateLastModified, Long.MAX_VALUE, "maxDateLastModified"));
@@ -812,7 +813,7 @@ public class CmsSearch {
      *
      * @param minDateCreated the minimum creation date to set
      */
-    public void setMinDateCreated(String minDateCreated) {
+    public void setMinDateCreated(@RUntainted String minDateCreated) {
 
         m_parameters.setMinDateCreated(CmsStringUtil.getLongValue(minDateCreated, Long.MIN_VALUE, "minDateCreated"));
     }
@@ -822,7 +823,7 @@ public class CmsSearch {
      *
      * @param minDateLastModified he minimum last modification date to set
      */
-    public void setMinDateLastModified(String minDateLastModified) {
+    public void setMinDateLastModified(@RUntainted String minDateLastModified) {
 
         m_parameters.setMinDateLastModified(
             CmsStringUtil.getLongValue(minDateLastModified, Long.MIN_VALUE, "minDateLastModified"));
@@ -834,7 +835,7 @@ public class CmsSearch {
      * @param parameters the parameters to use for the search if a non null instance is provided
      *
      */
-    public void setParameters(CmsSearchParameters parameters) {
+    public void setParameters(@RUntainted CmsSearchParameters parameters) {
 
         if (parameters != null) {
             m_parameters = parameters;
@@ -853,7 +854,7 @@ public class CmsSearch {
      *
      * @param parsedQuery the parsed query to set
      */
-    public void setParsedQuery(String parsedQuery) {
+    public void setParsedQuery(@RUntainted String parsedQuery) {
 
         try {
             m_parsedQuerySet = true;
@@ -871,7 +872,7 @@ public class CmsSearch {
      *
      * @param query the search query (escaped format)
      */
-    public void setQuery(String query) {
+    public void setQuery(@RUntainted String query) {
 
         try {
             m_parameters.setQuery(CmsEncoder.decodeParameter(query));
@@ -898,7 +899,7 @@ public class CmsSearch {
      *
      * @since 7.5.1
      */
-    public void setResourceType(String resourceType) {
+    public void setResourceType(@RUntainted String resourceType) {
 
         setResourceTypes(new String[] {resourceType});
     }
@@ -908,7 +909,7 @@ public class CmsSearch {
      *
      * @param resourceTypes the resource types to limit the search result to
      */
-    public void setResourceTypes(String[] resourceTypes) {
+    public void setResourceTypes(@RUntainted String[] resourceTypes) {
 
         if (resourceTypes != null) {
             m_parameters.setResourceTypes(Arrays.asList(resourceTypes));
@@ -955,7 +956,7 @@ public class CmsSearch {
      *
      * @see #setSearchRoots(String[])
      */
-    public void setSearchRoot(String searchRoot) {
+    public void setSearchRoot(@RUntainted String searchRoot) {
 
         setSearchRoots(CmsStringUtil.splitAsArray(searchRoot, ","));
     }
@@ -985,7 +986,7 @@ public class CmsSearch {
      *
      * @param sortOrder the sort order to set
      */
-    public void setSortOrder(Sort sortOrder) {
+    public void setSortOrder(@RUntainted Sort sortOrder) {
 
         m_parameters.setSort(sortOrder);
         resetLastResult();

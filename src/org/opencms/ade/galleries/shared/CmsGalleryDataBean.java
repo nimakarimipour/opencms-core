@@ -38,6 +38,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This bean holding the gallery dialog information required for displaying the content of the gallery tabs.<p>
@@ -56,7 +57,7 @@ public class CmsGalleryDataBean implements IsSerializable {
     private Map<String, String> m_contextParameters = new HashMap<String, String>();
 
     /** The current element. */
-    private String m_currentElement;
+    private @RUntainted String m_currentElement;
 
     /** The default search scope. */
     private CmsGallerySearchScope m_defaultScope = CmsGallerySearchScope.everything;
@@ -71,7 +72,7 @@ public class CmsGalleryDataBean implements IsSerializable {
     private boolean m_includeExpiredDefault;
 
     /** The content locale. */
-    private String m_locale;
+    private @RUntainted String m_locale;
 
     /** The available workplace locales. */
     private Map<String, String> m_locales;
@@ -83,7 +84,7 @@ public class CmsGalleryDataBean implements IsSerializable {
      * The gallery reference site-path.
      * In widget, editor and containerpage mode this will be the edited resource, otherwise the opened gallery folder.
      */
-    private String m_referenceSitePath;
+    private @RUntainted String m_referenceSitePath;
 
     /** The result view type. */
     private String m_resultViewType;
@@ -101,10 +102,10 @@ public class CmsGalleryDataBean implements IsSerializable {
     private String m_startFolder;
 
     /** The folder filter for the initial search. */
-    private Set<String> m_startFolderFilter;
+    private @RUntainted Set<String> m_startFolderFilter;
 
     /** The start gallery folder. */
-    private String m_startGallery;
+    private @RUntainted String m_startGallery;
 
     /** The start up tab id. */
     private GalleryTabId m_startTab;
@@ -165,7 +166,7 @@ public class CmsGalleryDataBean implements IsSerializable {
      *
      * @return the current element
      */
-    public String getCurrentElement() {
+    public @RUntainted String getCurrentElement() {
 
         return m_currentElement;
     }
@@ -216,7 +217,7 @@ public class CmsGalleryDataBean implements IsSerializable {
      *
      * @return the locale
      */
-    public String getLocale() {
+    public @RUntainted String getLocale() {
 
         return m_locale;
     }
@@ -247,7 +248,7 @@ public class CmsGalleryDataBean implements IsSerializable {
      *
      * @return the gallery reference site-path
      */
-    public String getReferenceSitePath() {
+    public @RUntainted String getReferenceSitePath() {
 
         return m_referenceSitePath;
     }
@@ -307,7 +308,7 @@ public class CmsGalleryDataBean implements IsSerializable {
      *
      * @return the start folder filter
      */
-    public Set<String> getStartFolderFilter() {
+    public @RUntainted Set<String> getStartFolderFilter() {
 
         return m_startFolderFilter;
     }
@@ -317,7 +318,7 @@ public class CmsGalleryDataBean implements IsSerializable {
      *
      * @return the start gallery folder
      */
-    public String getStartGallery() {
+    public @RUntainted String getStartGallery() {
 
         return m_startGallery;
     }
@@ -417,7 +418,7 @@ public class CmsGalleryDataBean implements IsSerializable {
      *
      * @param currentElement the current element to set
      */
-    public void setCurrentElement(String currentElement) {
+    public void setCurrentElement(@RUntainted String currentElement) {
 
         m_currentElement = currentElement;
     }
@@ -498,7 +499,7 @@ public class CmsGalleryDataBean implements IsSerializable {
      *
      * @param referenceSitePath the gallery reference site-path to set
      */
-    public void setReferenceSitePath(String referenceSitePath) {
+    public void setReferenceSitePath(@RUntainted String referenceSitePath) {
 
         m_referenceSitePath = referenceSitePath;
     }
@@ -558,7 +559,7 @@ public class CmsGalleryDataBean implements IsSerializable {
      *
      * @param startFolderFilter the start folder filter to set
      */
-    public void setStartFolderFilter(Set<String> startFolderFilter) {
+    public void setStartFolderFilter(@RUntainted Set<String> startFolderFilter) {
 
         m_startFolderFilter = startFolderFilter;
     }
@@ -568,7 +569,7 @@ public class CmsGalleryDataBean implements IsSerializable {
      *
      * @param startGallery the start gallery folder to set
      */
-    public void setStartGallery(String startGallery) {
+    public void setStartGallery(@RUntainted String startGallery) {
 
         m_startGallery = startGallery;
     }

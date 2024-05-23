@@ -61,6 +61,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Macro resolver used to resolve macros for the gallery name mapping.<p>
@@ -113,7 +114,7 @@ public class CmsGalleryNameMacroResolver extends CmsMacroResolver {
     private A_CmsXmlDocument m_content;
 
     /** The locale in the XML content. */
-    private Locale m_contentLocale;
+    private @RUntainted Locale m_contentLocale;
 
     /** The default string template source. */
     private final Function<String, String> m_defaultStringTemplateSource = s -> {
@@ -136,7 +137,7 @@ public class CmsGalleryNameMacroResolver extends CmsMacroResolver {
      * @param content the content to use for macro value lookup
      * @param locale the locale to use for macro value lookup
      */
-    public CmsGalleryNameMacroResolver(CmsObject cms, A_CmsXmlDocument content, Locale locale) {
+    public CmsGalleryNameMacroResolver(CmsObject cms, A_CmsXmlDocument content, @RUntainted Locale locale) {
 
         setCmsObject(cms);
         CmsMultiMessages message = new CmsMultiMessages(locale);
@@ -151,7 +152,7 @@ public class CmsGalleryNameMacroResolver extends CmsMacroResolver {
      * @see org.opencms.util.CmsMacroResolver#getMacroValue(java.lang.String)
      */
     @Override
-    public String getMacroValue(String macro) {
+    public String getMacroValue(@RUntainted String macro) {
 
         if (macro.startsWith(PREFIX_VALUE)) {
             String path = macro.substring(PREFIX_VALUE.length());
@@ -189,7 +190,7 @@ public class CmsGalleryNameMacroResolver extends CmsMacroResolver {
      * @see org.opencms.util.CmsMacroResolver#resolveMacros(java.lang.String)
      */
     @Override
-    public String resolveMacros(String input) {
+    public @RUntainted String resolveMacros(@RUntainted String input) {
 
         if (input == null) {
             return null;
@@ -229,7 +230,7 @@ public class CmsGalleryNameMacroResolver extends CmsMacroResolver {
         if (pages.isEmpty()) {
             return null;
         }
-        Map<Locale, String> pagePathByLocale = Maps.newHashMap();
+        Map<@RUntainted Locale, String> pagePathByLocale = Maps.newHashMap();
         for (CmsResource page : pages) {
             Locale pageLocale = OpenCms.getLocaleManager().getDefaultLocale(m_cms, page);
             String pagePathCandidate = page.getRootPath();
@@ -272,7 +273,7 @@ public class CmsGalleryNameMacroResolver extends CmsMacroResolver {
             return "";
         }
         try {
-            Map<Locale, String> pagePropsByLocale = Maps.newHashMap();
+            Map<@RUntainted Locale, String> pagePropsByLocale = Maps.newHashMap();
             for (CmsResource page : pages) {
                 List<CmsProperty> pagePropertiesList = m_cms.readPropertyObjects(page, true);
                 Map<String, CmsProperty> pageProperties = CmsProperty.toObjectMap(pagePropertiesList);
@@ -312,7 +313,7 @@ public class CmsGalleryNameMacroResolver extends CmsMacroResolver {
         }
         m_pages = new HashSet<CmsResource>();
         try {
-            Collection<CmsRelation> relations = m_cms.readRelations(
+            Collection<@RUntainted CmsRelation> relations = m_cms.readRelations(
                 CmsRelationFilter.relationsToStructureId(m_content.getFile().getStructureId()));
             for (CmsRelation relation : relations) {
                 CmsResource source = relation.getSource(m_cms, CmsResourceFilter.IGNORE_EXPIRATION);

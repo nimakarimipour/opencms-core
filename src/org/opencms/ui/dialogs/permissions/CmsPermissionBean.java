@@ -40,6 +40,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean for permissions which have changed.<p>
@@ -52,7 +53,7 @@ public class CmsPermissionBean {
     private String m_principalType;
 
     /**Principal Name. */
-    private String m_principalName;
+    private @RUntainted String m_principalName;
 
     /**Allowed state. */
     private int m_allowed;
@@ -61,7 +62,7 @@ public class CmsPermissionBean {
     private int m_denied;
 
     /**Flags. */
-    private int m_flags;
+    private @RUntainted int m_flags;
 
     /**Permission string. */
     private String m_permissionString;
@@ -75,7 +76,7 @@ public class CmsPermissionBean {
      * @param principalType principal type
      * @param principalName principal name
      */
-    public CmsPermissionBean(String principalType, String principalName) {
+    public CmsPermissionBean(String principalType, @RUntainted String principalName) {
 
         m_principalName = principalName;
         m_principalType = principalType;
@@ -91,7 +92,7 @@ public class CmsPermissionBean {
      * @param denied int
      * @param flags int
      */
-    public CmsPermissionBean(String principalType, String principalName, int allowed, int denied, int flags) {
+    public CmsPermissionBean(String principalType, @RUntainted String principalName, int allowed, int denied, @RUntainted int flags) {
 
         m_principalName = principalName;
         m_principalType = principalType;
@@ -108,7 +109,7 @@ public class CmsPermissionBean {
      * @param principalName name
      * @param permissionString permission string
      */
-    public CmsPermissionBean(String principalType, String principalName, String permissionString) {
+    public CmsPermissionBean(String principalType, @RUntainted String principalName, String permissionString) {
 
         m_principalName = principalName;
         m_principalType = principalType;
@@ -201,7 +202,7 @@ public class CmsPermissionBean {
      *
      * @return int
      */
-    public int getFlags() {
+    public @RUntainted int getFlags() {
 
         return m_flags;
     }
@@ -221,7 +222,7 @@ public class CmsPermissionBean {
      *
      * @return the name of the principal
      */
-    public String getPrincipalName() {
+    public @RUntainted String getPrincipalName() {
 
         return m_principalName;
     }
@@ -231,7 +232,7 @@ public class CmsPermissionBean {
      *
      * @return String
      */
-    public String getPrincipalType() {
+    public @RUntainted String getPrincipalType() {
 
         return m_principalType;
     }
@@ -271,7 +272,7 @@ public class CmsPermissionBean {
      *
      * @param flags to be set
      */
-    public void setFlags(int flags) {
+    public void setFlags(@RUntainted int flags) {
 
         m_flags |= flags;
 
@@ -284,7 +285,7 @@ public class CmsPermissionBean {
      * @param resID id of resource
      * @return CmsAccessControlEntry
      */
-    public CmsAccessControlEntry toAccessControlEntry(CmsObject cms, CmsUUID resID) {
+    public CmsAccessControlEntry toAccessControlEntry(CmsObject cms, @RUntainted CmsUUID resID) {
 
         CmsUUID id = null;
         if (isRealPrinciple()) {

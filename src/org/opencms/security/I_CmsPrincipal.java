@@ -32,6 +32,7 @@ import org.opencms.util.CmsUUID;
 import java.io.Serializable;
 import java.security.Principal;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Representation of an identity in the cms (currently user or group),
@@ -100,7 +101,7 @@ public interface I_CmsPrincipal extends Principal, Serializable {
      *
      * @return the description of this principal
      */
-    String getDescription(Locale locale);
+    String getDescription(@RUntainted Locale locale);
 
     /**
      * Returns the flags of this principal.<p>
@@ -119,14 +120,14 @@ public interface I_CmsPrincipal extends Principal, Serializable {
      *
      * @return the unique id of this principal
      */
-    CmsUUID getId();
+    @RUntainted CmsUUID getId();
 
     /**
      * Returns the unique name of this principal.<p>
      *
      * @return the unique name of this principal
      */
-    String getName();
+    @RUntainted String getName();
 
     /**
      * Returns the fully qualified name of the associated organizational unit.<p>
@@ -189,7 +190,7 @@ public interface I_CmsPrincipal extends Principal, Serializable {
      *
      * @param description the principal description to set
      */
-    void setDescription(String description);
+    void setDescription(@RUntainted String description);
 
     /**
      * Enables (or disables) this principal, depending on the given status.<p>
@@ -208,12 +209,12 @@ public interface I_CmsPrincipal extends Principal, Serializable {
      *
      * @param value the value to set this principals flags to
      */
-    void setFlags(int value);
+    void setFlags(@RUntainted int value);
 
     /**
      * Sets the unique name of this principal.<p>
      *
      * @param name the unique name of this principal to set
      */
-    void setName(String name);
+    void setName(@RUntainted String name);
 }

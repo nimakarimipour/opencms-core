@@ -48,6 +48,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Loader for images from the OpenCms VSF with integrated image scaling and processing capabilities.<p>
@@ -91,10 +92,10 @@ public class CmsImageLoader extends CmsDumpLoader implements I_CmsEventListener 
     protected static final Log LOG = CmsLog.getLog(CmsImageLoader.class);
 
     /** The (optional) image down scale parameters for image write operations. */
-    protected static String m_downScaleParams;
+    protected static @RUntainted String m_downScaleParams;
 
     /** Indicates if image scaling is active. */
-    protected static boolean m_enabled;
+    protected static @RUntainted boolean m_enabled;
 
     /** The maximum image size (width * height) to apply image blurring when down scaling (setting this to high may cause "out of memory" errors). */
     protected static int m_maxBlurSize = CmsImageScaler.SCALE_DEFAULT_MAX_BLUR_SIZE;
@@ -110,7 +111,7 @@ public class CmsImageLoader extends CmsDumpLoader implements I_CmsEventListener 
      *
      * @return the image down scale parameters
      */
-    public static String getDownScaleParams() {
+    public static @RUntainted String getDownScaleParams() {
 
         return m_downScaleParams;
     }
@@ -121,7 +122,7 @@ public class CmsImageLoader extends CmsDumpLoader implements I_CmsEventListener 
      *
      * @return the path of the image cache repository folder in the RFS
      */
-    public static String getImageRepositoryPath() {
+    public static @RUntainted String getImageRepositoryPath() {
 
         return m_vfsDiskCache.getRepositoryPath();
     }
@@ -160,7 +161,7 @@ public class CmsImageLoader extends CmsDumpLoader implements I_CmsEventListener 
     }
 
     /** The name of the configured image cache repository. */
-    protected String m_imageRepositoryFolder;
+    protected @RUntainted String m_imageRepositoryFolder;
 
     /** The maximum image size (width or height) to allow when up scaling an image using request parameters. */
     protected int m_maxScaleSize = CmsImageScaler.SCALE_DEFAULT_MAX_SIZE;
@@ -177,7 +178,7 @@ public class CmsImageLoader extends CmsDumpLoader implements I_CmsEventListener 
      * @see org.opencms.configuration.I_CmsConfigurationParameterHandler#addConfigurationParameter(java.lang.String, java.lang.String)
      */
     @Override
-    public void addConfigurationParameter(String paramName, String paramValue) {
+    public void addConfigurationParameter(@RUntainted String paramName, @RUntainted String paramValue) {
 
         if (CmsStringUtil.isNotEmpty(paramName) && CmsStringUtil.isNotEmpty(paramValue)) {
             if (CONFIGURATION_SCALING_ENABLED.equals(paramName)) {
@@ -267,7 +268,7 @@ public class CmsImageLoader extends CmsDumpLoader implements I_CmsEventListener 
      * @see org.opencms.loader.I_CmsResourceLoader#getLoaderId()
      */
     @Override
-    public int getLoaderId() {
+    public @RUntainted int getLoaderId() {
 
         return RESOURCE_LOADER_ID_IMAGE_LOADER;
     }
@@ -288,7 +289,7 @@ public class CmsImageLoader extends CmsDumpLoader implements I_CmsEventListener 
      * @throws IOException in case of errors accessing the disk based cache
      * @throws CmsException in case of errors accessing the OpenCms VFS
      */
-    protected CmsFile getScaledImage(CmsObject cms, CmsResource resource, CmsImageScaler scaler)
+    protected @RUntainted CmsFile getScaledImage(CmsObject cms, @RUntainted CmsResource resource, CmsImageScaler scaler)
     throws IOException, CmsException {
 
         String cacheParam = scaler.isValid() ? scaler.toString() : null;
@@ -357,7 +358,7 @@ public class CmsImageLoader extends CmsDumpLoader implements I_CmsEventListener 
      * @see org.opencms.loader.I_CmsResourceLoader#load(org.opencms.file.CmsObject, org.opencms.file.CmsResource, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
-    public void load(CmsObject cms, CmsResource resource, HttpServletRequest req, HttpServletResponse res)
+    public void load(CmsObject cms, @RUntainted CmsResource resource, @RUntainted HttpServletRequest req, HttpServletResponse res)
     throws IOException, CmsException {
 
         if (m_enabled) {

@@ -71,6 +71,7 @@ import org.apache.commons.logging.Log;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.xml.sax.EntityResolver;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of a object used to access and manage the xml data of a group container.<p>
@@ -122,7 +123,7 @@ public class CmsXmlGroupContainer extends CmsXmlContent {
      * @param encoding the encoding of the container page
      * @param resolver the XML entity resolver to use
      */
-    protected CmsXmlGroupContainer(CmsObject cms, Document document, String encoding, EntityResolver resolver) {
+    protected CmsXmlGroupContainer(CmsObject cms, @RUntainted Document document, String encoding, @RUntainted EntityResolver resolver) {
 
         // must set document first to be able to get the content definition
         m_document = document;
@@ -144,7 +145,7 @@ public class CmsXmlGroupContainer extends CmsXmlContent {
      *
      * @throws CmsException in case the model file is not found or not valid
      */
-    protected CmsXmlGroupContainer(CmsObject cms, Locale locale, String modelUri)
+    protected CmsXmlGroupContainer(CmsObject cms, @RUntainted Locale locale, String modelUri)
     throws CmsException {
 
         // init model from given modelUri
@@ -245,7 +246,7 @@ public class CmsXmlGroupContainer extends CmsXmlContent {
      *
      * @throws CmsException if something goes wrong
      */
-    public void save(CmsObject cms, CmsGroupContainerBean groupContainer, Locale locale) throws CmsException {
+    public void save(@RUntainted CmsObject cms, CmsGroupContainerBean groupContainer, @RUntainted Locale locale) throws CmsException {
 
         CmsFile file = getFile();
 
@@ -293,7 +294,7 @@ public class CmsXmlGroupContainer extends CmsXmlContent {
      * @see org.opencms.xml.A_CmsXmlDocument#initDocument(org.dom4j.Document, java.lang.String, org.opencms.xml.CmsXmlContentDefinition)
      */
     @Override
-    protected void initDocument(Document document, String encoding, CmsXmlContentDefinition definition) {
+    protected void initDocument(@RUntainted Document document, String encoding, CmsXmlContentDefinition definition) {
 
         m_document = document;
         m_contentDefinition = definition;
@@ -305,7 +306,7 @@ public class CmsXmlGroupContainer extends CmsXmlContent {
         clearBookmarks();
 
         // initialize the bookmarks
-        for (Iterator<Element> itGroupContainers = CmsXmlGenericWrapper.elementIterator(
+        for (Iterator<@RUntainted Element> itGroupContainers = CmsXmlGenericWrapper.elementIterator(
             m_document.getRootElement()); itGroupContainers.hasNext();) {
             Element cntPage = itGroupContainers.next();
 
@@ -334,7 +335,7 @@ public class CmsXmlGroupContainer extends CmsXmlContent {
 
                 // types
                 Set<String> types = new HashSet<String>();
-                for (Iterator<Element> itTypes = CmsXmlGenericWrapper.elementIterator(
+                for (Iterator<@RUntainted Element> itTypes = CmsXmlGenericWrapper.elementIterator(
                     groupContainer,
                     XmlNode.Type.name()); itTypes.hasNext();) {
                     Element type = itTypes.next();
@@ -375,7 +376,7 @@ public class CmsXmlGroupContainer extends CmsXmlContent {
                     //                        && Boolean.parseBoolean(createNewElement.getStringValue());
 
                     // propeties
-                    Map<String, String> propertiesMap = CmsXmlContentPropertyHelper.readProperties(
+                    Map<@RUntainted String, @RUntainted String> propertiesMap = CmsXmlContentPropertyHelper.readProperties(
                         this,
                         locale,
                         element,
@@ -407,7 +408,7 @@ public class CmsXmlGroupContainer extends CmsXmlContent {
      *
      * @throws CmsException if something goes wrong
      */
-    protected void saveGroupContainer(CmsObject cms, Element parent, CmsGroupContainerBean groupContainer)
+    protected void saveGroupContainer(@RUntainted CmsObject cms, Element parent, CmsGroupContainerBean groupContainer)
     throws CmsException {
 
         parent.clearContent();
@@ -435,7 +436,7 @@ public class CmsXmlGroupContainer extends CmsXmlContent {
             fillResource(cms, uriElem, res);
 
             // the properties
-            Map<String, String> properties = element.getIndividualSettings();
+            Map<@RUntainted String, @RUntainted String> properties = element.getIndividualSettings();
             Map<String, CmsXmlContentProperty> propertiesConf = OpenCms.getADEManager().getElementSettings(cms, res);
 
             CmsXmlContentPropertyHelper.saveProperties(cms, elemElement, properties, propertiesConf, true);

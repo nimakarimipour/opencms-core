@@ -34,6 +34,7 @@ import org.opencms.xml.content.CmsXmlContentProperty;
 
 import java.util.Collection;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Element view preference configuration.<p>
@@ -56,7 +57,7 @@ public class CmsElementViewPreference extends CmsBuiltinPreference {
      *
      * @param propName the name of the bean property used to access this preference
      */
-    public CmsElementViewPreference(String propName) {
+    public CmsElementViewPreference(@RUntainted String propName) {
 
         super(propName);
         m_basic = false;
@@ -67,7 +68,7 @@ public class CmsElementViewPreference extends CmsBuiltinPreference {
      *
      * @return the nice name key
      */
-    public String getNiceName() {
+    public @RUntainted String getNiceName() {
 
         return NICE_NAME;
     }

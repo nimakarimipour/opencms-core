@@ -47,6 +47,7 @@ import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the history settings dialog.<p>
@@ -59,14 +60,14 @@ public class CmsFileHistorySettings extends VerticalLayout {
     public class ComboBoxVersionsBean {
 
         /**Value of item.*/
-        private int m_val;
+        private @RUntainted int m_val;
 
         /**
          * public constructor.<p>
          *
          * @param value of item
          */
-        public ComboBoxVersionsBean(int value) {
+        public ComboBoxVersionsBean(@RUntainted int value) {
 
             m_val = value;
         }
@@ -104,7 +105,7 @@ public class CmsFileHistorySettings extends VerticalLayout {
          *
          * @return int value
          */
-        public int getValue() {
+        public @RUntainted int getValue() {
 
             return m_val;
         }

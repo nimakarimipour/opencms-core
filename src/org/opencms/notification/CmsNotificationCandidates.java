@@ -53,6 +53,7 @@ import java.util.TimeZone;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.mail.EmailException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The basic class for the content notification feature in OpenCms. Collects all resources that require a notification,
@@ -65,7 +66,7 @@ public class CmsNotificationCandidates {
     private static final Log LOG = CmsLog.getLog(CmsNotificationCandidates.class);
 
     /** the CmsObject. */
-    private CmsObject m_cms;
+    private @RUntainted CmsObject m_cms;
 
     /** The resources which come into question for notifications of responsible users. */
     private List<CmsExtendedNotificationCause> m_resources;
@@ -179,7 +180,7 @@ public class CmsNotificationCandidates {
      *
      * @throws CmsException if something goes wrong
      */
-    public String notifyResponsibles() throws CmsException {
+    public @RUntainted String notifyResponsibles() throws CmsException {
 
         Iterator<CmsContentNotification> notifications = filterConfirmedResources(getContentNotifications()).iterator();
         if (notifications.hasNext()) {

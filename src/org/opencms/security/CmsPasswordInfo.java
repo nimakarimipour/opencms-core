@@ -33,6 +33,7 @@ import org.opencms.main.CmsIllegalArgumentException;
 import org.opencms.main.CmsIllegalStateException;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Validating bean for changing the password.<p>
@@ -50,7 +51,7 @@ public class CmsPasswordInfo {
     /** New Password. */
     private String m_newPwd;
     /** Current logged in user name. */
-    private final String m_userName;
+    private final @RUntainted String m_userName;
 
     /**
      * Default Constructor.<p>
@@ -158,7 +159,7 @@ public class CmsPasswordInfo {
      *
      * @param newPwd the new password to set
      */
-    public void setNewPwd(String newPwd) {
+    public void setNewPwd(@RUntainted String newPwd) {
 
         // leave password unchanged, if the new password is empty
         if (CmsStringUtil.isEmpty(newPwd)) {

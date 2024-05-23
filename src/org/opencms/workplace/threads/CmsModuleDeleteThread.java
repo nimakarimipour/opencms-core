@@ -40,6 +40,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Deletes a module.<p>
@@ -52,7 +53,7 @@ public class CmsModuleDeleteThread extends A_CmsReportThread {
     private static final Log LOG = CmsLog.getLog(CmsModuleDeleteThread.class);
 
     /** A list of module name to delete. */
-    private List<String> m_moduleNames;
+    private @RUntainted List<@RUntainted String> m_moduleNames;
 
     /** mode indicating if pre-replacement or final deletion. */
     private boolean m_replaceMode;
@@ -64,7 +65,7 @@ public class CmsModuleDeleteThread extends A_CmsReportThread {
      * @param moduleNames the name of the module
      * @param replaceMode the replace mode
      */
-    public CmsModuleDeleteThread(CmsObject cms, List<String> moduleNames, boolean replaceMode) {
+    public CmsModuleDeleteThread(@RUntainted CmsObject cms, @RUntainted List<@RUntainted String> moduleNames, boolean replaceMode) {
 
         super(cms, Messages.get().getBundle().key(Messages.GUI_DELETE_MODULE_THREAD_NAME_1, moduleNames));
         m_moduleNames = moduleNames;
@@ -102,7 +103,7 @@ public class CmsModuleDeleteThread extends A_CmsReportThread {
             m_moduleNames = CmsModuleManager.topologicalSort(m_moduleNames, null);
             Collections.reverse(m_moduleNames);
 
-            Iterator<String> j = m_moduleNames.iterator();
+            Iterator<@RUntainted String> j = m_moduleNames.iterator();
             while (j.hasNext()) {
                 String moduleName = j.next();
 

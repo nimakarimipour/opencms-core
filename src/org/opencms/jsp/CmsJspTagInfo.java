@@ -49,6 +49,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides access to OpenCms and System related information.<p>
@@ -120,7 +121,7 @@ public class CmsJspTagInfo extends TagSupport {
     private static final List<String> SYSTEM_PROPERTIES_LIST = Arrays.asList(SYSTEM_PROPERTIES);
 
     /** The value of the <code>property</code> attribute. */
-    private String m_property;
+    private @RUntainted String m_property;
 
     /**
      * Returns the description of a page delivered from OpenCms, usually used for the <code>description</code> metatag of
@@ -133,7 +134,7 @@ public class CmsJspTagInfo extends TagSupport {
      *
      * @return the description of a page delivered from OpenCms
      */
-    public static String getDescriptionInfo(CmsFlexController controller, HttpServletRequest req) {
+    public static @RUntainted String getDescriptionInfo(CmsFlexController controller, @RUntainted HttpServletRequest req) {
 
         String result = null;
         CmsObject cms = controller.getCmsObject();
@@ -175,7 +176,7 @@ public class CmsJspTagInfo extends TagSupport {
      *
      * @return the description of a page delivered from OpenCms
      */
-    public static String getKeywordsInfo(CmsFlexController controller, HttpServletRequest req) {
+    public static @RUntainted String getKeywordsInfo(CmsFlexController controller, @RUntainted HttpServletRequest req) {
 
         String result = null;
         CmsObject cms = controller.getCmsObject();
@@ -217,7 +218,7 @@ public class CmsJspTagInfo extends TagSupport {
      *
      * @return the title of a page delivered from OpenCms
      */
-    public static String getTitleInfo(CmsFlexController controller, HttpServletRequest req) {
+    public static @RUntainted String getTitleInfo(CmsFlexController controller, @RUntainted HttpServletRequest req) {
 
         String result = null;
         CmsObject cms = controller.getCmsObject();
@@ -261,7 +262,7 @@ public class CmsJspTagInfo extends TagSupport {
      * @param req the currents request
      * @return the looked up property value
      */
-    public static String infoTagAction(String property, HttpServletRequest req) {
+    public static @RUntainted String infoTagAction(@RUntainted String property, @RUntainted HttpServletRequest req) {
 
         if (property == null) {
             CmsMessageContainer errMsgContainer = Messages.get().container(Messages.GUI_ERR_INVALID_INFO_PROP_0);
@@ -373,7 +374,7 @@ public class CmsJspTagInfo extends TagSupport {
      *
      * @param name the info property name to set
      */
-    public void setProperty(String name) {
+    public void setProperty(@RUntainted String name) {
 
         if (name != null) {
             m_property = name.toLowerCase();

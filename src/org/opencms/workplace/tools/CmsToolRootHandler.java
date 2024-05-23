@@ -28,6 +28,7 @@
 package org.opencms.workplace.tools;
 
 import org.opencms.file.CmsObject;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Admin tool handler for tool roots.<p>
@@ -37,16 +38,16 @@ import org.opencms.file.CmsObject;
 public class CmsToolRootHandler extends A_CmsToolHandler {
 
     /** The key to access this tool root. */
-    private String m_key;
+    private @RUntainted String m_key;
     /** The uri where to look for the tools for this root. */
-    private String m_uri;
+    private @RUntainted String m_uri;
 
     /**
      * Returns the key.<p>
      *
      * @return the key
      */
-    public String getKey() {
+    public @RUntainted String getKey() {
 
         return m_key;
     }
@@ -56,7 +57,7 @@ public class CmsToolRootHandler extends A_CmsToolHandler {
      *
      * @return the uri
      */
-    public String getUri() {
+    public @RUntainted String getUri() {
 
         return m_uri;
     }
@@ -82,7 +83,7 @@ public class CmsToolRootHandler extends A_CmsToolHandler {
      *
      * @param key the key to set
      */
-    public void setKey(String key) {
+    public void setKey(@RUntainted String key) {
 
         m_key = key;
     }
@@ -91,7 +92,7 @@ public class CmsToolRootHandler extends A_CmsToolHandler {
      * @see org.opencms.workplace.tools.A_CmsToolHandler#setup(org.opencms.file.CmsObject, org.opencms.workplace.tools.CmsToolRootHandler, java.lang.String)
      */
     @Override
-    public boolean setup(CmsObject cms, CmsToolRootHandler root, String resourcePath) {
+    public boolean setup(CmsObject cms, CmsToolRootHandler root, @RUntainted String resourcePath) {
 
         setDisabledHelpText(getHelpText());
         setIconPath("admin/images/deficon.png");
@@ -108,7 +109,7 @@ public class CmsToolRootHandler extends A_CmsToolHandler {
      *
      * @param uri the uri to set
      */
-    public void setUri(String uri) {
+    public void setUri(@RUntainted String uri) {
 
         m_uri = uri;
     }

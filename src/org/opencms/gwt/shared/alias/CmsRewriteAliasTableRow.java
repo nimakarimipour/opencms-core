@@ -30,6 +30,7 @@ package org.opencms.gwt.shared.alias;
 import org.opencms.util.CmsUUID;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A class containing the data for a row of the rewrite alias table.<p>
@@ -46,10 +47,10 @@ public class CmsRewriteAliasTableRow implements IsSerializable {
     private CmsAliasMode m_mode;
 
     /** The regular expression string used for matching. */
-    private String m_patternString;
+    private @RUntainted String m_patternString;
 
     /** The replacement string used when the regular expression matches. */
-    private String m_replacementString;
+    private @RUntainted String m_replacementString;
 
     /**
      * Default constructor, used for serialization.<p>
@@ -67,7 +68,7 @@ public class CmsRewriteAliasTableRow implements IsSerializable {
      * @param replacementString the replacement string used when the URI is matched
      * @param mode the alias mode for this row
      */
-    public CmsRewriteAliasTableRow(CmsUUID id, String patternString, String replacementString, CmsAliasMode mode) {
+    public CmsRewriteAliasTableRow(CmsUUID id, @RUntainted String patternString, @RUntainted String replacementString, CmsAliasMode mode) {
 
         m_id = id;
         m_patternString = patternString;
@@ -110,7 +111,7 @@ public class CmsRewriteAliasTableRow implements IsSerializable {
      *
      * @return the regular expression string
      */
-    public String getPatternString() {
+    public @RUntainted String getPatternString() {
 
         return m_patternString;
     }
@@ -120,7 +121,7 @@ public class CmsRewriteAliasTableRow implements IsSerializable {
      *
      * @return the replacement string
      */
-    public String getReplacementString() {
+    public @RUntainted String getReplacementString() {
 
         return m_replacementString;
     }
@@ -160,7 +161,7 @@ public class CmsRewriteAliasTableRow implements IsSerializable {
      *
      * @param patternString the new pattern
      */
-    public void setPatternString(String patternString) {
+    public void setPatternString(@RUntainted String patternString) {
 
         m_patternString = patternString;
     }
@@ -170,7 +171,7 @@ public class CmsRewriteAliasTableRow implements IsSerializable {
      *
      * @param replacementString the new replacement string
      */
-    public void setReplacementString(String replacementString) {
+    public void setReplacementString(@RUntainted String replacementString) {
 
         m_replacementString = replacementString;
     }

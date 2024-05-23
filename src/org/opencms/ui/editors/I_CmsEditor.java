@@ -33,6 +33,7 @@ import org.opencms.file.types.I_CmsResourceType;
 import org.opencms.ui.apps.I_CmsAppUIContext;
 
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface for resource editors.<p>
@@ -57,7 +58,7 @@ public interface I_CmsEditor {
      * @param backLink the link to return to when closing the editor
      * @param params optional parameters
      */
-    void initUI(I_CmsAppUIContext context, CmsResource resource, String backLink, Map<String, String> params);
+    void initUI(I_CmsAppUIContext context, CmsResource resource, @RUntainted String backLink, @RUntainted Map<String, @RUntainted String> params);
 
     /**
      * Checks whether the editor is available for the given resource.<p>

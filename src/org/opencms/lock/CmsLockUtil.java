@@ -45,6 +45,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Locking utility class.<p>
@@ -63,14 +64,14 @@ public final class CmsLockUtil {
         /** Flag, indicating if the file was newly created. */
         private boolean m_new;
         /** The resource that was locked. */
-        private CmsResource m_res;
+        private @RUntainted CmsResource m_res;
 
         /** Private constructor.
          * @param cms the cms user context.
          * @param resource the resource to lock and read.
          * @throws CmsException thrown if locking fails.
          */
-        private LockedFile(CmsObject cms, CmsResource resource)
+        private LockedFile(CmsObject cms, @RUntainted CmsResource resource)
         throws CmsException {
 
             m_lockRecord = CmsLockUtil.ensureLock(cms, resource);
@@ -107,7 +108,7 @@ public final class CmsLockUtil {
          *
          * @return the encoding used for the file.
          */
-        public String getEncoding() {
+        public @RUntainted String getEncoding() {
 
             return CmsFileUtil.getEncoding(m_cms, m_res);
 
@@ -117,7 +118,7 @@ public final class CmsLockUtil {
          * @return the file, or null if reading fails.
          */
         @SuppressWarnings("synthetic-access")
-        public CmsFile getFile() {
+        public @RUntainted CmsFile getFile() {
 
             if ((null == m_file) && m_res.isFile()) {
                 try {
@@ -211,7 +212,7 @@ public final class CmsLockUtil {
      *
      * @throws CmsException if something goes wrong
      */
-    public static CmsLockActionRecord ensureLock(CmsObject cms, CmsResource resource, boolean shallow)
+    public static CmsLockActionRecord ensureLock(CmsObject cms, @RUntainted CmsResource resource, boolean shallow)
     throws CmsException {
 
         LockChange change = LockChange.unchanged;
@@ -249,7 +250,7 @@ public final class CmsLockUtil {
      * @param cms the cms context
      * @param resource the resource to unlock
      */
-    public static void tryUnlock(CmsObject cms, CmsResource resource) {
+    public static void tryUnlock(CmsObject cms, @RUntainted CmsResource resource) {
 
         try {
             cms.unlockResource(resource);
@@ -275,13 +276,13 @@ public final class CmsLockUtil {
     public static AutoCloseable withLockedResources(final CmsObject cms, boolean shallow, CmsResource... resources)
     throws Exception {
 
-        final Map<CmsResource, CmsLockActionRecord> lockMap = Maps.newHashMap();
+        final Map<@RUntainted CmsResource, CmsLockActionRecord> lockMap = Maps.newHashMap();
         Closeable result = new Closeable() {
 
             @SuppressWarnings("synthetic-access")
             public void close() {
 
-                for (Map.Entry<CmsResource, CmsLockActionRecord> entry : lockMap.entrySet()) {
+                for (Map.Entry<@RUntainted CmsResource, CmsLockActionRecord> entry : lockMap.entrySet()) {
                     if (entry.getValue().getChange() == LockChange.locked) {
                         CmsResource resourceToUnlock = entry.getKey();
                         // the resource may have been moved, so we read it again to get the correct path

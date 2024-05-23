@@ -62,6 +62,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Template context provider that can be used to migrate from one template to another.
@@ -242,7 +243,7 @@ public class CmsTransformerTemplateProvider implements I_CmsTemplateContextProvi
     private CmsObject m_cms;
 
     /** The path for the configuration file. */
-    private String m_configPath;
+    private @RUntainted String m_configPath;
 
     /** Cookie name for the template context override cookie. */
     private String m_cookieName;
@@ -280,7 +281,7 @@ public class CmsTransformerTemplateProvider implements I_CmsTemplateContextProvi
     /**
      * @see org.opencms.loader.I_CmsTemplateContextProvider#getDefaultLabel(java.util.Locale)
      */
-    public String getDefaultLabel(Locale locale) {
+    public String getDefaultLabel(@RUntainted Locale locale) {
 
         Configuration config = getConfiguration();
         return config.getContextMap().get(TEMPLATE_KEY_SOURCE).getLocalizedName(locale);
@@ -289,7 +290,7 @@ public class CmsTransformerTemplateProvider implements I_CmsTemplateContextProvi
     /**
      * @see org.opencms.loader.I_CmsTemplateContextProvider#getEditorStyleSheet(org.opencms.file.CmsObject, java.lang.String)
      */
-    public String getEditorStyleSheet(CmsObject cms, String editedResourcePath) {
+    public @RUntainted String getEditorStyleSheet(CmsObject cms, String editedResourcePath) {
 
         // we assume here that the WYSIWYG editor stylesheet is configured via sitemap configuration.
         return null;
@@ -372,14 +373,14 @@ public class CmsTransformerTemplateProvider implements I_CmsTemplateContextProvi
     /**
      * @see org.opencms.loader.I_CmsTemplateContextProvider#initialize(org.opencms.file.CmsObject, java.lang.String)
      */
-    public void initialize(CmsObject cms, String config) {
+    public void initialize(CmsObject cms, @RUntainted String config) {
 
         m_cms = cms;
         if (config == null) {
             config = "";
         }
         config = config.trim();
-        Map<String, String> parsedConfig = CmsStringUtil.splitAsMap(config, ",", "=");
+        Map<String, @RUntainted String> parsedConfig = CmsStringUtil.splitAsMap(config, ",", "=");
         m_configPath = parsedConfig.get(PARAM_CONFIG);
         if (m_configPath == null) {
             throw new RuntimeException(
@@ -417,7 +418,7 @@ public class CmsTransformerTemplateProvider implements I_CmsTemplateContextProvi
     /**
      * @see org.opencms.loader.I_CmsTemplateContextProvider#readCommonProperty(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String readCommonProperty(CmsObject cms, String propertyName, String fallbackValue) {
+    public @RUntainted String readCommonProperty(CmsObject cms, @RUntainted String propertyName, String fallbackValue) {
 
         Configuration config = getConfiguration();
         try {

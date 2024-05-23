@@ -121,6 +121,8 @@ import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Vaadin utility functions.<p>
@@ -335,7 +337,7 @@ public final class CmsVaadinUtils {
      */
     @SuppressWarnings("unchecked")
     public static <T> void defaultHandleContextMenuForMultiselect(
-        Table table,
+        @RUntainted Table table,
         CmsContextMenu menu,
         ItemClickEvent event,
         List<I_CmsSimpleContextMenuEntry<Collection<T>>> entries) {
@@ -393,7 +395,7 @@ public final class CmsVaadinUtils {
      */
     public static IndexedContainer getAvailableGroupsContainerWithout(
         CmsObject cms,
-        String ouFqn,
+        @RUntainted String ouFqn,
         String propCaption,
         String propIcon,
         String propOu,
@@ -437,10 +439,10 @@ public final class CmsVaadinUtils {
      *
      * @return the available projects
      */
-    public static List<CmsProject> getAvailableProjects(CmsObject cms) {
+    public static List<@RUntainted CmsProject> getAvailableProjects(CmsObject cms) {
 
         // get all project information
-        List<CmsProject> allProjects;
+        List<@RUntainted CmsProject> allProjects;
         try {
             String ouFqn = "";
             CmsUserSettings settings = new CmsUserSettings(cms);
@@ -489,12 +491,12 @@ public final class CmsVaadinUtils {
      * @param cms the current CMS context
      * @return the map of available sites
      */
-    public static LinkedHashMap<String, String> getAvailableSitesMap(CmsObject cms) {
+    public static LinkedHashMap<@RUntainted String, String> getAvailableSitesMap(CmsObject cms) {
 
         CmsSiteSelectorOptionBuilder optBuilder = new CmsSiteSelectorOptionBuilder(cms);
         optBuilder.addNormalSites(true, (new CmsUserSettings(cms)).getStartFolder());
         optBuilder.addSharedSite();
-        LinkedHashMap<String, String> result = new LinkedHashMap<String, String>();
+        LinkedHashMap<@RUntainted String, String> result = new LinkedHashMap<@RUntainted String, String>();
         for (CmsSiteSelectorOption option : optBuilder.getOptions()) {
             result.put(option.getSiteRoot(), option.getMessage());
         }
@@ -597,7 +599,7 @@ public final class CmsVaadinUtils {
      * @param messageString Message to be displayed
      * @return layout
      */
-    public static VerticalLayout getInfoLayout(String messageString) {
+    public static VerticalLayout getInfoLayout(@RUntainted String messageString) {
 
         VerticalLayout ret = new VerticalLayout();
         ret.setMargin(true);
@@ -648,7 +650,7 @@ public final class CmsVaadinUtils {
      *
      * @return the message text for the current locale
      */
-    public static String getMessageText(I_CmsMessageBundle messages, String key, Object... args) {
+    public static String getMessageText(I_CmsMessageBundle messages, @RUntainted String key, @RUntainted Object... args) {
 
         return messages.getBundle(A_CmsUI.get().getLocale()).key(key, args);
     }
@@ -661,7 +663,7 @@ public final class CmsVaadinUtils {
      *
      * @return the message text for the current locale
      */
-    public static String getMessageText(String key, Object... args) {
+    public static @RUntainted String getMessageText(@RUntainted String key, @RUntainted Object... args) {
 
         return getWpMessagesForCurrentLocale().key(key, args);
     }
@@ -688,7 +690,7 @@ public final class CmsVaadinUtils {
      *
      * @return ComboBox
      */
-    public static ComboBox getOUComboBox(CmsObject cms, String baseOu, Log log, boolean includeWebOU) {
+    public static @RUntainted ComboBox getOUComboBox(CmsObject cms, String baseOu, Log log, boolean includeWebOU) {
 
         ComboBox combo = null;
         try {
@@ -821,7 +823,7 @@ public final class CmsVaadinUtils {
     public static LinkedHashMap<CmsUUID, String> getProjectsMap(CmsObject cms) {
 
         Locale locale = A_CmsUI.get().getLocale();
-        List<CmsProject> projects = getAvailableProjects(cms);
+        List<@RUntainted CmsProject> projects = getAvailableProjects(cms);
         boolean isSingleOu = isSingleOu(projects);
         LinkedHashMap<CmsUUID, String> result = new LinkedHashMap<>();
         for (CmsProject project : projects) {
@@ -968,7 +970,7 @@ public final class CmsVaadinUtils {
      *
      * @return the link to the workplace
      */
-    public static String getWorkplaceLink() {
+    public static @RUntainted String getWorkplaceLink() {
 
         return OpenCms.getSystemInfo().getWorkplaceContext();
     }
@@ -980,7 +982,7 @@ public final class CmsVaadinUtils {
      *
      * @return the workplace link
      */
-    public static String getWorkplaceLink(String appId) {
+    public static @RPolyTainted String getWorkplaceLink(@RPolyTainted String appId) {
 
         return getWorkplaceLink() + CmsAppWorkplaceUi.WORKPLACE_APP_ID_SEPARATOR + appId;
     }
@@ -1103,7 +1105,7 @@ public final class CmsVaadinUtils {
      *
      * @return the localized string
      */
-    public static String localizeString(String baseString) {
+    public static String localizeString(@RUntainted String baseString) {
 
         if (baseString == null) {
             return null;
@@ -1213,7 +1215,7 @@ public final class CmsVaadinUtils {
         CmsMacroResolver resolver = new CmsMacroResolver() {
 
             @Override
-            public String getMacroValue(String macro) {
+            public String getMacroValue(@RUntainted String macro) {
 
                 return CmsEncoder.escapeXml(super.getMacroValue(macro));
             }
@@ -1449,13 +1451,13 @@ public final class CmsVaadinUtils {
         Map<String, String> macros) {
 
         try {
-            byte[] designBytes = CmsFileUtil.readFully(designStream, true);
+            @RUntainted byte[] designBytes = CmsFileUtil.readFully(designStream, true);
             final String encoding = "UTF-8";
             String design = new String(designBytes, encoding);
             CmsMacroResolver resolver = new CmsMacroResolver() {
 
                 @Override
-                public String getMacroValue(String macro) {
+                public String getMacroValue(@RUntainted String macro) {
 
                     String result = super.getMacroValue(macro);
                     // The macro may contain quotes or angle brackets, so we need to escape the values for insertion into the design file

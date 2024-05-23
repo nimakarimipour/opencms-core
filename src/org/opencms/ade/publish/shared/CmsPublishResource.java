@@ -35,6 +35,7 @@ import org.opencms.util.CmsUUID;
 
 import java.util.ArrayList;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A publish resource.<p>
@@ -44,7 +45,7 @@ import java.util.List;
 public class CmsPublishResource extends CmsListInfoBean {
 
     /** The last modification date. */
-    private long m_dateLastModified;
+    private @RUntainted long m_dateLastModified;
 
     /** The last modification date as a formatted string. */
     private String m_dateLastModifiedStr;
@@ -88,12 +89,12 @@ public class CmsPublishResource extends CmsListInfoBean {
      **/
     public CmsPublishResource(
         CmsUUID id,
-        String name,
-        String title,
+        @RUntainted String name,
+        @RUntainted String title,
         String resourceType,
         CmsResourceState state,
         CmsPermissionInfo permissionInfo,
-        long dateLastModified,
+        @RUntainted long dateLastModified,
         String userLastModified,
         String dateLastModifiedStr,
         boolean removable,
@@ -127,7 +128,7 @@ public class CmsPublishResource extends CmsListInfoBean {
      *
      * @return the last modification date
      */
-    public long getDateLastModified() {
+    public @RUntainted long getDateLastModified() {
 
         return m_dateLastModified;
     }
@@ -197,7 +198,7 @@ public class CmsPublishResource extends CmsListInfoBean {
      *
      * @return the date which should be used for sorting
      */
-    public long getSortDate() {
+    public @RUntainted long getSortDate() {
 
         long result = getDateLastModified();
         if (m_related != null) {

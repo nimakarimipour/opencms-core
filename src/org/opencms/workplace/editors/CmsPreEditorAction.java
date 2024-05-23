@@ -48,6 +48,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles the actions that should be performed before opening the editor frameset.<p>
@@ -84,7 +85,7 @@ public class CmsPreEditorAction extends CmsDialog {
      * @param req the JSP request
      * @param res the JSP response
      */
-    public CmsPreEditorAction(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsPreEditorAction(@RUntainted PageContext context, @RUntainted HttpServletRequest req, @RUntainted HttpServletResponse res) {
 
         super(context, req, res);
     }

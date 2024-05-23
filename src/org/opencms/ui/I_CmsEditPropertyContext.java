@@ -26,6 +26,7 @@
  */
 
 package org.opencms.ui;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Action context that allows direct editing of single properties.<p>
@@ -37,7 +38,7 @@ public interface I_CmsEditPropertyContext {
      *
      * @param propertyId the property to edit
      */
-    void editProperty(Object propertyId);
+    void editProperty(@RUntainted Object propertyId);
 
     /**
      * Checks whether the given property is editable.<p>

@@ -38,6 +38,7 @@ import org.opencms.util.CmsStringUtil;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Extended data structure for the collector, parsed from the collector parameters.<p>
@@ -61,7 +62,7 @@ public class CmsExtendedCollectorData extends CmsCollectorData {
     private static final Log LOG = CmsLog.getLog(CmsExtendedCollectorData.class);
 
     /** The list of additional parameters. */
-    private List<String> m_additionalParams;
+    private List<@RUntainted String> m_additionalParams;
 
     /**
      * Required constructor for subclasses.<p>
@@ -80,12 +81,12 @@ public class CmsExtendedCollectorData extends CmsCollectorData {
      *
      * @param data the data to parse
      */
-    public CmsExtendedCollectorData(String data) {
+    public CmsExtendedCollectorData(@RUntainted String data) {
 
         if (data == null) {
             throw new CmsIllegalArgumentException(Messages.get().container(Messages.ERR_COLLECTOR_PARAM_EMPTY_0));
         }
-        List<String> args = CmsStringUtil.splitAsList(data, '|', true);
+        List<@RUntainted String> args = CmsStringUtil.splitAsList(data, '|', true);
         if (args.size() < 3) {
             // we need at least 2 arguments: VFS URI and Resource Type
             throw new CmsIllegalArgumentException(
@@ -151,7 +152,7 @@ public class CmsExtendedCollectorData extends CmsCollectorData {
      *
      * @return the List of additional parameters (String objects)
      */
-    public List<String> getAdditionalParams() {
+    public List<@RUntainted String> getAdditionalParams() {
 
         return m_additionalParams;
     }
@@ -161,7 +162,7 @@ public class CmsExtendedCollectorData extends CmsCollectorData {
      *
      * @param additionalParams the List of additional parameters (String objects) to set
      */
-    protected void setAdditionalParams(List<String> additionalParams) {
+    protected void setAdditionalParams(List<@RUntainted String> additionalParams) {
 
         m_additionalParams = additionalParams;
     }

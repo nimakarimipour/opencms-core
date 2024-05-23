@@ -26,6 +26,7 @@
  */
 
 package org.opencms.util;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents a single HTML converter configuration as defined in the OpenCms configuration file <code>opencms-vfs.xml</code>.<p>
@@ -35,7 +36,7 @@ package org.opencms.util;
 public class CmsHtmlConverterOption {
 
     /** The class used for HTML conversion of the configured option. */
-    private String m_className;
+    private @RUntainted String m_className;
 
     /** Flag indicating if this is an automatically generated default option. */
     private boolean m_default;
@@ -49,7 +50,7 @@ public class CmsHtmlConverterOption {
      * @param name the name of the configured option
      * @param className the class used for HTML conversion of the configured option
      */
-    public CmsHtmlConverterOption(String name, String className) {
+    public CmsHtmlConverterOption(String name, @RUntainted String className) {
 
         this(name, className, false);
     }
@@ -61,7 +62,7 @@ public class CmsHtmlConverterOption {
      * @param className the class used for HTML conversion of the configured option
      * @param isDefault the flag indicating if this is an automatically generated default option
      */
-    public CmsHtmlConverterOption(String name, String className, boolean isDefault) {
+    public CmsHtmlConverterOption(String name, @RUntainted String className, boolean isDefault) {
 
         m_name = name;
         m_className = className;
@@ -73,7 +74,7 @@ public class CmsHtmlConverterOption {
      *
      * @return the class used for HTML conversion of the configured option
      */
-    public String getClassName() {
+    public @RUntainted String getClassName() {
 
         return m_className;
     }

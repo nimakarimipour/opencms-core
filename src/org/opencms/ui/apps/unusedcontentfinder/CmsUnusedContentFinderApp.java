@@ -44,6 +44,7 @@ import org.apache.commons.logging.Log;
 import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalSplitPanel;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Vaadin app to find unused contents.<p>
@@ -87,7 +88,7 @@ public class CmsUnusedContentFinderApp extends A_CmsWorkplaceApp {
      * @see org.opencms.ui.apps.A_CmsWorkplaceApp#getComponentForState(java.lang.String)
      */
     @Override
-    protected Component getComponentForState(String state) {
+    protected Component getComponentForState(@RUntainted String state) {
 
         m_rootLayout.setMainHeightFull(true);
         HorizontalSplitPanel splitPanel = new HorizontalSplitPanel();

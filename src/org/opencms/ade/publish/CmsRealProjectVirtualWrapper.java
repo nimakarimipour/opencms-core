@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper to use real OpenCms projects through the I_CmsVirtualProject interface.<p>
@@ -81,7 +82,7 @@ public class CmsRealProjectVirtualWrapper implements I_CmsVirtualProject {
     /**
      * @see org.opencms.ade.publish.I_CmsVirtualProject#getProjectId()
      */
-    public CmsUUID getProjectId() {
+    public @RUntainted CmsUUID getProjectId() {
 
         return m_projectId;
     }
@@ -99,7 +100,7 @@ public class CmsRealProjectVirtualWrapper implements I_CmsVirtualProject {
     /**
      * @see org.opencms.ade.publish.I_CmsVirtualProject#getResources(org.opencms.file.CmsObject, java.util.Map, java.lang.String)
      */
-    public List<CmsResource> getResources(CmsObject cms, Map<String, String> params, String workflowId)
+    public @RUntainted List<CmsResource> getResources(CmsObject cms, Map<String, String> params, String workflowId)
     throws CmsException {
 
         List<CmsResource> rawResourceList = new ArrayList<CmsResource>();

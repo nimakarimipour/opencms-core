@@ -32,6 +32,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The result of a document text extraction.<p>
@@ -94,7 +95,7 @@ public interface I_CmsExtractionResult {
      *
      * @return the extracted content of the best fitting locale combined as a String
      */
-    String getContent();
+    @RUntainted String getContent();
 
     /**
      * Returns the extracted content for the given locale combined as a String.<p>
@@ -128,7 +129,7 @@ public interface I_CmsExtractionResult {
      *
      * @return the extracted content as individual items
      */
-    LinkedHashMap<String, String> getContentItems();
+    @RUntainted LinkedHashMap<String, @RUntainted String> getContentItems();
 
     /** <p>Returns the extracted content for a given locale as individual items.</p>
      * @param locale the locale of the extracted content items
@@ -137,7 +138,7 @@ public interface I_CmsExtractionResult {
      *
      * @see #getContentItems()
      */
-    LinkedHashMap<String, String> getContentItems(Locale locale);
+    @RUntainted LinkedHashMap<String, @RUntainted String> getContentItems(Locale locale);
 
     /** Returns the best fitting locale for the content.
      * @return the best fitting locale for the content
@@ -148,12 +149,12 @@ public interface I_CmsExtractionResult {
      * Returns a map from search fields to values that should be stored in that fields.
      * @return A map from search fields to values that should be stored in that fields.
      */
-    Map<String, String> getFieldMappings();
+    Map<@RUntainted String, @RUntainted String> getFieldMappings();
 
     /** Returns the locales in which the content is available.
      * @return the locales in which the content is available
      */
-    Collection<Locale> getLocales();
+    Collection<@RUntainted Locale> getLocales();
 
     /** Appends, for the locales of the current collection result, the content fields
      * from all provided extraction results to the current extraction result.

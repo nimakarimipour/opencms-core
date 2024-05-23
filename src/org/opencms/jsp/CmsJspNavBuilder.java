@@ -46,6 +46,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean to provide a convenient way to build navigation structures based on the
@@ -148,13 +149,13 @@ public class CmsJspNavBuilder {
     protected CmsObject m_cms;
 
     /** The locale for which the property should be read. */
-    protected Locale m_locale;
+    protected @RUntainted Locale m_locale;
 
     /** The current request URI. */
-    protected String m_requestUri;
+    protected @RUntainted String m_requestUri;
 
     /** The current request folder. */
-    protected String m_requestUriFolder;
+    protected @RUntainted String m_requestUriFolder;
 
     /**
      * Empty constructor, so that this bean can be initialized from a JSP.<p>
@@ -200,7 +201,7 @@ public class CmsJspNavBuilder {
      * @deprecated use {@link CmsObject#readDefaultFile(String)} instead
      */
     @Deprecated
-    public static String getDefaultFile(CmsObject cms, String folder) {
+    public static String getDefaultFile(CmsObject cms, @RUntainted String folder) {
 
         if (folder.endsWith("/")) {
             try {
@@ -267,7 +268,7 @@ public class CmsJspNavBuilder {
      * @deprecated use {@link #getNavigationForResource(String)} instead
      */
     @Deprecated
-    public static CmsJspNavElement getNavigationForResource(CmsObject cms, String resource) {
+    public static CmsJspNavElement getNavigationForResource(CmsObject cms, @RUntainted String resource) {
 
         return new CmsJspNavBuilder(cms).getNavigationForResource(resource);
     }
@@ -420,7 +421,7 @@ public class CmsJspNavBuilder {
      * @return sorted list of navigation elements
      */
     public List<CmsJspNavElement> getNavigationBreadCrumb(
-        String folder,
+        @RUntainted String folder,
         int startlevel,
         int endlevel,
         boolean currentFolder) {
@@ -542,7 +543,7 @@ public class CmsJspNavBuilder {
         folder = CmsFileUtil.removeTrailingSeparator(folder);
         List<CmsJspNavElement> result = new ArrayList<CmsJspNavElement>();
 
-        List<CmsResource> resources = null;
+        List<@RUntainted CmsResource> resources = null;
         try {
 
             resources = m_cms.getResourcesInFolder(folder, resourceFilter);
@@ -586,7 +587,7 @@ public class CmsJspNavBuilder {
      *
      * @return a navigation element for the given resource
      */
-    public CmsJspNavElement getNavigationForResource(String sitePath) {
+    public CmsJspNavElement getNavigationForResource(@RUntainted String sitePath) {
 
         CmsJspNavElement result = getNavigationForResource(sitePath, CmsResourceFilter.DEFAULT, false);
         if ((result != null) && (result.getNavContext() == null)) {
@@ -604,7 +605,7 @@ public class CmsJspNavBuilder {
      *
      * @return a navigation element for the given resource
      */
-    public CmsJspNavElement getNavigationForResource(String sitePath, CmsResourceFilter reourceFilter) {
+    public CmsJspNavElement getNavigationForResource(@RUntainted String sitePath, CmsResourceFilter reourceFilter) {
 
         return getNavigationForResource(sitePath, reourceFilter, false);
     }
@@ -774,7 +775,7 @@ public class CmsJspNavBuilder {
      * @param locale the locale for which properties should be read
      * @param requestUri the request URI
      */
-    public void init(CmsObject cms, Locale locale, String requestUri) {
+    public void init(CmsObject cms, Locale locale, @RUntainted String requestUri) {
 
         m_cms = cms;
         m_locale = locale;
@@ -801,7 +802,7 @@ public class CmsJspNavBuilder {
         folder = CmsResource.getFolderPath(folder);
         List<CmsJspNavElement> result = new ArrayList<CmsJspNavElement>();
 
-        List<CmsResource> resources;
+        List<@RUntainted CmsResource> resources;
         try {
             resources = m_cms.getResourcesInFolder(folder, resourceFilter);
         } catch (Exception e) {
@@ -831,12 +832,12 @@ public class CmsJspNavBuilder {
      * @return a navigation element for the given resource
      */
     private CmsJspNavElement getNavigationForResource(
-        String sitePath,
+        @RUntainted String sitePath,
         CmsResourceFilter resourceFilter,
         boolean shallow) {
 
         CmsResource resource;
-        Map<String, String> propertiesMap;
+        Map<String, @RUntainted String> propertiesMap;
         int level = CmsResource.getPathLevel(sitePath);
         if (sitePath.endsWith("/")) {
             level--;

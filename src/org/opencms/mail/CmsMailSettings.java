@@ -34,6 +34,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains the settings for the OpenCms mail service.<p>
@@ -52,13 +53,13 @@ public class CmsMailSettings {
     private static final Log LOG = CmsLog.getLog(CmsMailSettings.class);
 
     /** The default mail "from" sender address. */
-    private String m_mailFromDefault;
+    private @RUntainted String m_mailFromDefault;
 
     /** The list of internal mail hosts. */
     private List<CmsMailHost> m_mailHosts;
 
     /** The default order if no order is given for a host. */
-    private int m_orderDefault;
+    private @RUntainted int m_orderDefault;
 
     /**
      * Empty constructor, required for configuration.<p>
@@ -81,7 +82,7 @@ public class CmsMailSettings {
      * @param username the user name to use for authentication
      * @param password the password to use for authentication
      */
-    public void addMailHost(String hostname, String order, String protocol, String username, String password) {
+    public void addMailHost(@RUntainted String hostname, @RUntainted String order, @RUntainted String protocol, @RUntainted String username, @RUntainted String password) {
 
         addMailHost(hostname, "25", order, protocol, null, username, password);
     }
@@ -98,13 +99,13 @@ public class CmsMailSettings {
        * @param password the password to use for authentication
        */
     public void addMailHost(
-        String hostname,
-        String port,
-        String order,
-        String protocol,
-        String security,
-        String username,
-        String password) {
+        @RUntainted String hostname,
+        @RUntainted String port,
+        @RUntainted String order,
+        @RUntainted String protocol,
+        @RUntainted String security,
+        @RUntainted String username,
+        @RUntainted String password) {
 
         Integer thePort;
         try {
@@ -166,7 +167,7 @@ public class CmsMailSettings {
      *
      * @param sender the mail from default sender to set
      */
-    public void setMailFromDefault(String sender) {
+    public void setMailFromDefault(@RUntainted String sender) {
 
         m_mailFromDefault = sender;
         if (CmsLog.INIT.isInfoEnabled()) {

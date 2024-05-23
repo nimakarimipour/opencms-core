@@ -39,6 +39,7 @@ import java.util.Map;
 
 import com.vaadin.v7.data.Item;
 import com.vaadin.v7.event.ItemClickEvent.ItemClickListener;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Validator for links.<p>
@@ -74,7 +75,7 @@ public abstract class A_CmsLinkValidator implements I_ResourcePropertyProvider {
      * @param resources to check
      * @return List of failed resources
      */
-    public abstract List<CmsResource> failedResources(List<String> resources);
+    public abstract List<CmsResource> failedResources(@RUntainted List<@RUntainted String> resources);
 
     /**
      *  Get fail message for resource.

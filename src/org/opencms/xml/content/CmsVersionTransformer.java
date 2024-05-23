@@ -60,6 +60,8 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides static methods for XML content version transformations.
@@ -82,9 +84,9 @@ public class CmsVersionTransformer {
      * @return the converted document
      */
     @SuppressWarnings("synthetic-access")
-    public static Document transformDocumentToCurrentVersion(
+    public static @RPolyTainted Document transformDocumentToCurrentVersion(
         CmsObject cms,
-        Document document,
+        @RPolyTainted Document document,
         CmsXmlContentDefinition contentDefinition) {
 
         String transformation = contentDefinition.getContentHandler().getVersionTransformation();

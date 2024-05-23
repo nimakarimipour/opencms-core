@@ -40,6 +40,7 @@ import com.vaadin.ui.Component.Event;
 import com.vaadin.ui.Component.Listener;
 import com.vaadin.ui.Layout;
 import com.vaadin.v7.ui.Label;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manages a group of widgets used as a multivalue input.<p>
@@ -100,7 +101,7 @@ public class CmsEditableGroup {
      */
     public static class DefaultRowBuilder implements CmsEditableGroup.I_RowBuilder {
 
-        public I_CmsEditableGroupRow buildRow(CmsEditableGroup group, Component component) {
+        public I_CmsEditableGroupRow buildRow(CmsEditableGroup group, @RUntainted Component component) {
 
             if (component instanceof Layout.MarginHandler) {
                 // Since the row is a HorizontalLayout with the edit buttons positioned next to the original
@@ -164,7 +165,7 @@ public class CmsEditableGroup {
          * @param component the component
          * @return the new row
          */
-        public I_CmsEditableGroupRow buildRow(CmsEditableGroup group, Component component);
+        public I_CmsEditableGroupRow buildRow(CmsEditableGroup group, @RUntainted Component component);
     }
 
     /** The container in which to render the individual rows of the multivalue widget group. */
@@ -188,7 +189,7 @@ public class CmsEditableGroup {
     private boolean m_hideAdd;
 
     /** Factory for creating new input fields. */
-    private Supplier<Component> m_newComponentFactory;
+    private Supplier<@RUntainted Component> m_newComponentFactory;
 
     /** The builder to use for creating new rows. */
     private I_RowBuilder m_rowBuilder = new DefaultRowBuilder();
@@ -205,7 +206,7 @@ public class CmsEditableGroup {
      */
     public CmsEditableGroup(
         AbstractOrderedLayout container,
-        Supplier<Component> componentFactory,
+        Supplier<@RUntainted Component> componentFactory,
         I_EmptyHandler emptyHandler) {
 
         m_hideAdd = false;
@@ -240,7 +241,7 @@ public class CmsEditableGroup {
      */
     public CmsEditableGroup(
         AbstractOrderedLayout container,
-        Supplier<Component> componentFactory,
+        Supplier<@RUntainted Component> componentFactory,
         String addButtonCaption) {
 
         this(container, componentFactory, new AddButtonEmptyHandler(addButtonCaption));
@@ -251,7 +252,7 @@ public class CmsEditableGroup {
      *
      * @param component the component to wrap in the row to be added
      */
-    public void addRow(Component component) {
+    public void addRow(@RUntainted Component component) {
 
         Component actualComponent = component == null ? m_newComponentFactory.get() : component;
         I_CmsEditableGroupRow row = m_rowBuilder.buildRow(this, actualComponent);
@@ -304,7 +305,7 @@ public class CmsEditableGroup {
      *
      * @return the factory used for creating new components
      */
-    public Supplier<Component> getNewComponentFactory() {
+    public Supplier<@RUntainted Component> getNewComponentFactory() {
 
         return m_newComponentFactory;
     }

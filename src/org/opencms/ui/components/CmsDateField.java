@@ -37,6 +37,8 @@ import java.util.Date;
 
 import com.vaadin.shared.ui.datefield.DateTimeResolution;
 import com.vaadin.ui.DateTimeField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience subclass of PopupDateField which comes preconfigured with a resolution and validation error message.<p>
@@ -79,7 +81,7 @@ public class CmsDateField extends DateTimeField {
      *
      * @return the date
      */
-    public static Date localDateTimeToDate(LocalDateTime local) {
+    public static @RPolyTainted Date localDateTimeToDate(@RPolyTainted LocalDateTime local) {
 
         if (local == null) {
             return null;
@@ -93,7 +95,7 @@ public class CmsDateField extends DateTimeField {
      *
      * @return the date
      */
-    public Date getDate() {
+    public @RUntainted Date getDate() {
 
         return localDateTimeToDate(getValue());
     }

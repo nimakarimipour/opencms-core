@@ -43,6 +43,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class representing a JSON request. Provides utility functions for parameter validation.
@@ -83,7 +84,7 @@ public class CmsJsonRequest {
     I_CmsJsonHandler m_handler;
 
     /** The list of validation errors. */
-    List<String> errors = new ArrayList<String>();
+    List<@RUntainted String> errors = new ArrayList<@RUntainted String>();
 
     /**
      * Creates a new JSON request.<p>
@@ -113,7 +114,7 @@ public class CmsJsonRequest {
      * @return the errors as JSON
      * @throws JSONException if JSON rendering fails
      */
-    public JSONObject getErrorsAsJson() throws JSONException {
+    public @RUntainted JSONObject getErrorsAsJson() throws JSONException {
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("status", HttpServletResponse.SC_BAD_REQUEST);
@@ -188,7 +189,7 @@ public class CmsJsonRequest {
      *
      * @return the levels parameter as integer
      */
-    public String getParamLocale() {
+    public @RUntainted String getParamLocale() {
 
         String paramLocale = m_context.getParameters().get(PARAM_LOCALE);
         return paramLocale;
@@ -343,7 +344,7 @@ public class CmsJsonRequest {
      * @param paramName the name of the parameter to be validated
      * @param maybeEmpty whether the parameter value may be empty
      */
-    private void validateParamBooleanValue(String paramName, boolean maybeEmpty) {
+    private void validateParamBooleanValue(@RUntainted String paramName, boolean maybeEmpty) {
 
         String paramValue = m_context.getParameters().get(paramName);
         if (paramValue != null) {
@@ -364,7 +365,7 @@ public class CmsJsonRequest {
      * @param param the first parameter
      * @param other the second parameter which the first parameter depends on
      */
-    private void validateParamDepends(String param, String other) {
+    private void validateParamDepends(@RUntainted String param, @RUntainted String other) {
 
         String first = m_context.getParameters().get(param);
         String second = m_context.getParameters().get(other);
@@ -379,7 +380,7 @@ public class CmsJsonRequest {
      * @param paramName the name of the parameter to be validated
      * @param maybeEmpty whether the parameter value may be empty
      */
-    private void validateParamPositiveIntegerValue(String paramName, boolean maybeEmpty) {
+    private void validateParamPositiveIntegerValue(@RUntainted String paramName, boolean maybeEmpty) {
 
         String paramValue = m_context.getParameters().get(paramName);
         if (paramValue != null) {
@@ -440,7 +441,7 @@ public class CmsJsonRequest {
      *
      * @param supported the parameters supported
      */
-    private void validateParamsSupported(String[] supported) {
+    private void validateParamsSupported(@RUntainted String[] supported) {
 
         List<String> paramList = Arrays.asList(supported);
         for (String paramName : m_context.getParameters().keySet()) {
@@ -478,7 +479,7 @@ public class CmsJsonRequest {
      */
     private void validateRequestContainerPage() {
 
-        String[] supported = {PARAM_CONTENT, PARAM_WRAPPER, PARAM_LOCALE, PARAM_FALLBACK_LOCALE};
+        @RUntainted String[] supported = {PARAM_CONTENT, PARAM_WRAPPER, PARAM_LOCALE, PARAM_FALLBACK_LOCALE};
         validateParamsSupported(supported);
     }
 
@@ -487,7 +488,7 @@ public class CmsJsonRequest {
      */
     private void validateRequestFolder() {
 
-        String[] supported = {PARAM_LEVELS, PARAM_CONTENT, PARAM_WRAPPER, PARAM_LOCALE, PARAM_FALLBACK_LOCALE};
+        @RUntainted String[] supported = {PARAM_LEVELS, PARAM_CONTENT, PARAM_WRAPPER, PARAM_LOCALE, PARAM_FALLBACK_LOCALE};
         validateParamsSupported(supported);
     }
 
@@ -496,7 +497,7 @@ public class CmsJsonRequest {
      */
     private void validateRequestList() {
 
-        String[] supported = {
+        @RUntainted String[] supported = {
             PARAM_CONTENT,
             PARAM_WRAPPER,
             PARAM_LOCALE,
@@ -512,7 +513,7 @@ public class CmsJsonRequest {
      */
     private void validateRequestResource() {
 
-        String[] supported = {};
+        @RUntainted String[] supported = {};
         validateParamsSupported(supported);
     }
 
@@ -521,7 +522,7 @@ public class CmsJsonRequest {
      */
     private void validateRequestXmlContent() {
 
-        String[] supported = {PARAM_CONTENT, PARAM_WRAPPER, PARAM_LOCALE, PARAM_FALLBACK_LOCALE, PARAM_PATH};
+        @RUntainted String[] supported = {PARAM_CONTENT, PARAM_WRAPPER, PARAM_LOCALE, PARAM_FALLBACK_LOCALE, PARAM_PATH};
         validateParamsSupported(supported);
     }
 }

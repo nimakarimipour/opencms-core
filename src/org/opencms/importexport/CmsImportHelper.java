@@ -44,6 +44,7 @@ import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Import helper.<p>
@@ -56,13 +57,13 @@ public class CmsImportHelper {
     private static final Log LOG = CmsLog.getLog(CmsImport.class);
 
     /** The folder, or <code>null</code> if a zip file.*/
-    private File m_folder;
+    private @RUntainted File m_folder;
 
     /** The import parameters to use. */
     private CmsImportParameters m_params;
 
     /** The zip file, or <code>null</code> if a folder.*/
-    private ZipFile m_zipFile;
+    private @RUntainted ZipFile m_zipFile;
 
     /**
      * Constructor.<p>
@@ -84,7 +85,7 @@ public class CmsImportHelper {
      *
      * @see org.opencms.configuration.I_CmsXmlConfiguration
      */
-    public void cacheDtdSystemId(String dtdSystemLocation, String dtdFilename, String dtdUrlPrefix) {
+    public void cacheDtdSystemId(@RUntainted String dtdSystemLocation, @RUntainted String dtdFilename, @RUntainted String dtdUrlPrefix) {
 
         if (dtdSystemLocation != null) {
             try {
@@ -136,7 +137,7 @@ public class CmsImportHelper {
      *
      * @throws CmsImportExportException if something goes wrong
      */
-    public byte[] getFileBytes(String filename) throws CmsImportExportException {
+    public @RUntainted byte[] getFileBytes(@RUntainted String filename) throws CmsImportExportException {
 
         try {
             // is this a zip-file?
@@ -168,7 +169,7 @@ public class CmsImportHelper {
         }
     }
 
-    public long getFileModification(String filename) throws CmsImportExportException {
+    public @RUntainted long getFileModification(@RUntainted String filename) throws CmsImportExportException {
 
         long modificationTime = 0;
 
@@ -204,7 +205,7 @@ public class CmsImportHelper {
      *
      * @return the name of the import file, without zip extension
      */
-    public String getFileName() {
+    public @RUntainted String getFileName() {
 
         String fileName = m_params.getPath().replace('\\', '/');
         String zipName = fileName.substring(fileName.lastIndexOf('/') + 1);
@@ -231,7 +232,7 @@ public class CmsImportHelper {
      *
      * @throws CmsImportExportException if something goes wrong
      */
-    public InputStream getFileStream(String fileName) throws CmsImportExportException {
+    public InputStream getFileStream(@RUntainted String fileName) throws CmsImportExportException {
 
         try {
             InputStream stream = null;
@@ -271,7 +272,7 @@ public class CmsImportHelper {
      *
      * @return the RFS folder to import from
      */
-    public File getFolder() {
+    public @RUntainted File getFolder() {
 
         return m_folder;
     }
@@ -297,7 +298,7 @@ public class CmsImportHelper {
      *
      * @return the RFS zip file to import from
      */
-    public ZipFile getZipFile() {
+    public @RUntainted ZipFile getZipFile() {
 
         return m_zipFile;
     }
@@ -323,7 +324,7 @@ public class CmsImportHelper {
      * @param filename name of the file
      * @return the file.
      */
-    protected File getFile(String filename) {
+    protected @RUntainted File getFile(@RUntainted String filename) {
 
         return new File(getFolder(), filename);
     }
@@ -333,7 +334,7 @@ public class CmsImportHelper {
      * @return the zip entry for the file with the provided name
      * @throws ZipException thrown if the file is not in the zip archive
      */
-    protected ZipEntry getZipEntry(String filename) throws ZipException {
+    protected @RUntainted ZipEntry getZipEntry(@RUntainted String filename) throws ZipException {
 
         // yes
         ZipEntry entry = getZipFile().getEntry(filename);

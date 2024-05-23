@@ -41,6 +41,7 @@ import java.util.Locale;
 import com.google.web.bindery.autobean.shared.AutoBean;
 import com.google.web.bindery.autobean.shared.AutoBeanCodex;
 import com.google.web.bindery.autobean.vm.AutoBeanFactorySource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract base class for categorized select widgets.
@@ -68,7 +69,7 @@ public abstract class A_CmsCategorizedSelectWidget extends A_CmsWidget implement
      *
      * @param config the config
      */
-    public A_CmsCategorizedSelectWidget(String config) {
+    public A_CmsCategorizedSelectWidget(@RUntainted String config) {
 
         super(config);
     }
@@ -153,7 +154,7 @@ public abstract class A_CmsCategorizedSelectWidget extends A_CmsWidget implement
      * @return the widget name
      * @see org.opencms.widgets.I_CmsADEWidget#getWidgetName()
      */
-    public String getWidgetName() {
+    public @RUntainted String getWidgetName() {
 
         return "org.opencms.widgets.CmsCategorizedSelectWidget";
 

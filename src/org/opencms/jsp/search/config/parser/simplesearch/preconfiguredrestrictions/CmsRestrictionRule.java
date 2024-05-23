@@ -30,6 +30,7 @@ package org.opencms.jsp.search.config.parser.simplesearch.preconfiguredrestricti
 import org.opencms.jsp.search.config.parser.simplesearch.CmsConfigurationBean.CombinationMode;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A single restriction rule, telling for which field and type what kind of restriction should be enforced.

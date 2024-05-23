@@ -47,6 +47,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  *  Virtual project for 'direct publishing' of resources.<p>
@@ -103,7 +104,7 @@ public class CmsDirectPublishProject implements I_CmsVirtualProject {
     /**
      * @see org.opencms.ade.publish.I_CmsVirtualProject#getResources(org.opencms.file.CmsObject, java.util.Map, java.lang.String)
      */
-    public List<CmsResource> getResources(CmsObject cms, Map<String, String> params, String workflowId)
+    public @RUntainted List<CmsResource> getResources(CmsObject cms, Map<String, @RUntainted String> params, String workflowId)
     throws CmsException {
 
         Set<String> paths = getPaths(params);
@@ -151,7 +152,7 @@ public class CmsDirectPublishProject implements I_CmsVirtualProject {
         for (CmsResource res : resources) {
             if (res.isFolder()) {
                 try {
-                    List<CmsResource> childrenOfCurrentResource = rootCms.readResources(
+                    List<@RUntainted CmsResource> childrenOfCurrentResource = rootCms.readResources(
                         res.getRootPath(),
                         CmsResourceFilter.ALL,
                         true);
@@ -170,7 +171,7 @@ public class CmsDirectPublishProject implements I_CmsVirtualProject {
      * @param params the publish parameters
      * @return true if the folder contents should be included
      */
-    protected boolean shouldIncludeContents(Map<String, String> params) {
+    protected boolean shouldIncludeContents(Map<String, @RUntainted String> params) {
 
         String includeContentsStr = params.get(CmsPublishOptions.PARAM_INCLUDE_CONTENTS);
         boolean includeContents = false;
@@ -189,7 +190,7 @@ public class CmsDirectPublishProject implements I_CmsVirtualProject {
      *
      * @return the set of site paths
      */
-    private Set<String> getPaths(Map<String, String> params) {
+    private Set<String> getPaths(Map<String, @RUntainted String> params) {
 
         Set<String> result = Sets.newHashSet();
         String paths = params.get(CmsPublishOptions.PARAM_FILES);

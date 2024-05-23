@@ -28,6 +28,7 @@
 package org.opencms.monitor;
 
 import java.io.Serializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Data structure for dealing with memory status information.<p>
@@ -40,22 +41,22 @@ public class CmsMemoryStatus implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /** The count used to calculate the average. */
-    private int m_count;
+    private @RUntainted int m_count;
 
     /** The current free memory, in megabytes. */
-    private long m_freeMemory;
+    private @RUntainted long m_freeMemory;
 
     /** The maximum available memory, in megabytes. */
-    private long m_maxMemory;
+    private @RUntainted long m_maxMemory;
 
     /** The amount of memory currently availble to the JVM, in megabytes. */
-    private long m_totalMemory;
+    private @RUntainted long m_totalMemory;
 
     /** The current memory usage, in percent. */
-    private long m_usage;
+    private @RUntainted long m_usage;
 
     /** The amount of memory currently used, in megabytes. */
-    private long m_usedMemory;
+    private @RUntainted long m_usedMemory;
 
     /**
      * Initializes a new instance of the memory status with the current memory values.<p>
@@ -87,7 +88,7 @@ public class CmsMemoryStatus implements Serializable {
      *
      * @return the count used to calculate the average
      */
-    public int getCount() {
+    public @RUntainted int getCount() {
 
         return m_count;
     }
@@ -97,7 +98,7 @@ public class CmsMemoryStatus implements Serializable {
      *
      * @return the current free memory, in megabytes
      */
-    public long getFreeMemory() {
+    public @RUntainted long getFreeMemory() {
 
         return m_freeMemory;
     }
@@ -107,7 +108,7 @@ public class CmsMemoryStatus implements Serializable {
      *
      * @return the maximum available memory, in megabytes
      */
-    public long getMaxMemory() {
+    public @RUntainted long getMaxMemory() {
 
         return m_maxMemory;
     }
@@ -117,7 +118,7 @@ public class CmsMemoryStatus implements Serializable {
      *
      * @return the amount of memory currently availble to the JVM, in megabytes
      */
-    public long getTotalMemory() {
+    public @RUntainted long getTotalMemory() {
 
         return m_totalMemory;
     }
@@ -127,7 +128,7 @@ public class CmsMemoryStatus implements Serializable {
      *
      * @return the current memory usage, in percent
      */
-    public long getUsage() {
+    public @RUntainted long getUsage() {
 
         return m_usage;
     }
@@ -137,7 +138,7 @@ public class CmsMemoryStatus implements Serializable {
      *
      * @return the amount of memory currently used, in megabytes
      */
-    public long getUsedMemory() {
+    public @RUntainted long getUsedMemory() {
 
         return m_usedMemory;
     }

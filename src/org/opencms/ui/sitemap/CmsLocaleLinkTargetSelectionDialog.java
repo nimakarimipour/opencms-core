@@ -54,6 +54,7 @@ import org.apache.commons.logging.Log;
 import com.google.common.base.Predicate;
 import com.vaadin.v7.data.Item;
 import com.vaadin.v7.data.util.IndexedContainer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog used to select a resource which should be linked to a locale group.<p>
@@ -100,9 +101,9 @@ public class CmsLocaleLinkTargetSelectionDialog extends CmsResourceSelectDialog 
         m_context = context;
 
         CmsLocaleGroup localeGroup = localeContext.getLocaleGroup();
-        Map<Locale, CmsResource> resourcesByLocale = localeGroup.getResourcesByLocale();
+        Map<@RUntainted Locale, CmsResource> resourcesByLocale = localeGroup.getResourcesByLocale();
         int index = 0;
-        for (Map.Entry<Locale, CmsResource> entry : resourcesByLocale.entrySet()) {
+        for (Map.Entry<@RUntainted Locale, CmsResource> entry : resourcesByLocale.entrySet()) {
             Locale localeKey = entry.getKey();
             CmsResource resourceValue = entry.getValue();
             String folderPath = null;

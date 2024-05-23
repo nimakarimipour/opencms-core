@@ -62,6 +62,7 @@ import com.vaadin.v7.data.Property.ValueChangeEvent;
 import com.vaadin.v7.data.Property.ValueChangeListener;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * View used to compare sitemaps across locales.<p>
@@ -103,7 +104,7 @@ public class CmsLocaleComparePanel extends VerticalLayout implements I_CmsLocale
      *
      * @param id the id of a sitemap entry
      */
-    public CmsLocaleComparePanel(String id) {
+    public CmsLocaleComparePanel(@RUntainted String id) {
 
         super();
         Locale locale = OpenCms.getWorkplaceManager().getWorkplaceLocale(A_CmsUI.getCmsObject());
@@ -189,7 +190,7 @@ public class CmsLocaleComparePanel extends VerticalLayout implements I_CmsLocale
         Locale rootLocale = OpenCms.getLocaleManager().getDefaultLocale(cms, res);
         m_rootLocale = rootLocale;
         Locale mainLocale = site.getMainTranslationLocale(null);
-        List<Locale> secondaryLocales = site.getSecondaryTranslationLocales();
+        List<@RUntainted Locale> secondaryLocales = site.getSecondaryTranslationLocales();
 
         List<Locale> possibleLocaleSelections = getMainLocaleSelectOptions(cms, res, mainLocale, secondaryLocales);
         m_rootLocaleSelector = new ComboBox();
@@ -410,7 +411,7 @@ public class CmsLocaleComparePanel extends VerticalLayout implements I_CmsLocale
         CmsObject cms,
         CmsResource res,
         Locale mainLocale,
-        List<Locale> secondaryLocales) {
+        List<@RUntainted Locale> secondaryLocales) {
 
         try {
             CmsLocaleGroup localeGroup = cms.getLocaleGroupService().readDefaultFileLocaleGroup(res);

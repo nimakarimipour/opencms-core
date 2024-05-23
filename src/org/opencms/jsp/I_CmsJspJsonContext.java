@@ -28,6 +28,7 @@
 package org.opencms.jsp;
 
 import javax.servlet.jsp.JspException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface implemented by JSON tags.
@@ -46,6 +47,6 @@ public interface I_CmsJspJsonContext {
      *
      * @throws JspException in case the value could not be added
      */
-    void addValue(String key, Object val) throws JspException;
+    void addValue(@RUntainted String key, @RUntainted Object val) throws JspException;
 
 }

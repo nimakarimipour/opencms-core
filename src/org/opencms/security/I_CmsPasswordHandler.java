@@ -28,6 +28,7 @@
 package org.opencms.security;
 
 import org.opencms.configuration.I_CmsConfigurationParameterHandler;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Defines methods for OpenCms password validation.<p>
@@ -101,7 +102,7 @@ public interface I_CmsPasswordHandler extends I_CmsConfigurationParameterHandler
      * @return the password digest
      * @throws CmsPasswordEncryptionException if something goes wrong
      */
-    String digest(String password, String digestType, String inputEncoding) throws CmsPasswordEncryptionException;
+    String digest(String password, @RUntainted String digestType, @RUntainted String inputEncoding) throws CmsPasswordEncryptionException;
 
     /**
      * Returns the default digest type.<p>
@@ -142,5 +143,5 @@ public interface I_CmsPasswordHandler extends I_CmsConfigurationParameterHandler
      *
      * @throws CmsSecurityException if validation of the password failed
      */
-    void validatePassword(String password) throws CmsSecurityException;
+    void validatePassword(@RUntainted String password) throws CmsSecurityException;
 }

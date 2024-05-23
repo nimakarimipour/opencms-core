@@ -38,6 +38,7 @@ import java.util.Locale;
 
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Resource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Holding configuration for legacy admin tools.<p>
@@ -84,7 +85,7 @@ public class CmsLegacyAppConfiguration implements I_CmsWorkplaceAppConfiguration
     /**
      * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getHelpText(java.util.Locale)
      */
-    public String getHelpText(Locale locale) {
+    public String getHelpText(@RUntainted Locale locale) {
 
         return CmsMacroResolver.newInstance().setMessages(
             OpenCms.getWorkplaceManager().getMessages(locale)).resolveMacros(m_toolHandler.getHelpText());
@@ -109,7 +110,7 @@ public class CmsLegacyAppConfiguration implements I_CmsWorkplaceAppConfiguration
     /**
      * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getName(java.util.Locale)
      */
-    public String getName(Locale locale) {
+    public String getName(@RUntainted Locale locale) {
 
         return CmsMacroResolver.newInstance().setMessages(
             OpenCms.getWorkplaceManager().getMessages(locale)).resolveMacros(m_toolHandler.getName());

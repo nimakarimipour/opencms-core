@@ -58,6 +58,7 @@ import org.apache.chemistry.opencmis.commons.impl.server.AbstractCmisService;
 import org.apache.chemistry.opencmis.commons.server.CallContext;
 import org.apache.chemistry.opencmis.commons.server.ObjectInfo;
 import org.apache.chemistry.opencmis.commons.spi.Holder;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The CMIS service class for OpenCms repositories.<p>
@@ -114,8 +115,8 @@ public class CmsCmisService extends AbstractCmisService {
     @Override
     public String createDocument(
         String repositoryId,
-        Properties properties,
-        String folderId,
+        @RUntainted Properties properties,
+        @RUntainted String folderId,
         ContentStream contentStream,
         VersioningState versioningState,
         List<String> policies,
@@ -140,9 +141,9 @@ public class CmsCmisService extends AbstractCmisService {
     @Override
     public String createDocumentFromSource(
         String repositoryId,
-        String sourceId,
-        Properties properties,
-        String folderId,
+        @RUntainted String sourceId,
+        @RUntainted Properties properties,
+        @RUntainted String folderId,
         VersioningState versioningState,
         List<String> policies,
         Acl addAces,
@@ -166,8 +167,8 @@ public class CmsCmisService extends AbstractCmisService {
     @Override
     public String createFolder(
         String repositoryId,
-        Properties properties,
-        String folderId,
+        @RUntainted Properties properties,
+        @RUntainted String folderId,
         List<String> policies,
         Acl addAces,
         Acl removeAces,
@@ -210,7 +211,7 @@ public class CmsCmisService extends AbstractCmisService {
     @Override
     public String createRelationship(
         String repositoryId,
-        Properties properties,
+        @RUntainted Properties properties,
         List<String> policies,
         Acl addAces,
         Acl removeAces,
@@ -236,7 +237,7 @@ public class CmsCmisService extends AbstractCmisService {
      * @see org.apache.chemistry.opencmis.commons.impl.server.AbstractCmisService#deleteObject(java.lang.String, java.lang.String, java.lang.Boolean, org.apache.chemistry.opencmis.commons.data.ExtensionsData)
      */
     @Override
-    public void deleteObject(String repositoryId, String objectId, Boolean allVersions, ExtensionsData extension) {
+    public void deleteObject(String repositoryId, @RUntainted String objectId, Boolean allVersions, ExtensionsData extension) {
 
         getRepository(repositoryId).deleteObject(makeContext(), objectId, allVersions.booleanValue());
     }
@@ -247,7 +248,7 @@ public class CmsCmisService extends AbstractCmisService {
     @Override
     public void deleteObjectOrCancelCheckOut(
         String repositoryId,
-        String objectId,
+        @RUntainted String objectId,
         Boolean allVersions,
         ExtensionsData extension) {
 
@@ -260,7 +261,7 @@ public class CmsCmisService extends AbstractCmisService {
     @Override
     public FailedToDeleteData deleteTree(
         String repositoryId,
-        String folderId,
+        @RUntainted String folderId,
         Boolean allVersions,
         UnfileObject unfileObjects,
         Boolean continueOnFailure,
@@ -278,7 +279,7 @@ public class CmsCmisService extends AbstractCmisService {
      * @see org.apache.chemistry.opencmis.commons.impl.server.AbstractCmisService#getAcl(java.lang.String, java.lang.String, java.lang.Boolean, org.apache.chemistry.opencmis.commons.data.ExtensionsData)
      */
     @Override
-    public Acl getAcl(String repositoryId, String objectId, Boolean onlyBasicPermissions, ExtensionsData extension) {
+    public Acl getAcl(String repositoryId, @RUntainted String objectId, Boolean onlyBasicPermissions, ExtensionsData extension) {
 
         return getRepository(repositoryId).getAcl(makeContext(), objectId, onlyBasicPermissions.booleanValue());
     }
@@ -287,7 +288,7 @@ public class CmsCmisService extends AbstractCmisService {
      * @see org.apache.chemistry.opencmis.commons.impl.server.AbstractCmisService#getAllowableActions(java.lang.String, java.lang.String, org.apache.chemistry.opencmis.commons.data.ExtensionsData)
      */
     @Override
-    public AllowableActions getAllowableActions(String repositoryId, String objectId, ExtensionsData extension) {
+    public AllowableActions getAllowableActions(String repositoryId, @RUntainted String objectId, ExtensionsData extension) {
 
         return getRepository(repositoryId).getAllowableActions(makeContext(), objectId);
     }
@@ -340,7 +341,7 @@ public class CmsCmisService extends AbstractCmisService {
     @Override
     public ObjectInFolderList getChildren(
         String repositoryId,
-        String folderId,
+        @RUntainted String folderId,
         String filter,
         String orderBy,
         Boolean includeAllowableActions,
@@ -394,7 +395,7 @@ public class CmsCmisService extends AbstractCmisService {
     @Override
     public ContentStream getContentStream(
         String repositoryId,
-        String objectId,
+        @RUntainted String objectId,
         String streamId,
         BigInteger offset,
         BigInteger length,
@@ -409,7 +410,7 @@ public class CmsCmisService extends AbstractCmisService {
     @Override
     public List<ObjectInFolderContainer> getDescendants(
         String repositoryId,
-        String folderId,
+        @RUntainted String folderId,
         BigInteger depth,
         String filter,
         Boolean includeAllowableActions,
@@ -432,7 +433,7 @@ public class CmsCmisService extends AbstractCmisService {
      * @see org.apache.chemistry.opencmis.commons.impl.server.AbstractCmisService#getFolderParent(java.lang.String, java.lang.String, java.lang.String, org.apache.chemistry.opencmis.commons.data.ExtensionsData)
      */
     @Override
-    public ObjectData getFolderParent(String repositoryId, String folderId, String filter, ExtensionsData extension) {
+    public ObjectData getFolderParent(String repositoryId, @RUntainted String folderId, String filter, ExtensionsData extension) {
 
         return getRepository(repositoryId).getFolderParent(makeContext(), folderId, filter);
     }
@@ -443,7 +444,7 @@ public class CmsCmisService extends AbstractCmisService {
     @Override
     public List<ObjectInFolderContainer> getFolderTree(
         String repositoryId,
-        String folderId,
+        @RUntainted String folderId,
         BigInteger depth,
         String filter,
         Boolean includeAllowableActions,
@@ -468,7 +469,7 @@ public class CmsCmisService extends AbstractCmisService {
     @Override
     public ObjectData getObject(
         String repositoryId,
-        String objectId,
+        @RUntainted String objectId,
         String filter,
         Boolean includeAllowableActions,
         IncludeRelationships includeRelationships,
@@ -530,7 +531,7 @@ public class CmsCmisService extends AbstractCmisService {
     @Override
     public List<ObjectParentData> getObjectParents(
         String repositoryId,
-        String objectId,
+        @RUntainted String objectId,
         String filter,
         Boolean includeAllowableActions,
         IncludeRelationships includeRelationships,
@@ -553,7 +554,7 @@ public class CmsCmisService extends AbstractCmisService {
     @Override
     public ObjectList getObjectRelationships(
         String repositoryId,
-        String objectId,
+        @RUntainted String objectId,
         Boolean includeSubRelationshipTypes,
         RelationshipDirection relationshipDirection,
         String typeId,
@@ -579,7 +580,7 @@ public class CmsCmisService extends AbstractCmisService {
      * @see org.apache.chemistry.opencmis.commons.impl.server.AbstractCmisService#getProperties(java.lang.String, java.lang.String, java.lang.String, org.apache.chemistry.opencmis.commons.data.ExtensionsData)
      */
     @Override
-    public Properties getProperties(String repositoryId, String objectId, String filter, ExtensionsData extension) {
+    public Properties getProperties(String repositoryId, @RUntainted String objectId, String filter, ExtensionsData extension) {
 
         return getRepository(repositoryId).getProperties(makeContext(), objectId, filter);
     }
@@ -590,7 +591,7 @@ public class CmsCmisService extends AbstractCmisService {
     @Override
     public List<RenditionData> getRenditions(
         String repositoryId,
-        String objectId,
+        @RUntainted String objectId,
         String renditionFilter,
         BigInteger maxItems,
         BigInteger skipCount,
@@ -675,8 +676,8 @@ public class CmsCmisService extends AbstractCmisService {
     @Override
     public void moveObject(
         String repositoryId,
-        Holder<String> objectId,
-        String targetFolderId,
+        @RUntainted Holder<@RUntainted String> objectId,
+        @RUntainted String targetFolderId,
         String sourceFolderId,
         ExtensionsData extension) {
 
@@ -737,7 +738,7 @@ public class CmsCmisService extends AbstractCmisService {
     @Override
     public void setContentStream(
         String repositoryId,
-        Holder<String> objectId,
+        @RUntainted Holder<@RUntainted String> objectId,
         Boolean overwriteFlag,
         Holder<String> changeToken,
         ContentStream contentStream,
@@ -757,9 +758,9 @@ public class CmsCmisService extends AbstractCmisService {
     @Override
     public void updateProperties(
         String repositoryId,
-        Holder<String> objectId,
+        @RUntainted Holder<@RUntainted String> objectId,
         Holder<String> changeToken,
-        Properties properties,
+        @RUntainted Properties properties,
         ExtensionsData extension) {
 
         getRepository(repositoryId).updateProperties(makeContext(), objectId, changeToken, properties);

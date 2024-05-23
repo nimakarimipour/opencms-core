@@ -43,6 +43,7 @@ import java.util.TreeMap;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This is a simple helper class to more easily produce container page beans to be used as detail-only containers.<p>
@@ -68,10 +69,10 @@ public class CmsDetailOnlyContainerPageBuilder {
         private List<CmsResource> m_elements = Lists.newArrayList();
 
         /** The container name. */
-        private String m_name;
+        private @RUntainted String m_name;
 
         /** Container type. */
-        private String m_type;
+        private @RUntainted String m_type;
 
         /** Container width. */
         private String m_width;
@@ -81,7 +82,7 @@ public class CmsDetailOnlyContainerPageBuilder {
          *
          * @param name the container name
          */
-        public ContainerInfo(String name) {
+        public ContainerInfo(@RUntainted String name) {
 
             m_name = name;
         }
@@ -129,7 +130,7 @@ public class CmsDetailOnlyContainerPageBuilder {
          *
          * @return the container name
          */
-        public String getName() {
+        public @RUntainted String getName() {
 
             return m_name;
         }
@@ -149,7 +150,7 @@ public class CmsDetailOnlyContainerPageBuilder {
          *
          * @return the type
          */
-        public String getType() {
+        public @RUntainted String getType() {
 
             return m_type;
         }
@@ -169,7 +170,7 @@ public class CmsDetailOnlyContainerPageBuilder {
          *
          * @param type the type to set
          */
-        public void setType(String type) {
+        public void setType(@RUntainted String type) {
 
             m_type = type;
         }
@@ -186,7 +187,7 @@ public class CmsDetailOnlyContainerPageBuilder {
     }
 
     /** The current CMS context. */
-    private CmsObject m_cms;
+    private @RUntainted CmsObject m_cms;
 
     /** The sitemap configuration to use for automatically trying to determine the correct formatter. */
     private CmsADEConfigData m_config;
@@ -200,7 +201,7 @@ public class CmsDetailOnlyContainerPageBuilder {
      * @param cms the current CMS context
      * @param config the sitemap configuration which should be used to determine the
      */
-    public CmsDetailOnlyContainerPageBuilder(CmsObject cms, CmsADEConfigData config) {
+    public CmsDetailOnlyContainerPageBuilder(@RUntainted CmsObject cms, CmsADEConfigData config) {
 
         m_cms = cms;
         m_config = config;
@@ -212,7 +213,7 @@ public class CmsDetailOnlyContainerPageBuilder {
      * @param name the container name
      * @param resource the resource to add as a container elementv
      */
-    public void addContainerElement(String name, CmsResource resource) {
+    public void addContainerElement(@RUntainted String name, CmsResource resource) {
 
         getContainerInfo(name).getResources().add(resource);
     }
@@ -238,7 +239,7 @@ public class CmsDetailOnlyContainerPageBuilder {
      * @param name the container name
      * @param type the container type
      */
-    public void setContainerType(String name, String type) {
+    public void setContainerType(@RUntainted String name, @RUntainted String type) {
 
         getContainerInfo(name).setType(type);
     }
@@ -249,7 +250,7 @@ public class CmsDetailOnlyContainerPageBuilder {
      * @param name the container name
      * @param width the container width
      */
-    public void setContainerWidth(String name, String width) {
+    public void setContainerWidth(@RUntainted String name, String width) {
 
         getContainerInfo(name).setWidth(width);
     }
@@ -279,7 +280,7 @@ public class CmsDetailOnlyContainerPageBuilder {
      *
      * @return the container element bean
      */
-    private CmsContainerElementBean buildContainerElementBean(ContainerInfo cnt, CmsResource resource) {
+    private CmsContainerElementBean buildContainerElementBean(ContainerInfo cnt, @RUntainted CmsResource resource) {
 
         I_CmsFormatterBean formatter = m_config.getFormatters(m_cms, resource).getDefaultFormatter(
             cnt.getEffectiveType(),
@@ -299,7 +300,7 @@ public class CmsDetailOnlyContainerPageBuilder {
      * @param name the container name
      * @return the container info object
      */
-    private ContainerInfo getContainerInfo(String name) {
+    private ContainerInfo getContainerInfo(@RUntainted String name) {
 
         if (!m_containerInfos.containsKey(name)) {
             m_containerInfos.put(name, new ContainerInfo(name));

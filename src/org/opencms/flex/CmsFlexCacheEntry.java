@@ -50,6 +50,7 @@ import javax.servlet.ServletException;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains the contents of a cached resource.<p>
@@ -86,22 +87,22 @@ public class CmsFlexCacheEntry implements I_CmsLruCacheObject, I_CmsMemoryMonito
     private BucketSet m_bucketSet;
 
     /** The CacheEntry's size in bytes. */
-    private int m_byteSize;
+    private @RUntainted int m_byteSize;
 
     /** Indicates if this cache entry is completed. */
     private boolean m_completed;
 
     /** The "expires" date for this Flex cache entry. */
-    private long m_dateExpires;
+    private @RUntainted long m_dateExpires;
 
     /** The "last modified" date for this Flex cache entry. */
     private long m_dateLastModified;
 
     /** The list of items for this resource. */
-    private List<Object> m_elements;
+    private @RUntainted List<@RUntainted Object> m_elements;
 
     /** A Map of cached headers for this resource. */
-    private Map<String, List<String>> m_headers;
+    private Map<@RUntainted String, List<String>> m_headers;
 
     /** Pointer to the next cache entry in the LRU cache. */
     private I_CmsLruCacheObject m_next;
@@ -113,10 +114,10 @@ public class CmsFlexCacheEntry implements I_CmsLruCacheObject, I_CmsMemoryMonito
     private boolean m_redirectPermanent;
 
     /** A redirection target (if redirection is set). */
-    private String m_redirectTarget;
+    private @RUntainted String m_redirectTarget;
 
     /** The key under which this cache entry is stored in the variation map. */
-    private String m_variationKey;
+    private @RUntainted String m_variationKey;
 
     /** The variation map where this cache entry is stored. */
     private Map<String, I_CmsLruCacheObject> m_variationMap;
@@ -164,7 +165,7 @@ public class CmsFlexCacheEntry implements I_CmsLruCacheObject, I_CmsMemoryMonito
      * @param parameters a map of parameters specific to this include call
      * @param attrs a map of request attributes specific to this include call
      */
-    public void add(String resource, Map<String, String[]> parameters, Map<String, Object> attrs) {
+    public void add(@RUntainted String resource, @RUntainted Map<String, String[]> parameters, @RUntainted Map<String, Object> attrs) {
 
         if (m_completed) {
             return;
@@ -192,14 +193,14 @@ public class CmsFlexCacheEntry implements I_CmsLruCacheObject, I_CmsMemoryMonito
      *
      * @param headers the map of headers to add to the entry
      */
-    public void addHeaders(Map<String, List<String>> headers) {
+    public void addHeaders(Map<@RUntainted String, List<String>> headers) {
 
         if (m_completed) {
             return;
         }
         m_headers = headers;
 
-        Iterator<String> allHeaders = m_headers.keySet().iterator();
+        Iterator<@RUntainted String> allHeaders = m_headers.keySet().iterator();
         while (allHeaders.hasNext()) {
             m_byteSize += CmsMemoryMonitor.getMemorySize(allHeaders.next());
         }
@@ -248,7 +249,7 @@ public class CmsFlexCacheEntry implements I_CmsLruCacheObject, I_CmsMemoryMonito
      *
      * @return the list of data elements of this cache entry
      */
-    public List<Object> elements() {
+    public List<@RUntainted Object> elements() {
 
         return m_elements;
     }
@@ -287,7 +288,7 @@ public class CmsFlexCacheEntry implements I_CmsLruCacheObject, I_CmsMemoryMonito
     /**
      * @see org.opencms.cache.I_CmsLruCacheObject#getLruCacheCosts()
      */
-    public int getLruCacheCosts() {
+    public @RUntainted int getLruCacheCosts() {
 
         return m_byteSize;
     }
@@ -295,7 +296,7 @@ public class CmsFlexCacheEntry implements I_CmsLruCacheObject, I_CmsMemoryMonito
     /**
      * @see org.opencms.monitor.I_CmsMemoryMonitorable#getMemorySize()
      */
-    public int getMemorySize() {
+    public @RUntainted int getMemorySize() {
 
         return getLruCacheCosts();
     }
@@ -329,7 +330,7 @@ public class CmsFlexCacheEntry implements I_CmsLruCacheObject, I_CmsMemoryMonito
      *
      * @param limit the maximum allowed expiration date
      */
-    public void limitDateExpires(long limit) {
+    public void limitDateExpires(@RUntainted long limit) {
 
         if (m_dateExpires > limit) {
             m_dateExpires = limit;
@@ -389,8 +390,8 @@ public class CmsFlexCacheEntry implements I_CmsLruCacheObject, I_CmsMemoryMonito
                 if (o instanceof String) {
                     // handle cached parameters
                     i++;
-                    Map<String, String[]> paramMap = CmsCollectionsGenericWrapper.map(m_elements.get(i));
-                    Map<String, String[]> oldParamMap = null;
+                    Map<String, @RUntainted String[]> paramMap = CmsCollectionsGenericWrapper.map(m_elements.get(i));
+                    Map<String, @RUntainted String[]> oldParamMap = null;
                     if (paramMap.size() > 0) {
                         oldParamMap = req.getParameterMap();
                         req.addParameterMap(paramMap);
@@ -449,7 +450,7 @@ public class CmsFlexCacheEntry implements I_CmsLruCacheObject, I_CmsMemoryMonito
      *
      * @param dateExpires the time to expire this cache entry
      */
-    public void setDateExpires(long dateExpires) {
+    public void setDateExpires(@RUntainted long dateExpires) {
 
         m_dateExpires = dateExpires;
         if (LOG.isDebugEnabled()) {
@@ -475,7 +476,7 @@ public class CmsFlexCacheEntry implements I_CmsLruCacheObject, I_CmsMemoryMonito
      *
      * @param timeout the timeout value to be set
      */
-    public void setDateExpiresToNextTimeout(long timeout) {
+    public void setDateExpiresToNextTimeout(@RUntainted long timeout) {
 
         if ((timeout < 0) || !m_completed) {
             return;
@@ -541,7 +542,7 @@ public class CmsFlexCacheEntry implements I_CmsLruCacheObject, I_CmsMemoryMonito
      * @param target The redirect target (must be a valid URL).
      * @param permanent true if this is a permanent redirect
      */
-    public void setRedirect(String target, boolean permanent) {
+    public void setRedirect(@RUntainted String target, boolean permanent) {
 
         if (m_completed || (target == null)) {
             return;
@@ -562,7 +563,7 @@ public class CmsFlexCacheEntry implements I_CmsLruCacheObject, I_CmsMemoryMonito
      * @param theVariationKey the variation key
      * @param theVariationMap the variation map
      */
-    public void setVariationData(String theVariationKey, Map<String, I_CmsLruCacheObject> theVariationMap) {
+    public void setVariationData(@RUntainted String theVariationKey, Map<String, I_CmsLruCacheObject> theVariationMap) {
 
         m_variationKey = theVariationKey;
         m_variationMap = theVariationMap;
@@ -574,12 +575,12 @@ public class CmsFlexCacheEntry implements I_CmsLruCacheObject, I_CmsMemoryMonito
      * @return a basic String representation of this CmsFlexCache entry
      */
     @Override
-    public String toString() {
+    public @RUntainted String toString() {
 
         String str = null;
         if (m_redirectTarget == null) {
             str = "CmsFlexCacheEntry [" + m_elements.size() + " Elements/" + getLruCacheCosts() + " bytes]\n";
-            Iterator<Object> i = m_elements.iterator();
+            Iterator<@RUntainted Object> i = m_elements.iterator();
             int count = 0;
             while (i.hasNext()) {
                 count++;

@@ -37,6 +37,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog for explorer views in the administration view.<p>
@@ -73,7 +74,7 @@ public class CmsExplorerDialog extends CmsDialog {
      * @param req the JSP request
      * @param res the JSP response
      */
-    public CmsExplorerDialog(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsExplorerDialog(@RUntainted PageContext context, @RUntainted HttpServletRequest req, @RUntainted HttpServletResponse res) {
 
         this(new CmsJspActionElement(context, req, res));
     }

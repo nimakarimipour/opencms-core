@@ -30,6 +30,7 @@ package org.opencms.workplace.editors;
 import org.opencms.file.CmsObject;
 import org.opencms.jsp.CmsJspActionElement;
 import org.opencms.main.CmsException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a method for selecting an individual file editor.<p>
@@ -52,7 +53,7 @@ public interface I_CmsEditorHandler {
      *
      * @return the absolute path to the editor
      */
-    String getEditorUri(CmsObject cms, String resourceType, String userAgent, boolean loadDefault);
+    String getEditorUri(@RUntainted CmsObject cms, String resourceType, @RUntainted String userAgent, boolean loadDefault);
 
     /**
      * Returns the editor URI which will be used for the selected resource in the OpenCms VFS to the editor selector class.<p>

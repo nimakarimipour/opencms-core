@@ -34,6 +34,7 @@ import org.opencms.file.CmsResource;
 import org.opencms.file.CmsResourceFilter;
 import org.opencms.main.CmsException;
 import org.opencms.util.A_CmsModeIntEnumeration;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Permission handler interface.<p>
@@ -69,7 +70,7 @@ public interface I_CmsPermissionHandler {
          *
          * @param mode the copy mode integer representation
          */
-        private CmsPermissionCheckResult(int mode) {
+        private CmsPermissionCheckResult(@RUntainted int mode) {
 
             super(mode);
         }

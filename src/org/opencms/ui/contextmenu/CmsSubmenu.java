@@ -35,6 +35,7 @@ import org.opencms.util.CmsMacroResolver;
 
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Menu item which acts only as a container for nested menu items.<p>
@@ -54,7 +55,7 @@ public class CmsSubmenu implements I_CmsContextMenuItem {
     protected int m_priority;
 
     /** The title (may contain localization macros). */
-    private String m_title;
+    private @RUntainted String m_title;
 
     /**
      * Creates a new instance.<p>
@@ -65,7 +66,7 @@ public class CmsSubmenu implements I_CmsContextMenuItem {
      * @param order the order
      * @param priority the priority
      */
-    public CmsSubmenu(String id, String parentId, String title, float order, int priority) {
+    public CmsSubmenu(String id, String parentId, @RUntainted String title, float order, int priority) {
         m_id = id;
         m_parentId = parentId;
         m_title = title;
@@ -117,7 +118,7 @@ public class CmsSubmenu implements I_CmsContextMenuItem {
     /**
      * @see org.opencms.ui.contextmenu.I_CmsContextMenuItem#getTitle(java.util.Locale)
      */
-    public String getTitle(Locale locale) {
+    public @RUntainted String getTitle(@RUntainted Locale locale) {
 
         CmsMacroResolver resolver = new CmsMacroResolver();
         resolver.setMessages(OpenCms.getWorkplaceManager().getMessages(locale));

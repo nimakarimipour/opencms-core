@@ -66,6 +66,8 @@ import javax.servlet.ServletRequest;
 import org.apache.commons.logging.Log;
 
 import com.google.common.base.Optional;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Static utility class for functions related to detail-only containers.<p>
@@ -172,7 +174,7 @@ public final class CmsDetailOnlyContainerUtil {
      *
      * @return the container page bean
      */
-    public static CmsContainerPageBean getDetailOnlyPage(CmsObject cms, ServletRequest req, String pageRootPath) {
+    public static CmsContainerPageBean getDetailOnlyPage(CmsObject cms, @RUntainted ServletRequest req, String pageRootPath) {
 
         return getDetailOnlyPage(cms, req, pageRootPath, true);
     }
@@ -189,7 +191,7 @@ public final class CmsDetailOnlyContainerUtil {
      */
     public static CmsContainerPageBean getDetailOnlyPage(
         CmsObject cms,
-        ServletRequest req,
+        @RUntainted ServletRequest req,
         String pageRootPath,
         boolean lookupContextFirst) {
 
@@ -250,10 +252,10 @@ public final class CmsDetailOnlyContainerUtil {
      *
      * @return the site or root path to the detail only container page (dependent on providing site or root path for the detailPath).
      */
-    public static String getDetailOnlyPageName(
+    public static @RPolyTainted String getDetailOnlyPageName(
         CmsObject cms,
         CmsResource pageResource,
-        String detailPath,
+        @RPolyTainted String detailPath,
         String locale) {
 
         return getDetailOnlyPageNameWithoutLocaleCheck(detailPath, getDetailContainerLocale(cms, locale, pageResource));
@@ -352,7 +354,7 @@ public final class CmsDetailOnlyContainerUtil {
      *
      * @throws CmsException if something goes wrong
      */
-    public static CmsResource readOrCreateDetailOnlyPage(CmsObject cms, CmsUUID detailId, String detailOnlyRootPath)
+    public static @RUntainted CmsResource readOrCreateDetailOnlyPage(CmsObject cms, @RUntainted CmsUUID detailId, @RUntainted String detailOnlyRootPath)
     throws CmsException {
 
         CmsObject rootCms = OpenCms.initCmsObject(cms);
@@ -362,7 +364,7 @@ public final class CmsDetailOnlyContainerUtil {
             containerpage = rootCms.readResource(detailOnlyRootPath);
         } else {
             String parentFolder = CmsResource.getFolderPath(detailOnlyRootPath);
-            List<String> foldersToCreate = new ArrayList<String>();
+            List<@RUntainted String> foldersToCreate = new ArrayList<@RUntainted String>();
             // ensure the parent folder exists
             while (!rootCms.existsResource(parentFolder)) {
                 foldersToCreate.add(0, parentFolder);
@@ -400,7 +402,7 @@ public final class CmsDetailOnlyContainerUtil {
                 cms.writePropertyObjects(containerpage, Arrays.asList(titleProp));
             }
 
-            List<CmsRelation> relations = cms.readRelations(
+            List<@RUntainted CmsRelation> relations = cms.readRelations(
                 CmsRelationFilter.relationsFromStructureId(detailId).filterType(CmsRelationType.DETAIL_ONLY));
             boolean hasRelation = false;
             for (CmsRelation relation : relations) {
@@ -461,7 +463,7 @@ public final class CmsDetailOnlyContainerUtil {
      *
      * @return <code>true</code> if single locale detail containers should be used for the given site root
      */
-    public static boolean useSingleLocaleDetailContainers(String siteRoot) {
+    public static boolean useSingleLocaleDetailContainers(@RUntainted String siteRoot) {
 
         boolean result = false;
         if ((siteRoot != null)
@@ -482,7 +484,7 @@ public final class CmsDetailOnlyContainerUtil {
      *
      * @return the site path to the detail only container page
      */
-    static String getDetailOnlyPageNameWithoutLocaleCheck(String detailContentSitePath, String contentLocale) {
+    static @RPolyTainted String getDetailOnlyPageNameWithoutLocaleCheck(@RPolyTainted String detailContentSitePath, String contentLocale) {
 
         String result = CmsResource.getFolderPath(detailContentSitePath);
         if (contentLocale != null) {

@@ -69,6 +69,7 @@ import org.apache.commons.logging.Log;
 import com.google.common.collect.Maps;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Resource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides {@link CmsResource} utility functions.<p>
@@ -105,7 +106,7 @@ public final class CmsResourceUtil {
          *
          * @param mode the mode descriptor
          */
-        protected CmsResourceProjectState(int mode) {
+        protected CmsResourceProjectState(@RUntainted int mode) {
 
             super(mode);
         }
@@ -214,13 +215,13 @@ public final class CmsResourceUtil {
     private CmsMessages m_messages;
 
     /** Reference project resources cache. */
-    private List<String> m_projectResources;
+    private List<@RUntainted String> m_projectResources;
 
     /** The project to use to check project state, if <code>null</code> the current project will be used. */
     private CmsProject m_referenceProject;
 
     /** The 'relative to' path. */
-    private String m_relativeTo;
+    private @RUntainted String m_relativeTo;
 
     /** The current request context. */
     private CmsRequestContext m_request;
@@ -415,7 +416,7 @@ public final class CmsResourceUtil {
      *
      * @return the full path
      */
-    public String getFullPath() {
+    public @RUntainted String getFullPath() {
 
         String path = m_resource.getRootPath();
         if ((m_siteMode != SITE_MODE_ROOT) && (m_cms != null)) {
@@ -603,7 +604,7 @@ public final class CmsResourceUtil {
      *
      * @return the user name who owns the lock for the given resource
      */
-    public String getLockedByName() {
+    public @RUntainted String getLockedByName() {
 
         String lockedBy = "";
         if (!getLock().isNullLock()) {
@@ -624,7 +625,7 @@ public final class CmsResourceUtil {
      *
      * @return the id of the project in which the given resource is locked
      */
-    public CmsUUID getLockedInProjectId() {
+    public @RUntainted CmsUUID getLockedInProjectId() {
 
         CmsUUID lockedInProject = null;
         if (getLock().isNullLock() && !getResource().getState().isUnchanged()) {
@@ -645,7 +646,7 @@ public final class CmsResourceUtil {
      *
      * @return the the project name that locked the current resource's
      */
-    public String getLockedInProjectName() {
+    public @RUntainted String getLockedInProjectName() {
 
         try {
             CmsUUID pId = getLockedInProjectId();
@@ -733,7 +734,7 @@ public final class CmsResourceUtil {
      *
      * @throws CmsException if something goes wrong
      */
-    public String getNoEditReason(Locale locale) throws CmsException {
+    public String getNoEditReason(@RUntainted Locale locale) throws CmsException {
 
         return getNoEditReason(locale, false);
     }
@@ -748,7 +749,7 @@ public final class CmsResourceUtil {
      *
      * @throws CmsException if something goes wrong
      */
-    public String getNoEditReason(Locale locale, boolean ignoreExpiration) throws CmsException {
+    public String getNoEditReason(@RUntainted Locale locale, boolean ignoreExpiration) throws CmsException {
 
         String reason = "";
         if (m_resource instanceof I_CmsHistoryResource) {
@@ -1020,7 +1021,7 @@ public final class CmsResourceUtil {
      *
      * @return the site path
      */
-    public String getSite() {
+    public @RUntainted String getSite() {
 
         String site = null;
         if ((m_siteMode == SITE_MODE_MATCHING) || (m_cms == null)) {
@@ -1234,7 +1235,7 @@ public final class CmsResourceUtil {
      *
      * @return the title for that resource
      */
-    public String getTitle() {
+    public @RUntainted String getTitle() {
 
         String title = "";
         try {
@@ -1408,7 +1409,7 @@ public final class CmsResourceUtil {
      *
      * @param relativeTo the 'relative to' path to set
      */
-    public void setRelativeTo(String relativeTo) {
+    public void setRelativeTo(@RUntainted String relativeTo) {
 
         m_relativeTo = relativeTo;
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(m_relativeTo)) {
@@ -1454,7 +1455,7 @@ public final class CmsResourceUtil {
      *
      * @return the simple name if the ou is the same as the current user's ou
      */
-    private String getCurrentOuRelativeName(String name) {
+    private @RUntainted String getCurrentOuRelativeName(@RUntainted String name) {
 
         if (m_request == null) {
             return CmsOrganizationalUnit.SEPARATOR + name;
@@ -1488,7 +1489,7 @@ public final class CmsResourceUtil {
      *
      * @return the reference project resources
      */
-    private List<String> getProjectResources() {
+    private List<@RUntainted String> getProjectResources() {
 
         if (m_projectResources == null) {
             try {

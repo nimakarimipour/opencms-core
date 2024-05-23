@@ -36,6 +36,7 @@ import org.opencms.xml.content.CmsXmlContentProperty;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Preference for the start site.<p>
@@ -52,7 +53,7 @@ public class CmsSitePreference extends CmsBuiltinPreference {
      *
      * @param name the preference name
      */
-    public CmsSitePreference(String name) {
+    public CmsSitePreference(@RUntainted String name) {
 
         super(name);
         m_basic = true;
@@ -66,7 +67,7 @@ public class CmsSitePreference extends CmsBuiltinPreference {
      *
      * @return the options for the site selector
      */
-    public static String getSiteSelectOptionsStatic(CmsObject cms, Locale locale) {
+    public static @RUntainted String getSiteSelectOptionsStatic(CmsObject cms, @RUntainted Locale locale) {
 
         List<CmsSite> sites = OpenCms.getSiteManager().getAvailableSites(
             cms,

@@ -60,6 +60,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Utils to read and update the list configuration. */
 public final class CmsConfigParserUtils {
@@ -134,7 +135,7 @@ public final class CmsConfigParserUtils {
     public static final String N_RULE = "Rule";
 
     /** The parameter fields. */
-    public static final String[] PARAMETER_FIELDS = new String[] {
+    public static final @RUntainted String[] PARAMETER_FIELDS = new String[] {
         N_TITLE,
         N_CATEGORY,
         N_FILTER_MULTI_DAY,
@@ -154,7 +155,7 @@ public final class CmsConfigParserUtils {
      *
      * @return the configuration data bean
      */
-    public static CmsConfigurationBean parseListConfiguration(CmsObject cms, CmsResource res) {
+    public static CmsConfigurationBean parseListConfiguration(@RUntainted CmsObject cms, @RUntainted CmsResource res) {
 
         CmsConfigurationBean result = new CmsConfigurationBean();
         try {
@@ -254,7 +255,7 @@ public final class CmsConfigParserUtils {
                 }
             }
             result.setDisplayTypes(displayTypes);
-            List<String> folders = new ArrayList<String>();
+            List<@RUntainted String> folders = new ArrayList<@RUntainted String>();
             List<I_CmsXmlContentValue> folderValues = content.getValues(N_SEARCH_FOLDER, locale);
             if (!folderValues.isEmpty()) {
                 for (I_CmsXmlContentValue value : folderValues) {
@@ -266,7 +267,7 @@ public final class CmsConfigParserUtils {
                 }
             }
             result.setFolders(folders);
-            List<CmsUUID> blackList = new ArrayList<CmsUUID>();
+            List<@RUntainted CmsUUID> blackList = new ArrayList<@RUntainted CmsUUID>();
             List<I_CmsXmlContentValue> blacklistValues = content.getValues(N_BLACKLIST, locale);
             if (!blacklistValues.isEmpty()) {
                 for (I_CmsXmlContentValue value : blacklistValues) {

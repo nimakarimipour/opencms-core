@@ -59,6 +59,7 @@ import com.google.common.base.Suppliers;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * An immutable object which represents the complete ADE configuration (sitemap and module configurations)
@@ -70,10 +71,10 @@ public class CmsADEConfigCacheState {
     private static final Log LOG = CmsLog.getLog(CmsADEConfigCacheState.class);
 
     /** The CMS context used for VFS operations. */
-    private CmsObject m_cms;
+    private @RUntainted CmsObject m_cms;
 
     /** Cache for detail page lists. */
-    private Map<String, List<String>> m_detailPageCache;
+    private Map<String, List<@RUntainted String>> m_detailPageCache;
 
     /** Memoized supplier for the cached detail page ids. */
     private Supplier<Set<CmsUUID>> m_detailPageIdCache;
@@ -106,7 +107,7 @@ public class CmsADEConfigCacheState {
     private Map<CmsUUID, CmsSitePlugin> m_sitePlugins;
 
     /** Cached list of subsites to be included in the site selector. */
-    private volatile List<String> m_subsitesForSiteSelector;
+    private volatile List<@RUntainted String> m_subsitesForSiteSelector;
 
     /** Cached set of names of content types anywhere in the configuration. */
     private volatile Set<String> m_contentTypes;
@@ -122,7 +123,7 @@ public class CmsADEConfigCacheState {
      * @param attributeEditorConfigurations the attribute editor configurations
      */
     public CmsADEConfigCacheState(
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         Map<CmsUUID, CmsADEConfigDataInternal> siteConfigurations,
         List<CmsADEConfigDataInternal> moduleConfigs,
         Map<CmsUUID, CmsElementView> elementViews,
@@ -164,7 +165,7 @@ public class CmsADEConfigCacheState {
      * @param cms the CMS context
      * @return the empty configuration cache state
      */
-    public static CmsADEConfigCacheState emptyState(CmsObject cms) {
+    public static CmsADEConfigCacheState emptyState(@RUntainted CmsObject cms) {
 
         return new CmsADEConfigCacheState(
             cms,
@@ -403,10 +404,10 @@ public class CmsADEConfigCacheState {
      *
      * @return the list of root paths of subsites that should be included in the site selector
      */
-    public List<String> getSubsitesForSiteSelector() {
+    public List<@RUntainted String> getSubsitesForSiteSelector() {
 
         if (m_subsitesForSiteSelector == null) {
-            List<String> paths = m_siteConfigurations.values().stream().filter(
+            List<@RUntainted String> paths = m_siteConfigurations.values().stream().filter(
                 conf -> conf.isIncludeInSiteSelector()).map(conf -> conf.getBasePath()).collect(Collectors.toList());
             m_subsitesForSiteSelector = Collections.unmodifiableList(paths);
         }
@@ -450,7 +451,7 @@ public class CmsADEConfigCacheState {
      *
      * @return the CMS context used for VFS operations
      */
-    protected CmsObject getCms() {
+    protected @RUntainted CmsObject getCms() {
 
         return m_cms;
     }
@@ -462,9 +463,9 @@ public class CmsADEConfigCacheState {
      *
      * @return the detail pages for that type
      */
-    protected List<String> getDetailPages(String type) {
+    protected List<@RUntainted String> getDetailPages(String type) {
 
-        List<String> result = m_detailPageCache.get(type);
+        List<@RUntainted String> result = m_detailPageCache.get(type);
         if (result == null) {
             result = new ArrayList<>();
             for (CmsADEConfigDataInternal configData : m_siteConfigurationsByPath.values()) {

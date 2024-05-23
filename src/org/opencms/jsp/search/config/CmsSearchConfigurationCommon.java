@@ -29,6 +29,7 @@ package org.opencms.jsp.search.config;
 
 import java.util.HashMap;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Search configuration for common parameters as the query parameter etc.
@@ -54,7 +55,7 @@ public class CmsSearchConfigurationCommon implements I_CmsSearchConfigurationCom
     /** The Solr core to use for the query (specified by it's name). */
     private final String m_solrCore;
     /** Extra parameters given to Solr, specified like "p1=v1&p2=v2". */
-    private final String m_extraSolrParams;
+    private final @RUntainted String m_extraSolrParams;
     /** Additional request parameters mapped to their Solr query parts. */
     private final Map<String, String> m_additionalParameters;
     /** Flag, indicating if the release date should be ignored. */
@@ -62,7 +63,7 @@ public class CmsSearchConfigurationCommon implements I_CmsSearchConfigurationCom
     /** Flag, indicating if the expiration date should be ignored. */
     private boolean m_ignoreExpirationDate;
     /** The maximally returned number of results */
-    private final int m_maxReturnedResults;
+    private final @RUntainted int m_maxReturnedResults;
 
     /** Constructor for the common search configuration, where all configuration parameters are provided.
      * @param queryParam The query request param used by the search form.
@@ -95,7 +96,7 @@ public class CmsSearchConfigurationCommon implements I_CmsSearchConfigurationCom
         final Map<String, String> additionalParameters,
         final Boolean ignoreReleaseDate,
         final Boolean ignoreExpirationDate,
-        final int maxReturnedResults) {
+        final @RUntainted int maxReturnedResults) {
 
         m_queryParam = queryParam;
         m_lastQueryParam = lastQueryParam;
@@ -134,7 +135,7 @@ public class CmsSearchConfigurationCommon implements I_CmsSearchConfigurationCom
      * @see org.opencms.jsp.search.config.I_CmsSearchConfigurationCommon#getExtraSolrParams()
      */
     @Override
-    public String getExtraSolrParams() {
+    public @RUntainted String getExtraSolrParams() {
 
         return m_extraSolrParams;
     }
@@ -175,7 +176,7 @@ public class CmsSearchConfigurationCommon implements I_CmsSearchConfigurationCom
     /**
      * @see org.opencms.jsp.search.config.I_CmsSearchConfigurationCommon#getMaxReturnedResults()
      */
-    public int getMaxReturnedResults() {
+    public @RUntainted int getMaxReturnedResults() {
 
         return m_maxReturnedResults;
     }

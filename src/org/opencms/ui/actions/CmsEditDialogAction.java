@@ -54,6 +54,7 @@ import java.util.List;
 
 import com.vaadin.navigator.View;
 import com.vaadin.ui.UI;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The edit dialog action. Used for all but container page contents.<p>
@@ -139,7 +140,7 @@ public class CmsEditDialogAction extends A_CmsWorkplaceAction implements I_CmsDe
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
      */
     @Override
-    protected String getTitleKey() {
+    protected @RUntainted String getTitleKey() {
 
         return Messages.GUI_EXPLORER_CONTEXT_EDIT_0;
     }

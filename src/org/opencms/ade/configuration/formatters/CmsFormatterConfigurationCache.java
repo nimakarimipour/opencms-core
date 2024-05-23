@@ -67,6 +67,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A cache object which holds a collection of formatter configuration beans read from the VFS.<p>
@@ -104,7 +105,7 @@ public class CmsFormatterConfigurationCache implements I_CmsGlobalConfigurationC
     private static final Log LOG = CmsLog.getLog(CmsFormatterConfigurationCache.class);
 
     /** The CMS context used by this cache. */
-    private CmsObject m_cms;
+    private @RUntainted CmsObject m_cms;
 
     /** The cache name. */
     private String m_name;
@@ -243,7 +244,7 @@ public class CmsFormatterConfigurationCache implements I_CmsGlobalConfigurationC
      */
     public void reload() {
 
-        List<CmsResource> settingConfigResources = new ArrayList<>();
+        List<@RUntainted CmsResource> settingConfigResources = new ArrayList<>();
         try {
             I_CmsResourceType type = OpenCms.getResourceManager().getResourceType(TYPE_SETTINGS_CONFIG);
             CmsResourceFilter filter = CmsResourceFilter.ONLY_VISIBLE_NO_DELETED.addRequireType(type);
@@ -421,7 +422,7 @@ public class CmsFormatterConfigurationCache implements I_CmsGlobalConfigurationC
      * @param resource the resource to parse
      * @return the parsed setting definitions
      */
-    private Map<CmsSharedSettingKey, CmsXmlContentProperty> parseSettingsConfig(CmsResource resource) {
+    private Map<CmsSharedSettingKey, CmsXmlContentProperty> parseSettingsConfig(@RUntainted CmsResource resource) {
 
         Map<CmsSharedSettingKey, CmsXmlContentProperty> result = new HashMap<>();
         try {

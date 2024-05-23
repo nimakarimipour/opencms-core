@@ -44,6 +44,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper used to access element setting definition information in JSP code.
@@ -201,7 +202,7 @@ public class CmsSettingDefinitionWrapper {
      *
      * @return the widget config
      */
-    public String getWidgetConfig() {
+    public @RUntainted String getWidgetConfig() {
 
         return m_resolvedDefinition.getWidgetConfiguration();
     }

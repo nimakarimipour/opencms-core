@@ -43,6 +43,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This tag is used to dynamically add request parameters which are available during the execution of its body.<p>
@@ -59,7 +60,7 @@ public class CmsJspTagAddParams extends TagSupport implements I_CmsJspTagParamPa
         private CmsFlexRequest m_request;
 
         /** The original set of parameters. */
-        private Map<String, String[]> m_savedParams;
+        private Map<String, @RUntainted String[]> m_savedParams;
 
         /** The saved set of dynamic parameters. */
         private Set<String> m_savedDynamicParams;
@@ -79,7 +80,7 @@ public class CmsJspTagAddParams extends TagSupport implements I_CmsJspTagParamPa
          * @param key the parameter name
          * @param value the parameter value
          */
-        public void addParameter(String key, String value) {
+        public void addParameter(@RUntainted String key, @RUntainted String value) {
 
             m_request.addParameterMap(Collections.singletonMap(key, new String[] {value}));
             m_request.getDynamicParameters().add(key);
@@ -92,7 +93,7 @@ public class CmsJspTagAddParams extends TagSupport implements I_CmsJspTagParamPa
 
             m_savedParams = m_request.getParameterMap();
             m_savedDynamicParams = m_request.getDynamicParameters();
-            Map<String, String[]> params = Maps.newHashMap();
+            Map<String, @RUntainted String[]> params = Maps.newHashMap();
             if (m_savedParams != null) {
                 params.putAll(m_savedParams);
             }

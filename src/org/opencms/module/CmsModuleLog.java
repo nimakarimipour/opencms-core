@@ -39,6 +39,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class is responsible for reading and writing module import/export log messages, to be used by CmsResourceWrapperModules.
@@ -94,7 +95,7 @@ public class CmsModuleLog {
      *
      * @return the log file
      */
-    public File getLogFile(String moduleName) {
+    public File getLogFile(@RUntainted String moduleName) {
 
         return new File(
             OpenCms.getSystemInfo().getAbsoluteRfsPathRelativeToWebInf("packages/_modulelogs/" + moduleName + ".log"));
@@ -107,7 +108,7 @@ public class CmsModuleLog {
      * @param action the action
      * @param ok true if the action was successful
      */
-    public synchronized void log(String moduleName, Action action, boolean ok) {
+    public synchronized void log(@RUntainted String moduleName, Action action, boolean ok) {
 
         if (moduleName == null) {
             return;
@@ -126,7 +127,7 @@ public class CmsModuleLog {
      *
      * @throws IOException if something goes wrong
      */
-    public synchronized byte[] readLog(String moduleName) throws IOException {
+    public synchronized byte[] readLog(@RUntainted String moduleName) throws IOException {
 
         File logFile = getLogFile(moduleName);
         if (logFile.exists()) {
@@ -142,7 +143,7 @@ public class CmsModuleLog {
      * @param moduleName the module name
      * @param message the message to log
      */
-    private synchronized void log(String moduleName, String message) {
+    private synchronized void log(@RUntainted String moduleName, String message) {
 
         // We re-open the file every time. This should be OK performance-wise, since modules are usually not
         // imported/exported/deleted so frequently that this would matter.

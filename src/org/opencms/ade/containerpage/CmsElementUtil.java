@@ -126,6 +126,7 @@ import org.apache.commons.logging.Log;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Utility class to generate the element data objects used within the container-page editor.<p>
@@ -144,13 +145,13 @@ public class CmsElementUtil {
     private CmsADEConfigData m_adeConfig;
 
     /** The cms context. */
-    private CmsObject m_cms;
+    private @RUntainted CmsObject m_cms;
 
     /** The current page uri. */
-    private String m_currentPageUri;
+    private @RUntainted String m_currentPageUri;
 
     /** The content locale. */
-    private Locale m_locale;
+    private @RUntainted Locale m_locale;
 
     /** The current container page. */
     private CmsResource m_page;
@@ -160,10 +161,10 @@ public class CmsElementUtil {
     private Map<String, Object> m_parameterMap;
 
     /** The http request. */
-    private HttpServletRequest m_req;
+    private @RUntainted HttpServletRequest m_req;
 
     /** The http response. */
-    private HttpServletResponse m_res;
+    private @RUntainted HttpServletResponse m_res;
 
     /** The standard context bean. */
     private CmsJspStandardContextBean m_standardContext;
@@ -185,13 +186,13 @@ public class CmsElementUtil {
      */
     public CmsElementUtil(
         CmsObject cms,
-        String currentPageUri,
+        @RUntainted String currentPageUri,
         CmsContainerPageBean containerPage,
-        CmsUUID detailContentId,
-        HttpServletRequest req,
-        HttpServletResponse res,
+        @RUntainted CmsUUID detailContentId,
+        @RUntainted HttpServletRequest req,
+        @RUntainted HttpServletResponse res,
         boolean isDragMode,
-        Locale locale)
+        @RUntainted Locale locale)
     throws CmsException {
 
         m_cms = OpenCms.initCmsObject(cms);
@@ -230,12 +231,12 @@ public class CmsElementUtil {
      * @throws CmsException if something goes wrong
      */
     public CmsElementUtil(
-        CmsObject cms,
-        String currentPageUri,
-        CmsUUID detailContentId,
-        HttpServletRequest req,
-        HttpServletResponse res,
-        Locale locale)
+        @RUntainted CmsObject cms,
+        @RUntainted String currentPageUri,
+        @RUntainted CmsUUID detailContentId,
+        @RUntainted HttpServletRequest req,
+        @RUntainted HttpServletResponse res,
+        @RUntainted Locale locale)
     throws CmsException {
 
         m_cms = OpenCms.initCmsObject(cms);
@@ -270,13 +271,13 @@ public class CmsElementUtil {
      * @throws CmsException if something goes wrong
      */
     public CmsElementUtil(
-        CmsObject cms,
-        String currentPageUri,
+        @RUntainted CmsObject cms,
+        @RUntainted String currentPageUri,
         CmsUUID detailContentId,
         String requestParameters,
-        HttpServletRequest req,
-        HttpServletResponse res,
-        Locale locale)
+        @RUntainted HttpServletRequest req,
+        @RUntainted HttpServletResponse res,
+        @RUntainted Locale locale)
     throws CmsException {
 
         this(cms, currentPageUri, detailContentId, req, res, locale);
@@ -349,7 +350,7 @@ public class CmsElementUtil {
      * @return the formatter bean
      */
     public static I_CmsFormatterBean getFormatterForContainer(
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         CmsContainerElementBean element,
         CmsContainer container,
         CmsADEConfigData config,
@@ -378,7 +379,7 @@ public class CmsElementUtil {
         }
         if (formatter == null) {
             // check for formatter config id stored for other containers matching the current container
-            for (Entry<String, String> settingsEntry : element.getIndividualSettings().entrySet()) {
+            for (Entry<String, @RUntainted String> settingsEntry : element.getIndividualSettings().entrySet()) {
                 if (settingsEntry.getKey().startsWith(CmsFormatterConfig.FORMATTER_SETTINGS_KEY)) {
                     formatter = lookupFormatter(config, settingsEntry.getValue(), formatters);
                     if (formatter != null) {
@@ -432,7 +433,7 @@ public class CmsElementUtil {
      * @return the formatter bean
      */
     private static I_CmsFormatterBean getStartFormatter(
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         CmsContainer cnt,
         CmsADEConfigData configData,
         CmsContainerElementBean element,
@@ -459,7 +460,7 @@ public class CmsElementUtil {
      */
     private static I_CmsFormatterBean lookupFormatter(
         CmsADEConfigData config,
-        String keyOrId,
+        @RUntainted String keyOrId,
         Map<String, I_CmsFormatterBean> active) {
 
         I_CmsFormatterBean dynamicFmt = config.findFormatter(keyOrId);
@@ -698,8 +699,8 @@ public class CmsElementUtil {
         }
         CmsContainerElementData elementData = getBaseElementData(page, element);
 
-        Map<String, String> settingUpdates = new HashMap<>();
-        for (Map.Entry<String, String> entry : elementData.getSettings().entrySet()) {
+        Map<@RUntainted String, @RUntainted String> settingUpdates = new HashMap<>();
+        for (Map.Entry<@RUntainted String, @RUntainted String> entry : elementData.getSettings().entrySet()) {
             int underscorePos = entry.getKey().indexOf("_");
             if ((underscorePos >= 0) && !isSystemSetting(entry.getKey())) {
                 String prefix = entry.getKey().substring(0, underscorePos);
@@ -797,7 +798,7 @@ public class CmsElementUtil {
                         config.setLabel(label);
                         config.setDescription(
                             formatter.getDescription(OpenCms.getWorkplaceManager().getWorkplaceLocale(m_cms)));
-                        Map<String, CmsXmlContentProperty> settingsConfig = OpenCms.getADEManager().getFormatterSettings(
+                        Map<@RUntainted String, CmsXmlContentProperty> settingsConfig = OpenCms.getADEManager().getFormatterSettings(
                             m_cms,
                             adeConfig,
                             formatter,
@@ -1057,7 +1058,7 @@ public class CmsElementUtil {
      *
      * @return the formatter configuration
      */
-    CmsFormatterConfiguration getFormatterConfiguration(CmsResource resource) {
+    CmsFormatterConfiguration getFormatterConfiguration(@RUntainted CmsResource resource) {
 
         return getConfigData().getFormatters(m_cms, resource);
     }
@@ -1090,7 +1091,7 @@ public class CmsElementUtil {
         }
         elementData.setLastModifiedByUser(userName);
         elementData.setNavText(resUtil.getNavText());
-        Map<String, CmsXmlContentProperty> settingConfig = CmsXmlContentPropertyHelper.getPropertyInfo(
+        Map<@RUntainted String, CmsXmlContentProperty> settingConfig = CmsXmlContentPropertyHelper.getPropertyInfo(
             m_cms,
             page,
             element.getResource());
@@ -1193,7 +1194,7 @@ public class CmsElementUtil {
      *
      * @throws IOException if a jsp related error occurs
      */
-    private String getElementContent(CmsContainerElementBean element, CmsResource formatter, CmsContainer container)
+    private String getElementContent(CmsContainerElementBean element, @RUntainted CmsResource formatter, CmsContainer container)
     throws CmsException, ServletException, IOException {
 
         element.initResource(m_cms);
@@ -1264,7 +1265,7 @@ public class CmsElementUtil {
      *
      * @throws CmsException if something goes wrong
      */
-    private boolean hasSettings(CmsObject cms, CmsResource resource) throws CmsException {
+    private boolean hasSettings(CmsObject cms, @RUntainted CmsResource resource) throws CmsException {
 
         if (!CmsResourceTypeXmlContent.isXmlContent(resource)) {
             return false;

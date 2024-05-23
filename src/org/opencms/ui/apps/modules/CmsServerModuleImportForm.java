@@ -45,6 +45,7 @@ import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.v7.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The form for importing a module from the application server.<p>
@@ -64,7 +65,7 @@ public class CmsServerModuleImportForm extends A_CmsModuleImportForm {
     private Button m_ok;
 
     /** The site selector. */
-    private CmsAutoItemCreatingComboBox m_siteSelect;
+    private @RUntainted CmsAutoItemCreatingComboBox m_siteSelect;
 
     /**
      * Creates a new instance.<p>
@@ -96,7 +97,7 @@ public class CmsServerModuleImportForm extends A_CmsModuleImportForm {
         }
         m_moduleSelect.addValueChangeListener(new ValueChangeListener() {
 
-            public void valueChange(ValueChangeEvent event) {
+            public void valueChange(@RUntainted ValueChangeEvent event) {
 
                 String path = (String)(event.getProperty().getValue());
                 m_importFile = new CmsModuleImportFile(path);
@@ -119,7 +120,7 @@ public class CmsServerModuleImportForm extends A_CmsModuleImportForm {
     }
 
     @Override
-    protected CmsAutoItemCreatingComboBox getSiteSelector() {
+    protected @RUntainted CmsAutoItemCreatingComboBox getSiteSelector() {
 
         return m_siteSelect;
     }

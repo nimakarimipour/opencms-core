@@ -32,6 +32,7 @@ import org.opencms.main.CmsException;
 import org.opencms.util.CmsUUID;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Defines a read-only publish job.<p>
@@ -68,7 +69,7 @@ public class CmsPublishJobBase {
      *
      * @return the locale for this publish job
      */
-    public Locale getLocale() {
+    public @RUntainted Locale getLocale() {
 
         return m_publishJob.getLocale();
     }
@@ -79,7 +80,7 @@ public class CmsPublishJobBase {
      *
      * @return the project name
      */
-    public String getProjectName() {
+    public @RUntainted String getProjectName() {
 
         return m_publishJob.getProjectName();
     }

@@ -36,6 +36,7 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class is used to initialize the RMI mechanism and export the object used to access the remote shell.<p>
@@ -49,7 +50,7 @@ public class CmsRemoteShellServer {
     private static boolean m_initialized;
 
     /** The port for the RMI registry. */
-    private int m_port = CmsRemoteShellConstants.DEFAULT_PORT;
+    private @RUntainted int m_port = CmsRemoteShellConstants.DEFAULT_PORT;
 
     /** The real instance of the shell provider. */
     private I_CmsRemoteShellProvider m_provider;
@@ -62,7 +63,7 @@ public class CmsRemoteShellServer {
      *
      * @param port the port for the RMI registry
      */
-    public CmsRemoteShellServer(int port) {
+    public CmsRemoteShellServer(@RUntainted int port) {
         m_port = port;
     }
 

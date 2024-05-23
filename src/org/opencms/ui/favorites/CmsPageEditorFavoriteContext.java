@@ -47,6 +47,8 @@ import java.util.Optional;
 import org.apache.commons.logging.Log;
 
 import com.vaadin.ui.Component;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Favorite dialog context for the case where the dialog is opened from the page editor,
@@ -91,7 +93,7 @@ public class CmsPageEditorFavoriteContext implements I_CmsFavoriteContext {
      * @param uuid the potential UUID string
      * @return the UUID, or null if conversion is not possible
      */
-    private static CmsUUID toUuid(String uuid) {
+    private static @RUntainted CmsUUID toUuid(@RUntainted String uuid) {
 
         if ("null".equals(uuid) || CmsStringUtil.isEmpty(uuid)) {
             return null;
@@ -103,7 +105,7 @@ public class CmsPageEditorFavoriteContext implements I_CmsFavoriteContext {
     /**
      * @see org.opencms.ui.favorites.I_CmsFavoriteContext#changeProject(org.opencms.util.CmsUUID)
      */
-    public void changeProject(CmsUUID value) {
+    public void changeProject(@RUntainted CmsUUID value) {
 
         CmsObject cms = A_CmsUI.getCmsObject();
         try {

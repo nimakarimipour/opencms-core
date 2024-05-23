@@ -56,6 +56,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Lucene document factory class to extract index data from a resource
@@ -76,7 +77,7 @@ public class CmsSolrDocumentContainerPage extends CmsSolrDocumentXmlContent {
      *
      * @param name name of the document type
      */
-    public CmsSolrDocumentContainerPage(String name) {
+    public CmsSolrDocumentContainerPage(@RUntainted String name) {
 
         super(name);
     }
@@ -87,7 +88,7 @@ public class CmsSolrDocumentContainerPage extends CmsSolrDocumentXmlContent {
      * @see org.opencms.search.documents.I_CmsSearchExtractor#extractContent(CmsObject, CmsResource, I_CmsSearchIndex)
      */
     @Override
-    public I_CmsExtractionResult extractContent(CmsObject cms, CmsResource resource, I_CmsSearchIndex index)
+    public I_CmsExtractionResult extractContent(@RUntainted CmsObject cms, CmsResource resource, I_CmsSearchIndex index)
     throws CmsException {
 
         return extractContent(cms, resource, index, null);
@@ -107,10 +108,10 @@ public class CmsSolrDocumentContainerPage extends CmsSolrDocumentXmlContent {
      * @throws CmsException if something goes wrong
      */
     public I_CmsExtractionResult extractContent(
-        CmsObject cms,
-        CmsResource resource,
+        @RUntainted CmsObject cms,
+        @RUntainted CmsResource resource,
         I_CmsSearchIndex index,
-        Locale forceLocale)
+        @RUntainted Locale forceLocale)
     throws CmsException {
 
         logContentExtraction(resource, index);
@@ -178,7 +179,7 @@ public class CmsSolrDocumentContainerPage extends CmsSolrDocumentXmlContent {
             Map<String, String> fieldMappings = new HashMap<String, String>(1);
             // Add to each container page the contents in all available locales,
             // in case one containerpage is used in multiple languages.
-            List<Locale> localesAvailable = OpenCms.getLocaleManager().getAvailableLocales(cms, resource);
+            List<@RUntainted Locale> localesAvailable = OpenCms.getLocaleManager().getAvailableLocales(cms, resource);
             Map<Locale, LinkedHashMap<String, String>> multilingualValues = new HashMap<Locale, LinkedHashMap<String, String>>(
                 localesAvailable.size());
             for (Locale localeAvailable : localesAvailable) {

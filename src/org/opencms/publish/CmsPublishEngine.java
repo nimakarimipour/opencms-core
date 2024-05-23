@@ -57,6 +57,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class is responsible for the publish process.<p>
@@ -72,7 +73,7 @@ public final class CmsPublishEngine {
     private CmsUUID m_adminUserId;
 
     /** The current running publish job. */
-    private CmsPublishThread m_currentPublishThread;
+    private @RUntainted CmsPublishThread m_currentPublishThread;
 
     /** The runtime info factory used during publishing. */
     private final I_CmsDbContextFactory m_dbContextFactory;
@@ -93,7 +94,7 @@ public final class CmsPublishEngine {
     private final CmsPublishQueue m_publishQueue;
 
     /** The amount of time the system will wait for a running publish job during shutdown. */
-    private int m_publishQueueShutdowntime;
+    private @RUntainted int m_publishQueueShutdowntime;
 
     /** Is set during shutdown. */
     private boolean m_shuttingDown;
@@ -228,7 +229,7 @@ public final class CmsPublishEngine {
      *
      * @throws CmsException if something goes wrong while cloning the cms context
      */
-    public void enqueuePublishJob(CmsObject cms, CmsPublishList publishList, I_CmsReport report) throws CmsException {
+    public void enqueuePublishJob(CmsObject cms, CmsPublishList publishList, @RUntainted I_CmsReport report) throws CmsException {
 
         // check the driver manager
         if ((m_driverManager == null) || (m_dbContextFactory == null)) {
@@ -482,7 +483,7 @@ public final class CmsPublishEngine {
      *
      * @return the a new db context object
      */
-    protected CmsDbContext getDbContext(CmsRequestContext ctx) {
+    protected CmsDbContext getDbContext(@RUntainted CmsRequestContext ctx) {
 
         return m_dbContextFactory.getDbContext(ctx);
     }
@@ -614,7 +615,7 @@ public final class CmsPublishEngine {
         // lock them
         CmsDbContext dbc = getDbContext(publishJob.getCmsObject().getRequestContext());
         try {
-            Iterator<CmsResource> itResources = publishList.getAllResources().iterator();
+            Iterator<@RUntainted CmsResource> itResources = publishList.getAllResources().iterator();
             while (itResources.hasNext()) {
                 CmsResource resource = itResources.next();
                 m_driverManager.lockResource(dbc, resource, CmsLockType.PUBLISH);
@@ -647,7 +648,7 @@ public final class CmsPublishEngine {
         CmsDbContext dbc = m_dbContextFactory.getDbContext(publishJob.getCmsObject().getRequestContext());
         try {
             // fire an event that a project has been published
-            Map<String, Object> eventData = new HashMap<String, Object>();
+            Map<@RUntainted String, @RUntainted Object> eventData = new HashMap<@RUntainted String, @RUntainted Object>();
             eventData.put(I_CmsEventListener.KEY_REPORT, publishJob.getPublishReport());
             eventData.put(
                 I_CmsEventListener.KEY_PUBLISHID,
@@ -795,11 +796,11 @@ public final class CmsPublishEngine {
     protected void unlockPublishList(CmsPublishJobInfoBean publishJob) throws CmsException {
 
         CmsPublishList publishList = publishJob.getPublishList();
-        List<CmsResource> allResources = publishList.getAllResources();
+        List<@RUntainted CmsResource> allResources = publishList.getAllResources();
         // unlock them
         CmsDbContext dbc = getDbContext(publishJob.getCmsObject().getRequestContext());
         try {
-            Iterator<CmsResource> itResources = allResources.iterator();
+            Iterator<@RUntainted CmsResource> itResources = allResources.iterator();
             while (itResources.hasNext()) {
                 CmsResource resource = itResources.next();
                 m_driverManager.unlockResource(dbc, resource, true, true);

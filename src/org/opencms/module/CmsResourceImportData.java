@@ -39,6 +39,7 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Import data for a single resource.<p>
@@ -64,7 +65,7 @@ public class CmsResourceImportData {
     private CmsResource m_importResource;
 
     /** The path. */
-    private String m_path;
+    private @RUntainted String m_path;
 
     /** The properties. */
     private List<CmsProperty> m_properties;
@@ -76,7 +77,7 @@ public class CmsResourceImportData {
     private CmsResource m_resource;
 
     /** The original type name from the manifest. */
-    private String m_typeName;
+    private @RUntainted String m_typeName;
 
     /**
      * Creats a new instance.<p>
@@ -93,7 +94,7 @@ public class CmsResourceImportData {
      */
     public CmsResourceImportData(
         CmsResource resource,
-        String path,
+        @RUntainted String path,
         byte[] content,
         List<CmsProperty> properties,
         List<CmsAccessControlEntry> aces,
@@ -164,7 +165,7 @@ public class CmsResourceImportData {
      *
      * @return the content, or null if there is no content
      */
-    public byte[] getContent() {
+    public @RUntainted byte[] getContent() {
 
         if (m_contentFile == null) {
             return null;
@@ -193,7 +194,7 @@ public class CmsResourceImportData {
      *
      * @return the path
      */
-    public String getPath() {
+    public @RUntainted String getPath() {
 
         return m_path;
     }
@@ -203,7 +204,7 @@ public class CmsResourceImportData {
      *
      * @return the map of properties
      */
-    public Map<String, CmsProperty> getProperties() {
+    public Map<@RUntainted String, CmsProperty> getProperties() {
 
         return CmsProperty.getPropertyMap(m_properties);
 
@@ -235,7 +236,7 @@ public class CmsResourceImportData {
      *
      * @return the type name
      */
-    public String getTypeName() {
+    public @RUntainted String getTypeName() {
 
         return m_typeName;
     }
@@ -307,7 +308,7 @@ public class CmsResourceImportData {
      *
      * @return the created temp file
      */
-    private File createTempFile(byte[] content) {
+    private File createTempFile(@RUntainted byte[] content) {
 
         try {
             File file = File.createTempFile("ocms-moduleresource-", ".dat");

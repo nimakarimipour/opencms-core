@@ -44,6 +44,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.Panel;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the database statistic view.<p>
@@ -75,7 +76,7 @@ public class CmsResourceTypeStatsView extends VerticalLayout {
     Panel m_results;
 
     /**Vaadin component.*/
-    ComboBox m_siteSelect;
+    @RUntainted ComboBox m_siteSelect;
 
     /**
      * public constructor.<p>

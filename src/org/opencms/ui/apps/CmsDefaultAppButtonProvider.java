@@ -45,6 +45,7 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The default app button provider.<p>
@@ -63,7 +64,7 @@ public class CmsDefaultAppButtonProvider implements I_CmsAppButtonProvider {
     public static Component createAppButton(
         CmsObject cms,
         final I_CmsWorkplaceAppConfiguration appConfig,
-        Locale locale) {
+        @RUntainted Locale locale) {
 
         Button button = createAppIconButton(appConfig, locale);
         button.addClickListener(new ClickListener() {
@@ -104,7 +105,7 @@ public class CmsDefaultAppButtonProvider implements I_CmsAppButtonProvider {
      *                         (I_CmsFolderAppCategory)childNode.getCategory(),
                         childNode.getAppConfigurations())
      */
-    public static Component createAppFolderButton(CmsObject cms, final CmsAppCategoryNode node, final Locale locale) {
+    public static Component createAppFolderButton(CmsObject cms, final CmsAppCategoryNode node, final @RUntainted Locale locale) {
 
         Button button = createAppFolderIconButton((I_CmsFolderAppCategory)node.getCategory(), locale);
         button.addClickListener(new ClickListener() {
@@ -157,7 +158,7 @@ public class CmsDefaultAppButtonProvider implements I_CmsAppButtonProvider {
      *
      * @return the button component
      */
-    public static Button createAppFolderIconButton(I_CmsFolderAppCategory appCat, Locale locale) {
+    public static Button createAppFolderIconButton(I_CmsFolderAppCategory appCat, @RUntainted Locale locale) {
 
         return createIconButton(
             appCat.getName(locale),
@@ -174,7 +175,7 @@ public class CmsDefaultAppButtonProvider implements I_CmsAppButtonProvider {
      *
      * @return the button component
      */
-    public static Button createAppIconButton(I_CmsWorkplaceAppConfiguration appConfig, Locale locale) {
+    public static Button createAppIconButton(I_CmsWorkplaceAppConfiguration appConfig, @RUntainted Locale locale) {
 
         return createIconButton(
             appConfig.getName(locale),

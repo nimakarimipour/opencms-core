@@ -43,6 +43,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Action for showing locked resources by opening the GWT lock report.<p>
@@ -63,7 +64,7 @@ public final class CmsLockedResourcesAction extends A_CmsWorkplaceAction impleme
 
         CmsGwtDialogExtension extension = new CmsGwtDialogExtension(A_CmsUI.get(), new I_CmsUpdateListener<String>() {
 
-            public void onUpdate(List<String> updatedItems) {
+            public void onUpdate(List<@RUntainted String> updatedItems) {
 
                 List<CmsUUID> ids = Lists.newArrayList();
                 for (String item : updatedItems) {
@@ -94,7 +95,7 @@ public final class CmsLockedResourcesAction extends A_CmsWorkplaceAction impleme
     /**
      * @see org.opencms.ui.actions.I_CmsADEAction#getJspPath()
      */
-    public String getJspPath() {
+    public @RUntainted String getJspPath() {
 
         return null;
     }
@@ -102,7 +103,7 @@ public final class CmsLockedResourcesAction extends A_CmsWorkplaceAction impleme
     /**
      * @see org.opencms.ui.actions.I_CmsADEAction#getParams()
      */
-    public Map<String, String> getParams() {
+    public Map<String, @RUntainted String> getParams() {
 
         return null;
     }
@@ -127,7 +128,7 @@ public final class CmsLockedResourcesAction extends A_CmsWorkplaceAction impleme
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
      */
     @Override
-    protected String getTitleKey() {
+    protected @RUntainted String getTitleKey() {
 
         return org.opencms.workplace.explorer.Messages.GUI_EXPLORER_CONTEXT_LOCKS_0;
     }

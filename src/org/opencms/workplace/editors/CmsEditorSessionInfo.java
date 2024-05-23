@@ -31,6 +31,7 @@ import org.opencms.file.CmsResource;
 import org.opencms.util.CmsUUID;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Stores editor session data.<p>
@@ -43,7 +44,7 @@ public class CmsEditorSessionInfo {
     public static final String PREFIX_EDITOR_SESSION_INFO = "editorSessionInfo";
 
     /** The back link for closing the editor. */
-    private String m_backLink;
+    private @RUntainted String m_backLink;
 
     /** Flag indicating if in direct edit mode. */
     private boolean m_directEdit;
@@ -52,7 +53,7 @@ public class CmsEditorSessionInfo {
     private CmsUUID m_editedStructureId;
 
     /** The locale currently edited. */
-    private Locale m_elementLocale;
+    private @RUntainted Locale m_elementLocale;
 
     /**
      * Constructor.<p>
@@ -71,7 +72,7 @@ public class CmsEditorSessionInfo {
     *
     * @return the session info key for the bean
     */
-    protected static String getEditorSessionInfoKey(CmsResource editedResource) {
+    protected static @RUntainted String getEditorSessionInfoKey(CmsResource editedResource) {
 
         return PREFIX_EDITOR_SESSION_INFO + editedResource.getStructureId().getStringValue();
     }
@@ -81,7 +82,7 @@ public class CmsEditorSessionInfo {
      *
      * @return the back link for closing the editor
      */
-    public String getBackLink() {
+    public @RUntainted String getBackLink() {
 
         return m_backLink;
     }
@@ -101,7 +102,7 @@ public class CmsEditorSessionInfo {
         *
         * @return the session info key for the bean
         */
-    public String getEditorSessionInfoKey() {
+    public @RUntainted String getEditorSessionInfoKey() {
 
         return PREFIX_EDITOR_SESSION_INFO + m_editedStructureId.getStringValue();
     }
@@ -111,7 +112,7 @@ public class CmsEditorSessionInfo {
      *
      * @return the element locale
      */
-    public Locale getElementLocale() {
+    public @RUntainted Locale getElementLocale() {
 
         return m_elementLocale;
     }
@@ -131,7 +132,7 @@ public class CmsEditorSessionInfo {
      *
      * @param backLink the back link for closing the editor to set
      */
-    public void setBackLink(String backLink) {
+    public void setBackLink(@RUntainted String backLink) {
 
         m_backLink = backLink;
     }
@@ -161,7 +162,7 @@ public class CmsEditorSessionInfo {
      *
      * @param elementLocale the element locale to set
      */
-    public void setElementLocale(Locale elementLocale) {
+    public void setElementLocale(@RUntainted Locale elementLocale) {
 
         m_elementLocale = elementLocale;
     }

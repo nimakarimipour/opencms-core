@@ -56,6 +56,7 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides methods for building the dialog windows of OpenCms.<p>
@@ -248,7 +249,7 @@ public class CmsDialog extends CmsToolDialog {
     private String m_paramAction;
 
     /** The close link parameter. */
-    private String m_paramCloseLink;
+    private @RUntainted String m_paramCloseLink;
 
     /** The dialog type. */
     private String m_paramDialogtype;
@@ -263,7 +264,7 @@ public class CmsDialog extends CmsToolDialog {
     private String m_paramMessage;
 
     /** The original parameters. */
-    private String m_paramOriginalParams;
+    private @RUntainted String m_paramOriginalParams;
 
     /** The pre action done parameter. */
     private String m_paramPreActionDone;
@@ -272,7 +273,7 @@ public class CmsDialog extends CmsToolDialog {
     private String m_paramRedirect;
 
     /** The resource parameter. */
-    private String m_paramResource;
+    private @RUntainted String m_paramResource;
 
     /** The title parameter. */
     private String m_paramTitle;
@@ -294,7 +295,7 @@ public class CmsDialog extends CmsToolDialog {
      * @param req the JSP request
      * @param res the JSP response
      */
-    public CmsDialog(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsDialog(@RUntainted PageContext context, @RUntainted HttpServletRequest req, @RUntainted HttpServletResponse res) {
 
         this(new CmsJspActionElement(context, req, res));
     }
@@ -317,7 +318,7 @@ public class CmsDialog extends CmsToolDialog {
      *
      * @return an initialized CmsDialog instance that is read from the request attributes
      */
-    public static CmsDialog initCmsDialog(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public static CmsDialog initCmsDialog(@RUntainted PageContext context, @RUntainted HttpServletRequest req, @RUntainted HttpServletResponse res) {
 
         CmsDialog wp = (CmsDialog)req.getAttribute(CmsWorkplace.SESSION_WORKPLACE_CLASS);
         if (wp == null) {
@@ -1163,7 +1164,7 @@ public class CmsDialog extends CmsToolDialog {
      *
      * @return the value of the close link parameter
      */
-    public String getParamCloseLink() {
+    public @RUntainted String getParamCloseLink() {
 
         if ((m_paramCloseLink == null) || "null".equals(m_paramCloseLink)) {
             return null;
@@ -1236,7 +1237,7 @@ public class CmsDialog extends CmsToolDialog {
      *
      * @return the value of the original parameters parameter
      */
-    public String getParamOriginalParams() {
+    public @RUntainted String getParamOriginalParams() {
 
         return m_paramOriginalParams;
     }
@@ -1270,7 +1271,7 @@ public class CmsDialog extends CmsToolDialog {
      *
      * @return the value of the file parameter
      */
-    public String getParamResource() {
+    public @RUntainted String getParamResource() {
 
         if ((m_paramResource != null) && !"null".equals(m_paramResource)) {
             return m_paramResource;
@@ -1543,7 +1544,7 @@ public class CmsDialog extends CmsToolDialog {
      *
      * @param value the value to set
      */
-    public void setParamCloseLink(String value) {
+    public void setParamCloseLink(@RUntainted String value) {
 
         // ensure decoded chars are re-encoded again properly
 
@@ -1625,7 +1626,7 @@ public class CmsDialog extends CmsToolDialog {
      *
      * @param value the value to set
      */
-    public void setParamResource(String value) {
+    public void setParamResource(@RUntainted String value) {
 
         m_paramResource = value;
     }
@@ -1903,7 +1904,7 @@ public class CmsDialog extends CmsToolDialog {
      * @see org.opencms.workplace.CmsWorkplace#initWorkplaceRequestValues(org.opencms.workplace.CmsWorkplaceSettings, javax.servlet.http.HttpServletRequest)
      */
     @Override
-    protected void initWorkplaceRequestValues(CmsWorkplaceSettings settings, HttpServletRequest request) {
+    protected void initWorkplaceRequestValues(CmsWorkplaceSettings settings, @RUntainted HttpServletRequest request) {
 
         fillParamValues(request);
         if (DIALOG_CANCEL.equals(getParamAction())) {
@@ -1933,7 +1934,7 @@ public class CmsDialog extends CmsToolDialog {
      *
      * @throws IOException in case writing to the JSP output stream fails
      */
-    protected void openWorkplaceLink(String workplaceLink) throws IOException {
+    protected void openWorkplaceLink(@RUntainted String workplaceLink) throws IOException {
 
         // in case the close link points to the new workplace, make sure to set the new location on the top frame
         JspWriter out = getJsp().getJspContext().getOut();

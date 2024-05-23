@@ -29,6 +29,8 @@ package org.opencms.util;
 
 import org.opencms.json.JSONException;
 import org.opencms.json.JSONObject;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Utility methods for processing geo coordinates.
@@ -40,7 +42,7 @@ public final class CmsGeoUtil {
      * @param coordinates the coordinates string
      * @return the parsed coordinates
      */
-    public static String parseCoordinates(String coordinates) {
+    public static @RPolyTainted String parseCoordinates(@RPolyTainted String coordinates) {
 
         if (coordinates == null) {
             return null;
@@ -59,7 +61,7 @@ public final class CmsGeoUtil {
      * @param jsonValue the JSON value as string
      * @return the coordinates string or null if there are no valid location picker coordinates
      */
-    public static String parseLocationPickerCoordinates(String jsonValue) {
+    public static @RUntainted String parseLocationPickerCoordinates(String jsonValue) {
 
         try {
             JSONObject json = new JSONObject(jsonValue);

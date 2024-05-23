@@ -28,6 +28,7 @@
 package org.opencms.loader;
 
 import org.opencms.file.CmsResource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Facade object that provides access to the template loader for a resource.<p>
@@ -49,10 +50,10 @@ public class CmsTemplateLoaderFacade {
     private I_CmsResourceLoader m_loader;
 
     /** The resource requested by the user. */
-    private CmsResource m_resource;
+    private @RUntainted CmsResource m_resource;
 
     /** The template file attached to the resource. */
-    private CmsResource m_template;
+    private @RUntainted CmsResource m_template;
 
     /** The template name. */
     private String m_templateName = "";
@@ -71,7 +72,7 @@ public class CmsTemplateLoaderFacade {
      * @param template the template to use (ignored if null)
      * @throws CmsLoaderException in case the template file does not use a loader that actually supports templates
      */
-    public CmsTemplateLoaderFacade(I_CmsResourceLoader loader, CmsResource resource, CmsResource template)
+    public CmsTemplateLoaderFacade(I_CmsResourceLoader loader, @RUntainted CmsResource resource, @RUntainted CmsResource template)
     throws CmsLoaderException {
 
         if (!loader.isUsableForTemplates()) {
@@ -97,7 +98,7 @@ public class CmsTemplateLoaderFacade {
      *
      * @return the loaders start resource
      */
-    public CmsResource getLoaderStartResource() {
+    public @RUntainted CmsResource getLoaderStartResource() {
 
         if (m_loader.isUsingUriWhenLoadingTemplate()) {
             return m_resource;

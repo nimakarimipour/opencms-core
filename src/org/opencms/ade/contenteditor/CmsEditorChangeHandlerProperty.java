@@ -39,6 +39,7 @@ import java.util.Collection;
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles editor content changes to read OpenCms resource properties and insert their values into the edited content.<p>
@@ -49,7 +50,7 @@ public class CmsEditorChangeHandlerProperty extends A_CmsXmlContentEditorChangeH
     protected static final Log LOG = CmsLog.getLog(CmsEditorChangeHandlerProperty.class);
 
     /** The property to read. */
-    private String m_propertyName;
+    private @RUntainted String m_propertyName;
 
     /** The content field to manipulate. */
     private String m_targetField;
@@ -60,8 +61,8 @@ public class CmsEditorChangeHandlerProperty extends A_CmsXmlContentEditorChangeH
     public CmsXmlContent handleChange(
         CmsObject cms,
         CmsXmlContent content,
-        Locale locale,
-        Collection<String> changedPaths) {
+        @RUntainted Locale locale,
+        Collection<@RUntainted String> changedPaths) {
 
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(m_propertyName)
             && CmsStringUtil.isNotEmptyOrWhitespaceOnly(m_targetField)) {
@@ -95,10 +96,10 @@ public class CmsEditorChangeHandlerProperty extends A_CmsXmlContentEditorChangeH
      * @see org.opencms.xml.content.I_CmsXmlContentEditorChangeHandler#setConfiguration(java.lang.String)
      */
     @Override
-    public void setConfiguration(String configuration) {
+    public void setConfiguration(@RUntainted String configuration) {
 
         super.setConfiguration(configuration);
-        String[] temp = m_configuration.split("\\|");
+        @RUntainted String[] temp = m_configuration.split("\\|");
         if (temp.length == 2) {
             m_propertyName = temp[0];
             m_targetField = temp[1];

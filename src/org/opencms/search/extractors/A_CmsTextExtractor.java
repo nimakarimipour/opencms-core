@@ -44,6 +44,7 @@ import org.apache.tika.metadata.OfficeOpenXMLExtended;
 import org.apache.tika.parser.ParseContext;
 import org.apache.tika.parser.Parser;
 import org.apache.tika.sax.BodyContentHandler;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Base utility class that allows extraction of the indexable "plain" text from a given document format.<p>
@@ -101,10 +102,10 @@ public abstract class A_CmsTextExtractor implements I_CmsTextExtractor {
      * @param contentItems the Map of individual content items
      */
     protected void combineContentItem(
-        String itemValue,
+        @RUntainted String itemValue,
         String itemKey,
         StringBuffer content,
-        Map<String, String> contentItems) {
+        Map<String, @RUntainted String> contentItems) {
 
         if (CmsStringUtil.isNotEmpty(itemValue)) {
             contentItems.put(itemKey, itemValue);
@@ -126,7 +127,7 @@ public abstract class A_CmsTextExtractor implements I_CmsTextExtractor {
     @SuppressWarnings("deprecation")
     protected CmsExtractionResult extractText(InputStream in, Parser parser) throws Exception {
 
-        LinkedHashMap<String, String> contentItems = new LinkedHashMap<String, String>();
+        LinkedHashMap<String, @RUntainted String> contentItems = new LinkedHashMap<String, @RUntainted String>();
 
         StringWriter writer = new StringWriter();
         BodyContentHandler handler = new BodyContentHandler(writer);
@@ -190,7 +191,7 @@ public abstract class A_CmsTextExtractor implements I_CmsTextExtractor {
      *
      * @return the content with the unwanted control chars removed
      */
-    protected String removeControlChars(String content) {
+    protected @RUntainted String removeControlChars(String content) {
 
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(content)) {
             // to avoid later null pointer exceptions an empty String is returned

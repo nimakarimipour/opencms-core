@@ -60,6 +60,8 @@ import org.apache.solr.common.util.ContentStream;
 import org.apache.solr.common.util.ContentStreamBase;
 
 import org.htmlparser.util.ParserException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Provides common functions regarding searching.<p>
@@ -173,7 +175,7 @@ public final class CmsSearchUtil {
      * @param date that should be converted.
      * @return string that represents the given date in the ISO 8601 format.
      */
-    public static String getDateAsIso8601(Date date) {
+    public static @RPolyTainted String getDateAsIso8601(@RPolyTainted Date date) {
 
         synchronized (CmsSearchUtil.class) {
             if (DATEFORMAT_ISO_8601.getTimeZone() != TIMEZONE_UTC) {
@@ -189,7 +191,7 @@ public final class CmsSearchUtil {
      * @param date that should be converted.
      * @return string that represents the given date in the ISO 8601 format.
      */
-    public static String getDateAsIso8601(long date) {
+    public static @RPolyTainted String getDateAsIso8601(@RPolyTainted long date) {
 
         // Check if date is set
         if ((date > Long.MIN_VALUE) && (date < Long.MAX_VALUE)) {
@@ -371,7 +373,7 @@ public final class CmsSearchUtil {
      * @param value the properties value (possibly with HTML)
      * @return the value with HTML stripped of, or the original value, if stripping of the HTML fails.
      */
-    public static String stripHtmlFromPropertyIfNecessary(String propertyName, String value) {
+    public static @RPolyTainted String stripHtmlFromPropertyIfNecessary(String propertyName, @RPolyTainted String value) {
 
         if (propertyName.equals(CmsPropertyDefinition.PROPERTY_DESCRIPTION_HTML)) {
             try {
@@ -428,7 +430,7 @@ public final class CmsSearchUtil {
      * @deprecated This method will be removed in Solr 6.0
      */
     @Deprecated
-    public static SolrInputDocument toSolrInputDocument(SolrDocument d) {
+    public static @RUntainted SolrInputDocument toSolrInputDocument(SolrDocument d) {
 
         SolrInputDocument doc = new SolrInputDocument();
         d.getFieldNames().forEach(name -> doc.addField(name, d.getFieldValue(name)));

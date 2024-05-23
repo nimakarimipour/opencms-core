@@ -40,6 +40,7 @@ import org.opencms.xml.types.A_CmsXmlContentValue;
 
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides an OpenCms Principal selection widget, for use on a widget dialog.<p>
@@ -78,7 +79,7 @@ public class CmsPrincipalWidget extends A_CmsWidget implements I_CmsADEWidget {
      *
      * @param configuration the configuration to use
      */
-    public CmsPrincipalWidget(String configuration) {
+    public CmsPrincipalWidget(@RUntainted String configuration) {
 
         super(configuration);
     }
@@ -114,7 +115,7 @@ public class CmsPrincipalWidget extends A_CmsWidget implements I_CmsADEWidget {
      * @see org.opencms.widgets.A_CmsWidget#getConfiguration()
      */
     @Override
-    public String getConfiguration() {
+    public @RUntainted String getConfiguration() {
 
         StringBuffer result = new StringBuffer(8);
 
@@ -240,7 +241,7 @@ public class CmsPrincipalWidget extends A_CmsWidget implements I_CmsADEWidget {
     /**
      * @see org.opencms.widgets.I_CmsADEWidget#getWidgetName()
      */
-    public String getWidgetName() {
+    public @RUntainted String getWidgetName() {
 
         return CmsPrincipalWidget.class.getName();
     }
@@ -265,7 +266,7 @@ public class CmsPrincipalWidget extends A_CmsWidget implements I_CmsADEWidget {
      * @see org.opencms.widgets.A_CmsWidget#setConfiguration(java.lang.String)
      */
     @Override
-    public void setConfiguration(String configuration) {
+    public void setConfiguration(@RUntainted String configuration) {
 
         m_flags = null;
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(configuration)) {

@@ -31,6 +31,7 @@ import org.opencms.ade.galleries.CmsGalleryService;
 import org.opencms.configuration.CmsDefaultUserSettings;
 import org.opencms.i18n.CmsLocaleManager;
 import org.opencms.main.CmsContextInfo;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean used to access the built-in preferences via reflection.<p>
@@ -700,7 +701,7 @@ public class CmsUserSettingsStringPropertyWrapper {
      *
      * @param s the new dialog expand inherited permissions
      */
-    public void setDialogExpandInheritedPermissions(String s) {
+    public void setDialogExpandInheritedPermissions(@RUntainted String s) {
 
         m_settings.setDialogExpandInheritedPermissions(s);
     }
@@ -710,7 +711,7 @@ public class CmsUserSettingsStringPropertyWrapper {
      *
      * @param s the new dialog expand user permissions
      */
-    public void setDialogExpandUserPermissions(String s) {
+    public void setDialogExpandUserPermissions(@RUntainted String s) {
 
         m_settings.setDialogExpandUserPermissions(s);
     }
@@ -720,7 +721,7 @@ public class CmsUserSettingsStringPropertyWrapper {
      *
      * @param s the new dialog permissions inherit on folder
      */
-    public void setDialogPermissionsInheritOnFolder(String s) {
+    public void setDialogPermissionsInheritOnFolder(@RUntainted String s) {
 
         m_settings.setDialogPermissionsInheritOnFolder(s);
     }
@@ -750,7 +751,7 @@ public class CmsUserSettingsStringPropertyWrapper {
      *
      * @param s the new dialog show lock
      */
-    public void setDialogShowLock(String s) {
+    public void setDialogShowLock(@RUntainted String s) {
 
         m_settings.setShowLockDialog(s);
     }
@@ -760,7 +761,7 @@ public class CmsUserSettingsStringPropertyWrapper {
      *
      * @param s the new direct edit button style
      */
-    public void setDirectEditButtonStyle(String s) {
+    public void setDirectEditButtonStyle(@RUntainted String s) {
 
         m_settings.setDirectEditButtonStyle(s);
 
@@ -771,7 +772,7 @@ public class CmsUserSettingsStringPropertyWrapper {
      *
      * @param s the new editor button style
      */
-    public void setEditorButtonStyle(String s) {
+    public void setEditorButtonStyle(@RUntainted String s) {
 
         m_settings.setEditorButtonStyle(s);
     }
@@ -781,7 +782,7 @@ public class CmsUserSettingsStringPropertyWrapper {
      *
      * @param elementView the element view
      */
-    public void setElementView(String elementView) {
+    public void setElementView(@RUntainted String elementView) {
 
         m_settings.setAdditionalPreference(CmsElementViewPreference.PREFERENCE_NAME, elementView);
     }
@@ -791,7 +792,7 @@ public class CmsUserSettingsStringPropertyWrapper {
      *
      * @param s the new explorer button style
      */
-    public void setExplorerButtonStyle(String s) {
+    public void setExplorerButtonStyle(@RUntainted String s) {
 
         m_settings.setExplorerButtonStyle(s);
     }
@@ -801,7 +802,7 @@ public class CmsUserSettingsStringPropertyWrapper {
      *
      * @param view the start element view.
      */
-    public void setExplorerElementView(String view) {
+    public void setExplorerElementView(@RUntainted String view) {
 
         m_settings.setAdditionalPreference(CmsElementViewPreference.EXPLORER_PREFERENCE_NAME, view);
     }
@@ -811,7 +812,7 @@ public class CmsUserSettingsStringPropertyWrapper {
      *
      * @param s the new explorer file entries
      */
-    public void setExplorerFileEntries(String s) {
+    public void setExplorerFileEntries(@RUntainted String s) {
 
         m_settings.setExplorerFileEntries(s);
     }
@@ -832,7 +833,7 @@ public class CmsUserSettingsStringPropertyWrapper {
      *
      * @param value the value to set
      */
-    public void setGalleryShowInvalidDefault(String value) {
+    public void setGalleryShowInvalidDefault(@RUntainted String value) {
 
         m_settings.setAdditionalPreference(CmsGalleryService.PREF_GALLERY_SHOW_INVALID_DEFAULT, value);
     }
@@ -842,7 +843,7 @@ public class CmsUserSettingsStringPropertyWrapper {
      *
      * @param s the new list all projects
      */
-    public void setListAllProjects(String s) {
+    public void setListAllProjects(@RUntainted String s) {
 
         m_settings.setListAllProjects(s);
     }
@@ -852,7 +853,7 @@ public class CmsUserSettingsStringPropertyWrapper {
      *
      * @param s the new locale
      */
-    public void setLocale(String s) {
+    public void setLocale(@RUntainted String s) {
 
         m_settings.setLocale(CmsLocaleManager.getLocale(s));
     }
@@ -902,7 +903,7 @@ public class CmsUserSettingsStringPropertyWrapper {
      *
      * @param s the new restrict explorer view
      */
-    public void setRestrictExplorerView(String s) {
+    public void setRestrictExplorerView(@RUntainted String s) {
 
         m_settings.setRestrictExplorerView(s);
     }
@@ -1054,7 +1055,7 @@ public class CmsUserSettingsStringPropertyWrapper {
      *
      * @param s the new show publish notification
      */
-    public void setShowPublishNotification(String s) {
+    public void setShowPublishNotification(@RUntainted String s) {
 
         m_settings.setShowPublishNotification(s);
     }
@@ -1074,7 +1075,7 @@ public class CmsUserSettingsStringPropertyWrapper {
      *
      * @param s the new start folder
      */
-    public void setStartFolder(String s) {
+    public void setStartFolder(@RUntainted String s) {
 
         m_settings.setStartFolder(s);
     }
@@ -1084,7 +1085,7 @@ public class CmsUserSettingsStringPropertyWrapper {
      *
      * @param s the new start project
      */
-    public void setStartProject(String s) {
+    public void setStartProject(@RUntainted String s) {
 
         m_settings.setStartProject(s);
     }
@@ -1094,7 +1095,7 @@ public class CmsUserSettingsStringPropertyWrapper {
      *
      * @param s the new start site
      */
-    public void setStartSite(String s) {
+    public void setStartSite(@RUntainted String s) {
 
         m_settings.setStartSite(s);
     }
@@ -1104,7 +1105,7 @@ public class CmsUserSettingsStringPropertyWrapper {
      *
      * @param s the new start view
      */
-    public void setStartView(String s) {
+    public void setStartView(@RUntainted String s) {
 
         m_settings.setStartView(s);
 
@@ -1125,7 +1126,7 @@ public class CmsUserSettingsStringPropertyWrapper {
      *
      * @param l the new time warp
      */
-    public void setTimeWarp(String l) {
+    public void setTimeWarp(@RUntainted String l) {
 
         long warp = CmsContextInfo.CURRENT_TIME;
         try {
@@ -1141,7 +1142,7 @@ public class CmsUserSettingsStringPropertyWrapper {
      *
      * @param s the new upload applet client folder
      */
-    public void setUploadAppletClientFolder(String s) {
+    public void setUploadAppletClientFolder(@RUntainted String s) {
 
         m_settings.setUploadAppletClientFolder(s);
 
@@ -1162,7 +1163,7 @@ public class CmsUserSettingsStringPropertyWrapper {
      *
      * @param s the new workplace button style
      */
-    public void setWorkplaceButtonStyle(String s) {
+    public void setWorkplaceButtonStyle(@RUntainted String s) {
 
         m_settings.setWorkplaceButtonStyle(s);
     }
@@ -1172,7 +1173,7 @@ public class CmsUserSettingsStringPropertyWrapper {
      *
      * @param workplaceMode the workplace mode
      */
-    public void setWorkplaceMode(String workplaceMode) {
+    public void setWorkplaceMode(@RUntainted String workplaceMode) {
 
         m_settings.setAdditionalPreference(CmsWorkplaceModePreference.PREFERENCE_NAME, workplaceMode);
     }
@@ -1182,7 +1183,7 @@ public class CmsUserSettingsStringPropertyWrapper {
      *
      * @param s the new workplace report type
      */
-    public void setWorkplaceReportType(String s) {
+    public void setWorkplaceReportType(@RUntainted String s) {
 
         m_settings.setWorkplaceReportType(s);
     }

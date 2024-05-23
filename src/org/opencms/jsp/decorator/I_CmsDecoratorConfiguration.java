@@ -34,6 +34,7 @@ import org.opencms.xml.content.CmsXmlContent;
 import java.util.Locale;
 
 import org.htmlparser.Tag;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface for a CmsDecoratorConfiguration.<p>
@@ -75,7 +76,7 @@ public interface I_CmsDecoratorConfiguration {
      * @param locale to locale to build this configuration for
      * @throws CmsException if something goes wrong
      */
-    void init(CmsObject cms, String configFile, Locale locale) throws CmsException;
+    void init(@RUntainted CmsObject cms, String configFile, @RUntainted Locale locale) throws CmsException;
 
     /**
      * Tests if a tag is contained in the exclude list of the decorator.<p>

@@ -44,6 +44,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Oracle implementation of the VFS driver methods.<p>
@@ -56,7 +57,7 @@ public class CmsVfsDriver extends org.opencms.db.generic.CmsVfsDriver {
      * @see org.opencms.db.I_CmsVfsDriver#createContent(CmsDbContext, CmsUUID, CmsUUID, byte[])
      */
     @Override
-    public void createContent(CmsDbContext dbc, CmsUUID projectId, CmsUUID resourceId, byte[] content)
+    public void createContent(CmsDbContext dbc, CmsUUID projectId, @RUntainted CmsUUID resourceId, byte[] content)
     throws CmsDataAccessException {
 
         Connection conn = null;
@@ -89,7 +90,7 @@ public class CmsVfsDriver extends org.opencms.db.generic.CmsVfsDriver {
     @Override
     public void createOnlineContent(
         CmsDbContext dbc,
-        CmsUUID resourceId,
+        @RUntainted CmsUUID resourceId,
         byte[] contents,
         int publishTag,
         boolean keepOnline,
@@ -157,7 +158,7 @@ public class CmsVfsDriver extends org.opencms.db.generic.CmsVfsDriver {
      * @see org.opencms.db.I_CmsVfsDriver#initSqlManager(String)
      */
     @Override
-    public org.opencms.db.generic.CmsSqlManager initSqlManager(String classname) {
+    public org.opencms.db.generic.CmsSqlManager initSqlManager(@RUntainted String classname) {
 
         return CmsSqlManager.getInstance(classname);
     }
@@ -166,7 +167,7 @@ public class CmsVfsDriver extends org.opencms.db.generic.CmsVfsDriver {
      * @see org.opencms.db.I_CmsVfsDriver#writeContent(CmsDbContext, CmsUUID, byte[])
      */
     @Override
-    public void writeContent(CmsDbContext dbc, CmsUUID resourceId, byte[] content) throws CmsDataAccessException {
+    public void writeContent(CmsDbContext dbc, @RUntainted CmsUUID resourceId, byte[] content) throws CmsDataAccessException {
 
         internalWriteContent(dbc, dbc.currentProject().getUuid(), resourceId, content, -1);
     }
@@ -185,7 +186,7 @@ public class CmsVfsDriver extends org.opencms.db.generic.CmsVfsDriver {
     protected void internalWriteContent(
         CmsDbContext dbc,
         CmsUUID projectId,
-        CmsUUID resourceId,
+        @RUntainted CmsUUID resourceId,
         byte[] contents,
         int publishTag)
     throws CmsDataAccessException {

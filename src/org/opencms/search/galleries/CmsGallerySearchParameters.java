@@ -58,6 +58,7 @@ import org.apache.commons.logging.Log;
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
 
 import com.google.common.base.Joiner;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Parameters used for the gallery search index.<p>
@@ -238,13 +239,13 @@ public class CmsGallerySearchParameters {
     private boolean m_includeExpired;
 
     /** The locale for the search. */
-    private String m_locale;
+    private @RUntainted String m_locale;
 
     /** The number of search results per page. */
     private int m_matchesPerPage;
 
     /** The sitemap reference path. */
-    private String m_referencePath;
+    private @RUntainted String m_referencePath;
 
     /** The resource types to search for. */
     private List<String> m_resourceTypes;
@@ -369,7 +370,7 @@ public class CmsGallerySearchParameters {
      *
      * @return the locale that has been used for the search
      */
-    public String getLocale() {
+    public @RUntainted String getLocale() {
 
         if (m_locale == null) {
             m_locale = CmsLocaleManager.getDefaultLocale().toString();
@@ -395,7 +396,7 @@ public class CmsGallerySearchParameters {
      * @param cms the openCms object.
      * @return CmsSolrQuery representation of this class.
      */
-    public CmsSolrQuery getQuery(CmsObject cms) {
+    public @RUntainted CmsSolrQuery getQuery(CmsObject cms) {
 
         final CmsSolrQuery query = new CmsSolrQuery();
 
@@ -565,7 +566,7 @@ public class CmsGallerySearchParameters {
      *
      * @return the gallery reference path
      */
-    public String getReferencePath() {
+    public @RUntainted String getReferencePath() {
 
         return m_referencePath;
     }
@@ -825,7 +826,7 @@ public class CmsGallerySearchParameters {
      *
      * @param referencePath the gallery reference path
      */
-    public void setReferencePath(String referencePath) {
+    public void setReferencePath(@RUntainted String referencePath) {
 
         m_referencePath = referencePath;
     }
@@ -878,7 +879,7 @@ public class CmsGallerySearchParameters {
      *
      * @param locale the locale to set
      */
-    public void setSearchLocale(String locale) {
+    public void setSearchLocale(@RUntainted String locale) {
 
         m_locale = locale;
     }
@@ -963,7 +964,7 @@ public class CmsGallerySearchParameters {
      *
      * @see #getSortOrder()
      */
-    private CmsPair<String, org.apache.solr.client.solrj.SolrQuery.ORDER> getSort() {
+    private CmsPair<String, org.apache.solr.client.solrj.SolrQuery.@RUntainted ORDER> getSort() {
 
         final String sortTitle = CmsSearchFieldConfiguration.getLocaleExtendedName(
             CmsSearchField.FIELD_DISPTITLE,

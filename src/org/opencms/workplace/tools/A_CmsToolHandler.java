@@ -45,6 +45,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class to build easily other admin tool handlers.<p>
@@ -84,25 +85,25 @@ public abstract class A_CmsToolHandler implements I_CmsToolHandler {
     private String m_disabledHelpText;
 
     /** Group to be included in. */
-    private String m_group;
+    private @RUntainted String m_group;
 
     /** Help text or description. */
-    private String m_helpText;
+    private @RUntainted String m_helpText;
 
     /** Icon path (32x32). */
     private String m_iconPath;
 
     /** Link pointer. */
-    private String m_link;
+    private @RUntainted String m_link;
 
     /** Display name. */
-    private String m_name;
+    private @RUntainted String m_name;
 
     /** Needed parameters. */
-    private String m_parameters;
+    private @RUntainted String m_parameters;
 
     /** Tool path to install in. */
-    private String m_path;
+    private @RUntainted String m_path;
 
     /** Relative position in group. */
     private float m_position;
@@ -134,7 +135,7 @@ public abstract class A_CmsToolHandler implements I_CmsToolHandler {
     /**
      * @see org.opencms.workplace.tools.I_CmsToolHandler#getGroup()
      */
-    public String getGroup() {
+    public @RUntainted String getGroup() {
 
         return m_group;
     }
@@ -142,7 +143,7 @@ public abstract class A_CmsToolHandler implements I_CmsToolHandler {
     /**
      * @see org.opencms.workplace.tools.I_CmsToolHandler#getHelpText()
      */
-    public String getHelpText() {
+    public @RUntainted String getHelpText() {
 
         return m_helpText;
     }
@@ -158,7 +159,7 @@ public abstract class A_CmsToolHandler implements I_CmsToolHandler {
     /**
      * @see org.opencms.workplace.tools.I_CmsToolHandler#getLink()
      */
-    public String getLink() {
+    public @RUntainted String getLink() {
 
         return m_link;
     }
@@ -166,7 +167,7 @@ public abstract class A_CmsToolHandler implements I_CmsToolHandler {
     /**
      * @see org.opencms.workplace.tools.I_CmsToolHandler#getName()
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_name;
     }
@@ -194,7 +195,7 @@ public abstract class A_CmsToolHandler implements I_CmsToolHandler {
     /**
      * @see org.opencms.workplace.tools.I_CmsToolHandler#getPath()
      */
-    public String getPath() {
+    public @RUntainted String getPath() {
 
         return m_path;
     }
@@ -274,7 +275,7 @@ public abstract class A_CmsToolHandler implements I_CmsToolHandler {
      *
      * @param helpText the help text to set
      */
-    public void setHelpText(String helpText) {
+    public void setHelpText(@RUntainted String helpText) {
 
         m_helpText = helpText;
     }
@@ -294,7 +295,7 @@ public abstract class A_CmsToolHandler implements I_CmsToolHandler {
      *
      * @param link the link to set
      */
-    public void setLink(String link) {
+    public void setLink(@RUntainted String link) {
 
         m_link = link;
     }
@@ -304,7 +305,7 @@ public abstract class A_CmsToolHandler implements I_CmsToolHandler {
      *
      * @param name the name to set
      */
-    public void setName(String name) {
+    public void setName(@RUntainted String name) {
 
         m_name = name;
     }
@@ -314,7 +315,7 @@ public abstract class A_CmsToolHandler implements I_CmsToolHandler {
      *
      * @param paramString the parameter string to set
      */
-    public void setParameterString(String paramString) {
+    public void setParameterString(@RUntainted String paramString) {
 
         m_parameters = paramString;
     }
@@ -324,7 +325,7 @@ public abstract class A_CmsToolHandler implements I_CmsToolHandler {
      *
      * @param path the path to set
      */
-    public void setPath(String path) {
+    public void setPath(@RUntainted String path) {
 
         m_path = path;
     }
@@ -388,7 +389,7 @@ public abstract class A_CmsToolHandler implements I_CmsToolHandler {
      *
      * @see org.opencms.workplace.tools.I_CmsToolHandler#setup(org.opencms.file.CmsObject, CmsToolRootHandler, java.lang.String)
      */
-    public boolean setup(CmsObject cms, CmsToolRootHandler root, String resourcePath) {
+    public boolean setup(CmsObject cms, CmsToolRootHandler root, @RUntainted String resourcePath) {
 
         try {
             resourcePath = cms.getSitePath(cms.readResource(resourcePath));
@@ -490,7 +491,7 @@ public abstract class A_CmsToolHandler implements I_CmsToolHandler {
      * @param cms the cms context
      * @param resourcePath the path to the resource to set the link for
      */
-    protected void setLink(CmsObject cms, String resourcePath) {
+    protected void setLink(CmsObject cms, @RUntainted String resourcePath) {
 
         String link = resourcePath;
         try {
@@ -540,8 +541,8 @@ public abstract class A_CmsToolHandler implements I_CmsToolHandler {
         try {
             CmsProperty prop = cms.readPropertyObject(resourcePath, ARGS_PROPERTY_DEFINITION, false);
             if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(prop.getValue())) {
-                Map<String, String> argsMap = new HashMap<String, String>();
-                Iterator<String> itArgs = CmsStringUtil.splitAsList(prop.getValue(), ARGUMENT_SEPARATOR).iterator();
+                Map<String, @RUntainted String> argsMap = new HashMap<String, @RUntainted String>();
+                Iterator<@RUntainted String> itArgs = CmsStringUtil.splitAsList(prop.getValue(), ARGUMENT_SEPARATOR).iterator();
                 while (itArgs.hasNext()) {
                     String arg = "";
                     try {

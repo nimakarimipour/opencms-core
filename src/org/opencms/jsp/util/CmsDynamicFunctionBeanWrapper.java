@@ -36,6 +36,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import org.apache.commons.collections.Transformer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A wrapper class for using dynamic function beans inside JSPs via the EL.<p>
@@ -129,7 +130,7 @@ public class CmsDynamicFunctionBeanWrapper {
      *
      * @return the map of parameters
      */
-    public Map<String, String> getParameters() {
+    public Map<String, @RUntainted String> getParameters() {
 
         if (m_functionBean == null) {
             return Collections.emptyMap();

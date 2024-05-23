@@ -44,6 +44,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Stores the last opened locations for file explorer, page editor and sitemap editor.<p>
@@ -60,10 +61,10 @@ public class CmsQuickLaunchLocationCache implements Serializable {
     private Map<String, CmsResource> m_pageEditorResources = new HashMap<>();
 
     /** The sitemap editor locations. */
-    private Map<String, String> m_sitemapEditorLocations;
+    private Map<String, @RUntainted String> m_sitemapEditorLocations;
 
     /** The file explorer locations. */
-    private Map<String, String> m_fileExplorerLocations;
+    private Map<String, @RUntainted String> m_fileExplorerLocations;
 
     /**
      * Constructor.<p>
@@ -99,7 +100,7 @@ public class CmsQuickLaunchLocationCache implements Serializable {
      *
      * @return the location
      */
-    public String getFileExplorerLocation(String siteRoot) {
+    public @RUntainted String getFileExplorerLocation(String siteRoot) {
 
         return m_fileExplorerLocations.get(siteRoot);
     }
@@ -112,7 +113,7 @@ public class CmsQuickLaunchLocationCache implements Serializable {
      *
      * @return the location
      */
-    public String getPageEditorLocation(CmsObject cms, String siteRoot) {
+    public @RUntainted String getPageEditorLocation(CmsObject cms, String siteRoot) {
 
         CmsResource res = m_pageEditorResources.get(siteRoot);
         if (res == null) {
@@ -166,7 +167,7 @@ public class CmsQuickLaunchLocationCache implements Serializable {
      *
      * @return the location
      */
-    public String getSitemapEditorLocation(String siteRoot) {
+    public @RUntainted String getSitemapEditorLocation(String siteRoot) {
 
         return m_sitemapEditorLocations.get(siteRoot);
     }
@@ -177,7 +178,7 @@ public class CmsQuickLaunchLocationCache implements Serializable {
      * @param siteRoot the site root
      * @param location the location
      */
-    public void setFileExplorerLocation(String siteRoot, String location) {
+    public void setFileExplorerLocation(String siteRoot, @RUntainted String location) {
 
         m_fileExplorerLocations.put(siteRoot, location);
     }
@@ -199,7 +200,7 @@ public class CmsQuickLaunchLocationCache implements Serializable {
      * @param siteRoot the site root
      * @param location the location
      */
-    public void setSitemapEditorLocation(String siteRoot, String location) {
+    public void setSitemapEditorLocation(String siteRoot, @RUntainted String location) {
 
         m_sitemapEditorLocations.put(siteRoot, location);
     }

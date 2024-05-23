@@ -63,6 +63,7 @@ import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the edit resource type dialog.<p>
@@ -82,7 +83,7 @@ public class CmsEditResourceTypeDialog extends CmsBasicDialog {
         /**
          * @see com.vaadin.v7.data.Validator#validate(java.lang.Object)
          */
-        public void validate(Object value) throws InvalidValueException {
+        public void validate(@RUntainted Object value) throws InvalidValueException {
 
             if (((String)value).isEmpty()) {
                 throw new InvalidValueException(
@@ -119,7 +120,7 @@ public class CmsEditResourceTypeDialog extends CmsBasicDialog {
         /**
          * @see com.vaadin.data.Validator#validate(java.lang.Object)
          */
-        public void validate(Object value) throws InvalidValueException {
+        public void validate(@RUntainted Object value) throws InvalidValueException {
 
             if (((String)value).isEmpty()) {
                 throw new InvalidValueException(
@@ -185,7 +186,7 @@ public class CmsEditResourceTypeDialog extends CmsBasicDialog {
     private TextField m_bigIconCSS;
 
     /** Vaadin vomponent.*/
-    private TextField m_smallIconFile;
+    private @RUntainted TextField m_smallIconFile;
 
     /** Vaadin vomponent.*/
     private TextField m_bigIconFile;
@@ -206,25 +207,25 @@ public class CmsEditResourceTypeDialog extends CmsBasicDialog {
     private Button m_cancel;
 
     /** Vaadin vomponent.*/
-    private TextField m_typeShortName;
+    private @RUntainted TextField m_typeShortName;
 
     /** Vaadin vomponent.*/
-    private TextField m_typeName;
+    private @RUntainted TextField m_typeName;
 
     /** Vaadin vomponent.*/
-    private TextField m_typeDescription;
+    private @RUntainted TextField m_typeDescription;
 
     /** Vaadin vomponent.*/
-    private TextField m_typeTitle;
+    private @RUntainted TextField m_typeTitle;
 
     /** Vaadin vomponent.*/
-    private TextField m_typeID;
+    private @RUntainted TextField m_typeID;
 
     /** Vaadin vomponent.*/
     private CmsPathSelectField m_schema;
 
     /** A root CmsObject.*/
-    private CmsObject m_cms;
+    private @RUntainted CmsObject m_cms;
 
     /**
      * Public constructor.<p>

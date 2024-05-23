@@ -63,6 +63,7 @@ import com.vaadin.ui.Window;
 import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.v7.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the Link validation app.<p>
@@ -81,7 +82,7 @@ public class CmsLinkValidationApp extends A_CmsWorkplaceApp {
          * @see org.opencms.ui.apps.linkvalidation.A_CmsLinkValidator#failedResources(java.util.List)
          */
         @Override
-        public List<CmsResource> failedResources(List<String> resources) {
+        public List<CmsResource> failedResources(List<@RUntainted String> resources) {
 
             validator = new CmsInternalLinksValidator(A_CmsUI.getCmsObject(), resources);
             return validator.getResourcesWithBrokenLinks();
@@ -114,7 +115,7 @@ public class CmsLinkValidationApp extends A_CmsWorkplaceApp {
 
                 private static final long serialVersionUID = -7729459896374968941L;
 
-                public void itemClick(ItemClickEvent event) {
+                public void itemClick(@RUntainted ItemClickEvent event) {
 
                     if (event.getButton().equals(MouseButton.RIGHT)) {
                         return;
@@ -143,7 +144,7 @@ public class CmsLinkValidationApp extends A_CmsWorkplaceApp {
          * @see org.opencms.ui.apps.linkvalidation.A_CmsLinkValidator#getPropertyName()
          */
         @Override
-        public String getPropertyName() {
+        public @RUntainted String getPropertyName() {
 
             return "BrokenLinks";
         }
@@ -173,7 +174,7 @@ public class CmsLinkValidationApp extends A_CmsWorkplaceApp {
          *
          * @return key for caption
          */
-        String getCaptionKey() {
+        @RUntainted String getCaptionKey() {
 
             return org.opencms.ui.apps.Messages.GUI_LINKVALIDATION_BROKENLINKS_DETAIL_LINKS_NAME_0;
         }
@@ -201,7 +202,7 @@ public class CmsLinkValidationApp extends A_CmsWorkplaceApp {
          * @param rootPath to get Broken links for.
          * @return broken link string
          */
-        private String getBrokenLinkString(String rootPath) {
+        private String getBrokenLinkString(@RUntainted String rootPath) {
 
             String ret = "";
 

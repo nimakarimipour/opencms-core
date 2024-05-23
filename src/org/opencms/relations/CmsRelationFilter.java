@@ -34,6 +34,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A filter to retrieve the relations for a given resource.<p>
@@ -67,7 +68,7 @@ public final class CmsRelationFilter implements Cloneable {
     private boolean m_target;
 
     /** The types to filter. */
-    private Set<CmsRelationType> m_types = new HashSet<CmsRelationType>();
+    private @RUntainted Set<CmsRelationType> m_types = new HashSet<CmsRelationType>();
 
     /**
      * Private constructor.<p>
@@ -308,7 +309,7 @@ public final class CmsRelationFilter implements Cloneable {
      *
      * @return the types to filter
      */
-    public Set<CmsRelationType> getTypes() {
+    public @RUntainted Set<CmsRelationType> getTypes() {
 
         return Collections.unmodifiableSet(m_types);
     }

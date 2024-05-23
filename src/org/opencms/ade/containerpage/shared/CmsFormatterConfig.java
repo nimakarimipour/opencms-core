@@ -34,6 +34,8 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Formatter configuration data.<p>
@@ -97,7 +99,7 @@ public class CmsFormatterConfig implements IsSerializable {
      *
      * @return the settings key
      */
-    public static String getSettingsKeyForContainer(String containerName) {
+    public static @RPolyTainted String getSettingsKeyForContainer(@RPolyTainted String containerName) {
 
         return FORMATTER_SETTINGS_KEY + containerName;
     }
@@ -275,7 +277,7 @@ public class CmsFormatterConfig implements IsSerializable {
      *
      * @param settingConfig the settings configuration
      */
-    public void setSettingConfig(Map<String, CmsXmlContentProperty> settingConfig) {
+    public void setSettingConfig(Map<@RUntainted String, CmsXmlContentProperty> settingConfig) {
 
         m_settingConfig = settingConfig;
     }

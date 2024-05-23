@@ -58,6 +58,7 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper class for a HttpServletRequest.<p>
@@ -94,7 +95,7 @@ public class CmsFlexRequest extends HttpServletRequestWrapper {
     private boolean m_doRecompile;
 
     /** The requested resources element URI in the OpenCms VFS. */
-    private String m_elementUri;
+    private @RUntainted String m_elementUri;
 
     /** The site root of the requested resource. */
     private String m_elementUriSiteRoot;
@@ -112,7 +113,7 @@ public class CmsFlexRequest extends HttpServletRequestWrapper {
     private CmsFlexRequestKey m_key;
 
     /** Map of parameters from the original request. */
-    private Map<String, String[]> m_parameters;
+    private Map<String, @RUntainted String[]> m_parameters;
 
     /** Stores the request URI after it was once calculated. */
     private String m_requestUri;
@@ -235,7 +236,7 @@ public class CmsFlexRequest extends HttpServletRequestWrapper {
      * @param controller the controller to use
      * @param resource the target resource that has been requested
      */
-    CmsFlexRequest(HttpServletRequest req, CmsFlexController controller, String resource) {
+    CmsFlexRequest(HttpServletRequest req, CmsFlexController controller, @RUntainted String resource) {
 
         super(req);
         m_controller = controller;
@@ -306,7 +307,7 @@ public class CmsFlexRequest extends HttpServletRequestWrapper {
      *
      * @return the merged map of parameters
      */
-    public Map<String, String[]> addParameterMap(Map<String, String[]> map) {
+    public Map<String, @RUntainted String[]> addParameterMap(Map<String, @RUntainted String[]> map) {
 
         if (map == null) {
             return m_parameters;
@@ -317,7 +318,7 @@ public class CmsFlexRequest extends HttpServletRequestWrapper {
             Map<String, String[]> parameters = new HashMap<String, String[]>();
             parameters.putAll(m_parameters);
 
-            Iterator<Map.Entry<String, String[]>> it = map.entrySet().iterator();
+            Iterator<Map.Entry<String, @RUntainted String[]>> it = map.entrySet().iterator();
             while (it.hasNext()) {
                 Map.Entry<String, String[]> entry = it.next();
                 String key = entry.getKey();
@@ -380,7 +381,7 @@ public class CmsFlexRequest extends HttpServletRequestWrapper {
      * @return a <code>Map</code> containing attribute names as keys
      *  and attribute values as map values
      */
-    public Map<String, Object> getAttributeMap() {
+    public @RUntainted Map<String, Object> getAttributeMap() {
 
         return m_attributes;
     }
@@ -433,7 +434,7 @@ public class CmsFlexRequest extends HttpServletRequestWrapper {
      *
      * @return the name of the resource currently processed
      */
-    public String getElementUri() {
+    public @RUntainted String getElementUri() {
 
         return m_elementUri;
     }
@@ -489,7 +490,7 @@ public class CmsFlexRequest extends HttpServletRequestWrapper {
      * @see javax.servlet.ServletRequest#getParameterMap()
      */
     @Override
-    public Map<String, String[]> getParameterMap() {
+    public Map<String, @RUntainted String[]> getParameterMap() {
 
         // NOTE: The parameters in this map are not escaped, so when escaping is enabled,
         // its values may be different from those obtained via getParameter/getParameterValues
@@ -541,7 +542,7 @@ public class CmsFlexRequest extends HttpServletRequestWrapper {
      * @return a special RequestDispatcher that allows access to VFS resources
      */
     @Override
-    public javax.servlet.RequestDispatcher getRequestDispatcher(String target) {
+    public javax.servlet.RequestDispatcher getRequestDispatcher(@RUntainted String target) {
 
         String absolutUri = CmsLinkManager.getAbsoluteUri(target, m_controller.getCurrentRequest().getElementUri());
         return new CmsFlexRequestDispatcher(
@@ -562,7 +563,7 @@ public class CmsFlexRequest extends HttpServletRequestWrapper {
      *
      * @return the constructed CmsFlexRequestDispatcher
      */
-    public CmsFlexRequestDispatcher getRequestDispatcherToExternal(String vfs_target, String ext_target) {
+    public CmsFlexRequestDispatcher getRequestDispatcherToExternal(@RUntainted String vfs_target, @RUntainted String ext_target) {
 
         return new CmsFlexRequestDispatcher(
             m_controller.getTopRequest().getRequestDispatcher(ext_target),
@@ -755,7 +756,7 @@ public class CmsFlexRequest extends HttpServletRequestWrapper {
      *
      * @param map the map to set
      */
-    public void setParameterMap(Map<String, String[]> map) {
+    public void setParameterMap(Map<String, @RUntainted String[]> map) {
 
         m_parameters = map;
     }

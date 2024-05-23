@@ -28,6 +28,7 @@
 package org.opencms.acacia.shared;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The attribute configuration. Stating the attribute label, help, widget name and widget configuration.<p>
@@ -35,7 +36,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 public class CmsAttributeConfiguration implements IsSerializable {
 
     /** The attribute default value. */
-    private String m_defaultValue;
+    private @RUntainted String m_defaultValue;
 
     /** The widget display type. */
     private String m_displayType;
@@ -79,7 +80,7 @@ public class CmsAttributeConfiguration implements IsSerializable {
         String help,
         String widgetName,
         String widgetConfig,
-        String defaultValue,
+        @RUntainted String defaultValue,
         String displayType,
         boolean visible,
         boolean localSynchronized,
@@ -109,7 +110,7 @@ public class CmsAttributeConfiguration implements IsSerializable {
      *
      * @return the default value
      */
-    public String getDefaultValue() {
+    public @RUntainted String getDefaultValue() {
 
         return m_defaultValue;
     }

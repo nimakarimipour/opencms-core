@@ -44,6 +44,7 @@ import org.opencms.ui.components.CmsErrorDialog;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Action for replacing formatters in pages according to a template mapper configuration.<p>
@@ -112,7 +113,7 @@ public class CmsTemplateMapperAction extends A_CmsWorkplaceAction {
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
      */
     @Override
-    protected String getTitleKey() {
+    protected @RUntainted String getTitleKey() {
 
         return Messages.GUI_TEMPLATEMAPPER_MENU_TITLE_0;
     }

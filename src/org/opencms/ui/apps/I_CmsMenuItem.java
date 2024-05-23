@@ -30,6 +30,7 @@ package org.opencms.ui.apps;
 import java.util.Locale;
 
 import com.vaadin.ui.Component;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Workplace view menu item.<p>
@@ -43,5 +44,5 @@ public interface I_CmsMenuItem {
      *
      * @return the component
      */
-    Component getItemComponent(Locale locale);
+    Component getItemComponent(@RUntainted Locale locale);
 }

@@ -37,6 +37,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper class for dynamic function formats which can be used from JSP EL.<p>
@@ -104,7 +105,7 @@ public class CmsDynamicFunctionFormatWrapper {
      *
      * @return the map of parameters for the dynamic function
      */
-    public Map<String, String> getParam() {
+    public Map<String, @RUntainted String> getParam() {
 
         return getParameters();
     }
@@ -114,7 +115,7 @@ public class CmsDynamicFunctionFormatWrapper {
      *
      * @return the map of parameters for the dynamic function
      */
-    public Map<String, String> getParameters() {
+    public Map<String, @RUntainted String> getParameters() {
 
         if (m_format != null) {
             return m_format.getParameters();

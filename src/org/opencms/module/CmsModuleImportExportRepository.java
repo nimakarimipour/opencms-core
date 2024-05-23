@@ -66,6 +66,7 @@ import com.google.common.base.Objects;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class which manages import/export of modules from repositories configured in opencms-importexport.xml.<p>
@@ -81,7 +82,7 @@ public class CmsModuleImportExportRepository {
         private byte[] m_content;
 
         /** The modification date. */
-        private long m_dateLastModified;
+        private @RUntainted long m_dateLastModified;
 
         /**
          * Creates a new instance.
@@ -89,7 +90,7 @@ public class CmsModuleImportExportRepository {
          * @param content the exported data
          * @param dateLastModified the modification date
          */
-        public ModuleExportData(byte[] content, long dateLastModified) {
+        public ModuleExportData(byte[] content, @RUntainted long dateLastModified) {
 
             m_content = content;
             m_dateLastModified = dateLastModified;
@@ -110,7 +111,7 @@ public class CmsModuleImportExportRepository {
          *
          * @return the last modification date
          */
-        public long getDateLastModified() {
+        public @RUntainted long getDateLastModified() {
 
             return m_dateLastModified;
         }
@@ -198,7 +199,7 @@ public class CmsModuleImportExportRepository {
      * @throws CmsException if something goes wrong
      */
     @SuppressWarnings("resource")
-    public synchronized ModuleExportData getExportedModuleData(String virtualModuleFileName, CmsProject project)
+    public synchronized ModuleExportData getExportedModuleData(String virtualModuleFileName, @RUntainted CmsProject project)
     throws CmsException {
 
         CmsModule module = getModuleForFileName(virtualModuleFileName);
@@ -285,7 +286,7 @@ public class CmsModuleImportExportRepository {
      * @param content the module ZIP file data
      * @throws CmsException if something goes wrong
      */
-    public synchronized void importModule(String name, byte[] content) throws CmsException {
+    public synchronized void importModule(String name, @RUntainted byte[] content) throws CmsException {
 
         String moduleName = null;
         boolean ok = true;
@@ -345,7 +346,7 @@ public class CmsModuleImportExportRepository {
      * @return the module signature
      * @throws CmsException if something goes wrong
      */
-    private String computeModuleHash(CmsModule module, CmsProject project) throws CmsException {
+    private String computeModuleHash(CmsModule module, @RUntainted CmsProject project) throws CmsException {
 
         LOG.info("Getting module hash for " + module.getName());
         // This method may be called very frequently during a short time, but it is unlikely
@@ -402,7 +403,7 @@ public class CmsModuleImportExportRepository {
      *
      * @return the generated path
      */
-    private String createImportZipPath(String name) {
+    private @RUntainted String createImportZipPath(String name) {
 
         String path = "";
         do {
@@ -475,7 +476,7 @@ public class CmsModuleImportExportRepository {
      *
      * @return true if the module needs to be exported
      */
-    private boolean needToExportModule(CmsModule module, File moduleFile, CmsProject project) {
+    private boolean needToExportModule(CmsModule module, File moduleFile, @RUntainted CmsProject project) {
 
         if (!moduleFile.exists()) {
             LOG.info("Module export file doesn't exist, export is needed.");

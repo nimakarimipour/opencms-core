@@ -45,6 +45,7 @@ import org.apache.commons.logging.Log;
 import com.google.common.collect.Maps;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Database connection pool class using HikariCP.
@@ -119,10 +120,10 @@ public final class CmsDbPoolV11 {
     }
 
     /** The opencms pool url. */
-    private String m_poolUrl;
+    private @RUntainted String m_poolUrl;
 
     /** The HikariCP data source. */
-    private HikariDataSource m_dataSource;
+    private @RUntainted HikariDataSource m_dataSource;
 
     /**
      * Default constructor.<p>
@@ -132,7 +133,7 @@ public final class CmsDbPoolV11 {
      *
      * @throws Exception if something goes wrong
      */
-    public CmsDbPoolV11(CmsParameterConfiguration config, String key)
+    public CmsDbPoolV11(CmsParameterConfiguration config, @RUntainted String key)
     throws Exception {
 
         HikariConfig hikariConf = createHikariConfig(config, key);
@@ -188,9 +189,9 @@ public final class CmsDbPoolV11 {
      *
      * @return the HikariCP configuration for the pool
      */
-    public static HikariConfig createHikariConfig(CmsParameterConfiguration config, String key) {
+    public static @RUntainted HikariConfig createHikariConfig(CmsParameterConfiguration config, String key) {
 
-        Map<String, String> poolMap = Maps.newHashMap();
+        Map<String, @RUntainted String> poolMap = Maps.newHashMap();
         for (Map.Entry<String, String> entry : config.entrySet()) {
             String suffix = getPropertyRelativeSuffix(KEY_DATABASE_POOL + "." + key, entry.getKey());
             if ((suffix != null) && !CmsStringUtil.isEmptyOrWhitespaceOnly(entry.getValue())) {
@@ -233,7 +234,7 @@ public final class CmsDbPoolV11 {
         hikariProps.put("maximumPoolSize", "30");
 
         // Properties of the form db.pool.poolname.v11.<foo> are directly passed to HikariCP as <foo>
-        for (Map.Entry<String, String> entry : poolMap.entrySet()) {
+        for (Map.Entry<String, @RUntainted String> entry : poolMap.entrySet()) {
             String suffix = getPropertyRelativeSuffix("v11", entry.getKey());
             if (suffix != null) {
                 hikariProps.put(suffix, entry.getValue());
@@ -293,7 +294,7 @@ public final class CmsDbPoolV11 {
      *
      * @return the number of active connections
      */
-    public int getActiveConnections() {
+    public @RUntainted int getActiveConnections() {
 
         return m_dataSource.getHikariPoolMXBean().getActiveConnections();
     }
@@ -319,7 +320,7 @@ public final class CmsDbPoolV11 {
      *
      * @return the number of idle connections
      */
-    public int getIdleConnections() {
+    public @RUntainted int getIdleConnections() {
 
         return m_dataSource.getHikariPoolMXBean().getIdleConnections();
     }
@@ -329,7 +330,7 @@ public final class CmsDbPoolV11 {
      *
      * @return the pool url
      */
-    public String getPoolUrl() {
+    public @RUntainted String getPoolUrl() {
 
         return m_poolUrl;
     }

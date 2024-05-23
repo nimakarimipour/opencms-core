@@ -34,6 +34,7 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Stores the result of a pointer link validation. <p>
@@ -43,17 +44,17 @@ import java.util.Map.Entry;
 public class CmsExternalLinksValidationResult {
 
     /**  The broken links that were found.<p> */
-    private Map<String, String> m_brokenLinks;
+    private Map<@RUntainted String, @RUntainted String> m_brokenLinks;
 
     /**  The date of the validation.<p> */
-    private Date m_validationDate;
+    private @RUntainted Date m_validationDate;
 
     /**
      * Constructs a new pointer link validation result.<p>
      *
      * @param brokenLinks a list of the broken links
      */
-    public CmsExternalLinksValidationResult(Map<String, String> brokenLinks) {
+    public CmsExternalLinksValidationResult(Map<@RUntainted String, @RUntainted String> brokenLinks) {
 
         m_brokenLinks = brokenLinks;
         m_validationDate = new Date();
@@ -66,16 +67,16 @@ public class CmsExternalLinksValidationResult {
      *
      * @return a Html representation of this external link validation result
      */
-    public String toHtml(Locale locale) {
+    public String toHtml(@RUntainted Locale locale) {
 
         CmsMessages mg = Messages.get().getBundle(locale);
         if (m_brokenLinks.size() > 0) {
             StringBuffer result = new StringBuffer(1024);
-            Iterator<Entry<String, String>> brokenLinks = m_brokenLinks.entrySet().iterator();
+            Iterator<Entry<@RUntainted String, @RUntainted String>> brokenLinks = m_brokenLinks.entrySet().iterator();
             result.append(mg.key(Messages.GUI_LINK_VALIDATION_RESULTS_INTRO_1, new Object[] {m_validationDate})).append(
                 "<ul>");
             while (brokenLinks.hasNext()) {
-                Entry<String, String> link = brokenLinks.next();
+                Entry<@RUntainted String, @RUntainted String> link = brokenLinks.next();
                 String linkPath = link.getKey();
                 String linkUrl = link.getValue();
                 String msg = mg.key(Messages.GUI_LINK_POINTING_TO_2, new Object[] {linkPath, linkUrl});

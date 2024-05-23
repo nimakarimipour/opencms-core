@@ -35,6 +35,7 @@ import org.opencms.util.CmsStringUtil;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A schedulable OpenCms job to clear the history.<p>
@@ -73,7 +74,7 @@ public class CmsHistoryClearJob implements I_CmsScheduledJob {
     /**
      * @see org.opencms.scheduler.I_CmsScheduledJob#launch(org.opencms.file.CmsObject, java.util.Map)
      */
-    public String launch(CmsObject cms, Map<String, String> parameters) throws Exception {
+    public @RUntainted String launch(CmsObject cms, Map<String, @RUntainted String> parameters) throws Exception {
 
         // read the parameter for the versions to keep
         int keepVersions = Integer.parseInt(parameters.get(PARAM_KEEPVERSIONS));

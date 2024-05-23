@@ -42,6 +42,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.ui.Window;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for dialog to create property definition.<p>
@@ -57,7 +58,7 @@ public class CmsAddPropertyDefinitionDialog extends CmsBasicDialog {
         /**
          * @see com.vaadin.data.Validator#validate(java.lang.Object)
          */
-        public void validate(Object value) throws InvalidValueException {
+        public void validate(@RUntainted Object value) throws InvalidValueException {
 
             if (value == null) {
                 throw new InvalidValueException(
@@ -91,7 +92,7 @@ public class CmsAddPropertyDefinitionDialog extends CmsBasicDialog {
     private static final long serialVersionUID = -5454565964997277536L;
 
     /**New property name field. */
-    protected TextField m_newProperty;
+    protected @RUntainted TextField m_newProperty;
 
     /**ok button. */
     private Button m_ok;

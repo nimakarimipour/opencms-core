@@ -46,6 +46,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * RMI object which wraps a CmsShell and can be used for shell command execution.
@@ -135,7 +136,7 @@ public class CmsRemoteShell extends UnicastRemoteObject implements I_CmsRemoteSh
      * @throws CmsException if something goes wrong
      * @throws RemoteException if RMI stuff goes wrong
      */
-    public CmsRemoteShell(String additionalCommandsName, int port)
+    public CmsRemoteShell(@RUntainted String additionalCommandsName, int port)
     throws CmsException, RemoteException {
 
         super(port);
@@ -143,7 +144,7 @@ public class CmsRemoteShell extends UnicastRemoteObject implements I_CmsRemoteSh
         I_CmsShellCommands additionalCommands = null;
         if (additionalCommandsName != null) {
             try {
-                Class<?> commandsCls = Class.forName(additionalCommandsName);
+                Class<@RUntainted ?> commandsCls = Class.forName(additionalCommandsName);
                 if (I_CmsShellCommands.class.isAssignableFrom(commandsCls)) {
                     additionalCommands = (I_CmsShellCommands)(commandsCls.newInstance());
                 }
@@ -180,7 +181,7 @@ public class CmsRemoteShell extends UnicastRemoteObject implements I_CmsRemoteSh
     /**
      * @see org.opencms.rmi.I_CmsRemoteShell#executeCommand(java.lang.String, java.util.List)
      */
-    public CmsShellCommandResult executeCommand(String cmd, List<String> params) {
+    public CmsShellCommandResult executeCommand(@RUntainted String cmd, List<@RUntainted String> params) {
 
         LOG.debug(m_id + " executing " + cmd + " " + params);
         CmsShellCommandResult result = new CmsShellCommandResult();

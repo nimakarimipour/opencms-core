@@ -36,6 +36,7 @@ import org.opencms.ui.contextmenu.CmsMenuItemVisibilityMode;
 
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The edit page action. Available for container pages.<p>
@@ -75,7 +76,7 @@ public class CmsEditPageAction extends CmsDisplayAction implements I_CmsADEActio
     /**
      * @see org.opencms.ui.actions.I_CmsADEAction#getJspPath()
      */
-    public String getJspPath() {
+    public @RUntainted String getJspPath() {
 
         return null;
     }
@@ -83,7 +84,7 @@ public class CmsEditPageAction extends CmsDisplayAction implements I_CmsADEActio
     /**
      * @see org.opencms.ui.actions.I_CmsADEAction#getParams()
      */
-    public Map<String, String> getParams() {
+    public Map<String, @RUntainted String> getParams() {
 
         return null;
     }
@@ -126,7 +127,7 @@ public class CmsEditPageAction extends CmsDisplayAction implements I_CmsADEActio
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
      */
     @Override
-    protected String getTitleKey() {
+    protected @RUntainted String getTitleKey() {
 
         return org.opencms.ui.Messages.GUI_ACTION_OPEN_PAGE_0;
     }

@@ -45,6 +45,7 @@ import org.apache.commons.collections.BufferUtils;
 import org.apache.commons.collections.buffer.TypedBuffer;
 import org.apache.commons.collections.buffer.UnboundedFifoBuffer;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This queue contains all not jet started publish jobs.<p>
@@ -74,7 +75,7 @@ public class CmsPublishQueue {
      *
      * @return the queue buffer
      */
-    public static Buffer getQueue() {
+    public static @RUntainted Buffer getQueue() {
 
         return BufferUtils.synchronizedBuffer(TypedBuffer.decorate(new UnboundedFifoBuffer() {
 
@@ -274,7 +275,7 @@ public class CmsPublishQueue {
      *
      * @return the next publish job to be published
      */
-    protected CmsPublishJobInfoBean next() {
+    protected @RUntainted CmsPublishJobInfoBean next() {
 
         CmsPublishJobInfoBean publishJob = OpenCms.getMemoryMonitor().getFirstCachedPublishJob();
         if (publishJob != null) {

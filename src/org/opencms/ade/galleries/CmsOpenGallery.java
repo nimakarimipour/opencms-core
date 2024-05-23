@@ -42,6 +42,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides methods to open gwt-based gallery dialog.<p>
@@ -57,7 +58,7 @@ public class CmsOpenGallery extends CmsDialog {
      * @param req the JSP request
      * @param res the JSP response
      */
-    public CmsOpenGallery(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsOpenGallery(@RUntainted PageContext context, @RUntainted HttpServletRequest req, @RUntainted HttpServletResponse res) {
 
         super(context, req, res);
     }

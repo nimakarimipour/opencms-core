@@ -45,6 +45,7 @@ import java.util.ResourceBundle;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -81,7 +82,7 @@ public abstract class A_CmsClientMessageBundle implements I_CmsClientMessageBund
     /**
      * @see org.opencms.gwt.I_CmsClientMessageBundle#export(java.util.Locale)
      */
-    public String export(Locale locale) {
+    public String export(@RUntainted Locale locale) {
 
         return export(locale, true);
     }
@@ -89,12 +90,12 @@ public abstract class A_CmsClientMessageBundle implements I_CmsClientMessageBund
     /**
      * @see org.opencms.gwt.I_CmsClientMessageBundle#export(java.util.Locale, boolean)
      */
-    public String export(Locale locale, boolean wrapScript) {
+    public String export(@RUntainted Locale locale, boolean wrapScript) {
 
         JSONObject keys = new JSONObject();
         try {
             ResourceBundle resourceBundle = CmsResourceBundleLoader.getBundle(getBundleName(), locale);
-            Enumeration<String> bundleKeys = resourceBundle.getKeys();
+            Enumeration<@RUntainted String> bundleKeys = resourceBundle.getKeys();
             while (bundleKeys.hasMoreElements()) {
                 String bundleKey = bundleKeys.nextElement();
                 String value = resourceBundle.getString(bundleKey);
@@ -128,7 +129,7 @@ public abstract class A_CmsClientMessageBundle implements I_CmsClientMessageBund
     /**
      * @see org.opencms.gwt.I_CmsClientMessageBundle#export(java.lang.String)
      */
-    public String export(String localeName) {
+    public String export(@RUntainted String localeName) {
 
         return export(CmsLocaleManager.getLocale(localeName));
     }
@@ -136,7 +137,7 @@ public abstract class A_CmsClientMessageBundle implements I_CmsClientMessageBund
     /**
      * @see org.opencms.gwt.I_CmsClientMessageBundle#getBundleName()
      */
-    public String getBundleName() {
+    public @RUntainted String getBundleName() {
 
         return getClass().getPackage().getName() + ".clientmessages";
     }
@@ -157,10 +158,10 @@ public abstract class A_CmsClientMessageBundle implements I_CmsClientMessageBund
      *
      * @return the imported message string
      */
-    public String importMessage(String key, Locale locale) {
+    public @RUntainted String importMessage(@RUntainted String key, @RUntainted Locale locale) {
 
         key = key.trim();
-        String[] tokens = key.split("#");
+        @RUntainted String[] tokens = key.split("#");
         if (tokens.length != 2) {
             return null;
         }

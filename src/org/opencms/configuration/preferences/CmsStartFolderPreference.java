@@ -29,6 +29,7 @@ package org.opencms.configuration.preferences;
 
 import org.opencms.file.CmsObject;
 import org.opencms.xml.content.CmsXmlContentProperty;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Preference for the start folder.<p>
@@ -47,7 +48,7 @@ public class CmsStartFolderPreference extends CmsBuiltinPreference {
      *
      * @param name the preference name
      */
-    public CmsStartFolderPreference(String name) {
+    public CmsStartFolderPreference(@RUntainted String name) {
 
         super(name);
         m_basic = true;

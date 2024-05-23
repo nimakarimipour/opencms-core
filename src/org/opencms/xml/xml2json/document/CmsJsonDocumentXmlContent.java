@@ -57,6 +57,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class representing a JSON document for an XML content.
@@ -73,7 +74,7 @@ public class CmsJsonDocumentXmlContent extends CmsJsonDocumentResource {
     protected boolean m_embedLinkedModelgroup = true;
 
     /** The JSON part in the case of a path request. */
-    private Object m_jsonPart;
+    private @RUntainted Object m_jsonPart;
 
     /** The XML content renderer. */
     private I_CmsJsonRendererXmlContent m_renderer;
@@ -115,7 +116,7 @@ public class CmsJsonDocumentXmlContent extends CmsJsonDocumentResource {
      * @see org.opencms.xml.xml2json.document.CmsJsonDocumentResource#getJson()
      */
     @Override
-    public Object getJson()
+    public @RUntainted Object getJson()
     throws JSONException, CmsException, CmsJsonHandlerException, PathNotFoundException, Exception {
 
         insertJsonContent();
@@ -132,7 +133,7 @@ public class CmsJsonDocumentXmlContent extends CmsJsonDocumentResource {
      * @param resource the resource
      * @throws Exception if something goes wrong
      */
-    protected void insertJsonLinkedContent(CmsResource resource) throws Exception {
+    protected void insertJsonLinkedContent(@RUntainted CmsResource resource) throws Exception {
 
         JSONObject jsonObject = (JSONObject)m_json.get(FIELD_LINKED_CONTENTS);
         String key = resource.getRootPath();
@@ -165,7 +166,7 @@ public class CmsJsonDocumentXmlContent extends CmsJsonDocumentResource {
      */
     protected void insertJsonLinkedContents() throws Exception {
 
-        List<CmsRelation> relationList = m_context.getCms().getRelationsForResource(
+        List<@RUntainted CmsRelation> relationList = m_context.getCms().getRelationsForResource(
             m_xmlContent.getFile(),
             CmsRelationFilter.TARGETS);
         m_json.put(FIELD_LINKED_CONTENTS, new JSONObject());
@@ -293,7 +294,7 @@ public class CmsJsonDocumentXmlContent extends CmsJsonDocumentResource {
             m_renderer = new CmsJsonRendererXmlContent();
         } else {
             m_renderer = (I_CmsJsonRendererXmlContent)Class.forName(settings.getClassName()).newInstance();
-            for (Map.Entry<String, String> entry : settings.getParameters().entrySet()) {
+            for (Map.Entry<@RUntainted String, @RUntainted String> entry : settings.getParameters().entrySet()) {
                 m_renderer.addConfigurationParameter(entry.getKey(), entry.getValue());
             }
             m_renderer.initConfiguration();
@@ -354,7 +355,7 @@ public class CmsJsonDocumentXmlContent extends CmsJsonDocumentResource {
         if (localeExists) {
             jsonObject = (JSONObject)m_renderer.render(m_xmlContent, selectedLocale);
         } else if (isShowFallbackLocaleRequest()) {
-            List<Locale> localeList = m_xmlContent.getLocales();
+            List<@RUntainted Locale> localeList = m_xmlContent.getLocales();
             if (!localeList.isEmpty()) {
                 jsonObject = (JSONObject)m_renderer.render(m_xmlContent, localeList.get(0));
                 m_json.put("localeFallback", localeList.get(0).toString());

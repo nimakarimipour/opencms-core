@@ -35,6 +35,7 @@ import org.opencms.util.CmsStringUtil;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Settings bean for the dialog.
@@ -49,7 +50,7 @@ public class CmsSearchReplaceSettings implements Serializable {
     private boolean m_forceReplace;
 
     /** When replacing XML content, replace-operation only applies to this locale. */
-    private String m_locale;
+    private @RUntainted String m_locale;
 
     /** Display message. */
     private String m_message;
@@ -58,22 +59,22 @@ public class CmsSearchReplaceSettings implements Serializable {
     private boolean m_onlyContentValues;
 
     /** The paths to collect resources. */
-    private List<String> m_paths = new LinkedList<String>();
+    private List<@RUntainted String> m_paths = new LinkedList<@RUntainted String>();
 
     /** The project to use. */
-    private String m_project;
+    private @RUntainted String m_project;
 
     /** The search query to filter matching resources. */
-    private String m_query;
+    private @RUntainted String m_query;
 
     /** The replace pattern. */
-    private String m_replacepattern;
+    private @RUntainted String m_replacepattern;
 
     /** The list of resource paths to process: all should be files. */
     private String[] m_resources;
 
     /** The search pattern. */
-    private String m_searchpattern;
+    private @RUntainted String m_searchpattern;
 
     /** The source to retrive the resources from. */
     private String m_source;
@@ -82,13 +83,13 @@ public class CmsSearchReplaceSettings implements Serializable {
     private SearchType m_type;
 
     /** The resource type to use for replacement. */
-    private String[] m_types;
+    private @RUntainted String[] m_types;
 
     /** The Xpath to perform the replacement. */
     private String m_xpath;
 
     /** The site root. */
-    private String m_siteRoot;
+    private @RUntainted String m_siteRoot;
 
     /**Property definition for property search.*/
     private CmsPropertyDefinition m_property = CmsPropertyDefinition.getNullPropertyDefinition();
@@ -114,7 +115,7 @@ public class CmsSearchReplaceSettings implements Serializable {
      * @param resource Resource to replace
      * @return String regex
      */
-    public static String replaceElementInPagePattern(CmsResource resource) {
+    public static @RUntainted String replaceElementInPagePattern(CmsResource resource) {
 
         return "<target><![CDATA["
             + resource.getRootPath()
@@ -129,7 +130,7 @@ public class CmsSearchReplaceSettings implements Serializable {
      * @param resource Resource
      * @return String regex
      */
-    public static String searchElementInPagePattern(CmsResource resource) {
+    public static @RUntainted String searchElementInPagePattern(CmsResource resource) {
 
         return "<target>.{0,9}"
             + resource.getRootPath()
@@ -154,7 +155,7 @@ public class CmsSearchReplaceSettings implements Serializable {
      *
      * @return the locale
      */
-    public String getLocale() {
+    public @RUntainted String getLocale() {
 
         return m_locale;
     }
@@ -170,7 +171,7 @@ public class CmsSearchReplaceSettings implements Serializable {
     /**
      * @return the paths
      */
-    public List<String> getPaths() {
+    public List<@RUntainted String> getPaths() {
 
         return m_paths;
     }
@@ -178,7 +179,7 @@ public class CmsSearchReplaceSettings implements Serializable {
     /**
      * @return the project
      */
-    public String getProject() {
+    public @RUntainted String getProject() {
 
         return m_project;
     }
@@ -198,7 +199,7 @@ public class CmsSearchReplaceSettings implements Serializable {
      *
      * @return the query
      */
-    public String getQuery() {
+    public @RUntainted String getQuery() {
 
         return m_query;
     }
@@ -206,7 +207,7 @@ public class CmsSearchReplaceSettings implements Serializable {
     /**
      * @return the replace pattern
      */
-    public String getReplacepattern() {
+    public @RUntainted String getReplacepattern() {
 
         return m_replacepattern;
     }
@@ -232,7 +233,7 @@ public class CmsSearchReplaceSettings implements Serializable {
     /**
      * @return the search pattern
      */
-    public String getSearchpattern() {
+    public @RUntainted String getSearchpattern() {
 
         return m_searchpattern;
     }
@@ -242,7 +243,7 @@ public class CmsSearchReplaceSettings implements Serializable {
      *
      * @return the siteRoot
      */
-    public String getSiteRoot() {
+    public @RUntainted String getSiteRoot() {
 
         return m_siteRoot;
     }
@@ -272,7 +273,7 @@ public class CmsSearchReplaceSettings implements Serializable {
      *
      * @return the type
      */
-    public String getTypes() {
+    public @RUntainted String getTypes() {
 
         return m_types != null ? CmsStringUtil.arrayAsString(m_types, ",") : "";
     }
@@ -282,7 +283,7 @@ public class CmsSearchReplaceSettings implements Serializable {
      *
      * @return the type
      */
-    public String[] getTypesArray() {
+    public @RUntainted String[] getTypesArray() {
 
         return m_types;
     }
@@ -374,7 +375,7 @@ public class CmsSearchReplaceSettings implements Serializable {
      *
      * @param locale the locale to set
      */
-    public void setLocale(String locale) {
+    public void setLocale(@RUntainted String locale) {
 
         m_locale = locale;
     }
@@ -402,7 +403,7 @@ public class CmsSearchReplaceSettings implements Serializable {
      *
      * @param paths the paths to set
      */
-    public void setPaths(final List<String> paths) {
+    public void setPaths(final List<@RUntainted String> paths) {
 
         m_paths = paths;
     }
@@ -410,7 +411,7 @@ public class CmsSearchReplaceSettings implements Serializable {
     /**
      * @param project the project to work in
      */
-    public void setProject(String project) {
+    public void setProject(@RUntainted String project) {
 
         m_project = project;
     }
@@ -441,7 +442,7 @@ public class CmsSearchReplaceSettings implements Serializable {
      *
      * @param replacepattern the replace pattern
      */
-    public void setReplacepattern(String replacepattern) {
+    public void setReplacepattern(@RUntainted String replacepattern) {
 
         m_replacepattern = replacepattern;
     }
@@ -450,7 +451,7 @@ public class CmsSearchReplaceSettings implements Serializable {
      * @param resources
      *            the resources to set
      */
-    public void setResources(final String resources) {
+    public void setResources(final @RUntainted String resources) {
 
         m_resources = CmsStringUtil.splitAsArray(resources, ",");
 
@@ -461,7 +462,7 @@ public class CmsSearchReplaceSettings implements Serializable {
      *
      * @param searchpattern the search pattern
      */
-    public void setSearchpattern(String searchpattern) {
+    public void setSearchpattern(@RUntainted String searchpattern) {
 
         m_searchpattern = searchpattern;
     }
@@ -471,7 +472,7 @@ public class CmsSearchReplaceSettings implements Serializable {
      *
      * @param siteRoot the site root to set
      */
-    public void setSiteRoot(String siteRoot) {
+    public void setSiteRoot(@RUntainted String siteRoot) {
 
         m_siteRoot = siteRoot;
     }
@@ -501,7 +502,7 @@ public class CmsSearchReplaceSettings implements Serializable {
      *
      * @param types the type to set
      */
-    public void setTypes(String types) {
+    public void setTypes(@RUntainted String types) {
 
         m_types = CmsStringUtil.splitAsArray(types, ",");
     }

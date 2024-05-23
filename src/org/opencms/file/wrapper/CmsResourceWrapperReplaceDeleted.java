@@ -37,6 +37,7 @@ import org.opencms.main.CmsException;
 import org.opencms.main.CmsIllegalArgumentException;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource wrapper which intercepts createResource calls and substitutes them with replaceResource if there is already a deleted file at the same path.<p>
@@ -51,9 +52,9 @@ public class CmsResourceWrapperReplaceDeleted extends A_CmsResourceWrapper {
     @Override
     public CmsResource createResource(
         CmsObject cms,
-        String resourcename,
+        @RUntainted String resourcename,
         int type,
-        byte[] content,
+        @RUntainted byte[] content,
         List<CmsProperty> properties) throws CmsException, CmsIllegalArgumentException {
 
         try {

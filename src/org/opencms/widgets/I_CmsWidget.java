@@ -30,6 +30,7 @@ package org.opencms.widgets;
 import org.opencms.file.CmsObject;
 
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes an editor widget for use in the OpenCms workplace.<p>
@@ -163,7 +164,7 @@ public interface I_CmsWidget {
      *
      * @param configuration the configuration to set
      */
-    void setConfiguration(String configuration);
+    void setConfiguration(@RUntainted String configuration);
 
     /**
      * Sets the value of in the given widget parameter by reading the "right"
@@ -176,7 +177,7 @@ public interface I_CmsWidget {
      */
     void setEditorValue(
         CmsObject cms,
-        Map<String, String[]> formParameters,
+        @RUntainted Map<String, @RUntainted String[]> formParameters,
         I_CmsWidgetDialog widgetDialog,
         I_CmsWidgetParameter param);
 }

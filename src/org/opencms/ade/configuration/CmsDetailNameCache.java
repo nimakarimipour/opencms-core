@@ -50,6 +50,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A cache which stores structure ids for URL names.<p>
@@ -105,7 +106,7 @@ public class CmsDetailNameCache implements I_CmsGlobalConfigurationCache {
      * @param name the URL name
      * @return the structure id for the URL name
      */
-    public CmsUUID getDetailId(String name) {
+    public @RUntainted CmsUUID getDetailId(String name) {
 
         return m_detailIdCache.get(name);
     }
@@ -209,7 +210,7 @@ public class CmsDetailNameCache implements I_CmsGlobalConfigurationCache {
      * @param rootPath the path of the resource
      * @param typeId the resource type id
      */
-    private void checkIfUpdateIsNeeded(CmsUUID structureId, String rootPath, int typeId) {
+    private void checkIfUpdateIsNeeded(CmsUUID structureId, String rootPath, @RUntainted int typeId) {
 
         try {
             I_CmsResourceType resType = OpenCms.getResourceManager().getResourceType(typeId);

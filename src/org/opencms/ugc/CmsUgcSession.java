@@ -67,6 +67,7 @@ import org.apache.commons.logging.Log;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A form editing session is required to create and edit contents from the web front-end.<p>
@@ -149,13 +150,13 @@ public class CmsUgcSession implements I_CmsSessionDestroyHandler {
     private CmsUgcUploadHelper m_uploadHelper = new CmsUgcUploadHelper();
 
     /** The edit context. */
-    private CmsObject m_cms;
+    private @RUntainted CmsObject m_cms;
 
     /** The form configuration. */
     private CmsUgcConfiguration m_configuration;
 
     /** The resource being edited. */
-    private CmsResource m_editResource;
+    private @RUntainted CmsResource m_editResource;
 
     /** The Admin-privileged CMS context. */
     private CmsObject m_adminCms;
@@ -225,7 +226,7 @@ public class CmsUgcSession implements I_CmsSessionDestroyHandler {
      *
      * @param cms the cms context
      */
-    protected CmsUgcSession(CmsObject cms) {
+    protected CmsUgcSession(@RUntainted CmsObject cms) {
 
         m_cms = cms;
     }
@@ -241,7 +242,7 @@ public class CmsUgcSession implements I_CmsSessionDestroyHandler {
      *
      * @throws CmsUgcException if creating the resource fails
      */
-    public CmsResource createUploadResource(String fieldName, String rawFileName, byte[] content)
+    public CmsResource createUploadResource(String fieldName, @RUntainted String rawFileName, @RUntainted byte[] content)
     throws CmsUgcException {
 
         CmsResource result = null;
@@ -379,7 +380,7 @@ public class CmsUgcSession implements I_CmsSessionDestroyHandler {
      *
      * @return the session id
      */
-    public CmsUUID getId() {
+    public @RUntainted CmsUUID getId() {
 
         return getProject().getUuid();
     }
@@ -389,7 +390,7 @@ public class CmsUgcSession implements I_CmsSessionDestroyHandler {
      *
      * @return the locale to use for messages
      */
-    public Locale getMessageLocale() {
+    public @RUntainted Locale getMessageLocale() {
 
         return m_configuration.getLocale();
     }
@@ -399,7 +400,7 @@ public class CmsUgcSession implements I_CmsSessionDestroyHandler {
      *
      * @return the edit project
      */
-    public CmsProject getProject() {
+    public @RUntainted CmsProject getProject() {
 
         return m_cms.getRequestContext().getCurrentProject();
     }
@@ -452,7 +453,7 @@ public class CmsUgcSession implements I_CmsSessionDestroyHandler {
      *
      * @throws CmsUgcException if reading the resource fails
      */
-    public CmsResource loadXmlContent(String fileName) throws CmsUgcException {
+    public CmsResource loadXmlContent(@RUntainted String fileName) throws CmsUgcException {
 
         checkNotFinished();
         checkEditResourceNotSet();
@@ -497,7 +498,7 @@ public class CmsUgcSession implements I_CmsSessionDestroyHandler {
      *
      * @throws CmsUgcException if writing the content fails
      */
-    public CmsXmlContentErrorHandler saveContent(Map<String, String> contentValues) throws CmsUgcException {
+    public CmsXmlContentErrorHandler saveContent(Map<String, @RUntainted String> contentValues) throws CmsUgcException {
 
         checkNotFinished();
         try {
@@ -527,7 +528,7 @@ public class CmsUgcSession implements I_CmsSessionDestroyHandler {
      *
      * @throws CmsUgcException if reading the content file fails
      */
-    public CmsXmlContentErrorHandler validateContent(Map<String, String> contentValues) throws CmsUgcException {
+    public CmsXmlContentErrorHandler validateContent(Map<String, @RUntainted String> contentValues) throws CmsUgcException {
 
         checkNotFinished();
         try {
@@ -548,11 +549,11 @@ public class CmsUgcSession implements I_CmsSessionDestroyHandler {
      * @param path the value XPath
      * @param value the value
      */
-    protected void addContentValue(CmsXmlContent content, Locale locale, String path, String value) {
+    protected void addContentValue(CmsXmlContent content, @RUntainted Locale locale, @RUntainted String path, @RUntainted String value) {
 
         boolean hasValue = content.hasValue(path, locale);
         if (!hasValue) {
-            String[] pathElements = path.split("/");
+            @RUntainted String[] pathElements = path.split("/");
             String currentPath = pathElements[0];
             for (int i = 0; i < pathElements.length; i++) {
                 if (i > 0) {
@@ -577,7 +578,7 @@ public class CmsUgcSession implements I_CmsSessionDestroyHandler {
      *
      * @throws CmsException if writing the XML fails
      */
-    protected CmsXmlContent addContentValues(CmsFile file, Map<String, String> contentValues) throws CmsException {
+    protected CmsXmlContent addContentValues(CmsFile file, Map<String, @RUntainted String> contentValues) throws CmsException {
 
         CmsXmlContent content = unmarshalXmlContent(file);
         Locale locale = m_cms.getRequestContext().getLocale();
@@ -595,13 +596,13 @@ public class CmsUgcSession implements I_CmsSessionDestroyHandler {
      *
      * @throws CmsXmlException if writing the XML fails
      */
-    protected void addContentValues(CmsXmlContent content, Locale locale, Map<String, String> contentValues)
+    protected void addContentValues(CmsXmlContent content, @RUntainted Locale locale, Map<@RUntainted String, @RUntainted String> contentValues)
     throws CmsXmlException {
 
         if (!content.hasLocale(locale)) {
             content.addLocale(m_cms, locale);
         }
-        List<String> paths = new ArrayList<String>(contentValues.keySet());
+        List<@RUntainted String> paths = new ArrayList<@RUntainted String>(contentValues.keySet());
         // first delete all null values
         // use reverse index ordering for similar elements
         Collections.sort(paths, new PathComparator(true));
@@ -632,7 +633,7 @@ public class CmsUgcSession implements I_CmsSessionDestroyHandler {
      * @param locale the content locale
      * @param path the value XPath
      */
-    protected void deleteContentValue(CmsXmlContent content, Locale locale, String path) {
+    protected void deleteContentValue(CmsXmlContent content, Locale locale, @RUntainted String path) {
 
         boolean hasValue = content.hasValue(path, locale);
         if (hasValue) {
@@ -764,7 +765,7 @@ public class CmsUgcSession implements I_CmsSessionDestroyHandler {
      *
      * @throws CmsException if something goes wrong
      */
-    private void deleteResourceFromProject(CmsObject cms, CmsResource res) throws CmsException {
+    private void deleteResourceFromProject(CmsObject cms, @RUntainted CmsResource res) throws CmsException {
 
         CmsLock lock = cms.getLock(res);
         if (lock.isUnlocked() || lock.isLockableBy(cms.getRequestContext().getCurrentUser())) {
@@ -780,7 +781,7 @@ public class CmsUgcSession implements I_CmsSessionDestroyHandler {
      *
      * @return the project name
      */
-    private String generateProjectName() {
+    private @RUntainted String generateProjectName() {
 
         return "Edit project " + new Date();
     }
@@ -791,7 +792,7 @@ public class CmsUgcSession implements I_CmsSessionDestroyHandler {
      * @return the new resource site path
      * @throws CmsException if something goes wrong
      */
-    private String getNewContentName() throws CmsException {
+    private @RUntainted String getNewContentName() throws CmsException {
 
         String sitePath = OpenCms.getResourceManager().getNameGenerator().getNewFileName(
             m_cms,

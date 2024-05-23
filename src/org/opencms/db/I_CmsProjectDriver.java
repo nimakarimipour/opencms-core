@@ -47,6 +47,7 @@ import org.opencms.util.CmsUUID;
 
 import java.util.List;
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Definitions of all required project driver methods. <p>
@@ -74,7 +75,7 @@ public interface I_CmsProjectDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    int cleanupPublishHistory(CmsDbContext dbc, CmsPublishHistoryCleanupFilter filter) throws CmsDataAccessException;
+    @RUntainted int cleanupPublishHistory(CmsDbContext dbc, CmsPublishHistoryCleanupFilter filter) throws CmsDataAccessException;
 
     /**
      * Creates a new project.<p>
@@ -93,16 +94,16 @@ public interface I_CmsProjectDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    CmsProject createProject(
+    @RUntainted CmsProject createProject(
         CmsDbContext dbc,
-        CmsUUID id,
+        @RUntainted CmsUUID id,
         CmsUser owner,
         CmsGroup group,
         CmsGroup managergroup,
-        String name,
-        String description,
-        int flags,
-        CmsProjectType type)
+        @RUntainted String name,
+        @RUntainted String description,
+        @RUntainted int flags,
+        @RUntainted CmsProjectType type)
     throws CmsDataAccessException;
 
     /**
@@ -114,7 +115,7 @@ public interface I_CmsProjectDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    void createProjectResource(CmsDbContext dbc, CmsUUID projectId, String resourceName) throws CmsDataAccessException;
+    void createProjectResource(CmsDbContext dbc, CmsUUID projectId, @RUntainted String resourceName) throws CmsDataAccessException;
 
     /**
      * Inserts an entry for a publish job .<p>
@@ -287,7 +288,7 @@ public interface I_CmsProjectDriver {
      *
      * @return the SQL manager for this driver
      */
-    CmsSqlManager initSqlManager(String classname);
+    CmsSqlManager initSqlManager(@RUntainted String classname);
 
     /**
      * Logs the given log entries.<p>
@@ -316,10 +317,10 @@ public interface I_CmsProjectDriver {
     void publishDeletedFolder(
         CmsDbContext dbc,
         I_CmsReport report,
-        int m,
-        int n,
+        @RUntainted int m,
+        @RUntainted int n,
         CmsProject onlineProject,
-        CmsFolder offlineFolder,
+        @RUntainted CmsFolder offlineFolder,
         CmsUUID publishHistoryId,
         int publishTag)
     throws CmsDataAccessException;
@@ -342,10 +343,10 @@ public interface I_CmsProjectDriver {
     void publishFile(
         CmsDbContext dbc,
         I_CmsReport report,
-        int m,
-        int n,
+        @RUntainted int m,
+        @RUntainted int n,
         CmsProject onlineProject,
-        CmsResource offlineResource,
+        @RUntainted CmsResource offlineResource,
         Set<CmsUUID> publishedContentIds,
         CmsUUID publishHistoryId,
         int publishTag)
@@ -401,10 +402,10 @@ public interface I_CmsProjectDriver {
     void publishFolder(
         CmsDbContext dbc,
         I_CmsReport report,
-        int m,
-        int n,
+        @RUntainted int m,
+        @RUntainted int n,
         CmsProject onlineProject,
-        CmsFolder currentFolder,
+        @RUntainted CmsFolder currentFolder,
         CmsUUID publishHistoryId,
         int publishTag)
     throws CmsDataAccessException;
@@ -439,7 +440,7 @@ public interface I_CmsProjectDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    List<CmsLock> readLocks(CmsDbContext dbc) throws CmsDataAccessException;
+    List<@RUntainted CmsLock> readLocks(CmsDbContext dbc) throws CmsDataAccessException;
 
     /**
      * Reads log entries matching the given filter.<p>
@@ -463,7 +464,7 @@ public interface I_CmsProjectDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    CmsProject readProject(CmsDbContext dbc, CmsUUID id) throws CmsDataAccessException;
+    @RUntainted CmsProject readProject(CmsDbContext dbc, @RUntainted CmsUUID id) throws CmsDataAccessException;
 
     /**
      * Reads a project.<p>
@@ -474,7 +475,7 @@ public interface I_CmsProjectDriver {
      * @return the project with the given name
      * @throws CmsDataAccessException if something goes wrong
      */
-    CmsProject readProject(CmsDbContext dbc, String name) throws CmsDataAccessException;
+    @RUntainted CmsProject readProject(CmsDbContext dbc, @RUntainted String name) throws CmsDataAccessException;
 
     /**
      * Reads the project resource path for a given project and resource path,
@@ -487,7 +488,7 @@ public interface I_CmsProjectDriver {
      * @return String the project's resource path
      * @throws CmsDataAccessException if something goes wrong
      */
-    String readProjectResource(CmsDbContext dbc, CmsUUID projectId, String resourcename) throws CmsDataAccessException;
+    String readProjectResource(CmsDbContext dbc, CmsUUID projectId, @RUntainted String resourcename) throws CmsDataAccessException;
 
     /**
      * Reads the project resources for a specified project.<p>
@@ -499,7 +500,7 @@ public interface I_CmsProjectDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    List<String> readProjectResources(CmsDbContext dbc, CmsProject project) throws CmsDataAccessException;
+    List<@RUntainted String> readProjectResources(CmsDbContext dbc, CmsProject project) throws CmsDataAccessException;
 
     /**
      * Returns all projects in the given organizational unit.<p>
@@ -511,7 +512,7 @@ public interface I_CmsProjectDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    List<CmsProject> readProjects(CmsDbContext dbc, String ouFqn) throws CmsDataAccessException;
+    List<@RUntainted CmsProject> readProjects(CmsDbContext dbc, String ouFqn) throws CmsDataAccessException;
 
     /**
      * Returns all projects, which are accessible by a group.<p>
@@ -593,7 +594,7 @@ public interface I_CmsProjectDriver {
      * @return the assigned publish list
      * @throws CmsDataAccessException if something goes wrong
      */
-    CmsPublishList readPublishList(CmsDbContext dbc, CmsUUID publishHistoryId) throws CmsDataAccessException;
+    CmsPublishList readPublishList(CmsDbContext dbc, @RUntainted CmsUUID publishHistoryId) throws CmsDataAccessException;
 
     /**
      * Reads the publish report assigned to a publish job.<p>
@@ -628,7 +629,7 @@ public interface I_CmsProjectDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    List<String> readStaticExportResources(CmsDbContext dbc, int parameterResources, long timestamp)
+    @RUntainted List<@RUntainted String> readStaticExportResources(CmsDbContext dbc, int parameterResources, long timestamp)
     throws CmsDataAccessException;
 
     /**

@@ -44,6 +44,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Resource init handler that loads historical versions of resources.<p>
@@ -75,7 +77,7 @@ public class CmsHistoryResourceHandler implements I_CmsResourceInit {
      *
      * @return the historical resource if the given request is displaying an historical version
      */
-    public static I_CmsHistoryResource getHistoryResource(ServletRequest req) {
+    public static @RPolyTainted I_CmsHistoryResource getHistoryResource(@RPolyTainted ServletRequest req) {
 
         return (I_CmsHistoryResource)req.getAttribute(ATTRIBUTE_NAME);
     }
@@ -109,13 +111,13 @@ public class CmsHistoryResourceHandler implements I_CmsResourceInit {
      *
      * @throws CmsException if something goes wrong
      */
-    public static CmsResource getResourceWithHistory(CmsObject cms, String resourceUri) throws CmsException {
+    public static CmsResource getResourceWithHistory(CmsObject cms, @RUntainted String resourceUri) throws CmsException {
 
         CmsResource resource = null;
 
         if (resourceUri.contains(CmsRequestUtil.URL_DELIMITER)) {
             int pos = resourceUri.indexOf(CmsRequestUtil.URL_DELIMITER);
-            Map<String, String[]> params = CmsRequestUtil.createParameterMap(resourceUri.substring(pos));
+            Map<String, @RUntainted String[]> params = CmsRequestUtil.createParameterMap(resourceUri.substring(pos));
             if (params.containsKey(CmsHistoryResourceHandler.PARAM_VERSION)) {
                 int version = Integer.parseInt(params.get(CmsHistoryResourceHandler.PARAM_VERSION)[0]);
                 String sitemapPath = resourceUri.substring(0, pos);
@@ -144,8 +146,8 @@ public class CmsHistoryResourceHandler implements I_CmsResourceInit {
     /**
      * @see org.opencms.main.I_CmsResourceInit#initResource(org.opencms.file.CmsResource, org.opencms.file.CmsObject, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-    public CmsResource initResource(
-        CmsResource resource,
+    public @RUntainted CmsResource initResource(
+        @RUntainted CmsResource resource,
         CmsObject cms,
         HttpServletRequest req,
         HttpServletResponse res)

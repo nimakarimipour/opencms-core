@@ -28,6 +28,7 @@
 package org.opencms.ade.galleries.shared;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A point in 2D space.<p>
@@ -35,10 +36,10 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 public class CmsPoint implements IsSerializable {
 
     /** x coordinate. */
-    private double m_x;
+    private @RUntainted double m_x;
 
     /** y coordinate. */
-    private double m_y;
+    private @RUntainted double m_y;
 
     /**
      * Creates a new instance.<p>
@@ -46,7 +47,7 @@ public class CmsPoint implements IsSerializable {
      * @param x the x coordinate
      * @param y the y coordinate
      */
-    public CmsPoint(double x, double y) {
+    public CmsPoint(@RUntainted double x, @RUntainted double y) {
 
         m_x = x;
         m_y = y;
@@ -64,7 +65,7 @@ public class CmsPoint implements IsSerializable {
      *
      * @return the x coordinate
      */
-    public double getX() {
+    public @RUntainted double getX() {
 
         return m_x;
     }
@@ -74,7 +75,7 @@ public class CmsPoint implements IsSerializable {
      *
      * @return the y coordinate
      */
-    public double getY() {
+    public @RUntainted double getY() {
 
         return m_y;
     }

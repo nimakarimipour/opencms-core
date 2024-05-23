@@ -36,6 +36,7 @@ import java.io.File;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A schedulable OpenCms job that clear the image cache for the scaled images created by the <code>{@link org.opencms.loader.CmsImageLoader}</code>.<p>
@@ -67,7 +68,7 @@ public class CmsImageCacheCleanupJob implements I_CmsScheduledJob {
      *
      * @return the total number of deleted resources
      */
-    public static int cleanImageCache(float maxAge) {
+    public static @RUntainted int cleanImageCache(float maxAge) {
 
         // calculate oldest possible date for the cache files
         long expireDate = System.currentTimeMillis() - (long)(maxAge * 60f * 60f * 1000f);
@@ -84,11 +85,11 @@ public class CmsImageCacheCleanupJob implements I_CmsScheduledJob {
      *
      * @return the total number of deleted resources
      */
-    private static int cleanImageCache(long maxAge, File directory) {
+    private static @RUntainted int cleanImageCache(long maxAge, @RUntainted File directory) {
 
         int count = 0;
         if (directory.canRead() && directory.isDirectory()) {
-            File[] files = directory.listFiles();
+            @RUntainted File[] files = directory.listFiles();
             for (int i = 0; i < files.length; i++) {
                 File f = files[i];
                 if (f.isDirectory()) {
@@ -126,7 +127,7 @@ public class CmsImageCacheCleanupJob implements I_CmsScheduledJob {
     /**
      * @see org.opencms.scheduler.I_CmsScheduledJob#launch(CmsObject, Map)
      */
-    public String launch(CmsObject cms, Map<String, String> parameters) throws Exception {
+    public @RUntainted String launch(CmsObject cms, Map<String, @RUntainted String> parameters) throws Exception {
 
         if (!CmsImageLoader.isEnabled() || (CmsImageLoader.getImageRepositoryPath() == null)) {
             // scaling functions are not available

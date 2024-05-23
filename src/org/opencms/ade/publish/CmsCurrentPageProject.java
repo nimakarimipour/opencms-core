@@ -59,6 +59,7 @@ import com.google.common.collect.Sets;
 import com.google.web.bindery.autobean.shared.AutoBean;
 import com.google.web.bindery.autobean.shared.AutoBeanCodex;
 import com.google.web.bindery.autobean.vm.AutoBeanFactorySource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Virtual project which includes the currently edited resource and all its related resources.
@@ -74,7 +75,7 @@ public class CmsCurrentPageProject implements I_CmsVirtualProject {
     /**
      * @see org.opencms.ade.publish.I_CmsVirtualProject#getProjectBean(org.opencms.file.CmsObject, java.util.Map)
      */
-    public CmsProjectBean getProjectBean(CmsObject cms, Map<String, String> params) {
+    public CmsProjectBean getProjectBean(CmsObject cms, Map<String, @RUntainted String> params) {
 
         String pageId = params.get(CmsPublishOptions.PARAM_CONTAINERPAGE);
         String elementId = params.get(CmsPublishOptions.PARAM_CONTENT);
@@ -125,7 +126,7 @@ public class CmsCurrentPageProject implements I_CmsVirtualProject {
 
             public Set<CmsResource> getAdditionalRelatedResources(CmsObject cms, CmsResource res) {
 
-                Map<String, String> params = options.getParameters();
+                Map<String, @RUntainted String> params = options.getParameters();
 
                 String pageId = options.getParameters().get(CmsPublishOptions.PARAM_CONTAINERPAGE);
                 String detailId = options.getParameters().get(CmsPublishOptions.PARAM_DETAIL);
@@ -142,7 +143,7 @@ public class CmsCurrentPageProject implements I_CmsVirtualProject {
 
                         CmsObject onlineCms = OpenCms.initCmsObject(cmsObject);
                         onlineCms.getRequestContext().setCurrentProject(online);
-                        List<CmsRelation> relations = onlineCms.readRelations(
+                        List<@RUntainted CmsRelation> relations = onlineCms.readRelations(
                             CmsRelationFilter.relationsFromStructureId(new CmsUUID(pageId)));
                         for (CmsRelation relation : relations) {
                             CmsResource offlineTarget = null;
@@ -170,7 +171,7 @@ public class CmsCurrentPageProject implements I_CmsVirtualProject {
 
                     I_CmsAutoBeanFactory collectorInfoFactory = AutoBeanFactorySource.create(
                         I_CmsAutoBeanFactory.class);
-                    for (Map.Entry<String, String> entry : params.entrySet()) {
+                    for (Map.Entry<String, @RUntainted String> entry : params.entrySet()) {
                         if (entry.getKey().startsWith(CmsPublishOptions.PARAM_COLLECTOR_INFO)) {
                             try {
                                 AutoBean<I_CmsContentLoadCollectorInfo> autoBean = AutoBeanCodex.decode(
@@ -228,7 +229,7 @@ public class CmsCurrentPageProject implements I_CmsVirtualProject {
     /**
      * @see org.opencms.ade.publish.I_CmsVirtualProject#getResources(org.opencms.file.CmsObject, java.util.Map, java.lang.String)
      */
-    public List<CmsResource> getResources(CmsObject cms, Map<String, String> params, String workflowId) {
+    public @RUntainted List<CmsResource> getResources(CmsObject cms, Map<String, @RUntainted String> params, String workflowId) {
 
         String containerpageId = params.get(CmsPublishOptions.PARAM_CONTAINERPAGE);
         String elementId = params.get(CmsPublishOptions.PARAM_CONTENT);

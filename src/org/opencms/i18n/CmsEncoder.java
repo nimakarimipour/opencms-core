@@ -55,6 +55,8 @@ import org.apache.commons.logging.Log;
 import org.apache.http.client.utils.URIBuilder;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * The OpenCms CmsEncoder class provides static methods to decode and encode data.<p>
@@ -106,7 +108,7 @@ public final class CmsEncoder {
     private static final Log LOG = CmsLog.getLog(CmsEncoder.class);
 
     /** A cache for encoding name lookup. */
-    private static Map<String, String> m_encodingCache = new HashMap<String, String>(16);
+    private static Map<String, @RUntainted String> m_encodingCache = new HashMap<String, @RUntainted String>(16);
 
     private static Random m_random = new Random();
 
@@ -134,7 +136,7 @@ public final class CmsEncoder {
      *
      * @return the input with the decoded/encoded HTML entities
      */
-    public static String adjustHtmlEncoding(String input, String encoding) {
+    public static @RPolyTainted String adjustHtmlEncoding(@RPolyTainted String input, String encoding) {
 
         return encodeHtmlEntities(decodeHtmlEntities(input), encoding);
     }
@@ -173,7 +175,7 @@ public final class CmsEncoder {
      * @param uriString the URI
      * @return the converted URI
      */
-    public static String convertHostToPunycode(String uriString) {
+    public static @RPolyTainted String convertHostToPunycode(@RPolyTainted String uriString) {
 
         if (uriString.indexOf(":") >= 0) {
             try {
@@ -210,7 +212,7 @@ public final class CmsEncoder {
      *
      * @return the bytes decoded to a String
      */
-    public static String createString(byte[] bytes, String encoding) {
+    public static @RPolyTainted String createString(@RPolyTainted byte[] bytes, @RPolyTainted String encoding) {
 
         String enc = encoding.intern();
         if (enc != OpenCms.getSystemInfo().getDefaultEncoding()) {
@@ -246,7 +248,7 @@ public final class CmsEncoder {
      *
      * @return String the decoded source String
      */
-    public static String decode(String source) {
+    public static @RPolyTainted String decode(@RPolyTainted String source) {
 
         return decode(source, ENCODING_UTF_8);
     }
@@ -265,7 +267,7 @@ public final class CmsEncoder {
      *
      * @return The decoded source String
      */
-    public static String decode(String source, String encoding) {
+    public static @RPolyTainted String decode(@RPolyTainted String source, String encoding) {
 
         if (source == null) {
             return null;
@@ -294,7 +296,7 @@ public final class CmsEncoder {
      *
      * @see #encodeHtmlEntities(String, String)
      */
-    public static String decodeHtmlEntities(String input) {
+    public static @RPolyTainted String decodeHtmlEntities(@RPolyTainted String input) {
 
         Matcher matcher = ENTITIY_PATTERN.matcher(input);
         StringBuffer result = new StringBuffer(input.length());
@@ -320,7 +322,7 @@ public final class CmsEncoder {
      * @see #encodeHtmlEntities(String, String)
      */
     @Deprecated
-    public static String decodeHtmlEntities(String input, String encoding) {
+    public static @RPolyTainted String decodeHtmlEntities(@RPolyTainted String input, String encoding) {
 
         Matcher matcher = ENTITIY_PATTERN.matcher(input);
         StringBuffer result = new StringBuffer(input.length());
@@ -356,7 +358,7 @@ public final class CmsEncoder {
      *
      * @see #encodeParameter(String)
      */
-    public static String decodeParameter(String input) {
+    public static @RPolyTainted String decodeParameter(@RPolyTainted String input) {
 
         String result = CmsStringUtil.substitute(input, ENTITY_REPLACEMENT, ENTITY_PREFIX);
         return CmsEncoder.decodeHtmlEntities(result, OpenCms.getSystemInfo().getDefaultEncoding());
@@ -396,7 +398,7 @@ public final class CmsEncoder {
      *
      * @return String the encoded source String
      */
-    public static String encode(String source) {
+    public static @RPolyTainted String encode(@RPolyTainted String source) {
 
         return encode(source, ENCODING_UTF_8);
     }
@@ -415,7 +417,7 @@ public final class CmsEncoder {
      *
      * @return the encoded source String
      */
-    public static String encode(String source, String encoding) {
+    public static @RPolyTainted String encode(@RPolyTainted String source, String encoding) {
 
         if (source == null) {
             return null;
@@ -452,7 +454,7 @@ public final class CmsEncoder {
      *
      * @see #decodeHtmlEntities(String, String)
      */
-    public static String encodeHtmlEntities(String input, String encoding) {
+    public static @RPolyTainted String encodeHtmlEntities(@RPolyTainted String input, String encoding) {
 
         StringBuffer result = new StringBuffer(input.length() * 2);
         Charset charset = Charset.forName(encoding);
@@ -537,13 +539,13 @@ public final class CmsEncoder {
      * @param strings the strings to encode
      * @return the resulting base64 data
      */
-    public static String encodeStringsAsBase64Parameter(List<String> strings) {
+    public static @RUntainted String encodeStringsAsBase64Parameter(List<@RUntainted String> strings) {
 
         JSONArray array = new JSONArray();
         for (String string : strings) {
             array.put(string);
         }
-        byte[] bytes;
+        @RUntainted byte[] bytes;
         try {
             // use obfuscateBytes here to to make the output look more random
             bytes = obfuscateBytes(array.toString().getBytes("UTF-8"));
@@ -608,7 +610,7 @@ public final class CmsEncoder {
      *
      * @see #escapeXml(String)
      */
-    public static String escapeHtml(String source) {
+    public static @RPolyTainted String escapeHtml(@RPolyTainted String source) {
 
         if (source == null) {
             return null;
@@ -692,9 +694,9 @@ public final class CmsEncoder {
      *
      * @return the escaped pattern
      */
-    public static String escapeSqlLikePattern(String pattern, char escapeChar) {
+    public static String escapeSqlLikePattern(String pattern, @RUntainted char escapeChar) {
 
-        char[] special = new char[] {escapeChar, '%', '_'};
+        @RUntainted char[] special = new char[] {escapeChar, '%', '_'};
         String result = pattern;
         for (char charToEscape : special) {
             result = result.replaceAll("" + charToEscape, "" + escapeChar + charToEscape);
@@ -712,7 +714,7 @@ public final class CmsEncoder {
      *
      * @return The encoded String
      */
-    public static String escapeWBlanks(String source, String encoding) {
+    public static @RPolyTainted String escapeWBlanks(@RPolyTainted String source, String encoding) {
 
         if (CmsStringUtil.isEmpty(source)) {
             return source;
@@ -753,7 +755,7 @@ public final class CmsEncoder {
      *
      * @see #escapeHtml(String)
      */
-    public static String escapeXml(String source) {
+    public static @RPolyTainted String escapeXml(@RPolyTainted String source) {
 
         return escapeXml(source, false);
     }
@@ -777,7 +779,7 @@ public final class CmsEncoder {
      *
      * @see #escapeHtml(String)
      */
-    public static String escapeXml(String source, boolean doubleEscape) {
+    public static @RPolyTainted String escapeXml(@RPolyTainted String source, boolean doubleEscape) {
 
         if (source == null) {
             return null;
@@ -838,7 +840,7 @@ public final class CmsEncoder {
      *
      * @return the resolved encoding name, or the fallback value
      */
-    public static String lookupEncoding(String encoding, String fallback) {
+    public static @RPolyTainted String lookupEncoding(@RPolyTainted String encoding, @RPolyTainted String fallback) {
 
         String result = m_encodingCache.get(encoding);
         if (result != null) {
@@ -947,11 +949,11 @@ public final class CmsEncoder {
      * @param source the source array
      * @return the result
      */
-    private static byte[] obfuscateBytes(byte[] source) {
+    private static @RUntainted byte[] obfuscateBytes(byte[] source) {
 
-        byte[] s = new byte[1];
+        @RUntainted byte[] s = new byte[1];
         m_random.nextBytes(s);
-        byte[] result = new byte[source.length + 1];
+        @RUntainted byte[] result = new byte[source.length + 1];
         System.arraycopy(source, 0, result, 1, source.length);
         result[0] = s[0];
         for (int i = 1; i < result.length; i++) {

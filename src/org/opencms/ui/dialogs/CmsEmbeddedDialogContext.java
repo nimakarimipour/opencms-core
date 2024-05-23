@@ -62,6 +62,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.Window.CloseListener;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Context for dialogs embedded into plain GWT modules.<p>
@@ -84,7 +85,7 @@ public class CmsEmbeddedDialogContext implements I_CmsDialogContext {
     private boolean m_keepFrameOnClose;
 
     /** The list of resources. */
-    private List<CmsResource> m_resources;
+    private @RUntainted List<@RUntainted CmsResource> m_resources;
 
     /** The window used to display the dialog. */
     private Window m_window;
@@ -93,7 +94,7 @@ public class CmsEmbeddedDialogContext implements I_CmsDialogContext {
     private CmsEmbeddedDialogExtension m_extension;
 
     /** The parameters. */
-    private Map<String, String> m_parameters;
+    private Map<String, @RUntainted String> m_parameters;
 
     /**
      * Constructor.<p>
@@ -108,8 +109,8 @@ public class CmsEmbeddedDialogContext implements I_CmsDialogContext {
         String appId,
         CmsEmbeddedDialogExtension extension,
         ContextType contextType,
-        List<CmsResource> resources,
-        Map<String, String> parameters) {
+        @RUntainted List<CmsResource> resources,
+        Map<String, @RUntainted String> parameters) {
 
         m_extension = extension;
         m_appId = appId;
@@ -257,7 +258,7 @@ public class CmsEmbeddedDialogContext implements I_CmsDialogContext {
     /**
      * @see org.opencms.ui.I_CmsDialogContext#getAllStructureIdsInView()
      */
-    public List<CmsUUID> getAllStructureIdsInView() {
+    public List<@RUntainted CmsUUID> getAllStructureIdsInView() {
 
         return Collections.emptyList();
     }
@@ -273,7 +274,7 @@ public class CmsEmbeddedDialogContext implements I_CmsDialogContext {
     /**
      * @see org.opencms.ui.I_CmsDialogContext#getCms()
      */
-    public CmsObject getCms() {
+    public @RUntainted CmsObject getCms() {
 
         return A_CmsUI.getCmsObject();
     }
@@ -289,7 +290,7 @@ public class CmsEmbeddedDialogContext implements I_CmsDialogContext {
     /**
      * @see org.opencms.ui.I_CmsDialogContext#getParameters()
      */
-    public Map<String, String> getParameters() {
+    public Map<String, @RUntainted String> getParameters() {
 
         return Collections.unmodifiableMap(m_parameters);
     }
@@ -297,7 +298,7 @@ public class CmsEmbeddedDialogContext implements I_CmsDialogContext {
     /**
      * @see org.opencms.ui.I_CmsDialogContext#getResources()
      */
-    public List<CmsResource> getResources() {
+    public @RUntainted List<@RUntainted CmsResource> getResources() {
 
         return m_resources;
     }

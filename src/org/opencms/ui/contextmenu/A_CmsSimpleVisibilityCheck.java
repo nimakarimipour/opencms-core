@@ -31,6 +31,7 @@ import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract superclass for menu item visibility checks.<p>
@@ -51,12 +52,12 @@ public abstract class A_CmsSimpleVisibilityCheck implements I_CmsHasMenuItemVisi
      *
      * @return the visibility for the given resource
      */
-    public abstract CmsMenuItemVisibilityMode getSingleVisibility(CmsObject cms, CmsResource resource);
+    public abstract CmsMenuItemVisibilityMode getSingleVisibility(@RUntainted CmsObject cms, @RUntainted CmsResource resource);
 
     /**
      * @see org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject, java.util.List)
      */
-    public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
+    public CmsMenuItemVisibilityMode getVisibility(@RUntainted CmsObject cms, List<@RUntainted CmsResource> resources) {
 
         if (resources.size() <= 1) {
             // Single-selection case where we just delegate to getSingleVisibility

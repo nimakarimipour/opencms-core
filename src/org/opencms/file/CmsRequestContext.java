@@ -38,6 +38,8 @@ import org.opencms.workplace.CmsWorkplace;
 import java.util.Hashtable;
 import java.util.Locale;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Stores the information about the current users OpenCms context,
@@ -64,10 +66,10 @@ public final class CmsRequestContext {
         + ".NEW_RESOURCE_LOCALE";
 
     /** A map for storing (optional) request context attributes. */
-    private Map<String, Object> m_attributeMap;
+    private Map<String, @RUntainted Object> m_attributeMap;
 
     /** The current project. */
-    private CmsProject m_currentProject;
+    private @RUntainted CmsProject m_currentProject;
 
     /** The detail content resource (possibly null). */
     private CmsResource m_detailResource;
@@ -76,43 +78,43 @@ public final class CmsRequestContext {
     private CmsResourceTranslator m_directoryTranslator;
 
     /** Current encoding. */
-    private String m_encoding;
+    private @RUntainted String m_encoding;
 
     /** File name translator. */
     private CmsResourceTranslator m_fileTranslator;
 
     /** Flag to control whether links should be absolute even if we're linking to the current site. */
-    private boolean m_forceAbsoluteLinks;
+    private @RUntainted boolean m_forceAbsoluteLinks;
 
     /** The secure request flag. */
-    private boolean m_isSecureRequest;
+    private @RUntainted boolean m_isSecureRequest;
 
     /** The locale used by this request context. */
-    private Locale m_locale;
+    private @RUntainted Locale m_locale;
 
     /** The fully qualified name of the organizational unit for this request. */
-    private String m_ouFqn;
+    private @RUntainted String m_ouFqn;
 
     /** The remote ip address. */
-    private String m_remoteAddr;
+    private @RUntainted String m_remoteAddr;
 
     /** the matcher for the current request, that is the host part of the URI from the original http request. */
-    private CmsSiteMatcher m_requestMatcher;
+    private @RUntainted CmsSiteMatcher m_requestMatcher;
 
     /** The current request time. */
-    private long m_requestTime;
+    private @RUntainted long m_requestTime;
 
     /** The name of the root, e.g. /site_a/vfs. */
-    private String m_siteRoot;
+    private @RUntainted String m_siteRoot;
 
     /** Flag to indicate that this context should not update the user session. */
     private boolean m_updateSession;
 
     /** The URI for getUri() in case it is "overwritten".  */
-    private String m_uri;
+    private @RUntainted String m_uri;
 
     /** The current user. */
-    private CmsUser m_user;
+    private @RUntainted CmsUser m_user;
 
     /**
      * Constructs a new request context.<p>
@@ -133,20 +135,20 @@ public final class CmsRequestContext {
      * @param forceAbsoluteLinks if true, links should be generated with a server prefix even if we're linking to the current site
      */
     public CmsRequestContext(
-        CmsUser user,
-        CmsProject project,
-        String requestedUri,
-        CmsSiteMatcher requestMatcher,
-        String siteRoot,
-        boolean isSecureRequest,
-        Locale locale,
-        String encoding,
-        String remoteAddr,
-        long requestTime,
+        @RUntainted CmsUser user,
+        @RUntainted CmsProject project,
+        @RUntainted String requestedUri,
+        @RUntainted CmsSiteMatcher requestMatcher,
+        @RUntainted String siteRoot,
+        @RUntainted boolean isSecureRequest,
+        @RUntainted Locale locale,
+        @RUntainted String encoding,
+        @RUntainted String remoteAddr,
+        @RUntainted long requestTime,
         CmsResourceTranslator directoryTranslator,
         CmsResourceTranslator fileTranslator,
-        String ouFqn,
-        boolean forceAbsoluteLinks) {
+        @RUntainted String ouFqn,
+        @RUntainted boolean forceAbsoluteLinks) {
 
         m_updateSession = true;
         m_user = user;
@@ -177,7 +179,7 @@ public final class CmsRequestContext {
      *
      * @return the adjusted site root for the resource
      */
-    public static String getAdjustedSiteRoot(String siteRoot, String resourcename) {
+    public static @RPolyTainted String getAdjustedSiteRoot(@RPolyTainted String siteRoot, String resourcename) {
 
         if (resourcename.startsWith(CmsWorkplace.VFS_PATH_SYSTEM)
             || OpenCms.getSiteManager().startsWithShared(resourcename)
@@ -196,7 +198,7 @@ public final class CmsRequestContext {
      * @return the translated resource name including site root
      * @see #addSiteRoot(String, String)
      */
-    public String addSiteRoot(String resourcename) {
+    public @RUntainted String addSiteRoot(String resourcename) {
 
         return addSiteRoot(m_siteRoot, resourcename);
     }
@@ -210,7 +212,7 @@ public final class CmsRequestContext {
      * @param resourcename the resource name
      * @return the translated resource name including site root
      */
-    public String addSiteRoot(String siteRoot, String resourcename) {
+    public @RUntainted String addSiteRoot(String siteRoot, String resourcename) {
 
         if ((resourcename == null) || (siteRoot == null)) {
             return null;
@@ -273,7 +275,7 @@ public final class CmsRequestContext {
      * @param attributeName the attribute name
      * @return Object the attribute value, or <code>null</code> if the attribute was not found
      */
-    public Object getAttribute(String attributeName) {
+    public @RUntainted Object getAttribute(String attributeName) {
 
         if (m_attributeMap == null) {
             return null;
@@ -286,7 +288,7 @@ public final class CmsRequestContext {
      *
      * @return the current project of the current user
      */
-    public CmsProject getCurrentProject() {
+    public @RUntainted CmsProject getCurrentProject() {
 
         return m_currentProject;
     }
@@ -296,7 +298,7 @@ public final class CmsRequestContext {
      *
      * @return the current user object
      */
-    public CmsUser getCurrentUser() {
+    public @RUntainted CmsUser getCurrentUser() {
 
         return m_user;
     }
@@ -306,7 +308,7 @@ public final class CmsRequestContext {
      *
      * @return the detail content id
      */
-    public CmsUUID getDetailContentId() {
+    public @RUntainted CmsUUID getDetailContentId() {
 
         if (m_detailResource == null) {
             return null;
@@ -332,7 +334,7 @@ public final class CmsRequestContext {
      *
      * @return the directory name translator this context was initialized with
      */
-    public CmsResourceTranslator getDirectoryTranslator() {
+    public @RUntainted CmsResourceTranslator getDirectoryTranslator() {
 
         return m_directoryTranslator;
     }
@@ -342,7 +344,7 @@ public final class CmsRequestContext {
      *
      * @return the encoding
      */
-    public String getEncoding() {
+    public @RUntainted String getEncoding() {
 
         return m_encoding;
     }
@@ -355,7 +357,7 @@ public final class CmsRequestContext {
      *
      * @return the file name translator this context was initialized with
      */
-    public CmsResourceTranslator getFileTranslator() {
+    public @RUntainted CmsResourceTranslator getFileTranslator() {
 
         return m_fileTranslator;
     }
@@ -365,7 +367,7 @@ public final class CmsRequestContext {
      *
      * @return the name of the parent folder of the requested file
      */
-    public String getFolderUri() {
+    public @RUntainted String getFolderUri() {
 
         return CmsResource.getFolderPath(m_uri);
     }
@@ -382,7 +384,7 @@ public final class CmsRequestContext {
      * @see org.opencms.i18n.I_CmsLocaleHandler#getI18nInfo(javax.servlet.http.HttpServletRequest, CmsUser, CmsProject, String)
      * @see org.opencms.i18n.CmsLocaleManager#getDefaultLocale(CmsObject, String)
      */
-    public Locale getLocale() {
+    public @RUntainted Locale getLocale() {
 
         return m_locale;
     }
@@ -392,7 +394,7 @@ public final class CmsRequestContext {
      *
      * @return the fully qualified name of the organizational unit
      */
-    public String getOuFqn() {
+    public @RUntainted String getOuFqn() {
 
         return m_ouFqn;
     }
@@ -402,7 +404,7 @@ public final class CmsRequestContext {
      *
      * @return the remote ip address as string
      */
-    public String getRemoteAddress() {
+    public @RUntainted String getRemoteAddress() {
 
         return m_remoteAddr;
     }
@@ -412,7 +414,7 @@ public final class CmsRequestContext {
      *
      * @return the matcher for the current request, that is the host part of the URI from the original http request
      */
-    public CmsSiteMatcher getRequestMatcher() {
+    public @RUntainted CmsSiteMatcher getRequestMatcher() {
 
         return m_requestMatcher;
     }
@@ -422,7 +424,7 @@ public final class CmsRequestContext {
      *
      * @return the current request time
      */
-    public long getRequestTime() {
+    public @RUntainted long getRequestTime() {
 
         return m_requestTime;
     }
@@ -459,7 +461,7 @@ public final class CmsRequestContext {
      * @see CmsResource#getRootPath()
      * @see CmsObject#getSitePath(CmsResource)
      */
-    public String getSitePath(CmsResource resource) {
+    public @RUntainted String getSitePath(CmsResource resource) {
 
         return removeSiteRoot(resource.getRootPath());
     }
@@ -469,7 +471,7 @@ public final class CmsRequestContext {
      *
      * @return the current root directory in the virtual file system
      */
-    public String getSiteRoot() {
+    public @RUntainted String getSiteRoot() {
 
         return m_siteRoot;
     }
@@ -479,7 +481,7 @@ public final class CmsRequestContext {
      *
      * @return the OpenCms VFS URI of the requested resource
      */
-    public String getUri() {
+    public @RUntainted String getUri() {
 
         return m_uri;
     }
@@ -489,7 +491,7 @@ public final class CmsRequestContext {
      *
      * @return true if links to the current site should be absolute
      */
-    public boolean isForceAbsoluteLinks() {
+    public @RUntainted boolean isForceAbsoluteLinks() {
 
         return m_forceAbsoluteLinks;
     }
@@ -499,7 +501,7 @@ public final class CmsRequestContext {
      *
      * @return true if this is secure
      */
-    public boolean isSecureRequest() {
+    public @RUntainted boolean isSecureRequest() {
 
         return m_isSecureRequest;
     }
@@ -524,7 +526,7 @@ public final class CmsRequestContext {
      *
      * @return the removed attribute, or <code>null</code> if no attribute was set with this name
      */
-    public Object removeAttribute(String key) {
+    public @RUntainted Object removeAttribute(String key) {
 
         if (m_attributeMap != null) {
             return m_attributeMap.remove(key);
@@ -545,7 +547,7 @@ public final class CmsRequestContext {
      *
      * @see #getSitePath(CmsResource)
      */
-    public String removeSiteRoot(String resourcename) {
+    public @RUntainted String removeSiteRoot(@RUntainted String resourcename) {
 
         String siteRoot = getAdjustedSiteRoot(m_siteRoot, resourcename);
         if ((siteRoot == m_siteRoot)
@@ -566,7 +568,7 @@ public final class CmsRequestContext {
      * @param key the attribute name
      * @param value the attribute value
      */
-    public void setAttribute(String key, Object value) {
+    public void setAttribute(String key, @RUntainted Object value) {
 
         if (m_attributeMap == null) {
             // hash table is still the most efficient form of a synchronized Map
@@ -582,7 +584,7 @@ public final class CmsRequestContext {
      *
      * @return the CmsProject instance
      */
-    public CmsProject setCurrentProject(CmsProject project) {
+    public CmsProject setCurrentProject(@RUntainted CmsProject project) {
 
         if (project != null) {
             m_currentProject = project;
@@ -605,7 +607,7 @@ public final class CmsRequestContext {
      *
      * @param encoding the encoding
      */
-    public void setEncoding(String encoding) {
+    public void setEncoding(@RUntainted String encoding) {
 
         m_encoding = encoding;
     }
@@ -615,7 +617,7 @@ public final class CmsRequestContext {
      *
      * @param forceAbsoluteLinks true if links to the current site should be generated with server prefix
      */
-    public void setForceAbsoluteLinks(boolean forceAbsoluteLinks) {
+    public void setForceAbsoluteLinks(@RUntainted boolean forceAbsoluteLinks) {
 
         m_forceAbsoluteLinks = forceAbsoluteLinks;
     }
@@ -627,7 +629,7 @@ public final class CmsRequestContext {
      *
      * @see #getLocale() for more information about how the locale is set in normal operation
      */
-    public void setLocale(Locale locale) {
+    public void setLocale(@RUntainted Locale locale) {
 
         m_locale = locale;
     }
@@ -637,7 +639,7 @@ public final class CmsRequestContext {
      *
      * @param ouFqn the organizational unit fully qualified name
      */
-    public void setOuFqn(String ouFqn) {
+    public void setOuFqn(@RUntainted String ouFqn) {
 
         String userOu = CmsOrganizationalUnit.getParentFqn(m_user.getName());
         if (ouFqn != null) {
@@ -659,7 +661,7 @@ public final class CmsRequestContext {
      *
      * @param time the request time
      */
-    public void setRequestTime(long time) {
+    public void setRequestTime(@RUntainted long time) {
 
         m_requestTime = time;
     }
@@ -669,7 +671,7 @@ public final class CmsRequestContext {
      *
      * @param secureRequest the new value
      */
-    public void setSecureRequest(boolean secureRequest) {
+    public void setSecureRequest(@RUntainted boolean secureRequest) {
 
         m_isSecureRequest = secureRequest;
     }
@@ -679,7 +681,7 @@ public final class CmsRequestContext {
      *
      * @param root the name of the new root directory
      */
-    public void setSiteRoot(String root) {
+    public void setSiteRoot(@RUntainted String root) {
 
         // site roots must never end with a "/"
         if (root.endsWith("/")) {
@@ -708,7 +710,7 @@ public final class CmsRequestContext {
      *
      * @param value the value to set the Uri to, must be a complete OpenCms path name like /system/workplace/style.css
      */
-    public void setUri(String value) {
+    public void setUri(@RUntainted String value) {
 
         m_uri = value;
     }
@@ -720,7 +722,7 @@ public final class CmsRequestContext {
      * @param project the new users current project
      * @param ouFqn the organizational unit
      */
-    protected void switchUser(CmsUser user, CmsProject project, String ouFqn) {
+    protected void switchUser(@RUntainted CmsUser user, @RUntainted CmsProject project, @RUntainted String ouFqn) {
 
         m_user = user;
         m_currentProject = project;

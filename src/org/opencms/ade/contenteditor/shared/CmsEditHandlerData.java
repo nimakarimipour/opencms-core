@@ -30,6 +30,7 @@ package org.opencms.ade.contenteditor.shared;
 import org.opencms.util.CmsUUID;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Data which needs to be passed to the edit handler when using the 'new' button for an editable list element.<p>
@@ -37,7 +38,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 public class CmsEditHandlerData implements IsSerializable {
 
     /** The client id of the editable element. */
-    private String m_clientId;
+    private @RUntainted String m_clientId;
 
     /** The option chosen by the user. */
     private String m_option;
@@ -46,7 +47,7 @@ public class CmsEditHandlerData implements IsSerializable {
     private CmsUUID m_pageContextId;
 
     /** The string containing the request parameters. */
-    private String m_requestParams;
+    private @RUntainted String m_requestParams;
 
     /**
      * Default constructor for serialization.<p>
@@ -64,7 +65,7 @@ public class CmsEditHandlerData implements IsSerializable {
      * @param pageContextId the structure id of the container page
      * @param requestParams the string containing the request parameters
      */
-    public CmsEditHandlerData(String clientId, String option, CmsUUID pageContextId, String requestParams) {
+    public CmsEditHandlerData(@RUntainted String clientId, String option, CmsUUID pageContextId, @RUntainted String requestParams) {
 
         m_clientId = clientId;
         m_option = option;
@@ -78,7 +79,7 @@ public class CmsEditHandlerData implements IsSerializable {
      *
      * @return the client id of the element
      */
-    public String getClientId() {
+    public @RUntainted String getClientId() {
 
         return m_clientId;
     }
@@ -98,7 +99,7 @@ public class CmsEditHandlerData implements IsSerializable {
      *
      * @return the container page's structure id
      */
-    public CmsUUID getPageContextId() {
+    public @RUntainted CmsUUID getPageContextId() {
 
         return m_pageContextId;
     }
@@ -108,7 +109,7 @@ public class CmsEditHandlerData implements IsSerializable {
      *
      * @return the string with the request parameters from the URL
      */
-    public String getRequestParams() {
+    public @RUntainted String getRequestParams() {
 
         return m_requestParams;
     }

@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This bean represents the current search object.<p>
@@ -83,10 +84,10 @@ public class CmsGallerySearchBean implements IsSerializable {
     private boolean m_disablePreview;
 
     /** The list of selected vfs folders. */
-    private Set<String> m_folders = new HashSet<String>();
+    private @RUntainted Set<String> m_folders = new HashSet<String>();
 
     /** The list of selected galleries ids (path). */
-    private List<String> m_galleries = new ArrayList<String>();
+    private List<@RUntainted String> m_galleries = new ArrayList<@RUntainted String>();
 
     /** Flag to indicate whether the user changed the gallery selection. */
     private boolean m_galleriesChanged;
@@ -110,7 +111,7 @@ public class CmsGallerySearchBean implements IsSerializable {
     private int m_lastPage;
 
     /** The selected locale for search. */
-    private String m_locale;
+    private @RUntainted String m_locale;
 
     /** The number of search results to be display pro page. */
     private int m_matchesPerPage;
@@ -128,7 +129,7 @@ public class CmsGallerySearchBean implements IsSerializable {
     private String m_query;
 
     /** The gallery reference path. */
-    private String m_referencePath;
+    private @RUntainted String m_referencePath;
 
     /** True if the search results were replaced. */
     private boolean m_replacedResults;
@@ -255,7 +256,7 @@ public class CmsGallerySearchBean implements IsSerializable {
      *
      * @param gallery the gallery
      */
-    public void addGallery(String gallery) {
+    public void addGallery(@RUntainted String gallery) {
 
         if (!m_galleries.contains(gallery)) {
             m_galleries.add(gallery);
@@ -385,7 +386,7 @@ public class CmsGallerySearchBean implements IsSerializable {
      *
      * @return the list of selected VFS folders
      */
-    public Set<String> getFolders() {
+    public @RUntainted Set<String> getFolders() {
 
         return m_folders;
     }
@@ -395,7 +396,7 @@ public class CmsGallerySearchBean implements IsSerializable {
      *
      * @return the galleries
      */
-    public List<String> getGalleries() {
+    public List<@RUntainted String> getGalleries() {
 
         return m_galleries;
     }
@@ -445,7 +446,7 @@ public class CmsGallerySearchBean implements IsSerializable {
      *
      * @return the locale
      */
-    public String getLocale() {
+    public @RUntainted String getLocale() {
 
         return m_locale;
     }
@@ -508,7 +509,7 @@ public class CmsGallerySearchBean implements IsSerializable {
      *
      * @return the gallery reference path
      */
-    public String getReferencePath() {
+    public @RUntainted String getReferencePath() {
 
         return m_referencePath;
     }
@@ -845,7 +846,7 @@ public class CmsGallerySearchBean implements IsSerializable {
      *
      * @param folders the folders
      */
-    public void setFolders(Set<String> folders) {
+    public void setFolders(@RUntainted Set<String> folders) {
 
         m_folders = folders;
     }
@@ -855,7 +856,7 @@ public class CmsGallerySearchBean implements IsSerializable {
      *
      * @param galleries the galleries to set
      */
-    public void setGalleries(List<String> galleries) {
+    public void setGalleries(List<@RUntainted String> galleries) {
 
         m_galleries = galleries;
     }
@@ -935,7 +936,7 @@ public class CmsGallerySearchBean implements IsSerializable {
      *
      * @param locale the locale to set
      */
-    public void setLocale(String locale) {
+    public void setLocale(@RUntainted String locale) {
 
         m_locale = locale;
     }
@@ -995,7 +996,7 @@ public class CmsGallerySearchBean implements IsSerializable {
      *
      * @param referencePath the gallery reference path
      */
-    public void setReferencePath(String referencePath) {
+    public void setReferencePath(@RUntainted String referencePath) {
 
         m_referencePath = referencePath;
     }

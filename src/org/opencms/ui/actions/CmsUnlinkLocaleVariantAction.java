@@ -46,6 +46,7 @@ import org.opencms.ui.sitemap.CmsUnlinkDialog;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Workplace action for the 'Link locale variant' dialog.<p>
@@ -99,7 +100,7 @@ public class CmsUnlinkLocaleVariantAction extends A_CmsWorkplaceAction {
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
      */
     @Override
-    public String getTitleKey() {
+    public @RUntainted String getTitleKey() {
 
         return Messages.GUI_LOCALECOMPARE_UNLINK_LOCALE_VARIANT_0;
     }
@@ -141,7 +142,7 @@ public class CmsUnlinkLocaleVariantAction extends A_CmsWorkplaceAction {
      */
     List<CmsRelation> readOutgoingRelations(CmsObject cms, CmsResource resource) throws CmsException {
 
-        List<CmsRelation> results = cms.readRelations(
+        List<@RUntainted CmsRelation> results = cms.readRelations(
             CmsRelationFilter.relationsFromStructureId(resource.getStructureId()).filterType(
                 CmsRelationType.LOCALE_VARIANT));
         return results;

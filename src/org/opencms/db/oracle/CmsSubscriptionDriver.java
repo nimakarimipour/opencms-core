@@ -43,6 +43,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Oracle implementation of the subscription driver.<p>
@@ -55,7 +56,7 @@ public class CmsSubscriptionDriver extends org.opencms.db.generic.CmsSubscriptio
      * @see org.opencms.db.generic.CmsSubscriptionDriver#initSqlManager(java.lang.String)
      */
     @Override
-    public org.opencms.db.generic.CmsSqlManager initSqlManager(String classname) {
+    public org.opencms.db.generic.CmsSqlManager initSqlManager(@RUntainted String classname) {
 
         return CmsSqlManager.getInstance(classname);
     }

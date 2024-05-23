@@ -34,6 +34,7 @@ import org.opencms.ui.components.extensions.CmsGwtDialogExtension;
 import org.opencms.workplace.Messages;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The user preferences dialog action.<p>
@@ -76,7 +77,7 @@ public class CmsPreferencesDialogAction extends A_CmsToolbarAction {
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
      */
     @Override
-    protected String getTitleKey() {
+    protected @RUntainted String getTitleKey() {
 
         return Messages.GUI_BUTTON_PREFERENCES_0;
     }

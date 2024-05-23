@@ -85,6 +85,7 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.SAXWriter;
 import org.xml.sax.SAXException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides the functionality to export files from the OpenCms VFS to a ZIP file.<p>
@@ -104,7 +105,7 @@ public class CmsExport {
     private CmsObject m_cms;
 
     /** Counter for the export. */
-    private int m_exportCount;
+    private @RUntainted int m_exportCount;
 
     /** Set of all exported files, required for preventing redundant sibling export. */
     private Set<CmsUUID> m_exportedResources;
@@ -247,7 +248,7 @@ public class CmsExport {
      * @throws SAXException if something goes wrong processing the manifest.xml
      * @throws IOException if not all resources could be appended to the ZIP archive
      */
-    protected void addChildResources(String folderName) throws CmsImportExportException, IOException, SAXException {
+    protected void addChildResources(@RUntainted String folderName) throws CmsImportExportException, IOException, SAXException {
 
         try {
             // get all subFolders
@@ -334,7 +335,7 @@ public class CmsExport {
      * @throws IOException if a file could not be exported
      * @throws SAXException if something goes wrong processing the manifest.xml
      */
-    protected void addFiles(List<String> fileNames) throws CmsImportExportException, IOException, SAXException {
+    protected void addFiles(List<@RUntainted String> fileNames) throws CmsImportExportException, IOException, SAXException {
 
         if (fileNames != null) {
             for (int i = 0; i < fileNames.size(); i++) {
@@ -380,7 +381,7 @@ public class CmsExport {
      * @throws CmsImportExportException if something goes wrong
      * @throws SAXException if something goes wrong processing the manifest.xml
      */
-    protected void addParentFolders(String resourceName) throws CmsImportExportException, SAXException {
+    protected void addParentFolders(@RUntainted String resourceName) throws CmsImportExportException, SAXException {
 
         try {
             // this is a resource in /system/ folder and option includeSystem is not true
@@ -650,7 +651,7 @@ public class CmsExport {
                 }
 
                 // Write the relations to the manifest
-                List<CmsRelation> relations = getCms().getRelationsForResource(
+                List<@RUntainted CmsRelation> relations = getCms().getRelationsForResource(
                     resource,
                     CmsRelationFilter.TARGETS.filterNotDefinedInContent());
                 Element relationsElement = fileElement.addElement(CmsImportVersion10.N_RELATIONS);
@@ -814,7 +815,7 @@ public class CmsExport {
      * @throws SAXException if something goes wrong processing the manifest.xml
      * @throws IOException if not all resources could be appended to the ZIP archive
      */
-    protected void exportAllResources(Element parent, List<String> resourcesToExport)
+    protected void exportAllResources(Element parent, List<@RUntainted String> resourcesToExport)
     throws CmsImportExportException, IOException, SAXException {
 
         // export all the resources
@@ -841,9 +842,9 @@ public class CmsExport {
         }
 
         // distinguish folder and file names
-        List<String> folderNames = new ArrayList<String>();
-        List<String> fileNames = new ArrayList<String>();
-        Iterator<String> it = resourcesToExport.iterator();
+        List<@RUntainted String> folderNames = new ArrayList<@RUntainted String>();
+        List<@RUntainted String> fileNames = new ArrayList<@RUntainted String>();
+        Iterator<@RUntainted String> it = resourcesToExport.iterator();
         while (it.hasNext()) {
             String resource = it.next();
             if (CmsResource.isFolder(resource)) {
@@ -1414,7 +1415,7 @@ public class CmsExport {
      *
      * @return the name of the export file
      */
-    protected String getExportFileName() {
+    protected @RUntainted String getExportFileName() {
 
         return m_parameters.getPath();
     }
@@ -1566,7 +1567,7 @@ public class CmsExport {
      *
      * @return the trimmed resource name
      */
-    protected String trimResourceName(String resourceName) {
+    protected @RUntainted String trimResourceName(@RUntainted String resourceName) {
 
         if (resourceName.startsWith("/")) {
             resourceName = resourceName.substring(1);

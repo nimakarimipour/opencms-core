@@ -28,6 +28,7 @@
 package org.opencms.db.mssql;
 
 import org.opencms.db.generic.CmsSqlManager;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * MS SQL implementation of the VFS driver methods.<p>
@@ -40,7 +41,7 @@ public class CmsVfsDriver extends org.opencms.db.generic.CmsVfsDriver {
      * @see org.opencms.db.I_CmsVfsDriver#initSqlManager(String)
      */
     @Override
-    public org.opencms.db.generic.CmsSqlManager initSqlManager(String classname) {
+    public org.opencms.db.generic.CmsSqlManager initSqlManager(@RUntainted String classname) {
 
         return CmsSqlManager.getInstance(classname);
     }

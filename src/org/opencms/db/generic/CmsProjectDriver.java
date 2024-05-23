@@ -105,6 +105,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generic (ANSI-SQL) implementation of the project driver methods.<p>
@@ -122,10 +123,10 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
         private int m_lockType;
 
         /** The project id. */
-        private CmsUUID m_projectId;
+        private @RUntainted CmsUUID m_projectId;
 
         /** The resource path. */
-        private String m_resourcePath;
+        private @RUntainted String m_resourcePath;
 
         /** The user id. */
         private CmsUUID m_userId;
@@ -138,7 +139,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
          * @param projectId project id
          * @param lockType lock type
          */
-        public CmsTempResourceLock(String resourcePath, CmsUUID userId, CmsUUID projectId, int lockType) {
+        public CmsTempResourceLock(@RUntainted String resourcePath, CmsUUID userId, CmsUUID projectId, int lockType) {
 
             m_resourcePath = resourcePath;
             m_userId = userId;
@@ -161,7 +162,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
          *
          * @return the projectId
          */
-        public CmsUUID getProjectId() {
+        public @RUntainted CmsUUID getProjectId() {
 
             return m_projectId;
         }
@@ -171,7 +172,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
          *
          * @return the resourcePath
          */
-        public String getResourcePath() {
+        public @RUntainted String getResourcePath() {
 
             return m_resourcePath;
         }
@@ -203,7 +204,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
     /**
      * @see org.opencms.db.I_CmsProjectDriver#cleanupPublishHistory(org.opencms.db.CmsDbContext, org.opencms.db.generic.CmsPublishHistoryCleanupFilter)
      */
-    public int cleanupPublishHistory(CmsDbContext dbc, CmsPublishHistoryCleanupFilter filter)
+    public @RUntainted int cleanupPublishHistory(CmsDbContext dbc, CmsPublishHistoryCleanupFilter filter)
     throws CmsDataAccessException {
 
         Connection conn = null;
@@ -254,16 +255,16 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
     /**
      * @see org.opencms.db.I_CmsProjectDriver#createProject(org.opencms.db.CmsDbContext, CmsUUID, org.opencms.file.CmsUser, org.opencms.file.CmsGroup, org.opencms.file.CmsGroup, java.lang.String, java.lang.String, int, CmsProject.CmsProjectType)
      */
-    public CmsProject createProject(
+    public @RUntainted CmsProject createProject(
         CmsDbContext dbc,
-        CmsUUID id,
+        @RUntainted CmsUUID id,
         CmsUser owner,
         CmsGroup group,
         CmsGroup managergroup,
-        String projectFqn,
-        String description,
-        int flags,
-        CmsProject.CmsProjectType type)
+        @RUntainted String projectFqn,
+        @RUntainted String description,
+        @RUntainted int flags,
+        CmsProject.@RUntainted CmsProjectType type)
     throws CmsDataAccessException {
 
         CmsProject project = null;
@@ -328,7 +329,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
     /**
      * @see org.opencms.db.I_CmsProjectDriver#createProjectResource(org.opencms.db.CmsDbContext, CmsUUID, java.lang.String)
      */
-    public void createProjectResource(CmsDbContext dbc, CmsUUID projectId, String resourcePath)
+    public void createProjectResource(CmsDbContext dbc, CmsUUID projectId, @RUntainted String resourcePath)
     throws CmsDataAccessException {
 
         // do not create entries for online-project
@@ -459,7 +460,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
             StringBuffer queryBuf = new StringBuffer(256);
             queryBuf.append(m_sqlManager.readQuery("C_LOG_DELETE_ENTRIES"));
 
-            CmsPair<String, List<I_CmsPreparedStatementParameter>> conditionsAndParams = prepareLogConditions(filter);
+            CmsPair<String, @RUntainted List<I_CmsPreparedStatementParameter>> conditionsAndParams = prepareLogConditions(filter);
             queryBuf.append(conditionsAndParams.getFirst());
             if (LOG.isDebugEnabled()) {
                 LOG.debug(queryBuf.toString());
@@ -934,7 +935,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
     /**
      * @see org.opencms.db.I_CmsProjectDriver#initSqlManager(String)
      */
-    public org.opencms.db.generic.CmsSqlManager initSqlManager(String classname) {
+    public org.opencms.db.generic.CmsSqlManager initSqlManager(@RUntainted String classname) {
 
         return CmsSqlManager.getInstance(classname);
     }
@@ -988,10 +989,10 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
     public void publishDeletedFolder(
         CmsDbContext dbc,
         I_CmsReport report,
-        int m,
-        int n,
+        @RUntainted int m,
+        @RUntainted int n,
         CmsProject onlineProject,
-        CmsFolder currentFolder,
+        @RUntainted CmsFolder currentFolder,
         CmsUUID publishHistoryId,
         int publishTag)
     throws CmsDataAccessException {
@@ -1209,10 +1210,10 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
     public void publishFile(
         CmsDbContext dbc,
         I_CmsReport report,
-        int m,
-        int n,
+        @RUntainted int m,
+        @RUntainted int n,
         CmsProject onlineProject,
-        CmsResource offlineResource,
+        @RUntainted CmsResource offlineResource,
         Set<CmsUUID> publishedContentIds,
         CmsUUID publishHistoryId,
         int publishTag)
@@ -1371,7 +1372,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
             throw new CmsDataAccessException(e.getMessageContainer(), e);
         } finally {
             // notify the app. that the published file and it's properties have been modified offline
-            Map<String, Object> data = new HashMap<String, Object>(2);
+            Map<@RUntainted String, @RUntainted Object> data = new HashMap<@RUntainted String, @RUntainted Object>(2);
             data.put(I_CmsEventListener.KEY_RESOURCE, offlineResource);
             data.put(I_CmsEventListener.KEY_SKIPINDEX, Boolean.valueOf(true));
 
@@ -1475,10 +1476,10 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
     public void publishFolder(
         CmsDbContext dbc,
         I_CmsReport report,
-        int m,
-        int n,
+        @RUntainted int m,
+        @RUntainted int n,
         CmsProject onlineProject,
-        CmsFolder offlineFolder,
+        @RUntainted CmsFolder offlineFolder,
         CmsUUID publishHistoryId,
         int publishTag)
     throws CmsDataAccessException {
@@ -1727,7 +1728,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
                     I_CmsReport.FORMAT_HEADLINE);
             }
 
-            Iterator<CmsResource> itFolders = publishList.getFolderList().iterator();
+            Iterator<@RUntainted CmsResource> itFolders = publishList.getFolderList().iterator();
             I_CmsProjectDriver projectDriver = m_driverManager.getProjectDriver(dbc);
             I_CmsHistoryDriver historyDriver = m_driverManager.getHistoryDriver(dbc);
             while (itFolders.hasNext()) {
@@ -1835,7 +1836,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
             Set<CmsUUID> changedAndDeletedResourceIds = Sets.intersection(deletedResourceIds, changedResourceIds);
             dbc.setAttribute(CmsDriverManager.KEY_CHANGED_AND_DELETED, changedAndDeletedResourceIds);
 
-            Iterator<CmsResource> itFiles = publishList.getFileList().iterator();
+            Iterator<@RUntainted CmsResource> itFiles = publishList.getFileList().iterator();
             while (itFiles.hasNext()) {
                 CmsResource currentResource = itFiles.next();
                 try {
@@ -1891,7 +1892,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
             ////////////////////////////////////////////////////////////////////////////////////////
 
             // publish deleted folders
-            List<CmsResource> deletedFolders = publishList.getDeletedFolderList();
+            List<@RUntainted CmsResource> deletedFolders = publishList.getDeletedFolderList();
             if (deletedFolders.isEmpty()) {
                 return;
             }
@@ -1904,7 +1905,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
                     I_CmsReport.FORMAT_HEADLINE);
             }
 
-            Iterator<CmsResource> itDeletedFolders = deletedFolders.iterator();
+            Iterator<@RUntainted CmsResource> itDeletedFolders = deletedFolders.iterator();
             while (itDeletedFolders.hasNext()) {
                 CmsResource currentFolder = itDeletedFolders.next();
 
@@ -1970,7 +1971,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
         } finally {
             // reset vfs driver internal info after publishing
             m_driverManager.getVfsDriver(dbc).publishVersions(dbc, null, false);
-            Object[] msgArgs = new Object[] {
+            @RUntainted Object[] msgArgs = new Object[] {
                 String.valueOf(publishedFileCount),
                 String.valueOf(publishedFolderCount),
                 String.valueOf(deletedFolderCount),
@@ -1987,7 +1988,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
     /**
      * @see org.opencms.db.I_CmsProjectDriver#readLocks(org.opencms.db.CmsDbContext)
      */
-    public List<CmsLock> readLocks(CmsDbContext dbc) throws CmsDataAccessException {
+    public List<@RUntainted CmsLock> readLocks(CmsDbContext dbc) throws CmsDataAccessException {
 
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -2052,7 +2053,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
             // compose statement
             StringBuffer queryBuf = new StringBuffer(256);
             queryBuf.append(m_sqlManager.readQuery("C_LOG_READ_ENTRIES"));
-            CmsPair<String, List<I_CmsPreparedStatementParameter>> conditionsAndParameters = prepareLogConditions(
+            CmsPair<String, @RUntainted List<I_CmsPreparedStatementParameter>> conditionsAndParameters = prepareLogConditions(
                 filter);
             List<I_CmsPreparedStatementParameter> params = conditionsAndParameters.getSecond();
             queryBuf.append(conditionsAndParameters.getFirst());
@@ -2085,7 +2086,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
     /**
      * @see org.opencms.db.I_CmsProjectDriver#readProject(org.opencms.db.CmsDbContext, CmsUUID)
      */
-    public CmsProject readProject(CmsDbContext dbc, CmsUUID id) throws CmsDataAccessException {
+    public @RUntainted CmsProject readProject(CmsDbContext dbc, @RUntainted CmsUUID id) throws CmsDataAccessException {
 
         PreparedStatement stmt = null;
         CmsProject project = null;
@@ -2122,7 +2123,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
     /**
      * @see org.opencms.db.I_CmsProjectDriver#readProject(org.opencms.db.CmsDbContext, java.lang.String)
      */
-    public CmsProject readProject(CmsDbContext dbc, String projectFqn) throws CmsDataAccessException {
+    public @RUntainted CmsProject readProject(CmsDbContext dbc, @RUntainted String projectFqn) throws CmsDataAccessException {
 
         PreparedStatement stmt = null;
         CmsProject project = null;
@@ -2160,7 +2161,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
     /**
      * @see org.opencms.db.I_CmsProjectDriver#readProjectResource(org.opencms.db.CmsDbContext, CmsUUID, java.lang.String)
      */
-    public String readProjectResource(CmsDbContext dbc, CmsUUID projectId, String resourcePath)
+    public String readProjectResource(CmsDbContext dbc, CmsUUID projectId, @RUntainted String resourcePath)
     throws CmsDataAccessException {
 
         PreparedStatement stmt = null;
@@ -2199,12 +2200,12 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
     /**
      * @see org.opencms.db.I_CmsProjectDriver#readProjectResources(org.opencms.db.CmsDbContext, org.opencms.file.CmsProject)
      */
-    public List<String> readProjectResources(CmsDbContext dbc, CmsProject project) throws CmsDataAccessException {
+    public List<@RUntainted String> readProjectResources(CmsDbContext dbc, CmsProject project) throws CmsDataAccessException {
 
         PreparedStatement stmt = null;
         Connection conn = null;
         ResultSet res = null;
-        List<String> result = new ArrayList<String>();
+        List<@RUntainted String> result = new ArrayList<@RUntainted String>();
 
         try {
             conn = m_sqlManager.getConnection(dbc);
@@ -2229,7 +2230,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
     /**
      * @see org.opencms.db.I_CmsProjectDriver#readProjects(org.opencms.db.CmsDbContext, String)
      */
-    public List<CmsProject> readProjects(CmsDbContext dbc, String ouFqn) throws CmsDataAccessException {
+    public List<@RUntainted CmsProject> readProjects(CmsDbContext dbc, String ouFqn) throws CmsDataAccessException {
 
         if ((dbc.getRequestContext() != null)
             && (dbc.getRequestContext().getAttribute(DBC_ATTR_READ_PROJECT_FOR_RESOURCE) != null)) {
@@ -2237,7 +2238,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
             // TODO: this should get its own method in the interface
             return readProjectsForResource(dbc, ouFqn);
         }
-        List<CmsProject> projects = new ArrayList<CmsProject>();
+        List<@RUntainted CmsProject> projects = new ArrayList<@RUntainted CmsProject>();
         ResultSet res = null;
         PreparedStatement stmt = null;
         Connection conn = null;
@@ -2338,10 +2339,10 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    public List<CmsProject> readProjectsForResource(CmsDbContext dbc, String rootPath) throws CmsDataAccessException {
+    public List<@RUntainted CmsProject> readProjectsForResource(CmsDbContext dbc, String rootPath) throws CmsDataAccessException {
 
         PreparedStatement stmt = null;
-        List<CmsProject> projects = new ArrayList<CmsProject>();
+        List<@RUntainted CmsProject> projects = new ArrayList<@RUntainted CmsProject>();
         ResultSet res = null;
         Connection conn = null;
 
@@ -2531,7 +2532,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
     /**
      * @see org.opencms.db.I_CmsProjectDriver#readPublishList(org.opencms.db.CmsDbContext, org.opencms.util.CmsUUID)
      */
-    public CmsPublishList readPublishList(CmsDbContext dbc, CmsUUID publishHistoryId) throws CmsDataAccessException {
+    public CmsPublishList readPublishList(CmsDbContext dbc, @RUntainted CmsUUID publishHistoryId) throws CmsDataAccessException {
 
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -2644,13 +2645,13 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
     /**
      * @see org.opencms.db.I_CmsProjectDriver#readStaticExportResources(org.opencms.db.CmsDbContext, int, long)
      */
-    public List<String> readStaticExportResources(CmsDbContext dbc, int parameterResources, long timestamp)
+    public @RUntainted List<@RUntainted String> readStaticExportResources(CmsDbContext dbc, int parameterResources, long timestamp)
     throws CmsDataAccessException {
 
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet res = null;
-        List<String> returnValue = new ArrayList<String>();
+        List<@RUntainted String> returnValue = new ArrayList<@RUntainted String>();
 
         if (parameterResources == CmsStaticExportManager.EXPORT_LINK_WITHOUT_PARAMETER) {
             timestamp = 0;
@@ -2868,7 +2869,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
     /**
      * @see org.opencms.db.I_CmsProjectDriver#writePublishReport(org.opencms.db.CmsDbContext, org.opencms.util.CmsUUID, byte[])
      */
-    public void writePublishReport(CmsDbContext dbc, CmsUUID publishId, byte[] content) throws CmsDataAccessException {
+    public void writePublishReport(CmsDbContext dbc, @RUntainted CmsUUID publishId, byte[] content) throws CmsDataAccessException {
 
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -2991,7 +2992,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
      * @return an initialized <code>CmsPublishJobInfoBean</code>
      * @throws SQLException if something goes wrong
      */
-    protected CmsPublishJobInfoBean createPublishJobInfoBean(ResultSet res) throws SQLException {
+    protected CmsPublishJobInfoBean createPublishJobInfoBean(@RUntainted ResultSet res) throws SQLException {
 
         return new CmsPublishJobInfoBean(
             new CmsUUID(res.getString("HISTORY_ID")),
@@ -3145,7 +3146,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
      *
      * @throws SQLException is something goes wrong
      */
-    protected CmsProject internalCreateProject(ResultSet res) throws SQLException {
+    protected @RUntainted CmsProject internalCreateProject(@RUntainted ResultSet res) throws SQLException {
 
         String ou = CmsOrganizationalUnit.removeLeadingSeparator(
             res.getString(m_sqlManager.readQuery("C_PROJECTS_PROJECT_OU_0")));
@@ -3186,7 +3187,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
      *
      * @throws SQLException if something goes wrong
      */
-    protected CmsLogEntry internalReadLogEntry(ResultSet res) throws SQLException {
+    protected CmsLogEntry internalReadLogEntry(@RUntainted ResultSet res) throws SQLException {
 
         CmsUUID userId = new CmsUUID(res.getString(m_sqlManager.readQuery("C_LOG_USER_ID")));
         long date = res.getLong(m_sqlManager.readQuery("C_LOG_DATE"));
@@ -3294,7 +3295,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
      *
      * @return a pair containing both the SQL and the parameters for it
      */
-    protected CmsPair<String, List<I_CmsPreparedStatementParameter>> prepareLogConditions(CmsLogFilter filter) {
+    protected CmsPair<String, @RUntainted List<I_CmsPreparedStatementParameter>> prepareLogConditions(CmsLogFilter filter) {
 
         List<I_CmsPreparedStatementParameter> params = new ArrayList<I_CmsPreparedStatementParameter>();
         StringBuffer conditions = new StringBuffer();

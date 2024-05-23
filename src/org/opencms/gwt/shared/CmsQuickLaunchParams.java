@@ -30,6 +30,7 @@ package org.opencms.gwt.shared;
 import org.opencms.util.CmsUUID;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Parameters used by the quick launch provider.<p>
@@ -113,7 +114,7 @@ public class CmsQuickLaunchParams implements IsSerializable {
      *
      * @return the pageId
      */
-    public CmsUUID getPageId() {
+    public @RUntainted CmsUUID getPageId() {
 
         return m_pageId;
     }
@@ -143,7 +144,7 @@ public class CmsQuickLaunchParams implements IsSerializable {
      *
      * @return the id of the last edited container page
      */
-    public CmsUUID getSessionPageId() {
+    public @RUntainted CmsUUID getSessionPageId() {
 
         return m_sessionPageId;
     }

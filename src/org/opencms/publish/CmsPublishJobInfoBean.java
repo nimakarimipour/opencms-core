@@ -39,6 +39,7 @@ import org.opencms.report.I_CmsReport;
 import org.opencms.util.CmsUUID;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Publish job information bean.<p>
@@ -57,31 +58,31 @@ public final class CmsPublishJobInfoBean {
     private boolean m_directPublish;
 
     /** Time of creation of this object. */
-    private long m_enqueueTime;
+    private @RUntainted long m_enqueueTime;
 
     /** Time the publish job did end. */
     private long m_finishTime;
 
     /** The locale to use for publishing. */
-    private Locale m_locale;
+    private @RUntainted Locale m_locale;
 
     /** Project to use for publishing. */
-    private CmsUUID m_projectId;
+    private @RUntainted CmsUUID m_projectId;
 
     /** Name of the project used for publishing. */
-    private String m_projectName;
+    private @RUntainted String m_projectName;
 
     /** Publish history id. */
-    private CmsUUID m_publishHistoryId;
+    private @RUntainted CmsUUID m_publishHistoryId;
 
     /** List of resources to publish, will be set to <code>null</code> after publishing. */
     private CmsPublishList m_publishList;
 
     /** The report to use during the publish process, will be set to <code>null</code> after publishing. */
-    private I_CmsReport m_publishReport;
+    private @RUntainted I_CmsReport m_publishReport;
 
     /** Report to log the publish job to, will be set to <code>null</code> after publishing. */
-    private I_CmsReport m_report;
+    private @RUntainted I_CmsReport m_report;
 
     /** Number of resources to publish. */
     private int m_size;
@@ -113,14 +114,14 @@ public final class CmsPublishJobInfoBean {
      * @param finishTime time when the job was finished
      */
     public CmsPublishJobInfoBean(
-        CmsUUID historyId,
+        @RUntainted CmsUUID historyId,
         CmsUUID projectId,
-        String projectName,
+        @RUntainted String projectName,
         CmsUUID userId,
-        String localeName,
+        @RUntainted String localeName,
         int flags,
         int resourceCount,
-        long enqueueTime,
+        @RUntainted long enqueueTime,
         long startTime,
         long finishTime) {
 
@@ -148,7 +149,7 @@ public final class CmsPublishJobInfoBean {
      *
      * @throws CmsException if something goes wrong
      */
-    protected CmsPublishJobInfoBean(CmsObject cms, CmsPublishList publishList, I_CmsReport report)
+    protected CmsPublishJobInfoBean(CmsObject cms, CmsPublishList publishList, @RUntainted I_CmsReport report)
     throws CmsException {
 
         m_cms = OpenCms.initCmsObject(cms);
@@ -172,7 +173,7 @@ public final class CmsPublishJobInfoBean {
      *
      * @return the time this object has been created
      */
-    public long getEnqueueTime() {
+    public @RUntainted long getEnqueueTime() {
 
         return m_enqueueTime;
     }
@@ -202,7 +203,7 @@ public final class CmsPublishJobInfoBean {
      *
      * @return the locale for this publish job
      */
-    public Locale getLocale() {
+    public @RUntainted Locale getLocale() {
 
         return m_locale;
     }
@@ -233,7 +234,7 @@ public final class CmsPublishJobInfoBean {
      *
      * @return the originally stored project name
      */
-    public String getProjectName() {
+    public @RUntainted String getProjectName() {
 
         return m_projectName;
     }
@@ -243,7 +244,7 @@ public final class CmsPublishJobInfoBean {
      *
      * @return the publish history id
      */
-    public CmsUUID getPublishHistoryId() {
+    public @RUntainted CmsUUID getPublishHistoryId() {
 
         return m_publishHistoryId;
     }
@@ -270,7 +271,7 @@ public final class CmsPublishJobInfoBean {
      *
      * @see CmsPublishJobEnqueued#getReport()
      */
-    public I_CmsReport getPublishReport() {
+    public @RUntainted I_CmsReport getPublishReport() {
 
         if ((m_publishReport == null) && (m_finishTime == 0) && (m_startTime > 0)) {
             m_publishReport = getReport();
@@ -288,7 +289,7 @@ public final class CmsPublishJobInfoBean {
      *
      * @return the report for this publish job
      */
-    public I_CmsReport getReport() {
+    public @RUntainted I_CmsReport getReport() {
 
         return m_report;
     }
@@ -438,7 +439,7 @@ public final class CmsPublishJobInfoBean {
      *
      * @return the cms object
      */
-    protected CmsObject getCmsObject() {
+    protected @RUntainted CmsObject getCmsObject() {
 
         return m_cms;
     }

@@ -37,6 +37,7 @@ import org.opencms.ui.apps.Messages;
 
 import java.util.HashMap;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Does a full static export of all system resources in the current site.<p>
@@ -50,7 +51,7 @@ public class CmsStaticExportThread extends A_CmsReportThread {
      *
      * @param cms the current cms context
      */
-    public CmsStaticExportThread(CmsObject cms) {
+    public CmsStaticExportThread(@RUntainted CmsObject cms) {
 
         super(cms, Messages.get().getBundle().key(Messages.GUI_STATEXP_THREAD_NAME_0));
         initHtmlReport(cms.getRequestContext().getLocale());

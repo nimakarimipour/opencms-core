@@ -49,6 +49,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A schedulable OpenCms job to delete expired resources.<p>
@@ -106,7 +107,7 @@ public class CmsDeleteExpiredResourcesJob implements I_CmsScheduledJob {
     /**
      * @see org.opencms.scheduler.I_CmsScheduledJob#launch(org.opencms.file.CmsObject, java.util.Map)
      */
-    public String launch(CmsObject cms, Map<String, String> parameters) throws Exception {
+    public @RUntainted String launch(CmsObject cms, Map<String, @RUntainted String> parameters) throws Exception {
 
         // this job requires a higher runlevel than is allowed for all jobs:
         if (OpenCms.getRunLevel() == OpenCms.RUNLEVEL_4_SERVLET_ACCESS) {
@@ -125,7 +126,7 @@ public class CmsDeleteExpiredResourcesJob implements I_CmsScheduledJob {
 
             // read the parameter if to clear versions of deleted resources
             String resTypes = parameters.get(PARAM_RESOURCETYPES);
-            String[] resTypesArr = null;
+            @RUntainted String[] resTypesArr = null;
             if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(resTypes)) {
                 resTypesArr = CmsStringUtil.splitAsArray(resTypes, ',');
             }
@@ -147,7 +148,7 @@ public class CmsDeleteExpiredResourcesJob implements I_CmsScheduledJob {
             report.println(Messages.get().container(Messages.RPT_DELETE_EXPIRED_START_0), I_CmsReport.FORMAT_HEADLINE);
 
             // collect all resources:
-            List<CmsResource> resources = Collections.emptyList();
+            List<@RUntainted CmsResource> resources = Collections.emptyList();
             CmsResourceFilter filter = CmsResourceFilter.ALL.addExcludeState(CmsResourceState.STATE_DELETED);
             filter = filter.addRequireExpireBefore(currenttime);
 
@@ -201,7 +202,7 @@ public class CmsDeleteExpiredResourcesJob implements I_CmsScheduledJob {
         final CmsObject cms,
         final I_CmsReport report,
         final List<CmsResource> resources,
-        final int expirationdays,
+        final @RUntainted int expirationdays,
         final long currenttime) {
 
         int result = 0;

@@ -30,6 +30,7 @@ package org.opencms.db;
 import org.opencms.main.OpenCms;
 
 import java.io.Serializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains the data of a single export point.<p>
@@ -42,13 +43,13 @@ public class CmsExportPoint implements Serializable {
     private static final long serialVersionUID = -4743473053188740993L;
 
     /** The configured destination path. */
-    private String m_configuredDestination;
+    private @RUntainted String m_configuredDestination;
 
     /** The destination path in the "real" file system, relative to the web application folder. */
-    private String m_destinationPath;
+    private @RUntainted String m_destinationPath;
 
     /** The URI of the OpenCms VFS resource (folder) of the export point. */
-    private String m_uri;
+    private @RUntainted String m_uri;
 
     /**
      * Creates a new, empty export point.<p>
@@ -67,7 +68,7 @@ public class CmsExportPoint implements Serializable {
      * @param destination the destination folder in the "real" file system,
      *     relative to the web application root
      */
-    public CmsExportPoint(String uri, String destination) {
+    public CmsExportPoint(@RUntainted String uri, @RUntainted String destination) {
 
         m_uri = uri;
         m_configuredDestination = destination;
@@ -78,7 +79,7 @@ public class CmsExportPoint implements Serializable {
      * @see java.lang.Object#clone()
      */
     @Override
-    public Object clone() {
+    public @RUntainted Object clone() {
 
         CmsExportPoint clone = new CmsExportPoint(m_uri, m_configuredDestination);
         clone.setDestinationPath(getDestinationPath());
@@ -110,7 +111,7 @@ public class CmsExportPoint implements Serializable {
      *
      * @see #getDestinationPath()
      */
-    public String getConfiguredDestination() {
+    public @RUntainted String getConfiguredDestination() {
 
         return m_configuredDestination;
     }
@@ -120,7 +121,7 @@ public class CmsExportPoint implements Serializable {
      *
      * @return the destination
      */
-    public String getDestinationPath() {
+    public @RUntainted String getDestinationPath() {
 
         if (m_destinationPath == null) {
             m_destinationPath = OpenCms.getSystemInfo().getAbsoluteRfsPathRelativeToWebApplication(
@@ -134,7 +135,7 @@ public class CmsExportPoint implements Serializable {
      *
      * @return the uri
      */
-    public String getUri() {
+    public @RUntainted String getUri() {
 
         return m_uri;
     }
@@ -159,7 +160,7 @@ public class CmsExportPoint implements Serializable {
      * @param value the configured destination path
      *
      */
-    public void setConfiguredDestination(String value) {
+    public void setConfiguredDestination(@RUntainted String value) {
 
         m_configuredDestination = value;
         m_destinationPath = null;
@@ -188,7 +189,7 @@ public class CmsExportPoint implements Serializable {
      *
      * @param value the uri to set
      */
-    public void setUri(String value) {
+    public void setUri(@RUntainted String value) {
 
         m_uri = value;
     }

@@ -31,6 +31,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Superclass for all SQL manager implementations.<p>
@@ -66,7 +67,7 @@ public class CmsSqlManager {
      * @return the number of active connections
      * @throws CmsDbException if something goes wrong
      */
-    public int getActiveConnections(String dbPoolUrl) throws CmsDbException {
+    public @RUntainted int getActiveConnections(@RUntainted String dbPoolUrl) throws CmsDbException {
 
         return m_driverManager.getActiveConnections(dbPoolUrl);
     }
@@ -100,7 +101,7 @@ public class CmsSqlManager {
      *
      * @return a list of database connection pool names
      */
-    public List<String> getDbPoolUrls() {
+    public List<@RUntainted String> getDbPoolUrls() {
 
         return new ArrayList<String>(CmsDriverManager.m_pools.keySet());
 
@@ -123,7 +124,7 @@ public class CmsSqlManager {
      * @return the number of idle connections
      * @throws CmsDbException if something goes wrong
      */
-    public int getIdleConnections(String dbPoolUrl) throws CmsDbException {
+    public @RUntainted int getIdleConnections(@RUntainted String dbPoolUrl) throws CmsDbException {
 
         return m_driverManager.getIdleConnections(dbPoolUrl);
     }

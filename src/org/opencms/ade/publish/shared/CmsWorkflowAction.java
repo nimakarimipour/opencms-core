@@ -28,6 +28,7 @@
 package org.opencms.ade.publish.shared;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Work flow action information.<p>
@@ -38,7 +39,7 @@ public class CmsWorkflowAction implements IsSerializable {
     public static final String ACTION_CANCEL = "cancel";
 
     /** The action key. */
-    private String m_action;
+    private @RUntainted String m_action;
 
     /** The action label. */
     private String m_label;
@@ -92,7 +93,7 @@ public class CmsWorkflowAction implements IsSerializable {
      *
      * @return the action key
      */
-    public String getAction() {
+    public @RUntainted String getAction() {
 
         return m_action;
     }

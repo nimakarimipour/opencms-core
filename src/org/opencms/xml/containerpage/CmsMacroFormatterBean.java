@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Formatter configuration for macro formatters.<p>
@@ -96,23 +97,23 @@ public class CmsMacroFormatterBean extends CmsFormatterBean {
      */
     public CmsMacroFormatterBean(
         Set<String> containerTypes,
-        String jspRootPath,
+        @RUntainted String jspRootPath,
         CmsUUID jspStructureId,
         int minWidth,
         int maxWidth,
         boolean searchContent,
         String location,
-        String niceName,
-        String description,
-        Collection<String> resourceTypeNames,
+        @RUntainted String niceName,
+        @RUntainted String description,
+        Collection<@RUntainted String> resourceTypeNames,
         int rank,
-        String id,
+        @RUntainted String id,
         String defaultContentRootPath,
         CmsUUID defaultContentStructureId,
         CmsSettingConfiguration settingConfig,
         boolean isAutoEnabled,
         boolean isDetail,
-        String displayType,
+        @RUntainted String displayType,
         boolean isAllowsSettingsInEditor,
         String macroInput,
         String placeholderMacroInput,
@@ -215,9 +216,9 @@ public class CmsMacroFormatterBean extends CmsFormatterBean {
      * @see org.opencms.xml.containerpage.CmsFormatterBean#getSettings(org.opencms.ade.configuration.CmsADEConfigData)
      */
     @Override
-    public Map<String, CmsXmlContentProperty> getSettings(CmsADEConfigData config) {
+    public Map<@RUntainted String, CmsXmlContentProperty> getSettings(CmsADEConfigData config) {
 
-        LinkedHashMap<String, CmsXmlContentProperty> settings = new LinkedHashMap<String, CmsXmlContentProperty>(
+        LinkedHashMap<@RUntainted String, CmsXmlContentProperty> settings = new LinkedHashMap<@RUntainted String, CmsXmlContentProperty>(
             super.getSettings(config));
         for (CmsUUID formatterId : m_referencedFormatters.values()) {
             I_CmsFormatterBean formatter = OpenCms.getADEManager().getCachedFormatters(m_online).getFormatters().get(

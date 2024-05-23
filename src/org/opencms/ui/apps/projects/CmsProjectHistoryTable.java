@@ -50,6 +50,7 @@ import com.vaadin.v7.data.Item;
 import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.v7.ui.Table;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The project history table.<p>
@@ -204,7 +205,7 @@ public class CmsProjectHistoryTable extends Table {
      *
      * @param event the click event
      */
-    private void handleItemClick(ItemClickEvent event) {
+    private void handleItemClick(@RUntainted ItemClickEvent event) {
 
         if (event.getButton().equals(MouseButton.LEFT)
             && CmsProjectsTable.PROP_RESOURCES.equals(event.getPropertyId())) {

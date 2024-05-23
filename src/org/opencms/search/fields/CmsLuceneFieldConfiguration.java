@@ -40,6 +40,7 @@ import java.util.Set;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.analysis.miscellaneous.PerFieldAnalyzerWrapper;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes a configuration of fields that are used in building a search index.<p>
@@ -60,7 +61,7 @@ public class CmsLuceneFieldConfiguration extends CmsSearchFieldConfiguration {
     public static final String STR_STANDARD_DESCRIPTION = "The standard OpenCms search index field configuration.";
 
     /** The fields that will be returned by a regular search (all stored and not lazy fields). */
-    private static Set<String> m_returnFields = new HashSet<String>();
+    private static @RUntainted Set<String> m_returnFields = new HashSet<String>();
 
     /** The serial version id. */
     private static final long serialVersionUID = 8011265789649614792L;
@@ -187,7 +188,7 @@ public class CmsLuceneFieldConfiguration extends CmsSearchFieldConfiguration {
      *
      * @return an analyzer that wraps the given base analyzer with the analyzers of this individual field configuration
      */
-    public Analyzer getAnalyzer(Analyzer analyzer) {
+    public @RUntainted Analyzer getAnalyzer(@RUntainted Analyzer analyzer) {
 
         // parent folder and last modified lookup fields must use whitespace analyzer
         WhitespaceAnalyzer ws = new WhitespaceAnalyzer();
@@ -263,7 +264,7 @@ public class CmsLuceneFieldConfiguration extends CmsSearchFieldConfiguration {
      *
      * @return the field names used for a regular result
      */
-    public Set<String> getReturnFields() {
+    public @RUntainted Set<String> getReturnFields() {
 
         if (m_fieldAdded) {
             for (CmsSearchField field : getLuceneFields()) {

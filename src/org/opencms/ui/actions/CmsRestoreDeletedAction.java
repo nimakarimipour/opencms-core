@@ -38,6 +38,7 @@ import org.opencms.ui.dialogs.CmsRestoreDeletedDialog;
 import org.opencms.workplace.explorer.Messages;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The availability dialog action.<p>
@@ -84,7 +85,7 @@ public class CmsRestoreDeletedAction extends A_CmsWorkplaceAction {
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
      */
     @Override
-    protected String getTitleKey() {
+    protected @RUntainted String getTitleKey() {
 
         return Messages.GUI_EXPLORER_CONTEXT_SHOW_DELETED_0;
     }

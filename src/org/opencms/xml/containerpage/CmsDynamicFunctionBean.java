@@ -38,6 +38,7 @@ import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A class which contains the data parsed from a dynamic function XML content.<p>
@@ -63,7 +64,7 @@ public class CmsDynamicFunctionBean {
         private boolean m_noContainerSettings;
 
         /** The parameters for the JSP. */
-        private Map<String, String> m_parameters = new HashMap<String, String>();
+        private Map<String, @RUntainted String> m_parameters = new HashMap<String, @RUntainted String>();
 
         /** Container type of the container settings. */
         private String m_type;
@@ -83,7 +84,7 @@ public class CmsDynamicFunctionBean {
             String type,
             String minWidth,
             String maxWidth,
-            Map<String, String> parameters) {
+            Map<String, @RUntainted String> parameters) {
 
             m_jspStructureId = structureId;
             m_type = type;
@@ -127,7 +128,7 @@ public class CmsDynamicFunctionBean {
          *
          * @return the map of parameters for the JSP
          **/
-        public Map<String, String> getParameters() {
+        public Map<String, @RUntainted String> getParameters() {
 
             return m_parameters;
         }
@@ -157,7 +158,7 @@ public class CmsDynamicFunctionBean {
          *
          * @param parameters the default parameters
          */
-        protected void setDefaultParameters(Map<String, String> parameters) {
+        protected void setDefaultParameters(Map<String, @RUntainted String> parameters) {
 
             if (m_parameters.isEmpty()) {
                 m_parameters = parameters;
@@ -231,7 +232,7 @@ public class CmsDynamicFunctionBean {
         // relate formatters to formats so we can pick the corresponding format after a formatter has been selected
         CmsFormatterBean mainFormatter = createFormatterBean(m_mainFormat, true);
         formatsByFormatter.put(mainFormatter, m_mainFormat);
-        List<I_CmsFormatterBean> formatters = new ArrayList<I_CmsFormatterBean>();
+        List<@RUntainted I_CmsFormatterBean> formatters = new ArrayList<@RUntainted I_CmsFormatterBean>();
         for (Format format : m_otherFormats) {
             CmsFormatterBean formatter = createFormatterBean(format, false);
             formatsByFormatter.put(formatter, format);
@@ -251,7 +252,7 @@ public class CmsDynamicFunctionBean {
      *
      * @return the formatter list for this dynamic function
      */
-    public List<CmsFormatterBean> getFormatters() {
+    public List<@RUntainted CmsFormatterBean> getFormatters() {
 
         CmsFormatterBean mainFormatter = createFormatterBean(m_mainFormat, true);
         List<CmsFormatterBean> formatters = new ArrayList<CmsFormatterBean>();
@@ -300,7 +301,7 @@ public class CmsDynamicFunctionBean {
      *
      * @return the formatter corresponding to the format
      */
-    protected CmsFormatterBean createFormatterBean(Format format, boolean isPreview) {
+    protected @RUntainted CmsFormatterBean createFormatterBean(Format format, boolean isPreview) {
 
         if (format.hasNoContainerSettings()) {
             return new CmsFormatterBean(

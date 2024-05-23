@@ -47,6 +47,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.v7.data.Validator.InvalidValueException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the dialiog to send broadcasts.<p>
@@ -80,7 +81,7 @@ public class CmsSendBroadcastDialog extends CmsBasicDialog {
      * @param sessionIds to send broadcast to
      * @param closeRunnable called on cancel
      */
-    public CmsSendBroadcastDialog(final Set<String> sessionIds, final Runnable closeRunnable) {
+    public CmsSendBroadcastDialog(final Set<@RUntainted String> sessionIds, final Runnable closeRunnable) {
 
         CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
         if (sessionIds != null) {
@@ -123,7 +124,7 @@ public class CmsSendBroadcastDialog extends CmsBasicDialog {
      *
      * @param sessionIds to send broadcast to
      */
-    protected void sendBroadcast(Set<String> sessionIds) {
+    protected void sendBroadcast(Set<@RUntainted String> sessionIds) {
 
         String cleanedHtml = CmsRichTextArea.cleanHtml(m_message.getValue(), true);
         if (sessionIds == null) {
@@ -156,7 +157,7 @@ public class CmsSendBroadcastDialog extends CmsBasicDialog {
      *
      * @param sessionIds to remove broadcast for (or null for all sessions)
      */
-    private void removeAllBroadcasts(Set<String> sessionIds) {
+    private void removeAllBroadcasts(Set<@RUntainted String> sessionIds) {
 
         if (sessionIds == null) {
             for (CmsSessionInfo info : OpenCms.getSessionManager().getSessionInfos()) {

@@ -38,6 +38,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.logging.Log;
 
 import com.google.common.base.Optional;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Message key fallback handler used to enable reuse of localization keys for editor labels.<p>
@@ -70,7 +71,7 @@ public class CmsRemoveInnerNameFallback implements I_KeyFallbackHandler, I_CmsRe
     /**
      * @see org.opencms.i18n.CmsMultiMessages.I_KeyFallbackHandler#getFallbackKey(java.lang.String)
      */
-    public Optional<String> getFallbackKey(String key) {
+    public Optional<@RUntainted String> getFallbackKey(@RUntainted String key) {
 
         String result = CmsStringUtil.substitute(PATTERN, key, this);
         if (result.equals(key)) {

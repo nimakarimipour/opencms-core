@@ -92,6 +92,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 import javax.servlet.jsp.tagext.Tag;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A handler for &lt;param&gt; that accepts attributes as Strings
@@ -112,10 +113,10 @@ public class CmsJspTagParam extends BodyTagSupport {
     protected boolean m_encode;
 
     /** The name of the parameter. */
-    protected String m_name;
+    protected @RUntainted String m_name;
 
     /** The value of the parameter. */
-    protected String m_value;
+    protected @RUntainted String m_value;
 
     /**
      * Public constructor.<p>
@@ -181,7 +182,7 @@ public class CmsJspTagParam extends BodyTagSupport {
      *
      * @param name the name to set
      */
-    public void setName(String name) {
+    public void setName(@RUntainted String name) {
 
         m_name = name;
     }
@@ -191,7 +192,7 @@ public class CmsJspTagParam extends BodyTagSupport {
      *
      * @param value the name to set
      */
-    public void setValue(String value) {
+    public void setValue(@RUntainted String value) {
 
         m_value = value;
     }

@@ -38,6 +38,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Component state bean.
@@ -112,7 +113,7 @@ public class CmsComponentState {
      * Creates a new state bean for a given state string.
      * @param state the state string
      */
-    public CmsComponentState(String state) {
+    public CmsComponentState(@RUntainted String state) {
 
         parseStateString(state);
     }
@@ -239,7 +240,7 @@ public class CmsComponentState {
      * Parses a state string.
      * @param state the state string
      */
-    public void parseStateString(String state) {
+    public void parseStateString(@RUntainted String state) {
 
         if (state != null) {
             String site = A_CmsWorkplaceApp.getParamFromState(state, SITE);

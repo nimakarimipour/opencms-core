@@ -33,6 +33,7 @@ import org.opencms.ade.galleries.shared.I_CmsGalleryProviderConstants.GalleryTab
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The gallery configuration.<p>
@@ -49,7 +50,7 @@ public class CmsGalleryConfiguration implements I_CmsGalleryConfiguration, IsSer
     private GalleryMode m_galleryMode;
 
     /** The gallery path. */
-    private String m_galleryPath;
+    private @RUntainted String m_galleryPath;
 
     /** The prefix for the key used to store the last selected gallery. */
     private String m_galleryStoragePrefix;
@@ -70,16 +71,16 @@ public class CmsGalleryConfiguration implements I_CmsGalleryConfiguration, IsSer
     private String m_locale;
 
     /** The reference path. */
-    private String m_referencePath;
+    private @RUntainted String m_referencePath;
 
     /** The resource types. */
-    private List<String> m_resourceTypes;
+    private List<@RUntainted String> m_resourceTypes;
 
     /** Flag which disables selection of results when set to false. */
     private boolean m_resultsSelectable;
 
     /** The search types. */
-    private List<String> m_searchTypes;
+    private List<@RUntainted String> m_searchTypes;
 
     /** The show site selector flag. */
     private boolean m_showSiteSelector;
@@ -88,7 +89,7 @@ public class CmsGalleryConfiguration implements I_CmsGalleryConfiguration, IsSer
     private String m_startFolder;
 
     /** The start site. */
-    private String m_startSite;
+    private @RUntainted String m_startSite;
 
     /** The tab configuration. */
     private CmsGalleryTabConfiguration m_tabConfiguration;
@@ -103,7 +104,7 @@ public class CmsGalleryConfiguration implements I_CmsGalleryConfiguration, IsSer
     private boolean m_useFormats;
 
     /** The page id. */
-    private String m_pageId;
+    private @RUntainted String m_pageId;
 
     /**
      * Constructor.<p>
@@ -164,7 +165,7 @@ public class CmsGalleryConfiguration implements I_CmsGalleryConfiguration, IsSer
     /**
      * @see org.opencms.ade.galleries.shared.I_CmsGalleryConfiguration#getGalleryPath()
      */
-    public String getGalleryPath() {
+    public @RUntainted String getGalleryPath() {
 
         return m_galleryPath;
     }
@@ -220,7 +221,7 @@ public class CmsGalleryConfiguration implements I_CmsGalleryConfiguration, IsSer
     /**
      * @see org.opencms.ade.galleries.shared.I_CmsGalleryConfiguration#getPageId()
      */
-    public String getPageId() {
+    public @RUntainted String getPageId() {
 
         return m_pageId;
     }
@@ -228,7 +229,7 @@ public class CmsGalleryConfiguration implements I_CmsGalleryConfiguration, IsSer
     /**
      * @see org.opencms.ade.galleries.shared.I_CmsGalleryConfiguration#getReferencePath()
      */
-    public String getReferencePath() {
+    public @RUntainted String getReferencePath() {
 
         return m_referencePath;
     }
@@ -236,7 +237,7 @@ public class CmsGalleryConfiguration implements I_CmsGalleryConfiguration, IsSer
     /**
      * @see org.opencms.ade.galleries.shared.I_CmsGalleryConfiguration#getResourceTypes()
      */
-    public List<String> getResourceTypes() {
+    public List<@RUntainted String> getResourceTypes() {
 
         return m_resourceTypes;
     }
@@ -244,7 +245,7 @@ public class CmsGalleryConfiguration implements I_CmsGalleryConfiguration, IsSer
     /**
      * @see org.opencms.ade.galleries.shared.I_CmsGalleryConfiguration#getSearchTypes()
      */
-    public List<String> getSearchTypes() {
+    public List<@RUntainted String> getSearchTypes() {
 
         return m_searchTypes;
     }
@@ -260,7 +261,7 @@ public class CmsGalleryConfiguration implements I_CmsGalleryConfiguration, IsSer
     /**
      * @see org.opencms.ade.galleries.shared.I_CmsGalleryConfiguration#getStartSite()
      */
-    public String getStartSite() {
+    public @RUntainted String getStartSite() {
 
         return m_startSite;
     }
@@ -375,7 +376,7 @@ public class CmsGalleryConfiguration implements I_CmsGalleryConfiguration, IsSer
      *
      * @param galleryPath the galleryPath to set
      */
-    public void setGalleryPath(String galleryPath) {
+    public void setGalleryPath(@RUntainted String galleryPath) {
 
         m_galleryPath = galleryPath;
     }
@@ -445,7 +446,7 @@ public class CmsGalleryConfiguration implements I_CmsGalleryConfiguration, IsSer
      *
      * @param pageId the page id
      */
-    public void setPageId(String pageId) {
+    public void setPageId(@RUntainted String pageId) {
 
         m_pageId = pageId;
     }
@@ -455,7 +456,7 @@ public class CmsGalleryConfiguration implements I_CmsGalleryConfiguration, IsSer
      *
      * @param referencePath the referencePath to set
      */
-    public void setReferencePath(String referencePath) {
+    public void setReferencePath(@RUntainted String referencePath) {
 
         m_referencePath = referencePath;
     }
@@ -465,7 +466,7 @@ public class CmsGalleryConfiguration implements I_CmsGalleryConfiguration, IsSer
      *
      * @param resourceTypes the resourceTypes to set
      */
-    public void setResourceTypes(List<String> resourceTypes) {
+    public void setResourceTypes(List<@RUntainted String> resourceTypes) {
 
         m_resourceTypes = resourceTypes;
     }
@@ -486,7 +487,7 @@ public class CmsGalleryConfiguration implements I_CmsGalleryConfiguration, IsSer
      *
      * @param searchTypes the searchTypes to set
      */
-    public void setSearchTypes(List<String> searchTypes) {
+    public void setSearchTypes(List<@RUntainted String> searchTypes) {
 
         m_searchTypes = searchTypes;
     }
@@ -516,7 +517,7 @@ public class CmsGalleryConfiguration implements I_CmsGalleryConfiguration, IsSer
      *
      * @param startSite the startSite to set
      */
-    public void setStartSite(String startSite) {
+    public void setStartSite(@RUntainted String startSite) {
 
         m_startSite = startSite;
     }

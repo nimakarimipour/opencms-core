@@ -39,6 +39,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * The list configuration data.<p>
@@ -87,7 +89,7 @@ public class CmsConfigurationBean {
     private Map<String, String> m_additionalParameters;
 
     /** The resource blacklist. */
-    private List<CmsUUID> m_blacklist;
+    private List<@RUntainted CmsUUID> m_blacklist;
 
     /** The categories. */
     private List<String> m_categories;
@@ -105,10 +107,10 @@ public class CmsConfigurationBean {
     private CmsGeoFilterBean m_geoFilter;
 
     /** The folders. */
-    private List<String> m_folders;
+    private List<@RUntainted String> m_folders;
 
     /** Search parameters by configuration node name. */
-    private Map<String, String> m_parameterFields;
+    private Map<String, @RUntainted String> m_parameterFields;
 
     /** The preconfigured restrictions */
     private CmsRestrictionsBean m_preconfiguredRestrictions;
@@ -164,7 +166,7 @@ public class CmsConfigurationBean {
      *
      * @return the black list
      */
-    public List<CmsUUID> getBlacklist() {
+    public List<@RUntainted CmsUUID> getBlacklist() {
 
         return m_blacklist;
     }
@@ -234,7 +236,7 @@ public class CmsConfigurationBean {
      *
      * @return the folders
      */
-    public List<String> getFolders() {
+    public List<@RUntainted String> getFolders() {
 
         return m_folders;
     }
@@ -253,7 +255,7 @@ public class CmsConfigurationBean {
      * Returns the number of results to return maximally, or <code>null</code> if not explicitly specified.
      * @return the number of results to return maximally, or <code>null</code> if not explicitly specified.
      */
-    public Integer getMaximallyReturnedResults() {
+    public @RUntainted Integer getMaximallyReturnedResults() {
 
         String resString = m_parameterFields.get(PARAM_MAX_RESULTS);
         // Fallback, we first added the restriction as additional parameter. To make it more obvious, we integrated it as extra field.
@@ -381,7 +383,7 @@ public class CmsConfigurationBean {
      *
      * @param blacklist the blacklist
      */
-    public void setBlacklist(List<CmsUUID> blacklist) {
+    public void setBlacklist(List<@RUntainted CmsUUID> blacklist) {
 
         m_blacklist = blacklist;
     }
@@ -431,7 +433,7 @@ public class CmsConfigurationBean {
      *
      * @param folders the folders
      */
-    public void setFolders(List<String> folders) {
+    public void setFolders(List<@RUntainted String> folders) {
 
         m_folders = folders;
     }

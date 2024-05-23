@@ -39,6 +39,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * An access control list contains the permission sets of all principals for a distinct resource
@@ -67,7 +68,7 @@ public class CmsAccessControlList implements Serializable {
     /**
      * Collected permissions of a principal on this resource .
      */
-    private Map<CmsUUID, CmsPermissionSetCustom> m_permissions;
+    private @RUntainted Map<CmsUUID, CmsPermissionSetCustom> m_permissions;
 
     /**
      * Constructor to create an empty access control list for a given resource.<p>
@@ -125,7 +126,7 @@ public class CmsAccessControlList implements Serializable {
      *
      * @return permission map
      */
-    public Map<CmsUUID, CmsPermissionSetCustom> getPermissionMap() {
+    public @RUntainted Map<CmsUUID, CmsPermissionSetCustom> getPermissionMap() {
 
         return m_permissions;
     }

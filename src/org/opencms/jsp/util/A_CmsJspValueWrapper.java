@@ -48,6 +48,7 @@ import java.util.Optional;
 
 import org.apache.commons.collections.Transformer;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Common value wrapper class that provides generic functions.<p>
@@ -136,7 +137,7 @@ abstract class A_CmsJspValueWrapper extends AbstractCollection<String> {
     private Map<Object, Boolean> m_contains;
 
     /** Date created from the wrapped value. */
-    private Date m_date;
+    private @RUntainted Date m_date;
 
     /** Double created from the wrapped value. */
     private Double m_double;
@@ -157,10 +158,10 @@ abstract class A_CmsJspValueWrapper extends AbstractCollection<String> {
     private Long m_long;
 
     /** Resource created from the wrapped value. */
-    private CmsJspResourceWrapper m_resource;
+    private @RUntainted CmsJspResourceWrapper m_resource;
 
     /** String representation of the wrapped value. */
-    private String m_string;
+    private @RUntainted String m_string;
 
     /** String representation of the wrapped value with HTML stripped off. */
     private String m_stripHtml;
@@ -179,7 +180,7 @@ abstract class A_CmsJspValueWrapper extends AbstractCollection<String> {
      *
      * @return the substituted link
      */
-    public static String substituteLink(CmsObject cms, String target) {
+    public static @RUntainted String substituteLink(CmsObject cms, @RUntainted String target) {
 
         if (cms != null) {
             return OpenCms.getLinkManager().substituteLinkForUnknownTarget(
@@ -211,7 +212,7 @@ abstract class A_CmsJspValueWrapper extends AbstractCollection<String> {
      *
      * @return the cms context
      */
-    public CmsObject getCmsObject() {
+    public @RUntainted CmsObject getCmsObject() {
 
         return m_cms;
     }
@@ -339,7 +340,7 @@ abstract class A_CmsJspValueWrapper extends AbstractCollection<String> {
      *
      * @return the raw instance of the wrapped value
      */
-    public abstract Object getObjectValue();
+    public abstract @RUntainted Object getObjectValue();
 
     /**
      * Returns the String value for the wrapped content value.<p>
@@ -417,7 +418,7 @@ abstract class A_CmsJspValueWrapper extends AbstractCollection<String> {
      *
      * @see CmsJspElFunctions#convertDate(Object)
      */
-    public Date getToDate() {
+    public @RUntainted Date getToDate() {
 
         if (m_date == null) {
             m_date = CmsJspElFunctions.convertDate(getToString());
@@ -587,7 +588,7 @@ abstract class A_CmsJspValueWrapper extends AbstractCollection<String> {
      *
      * @return the resource this value if pointing to
      */
-    public CmsJspResourceWrapper getToResource() {
+    public @RUntainted CmsJspResourceWrapper getToResource() {
 
         if (m_resource == null) {
             try {
@@ -608,7 +609,7 @@ abstract class A_CmsJspValueWrapper extends AbstractCollection<String> {
      *
      * @return the wrapped value as a String
      */
-    public String getToString() {
+    public @RUntainted String getToString() {
 
         if (m_string == null) {
             m_string = toString();
@@ -788,7 +789,7 @@ abstract class A_CmsJspValueWrapper extends AbstractCollection<String> {
      *
      * @see CmsJspObjectValueWrapper#createWrapper(CmsObject, Object)
      */
-    public A_CmsJspValueWrapper useDefault(Object defaultValue) {
+    public A_CmsJspValueWrapper useDefault(@RUntainted Object defaultValue) {
 
         if (getIsEmptyOrWhitespaceOnly()) {
             return CmsJspObjectValueWrapper.createWrapper(getCmsObject(), defaultValue);
@@ -827,7 +828,7 @@ abstract class A_CmsJspValueWrapper extends AbstractCollection<String> {
      * @see #isValid(List)
      * @see #useDefault(Object)
      */
-    public A_CmsJspValueWrapper validate(List<String> allowedValues, Object defaultValue) {
+    public A_CmsJspValueWrapper validate(List<String> allowedValues, @RUntainted Object defaultValue) {
 
         return isValid(allowedValues) ? this : CmsJspObjectValueWrapper.createWrapper(getCmsObject(), defaultValue);
     }

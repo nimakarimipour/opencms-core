@@ -39,6 +39,7 @@ import org.opencms.search.extractors.I_CmsExtractionResult;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes a mapping of a piece of content from an OpenCms VFS
@@ -76,9 +77,9 @@ public interface I_CmsSearchFieldMapping extends Serializable {
      *
      * @return the String value extracted form the provided data according to the rules of this mapping type
      */
-    String getStringValue(
-        CmsObject cms,
-        CmsResource res,
+    @RUntainted String getStringValue(
+        @RUntainted CmsObject cms,
+        @RUntainted CmsResource res,
         I_CmsExtractionResult extractionResult,
         List<CmsProperty> properties,
         List<CmsProperty> propertiesSearched);
@@ -95,7 +96,7 @@ public interface I_CmsSearchFieldMapping extends Serializable {
      *
      * @param defaultValue the default value to set
      */
-    void setDefaultValue(String defaultValue);
+    void setDefaultValue(@RUntainted String defaultValue);
 
     /**
      * Sets the locale, the mapping can examine when extracting the content.
@@ -106,7 +107,7 @@ public interface I_CmsSearchFieldMapping extends Serializable {
      *
      * @param locale the locale of the index field that is filled by the mapping.
      */
-    default void setLocale(Locale locale) {
+    default void setLocale(@RUntainted Locale locale) {
 
         return;
     }
@@ -119,7 +120,7 @@ public interface I_CmsSearchFieldMapping extends Serializable {
      *
      * @param param the parameter to set
      */
-    void setParam(String param);
+    void setParam(@RUntainted String param);
 
     /**
      * Sets the mapping type.<p>
@@ -133,5 +134,5 @@ public interface I_CmsSearchFieldMapping extends Serializable {
      *
      * @param type the name of the type to set
      */
-    void setType(String type);
+    void setType(@RUntainted String type);
 }

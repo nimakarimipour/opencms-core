@@ -33,6 +33,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Second factor information for login.
@@ -43,7 +44,7 @@ public class CmsSecondFactorInfo {
     private String m_code;
 
     /** The shared secret. */
-    private String m_secret;
+    private @RUntainted String m_secret;
 
     /**
      * Creates a new instance.
@@ -61,7 +62,7 @@ public class CmsSecondFactorInfo {
      * @param secret the secret
      * @param code the verification code
      */
-    public CmsSecondFactorInfo(String secret, String code) {
+    public CmsSecondFactorInfo(@RUntainted String secret, String code) {
 
         m_secret = StringUtils.trim(secret);
         m_code = StringUtils.trim(code);
@@ -102,7 +103,7 @@ public class CmsSecondFactorInfo {
      *
      * @return the secret
      */
-    public String getSecret() {
+    public @RUntainted String getSecret() {
 
         return m_secret;
     }

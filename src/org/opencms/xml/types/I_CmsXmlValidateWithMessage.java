@@ -29,6 +29,7 @@ package org.opencms.xml.types;
 
 import org.opencms.i18n.CmsMessageContainer;
 import org.opencms.xml.content.CmsDefaultXmlContentHandler;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface to provide specific error messages on validation</p>
@@ -47,5 +48,5 @@ public interface I_CmsXmlValidateWithMessage {
      *
      * @return <code>null</code> if the value is valid, a localized error message otherwise.
      */
-    CmsMessageContainer validateWithMessage(String value);
+    CmsMessageContainer validateWithMessage(@RUntainted String value);
 }

@@ -46,6 +46,7 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Definitions of all required VFS driver methods.<p>
@@ -109,7 +110,7 @@ public interface I_CmsVfsDriver {
      * @return the created file
      * @throws SQLException in case the result set does not include a requested table attribute
      */
-    CmsFile createFile(ResultSet res, CmsUUID projectId) throws SQLException;
+    CmsFile createFile(@RUntainted ResultSet res, CmsUUID projectId) throws SQLException;
 
     /**
      * Creates a {@link CmsFile} instance from a JDBC ResultSet.<p>
@@ -121,7 +122,7 @@ public interface I_CmsVfsDriver {
      * @return the created file
      * @throws SQLException in case the result set does not include a requested table attribute
      */
-    CmsFile createFile(ResultSet res, CmsUUID projectId, boolean hasFileContentInResultSet) throws SQLException;
+    CmsFile createFile(@RUntainted ResultSet res, CmsUUID projectId, boolean hasFileContentInResultSet) throws SQLException;
 
     /**
      * Creates a {@link CmsFolder} instance from a JDBC ResultSet.<p>
@@ -133,7 +134,7 @@ public interface I_CmsVfsDriver {
      * @return the created folder
      * @throws SQLException in case the result set does not include a requested table attribute
      */
-    CmsFolder createFolder(ResultSet res, CmsUUID projectId, boolean hasProjectIdInResultSet) throws SQLException;
+    CmsFolder createFolder(@RUntainted ResultSet res, CmsUUID projectId, boolean hasProjectIdInResultSet) throws SQLException;
 
     /**
      * Creates a new content in the offline project.<p>
@@ -167,10 +168,10 @@ public interface I_CmsVfsDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    CmsPropertyDefinition createPropertyDefinition(
+    @RUntainted CmsPropertyDefinition createPropertyDefinition(
         CmsDbContext dbc,
         CmsUUID projectId,
-        String name,
+        @RUntainted String name,
         CmsPropertyDefinition.CmsPropertyType type) throws CmsDataAccessException;
 
     /**
@@ -182,7 +183,7 @@ public interface I_CmsVfsDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    void createRelation(CmsDbContext dbc, CmsUUID projectId, CmsRelation relation) throws CmsDataAccessException;
+    void createRelation(CmsDbContext dbc, @RUntainted CmsUUID projectId, @RUntainted CmsRelation relation) throws CmsDataAccessException;
 
     /**
      * Creates a new resource from a given {@link CmsResource} object.<p>
@@ -202,7 +203,7 @@ public interface I_CmsVfsDriver {
      * @see org.opencms.file.CmsObject#createResource(String, int, byte[], List)
      * @see org.opencms.file.CmsObject#importResource(String, CmsResource, byte[], List)
      */
-    CmsResource createResource(CmsDbContext dbc, CmsUUID projectId, CmsResource resource, byte[] content)
+    @RUntainted CmsResource createResource(CmsDbContext dbc, CmsUUID projectId, CmsResource resource, byte[] content)
     throws CmsDataAccessException;
 
     /**
@@ -214,7 +215,7 @@ public interface I_CmsVfsDriver {
      * @return the created resource
      * @throws SQLException in case the result set does not include a requested table attribute
      */
-    CmsResource createResource(ResultSet res, CmsUUID projectId) throws SQLException;
+    CmsResource createResource(@RUntainted ResultSet res, CmsUUID projectId) throws SQLException;
 
     /**
      * Creates a new sibling for a specified resource.<p>
@@ -351,7 +352,7 @@ public interface I_CmsVfsDriver {
      *
      * @return the SQL manager for this driver
      */
-    CmsSqlManager initSqlManager(String classname);
+    CmsSqlManager initSqlManager(@RUntainted String classname);
 
     /**
      * Adds an alias to the database.<p>
@@ -387,7 +388,7 @@ public interface I_CmsVfsDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    void moveResource(CmsDbContext dbc, CmsUUID projectId, CmsResource source, String destinationPath)
+    void moveResource(CmsDbContext dbc, CmsUUID projectId, CmsResource source, @RUntainted String destinationPath)
     throws CmsDataAccessException;
 
     /**
@@ -444,7 +445,7 @@ public interface I_CmsVfsDriver {
      * @return a list of all sub folders or sub files
      * @throws CmsDataAccessException if something goes wrong
      */
-    List<CmsResource> readChildResources(
+    List<@RUntainted CmsResource> readChildResources(
         CmsDbContext dbc,
         CmsProject currentProject,
         CmsResource resource,
@@ -462,7 +463,7 @@ public interface I_CmsVfsDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    byte[] readContent(CmsDbContext dbc, CmsUUID projectId, CmsUUID resourceId) throws CmsDataAccessException;
+    @RUntainted byte[] readContent(CmsDbContext dbc, CmsUUID projectId, @RUntainted CmsUUID resourceId) throws CmsDataAccessException;
 
     /**
      * Reads a folder specified by it's structure ID.<p>
@@ -475,7 +476,7 @@ public interface I_CmsVfsDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    CmsFolder readFolder(CmsDbContext dbc, CmsUUID projectId, CmsUUID folderId) throws CmsDataAccessException;
+    CmsFolder readFolder(CmsDbContext dbc, CmsUUID projectId, @RUntainted CmsUUID folderId) throws CmsDataAccessException;
 
     /**
      * Reads a folder specified by it's resource name.<p>
@@ -487,7 +488,7 @@ public interface I_CmsVfsDriver {
      * @return the read folder
      * @throws CmsDataAccessException if something goes wrong
      */
-    CmsFolder readFolder(CmsDbContext dbc, CmsUUID projectId, String foldername) throws CmsDataAccessException;
+    CmsFolder readFolder(CmsDbContext dbc, CmsUUID projectId, @RUntainted String foldername) throws CmsDataAccessException;
 
     /**
      * Reads the parent folder of a resource specified by it's structure ID.<p>
@@ -502,7 +503,7 @@ public interface I_CmsVfsDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    CmsFolder readParentFolder(CmsDbContext dbc, CmsUUID projectId, CmsUUID structureId) throws CmsDataAccessException;
+    @RUntainted CmsFolder readParentFolder(CmsDbContext dbc, CmsUUID projectId, CmsUUID structureId) throws CmsDataAccessException;
 
     /**
      * Reads a property definition for the specified resource type.<p>
@@ -518,7 +519,7 @@ public interface I_CmsVfsDriver {
      *
      * @throws CmsDataAccessException a CmsDbEntryNotFoundException is thrown if the property definition does not exist
      */
-    CmsPropertyDefinition readPropertyDefinition(CmsDbContext dbc, String name, CmsUUID projectId)
+    @RUntainted CmsPropertyDefinition readPropertyDefinition(CmsDbContext dbc, @RUntainted String name, CmsUUID projectId)
     throws CmsDataAccessException;
 
     /**
@@ -550,7 +551,7 @@ public interface I_CmsVfsDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    CmsProperty readPropertyObject(CmsDbContext dbc, String key, CmsProject project, CmsResource resource)
+    CmsProperty readPropertyObject(CmsDbContext dbc, @RUntainted String key, CmsProject project, CmsResource resource)
     throws CmsDataAccessException;
 
     /**
@@ -582,7 +583,7 @@ public interface I_CmsVfsDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    List<CmsRelation> readRelations(CmsDbContext dbc, CmsUUID projectId, CmsResource resource, CmsRelationFilter filter)
+    List<@RUntainted CmsRelation> readRelations(CmsDbContext dbc, CmsUUID projectId, CmsResource resource, CmsRelationFilter filter)
     throws CmsDataAccessException;
 
     /**
@@ -596,7 +597,7 @@ public interface I_CmsVfsDriver {
      * @return the resource that was read
      * @throws CmsDataAccessException if something goes wrong
      */
-    CmsResource readResource(CmsDbContext dbc, CmsUUID projectId, CmsUUID structureId, boolean includeDeleted)
+    @RUntainted CmsResource readResource(CmsDbContext dbc, CmsUUID projectId, @RUntainted CmsUUID structureId, boolean includeDeleted)
     throws CmsDataAccessException;
 
     /**
@@ -610,7 +611,7 @@ public interface I_CmsVfsDriver {
      * @return the resource that was read
      * @throws CmsDataAccessException if something goes wrong
      */
-    CmsResource readResource(CmsDbContext dbc, CmsUUID projectId, String filename, boolean includeDeleted)
+    @RUntainted CmsResource readResource(CmsDbContext dbc, CmsUUID projectId, @RUntainted String filename, boolean includeDeleted)
     throws CmsDataAccessException;
 
     /**
@@ -638,7 +639,7 @@ public interface I_CmsVfsDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    List<CmsResource> readResourcesForPrincipalACE(CmsDbContext dbc, CmsProject project, CmsUUID principalId)
+    List<@RUntainted CmsResource> readResourcesForPrincipalACE(CmsDbContext dbc, CmsProject project, CmsUUID principalId)
     throws CmsDataAccessException;
 
     /**
@@ -657,7 +658,7 @@ public interface I_CmsVfsDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    List<CmsResource> readResourcesForPrincipalAttr(CmsDbContext dbc, CmsProject project, CmsUUID principalId)
+    List<@RUntainted CmsResource> readResourcesForPrincipalAttr(CmsDbContext dbc, CmsProject project, CmsUUID principalId)
     throws CmsDataAccessException;
 
     /**
@@ -680,7 +681,7 @@ public interface I_CmsVfsDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    List<CmsResource> readResourcesWithProperty(
+    List<@RUntainted CmsResource> readResourcesWithProperty(
         CmsDbContext dbc,
         CmsUUID projectId,
         CmsUUID propertyDefinition,
@@ -718,7 +719,7 @@ public interface I_CmsVfsDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    List<CmsResource> readResourceTree(
+    @RUntainted List<@RUntainted CmsResource> readResourceTree(
         CmsDbContext dbc,
         CmsUUID projectId,
         String parent,
@@ -759,7 +760,7 @@ public interface I_CmsVfsDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    List<CmsResource> readSiblings(CmsDbContext dbc, CmsUUID projectId, CmsResource resource, boolean includeDeleted)
+    @RUntainted List<@RUntainted CmsResource> readSiblings(CmsDbContext dbc, CmsUUID projectId, CmsResource resource, boolean includeDeleted)
     throws CmsDataAccessException;
 
     /**

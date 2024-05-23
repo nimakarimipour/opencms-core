@@ -39,6 +39,7 @@ import org.opencms.xml.content.CmsXmlContent;
 import java.util.Locale;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * XML value type for display formatters.<p>
@@ -69,8 +70,8 @@ public class CmsXmlDisplayFormatterValue extends A_CmsXmlValueTextBase {
      */
     public CmsXmlDisplayFormatterValue(
         I_CmsXmlDocument document,
-        Element element,
-        Locale locale,
+        @RUntainted Element element,
+        @RUntainted Locale locale,
         I_CmsXmlSchemaType type) {
 
         super(document, element, locale, type);
@@ -83,7 +84,7 @@ public class CmsXmlDisplayFormatterValue extends A_CmsXmlValueTextBase {
      * @param minOccurs minimum number of occurrences of this type according to the XML schema
      * @param maxOccurs maximum number of occurrences of this type according to the XML schema
      */
-    public CmsXmlDisplayFormatterValue(String name, String minOccurs, String maxOccurs) {
+    public CmsXmlDisplayFormatterValue(@RUntainted String name, String minOccurs, String maxOccurs) {
 
         super(name, minOccurs, maxOccurs);
     }
@@ -91,7 +92,7 @@ public class CmsXmlDisplayFormatterValue extends A_CmsXmlValueTextBase {
     /**
      * @see org.opencms.xml.types.I_CmsXmlSchemaType#createValue(org.opencms.xml.I_CmsXmlDocument, org.dom4j.Element, java.util.Locale)
      */
-    public I_CmsXmlContentValue createValue(I_CmsXmlDocument document, Element element, Locale locale) {
+    public @RUntainted I_CmsXmlContentValue createValue(I_CmsXmlDocument document, @RUntainted Element element, @RUntainted Locale locale) {
 
         return new CmsXmlDisplayFormatterValue(document, element, locale, this);
     }
@@ -115,11 +116,11 @@ public class CmsXmlDisplayFormatterValue extends A_CmsXmlValueTextBase {
      *
      * @return the formatter config id
      */
-    public String getFormatterId() {
+    public @RUntainted String getFormatterId() {
 
         String value = getStringValue(null);
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(value)) {
-            String[] parts = value.split(SEPARATOR);
+            @RUntainted String[] parts = value.split(SEPARATOR);
             if (parts.length == 2) {
                 return parts[1];
             }
@@ -139,7 +140,7 @@ public class CmsXmlDisplayFormatterValue extends A_CmsXmlValueTextBase {
      * @see org.opencms.xml.types.A_CmsXmlValueTextBase#getStringValue(org.opencms.file.CmsObject)
      */
     @Override
-    public String getStringValue(CmsObject cms) throws CmsRuntimeException {
+    public @RUntainted String getStringValue(CmsObject cms) throws CmsRuntimeException {
 
         // always try to return the value with the formatter key (rather than id) if possible
         // (this matches the handling of options in the display formatter widget)
@@ -172,7 +173,7 @@ public class CmsXmlDisplayFormatterValue extends A_CmsXmlValueTextBase {
     /**
      * @see org.opencms.xml.types.A_CmsXmlContentValue#getTypeName()
      */
-    public String getTypeName() {
+    public @RUntainted String getTypeName() {
 
         return TYPE_NAME;
     }
@@ -180,7 +181,7 @@ public class CmsXmlDisplayFormatterValue extends A_CmsXmlValueTextBase {
     /**
      * @see org.opencms.xml.types.I_CmsXmlSchemaType#newInstance(java.lang.String, java.lang.String, java.lang.String)
      */
-    public I_CmsXmlSchemaType newInstance(String name, String minOccurs, String maxOccurs) {
+    public I_CmsXmlSchemaType newInstance(@RUntainted String name, String minOccurs, String maxOccurs) {
 
         return new CmsXmlDisplayFormatterValue(name, minOccurs, maxOccurs);
     }
@@ -189,7 +190,7 @@ public class CmsXmlDisplayFormatterValue extends A_CmsXmlValueTextBase {
      * @see org.opencms.xml.types.A_CmsXmlValueTextBase#setStringValue(org.opencms.file.CmsObject, java.lang.String)
      */
     @Override
-    public void setStringValue(CmsObject cms, String value) {
+    public void setStringValue(CmsObject cms, @RUntainted String value) {
 
         I_CmsXmlDocument doc = getDocument();
         if (!CmsStringUtil.isEmpty(value)) {

@@ -74,6 +74,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class used for updating modules.<p>
@@ -95,7 +96,7 @@ public class CmsModuleUpdater {
     private CmsModuleImportData m_moduleData;
 
     /** The report to write to. */
-    private I_CmsReport m_report;
+    private @RUntainted I_CmsReport m_report;
 
     /**
      * Creates a new instance.<p>
@@ -103,7 +104,7 @@ public class CmsModuleUpdater {
      * @param moduleData the module import data
      * @param report the report to write to
      */
-    public CmsModuleUpdater(CmsModuleImportData moduleData, I_CmsReport report) {
+    public CmsModuleUpdater(CmsModuleImportData moduleData, @RUntainted I_CmsReport report) {
 
         m_moduleData = moduleData;
         m_report = report;
@@ -150,7 +151,7 @@ public class CmsModuleUpdater {
      *
      * @throws CmsException if something goes wrong
      */
-    public static Optional<CmsModuleUpdater> create(CmsObject cms, String importFile, I_CmsReport report)
+    public static Optional<CmsModuleUpdater> create(CmsObject cms, @RUntainted String importFile, I_CmsReport report)
     throws CmsException {
 
         CmsModuleImportData moduleData = readModuleData(cms, importFile, report);
@@ -207,7 +208,7 @@ public class CmsModuleUpdater {
      * @return the module data
      * @throws CmsException if something goes wrong
      */
-    public static CmsModuleImportData readModuleData(CmsObject cms, String importFile, I_CmsReport report)
+    public static CmsModuleImportData readModuleData(CmsObject cms, @RUntainted String importFile, I_CmsReport report)
     throws CmsException {
 
         CmsModuleImportData result = new CmsModuleImportData();
@@ -438,7 +439,7 @@ public class CmsModuleUpdater {
      * @throws CmsException if something goes wrong
      * @throws Exception if something goes wrong
      */
-    protected void deleteConflictingResources(CmsObject cms, CmsModule module, Map<CmsUUID, CmsUUID> conflictingIds)
+    protected void deleteConflictingResources(CmsObject cms, CmsModule module, Map<CmsUUID, @RUntainted CmsUUID> conflictingIds)
     throws CmsException, Exception {
 
         CmsProject conflictProject = cms.createProject(
@@ -516,7 +517,7 @@ public class CmsModuleUpdater {
      * @param resData the resource data from the module import
      * @param index index of the current import resource
      */
-    protected void processImportResource(CmsObject cms, CmsResourceImportData resData, int index) {
+    protected void processImportResource(CmsObject cms, CmsResourceImportData resData, @RUntainted int index) {
 
         boolean changed = false;
         m_report.print(
@@ -553,7 +554,7 @@ public class CmsModuleUpdater {
             }
             boolean needsImport = true;
             boolean reducedExport = !resData.hasDateLastModified();
-            byte[] content = resData.getContent();
+            @RUntainted byte[] content = resData.getContent();
             if (oldRes != null) {
                 if (!resData.hasStructureId()) {
                     needsImport = false;
@@ -622,7 +623,7 @@ public class CmsModuleUpdater {
      * @param cms the CMS context to use
      * @param module the module for which to run the script
      */
-    protected void runImportScript(CmsObject cms, CmsModule module) {
+    protected void runImportScript(@RUntainted CmsObject cms, CmsModule module) {
 
         LOG.info("Executing import script for module " + module.getName());
         m_report.println(
@@ -689,11 +690,11 @@ public class CmsModuleUpdater {
             return Collections.emptyList();
         }
 
-        Map<String, CmsProperty> importProps = resData.getProperties();
-        Map<String, CmsProperty> existingProps = CmsProperty.getPropertyMap(
+        Map<@RUntainted String, CmsProperty> importProps = resData.getProperties();
+        Map<@RUntainted String, CmsProperty> existingProps = CmsProperty.getPropertyMap(
             cms.readPropertyObjects(existingResource, false));
         Map<String, CmsProperty> propsToWrite = new HashMap<>();
-        Set<String> keys = new HashSet<>();
+        Set<@RUntainted String> keys = new HashSet<>();
         keys.addAll(existingProps.keySet());
         keys.addAll(importProps.keySet());
 
@@ -744,7 +745,7 @@ public class CmsModuleUpdater {
      * @param resource the resource to lock
      * @throws CmsException if something goes wrong
      */
-    private void lock(CmsObject cms, CmsResource resource) throws CmsException {
+    private void lock(CmsObject cms, @RUntainted CmsResource resource) throws CmsException {
 
         CmsLock lock = cms.getLock(resource);
         if (lock.isUnlocked()) {
@@ -787,7 +788,7 @@ public class CmsModuleUpdater {
      *
      * @throws CmsException if something goes wrong
      */
-    private void updateRelations(CmsObject cms, CmsResource importResource, List<RelationData> relations)
+    private void updateRelations(CmsObject cms, @RUntainted CmsResource importResource, List<RelationData> relations)
     throws CmsException {
 
         Map<String, CmsRelationType> relTypes = new HashMap<>();

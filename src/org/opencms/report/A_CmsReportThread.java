@@ -33,6 +33,7 @@ import org.opencms.util.CmsUUID;
 
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a common Thread class for the reports.<p>
@@ -42,16 +43,16 @@ import java.util.Locale;
 public abstract class A_CmsReportThread extends Thread implements I_CmsReportThread {
 
     /** The OpenCms request context to use. */
-    private CmsObject m_cms;
+    private @RUntainted CmsObject m_cms;
 
     /** Indicates if the thread was already checked by the grim reaper. */
     private boolean m_doomed;
 
     /** The id of this report. */
-    private CmsUUID m_id;
+    private @RUntainted CmsUUID m_id;
 
     /** The report that belongs to the thread. */
-    protected I_CmsReport m_report;
+    protected @RUntainted I_CmsReport m_report;
 
     /** The time this report is running. */
     private long m_starttime;
@@ -62,7 +63,7 @@ public abstract class A_CmsReportThread extends Thread implements I_CmsReportThr
      * @param cms the current OpenCms context object
      * @param name the name of the Thread
      */
-    protected A_CmsReportThread(CmsObject cms, String name) {
+    protected A_CmsReportThread(@RUntainted CmsObject cms, String name) {
 
         super(OpenCms.getThreadStore().getThreadGroup(), name);
         // report Threads are never daemon Threads
@@ -140,7 +141,7 @@ public abstract class A_CmsReportThread extends Thread implements I_CmsReportThr
      *
      * @return the logger to which report output should be sent.
      */
-    public Object getLogChannel() {
+    public @RUntainted Object getLogChannel() {
 
         return null;
     }
@@ -183,7 +184,7 @@ public abstract class A_CmsReportThread extends Thread implements I_CmsReportThr
      *
      * @return the OpenCms UUID of this report thread
      */
-    public CmsUUID getUUID() {
+    public @RUntainted CmsUUID getUUID() {
 
         return m_id;
     }
@@ -232,7 +233,7 @@ public abstract class A_CmsReportThread extends Thread implements I_CmsReportThr
      *
      * @return the OpenCms context object this Thread is initialized with
      */
-    protected CmsObject getCms() {
+    protected @RUntainted CmsObject getCms() {
 
         return m_cms;
     }
@@ -242,7 +243,7 @@ public abstract class A_CmsReportThread extends Thread implements I_CmsReportThr
      *
      * @return the report where the output of this Thread is written to
      */
-    protected I_CmsReport getReport() {
+    protected @RUntainted I_CmsReport getReport() {
 
         return m_report;
     }
@@ -252,7 +253,7 @@ public abstract class A_CmsReportThread extends Thread implements I_CmsReportThr
      *
      * @param locale the locale for the report output messages
      */
-    protected void initHtmlReport(Locale locale) {
+    protected void initHtmlReport(@RUntainted Locale locale) {
 
         m_report = new CmsWorkplaceReport(locale, m_cms.getRequestContext().getSiteRoot(), getLogChannel());
     }
@@ -268,7 +269,7 @@ public abstract class A_CmsReportThread extends Thread implements I_CmsReportThr
      * @param locale the locale for the report output messages
      */
     @Deprecated
-    protected void initOldHtmlReport(Locale locale) {
+    protected void initOldHtmlReport(@RUntainted Locale locale) {
 
         m_report = new CmsHtmlReport(locale, m_cms.getRequestContext().getSiteRoot(), true, false);
     }

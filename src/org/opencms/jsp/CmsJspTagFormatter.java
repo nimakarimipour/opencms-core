@@ -48,6 +48,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the <code>&lt;cms:formatter var="..." val="..." /&gt;</code> tag,
@@ -64,7 +65,7 @@ public class CmsJspTagFormatter extends CmsJspScopedVarBodyTagSuport {
     private static final long serialVersionUID = -8232834808735187624L;
 
     /** The CmsObject for the current user. */
-    protected transient CmsObject m_cms;
+    protected transient @RUntainted CmsObject m_cms;
 
     /** The FlexController for the current request. */
     protected CmsFlexController m_controller;
@@ -76,7 +77,7 @@ public class CmsJspTagFormatter extends CmsJspScopedVarBodyTagSuport {
     private CmsContainerElementBean m_element;
 
     /** Reference to the currently selected locale. */
-    private Locale m_locale;
+    private @RUntainted Locale m_locale;
 
     /** Optional name for the attribute that provides direct access to the RDFA map. */
     private String m_rdfa;
@@ -100,7 +101,7 @@ public class CmsJspTagFormatter extends CmsJspScopedVarBodyTagSuport {
      *
      * @throws JspException in case something goes wrong
      */
-    public CmsJspTagFormatter(PageContext context, Locale locale)
+    public CmsJspTagFormatter(PageContext context, @RUntainted Locale locale)
     throws JspException {
 
         m_locale = locale;
@@ -177,7 +178,7 @@ public class CmsJspTagFormatter extends CmsJspScopedVarBodyTagSuport {
      *
      * @param locale the locale to set
      */
-    public void setLocale(String locale) {
+    public void setLocale(@RUntainted String locale) {
 
         if (CmsStringUtil.isEmpty(locale)) {
             m_locale = null;

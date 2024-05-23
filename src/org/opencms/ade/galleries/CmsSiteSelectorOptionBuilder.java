@@ -47,6 +47,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for building the options for the site selector in the gallery dialog.<p>
@@ -220,7 +221,7 @@ public class CmsSiteSelectorOptionBuilder {
      * @param siteRoot the site root
      * @param message the message for the option
      */
-    private void addOption(Type type, String siteRoot, String message) {
+    private void addOption(Type type, @RUntainted String siteRoot, @RUntainted String message) {
 
         if (m_usedSiteRoots.contains(CmsStringUtil.joinPaths(siteRoot, "/"))) {
             return;

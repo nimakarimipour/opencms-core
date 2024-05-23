@@ -33,6 +33,7 @@ import org.opencms.gwt.CmsRpcException;
 import org.opencms.util.CmsUUID;
 
 import com.google.gwt.user.client.rpc.RemoteService;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Synchronous service interface for the upload property dialog.<p>

@@ -28,6 +28,7 @@
 package org.opencms.configuration.preferences;
 
 import org.opencms.xml.content.CmsXmlContentProperty;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Preference for the timewarp widget.<p>
@@ -40,7 +41,7 @@ public class CmsTimeWarpPreference extends CmsBuiltinPreference {
      *
      * @param name the preference name
      */
-    public CmsTimeWarpPreference(String name) {
+    public CmsTimeWarpPreference(@RUntainted String name) {
 
         super(name);
         m_basic = false;

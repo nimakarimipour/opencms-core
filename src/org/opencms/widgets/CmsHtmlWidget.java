@@ -64,6 +64,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a widget that creates a rich input field using the matching component, for use on a widget dialog.<p>
@@ -101,7 +102,7 @@ public class CmsHtmlWidget extends A_CmsHtmlWidget implements I_CmsADEWidget {
      *
      * @param configuration the configuration to use
      */
-    public CmsHtmlWidget(String configuration) {
+    public CmsHtmlWidget(@RUntainted String configuration) {
 
         super(configuration);
     }
@@ -120,7 +121,7 @@ public class CmsHtmlWidget extends A_CmsHtmlWidget implements I_CmsADEWidget {
         CmsHtmlWidgetOption widgetOptions,
         CmsObject cms,
         CmsResource resource,
-        Locale contentLocale) {
+        @RUntainted Locale contentLocale) {
 
         JSONObject result = new JSONObject();
 
@@ -262,7 +263,7 @@ public class CmsHtmlWidget extends A_CmsHtmlWidget implements I_CmsADEWidget {
      *
      * @return the block_formats configuration
      */
-    public static String getTinyMceBlockFormats(String formatSelectOptions) {
+    public static @RUntainted String getTinyMceBlockFormats(String formatSelectOptions) {
 
         String[] options = formatSelectOptions.split(";");
         List<String> resultParts = Lists.newArrayList();
@@ -285,7 +286,7 @@ public class CmsHtmlWidget extends A_CmsHtmlWidget implements I_CmsADEWidget {
         A_CmsXmlContentValue schemaType,
         CmsMessages messages,
         CmsResource resource,
-        Locale contentLocale) {
+        @RUntainted Locale contentLocale) {
 
         JSONObject result = getJSONConfiguration(cms, resource, contentLocale);
         try {
@@ -369,7 +370,7 @@ public class CmsHtmlWidget extends A_CmsHtmlWidget implements I_CmsADEWidget {
     /**
      * @see org.opencms.widgets.I_CmsADEWidget#getWidgetName()
      */
-    public String getWidgetName() {
+    public @RUntainted String getWidgetName() {
 
         return CmsHtmlWidget.class.getName();
     }
@@ -425,7 +426,7 @@ public class CmsHtmlWidget extends A_CmsHtmlWidget implements I_CmsADEWidget {
         A_CmsXmlContentValue schemaType,
         CmsMessages messages,
         CmsResource resource,
-        Locale contentLocale)
+        @RUntainted Locale contentLocale)
     throws JSONException {
 
         CmsHtmlWidgetOption widgetOption = parseWidgetOptions(cms);
@@ -466,7 +467,7 @@ public class CmsHtmlWidget extends A_CmsHtmlWidget implements I_CmsADEWidget {
      *
      * @return the configuration
      */
-    protected JSONObject getJSONConfiguration(CmsObject cms, CmsResource resource, Locale contentLocale) {
+    protected JSONObject getJSONConfiguration(CmsObject cms, CmsResource resource, @RUntainted Locale contentLocale) {
 
         return getJSONConfiguration(parseWidgetOptions(cms), cms, resource, contentLocale);
     }

@@ -28,6 +28,7 @@
 package org.opencms.ui.apps.linkvalidation;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface with method to update a vaadin table.<p>
@@ -39,5 +40,5 @@ public interface I_CmsUpdatableComponent {
      *
      * @param resources to be displayed in table
      */
-    void update(List<String> resources);
+    void update(@RUntainted List<@RUntainted String> resources);
 }

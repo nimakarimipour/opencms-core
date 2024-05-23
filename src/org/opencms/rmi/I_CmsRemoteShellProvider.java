@@ -29,6 +29,7 @@ package org.opencms.rmi;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Used to create new instances of I_CmsRemoteShell.<p>

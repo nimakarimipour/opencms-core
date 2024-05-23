@@ -45,6 +45,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the layout for choosing the resources.<p>
@@ -125,7 +126,7 @@ public class CmsInternalResources extends VerticalLayout {
      *
      * @return List of Strings with all entered paths
      */
-    public List<String> getResources() {
+    public @RUntainted List<String> getResources() {
 
         List<String> res = new ArrayList<String>();
         for (I_CmsEditableGroupRow row : m_resourcesGroup.getRows()) {
@@ -140,7 +141,7 @@ public class CmsInternalResources extends VerticalLayout {
      * @param path of resource
      * @return Vaadin component
      */
-    protected Component getResourceComponent(String path) {
+    protected @RUntainted Component getResourceComponent(String path) {
 
         try {
             CmsPathSelectField field = new CmsPathSelectField();

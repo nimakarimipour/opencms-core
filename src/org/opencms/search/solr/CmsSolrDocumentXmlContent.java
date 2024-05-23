@@ -85,6 +85,7 @@ import java.util.function.Consumer;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Special document text extraction factory for Solr index.<p>
@@ -107,25 +108,25 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
         private A_CmsXmlDocument m_content;
 
         /** Default value of field mapped to gallery name. */
-        private String m_defaultGalleryNameValue;
+        private @RUntainted String m_defaultGalleryNameValue;
 
         /** Default value of field mapped to title. */
-        private String m_defaultTitleValue;
+        private @RUntainted String m_defaultTitleValue;
 
         /** Current locale. */
-        private Locale m_locale;
+        private @RUntainted Locale m_locale;
 
         /** Content value mapped to Description property. */
-        private String m_mappedDescriptionValue;
+        private @RUntainted String m_mappedDescriptionValue;
 
         /** Content value mapped to gallery description. */
-        private String m_mappedGalleryDescriptionValue;
+        private @RUntainted String m_mappedGalleryDescriptionValue;
 
         /** Content value mapped to gallery name. */
-        private String m_mappedGalleryNameValue;
+        private @RUntainted String m_mappedGalleryNameValue;
 
         /** Content value mapped to title. */
-        private String m_mappedTitleValue;
+        private @RUntainted String m_mappedTitleValue;
 
         /**
          * Creates a new instance.<p>
@@ -134,7 +135,7 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
          * @param content the XML content
          * @param locale the locale in the XML content
          */
-        public GalleryNameChooser(CmsObject cms, A_CmsXmlDocument content, Locale locale) {
+        public GalleryNameChooser(CmsObject cms, A_CmsXmlDocument content, @RUntainted Locale locale) {
 
             m_cms = cms;
             m_content = content;
@@ -166,7 +167,7 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
             *
             * @throws CmsException of something goes wrong
             */
-        public String getDescription(Locale locale) throws CmsException {
+        public String getDescription(@RUntainted Locale locale) throws CmsException {
 
             String result = null;
             for (String resultCandidateWithMacros : new String[] {
@@ -210,7 +211,7 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
         *
         * @throws CmsException of something goes wrong
         */
-        public String getGalleryName(Locale locale) throws CmsException {
+        public String getGalleryName(@RUntainted Locale locale) throws CmsException {
 
             String result = null;
             for (String resultCandidateWithMacros : new String[] {
@@ -237,7 +238,7 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
          *
          * @param defaultGalleryNameValue the defaultGalleryNameValue to set
          */
-        public void setDefaultGalleryNameValue(String defaultGalleryNameValue) {
+        public void setDefaultGalleryNameValue(@RUntainted String defaultGalleryNameValue) {
 
             m_defaultGalleryNameValue = defaultGalleryNameValue;
         }
@@ -247,7 +248,7 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
          *
          * @param defaultTitleValue the defaultTitleValue to set
          */
-        public void setDefaultTitleValue(String defaultTitleValue) {
+        public void setDefaultTitleValue(@RUntainted String defaultTitleValue) {
 
             m_defaultTitleValue = defaultTitleValue;
         }
@@ -257,7 +258,7 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
          *
          * @param mappedDescriptionValue the mappedDescriptionValue to set
          */
-        public void setMappedDescriptionValue(String mappedDescriptionValue) {
+        public void setMappedDescriptionValue(@RUntainted String mappedDescriptionValue) {
 
             m_mappedDescriptionValue = mappedDescriptionValue;
         }
@@ -267,7 +268,7 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
          *
          * @param mappedGalleryDescriptionValue the value that has been mapped
          */
-        public void setMappedGalleryDescriptionValue(String mappedGalleryDescriptionValue) {
+        public void setMappedGalleryDescriptionValue(@RUntainted String mappedGalleryDescriptionValue) {
 
             m_mappedGalleryDescriptionValue = mappedGalleryDescriptionValue;
         }
@@ -277,7 +278,7 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
          *
          * @param mappedGalleryNameValue the mappedGalleryNameValue to set
          */
-        public void setMappedGalleryNameValue(String mappedGalleryNameValue) {
+        public void setMappedGalleryNameValue(@RUntainted String mappedGalleryNameValue) {
 
             m_mappedGalleryNameValue = mappedGalleryNameValue;
         }
@@ -287,7 +288,7 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
          *
          * @param mappedTitleValue the mappedTitleValue to set
          */
-        public void setMappedTitleValue(String mappedTitleValue) {
+        public void setMappedTitleValue(@RUntainted String mappedTitleValue) {
 
             m_mappedTitleValue = mappedTitleValue;
         }
@@ -307,7 +308,7 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
      *
      * @param name the name for the document type
      */
-    public CmsSolrDocumentXmlContent(String name) {
+    public CmsSolrDocumentXmlContent(@RUntainted String name) {
 
         super(name);
     }
@@ -324,7 +325,7 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
         CmsObject cms,
         CmsXmlContentDefinition def,
         String path,
-        Set<String> result) {
+        Set<@RUntainted String> result) {
 
         List<I_CmsXmlSchemaType> nestedTypes = def.getTypeSequence();
         for (I_CmsXmlSchemaType nestedType : nestedTypes) {
@@ -349,7 +350,7 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
      *
      * @throws CmsException in case reading or unmarshalling the content fails
      */
-    public static CmsExtractionResult extractXmlContent(CmsObject cms, CmsResource resource, I_CmsSearchIndex index)
+    public static CmsExtractionResult extractXmlContent(@RUntainted CmsObject cms, CmsResource resource, I_CmsSearchIndex index)
     throws CmsException {
 
         return extractXmlContent(cms, resource, index, null);
@@ -368,10 +369,10 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
      * @throws CmsException in case reading or unmarshalling the content fails
      */
     public static CmsExtractionResult extractXmlContent(
-        CmsObject cms,
-        CmsResource resource,
+        @RUntainted CmsObject cms,
+        @RUntainted CmsResource resource,
         I_CmsSearchIndex index,
-        Locale forceLocale)
+        @RUntainted Locale forceLocale)
     throws CmsException {
 
         return extractXmlContent(cms, resource, index, forceLocale, null);
@@ -390,10 +391,10 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
      * @throws CmsException in case reading or unmarshalling the content fails
      */
     public static CmsExtractionResult extractXmlContent(
-        CmsObject cms,
-        CmsResource resource,
+        @RUntainted CmsObject cms,
+        @RUntainted CmsResource resource,
         I_CmsSearchIndex index,
-        Locale forceLocale,
+        @RUntainted Locale forceLocale,
         Set<CmsUUID> alreadyExtracted)
     throws CmsException {
 
@@ -422,10 +423,10 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
      * @throws CmsException in case reading or unmarshalling the content fails
      */
     public static CmsExtractionResult extractXmlContent(
-        CmsObject cms,
-        CmsResource resource,
+        @RUntainted CmsObject cms,
+        @RUntainted CmsResource resource,
         I_CmsSearchIndex index,
-        Locale forceLocale,
+        @RUntainted Locale forceLocale,
         Set<CmsUUID> alreadyExtracted,
         Consumer<A_CmsXmlDocument> contentConsumer)
     throws CmsException {
@@ -447,7 +448,7 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
         // initialize some variables
         Map<Locale, LinkedHashMap<String, String>> items = new HashMap<Locale, LinkedHashMap<String, String>>();
         Map<String, String> fieldMappings = new HashMap<String, String>();
-        List<Locale> contentLocales = forceLocale != null
+        List<@RUntainted Locale> contentLocales = forceLocale != null
         ? Collections.singletonList(forceLocale)
         : xmlContent.getLocales();
         Locale resourceLocale = index.getLocaleForResource(cms, resource, contentLocales);
@@ -461,7 +462,7 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
             StringBuffer textContent = new StringBuffer();
             // store the locales of the content as space separated field
             // loop over the available element paths of the current content locale
-            List<String> paths = xmlContent.getNames(locale);
+            List<@RUntainted String> paths = xmlContent.getNames(locale);
             for (String xpath : paths) {
 
                 // try to get the value extraction for the current element path
@@ -626,11 +627,11 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
                 }
             }
 
-            Set<String> xpaths = Sets.newHashSet();
+            Set<@RUntainted String> xpaths = Sets.newHashSet();
             collectSchemaXpathsForSimpleValues(cms, xmlContent.getContentDefinition(), "", xpaths);
             for (String xpath : xpaths) {
                 // mappings always are stored with indexes, so we add them to the xpath
-                List<String> mappings = xmlContent.getHandler().getMappings(CmsXmlUtils.createXpath(xpath, 1));
+                List<@RUntainted String> mappings = xmlContent.getHandler().getMappings(CmsXmlUtils.createXpath(xpath, 1));
                 for (String mapping : mappings) {
 
                     if (mapping.equals(MAPPING_GALLERY_NAME)
@@ -702,7 +703,7 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
      * @see org.opencms.search.documents.CmsDocumentXmlContent#extractContent(org.opencms.file.CmsObject, org.opencms.file.CmsResource, org.opencms.search.I_CmsSearchIndex)
      */
     @Override
-    public I_CmsExtractionResult extractContent(CmsObject cms, CmsResource resource, I_CmsSearchIndex index)
+    public I_CmsExtractionResult extractContent(@RUntainted CmsObject cms, @RUntainted CmsResource resource, I_CmsSearchIndex index)
     throws CmsException {
 
         logContentExtraction(resource, index);

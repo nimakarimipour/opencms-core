@@ -48,6 +48,7 @@ import com.vaadin.ui.Window;
 import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the group edit dialog for users.<p>
@@ -95,10 +96,10 @@ public class CmsUserEditGroupsDialog extends A_CmsEditUserGroupRoleDialog {
      * @see org.opencms.ui.apps.user.A_CmsEditUserGroupRoleDialog#addItem(java.util.Set)
      */
     @Override
-    public void addItem(Set<String> data) {
+    public void addItem(Set<@RUntainted String> data) {
 
         if (m_app.checkAddGroup((CmsUser)m_principal, data)) {
-            Iterator<String> it = data.iterator();
+            Iterator<@RUntainted String> it = data.iterator();
             while (it.hasNext()) {
                 String groupName = it.next();
                 try {
@@ -181,7 +182,7 @@ public class CmsUserEditGroupsDialog extends A_CmsEditUserGroupRoleDialog {
      * @see org.opencms.ui.apps.user.A_CmsEditUserGroupRoleDialog#getEmptyMessage()
      */
     @Override
-    public String getEmptyMessage() {
+    public @RUntainted String getEmptyMessage() {
 
         return Messages.GUI_USERMANAGEMENT_EDIT_EMPTY_GROUPS_0;
     }
@@ -255,9 +256,9 @@ public class CmsUserEditGroupsDialog extends A_CmsEditUserGroupRoleDialog {
      * @see org.opencms.ui.apps.user.A_CmsEditUserGroupRoleDialog#getStringSetValue(java.util.Set)
      */
     @Override
-    public Set<String> getStringSetValue(Set<Object> value) {
+    public Set<@RUntainted String> getStringSetValue(Set<Object> value) {
 
-        Set<String> res = new HashSet<String>();
+        Set<@RUntainted String> res = new HashSet<@RUntainted String>();
         for (Object o : value) {
             res.add(((CmsGroup)o).getName());
         }
@@ -268,7 +269,7 @@ public class CmsUserEditGroupsDialog extends A_CmsEditUserGroupRoleDialog {
      * @see org.opencms.ui.apps.user.A_CmsEditUserGroupRoleDialog#getWindowCaptionMessageKey()
      */
     @Override
-    public String getWindowCaptionMessageKey() {
+    public @RUntainted String getWindowCaptionMessageKey() {
 
         return Messages.GUI_USERMANAGEMENT_EDIT_USERGROUP_1;
     }
@@ -277,10 +278,10 @@ public class CmsUserEditGroupsDialog extends A_CmsEditUserGroupRoleDialog {
      * @see org.opencms.ui.apps.user.A_CmsEditUserGroupRoleDialog#removeItem(java.util.Set)
      */
     @Override
-    public void removeItem(Set<String> items) {
+    public void removeItem(Set<@RUntainted String> items) {
 
         if (m_app.checkRemoveGroups((CmsUser)m_principal, items)) {
-            Iterator<String> iterator = items.iterator();
+            Iterator<@RUntainted String> iterator = items.iterator();
             while (iterator.hasNext()) {
                 try {
 

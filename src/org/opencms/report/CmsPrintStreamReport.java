@@ -33,6 +33,7 @@ import org.opencms.workplace.CmsWorkplace;
 
 import java.io.PrintStream;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Stream report where the output is streamed to the given print stream instance.<p>
@@ -57,7 +58,7 @@ public class CmsPrintStreamReport extends CmsHtmlReport {
      * @param locale the locale to use for the output language
      * @param writeHtml decides if the report should write clear text or html code
      */
-    public CmsPrintStreamReport(PrintStream printStream, Locale locale, boolean writeHtml) {
+    public CmsPrintStreamReport(PrintStream printStream, @RUntainted Locale locale, boolean writeHtml) {
 
         super(locale, null, true, true);
         m_printStream = printStream;

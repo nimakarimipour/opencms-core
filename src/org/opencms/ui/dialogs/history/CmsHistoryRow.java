@@ -41,6 +41,7 @@ import java.util.Date;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.v7.ui.CheckBox;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents a row of the file history table.<p>
@@ -83,7 +84,7 @@ public class CmsHistoryRow {
      *
      * @return the formatted version
      */
-    public static String formatVersion(CmsHistoryResourceBean bean) {
+    public static @RUntainted String formatVersion(CmsHistoryResourceBean bean) {
 
         CmsHistoryVersion hVersion = bean.getVersion();
         Integer v = hVersion.getVersionNumber();

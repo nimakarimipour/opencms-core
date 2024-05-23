@@ -36,6 +36,7 @@ import org.opencms.report.A_CmsReportThread;
 import org.opencms.workplace.CmsWorkplaceSettings;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A report thread for the relations validator.<p>
@@ -61,7 +62,7 @@ public class CmsRelationsValidatorThread extends A_CmsReportThread {
      *
      * @param cms the current OpenCms context object
      */
-    public CmsRelationsValidatorThread(CmsObject cms) {
+    public CmsRelationsValidatorThread(@RUntainted CmsObject cms) {
 
         super(
             cms,
@@ -88,7 +89,7 @@ public class CmsRelationsValidatorThread extends A_CmsReportThread {
      * @param publishList the list of resources which will be directly published
      * @param settings the current user's workplace settings
      */
-    public CmsRelationsValidatorThread(CmsObject cms, CmsPublishList publishList, CmsWorkplaceSettings settings) {
+    public CmsRelationsValidatorThread(@RUntainted CmsObject cms, CmsPublishList publishList, CmsWorkplaceSettings settings) {
 
         super(
             cms,

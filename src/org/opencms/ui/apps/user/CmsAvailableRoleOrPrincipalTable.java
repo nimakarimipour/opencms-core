@@ -50,6 +50,7 @@ import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.v7.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.v7.ui.Table;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Table showing available items from A_CmsEditUserGroupRoleDialog.<p>
@@ -64,7 +65,7 @@ public class CmsAvailableRoleOrPrincipalTable extends Table {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> context) {
+        public void executeAction(Set<@RUntainted String> context) {
 
             m_dialog.addItem(context);
             m_dialog.init();

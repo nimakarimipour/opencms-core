@@ -37,6 +37,7 @@ import org.opencms.util.CmsUUID;
 
 import java.util.Locale;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A class which represents all the configuration entries which have been read from an inherited container

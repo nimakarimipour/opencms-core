@@ -41,6 +41,7 @@ import org.htmlparser.lexer.Lexer;
 import org.htmlparser.lexer.Page;
 import org.htmlparser.util.ParserException;
 import org.htmlparser.visitors.NodeVisitor;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Base utility class for OpenCms <code>{@link org.htmlparser.visitors.NodeVisitor}</code>
@@ -91,7 +92,7 @@ public class CmsHtmlParser extends NodeVisitor implements I_CmsHtmlNodeVisitor {
     protected boolean m_echo;
 
     /** The buffer to write the out to. */
-    protected StringBuffer m_result;
+    protected @RUntainted StringBuffer m_result;
 
     /** The providable configuration - never null by contract of interface. */
     private String m_configuration = "";
@@ -152,7 +153,7 @@ public class CmsHtmlParser extends NodeVisitor implements I_CmsHtmlNodeVisitor {
     /**
      * @see org.opencms.util.I_CmsHtmlNodeVisitor#getResult()
      */
-    public String getResult() {
+    public @RUntainted String getResult() {
 
         return m_result.toString();
     }
@@ -177,7 +178,7 @@ public class CmsHtmlParser extends NodeVisitor implements I_CmsHtmlNodeVisitor {
     /**
      * @see org.opencms.util.I_CmsHtmlNodeVisitor#process(java.lang.String, java.lang.String)
      */
-    public String process(String html, String encoding) throws ParserException {
+    public @RUntainted String process(String html, String encoding) throws ParserException {
 
         m_result = new StringBuffer();
         Parser parser = new Parser();
@@ -240,7 +241,7 @@ public class CmsHtmlParser extends NodeVisitor implements I_CmsHtmlNodeVisitor {
      * @see org.opencms.util.I_CmsHtmlNodeVisitor#visitStringNode(org.htmlparser.Text)
      */
     @Override
-    public void visitStringNode(Text text) {
+    public void visitStringNode(@RUntainted Text text) {
 
         if (m_echo) {
             m_result.append(text.getText());
@@ -251,7 +252,7 @@ public class CmsHtmlParser extends NodeVisitor implements I_CmsHtmlNodeVisitor {
      * @see org.opencms.util.I_CmsHtmlNodeVisitor#visitTag(org.htmlparser.Tag)
      */
     @Override
-    public void visitTag(Tag tag) {
+    public void visitTag(@RUntainted Tag tag) {
 
         if (m_echo) {
             m_result.append(getTagHtml(tag));
@@ -265,7 +266,7 @@ public class CmsHtmlParser extends NodeVisitor implements I_CmsHtmlNodeVisitor {
      *
      * @return the input String with all HTML whitespace collapsed
      */
-    protected String collapse(String string) {
+    protected @RUntainted String collapse(@RUntainted String string) {
 
         int len = string.length();
         StringBuffer result = new StringBuffer(len);
@@ -312,7 +313,7 @@ public class CmsHtmlParser extends NodeVisitor implements I_CmsHtmlNodeVisitor {
      * @param noAutoCloseTagList a list of upper case tag names for which parsing / visiting
      *      should not correct missing closing tags to set.
      */
-    public void setNoAutoCloseTags(List<String> noAutoCloseTagList) {
+    public void setNoAutoCloseTags(List<@RUntainted String> noAutoCloseTagList) {
 
         // ensuring upper case
         m_noAutoCloseTags.clear();

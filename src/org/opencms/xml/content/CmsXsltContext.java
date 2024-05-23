@@ -50,6 +50,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides extension functions for use in XSLT version transformation files.
@@ -68,7 +69,7 @@ public class CmsXsltContext {
     private DocumentBuilderFactory m_documentBuilderFactory;
 
     /** The document builder. */
-    private DocumentBuilder m_documentBuilder;
+    private @RUntainted DocumentBuilder m_documentBuilder;
 
     /**
      * Creates a new instance.
@@ -96,7 +97,7 @@ public class CmsXsltContext {
      *
      * @return a node list containing the converted XML value
      */
-    public NodeList convertType(NodeList value, String sourceTypeName, String targetTypeName, String elementName) {
+    public NodeList convertType(NodeList value, String sourceTypeName, String targetTypeName, @RUntainted String elementName) {
 
         if (value.getLength() != 1) {
             throw new RuntimeException("convertType must be passed exactly one node.");

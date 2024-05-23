@@ -50,6 +50,7 @@ import java.util.Map;
 import com.vaadin.v7.data.Item;
 import com.vaadin.v7.data.util.converter.StringToDateConverter;
 import com.vaadin.v7.ui.AbstractSelect.ItemDescriptionGenerator;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Table to display the list manager search results.<p>
@@ -63,10 +64,10 @@ public class CmsResultTable extends CmsFileTable {
     private static final long serialVersionUID = 5680421086123351830L;
 
     /** The content locale. */
-    private Locale m_contentLocale;
+    private @RUntainted Locale m_contentLocale;
 
     /** The date field key. */
-    private String m_dateFieldKey;
+    private @RUntainted String m_dateFieldKey;
 
     /**
      * Constructor.<p>
@@ -104,7 +105,7 @@ public class CmsResultTable extends CmsFileTable {
      *
      * @return the date field key
      */
-    public String getDateFieldKey() {
+    public @RUntainted String getDateFieldKey() {
 
         return m_dateFieldKey;
     }
@@ -114,10 +115,10 @@ public class CmsResultTable extends CmsFileTable {
      *
      * @return the selected items
      */
-    public List<Item> getSelectedItems() {
+    public List<@RUntainted Item> getSelectedItems() {
 
         Collection<?> ids = (Collection<?>)m_fileTable.getValue();
-        List<Item> items = new ArrayList<>();
+        List<@RUntainted Item> items = new ArrayList<>();
         for (Object id : ids) {
             if (m_container.containsId(id)) {
                 items.add(m_container.getItem(id));
@@ -130,7 +131,7 @@ public class CmsResultTable extends CmsFileTable {
      * @see org.opencms.ui.components.CmsResourceTable#getUUIDFromItemID(java.lang.String)
      */
     @Override
-    public CmsUUID getUUIDFromItemID(String itemId) {
+    public @RUntainted CmsUUID getUUIDFromItemID(@RUntainted String itemId) {
 
         if (itemId.contains(ID_SEPARATOR)) {
             return super.getUUIDFromItemID(itemId.substring(0, itemId.indexOf(ID_SEPARATOR)));
@@ -144,7 +145,7 @@ public class CmsResultTable extends CmsFileTable {
      *
      * @param locale the content locale
      */
-    public void setContentLocale(Locale locale) {
+    public void setContentLocale(@RUntainted Locale locale) {
 
         m_contentLocale = locale;
         m_dateFieldKey = CmsSearchField.FIELD_INSTANCEDATE + "_" + m_contentLocale.toString() + "_dt";
@@ -183,7 +184,7 @@ public class CmsResultTable extends CmsFileTable {
      * @see org.opencms.ui.components.CmsResourceTable#fillItem(org.opencms.file.CmsObject, org.opencms.file.CmsResource, java.util.Locale)
      */
     @Override
-    protected void fillItem(CmsObject cms, CmsResource resource, Locale locale) {
+    protected void fillItem(CmsObject cms, CmsResource resource, @RUntainted Locale locale) {
 
         if (resource instanceof CmsSearchResource) {
             String instanceDate = ((CmsSearchResource)resource).getField(m_dateFieldKey);

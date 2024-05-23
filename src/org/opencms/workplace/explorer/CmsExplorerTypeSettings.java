@@ -47,6 +47,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Holds all information to build the explorer context menu of a resource type
@@ -158,16 +159,16 @@ public class CmsExplorerTypeSettings implements Comparable<CmsExplorerTypeSettin
     private Map<String, CmsIconRule> m_iconRules;
 
     /** The info. */
-    private String m_info;
+    private @RUntainted String m_info;
 
     /** Flag indicating whether this explorer type represents a view. */
     private boolean m_isView;
 
     /** The key. */
-    private String m_key;
+    private @RUntainted String m_key;
 
     /** The name. */
-    private String m_name;
+    private @RUntainted String m_name;
 
     /** The name pattern. */
     private String m_namePattern;
@@ -179,13 +180,13 @@ public class CmsExplorerTypeSettings implements Comparable<CmsExplorerTypeSettin
     private boolean m_creatable;
 
     /** The properties. */
-    private List<String> m_properties;
+    private List<@RUntainted String> m_properties;
 
     /** The enabled properties. */
     private boolean m_propertiesEnabled;
 
     /** The reference. */
-    private String m_reference;
+    private @RUntainted String m_reference;
 
     /** The show in navigation flag. */
     private boolean m_showNavigation;
@@ -253,7 +254,7 @@ public class CmsExplorerTypeSettings implements Comparable<CmsExplorerTypeSettin
      * @param requiredOnUpload if "true", mark the property as required after upload
      * @return true if the property definition was added properly
      */
-    public boolean addProperty(String propertyName, String requiredOnUpload) {
+    public boolean addProperty(@RUntainted String propertyName, String requiredOnUpload) {
 
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(propertyName)) {
             if (LOG.isDebugEnabled()) {
@@ -402,7 +403,7 @@ public class CmsExplorerTypeSettings implements Comparable<CmsExplorerTypeSettin
      *
      * @return the info
      */
-    public String getInfo() {
+    public @RUntainted String getInfo() {
 
         return m_info;
     }
@@ -412,7 +413,7 @@ public class CmsExplorerTypeSettings implements Comparable<CmsExplorerTypeSettin
      *
      * @return the key name of the explorer type setting
      */
-    public String getKey() {
+    public @RUntainted String getKey() {
 
         return m_key;
     }
@@ -422,7 +423,7 @@ public class CmsExplorerTypeSettings implements Comparable<CmsExplorerTypeSettin
      *
      * @return the name of the explorer type setting
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_name;
     }
@@ -461,7 +462,7 @@ public class CmsExplorerTypeSettings implements Comparable<CmsExplorerTypeSettin
      * Returns the list of properties of the explorer type setting.<p>
      * @return the list of properties of the explorer type setting
      */
-    public List<String> getProperties() {
+    public List<@RUntainted String> getProperties() {
 
         return m_properties;
     }
@@ -663,7 +664,7 @@ public class CmsExplorerTypeSettings implements Comparable<CmsExplorerTypeSettin
      *
      * @param autoSetNavigation true if properties should be added, otherwise false
      */
-    public void setAutoSetNavigation(String autoSetNavigation) {
+    public void setAutoSetNavigation(@RUntainted String autoSetNavigation) {
 
         m_autoSetNavigation = Boolean.valueOf(autoSetNavigation).booleanValue();
         if (LOG.isDebugEnabled()) {
@@ -676,7 +677,7 @@ public class CmsExplorerTypeSettings implements Comparable<CmsExplorerTypeSettin
      *
      * @param autoSetTitle true if title should be added, otherwise false
      */
-    public void setAutoSetTitle(String autoSetTitle) {
+    public void setAutoSetTitle(@RUntainted String autoSetTitle) {
 
         m_autoSetTitle = Boolean.valueOf(autoSetTitle).booleanValue();
         if (LOG.isDebugEnabled()) {
@@ -753,7 +754,7 @@ public class CmsExplorerTypeSettings implements Comparable<CmsExplorerTypeSettin
      *
      * @param icon the icon path and file name of the explorer type setting
      */
-    public void setIcon(String icon) {
+    public void setIcon(@RUntainted String icon) {
 
         m_icon = icon;
         if (LOG.isDebugEnabled()) {
@@ -766,7 +767,7 @@ public class CmsExplorerTypeSettings implements Comparable<CmsExplorerTypeSettin
      *
      * @param info the info to set
      */
-    public void setInfo(String info) {
+    public void setInfo(@RUntainted String info) {
 
         m_info = info;
         if (LOG.isDebugEnabled()) {
@@ -779,7 +780,7 @@ public class CmsExplorerTypeSettings implements Comparable<CmsExplorerTypeSettin
      *
      * @param key the key name of the explorer type setting
      */
-    public void setKey(String key) {
+    public void setKey(@RUntainted String key) {
 
         m_key = key;
         if (LOG.isDebugEnabled()) {
@@ -792,7 +793,7 @@ public class CmsExplorerTypeSettings implements Comparable<CmsExplorerTypeSettin
      *
      * @param name the name of the explorer type setting
      */
-    public void setName(String name) {
+    public void setName(@RUntainted String name) {
 
         m_name = name;
         if (LOG.isDebugEnabled()) {
@@ -805,7 +806,7 @@ public class CmsExplorerTypeSettings implements Comparable<CmsExplorerTypeSettin
      *
      * @param newResourceOrder the order for the new resource dialog of the explorer type setting
      */
-    public void setNewResourceOrder(String newResourceOrder) {
+    public void setNewResourceOrder(@RUntainted String newResourceOrder) {
 
         try {
             m_newResourceOrder = Integer.valueOf(newResourceOrder);
@@ -826,7 +827,7 @@ public class CmsExplorerTypeSettings implements Comparable<CmsExplorerTypeSettin
      *
      * @param properties the list of properties of the explorer type setting
      */
-    public void setProperties(List<String> properties) {
+    public void setProperties(List<@RUntainted String> properties) {
 
         m_properties = properties;
     }
@@ -847,7 +848,7 @@ public class CmsExplorerTypeSettings implements Comparable<CmsExplorerTypeSettin
      * @param enabled true, if this explorer type setting uses a special properties dialog
      * @param showNavigation true, if this explorer type setting displays the navigation properties in the special properties dialog
      */
-    public void setPropertyDefaults(String enabled, String showNavigation) {
+    public void setPropertyDefaults(@RUntainted String enabled, @RUntainted String showNavigation) {
 
         setPropertiesEnabled(Boolean.valueOf(enabled).booleanValue());
         setShowNavigation(Boolean.valueOf(showNavigation).booleanValue());
@@ -861,7 +862,7 @@ public class CmsExplorerTypeSettings implements Comparable<CmsExplorerTypeSettin
      *
      * @param reference the reference of the explorer type setting
      */
-    public void setReference(String reference) {
+    public void setReference(@RUntainted String reference) {
 
         m_reference = reference;
         if (LOG.isDebugEnabled()) {
@@ -894,7 +895,7 @@ public class CmsExplorerTypeSettings implements Comparable<CmsExplorerTypeSettin
      *
      * @param titleKey the titleKey to set
      */
-    public void setTitleKey(String titleKey) {
+    public void setTitleKey(@RUntainted String titleKey) {
 
         m_titleKey = titleKey;
         if (LOG.isDebugEnabled()) {
@@ -909,7 +910,7 @@ public class CmsExplorerTypeSettings implements Comparable<CmsExplorerTypeSettin
      * @param key the key name of the explorer type setting
      * @param icon the icon path and file name of the explorer type setting
      */
-    public void setTypeAttributes(String name, String key, String icon) {
+    public void setTypeAttributes(@RUntainted String name, @RUntainted String key, @RUntainted String icon) {
 
         setName(name);
         setKey(key);
@@ -932,13 +933,13 @@ public class CmsExplorerTypeSettings implements Comparable<CmsExplorerTypeSettin
      * @param viewOrder the view order
      */
     public void setTypeAttributes(
-        String name,
-        String key,
-        String icon,
+        @RUntainted String name,
+        @RUntainted String key,
+        @RUntainted String icon,
         String bigIcon,
         String smallIconStyle,
         String bigIconStyle,
-        String reference,
+        @RUntainted String reference,
         String elementView,
         String isView,
         String namePattern,

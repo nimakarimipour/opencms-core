@@ -62,6 +62,7 @@ import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.v7.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Table for the roles.<p>
@@ -76,7 +77,7 @@ public class CmsRoleTable extends Table implements I_CmsFilterableTable {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> context) {
+        public void executeAction(Set<@RUntainted String> context) {
 
             updateApp(CmsRole.valueOfId(new CmsUUID(context.iterator().next())));
         }
@@ -196,7 +197,7 @@ public class CmsRoleTable extends Table implements I_CmsFilterableTable {
     private List<I_CmsSimpleContextMenuEntry<Set<String>>> m_menuEntries;
 
     /**Parent ou. */
-    private String m_parentOU;
+    private @RUntainted String m_parentOU;
 
     /**AccountsApp instance. */
     private CmsAccountsApp m_app;
@@ -207,7 +208,7 @@ public class CmsRoleTable extends Table implements I_CmsFilterableTable {
      *
      * @param ou name
      */
-    public CmsRoleTable(CmsAccountsApp app, String ou) {
+    public CmsRoleTable(CmsAccountsApp app, @RUntainted String ou) {
 
         try {
             m_app = app;

@@ -28,6 +28,7 @@
 package org.opencms.ui.apps.dbmanager;
 
 import org.opencms.report.A_CmsReportThread;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface for Apps, which run an import thread for files.<p>
@@ -46,5 +47,5 @@ public interface I_CmsReportApp {
      * @param thread which gets started and for which the report gets displayed
      * @param title to be shown for the report (title is caption of panel)
      */
-    void openReport(String path, A_CmsReportThread thread, String title);
+    void openReport(@RUntainted String path, A_CmsReportThread thread, String title);
 }

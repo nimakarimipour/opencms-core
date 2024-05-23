@@ -54,6 +54,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Report thread for rewriting pages in a folder according to a given template mapper configuration.<p>
@@ -111,7 +112,7 @@ public class CmsTemplateMappingContentRewriter extends A_CmsReportThread {
      *
      * @return the template mapping file path
      */
-    public static String getConfiguredTemplateMapping() {
+    public static @RUntainted String getConfiguredTemplateMapping() {
 
         String param = null;
         for (CmsModule module : OpenCms.getModuleManager().getAllInstalledModules()) {
@@ -146,7 +147,7 @@ public class CmsTemplateMappingContentRewriter extends A_CmsReportThread {
             CmsLockUtil.ensureLock(cms, m_folderRes);
             CmsTemplateMapper mapper = new CmsTemplateMapper(file);
             mapper.setForSave(true);
-            List<CmsResource> pages = resourcesForType(m_folder, CmsResourceTypeXmlContainerPage.getStaticTypeName());
+            List<@RUntainted CmsResource> pages = resourcesForType(m_folder, CmsResourceTypeXmlContainerPage.getStaticTypeName());
             int j = 0;
             for (CmsResource page : pages) {
                 j++;
@@ -170,7 +171,7 @@ public class CmsTemplateMappingContentRewriter extends A_CmsReportThread {
 
             }
 
-            List<CmsResource> groups = resourcesForType(
+            List<@RUntainted CmsResource> groups = resourcesForType(
                 m_folder,
                 CmsResourceTypeXmlContainerPage.GROUP_CONTAINER_TYPE_NAME);
             j = 0;
@@ -212,7 +213,7 @@ public class CmsTemplateMappingContentRewriter extends A_CmsReportThread {
      *
      * @return the message container
      */
-    CmsMessageContainer message(String key, String... args) {
+    CmsMessageContainer message(@RUntainted String key, @RUntainted String... args) {
 
         return Messages.get().container(key, args);
 
@@ -225,7 +226,7 @@ public class CmsTemplateMappingContentRewriter extends A_CmsReportThread {
      * @param name the type name
      * @return the list of resources of the given type in the given folder
      */
-    private List<CmsResource> resourcesForType(String folder, String name) {
+    private @RUntainted List<@RUntainted CmsResource> resourcesForType(String folder, @RUntainted String name) {
 
         try {
             CmsObject cms = getCms();

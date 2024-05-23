@@ -61,6 +61,7 @@ import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the clear file history dialog and execution.<p>
@@ -73,14 +74,14 @@ public class CmsFileHistoryPanel extends VerticalLayout {
     public class ComboBoxVersionsBean {
 
         /**Value of item.*/
-        private int m_val;
+        private @RUntainted int m_val;
 
         /**
          * public constructor.<p>
          *
          * @param value of item
          */
-        public ComboBoxVersionsBean(int value) {
+        public ComboBoxVersionsBean(@RUntainted int value) {
 
             m_val = value;
         }
@@ -118,7 +119,7 @@ public class CmsFileHistoryPanel extends VerticalLayout {
          *
          * @return int value
          */
-        public int getValue() {
+        public @RUntainted int getValue() {
 
             return m_val;
         }
@@ -464,7 +465,7 @@ public class CmsFileHistoryPanel extends VerticalLayout {
 
             private static final long serialVersionUID = -1962380117946789444L;
 
-            public void addNewItem(String newItemCaption) {
+            public void addNewItem(@RUntainted String newItemCaption) {
 
                 int num = CmsStringUtil.getIntValue(newItemCaption, -1, "user entered version number is not a number");
                 if ((num > 1) && !items.contains(Integer.valueOf(num))) {

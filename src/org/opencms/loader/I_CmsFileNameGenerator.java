@@ -32,6 +32,7 @@ import org.opencms.main.CmsException;
 import org.opencms.util.PrintfFormat;
 
 import java.util.Iterator;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides methods to generate file names either for the <code>urlName</code> mapping
@@ -57,7 +58,7 @@ public interface I_CmsFileNameGenerator {
      *
      * @return the unique file name
      */
-    String getCopyFileName(CmsObject cms, String parentFolder, String baseName);
+    String getCopyFileName(CmsObject cms, String parentFolder, @RUntainted String baseName);
 
     /**
      * Generates a new file name based on the provided OpenCms user context and name pattern.<p>
@@ -72,7 +73,7 @@ public interface I_CmsFileNameGenerator {
      *
      * @throws CmsException in case something goes wrong
      */
-    String getNewFileName(CmsObject cms, String namePattern, int defaultDigits) throws CmsException;
+    @RUntainted String getNewFileName(CmsObject cms, @RUntainted String namePattern, int defaultDigits) throws CmsException;
 
     /**
      * Generates a new file name based on the provided OpenCms user context and name pattern.<p>
@@ -88,7 +89,7 @@ public interface I_CmsFileNameGenerator {
      *
      * @throws CmsException in case something goes wrong
      */
-    String getNewFileName(CmsObject cms, String namePattern, int defaultDigits, boolean explorerMode)
+    @RUntainted String getNewFileName(CmsObject cms, @RUntainted String namePattern, int defaultDigits, boolean explorerMode)
     throws CmsException;
 
     /**
@@ -100,7 +101,7 @@ public interface I_CmsFileNameGenerator {
      *
      * @return the unique file name
      */
-    String getUniqueFileName(CmsObject cms, String parentFolder, String baseName);
+    String getUniqueFileName(CmsObject cms, String parentFolder, @RUntainted String baseName);
 
     /**
      * Returns a sequence of URL name candidates for the given base name as an iterator.<p>
@@ -117,7 +118,7 @@ public interface I_CmsFileNameGenerator {
      *
      * @throws CmsException if something goes wrong
      */
-    Iterator<String> getUrlNameSequence(String baseName) throws CmsException;
+    @RUntainted Iterator<String> getUrlNameSequence(@RUntainted String baseName) throws CmsException;
 
     /**
      * Initializes this instance with an admin CMS context.

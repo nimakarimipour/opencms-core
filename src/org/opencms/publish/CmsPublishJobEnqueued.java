@@ -29,6 +29,7 @@ package org.opencms.publish;
 
 import org.opencms.db.CmsPublishList;
 import org.opencms.report.I_CmsReport;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Defines a read-only publish job that is still waiting for publishing.<p>
@@ -52,7 +53,7 @@ public class CmsPublishJobEnqueued extends CmsPublishJobBase {
      *
      * @return the time this object has been created
      */
-    public long getEnqueueTime() {
+    public @RUntainted long getEnqueueTime() {
 
         return m_publishJob.getEnqueueTime();
     }

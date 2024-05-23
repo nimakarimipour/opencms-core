@@ -36,6 +36,7 @@ import org.opencms.xml.types.A_CmsXmlContentValue;
 
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a standard HTML form textarea widget, for use on a widget dialog.<p>
@@ -63,7 +64,7 @@ public class CmsTextareaWidget extends A_CmsWidget implements I_CmsADEWidget {
      *
      * @param rows the number of rows to display
      */
-    public CmsTextareaWidget(int rows) {
+    public CmsTextareaWidget(@RUntainted int rows) {
 
         super("" + rows);
     }
@@ -73,7 +74,7 @@ public class CmsTextareaWidget extends A_CmsWidget implements I_CmsADEWidget {
      *
      * @param configuration the configuration to use
      */
-    public CmsTextareaWidget(String configuration) {
+    public CmsTextareaWidget(@RUntainted String configuration) {
 
         super(configuration);
     }
@@ -157,7 +158,7 @@ public class CmsTextareaWidget extends A_CmsWidget implements I_CmsADEWidget {
     /**
      * @see org.opencms.widgets.I_CmsADEWidget#getWidgetName()
      */
-    public String getWidgetName() {
+    public @RUntainted String getWidgetName() {
 
         return CmsTextareaWidget.class.getName();
     }

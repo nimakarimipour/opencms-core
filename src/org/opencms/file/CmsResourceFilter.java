@@ -29,6 +29,7 @@ package org.opencms.file;
 
 import org.opencms.db.CmsResourceState;
 import org.opencms.file.types.I_CmsResourceType;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides filters for resource result sets obtained from requests to the OpenCms VFS.<p>
@@ -70,7 +71,7 @@ public final class CmsResourceFilter {
      * <li>Includes: Resources marked as 'invisible' using permissions.</li>
      * </ul>
      */
-    public static final CmsResourceFilter DEFAULT = ALL.addExcludeState(
+    public static final @RUntainted CmsResourceFilter DEFAULT = ALL.addExcludeState(
         CmsResource.STATE_DELETED).addRequireTimerange();
 
     /**
@@ -105,7 +106,7 @@ public final class CmsResourceFilter {
      * <li>Includes: Resources marked as 'invisible' using permissions.</li>
      * </ul>
      */
-    public static final CmsResourceFilter IGNORE_EXPIRATION = ALL.addExcludeState(CmsResource.STATE_DELETED);
+    public static final @RUntainted CmsResourceFilter IGNORE_EXPIRATION = ALL.addExcludeState(CmsResource.STATE_DELETED);
 
     /**
      * Filter to display only visible resources.<p>

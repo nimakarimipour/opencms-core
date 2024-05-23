@@ -44,6 +44,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Publishes a resource or the users current project.<p>
@@ -68,7 +69,7 @@ import org.apache.commons.logging.Log;
     private CmsPublishJobInfoBean m_publishJob;
 
     /** The report to use during the publish process. */
-    private I_CmsReport m_report;
+    private @RUntainted I_CmsReport m_report;
 
     /** Flag to indicate that the is no longer possible to abort the current publish job. */
     private boolean m_started;
@@ -213,7 +214,7 @@ import org.apache.commons.logging.Log;
      * @see org.opencms.report.A_CmsReportThread#getReport()
      */
     @Override
-    protected I_CmsReport getReport() {
+    protected @RUntainted I_CmsReport getReport() {
 
         return m_report;
     }

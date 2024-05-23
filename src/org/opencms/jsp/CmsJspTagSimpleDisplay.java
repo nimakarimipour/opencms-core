@@ -53,6 +53,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The 'simpledisplay' tag can be used to display a single resource using a formatter. It also allows to activate direct editing.<p>
@@ -84,28 +85,28 @@ public class CmsJspTagSimpleDisplay extends BodyTagSupport implements I_CmsJspTa
     private boolean m_editable;
 
     /** The formatter key. */
-    private String m_formatterKey;
+    private @RUntainted String m_formatterKey;
 
     /** Stores the formatter path. */
     private String m_formatterPath;
 
     /** The settings parameter map. */
-    private Map<String, String> m_parameterMap;
+    private Map<@RUntainted String, @RUntainted String> m_parameterMap;
 
     /** The pass settings flag. */
     private boolean m_passSettings;
 
     /** The fully qualified class name of the post create handler to use. */
-    private String m_postCreateHandler;
+    private @RUntainted String m_postCreateHandler;
 
     /** The element settings to be used. */
-    private Map<String, String> m_settings;
+    private Map<@RUntainted String, @RUntainted String> m_settings;
 
     /** The upload folder. */
     private String m_uploadFolder;
 
     /** The site path to the resource to display. */
-    private String m_value;
+    private @RUntainted String m_value;
 
     /**
      * Constructor.<p>
@@ -118,7 +119,7 @@ public class CmsJspTagSimpleDisplay extends BodyTagSupport implements I_CmsJspTa
     /**
      * @see org.opencms.jsp.I_CmsJspTagParamParent#addParameter(java.lang.String, java.lang.String)
      */
-    public void addParameter(String name, String value) {
+    public void addParameter(@RUntainted String name, @RUntainted String value) {
 
         // No null values allowed in parameters
         if ((name == null) || (value == null)) {
@@ -157,8 +158,8 @@ public class CmsJspTagSimpleDisplay extends BodyTagSupport implements I_CmsJspTa
                     cms.getRequestContext().getRootUri());
                 I_CmsFormatterBean formatter = getFormatterBean(cms, config);
 
-                Map<String, String> settings = new HashMap<String, String>();
-                for (Entry<String, String> entry : m_parameterMap.entrySet()) {
+                Map<@RUntainted String, @RUntainted String> settings = new HashMap<@RUntainted String, @RUntainted String>();
+                for (Entry<@RUntainted String, @RUntainted String> entry : m_parameterMap.entrySet()) {
                     String settingKeySuffix = CmsJspTagDisplay.getSettingKeyForMatchingFormatterPrefix(
                         config,
                         formatter,
@@ -237,7 +238,7 @@ public class CmsJspTagSimpleDisplay extends BodyTagSupport implements I_CmsJspTa
      *
      * @return the element settings to be used
      */
-    public Map<String, String> getSettings() {
+    public Map<@RUntainted String, @RUntainted String> getSettings() {
 
         return m_settings;
     }
@@ -351,7 +352,7 @@ public class CmsJspTagSimpleDisplay extends BodyTagSupport implements I_CmsJspTa
      *
      * @param formatterKey the formatter key
      */
-    public void setFormatterKey(String formatterKey) {
+    public void setFormatterKey(@RUntainted String formatterKey) {
 
         m_formatterKey = formatterKey;
     }
@@ -369,7 +370,7 @@ public class CmsJspTagSimpleDisplay extends BodyTagSupport implements I_CmsJspTa
     /** Setter for the "postCreateHandler" attribute of the tag.
      * @param postCreateHandler fully qualified class name of the {@link I_CmsCollectorPostCreateHandler} to use.
      */
-    public void setPostCreateHandler(final String postCreateHandler) {
+    public void setPostCreateHandler(final @RUntainted String postCreateHandler) {
 
         m_postCreateHandler = postCreateHandler;
     }
@@ -379,7 +380,7 @@ public class CmsJspTagSimpleDisplay extends BodyTagSupport implements I_CmsJspTa
      *
      * @param settings the element settings to be used
      */
-    public void setSettings(Map<String, String> settings) {
+    public void setSettings(Map<@RUntainted String, @RUntainted String> settings) {
 
         m_settings = settings;
     }
@@ -399,7 +400,7 @@ public class CmsJspTagSimpleDisplay extends BodyTagSupport implements I_CmsJspTa
      *
      * @param value the value to set
      */
-    public void setValue(String value) {
+    public void setValue(@RUntainted String value) {
 
         m_value = value;
     }

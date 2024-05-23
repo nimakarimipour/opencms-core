@@ -33,6 +33,7 @@ import org.opencms.gwt.shared.I_CmsContentLoadCollectorInfo;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides the methods to generate the "direct edit" HTML fragments that are inserted
@@ -67,7 +68,7 @@ public interface I_CmsDirectEditProvider extends I_CmsConfigurationParameterHand
      * @param mode the direct edit mode to use
      * @param fileName link to a file that contains the direct edit HTML elements (optional)
      */
-    void init(CmsObject cms, CmsDirectEditMode mode, String fileName);
+    void init(@RUntainted CmsObject cms, CmsDirectEditMode mode, @RUntainted String fileName);
 
     /**
      * Inserts the direct edit HTML for empty lists in the provided JSP page context.<p>
@@ -77,7 +78,7 @@ public interface I_CmsDirectEditProvider extends I_CmsConfigurationParameterHand
      *
      * @throws JspException in case something goes wrong
      */
-    void insertDirectEditEmptyList(PageContext context, CmsDirectEditParams params) throws JspException;
+    void insertDirectEditEmptyList(@RUntainted PageContext context, CmsDirectEditParams params) throws JspException;
 
     /**
      * Inserts the "end direct edit" HTML in the provided JSP page context.<p>
@@ -96,7 +97,7 @@ public interface I_CmsDirectEditProvider extends I_CmsConfigurationParameterHand
      *
      * @throws JspException in case something goes wrong
      */
-    void insertDirectEditIncludes(PageContext context, CmsDirectEditParams params) throws JspException;
+    void insertDirectEditIncludes(@RUntainted PageContext context, CmsDirectEditParams params) throws JspException;
 
     /**
      * Inserts HTML used as metadata for a collector list in the current JSP context.<p>
@@ -118,7 +119,7 @@ public interface I_CmsDirectEditProvider extends I_CmsConfigurationParameterHand
      *
      * @throws JspException in case something goes wrong
      */
-    boolean insertDirectEditStart(PageContext context, CmsDirectEditParams params) throws JspException;
+    boolean insertDirectEditStart(@RUntainted PageContext context, CmsDirectEditParams params) throws JspException;
 
     /**
      * Returns <code>true</code> if this provider (currently) operates in manual mode.<p>

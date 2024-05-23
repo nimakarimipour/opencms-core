@@ -26,6 +26,7 @@
  */
 
 package org.opencms.xml.containerpage;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The cache settings for ADE.<p>
@@ -38,19 +39,19 @@ public class CmsADECacheSettings {
     private static final int DEFAULT_CONTAINER_PAGE_SIZE = 128;
 
     /** The size of the container page offline cache. */
-    private int m_containerPageOfflineSize;
+    private @RUntainted int m_containerPageOfflineSize;
 
     /** The size of the container page online cache. */
-    private int m_containerPageOnlineSize;
+    private @RUntainted int m_containerPageOnlineSize;
 
     /** Default size for group container caches. */
     private static final int DEFAULT_GROUP_CONTAINER_SIZE = 128;
 
     /** The size of the group container offline cache. */
-    private int m_groupContainerOfflineSize;
+    private @RUntainted int m_groupContainerOfflineSize;
 
     /** The size of the group container online cache. */
-    private int m_groupContainerOnlineSize;
+    private @RUntainted int m_groupContainerOnlineSize;
 
     /**
      * Default constructor.<p>
@@ -65,7 +66,7 @@ public class CmsADECacheSettings {
      *
      * @return the size of the container page offline cache
      */
-    public int getContainerPageOfflineSize() {
+    public @RUntainted int getContainerPageOfflineSize() {
 
         if (m_containerPageOfflineSize <= 0) {
             return DEFAULT_CONTAINER_PAGE_SIZE;
@@ -78,7 +79,7 @@ public class CmsADECacheSettings {
      *
      * @return the size of the container page online cache
      */
-    public int getContainerPageOnlineSize() {
+    public @RUntainted int getContainerPageOnlineSize() {
 
         if (m_containerPageOnlineSize <= 0) {
             return DEFAULT_CONTAINER_PAGE_SIZE;
@@ -111,7 +112,7 @@ public class CmsADECacheSettings {
      *
      * @return the size of the group container offline cache
      */
-    public int getGroupContainerOfflineSize() {
+    public @RUntainted int getGroupContainerOfflineSize() {
 
         if (m_groupContainerOfflineSize <= 0) {
             return DEFAULT_GROUP_CONTAINER_SIZE;
@@ -124,7 +125,7 @@ public class CmsADECacheSettings {
      *
      * @return the size of the group container online cache
      */
-    public int getGroupContainerOnlineSize() {
+    public @RUntainted int getGroupContainerOnlineSize() {
 
         if (m_groupContainerOnlineSize <= 0) {
             return DEFAULT_GROUP_CONTAINER_SIZE;

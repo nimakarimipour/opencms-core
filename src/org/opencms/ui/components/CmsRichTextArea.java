@@ -33,6 +33,7 @@ import org.jsoup.safety.Cleaner;
 import org.jsoup.safety.Safelist;
 
 import com.vaadin.ui.RichTextArea;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Helper class for using rich text area in OpenCms.<p>
@@ -66,7 +67,7 @@ public class CmsRichTextArea extends RichTextArea {
      *
      * @return the cleaned up HTML
      */
-    public static String cleanHtml(String html, boolean allowLinks) {
+    public static @RPolyTainted String cleanHtml(@RPolyTainted String html, boolean allowLinks) {
 
         if (html == null) {
             return null;

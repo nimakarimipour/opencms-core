@@ -83,6 +83,7 @@ import com.vaadin.ui.Upload.Receiver;
 import com.vaadin.ui.Upload.SucceededEvent;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog for CSV im- and export.<p>
@@ -145,7 +146,7 @@ implements Receiver, I_CmsPasswordFetcher {
     private CmsUUID m_groupID;
 
     /**Stream for upload file. */
-    private ByteArrayOutputStream m_importFileStream;
+    private @RUntainted ByteArrayOutputStream m_importFileStream;
 
     /**Layout for groups.*/
     private VerticalLayout m_importGroups;
@@ -166,7 +167,7 @@ implements Receiver, I_CmsPasswordFetcher {
     private TextField m_password;
 
     /**List of user to import. */
-    List<CmsUser> m_userImportList;
+    @RUntainted List<CmsUser> m_userImportList;
 
     /**Should the user get an email? */
     private CheckBox m_sendMail;
@@ -186,7 +187,7 @@ implements Receiver, I_CmsPasswordFetcher {
      * @param allowTechnicalFieldsExport flag indicates if technical field export option should be available
      */
     private CmsImportExportUserDialog(
-        final String ou,
+        final @RUntainted String ou,
         CmsUUID groupID,
         Window window,
         boolean allowTechnicalFieldsExport) {
@@ -339,7 +340,7 @@ implements Receiver, I_CmsPasswordFetcher {
      * @return a map with the users to export added
      * @throws CmsException if getting users failed
      */
-    public static Map<CmsUUID, CmsUser> addExportAllUsers(CmsObject cms, String ou, Map<CmsUUID, CmsUser> exportUsers)
+    public static Map<CmsUUID, CmsUser> addExportAllUsers(CmsObject cms, @RUntainted String ou, Map<CmsUUID, CmsUser> exportUsers)
     throws CmsException {
 
         List<CmsUser> users = OpenCms.getOrgUnitManager().getUsers(cms, ou, false);
@@ -374,7 +375,7 @@ implements Receiver, I_CmsPasswordFetcher {
         if ((groups != null) && (groups.size() > 0)) {
             Iterator<String> itGroups = groups.iterator();
             while (itGroups.hasNext()) {
-                List<CmsUser> groupUsers = cms.getUsersOfGroup(itGroups.next());
+                List<@RUntainted CmsUser> groupUsers = cms.getUsersOfGroup(itGroups.next());
                 Iterator<CmsUser> itGroupUsers = groupUsers.iterator();
                 while (itGroupUsers.hasNext()) {
                     CmsUser groupUser = itGroupUsers.next();
@@ -401,15 +402,15 @@ implements Receiver, I_CmsPasswordFetcher {
      */
     public static Map<CmsUUID, CmsUser> addExportUsersFromRoles(
         CmsObject cms,
-        String ou,
-        List<String> roles,
+        @RUntainted String ou,
+        List<@RUntainted String> roles,
         Map<CmsUUID, CmsUser> exportUsers)
     throws CmsException {
 
         if ((roles != null) && (roles.size() > 0)) {
-            Iterator<String> itRoles = roles.iterator();
+            Iterator<@RUntainted String> itRoles = roles.iterator();
             while (itRoles.hasNext()) {
-                List<CmsUser> roleUsers = OpenCms.getRoleManager().getUsersOfRole(
+                List<@RUntainted CmsUser> roleUsers = OpenCms.getRoleManager().getUsersOfRole(
                     cms,
                     CmsRole.valueOfGroupName(itRoles.next()).forOrgUnit(ou),
                     true,
@@ -438,7 +439,7 @@ implements Receiver, I_CmsPasswordFetcher {
          */
     public static CmsImportExportUserDialog getExportUserDialogForGroup(
         CmsUUID groupID,
-        String ou,
+        @RUntainted String ou,
         Window window,
         boolean allowTechnicalFieldsExport) {
 
@@ -455,7 +456,7 @@ implements Receiver, I_CmsPasswordFetcher {
      * @return an instance of this class
      */
     public static CmsImportExportUserDialog getExportUserDialogForOU(
-        String ou,
+        @RUntainted String ou,
         Window window,
         boolean allowTechnicalFieldsExport) {
 
@@ -516,7 +517,7 @@ implements Receiver, I_CmsPasswordFetcher {
      * @param ou name
      * @return ComboBox
      */
-    protected ComboBox<CmsRole> getRoleComboBox(String ou) {
+    protected ComboBox<CmsRole> getRoleComboBox(@RUntainted String ou) {
 
         ComboBox<CmsRole> box = new ComboBox<CmsRole>();
         CmsUserEditDialog.iniRole(A_CmsUI.getCmsObject(), ou, box, null);
@@ -673,7 +674,7 @@ implements Receiver, I_CmsPasswordFetcher {
         List<String> groups = getGroupsList(m_exportGroups, false);
 
         Iterator<I_CmsEditableGroupRow> it = m_exportRolesGroup.getRows().iterator();
-        List<String> roles = new ArrayList<String>();
+        List<@RUntainted String> roles = new ArrayList<@RUntainted String>();
         while (it.hasNext()) {
             CmsRole role = (CmsRole)((ComboBox)it.next().getComponent()).getValue();
             roles.add(role.getGroupName());

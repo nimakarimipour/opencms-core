@@ -52,6 +52,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents a group of resources which are locale variants of each other.<p>
@@ -65,13 +66,13 @@ public class CmsLocaleGroup {
     private CmsObject m_cms;
 
     /** The locale cache. */
-    private Map<CmsResource, Locale> m_localeCache = Maps.newHashMap();
+    private Map<CmsResource, @RUntainted Locale> m_localeCache = Maps.newHashMap();
 
     /** The 'no translation' setting for this locale group. */
-    private String m_noTranslation;
+    private @RUntainted String m_noTranslation;
 
     /** The primary resource. */
-    private CmsResource m_primaryResource;
+    private @RUntainted CmsResource m_primaryResource;
 
     /** Map of resources by locale. */
     private Multimap<Locale, CmsResource> m_resourcesByLocale = ArrayListMultimap.create();
@@ -123,7 +124,7 @@ public class CmsLocaleGroup {
      *
      * @return the primary resource
      */
-    public CmsResource getPrimaryResource() {
+    public @RUntainted CmsResource getPrimaryResource() {
 
         return m_primaryResource;
     }
@@ -135,7 +136,7 @@ public class CmsLocaleGroup {
      *
      * @return the map of resources by locale
      */
-    public Map<Locale, CmsResource> getResourcesByLocale() {
+    public Map<@RUntainted Locale, CmsResource> getResourcesByLocale() {
 
         List<CmsResource> resources = Lists.newArrayList();
         resources.add(m_primaryResource);
@@ -150,7 +151,7 @@ public class CmsLocaleGroup {
             }
 
         });
-        Map<Locale, CmsResource> result = new LinkedHashMap<Locale, CmsResource>();
+        Map<@RUntainted Locale, CmsResource> result = new LinkedHashMap<@RUntainted Locale, CmsResource>();
         for (CmsResource resource : resources) {
             result.put(m_localeCache.get(resource), resource);
         }
@@ -213,7 +214,7 @@ public class CmsLocaleGroup {
         if (m_noTranslation == null) {
             return false;
         }
-        List<Locale> noTranslationLocales = CmsLocaleManager.getLocales(m_noTranslation);
+        List<@RUntainted Locale> noTranslationLocales = CmsLocaleManager.getLocales(m_noTranslation);
         for (Locale locale : noTranslationLocales) {
             if (locales.contains(locale)) {
                 return true;
@@ -286,7 +287,7 @@ public class CmsLocaleGroup {
         for (CmsResource resource : m_secondaryResources) {
             readLocale(resource);
         }
-        for (Map.Entry<CmsResource, Locale> entry : m_localeCache.entrySet()) {
+        for (Map.Entry<CmsResource, @RUntainted Locale> entry : m_localeCache.entrySet()) {
             CmsResource key = entry.getKey();
             Locale value = entry.getValue();
             m_resourcesByLocale.put(value, key);

@@ -152,6 +152,7 @@ import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.Table.CellStyleGenerator;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manager for list configuration files.<p>
@@ -167,7 +168,7 @@ I_CmsCachableApp, I_CmsResultFacetsManager {
     protected class DialogContext extends CmsFileTableDialogContext {
 
         /** The selected table items. */
-        private List<Item> m_selectedItems;
+        private List<@RUntainted Item> m_selectedItems;
 
         /**
          * Constructor.<p>
@@ -181,7 +182,7 @@ I_CmsCachableApp, I_CmsResultFacetsManager {
             String appId,
             ContextType contextType,
             CmsFileTable fileTable,
-            List<CmsResource> resources) {
+            @RUntainted List<CmsResource> resources) {
 
             super(appId, contextType, fileTable, resources);
         }
@@ -205,7 +206,7 @@ I_CmsCachableApp, I_CmsResultFacetsManager {
          *
          * @return the selected table items
          */
-        public List<Item> getSelectedItems() {
+        public List<@RUntainted Item> getSelectedItems() {
 
             return m_selectedItems;
         }
@@ -215,7 +216,7 @@ I_CmsCachableApp, I_CmsResultFacetsManager {
          *
          * @param items the table items
          */
-        public void setSelectedItems(List<Item> items) {
+        public void setSelectedItems(List<@RUntainted Item> items) {
 
             m_selectedItems = items;
         }
@@ -253,7 +254,7 @@ I_CmsCachableApp, I_CmsResultFacetsManager {
                     window.setCaption(options.getTitle());
                     CmsOptionDialog dialog = new CmsOptionDialog(resource, options, new I_OptionHandler() {
 
-                        public void handleOption(String option) {
+                        public void handleOption(@RUntainted String option) {
 
                             deleteForOption(resource, elementBean, option, handler, context);
                         }
@@ -280,7 +281,7 @@ I_CmsCachableApp, I_CmsResultFacetsManager {
         void deleteForOption(
             CmsResource resource,
             CmsContainerElementBean elementBean,
-            String deleteOption,
+            @RUntainted String deleteOption,
             I_CmsEditHandler editHandler,
             I_CmsDialogContext context) {
 
@@ -325,7 +326,7 @@ I_CmsCachableApp, I_CmsResultFacetsManager {
                     window.setCaption(options.getTitle());
                     CmsOptionDialog dialog = new CmsOptionDialog(resource, options, new I_OptionHandler() {
 
-                        public void handleOption(String option) {
+                        public void handleOption(@RUntainted String option) {
 
                             editForOption(resource, elementBean, option, handler, context);
                         }
@@ -352,7 +353,7 @@ I_CmsCachableApp, I_CmsResultFacetsManager {
         void editForOption(
             CmsResource resource,
             CmsContainerElementBean elementBean,
-            String editOption,
+            @RUntainted String editOption,
             I_CmsEditHandler editHandler,
             I_CmsDialogContext context) {
 
@@ -476,7 +477,7 @@ I_CmsCachableApp, I_CmsResultFacetsManager {
     CmsConfigurationBean m_currentConfig;
 
     /** The current list configuration resource. */
-    CmsResource m_currentResource;
+    @RUntainted CmsResource m_currentResource;
 
     /** The result table. */
     CmsResultTable m_resultTable;
@@ -778,7 +779,7 @@ I_CmsCachableApp, I_CmsResultFacetsManager {
                     }
 
                     @Override
-                    public String getTitleKey() {
+                    public @RUntainted String getTitleKey() {
 
                         return Messages.GUI_LISTMANAGER_BLACKLIST_MENU_ENTRY_0;
                     }
@@ -816,7 +817,7 @@ I_CmsCachableApp, I_CmsResultFacetsManager {
                     }
 
                     @Override
-                    public String getTitleKey() {
+                    public @RUntainted String getTitleKey() {
 
                         return Messages.GUI_LISTMANAGER_REMOVE_FROM_BLACKLIST_MENU_ENTRY_0;
                     }
@@ -940,7 +941,7 @@ I_CmsCachableApp, I_CmsResultFacetsManager {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void valueChange(ValueChangeEvent event) {
+            public void valueChange(@RUntainted ValueChangeEvent event) {
 
                 changeContentLocale((Locale)event.getProperty().getValue());
             }
@@ -1015,7 +1016,7 @@ I_CmsCachableApp, I_CmsResultFacetsManager {
      * @see org.opencms.ui.apps.A_CmsWorkplaceApp#onStateChange(java.lang.String)
      */
     @Override
-    public void onStateChange(String state) {
+    public void onStateChange(@RUntainted String state) {
 
         if ((m_currentState == null) || !m_currentState.equals(state)) {
             m_currentState = state;
@@ -1073,7 +1074,7 @@ I_CmsCachableApp, I_CmsResultFacetsManager {
      * @param configParser the search configuration parser
      * @param resource the current configuration resource
      */
-    public void search(CmsSimpleSearchConfigurationParser configParser, CmsResource resource) {
+    public void search(CmsSimpleSearchConfigurationParser configParser, @RUntainted CmsResource resource) {
 
         m_currentResource = resource;
         m_currentConfigParser = configParser;
@@ -1181,7 +1182,7 @@ I_CmsCachableApp, I_CmsResultFacetsManager {
      * @see org.opencms.ui.apps.A_CmsWorkplaceApp#getComponentForState(java.lang.String)
      */
     @Override
-    protected Component getComponentForState(String state) {
+    protected Component getComponentForState(@RUntainted String state) {
 
         CmsObject cms = A_CmsUI.getCmsObject();
         boolean showOverview = true;
@@ -1236,7 +1237,7 @@ I_CmsCachableApp, I_CmsResultFacetsManager {
      *
      * @param contentLocale the content locale to set
      */
-    void changeContentLocale(Locale contentLocale) {
+    void changeContentLocale(@RUntainted Locale contentLocale) {
 
         if (!m_resetting) {
             m_currentConfigParser.setSearchLocale(contentLocale);
@@ -1449,7 +1450,7 @@ I_CmsCachableApp, I_CmsResultFacetsManager {
      */
     CmsContainerElementBean getElementForEditHandler(DialogContext context) {
 
-        List<Item> selected = context.getSelectedItems();
+        List<@RUntainted Item> selected = context.getSelectedItems();
         if (selected.size() == 1) {
             Item item = selected.get(0);
             Date instanceDate = (Date)item.getItemProperty(INSTANCEDATE_PROPERTY).getValue();
@@ -1518,7 +1519,7 @@ I_CmsCachableApp, I_CmsResultFacetsManager {
         I_CmsUpdateListener<String> updateListener = new I_CmsUpdateListener<String>() {
 
             @Override
-            public void onUpdate(List<String> updatedItems) {
+            public void onUpdate(List<@RUntainted String> updatedItems) {
 
                 updateItems(updatedItems);
             }
@@ -1625,7 +1626,7 @@ I_CmsCachableApp, I_CmsResultFacetsManager {
      *
      * @param updatedItems the items to update
      */
-    void updateItems(List<String> updatedItems) {
+    void updateItems(List<@RUntainted String> updatedItems) {
 
         Set<CmsUUID> ids = new HashSet<CmsUUID>();
         for (String id : updatedItems) {
@@ -1643,7 +1644,7 @@ I_CmsCachableApp, I_CmsResultFacetsManager {
         resetTableFilter();
         try {
             // display the search configuration overview
-            List<CmsResource> resources = cms.readResources(
+            List<@RUntainted CmsResource> resources = cms.readResources(
                 "/",
                 CmsResourceFilter.ONLY_VISIBLE_NO_DELETED.addRequireType(
                     OpenCms.getResourceManager().getResourceType(RES_TYPE_LIST_CONFIG)));
@@ -1660,7 +1661,7 @@ I_CmsCachableApp, I_CmsResultFacetsManager {
      * @param controller the search controller
      * @param query the SOLR query
      */
-    private void executeSearch(CmsSearchController controller, CmsSolrQuery query) {
+    private void executeSearch(CmsSearchController controller, @RUntainted CmsSolrQuery query) {
 
         CmsObject cms = A_CmsUI.getCmsObject();
         I_CmsSearchConfigurationCommon commonConfig = controller.getCommon().getConfig();

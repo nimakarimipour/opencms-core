@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.mail.internet.InternetAddress;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A schedulable OpenCms job to validate internal relations.<p>
@@ -75,7 +76,7 @@ public class CmsInternalRelationsValidationJob implements I_CmsScheduledJob {
     /**
      * @see org.opencms.scheduler.I_CmsScheduledJob#launch(CmsObject, Map)
      */
-    public String launch(CmsObject cms, Map<String, String> parameters) throws Exception {
+    public @RUntainted String launch(CmsObject cms, Map<String, @RUntainted String> parameters) throws Exception {
 
         I_CmsReport report = null;
         String msg = null;

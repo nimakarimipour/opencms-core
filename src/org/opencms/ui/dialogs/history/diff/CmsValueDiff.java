@@ -64,6 +64,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.Panel;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Displays either a diff for the XML file, or a table displaying the differences between individual content values,
@@ -77,7 +78,7 @@ public class CmsValueDiff implements I_CmsDiffProvider {
     /**
      * @see org.opencms.ui.dialogs.history.diff.I_CmsDiffProvider#diff(org.opencms.file.CmsObject, org.opencms.gwt.shared.CmsHistoryResourceBean, org.opencms.gwt.shared.CmsHistoryResourceBean)
      */
-    public Optional<Component> diff(final CmsObject cms, CmsHistoryResourceBean v1, CmsHistoryResourceBean v2)
+    public Optional<Component> diff(final @RUntainted CmsObject cms, CmsHistoryResourceBean v1, CmsHistoryResourceBean v2)
     throws CmsException {
 
         CmsResource resource1 = A_CmsAttributeDiff.readResource(cms, v1);
@@ -136,7 +137,7 @@ public class CmsValueDiff implements I_CmsDiffProvider {
      * @throws CmsException if something goes wrong
      */
     private Table buildValueComparisonTable(
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         final Component parent,
         CmsFile file1,
         CmsFile file2,
@@ -190,7 +191,7 @@ public class CmsValueDiff implements I_CmsDiffProvider {
      *
      * @return the diff view
      */
-    private Component buildWholeFileDiffView(CmsObject cms, CmsFile file1, CmsFile file2) {
+    private Component buildWholeFileDiffView(@RUntainted CmsObject cms, CmsFile file1, CmsFile file2) {
 
         String encoding = "UTF-8";
         try {

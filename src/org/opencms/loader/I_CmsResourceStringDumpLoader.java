@@ -37,6 +37,7 @@ import java.util.Locale;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource loaders that implement this method can easily provide the contents of a selected targe element as
@@ -68,10 +69,10 @@ public interface I_CmsResourceStringDumpLoader {
      * @see I_CmsResourceLoader#dump(CmsObject, CmsResource, String, Locale, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     String dumpAsString(
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         CmsResource resource,
-        String element,
-        Locale locale,
+        @RUntainted String element,
+        @RUntainted Locale locale,
         ServletRequest req,
         ServletResponse res) throws ServletException, IOException, CmsException;
 }

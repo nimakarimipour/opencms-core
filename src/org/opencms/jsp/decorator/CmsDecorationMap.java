@@ -42,6 +42,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The CmsDecorationMap is the object representation of a single decoartion file.<p>
@@ -61,16 +62,16 @@ public class CmsDecorationMap implements Comparable<CmsDecorationMap> {
     private static final Log LOG = CmsLog.getLog(CmsDecorationMap.class);
 
     /** The map to store all elements in. */
-    private Map<String, CmsDecorationObject> m_decorationMap;
+    private Map<String, @RUntainted CmsDecorationObject> m_decorationMap;
 
     /** The decorator defintion to be used for this decoration map. */
-    private CmsDecorationDefintion m_decoratorDefinition;
+    private @RUntainted CmsDecorationDefintion m_decoratorDefinition;
 
     /**  The locale of this decoration map. */
-    private Locale m_locale;
+    private @RUntainted Locale m_locale;
 
     /** The name of the decoration map. */
-    private String m_name;
+    private @RUntainted String m_name;
 
     /**
      * Constructor, creates a new, empty CmsDecorationMap.<p>
@@ -79,7 +80,7 @@ public class CmsDecorationMap implements Comparable<CmsDecorationMap> {
      * @param name The name of the decoration map
      * @param locale the locale for this decoration map
      */
-    public CmsDecorationMap(CmsDecorationDefintion decDef, String name, Locale locale) {
+    public CmsDecorationMap(@RUntainted CmsDecorationDefintion decDef, @RUntainted String name, @RUntainted Locale locale) {
 
         m_decoratorDefinition = decDef;
         m_name = name;
@@ -95,7 +96,7 @@ public class CmsDecorationMap implements Comparable<CmsDecorationMap> {
      * @param decDef the CmsDecorationDefintion to be used in this decoration map
      * @throws CmsException if something goes wrong
      */
-    public CmsDecorationMap(CmsObject cms, CmsResource res, CmsDecorationDefintion decDef)
+    public CmsDecorationMap(CmsObject cms, @RUntainted CmsResource res, @RUntainted CmsDecorationDefintion decDef)
     throws CmsException {
 
         m_decoratorDefinition = decDef;
@@ -133,7 +134,7 @@ public class CmsDecorationMap implements Comparable<CmsDecorationMap> {
      *
      * @return the decorationMap
      */
-    public Map<String, CmsDecorationObject> getDecorationMap() {
+    public Map<String, @RUntainted CmsDecorationObject> getDecorationMap() {
 
         return m_decorationMap;
     }
@@ -153,7 +154,7 @@ public class CmsDecorationMap implements Comparable<CmsDecorationMap> {
      *
      * @return the name
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_name;
     }
@@ -172,7 +173,7 @@ public class CmsDecorationMap implements Comparable<CmsDecorationMap> {
      *
      * @param decorationMap the decorationMap to set
      */
-    public void setDecorationMap(Map<String, CmsDecorationObject> decorationMap) {
+    public void setDecorationMap(Map<String, @RUntainted CmsDecorationObject> decorationMap) {
 
         m_decorationMap = decorationMap;
     }
@@ -200,7 +201,7 @@ public class CmsDecorationMap implements Comparable<CmsDecorationMap> {
      *
      *@return locale extraced form filename or null
      */
-    private Locale extractLocale() {
+    private @RUntainted Locale extractLocale() {
 
         Locale loc = null;
         int underscore = m_name.lastIndexOf("_");
@@ -223,14 +224,14 @@ public class CmsDecorationMap implements Comparable<CmsDecorationMap> {
      * @return decoration map, using decoration as key and decoration description as value
      * @throws CmsException if something goes wrong
      */
-    private Map<String, CmsDecorationObject> fillMap(CmsObject cms, CmsResource res) throws CmsException {
+    private Map<String, @RUntainted CmsDecorationObject> fillMap(CmsObject cms, @RUntainted CmsResource res) throws CmsException {
 
         if (LOG.isDebugEnabled()) {
             LOG.debug(
                 Messages.get().getBundle().key(Messages.LOG_DECORATION_MAP_FILL_MAP_2, m_name, m_decoratorDefinition));
         }
 
-        Map<String, CmsDecorationObject> decMap = new HashMap<String, CmsDecorationObject>();
+        Map<String, @RUntainted CmsDecorationObject> decMap = new HashMap<String, @RUntainted CmsDecorationObject>();
         // upgrade the resource to get the file content
         CmsFile file = cms.readFile(res);
         // get all the entries
@@ -253,7 +254,7 @@ public class CmsDecorationMap implements Comparable<CmsDecorationMap> {
                     CmsStringUtil.escapeJavaScript(delimiter)));
         }
 
-        List<String> entries = CmsStringUtil.splitAsList(unparsedContent, delimiter);
+        List<@RUntainted String> entries = CmsStringUtil.splitAsList(unparsedContent, delimiter);
 
         if (LOG.isDebugEnabled()) {
             LOG.debug(
@@ -262,7 +263,7 @@ public class CmsDecorationMap implements Comparable<CmsDecorationMap> {
                     res.getName(),
                     entries));
         }
-        Iterator<String> i = entries.iterator();
+        Iterator<@RUntainted String> i = entries.iterator();
         while (i.hasNext()) {
             try {
                 String entry = i.next();

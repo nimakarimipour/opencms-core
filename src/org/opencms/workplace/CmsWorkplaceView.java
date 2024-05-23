@@ -26,6 +26,7 @@
  */
 
 package org.opencms.workplace;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains the data of a single workplace view.<p>
@@ -41,7 +42,7 @@ public class CmsWorkplaceView implements Comparable<CmsWorkplaceView> {
     private Float m_order;
 
     /** The URI of the OpenCms VFS resource (folder) of the view. */
-    private String m_uri;
+    private @RUntainted String m_uri;
 
     /**
      * Creates a new workplace view.<p>
@@ -50,7 +51,7 @@ public class CmsWorkplaceView implements Comparable<CmsWorkplaceView> {
      * @param uri of the view page in the OpenCms VFS
      * @param order the sort order of the view
      */
-    public CmsWorkplaceView(String key, String uri, Float order) {
+    public CmsWorkplaceView(String key, @RUntainted String uri, Float order) {
 
         m_key = key;
         m_uri = uri;
@@ -108,7 +109,7 @@ public class CmsWorkplaceView implements Comparable<CmsWorkplaceView> {
      *
      * @return the uri
      */
-    public String getUri() {
+    public @RUntainted String getUri() {
 
         return m_uri;
     }

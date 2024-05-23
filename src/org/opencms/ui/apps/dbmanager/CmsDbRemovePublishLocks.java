@@ -38,6 +38,7 @@ import java.util.List;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Remove publish locks.<p>
@@ -68,7 +69,7 @@ public class CmsDbRemovePublishLocks extends VerticalLayout implements I_CmsUpda
     /**
      * @see org.opencms.ui.apps.linkvalidation.I_CmsUpdatableComponent#update(java.util.List)
      */
-    public void update(List<String> resources) {
+    public void update(List<@RUntainted String> resources) {
 
         m_panel.removeAllComponents();
         CmsRemovePubLocksThread thread = new CmsRemovePubLocksThread(A_CmsUI.getCmsObject(), resources);

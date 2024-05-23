@@ -43,6 +43,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.logging.Log;
 
 import com.lambdaworks.crypto.SCryptUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Default implementation for OpenCms password validation,
@@ -75,22 +76,22 @@ implements I_CmsPasswordHandler, I_CmsPasswordSecurityEvaluator, I_CmsPasswordGe
     private CmsParameterConfiguration m_configuration;
 
     /** The digest type used. */
-    private String m_digestType = DIGEST_TYPE_SCRYPT;
+    private @RUntainted String m_digestType = DIGEST_TYPE_SCRYPT;
 
     /** The encoding the encoding used for translating the input string to bytes. */
-    private String m_inputEncoding = CmsEncoder.ENCODING_UTF_8;
+    private @RUntainted String m_inputEncoding = CmsEncoder.ENCODING_UTF_8;
 
     /** SCrypt fall back algorithm. */
-    private String m_scryptFallback;
+    private @RUntainted String m_scryptFallback;
 
     /** SCrypt parameter: CPU cost, must be a power of 2. */
-    private int m_scryptN;
+    private @RUntainted int m_scryptN;
 
     /** SCrypt parameter: Parallelization parameter. */
-    private int m_scryptP;
+    private @RUntainted int m_scryptP;
 
     /** SCrypt parameter: Memory cost. */
-    private int m_scryptR;
+    private @RUntainted int m_scryptR;
 
     /**
      * The constructor does not perform any operation.<p>
@@ -103,7 +104,7 @@ implements I_CmsPasswordHandler, I_CmsPasswordSecurityEvaluator, I_CmsPasswordGe
     /**
      * @see org.opencms.configuration.I_CmsConfigurationParameterHandler#addConfigurationParameter(java.lang.String, java.lang.String)
      */
-    public void addConfigurationParameter(String paramName, String paramValue) {
+    public void addConfigurationParameter(String paramName, @RUntainted String paramValue) {
 
         m_configuration.put(paramName, paramValue);
     }
@@ -152,7 +153,7 @@ implements I_CmsPasswordHandler, I_CmsPasswordSecurityEvaluator, I_CmsPasswordGe
     /**
      * @see org.opencms.security.I_CmsPasswordHandler#digest(java.lang.String, java.lang.String, java.lang.String)
      */
-    public String digest(String password, String digestType, String inputEncoding)
+    public String digest(String password, @RUntainted String digestType, @RUntainted String inputEncoding)
     throws CmsPasswordEncryptionException {
 
         MessageDigest md;
@@ -219,7 +220,7 @@ implements I_CmsPasswordHandler, I_CmsPasswordSecurityEvaluator, I_CmsPasswordGe
     /**
      * @see org.opencms.security.I_CmsPasswordSecurityEvaluator#evaluatePasswordSecurity(java.lang.String)
      */
-    public SecurityLevel evaluatePasswordSecurity(String password) {
+    public SecurityLevel evaluatePasswordSecurity(@RUntainted String password) {
 
         SecurityLevel result;
         if (password.length() < PASSWORD_MIN_LENGTH) {
@@ -263,7 +264,7 @@ implements I_CmsPasswordHandler, I_CmsPasswordSecurityEvaluator, I_CmsPasswordGe
     /**
      * @see org.opencms.security.I_CmsPasswordSecurityEvaluator#getPasswordSecurityHint(java.util.Locale)
      */
-    public String getPasswordSecurityHint(Locale locale) {
+    public String getPasswordSecurityHint(@RUntainted Locale locale) {
 
         return Messages.get().getBundle(locale).key(
             Messages.GUI_PASSWORD_SECURITY_HINT_1,
@@ -298,7 +299,7 @@ implements I_CmsPasswordHandler, I_CmsPasswordSecurityEvaluator, I_CmsPasswordGe
 
         String scryptSettings = m_configuration.get(PARAM_SCRYPT_SETTINGS);
         if (scryptSettings != null) {
-            String[] settings = CmsStringUtil.splitAsArray(scryptSettings, ',');
+            @RUntainted String[] settings = CmsStringUtil.splitAsArray(scryptSettings, ',');
             if (settings.length == 3) {
                 // we just require 3 correct parameters
                 m_scryptN = CmsStringUtil.getIntValue(settings[0], m_scryptN, "scryptN using " + m_scryptN);
@@ -334,7 +335,7 @@ implements I_CmsPasswordHandler, I_CmsPasswordSecurityEvaluator, I_CmsPasswordGe
      *
      * @param digestType the digestType to set
      */
-    public void setDigestType(String digestType) {
+    public void setDigestType(@RUntainted String digestType) {
 
         m_digestType = digestType.toLowerCase();
     }
@@ -344,7 +345,7 @@ implements I_CmsPasswordHandler, I_CmsPasswordSecurityEvaluator, I_CmsPasswordGe
      *
      * @param inputEncoding the input encoding to set
      */
-    public void setInputEncoding(String inputEncoding) {
+    public void setInputEncoding(@RUntainted String inputEncoding) {
 
         m_inputEncoding = inputEncoding;
     }
@@ -352,7 +353,7 @@ implements I_CmsPasswordHandler, I_CmsPasswordSecurityEvaluator, I_CmsPasswordGe
     /**
      * @see org.opencms.security.I_CmsPasswordHandler#validatePassword(java.lang.String)
      */
-    public void validatePassword(String password) throws CmsSecurityException {
+    public void validatePassword(@RUntainted String password) throws CmsSecurityException {
 
         if ((password == null) || (password.length() < PASSWORD_MIN_LENGTH)) {
             throw new CmsSecurityException(

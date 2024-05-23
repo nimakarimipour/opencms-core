@@ -46,6 +46,7 @@ import java.util.Set;
 import com.vaadin.ui.Component;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.Table.CellStyleGenerator;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Result table for broken internal relations.<p>
@@ -71,7 +72,7 @@ public class CmsLinkValidationInternalTable extends CmsFileTable implements I_Cm
     private A_CmsLinkValidator m_linkValidator;
 
     /** Resources to check.*/
-    private List<String> m_resourcesToCheck;
+    private @RUntainted List<@RUntainted String> m_resourcesToCheck;
 
     /**
      * Constructor for table.<p>
@@ -126,7 +127,7 @@ public class CmsLinkValidationInternalTable extends CmsFileTable implements I_Cm
     /**
      * @see org.opencms.ui.apps.linkvalidation.I_CmsUpdatableComponent#update(java.util.List)
      */
-    public void update(List<String> resourcePaths) {
+    public void update(@RUntainted List<@RUntainted String> resourcePaths) {
 
         m_resourcesToCheck = resourcePaths;
         reload();

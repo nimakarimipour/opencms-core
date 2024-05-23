@@ -26,6 +26,7 @@
  */
 
 package org.opencms.configuration;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * RMI shell server configuration.<p>
@@ -36,7 +37,7 @@ public class CmsRemoteShellConfiguration {
     private boolean m_enabled;
 
     /** The port to use for creating the RMI registry used by the remote shell. */
-    private int m_port;
+    private @RUntainted int m_port;
 
     /**
      * Creates a new instance.<p>
@@ -44,7 +45,7 @@ public class CmsRemoteShellConfiguration {
      * @param enabled true if the remote shell should be enabled
      * @param port the port to use for creating the RMI registry used by the remote shell.
      */
-    public CmsRemoteShellConfiguration(boolean enabled, int port) {
+    public CmsRemoteShellConfiguration(boolean enabled, @RUntainted int port) {
         m_enabled = enabled;
         m_port = port;
 
@@ -55,7 +56,7 @@ public class CmsRemoteShellConfiguration {
      *
      * @return the RMI registry port
      */
-    public int getPort() {
+    public @RUntainted int getPort() {
 
         return m_port;
     }

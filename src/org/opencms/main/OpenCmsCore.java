@@ -170,6 +170,8 @@ import org.antlr.stringtemplate.StringTemplate;
 import com.google.common.base.Optional;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gwt.user.client.rpc.core.java.util.LinkedHashMap_CustomFieldSerializer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * The internal implementation of the core OpenCms "operating system" functions.<p>
@@ -233,7 +235,7 @@ public final class OpenCmsCore {
     private I_CmsCredentialsResolver m_credentialsResolver;
 
     /** List of configured directory default file names. */
-    private List<String> m_defaultFiles;
+    private @RUntainted List<@RUntainted String> m_defaultFiles;
 
     /** The default user and group names. */
     private CmsDefaultUsers m_defaultUsers;
@@ -305,10 +307,10 @@ public final class OpenCmsCore {
     private CmsRoleManager m_roleManager;
 
     /** The runlevel of this OpenCmsCore object instance. */
-    private int m_runLevel;
+    private @RUntainted int m_runLevel;
 
     /** The runtime properties allow storage of system wide accessible runtime information. */
-    private Map<Object, Object> m_runtimeProperties;
+    private Map<Object, @RUntainted Object> m_runtimeProperties;
 
     /** The configured scheduler manager. */
     private CmsScheduleManager m_scheduleManager;
@@ -317,7 +319,7 @@ public final class OpenCmsCore {
     private CmsSearchManager m_searchManager;
 
     /** The security manager to access the database and validate user permissions. */
-    private CmsSecurityManager m_securityManager;
+    private @RUntainted CmsSecurityManager m_securityManager;
 
     /** The session manager. */
     private CmsSessionManager m_sessionManager;
@@ -412,7 +414,7 @@ public final class OpenCmsCore {
      *
      * @return the path for the request
      */
-    public static String getPathInfo(HttpServletRequest req) {
+    public static @RPolyTainted String getPathInfo(@RPolyTainted HttpServletRequest req) {
 
         String path = req.getPathInfo();
         if (path == null) {
@@ -517,7 +519,7 @@ public final class OpenCmsCore {
         if (handler == null) {
             return;
         }
-        String[] names = handler.getHandlerNames();
+        @RUntainted String[] names = handler.getHandlerNames();
         for (int i = 0; i < names.length; i++) {
             String name = names[i];
             if (m_requestHandlers.get(name) != null) {
@@ -611,7 +613,7 @@ public final class OpenCmsCore {
      *
      * @return the configured database pool names
      */
-    protected List<String> getDbPoolNames() {
+    protected List<@RUntainted String> getDbPoolNames() {
 
         return new ArrayList<>(m_configurationManager.getConfiguration().getList("db.pools"));
 
@@ -622,7 +624,7 @@ public final class OpenCmsCore {
      *
      * @return the configured list of default directory file names
      */
-    protected List<String> getDefaultFiles() {
+    protected @RUntainted List<@RUntainted String> getDefaultFiles() {
 
         return m_defaultFiles;
     }
@@ -857,7 +859,7 @@ public final class OpenCmsCore {
      *
      * @see OpenCms#getRunLevel()
      */
-    protected int getRunLevel() {
+    protected @RUntainted int getRunLevel() {
 
         return m_runLevel;
     }
@@ -868,7 +870,7 @@ public final class OpenCmsCore {
      * @param key the key to look up in the runtime properties
      * @return the value for the key, or null if the key was not found
      */
-    protected Object getRuntimeProperty(Object key) {
+    protected @RUntainted Object getRuntimeProperty(Object key) {
 
         return m_runtimeProperties.get(key);
     }
@@ -1084,7 +1086,7 @@ public final class OpenCmsCore {
      * @throws IOException if user authentication fails
      * @throws CmsException if something goes wrong
      */
-    protected void initCmsContextForUI(HttpServletRequest req, HttpServletResponse res, CmsUIServlet servlet)
+    protected void initCmsContextForUI(@RUntainted HttpServletRequest req, HttpServletResponse res, CmsUIServlet servlet)
     throws IOException, CmsException {
 
         // instantiate CMS context
@@ -1120,7 +1122,7 @@ public final class OpenCmsCore {
      * @see OpenCms#initCmsObject(CmsObject, CmsContextInfo)
      * @see OpenCms#initCmsObject(String)
      */
-    protected CmsObject initCmsObject(CmsObject cms) {
+    protected @RUntainted CmsObject initCmsObject(CmsObject cms) {
 
         CmsRequestContext requestContext = cms.getRequestContext();
         CmsRequestContext context = new CmsRequestContext(
@@ -1165,7 +1167,7 @@ public final class OpenCmsCore {
      * @see OpenCms#initCmsObject(CmsObject, CmsContextInfo)
      * @see OpenCms#initCmsObject(String)
      */
-    protected CmsObject initCmsObject(CmsObject adminCms, CmsContextInfo contextInfo)
+    protected @RUntainted CmsObject initCmsObject(CmsObject adminCms, CmsContextInfo contextInfo)
     throws CmsRoleViolationException, CmsException {
 
         String userName = contextInfo.getUserName();
@@ -1211,7 +1213,7 @@ public final class OpenCmsCore {
      * @throws IOException if user authentication fails
      * @throws CmsException in case something goes wrong
      */
-    protected CmsObject initCmsObject(HttpServletRequest req, HttpServletResponse res, boolean allowPrivilegedLogin)
+    protected @RUntainted CmsObject initCmsObject(@RUntainted HttpServletRequest req, HttpServletResponse res, boolean allowPrivilegedLogin)
     throws IOException, CmsException {
 
         // first try to restore a stored session
@@ -1228,7 +1230,7 @@ public final class OpenCmsCore {
                 /**
                  * @see org.opencms.security.I_CmsAuthorizationHandler.I_PrivilegedLoginAction#doLogin(javax.servlet.http.HttpServletRequest, java.lang.String)
                  */
-                public CmsObject doLogin(HttpServletRequest request, String principal) throws CmsException {
+                public @RUntainted CmsObject doLogin(HttpServletRequest request, @RUntainted String principal) throws CmsException {
 
                     try {
                         CmsUser user = m_adminCms.readUser(principal);
@@ -1320,7 +1322,7 @@ public final class OpenCmsCore {
      * @see OpenCms#initCmsObject(String)
      * @see #initCmsObject(CmsObject, CmsContextInfo)
      */
-    protected CmsObject initCmsObject(String user) throws CmsException {
+    protected @RUntainted CmsObject initCmsObject(@RUntainted String user) throws CmsException {
 
         return initCmsObject(null, new CmsContextInfo(user));
     }
@@ -1336,7 +1338,7 @@ public final class OpenCmsCore {
      *
      * @throws CmsException if something goes wrong
      */
-    protected CmsObject initCmsObjectFromSession(HttpServletRequest req) throws CmsException {
+    protected @RUntainted CmsObject initCmsObjectFromSession(@RUntainted HttpServletRequest req) throws CmsException {
 
         String url = req.getRequestURL().toString();
         String p = "[ " + url + " ] ";
@@ -1395,7 +1397,7 @@ public final class OpenCmsCore {
      * @param configuration the configurations from the <code>opencms.properties</code> file
      * @throws CmsInitException in case OpenCms can not be initialized
      */
-    protected synchronized void initConfiguration(CmsParameterConfiguration configuration) throws CmsInitException {
+    protected synchronized void initConfiguration(@RUntainted CmsParameterConfiguration configuration) throws CmsInitException {
 
         String serverInfo = configuration.getString("context.servlet.container", null);
 
@@ -1874,7 +1876,7 @@ public final class OpenCmsCore {
      * @param context configuration of OpenCms from <code>web.xml</code>
      * @throws CmsInitException in case OpenCms can not be initialized
      */
-    protected synchronized void initContext(ServletContext context) throws CmsInitException {
+    protected synchronized void initContext(@RUntainted ServletContext context) throws CmsInitException {
 
         m_gwtServiceContexts = new HashMap<String, CmsGwtServiceContext>();
 
@@ -1973,10 +1975,10 @@ public final class OpenCmsCore {
      *
      * @see OpenCms#initResource(CmsObject, String, HttpServletRequest, HttpServletResponse)
      */
-    protected CmsResource initResource(
-        CmsObject cms,
-        String resourceName,
-        HttpServletRequest req,
+    protected @RUntainted CmsResource initResource(
+        @RUntainted CmsObject cms,
+        @RUntainted String resourceName,
+        @RUntainted HttpServletRequest req,
         HttpServletResponse res)
     throws CmsException {
 
@@ -2090,7 +2092,7 @@ public final class OpenCmsCore {
      *
      * @throws ServletException if something goes wrong
      */
-    protected void invokeBuiltinService(String remainingPath, HttpServletRequest req, HttpServletResponse res)
+    protected void invokeBuiltinService(@RUntainted String remainingPath, @RUntainted HttpServletRequest req, HttpServletResponse res)
     throws ServletException {
 
         try {
@@ -2125,7 +2127,7 @@ public final class OpenCmsCore {
      */
     protected void invokeGwtService(
         String serviceName,
-        HttpServletRequest req,
+        @RUntainted HttpServletRequest req,
         HttpServletResponse res,
         ServletConfig servletConfig) {
 
@@ -2199,7 +2201,7 @@ public final class OpenCmsCore {
      * @param key the key to add the Object with
      * @param value the value of the Object to add
      */
-    protected void setRuntimeProperty(Object key, Object value) {
+    protected void setRuntimeProperty(Object key, @RUntainted Object value) {
 
         m_runtimeProperties.put(key, value);
     }
@@ -2211,7 +2213,7 @@ public final class OpenCmsCore {
      * @param req the current servlet request
      * @param res the current servlet response
      */
-    protected void showResource(HttpServletRequest req, HttpServletResponse res) {
+    protected void showResource(@RUntainted HttpServletRequest req, @RUntainted HttpServletResponse res) {
 
         CmsObject cms = null;
         try {
@@ -2524,7 +2526,7 @@ public final class OpenCmsCore {
      *
      * @throws CmsException if something goes wrong
      */
-    protected CmsObject updateContext(HttpServletRequest request, CmsObject cms) throws CmsException {
+    protected @RUntainted CmsObject updateContext(@RUntainted HttpServletRequest request, CmsObject cms) throws CmsException {
 
         // get the right site for the request
         String siteRoot = null;
@@ -2556,7 +2558,7 @@ public final class OpenCmsCore {
      * @throws CmsInitException in case OpenCms can not be initialized
      * @return the initialized OpenCmsCore
      */
-    protected OpenCmsCore upgradeRunlevel(CmsParameterConfiguration configuration) throws CmsInitException {
+    protected OpenCmsCore upgradeRunlevel(@RUntainted CmsParameterConfiguration configuration) throws CmsInitException {
 
         synchronized (LOCK) {
             if ((m_instance != null) && (getRunLevel() >= OpenCms.RUNLEVEL_2_INITIALIZING)) {
@@ -2596,7 +2598,7 @@ public final class OpenCmsCore {
      * @throws CmsInitException in case OpenCms can not be initialized
      * @return the initialized OpenCmsCore
      */
-    protected OpenCmsCore upgradeRunlevel(ServletContext context) throws CmsInitException {
+    protected OpenCmsCore upgradeRunlevel(@RUntainted ServletContext context) throws CmsInitException {
 
         synchronized (LOCK) {
             if ((m_instance != null) && (getRunLevel() >= OpenCms.RUNLEVEL_4_SERVLET_ACCESS)) {
@@ -2761,7 +2763,7 @@ public final class OpenCmsCore {
      *
      * @return true if 'force absolute links' mode should be enabled
      */
-    private boolean checkForceAbsoluteLinks(HttpServletRequest req, CmsObject cms, CmsResource resource) {
+    private @RUntainted boolean checkForceAbsoluteLinks(HttpServletRequest req, CmsObject cms, CmsResource resource) {
 
         try {
             boolean forceAbsoluteLinks = Boolean.parseBoolean(req.getParameter(PARAM_FORCE_ABSOLUTE_LINKS));
@@ -2789,7 +2791,7 @@ public final class OpenCmsCore {
      * @param res the client response
      * @param t the exception that occurred
      */
-    private void errorHandling(CmsObject cms, HttpServletRequest req, HttpServletResponse res, Throwable t) {
+    private void errorHandling(CmsObject cms, @RUntainted HttpServletRequest req, HttpServletResponse res, @RUntainted Throwable t) {
 
         // remove the controller attribute from the request
         CmsFlexController.removeController(req);
@@ -2915,7 +2917,7 @@ public final class OpenCmsCore {
      *
      * @throws IOException in case of IO errors
      */
-    private String getLoginFormURL(HttpServletRequest req, HttpServletResponse res) throws IOException {
+    private @RUntainted String getLoginFormURL(@RUntainted HttpServletRequest req, HttpServletResponse res) throws IOException {
 
         CmsHttpAuthenticationSettings httpAuthenticationSettings = OpenCms.getSystemInfo().getHttpAuthenticationSettings();
         String loginFormURL = null;
@@ -3020,12 +3022,12 @@ public final class OpenCmsCore {
      * @throws CmsException if something goes wrong
      * @throws CmsVfsResourceNotFoundException if the resource could not be found
      */
-    private CmsResource handleSecureResource(
+    private @RUntainted CmsResource handleSecureResource(
         CmsObject cms,
         HttpServletRequest req,
         HttpServletResponse res,
-        CmsResource resource,
-        String resourceName)
+        @RUntainted CmsResource resource,
+        @RUntainted String resourceName)
     throws CmsException, CmsVfsResourceNotFoundException {
 
         // check online project
@@ -3074,7 +3076,7 @@ public final class OpenCmsCore {
                         // redirect
                         String target = OpenCms.getLinkManager().getOnlineLink(cms, resourceName);
                         if (!target.toLowerCase().startsWith(secureUrl.toLowerCase())) {
-                            Optional<String> targetWithReplacedHost = CmsStringUtil.replacePrefix(
+                            Optional<@RUntainted String> targetWithReplacedHost = CmsStringUtil.replacePrefix(
                                 target,
                                 site.getSiteMatcher().getUrl(),
                                 secureUrl,
@@ -3116,7 +3118,7 @@ public final class OpenCmsCore {
      *
      * @throws CmsException if something goes wrong
      */
-    private CmsObject initCmsObject(CmsContextInfo contextInfo) throws CmsException {
+    private @RUntainted CmsObject initCmsObject(CmsContextInfo contextInfo) throws CmsException {
 
         CmsUser user = contextInfo.getUser();
         if (user == null) {
@@ -3163,12 +3165,12 @@ public final class OpenCmsCore {
      *
      * @throws CmsException in case something goes wrong
      */
-    private CmsObject initCmsObject(
-        HttpServletRequest request,
-        CmsUser user,
-        String siteRoot,
-        CmsUUID projectId,
-        String ouFqn)
+    private @RUntainted CmsObject initCmsObject(
+        @RUntainted HttpServletRequest request,
+        @RUntainted CmsUser user,
+        @RUntainted String siteRoot,
+        @RUntainted CmsUUID projectId,
+        @RUntainted String ouFqn)
     throws CmsException {
 
         CmsProject project = null;
@@ -3309,7 +3311,7 @@ public final class OpenCmsCore {
      * @throws IOException if user authentication fails
      * @throws CmsException in case something goes wrong
      */
-    private CmsObject initCmsObject(HttpServletRequest req, HttpServletResponse res) throws IOException, CmsException {
+    private @RUntainted CmsObject initCmsObject(@RUntainted HttpServletRequest req, HttpServletResponse res) throws IOException, CmsException {
 
         return initCmsObject(req, res, true);
     }
@@ -3333,11 +3335,11 @@ public final class OpenCmsCore {
      * @throws CmsException in case the CmsObject could not be initialized
      */
     private CmsObject initCmsObject(
-        HttpServletRequest req,
+        @RUntainted HttpServletRequest req,
         HttpServletResponse res,
-        String user,
+        @RUntainted String user,
         String password,
-        String ouFqn)
+        @RUntainted String ouFqn)
     throws CmsException {
 
         String siteroot = null;
@@ -3386,7 +3388,7 @@ public final class OpenCmsCore {
      *
      * @param level the level to set
      */
-    private void setRunLevel(int level) {
+    private void setRunLevel(@RUntainted int level) {
 
         if (m_instance != null) {
             if (m_instance.m_runLevel >= OpenCms.RUNLEVEL_1_CORE_OBJECT) {

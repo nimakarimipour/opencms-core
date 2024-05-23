@@ -96,6 +96,7 @@ import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * App for the OU Management.<p>
@@ -108,13 +109,13 @@ public class CmsAccountsApp extends A_CmsWorkplaceApp implements I_CmsPrincipalS
     class CmsStateBean {
 
         /**the filter for tables. */
-        private String m_filter;
+        private @RUntainted String m_filter;
 
         /**Group id to be opended (or null). */
         private CmsUUID m_groupID;
 
         /**ou path. */
-        private String m_path = "";
+        private @RUntainted String m_path = "";
 
         /**type of element to be openend. */
         private I_CmsOuTreeType m_type;
@@ -127,7 +128,7 @@ public class CmsAccountsApp extends A_CmsWorkplaceApp implements I_CmsPrincipalS
          * @param groupID groupid
          * @param filter filter string
          */
-        public CmsStateBean(String path, I_CmsOuTreeType type, CmsUUID groupID, String filter) {
+        public CmsStateBean(@RUntainted String path, I_CmsOuTreeType type, CmsUUID groupID, String filter) {
 
             m_path = path.equals("/") ? "" : path;
             m_type = type;
@@ -150,7 +151,7 @@ public class CmsAccountsApp extends A_CmsWorkplaceApp implements I_CmsPrincipalS
          *
          * @return ou path
          */
-        public String getPath() {
+        public @RUntainted String getPath() {
 
             return m_path;
         }
@@ -160,7 +161,7 @@ public class CmsAccountsApp extends A_CmsWorkplaceApp implements I_CmsPrincipalS
          *
          * @return state string
          */
-        public String getState() {
+        public @RUntainted String getState() {
 
             String typeString = m_type.getId();
             String groupString = "";
@@ -193,7 +194,7 @@ public class CmsAccountsApp extends A_CmsWorkplaceApp implements I_CmsPrincipalS
     }
 
     /**State seperator. */
-    public static String STATE_SEPERATOR = A_CmsWorkplaceApp.PARAM_SEPARATOR;
+    public static @RUntainted String STATE_SEPERATOR = A_CmsWorkplaceApp.PARAM_SEPARATOR;
 
     /** Default tree type provider. */
     private static final CmsDefaultTreeTypeProvider DEFAULT_TREETYPES = new CmsDefaultTreeTypeProvider();
@@ -229,7 +230,7 @@ public class CmsAccountsApp extends A_CmsWorkplaceApp implements I_CmsPrincipalS
     CmsStateBean m_stateBean;
 
     /**Base ou. */
-    private String m_baseOU = "";
+    private @RUntainted String m_baseOU = "";
 
     /**vaadin component.*/
     private ComboBox m_filter;
@@ -408,7 +409,7 @@ public class CmsAccountsApp extends A_CmsWorkplaceApp implements I_CmsPrincipalS
      *
      * @return true if the user can be removed from  the group
      */
-    public boolean checkRemoveGroups(CmsUser principal, Set<String> items) {
+    public boolean checkRemoveGroups(CmsUser principal, Set<@RUntainted String> items) {
 
         return true;
     }
@@ -455,7 +456,7 @@ public class CmsAccountsApp extends A_CmsWorkplaceApp implements I_CmsPrincipalS
      */
     public IndexedContainer getAvailableGroupsContainerWithout(
         CmsObject cms,
-        String ouFqn,
+        @RUntainted String ouFqn,
         String propCaption,
         String propIcon,
         String propOu,
@@ -567,10 +568,10 @@ public class CmsAccountsApp extends A_CmsWorkplaceApp implements I_CmsPrincipalS
      *
      * @throws CmsException if something goes wrong
      */
-    public List<CmsUser> getUsersWithoutAdditionalInfo(
+    public List<@RUntainted CmsUser> getUsersWithoutAdditionalInfo(
         CmsObject cms,
         I_CmsOuTreeType type,
-        String ou,
+        @RUntainted String ou,
         boolean recursive)
     throws CmsException {
 
@@ -641,7 +642,7 @@ public class CmsAccountsApp extends A_CmsWorkplaceApp implements I_CmsPrincipalS
      * @see org.opencms.ui.apps.A_CmsWorkplaceApp#openSubView(java.lang.String, boolean)
      */
     @Override
-    public void openSubView(String state, boolean updateState) {
+    public void openSubView(@RUntainted String state, boolean updateState) {
 
         if (updateState) {
             CmsAppWorkplaceUi.get().changeCurrentAppState(state);
@@ -674,13 +675,13 @@ public class CmsAccountsApp extends A_CmsWorkplaceApp implements I_CmsPrincipalS
      * @param baseOU baseOu
      * @return CmsStateBean
      */
-    public CmsStateBean parseState(String state, String baseOU) {
+    public CmsStateBean parseState(@RUntainted String state, @RUntainted String baseOU) {
 
         String path = baseOU;
         String filter = "";
         I_CmsOuTreeType type = CmsOuTreeType.OU;
         CmsUUID groupId = null;
-        List<String> fields = CmsStringUtil.splitAsList(state, STATE_SEPERATOR);
+        List<@RUntainted String> fields = CmsStringUtil.splitAsList(state, STATE_SEPERATOR);
         if (!fields.isEmpty()) {
             if (fields.size() > 1) {
                 path = fields.get(1);
@@ -717,7 +718,7 @@ public class CmsAccountsApp extends A_CmsWorkplaceApp implements I_CmsPrincipalS
      *
      * @throws CmsException if something goes wrong
      */
-    public List<CmsGroup> readGroupsForOu(CmsObject cms, String ou, I_CmsOuTreeType type, boolean subOus)
+    public List<CmsGroup> readGroupsForOu(CmsObject cms, @RUntainted String ou, I_CmsOuTreeType type, boolean subOus)
     throws CmsException {
 
         return CmsPrincipal.filterCoreGroups(OpenCms.getOrgUnitManager().getGroups(m_cms, ou, subOus));
@@ -738,7 +739,7 @@ public class CmsAccountsApp extends A_CmsWorkplaceApp implements I_CmsPrincipalS
      * @param type to be opened
      * @param groupID to be openend(may be null)
      */
-    public void update(String ou, I_CmsOuTreeType type, CmsUUID groupID) {
+    public void update(@RUntainted String ou, I_CmsOuTreeType type, CmsUUID groupID) {
 
         update(ou, type, groupID, m_filterTable.getValue());
 
@@ -752,7 +753,7 @@ public class CmsAccountsApp extends A_CmsWorkplaceApp implements I_CmsPrincipalS
      * @param roleOrGroupID to be openend(may be null)
      * @param filter filter string
      */
-    public void update(String ou, I_CmsOuTreeType type, CmsUUID roleOrGroupID, String filter) {
+    public void update(@RUntainted String ou, I_CmsOuTreeType type, CmsUUID roleOrGroupID, String filter) {
 
         CmsStateBean stateBean = new CmsStateBean(ou, type, roleOrGroupID, filter);
 
@@ -776,7 +777,7 @@ public class CmsAccountsApp extends A_CmsWorkplaceApp implements I_CmsPrincipalS
      * @return the table
      */
     protected I_CmsFilterableTable createGroupTable(
-        String path,
+        @RUntainted String path,
         CmsAccountsApp cmsAccountsApp,
         I_CmsOuTreeType type,
         boolean toggle) {
@@ -790,7 +791,7 @@ public class CmsAccountsApp extends A_CmsWorkplaceApp implements I_CmsPrincipalS
      * @param ou the OU path
      * @return the overview table for the given OU
      */
-    protected I_CmsFilterableTable createOUTable(String ou) {
+    protected I_CmsFilterableTable createOUTable(@RUntainted String ou) {
 
         return new CmsOUTable(ou, this);
     }
@@ -801,7 +802,7 @@ public class CmsAccountsApp extends A_CmsWorkplaceApp implements I_CmsPrincipalS
      * @param ou the OU path
      * @return the role table for the given OU
      */
-    protected I_CmsFilterableTable createRoleTable(String ou) {
+    protected I_CmsFilterableTable createRoleTable(@RUntainted String ou) {
 
         return new CmsRoleTable(this, ou);
     }
@@ -818,7 +819,7 @@ public class CmsAccountsApp extends A_CmsWorkplaceApp implements I_CmsPrincipalS
      * @return the user table
      */
     protected I_CmsFilterableTable createUserTable(
-        String ou,
+        @RUntainted String ou,
         CmsUUID groupID,
         I_CmsOuTreeType type,
         boolean showAll,
@@ -838,7 +839,7 @@ public class CmsAccountsApp extends A_CmsWorkplaceApp implements I_CmsPrincipalS
      * @return the user table
      */
     protected I_CmsFilterableTable createUserTable(
-        String ou,
+        @RUntainted String ou,
         I_CmsOuTreeType type,
         CmsAccountsApp cmsAccountsApp,
         boolean buttonPressed) {
@@ -872,11 +873,11 @@ public class CmsAccountsApp extends A_CmsWorkplaceApp implements I_CmsPrincipalS
      * @see org.opencms.ui.apps.A_CmsWorkplaceApp#getBreadCrumbForState(java.lang.String)
      */
     @Override
-    protected LinkedHashMap<String, String> getBreadCrumbForState(String state) {
+    protected LinkedHashMap<String, String> getBreadCrumbForState(@RUntainted String state) {
 
         try {
             CmsStateBean bean = parseState(state, m_baseOU);
-            String[] ouPath = bean.getPath().split("/");
+            @RUntainted String[] ouPath = bean.getPath().split("/");
             LinkedHashMap<String, String> crumbs = new LinkedHashMap<String, String>();
 
             if ((bean.getPath().equals(m_baseOU))
@@ -944,7 +945,7 @@ public class CmsAccountsApp extends A_CmsWorkplaceApp implements I_CmsPrincipalS
      * @see org.opencms.ui.apps.A_CmsWorkplaceApp#getComponentForState(java.lang.String)
      */
     @Override
-    protected Component getComponentForState(String state) {
+    protected Component getComponentForState(@RUntainted String state) {
 
         m_stateBean = parseState(state, m_baseOU);
 
@@ -1032,7 +1033,7 @@ public class CmsAccountsApp extends A_CmsWorkplaceApp implements I_CmsPrincipalS
      * @param stateBean to be read out
      * @return Name
      */
-    protected String getElementName(CmsStateBean stateBean) {
+    protected @RUntainted String getElementName(CmsStateBean stateBean) {
 
         if (stateBean.getType().equals(CmsOuTreeType.USER)) {
             try {
@@ -1060,7 +1061,7 @@ public class CmsAccountsApp extends A_CmsWorkplaceApp implements I_CmsPrincipalS
      * @param users user list
      * @return List of user
      */
-    protected List<CmsUser> getFullUser(List<CmsUser> users) {
+    protected @RUntainted List<CmsUser> getFullUser(List<@RUntainted CmsUser> users) {
 
         List<CmsUser> res = new ArrayList<CmsUser>();
         for (CmsUser user : users) {
@@ -1115,7 +1116,7 @@ public class CmsAccountsApp extends A_CmsWorkplaceApp implements I_CmsPrincipalS
      *
      * @return List of CmsUser
      */
-    protected List<CmsUser> getVisibleUser() {
+    protected List<@RUntainted CmsUser> getVisibleUser() {
 
         if (m_table instanceof CmsUserTable) {
             return ((CmsUserTable)m_table).getVisibleUser();
@@ -1336,7 +1337,7 @@ public class CmsAccountsApp extends A_CmsWorkplaceApp implements I_CmsPrincipalS
 
             private static final long serialVersionUID = 1L;
 
-            public void valueChange(ValueChangeEvent event) {
+            public void valueChange(@RUntainted ValueChangeEvent event) {
 
                 if ((m_stateBean.getType() != null) & !m_doNotChange) {
                     update((String)event.getProperty().getValue(), CmsOuTreeType.OU, null);

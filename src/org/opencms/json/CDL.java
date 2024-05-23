@@ -52,6 +52,7 @@
  */
 
 package org.opencms.json;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This provides static methods to convert comma delimited text into a
@@ -123,7 +124,7 @@ public final class CDL {
      * @return A JSONObject combining the names and values
      * @throws JSONException if something goes wrong
      */
-    public static JSONObject rowToJSONObject(JSONArray names, JSONTokener x) throws JSONException {
+    public static @RUntainted JSONObject rowToJSONObject(JSONArray names, JSONTokener x) throws JSONException {
 
         JSONArray ja = rowToJSONArray(x);
         return ja != null ? ja.toJSONObject(names) : null;
@@ -288,7 +289,7 @@ public final class CDL {
      * @return The value string, or null if empty
      * @throws JSONException if the quoted string is badly formed
      */
-    private static String getValue(JSONTokener x) throws JSONException {
+    private static @RUntainted String getValue(JSONTokener x) throws JSONException {
 
         char c;
         do {

@@ -70,6 +70,7 @@ import java.util.stream.Collectors;
 import org.apache.solr.common.params.CommonParams;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Search configuration parser using a list configuration file as the base configuration with additional JSON.<p>
@@ -289,9 +290,9 @@ public class CmsSimpleSearchConfigurationParser extends CmsJSONSearchConfigurati
      *
      * @return the SOLR query
      */
-    public CmsSolrQuery getInitialQuery() {
+    public @RUntainted CmsSolrQuery getInitialQuery() {
 
-        Map<String, String[]> queryParams = new HashMap<String, String[]>();
+        Map<String, @RUntainted String[]> queryParams = new HashMap<String, @RUntainted String[]>();
         if (!m_cms.getRequestContext().getCurrentProject().isOnlineProject() && m_config.isShowExpired()) {
             queryParams.put("fq", new String[] {"released:[* TO *]", "expired:[* TO *]"});
         }
@@ -478,7 +479,7 @@ public class CmsSimpleSearchConfigurationParser extends CmsJSONSearchConfigurati
      * @see org.opencms.jsp.search.config.parser.CmsJSONSearchConfigurationParser#getMaxReturnedResults(java.lang.String)
      */
     @Override
-    protected int getMaxReturnedResults(String indexName) {
+    protected @RUntainted int getMaxReturnedResults(String indexName) {
 
         return null != m_config.getMaximallyReturnedResults()
         ? m_config.getMaximallyReturnedResults().intValue()
@@ -611,7 +612,7 @@ public class CmsSimpleSearchConfigurationParser extends CmsJSONSearchConfigurati
             return "";
         }
         String result = "";
-        List<CmsUUID> blacklist = m_config.getBlacklist();
+        List<@RUntainted CmsUUID> blacklist = m_config.getBlacklist();
         List<String> blacklistStrings = Lists.newArrayList();
         for (CmsUUID id : blacklist) {
             blacklistStrings.add("\"" + id.toString() + "\"");

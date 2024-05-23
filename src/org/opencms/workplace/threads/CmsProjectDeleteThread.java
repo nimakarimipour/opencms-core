@@ -33,6 +33,7 @@ import org.opencms.report.A_CmsReportThread;
 import org.opencms.util.CmsUUID;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Deletes a project.<p>
@@ -48,7 +49,7 @@ public class CmsProjectDeleteThread extends A_CmsReportThread {
     private Throwable m_error;
 
     /** The project id. */
-    private CmsUUID m_projectId;
+    private @RUntainted CmsUUID m_projectId;
 
     /**
      * Creates the project delete thread.<p>
@@ -56,7 +57,7 @@ public class CmsProjectDeleteThread extends A_CmsReportThread {
      * @param cms the current OpenCms context object
      * @param projectId the project id to delete
      */
-    public CmsProjectDeleteThread(CmsObject cms, CmsUUID projectId) {
+    public CmsProjectDeleteThread(@RUntainted CmsObject cms, @RUntainted CmsUUID projectId) {
 
         super(cms, Messages.get().getBundle().key(Messages.GUI_DELETE_PROJECT_THREAD_NAME_1, projectId));
         m_projectId = projectId;

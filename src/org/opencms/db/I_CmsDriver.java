@@ -31,6 +31,7 @@ import org.opencms.configuration.CmsConfigurationManager;
 import org.opencms.main.CmsException;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generic base driver interface.<p>
@@ -70,7 +71,7 @@ public interface I_CmsDriver {
     void init(
         CmsDbContext dbc,
         CmsConfigurationManager configurationManager,
-        List<String> successiveDrivers,
+        @RUntainted List<@RUntainted String> successiveDrivers,
         CmsDriverManager driverManager) throws CmsException;
 
     /**

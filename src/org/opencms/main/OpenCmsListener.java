@@ -38,6 +38,7 @@ import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides the OpenCms system with information from the servlet context.<p>
@@ -78,7 +79,7 @@ public class OpenCmsListener implements ServletContextListener, HttpSessionListe
     /**
      * @see javax.servlet.ServletContextListener#contextInitialized(javax.servlet.ServletContextEvent)
      */
-    public void contextInitialized(ServletContextEvent event) {
+    public void contextInitialized(@RUntainted ServletContextEvent event) {
 
         String basePath = event.getServletContext().getRealPath("/");
         String path = basePath + "/WEB-INF/logs/startup-stacktraces.zip";
@@ -114,7 +115,7 @@ public class OpenCmsListener implements ServletContextListener, HttpSessionListe
     /**
      * @see javax.servlet.http.HttpSessionListener#sessionCreated(javax.servlet.http.HttpSessionEvent)
      */
-    public void sessionCreated(HttpSessionEvent event) {
+    public void sessionCreated(@RUntainted HttpSessionEvent event) {
 
         try {
             // inform the OpenCms session manager
@@ -132,7 +133,7 @@ public class OpenCmsListener implements ServletContextListener, HttpSessionListe
     /**
      * @see javax.servlet.http.HttpSessionListener#sessionDestroyed(javax.servlet.http.HttpSessionEvent)
      */
-    public void sessionDestroyed(HttpSessionEvent event) {
+    public void sessionDestroyed(@RUntainted HttpSessionEvent event) {
 
         try {
             // inform the OpenCms session manager

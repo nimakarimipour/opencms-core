@@ -70,6 +70,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Search configuration parser reading JSON. */
 public class CmsJSONSearchConfigurationParser implements I_CmsSearchConfigurationParser {
@@ -275,9 +276,9 @@ public class CmsJSONSearchConfigurationParser implements I_CmsSearchConfiguratio
      * @return The value from the JSON.
      * @throws JSONException thrown when parsing fails.
      */
-    protected static List<String> parseMandatoryStringValues(JSONObject json, String key) throws JSONException {
+    protected static List<@RUntainted String> parseMandatoryStringValues(JSONObject json, @RUntainted String key) throws JSONException {
 
-        List<String> list = null;
+        List<@RUntainted String> list = null;
         JSONArray array = json.getJSONArray(key);
         list = new ArrayList<String>(array.length());
         for (int i = 0; i < array.length(); i++) {
@@ -296,7 +297,7 @@ public class CmsJSONSearchConfigurationParser implements I_CmsSearchConfiguratio
      * @param key The key of the value to read.
      * @return The value from the JSON, or <code>null</code> if the value does not exist, or is no Boolean.
      */
-    protected static Boolean parseOptionalBooleanValue(JSONObject json, String key) {
+    protected static Boolean parseOptionalBooleanValue(JSONObject json, @RUntainted String key) {
 
         try {
             return Boolean.valueOf(json.getBoolean(key));
@@ -311,7 +312,7 @@ public class CmsJSONSearchConfigurationParser implements I_CmsSearchConfiguratio
      * @param key The key of the value to read.
      * @return The value from the JSON, or <code>null</code> if the value does not exist, or is no Integer.
      */
-    protected static Integer parseOptionalIntValue(JSONObject json, String key) {
+    protected static @RUntainted Integer parseOptionalIntValue(JSONObject json, @RUntainted String key) {
 
         try {
             return Integer.valueOf(json.getInt(key));
@@ -326,7 +327,7 @@ public class CmsJSONSearchConfigurationParser implements I_CmsSearchConfiguratio
      * @param key The key of the value to read.
      * @return The value from the JSON, or <code>null</code> if the value does not exist.
      */
-    protected static String parseOptionalStringValue(JSONObject json, String key) {
+    protected static String parseOptionalStringValue(JSONObject json, @RUntainted String key) {
 
         try {
             return json.getString(key);
@@ -341,9 +342,9 @@ public class CmsJSONSearchConfigurationParser implements I_CmsSearchConfiguratio
      * @param key The key of the value to read.
      * @return The value from the JSON, or <code>null</code> if the value does not exist.
      */
-    protected static List<String> parseOptionalStringValues(JSONObject json, String key) {
+    protected static List<@RUntainted String> parseOptionalStringValues(JSONObject json, @RUntainted String key) {
 
-        List<String> list = null;
+        List<@RUntainted String> list = null;
         try {
             list = parseMandatoryStringValues(json, key);
         } catch (JSONException e) {
@@ -536,11 +537,11 @@ public class CmsJSONSearchConfigurationParser implements I_CmsSearchConfiguratio
                 List<I_CmsFacetQueryItem> queries = parseFacetQueryItems(queryFacetObject);
                 String label = parseOptionalStringValue(queryFacetObject, JSON_KEY_FACET_LABEL);
                 Boolean isAndFacet = parseOptionalBooleanValue(queryFacetObject, JSON_KEY_FACET_ISANDFACET);
-                List<String> preselection = parseOptionalStringValues(queryFacetObject, JSON_KEY_FACET_PRESELECTION);
+                List<@RUntainted String> preselection = parseOptionalStringValues(queryFacetObject, JSON_KEY_FACET_PRESELECTION);
                 Boolean ignoreAllFacetFilters = parseOptionalBooleanValue(
                     queryFacetObject,
                     JSON_KEY_FACET_IGNOREALLFACETFILTERS);
-                List<String> excludeTags = parseOptionalStringValues(queryFacetObject, JSON_KEY_FACET_EXCLUDETAGS);
+                List<@RUntainted String> excludeTags = parseOptionalStringValues(queryFacetObject, JSON_KEY_FACET_EXCLUDETAGS);
                 return new CmsSearchConfigurationFacetQuery(
                     queries,
                     label,
@@ -783,7 +784,7 @@ public class CmsJSONSearchConfigurationParser implements I_CmsSearchConfiguratio
      * @param indexName the name of the index to search in.
      * @return The number of maximally returned results, or <code>null</code> if the indexes default should be used.
      */
-    protected int getMaxReturnedResults(String indexName) {
+    protected @RUntainted int getMaxReturnedResults(String indexName) {
 
         Integer maxReturnedResults = parseOptionalIntValue(m_configObject, JSON_KEY_MAX_RETURNED_RESULTS);
         if (null != maxReturnedResults) {
@@ -994,11 +995,11 @@ public class CmsJSONSearchConfigurationParser implements I_CmsSearchConfiguratio
             }
             String filterQueryModifier = parseOptionalStringValue(fieldFacetObject, JSON_KEY_FACET_FILTERQUERYMODIFIER);
             Boolean isAndFacet = parseOptionalBooleanValue(fieldFacetObject, JSON_KEY_FACET_ISANDFACET);
-            List<String> preselection = parseOptionalStringValues(fieldFacetObject, JSON_KEY_FACET_PRESELECTION);
+            List<@RUntainted String> preselection = parseOptionalStringValues(fieldFacetObject, JSON_KEY_FACET_PRESELECTION);
             Boolean ignoreFilterAllFacetFilters = parseOptionalBooleanValue(
                 fieldFacetObject,
                 JSON_KEY_FACET_IGNOREALLFACETFILTERS);
-            List<String> excludeTags = parseOptionalStringValues(fieldFacetObject, JSON_KEY_FACET_EXCLUDETAGS);
+            List<@RUntainted String> excludeTags = parseOptionalStringValues(fieldFacetObject, JSON_KEY_FACET_EXCLUDETAGS);
             return new CmsSearchConfigurationFacetField(
                 field,
                 name,
@@ -1034,7 +1035,7 @@ public class CmsJSONSearchConfigurationParser implements I_CmsSearchConfiguratio
             String start = rangeFacetObject.getString(JSON_KEY_RANGE_FACET_START);
             String end = rangeFacetObject.getString(JSON_KEY_RANGE_FACET_END);
             String gap = rangeFacetObject.getString(JSON_KEY_RANGE_FACET_GAP);
-            List<String> sother = parseOptionalStringValues(rangeFacetObject, JSON_KEY_RANGE_FACET_OTHER);
+            List<@RUntainted String> sother = parseOptionalStringValues(rangeFacetObject, JSON_KEY_RANGE_FACET_OTHER);
             Boolean hardEnd = parseOptionalBooleanValue(rangeFacetObject, JSON_KEY_RANGE_FACET_HARDEND);
             List<I_CmsSearchConfigurationFacetRange.Other> other = null;
             if (sother != null) {
@@ -1050,11 +1051,11 @@ public class CmsJSONSearchConfigurationParser implements I_CmsSearchConfiguratio
                 }
             }
             Boolean isAndFacet = parseOptionalBooleanValue(rangeFacetObject, JSON_KEY_FACET_ISANDFACET);
-            List<String> preselection = parseOptionalStringValues(rangeFacetObject, JSON_KEY_FACET_PRESELECTION);
+            List<@RUntainted String> preselection = parseOptionalStringValues(rangeFacetObject, JSON_KEY_FACET_PRESELECTION);
             Boolean ignoreAllFacetFilters = parseOptionalBooleanValue(
                 rangeFacetObject,
                 JSON_KEY_FACET_IGNOREALLFACETFILTERS);
-            List<String> excludeTags = parseOptionalStringValues(rangeFacetObject, JSON_KEY_FACET_EXCLUDETAGS);
+            List<@RUntainted String> excludeTags = parseOptionalStringValues(rangeFacetObject, JSON_KEY_FACET_EXCLUDETAGS);
             return new CmsSearchConfigurationFacetRange(
                 range,
                 start,

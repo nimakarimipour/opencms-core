@@ -45,6 +45,7 @@ import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.Window.CloseListener;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Option dialog.<p>
@@ -77,7 +78,7 @@ public class CmsOptionDialog extends CmsBasicDialog {
      * @param window the dialog window
      */
     public CmsOptionDialog(
-        CmsResource resource,
+        @RUntainted CmsResource resource,
         CmsDialogOptions options,
         final I_OptionHandler handler,
         final Runnable onClose,

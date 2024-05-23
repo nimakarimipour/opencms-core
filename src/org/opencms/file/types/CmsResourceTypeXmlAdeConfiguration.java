@@ -34,6 +34,7 @@ import org.opencms.i18n.CmsLocaleManager;
 
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Custom resource type for ADE configurations.<p>
@@ -49,7 +50,7 @@ public class CmsResourceTypeXmlAdeConfiguration extends CmsResourceTypeXmlConten
      * @see org.opencms.file.types.CmsResourceTypeXmlContent#getLocaleForNewContent(org.opencms.file.CmsObject, org.opencms.db.CmsSecurityManager, java.lang.String, java.util.List)
      */
     @Override
-    protected Locale getLocaleForNewContent(
+    protected @RUntainted Locale getLocaleForNewContent(
         CmsObject cms,
         CmsSecurityManager securityManager,
         String resourcename,

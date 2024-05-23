@@ -40,6 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper bean for querying information related to a container type in JSPs.
@@ -56,7 +57,7 @@ public class CmsContainerTypeInfoWrapper {
     private String m_containerType;
 
     /** The matching resource types. */
-    private Set<String> m_matchingResourceTypes = new TreeSet<>();
+    private Set<@RUntainted String> m_matchingResourceTypes = new TreeSet<>();
 
     /** The list of matching functions. */
     private List<CmsFunctionFormatterBean> m_matchingFunctions = new ArrayList<>();

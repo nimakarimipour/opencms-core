@@ -51,6 +51,7 @@ import org.apache.commons.logging.Log;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.ExternalResource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class to extended by frame based editors.<p>
@@ -70,7 +71,7 @@ public abstract class A_CmsFrameEditor implements I_CmsEditor, ViewChangeListene
     boolean m_leaving;
 
     /** The currently edited resource. */
-    CmsResource m_resource;
+    @RUntainted CmsResource m_resource;
 
     /** The frame component. */
     private CmsBrowserFrame m_frame;
@@ -152,7 +153,7 @@ public abstract class A_CmsFrameEditor implements I_CmsEditor, ViewChangeListene
     /**
      * @see org.opencms.ui.editors.I_CmsEditor#matchesResource(org.opencms.file.CmsObject, org.opencms.file.CmsResource, boolean)
      */
-    public boolean matchesResource(CmsObject cms, CmsResource resource, boolean plainText) {
+    public boolean matchesResource(@RUntainted CmsObject cms, CmsResource resource, boolean plainText) {
 
         I_CmsResourceType type = OpenCms.getResourceManager().getResourceType(resource);
         return matchesType(type, plainText);
@@ -163,7 +164,7 @@ public abstract class A_CmsFrameEditor implements I_CmsEditor, ViewChangeListene
      *
      * @return the editor URI
      */
-    protected abstract String getEditorUri();
+    protected abstract @RUntainted String getEditorUri();
 
     /**
      * Leaves the editor view.<p>

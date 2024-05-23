@@ -47,6 +47,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Workplace action for the 'Link locale variant' dialog.<p>
@@ -136,7 +137,7 @@ public class CmsLinkLocaleVariantAction extends A_CmsWorkplaceAction {
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
      */
     @Override
-    protected String getTitleKey() {
+    protected @RUntainted String getTitleKey() {
 
         return Messages.GUI_LOCALECOMPARE_LINK_LOCALE_VARIANT_0;
     }

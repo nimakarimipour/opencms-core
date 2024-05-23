@@ -42,6 +42,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import com.vaadin.ui.Component;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the search index app.<p>
@@ -149,7 +150,7 @@ public class CmsSearchindexApp extends A_CmsWorkplaceApp implements I_CmsCRUDApp
      * @param elementIds to be updated
      * @return A_CmsReportThread
      */
-    protected Component getUpdateThreadComponent(List<String> elementIds) {
+    protected Component getUpdateThreadComponent(List<@RUntainted String> elementIds) {
 
         final A_CmsReportThread thread = new CmsIndexingReportThread(A_CmsUI.getCmsObject(), elementIds);
         thread.start();

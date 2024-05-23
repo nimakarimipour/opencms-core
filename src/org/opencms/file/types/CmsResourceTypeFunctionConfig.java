@@ -35,6 +35,7 @@ import org.opencms.file.CmsResource;
 import org.opencms.main.CmsException;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsWaitHandle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type class for the second version of dynamic functions.<p>
@@ -75,7 +76,7 @@ public class CmsResourceTypeFunctionConfig extends CmsResourceTypeXmlAdeConfigur
      * @see org.opencms.file.types.CmsResourceTypeXmlContent#getCachePropertyDefault()
      */
     @Override
-    public String getCachePropertyDefault() {
+    public @RUntainted String getCachePropertyDefault() {
 
         return null;
     }
@@ -86,7 +87,7 @@ public class CmsResourceTypeFunctionConfig extends CmsResourceTypeXmlAdeConfigur
      * After writing the file, this method waits until the formatter configuration is update the next time.
      */
     @Override
-    public CmsFile writeFile(CmsObject cms, CmsSecurityManager securityManager, CmsFile resource) throws CmsException {
+    public CmsFile writeFile(@RUntainted CmsObject cms, CmsSecurityManager securityManager, @RUntainted CmsFile resource) throws CmsException {
 
         String savingStr = (String)cms.getRequestContext().getAttribute(CmsContentService.ATTR_EDITOR_SAVING);
         CmsFile file = super.writeFile(cms, securityManager, resource);

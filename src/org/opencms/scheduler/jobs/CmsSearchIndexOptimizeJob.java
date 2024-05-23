@@ -36,6 +36,7 @@ import org.opencms.util.CmsStringUtil;
 
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A schedulable OpenCms job that optimizes the Lucene based search indexes at runtime.<p>
@@ -66,10 +67,10 @@ public class CmsSearchIndexOptimizeJob implements I_CmsScheduledJob {
     /**
      * @see org.opencms.scheduler.I_CmsScheduledJob#launch(CmsObject, Map)
      */
-    public String launch(CmsObject cms, Map<String, String> parameters) throws Exception {
+    public @RUntainted String launch(CmsObject cms, Map<String, @RUntainted String> parameters) throws Exception {
 
-        List<String> optimizeIndexes = null;
-        List<String> excludeIndexes = null;
+        List<@RUntainted String> optimizeIndexes = null;
+        List<@RUntainted String> excludeIndexes = null;
 
         String oi = parameters.get(PARAM_INDEXES_OPTIMIZED);
         if (oi != null) {

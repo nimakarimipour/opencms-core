@@ -34,6 +34,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A multi exception is a container for several exception messages that may be caused by an internal operation.<p>
@@ -49,7 +50,7 @@ public class CmsMultiException extends CmsException {
     private static final long serialVersionUID = 1197300254684159700L;
 
     /** The list of internal exceptions. */
-    protected List<CmsException> m_exceptions;
+    protected @RUntainted List<CmsException> m_exceptions;
 
     /** Indicates if the message has been set as individual message. */
     protected boolean m_individualMessage;
@@ -137,7 +138,7 @@ public class CmsMultiException extends CmsException {
      * @see java.lang.Throwable#getLocalizedMessage()
      */
     @Override
-    public String getLocalizedMessage() {
+    public @RUntainted String getLocalizedMessage() {
 
         if (m_exceptions.isEmpty()) {
             return null;
@@ -160,7 +161,7 @@ public class CmsMultiException extends CmsException {
      * @see org.opencms.main.I_CmsThrowable#getLocalizedMessage(java.util.Locale)
      */
     @Override
-    public String getLocalizedMessage(Locale locale) {
+    public @RUntainted String getLocalizedMessage(@RUntainted Locale locale) {
 
         if (m_exceptions.isEmpty()) {
             return null;
@@ -183,7 +184,7 @@ public class CmsMultiException extends CmsException {
      * @param locale the locale for the message to generate
      * @return the individual message (if set) or an empty String
      */
-    public String getMessage(Locale locale) {
+    public String getMessage(@RUntainted Locale locale) {
 
         if (hasIndividualMessage()) {
             return m_message.key(locale);

@@ -61,6 +61,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A command line interface to access OpenCms functions which
@@ -97,17 +98,17 @@ public class CmsShell {
     private class CmsCommandObject {
 
         /** The list of methods. */
-        private Map<String, List<Method>> m_methods;
+        private Map<String, List<@RUntainted Method>> m_methods;
 
         /** The object to execute the methods on. */
-        private Object m_object;
+        private @RUntainted Object m_object;
 
         /**
          * Creates a new command object.<p>
          *
          * @param object the object to execute the methods on
          */
-        protected CmsCommandObject(Object object) {
+        protected CmsCommandObject(@RUntainted Object object) {
 
             m_object = object;
             initShellMethods();
@@ -124,14 +125,14 @@ public class CmsShell {
          * @return true if a method was executed, false otherwise
          */
         @SuppressWarnings("synthetic-access")
-        protected boolean executeMethod(String command, List<String> parameters) {
+        protected boolean executeMethod(String command, List<@RUntainted String> parameters) {
 
             m_hasReportError = false;
             // build the method lookup
             String lookup = buildMethodLookup(command, parameters.size());
 
             // try to look up the methods of this command object
-            List<Method> possibleMethods = m_methods.get(lookup);
+            List<@RUntainted Method> possibleMethods = m_methods.get(lookup);
             if (possibleMethods == null) {
                 return false;
             }
@@ -140,7 +141,7 @@ public class CmsShell {
             Method onlyStringMethod = null;
             Method foundMethod = null;
             Object[] params = null;
-            Iterator<Method> i;
+            Iterator<@RUntainted Method> i;
 
             // first check if there is one method with only has String parameters, make this the fall back
             i = possibleMethods.iterator();
@@ -266,7 +267,7 @@ public class CmsShell {
             StringBuffer buf = new StringBuffer(512);
             Iterator<String> i = m_methods.keySet().iterator();
             while (i.hasNext()) {
-                List<Method> l = m_methods.get(i.next());
+                List<@RUntainted Method> l = m_methods.get(i.next());
                 Iterator<Method> j = l.iterator();
                 while (j.hasNext()) {
                     Method method = j.next();
@@ -309,7 +310,7 @@ public class CmsShell {
          *
          * @return a method lookup String
          */
-        private String buildMethodLookup(String methodName, int paramCount) {
+        private @RUntainted String buildMethodLookup(String methodName, int paramCount) {
 
             StringBuffer buf = new StringBuffer(32);
             buf.append(methodName.toLowerCase());
@@ -324,9 +325,9 @@ public class CmsShell {
          */
         private void initShellMethods() {
 
-            Map<String, List<Method>> result = new TreeMap<String, List<Method>>();
+            Map<String, List<@RUntainted Method>> result = new TreeMap<String, List<@RUntainted Method>>();
 
-            Method[] methods = m_object.getClass().getMethods();
+            @RUntainted Method[] methods = m_object.getClass().getMethods();
             for (int i = 0; i < methods.length; i++) {
                 // only public methods directly declared in the base class can be used in the shell
                 if ((methods[i].getDeclaringClass() == m_object.getClass())
@@ -346,7 +347,7 @@ public class CmsShell {
                     if (onlyPrimitive) {
                         // add this method to the set of methods that can be called from the shell
                         String lookup = buildMethodLookup(methods[i].getName(), methods[i].getParameterTypes().length);
-                        List<Method> l;
+                        List<@RUntainted Method> l;
                         if (result.containsKey(lookup)) {
                             l = result.get(lookup);
                         } else {
@@ -396,7 +397,7 @@ public class CmsShell {
     private CmsBenchmarkTable m_benchmarkTable;
 
     /** The OpenCms context object. */
-    protected CmsObject m_cms;
+    protected @RUntainted CmsObject m_cms;
 
     /** Stream to write the error messages output to. */
     protected PrintStream m_err;
@@ -408,7 +409,7 @@ public class CmsShell {
     protected PrintStream m_out;
 
     /** Additional shell commands object. */
-    private I_CmsShellCommands m_additionalShellCommands;
+    private @RUntainted I_CmsShellCommands m_additionalShellCommands;
 
     /** All shell callable objects. */
     private List<CmsCommandObject> m_commandObjects;
@@ -438,7 +439,7 @@ public class CmsShell {
     private CmsUserSettings m_settings;
 
     /** Internal shell command object. */
-    private I_CmsShellCommands m_shellCommands;
+    private @RUntainted I_CmsShellCommands m_shellCommands;
 
     /**
      * Creates a new CmsShell.<p>
@@ -450,9 +451,9 @@ public class CmsShell {
      * @param err stream to write the error messages output to
      */
     public CmsShell(
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         String prompt,
-        I_CmsShellCommands additionalShellCommands,
+        @RUntainted I_CmsShellCommands additionalShellCommands,
         PrintStream out,
         PrintStream err) {
 
@@ -481,11 +482,11 @@ public class CmsShell {
      * @param additionalShellCommands optional object for additional shell commands, or null
      */
     public CmsShell(
-        String webInfPath,
-        String servletMapping,
+        @RUntainted String webInfPath,
+        @RUntainted String servletMapping,
         String defaultWebAppName,
         String prompt,
-        I_CmsShellCommands additionalShellCommands) {
+        @RUntainted I_CmsShellCommands additionalShellCommands) {
 
         this(
             webInfPath,
@@ -511,11 +512,11 @@ public class CmsShell {
      * @param interactive if <code>true</code> this is an interactive session with a user sitting on a console
      */
     public CmsShell(
-        String webInfPath,
-        String servletMapping,
+        @RUntainted String webInfPath,
+        @RUntainted String servletMapping,
         String defaultWebAppName,
         String prompt,
-        I_CmsShellCommands additionalShellCommands,
+        @RUntainted I_CmsShellCommands additionalShellCommands,
         PrintStream out,
         PrintStream err,
         boolean interactive) {
@@ -650,7 +651,7 @@ public class CmsShell {
             I_CmsShellCommands additionalCommands = null;
             if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(additional)) {
                 try {
-                    Class<?> commandClass = Class.forName(additional);
+                    Class<@RUntainted ?> commandClass = Class.forName(additional);
                     additionalCommands = (I_CmsShellCommands)commandClass.newInstance();
                 } catch (Exception e) {
                     System.out.println(
@@ -736,7 +737,7 @@ public class CmsShell {
      *
      * @param inputStream the input stream from which the commands are read
      */
-    public void execute(InputStream inputStream) {
+    public void execute(@RUntainted InputStream inputStream) {
 
         execute(new InputStreamReader(inputStream));
     }
@@ -752,7 +753,7 @@ public class CmsShell {
      *
      * @param reader the reader from which the commands are read
      */
-    public void execute(Reader reader) {
+    public void execute(@RUntainted Reader reader) {
 
         try {
             pushShell(this);
@@ -793,7 +794,7 @@ public class CmsShell {
                 st.eolIsSignificant(true);
                 st.wordChars('*', '*');
                 // put all tokens into a List
-                List<String> parameters = new ArrayList<String>();
+                List<@RUntainted String> parameters = new ArrayList<@RUntainted String>();
                 while (st.nextToken() != StreamTokenizer.TT_EOF) {
                     if (st.ttype == StreamTokenizer.TT_NUMBER) {
                         parameters.add(Integer.toString(Double.valueOf(st.nval).intValue()));
@@ -815,7 +816,7 @@ public class CmsShell {
 
                 // extract command and arguments
                 String command = parameters.get(0);
-                List<String> arguments = parameters.subList(1, parameters.size());
+                List<@RUntainted String> arguments = parameters.subList(1, parameters.size());
 
                 // execute the command with the given arguments
                 executeCommand(command, arguments);
@@ -844,7 +845,7 @@ public class CmsShell {
      *
      * @param commands the string from which the commands are read
      */
-    public void execute(String commands) {
+    public void execute(@RUntainted String commands) {
 
         execute(new StringReader(commands));
     }
@@ -855,7 +856,7 @@ public class CmsShell {
      * @param command the command to execute
      * @param parameters the list of parameters for the command
      */
-    public void executeCommand(String command, List<String> parameters) {
+    public void executeCommand(@RUntainted String command, List<@RUntainted String> parameters) {
 
         if (null == command) {
             return;
@@ -965,7 +966,7 @@ public class CmsShell {
      *
      * @return the current user's <code>Locale</code>.
      */
-    public Locale getLocale() {
+    public @RUntainted Locale getLocale() {
 
         if (getSettings() == null) {
             return CmsLocaleManager.getDefaultLocale();
@@ -1052,7 +1053,7 @@ public class CmsShell {
      * @param out stream to write the regular output messages to
      * @param err stream to write the error messages output to
      */
-    public void initShell(I_CmsShellCommands additionalShellCommands, PrintStream out, PrintStream err) {
+    public void initShell(@RUntainted I_CmsShellCommands additionalShellCommands, PrintStream out, PrintStream err) {
 
         // set the output streams
         m_out = out;
@@ -1137,7 +1138,7 @@ public class CmsShell {
      *
      * @throws CmsException in case the locale of the current user can not be stored
      */
-    public void setLocale(Locale locale) throws CmsException {
+    public void setLocale(@RUntainted Locale locale) throws CmsException {
 
         CmsUserSettings settings = getSettings();
         if (settings != null) {
@@ -1154,7 +1155,7 @@ public class CmsShell {
      * @deprecated use {@link #execute(InputStream)} instead
      */
     @Deprecated
-    public void start(FileInputStream inputStream) {
+    public void start(@RUntainted FileInputStream inputStream) {
 
         setInteractive(true);
         execute(inputStream);
@@ -1169,7 +1170,7 @@ public class CmsShell {
      *
      * @return <code>true</code> if the user is valid
      */
-    public boolean validateUser(String userName, String password, CmsRole requiredRole) {
+    public boolean validateUser(@RUntainted String userName, String password, CmsRole requiredRole) {
 
         boolean result = false;
         try {
@@ -1186,7 +1187,7 @@ public class CmsShell {
      *
      * @param searchString the String to search for in the methods, if null all methods are shown
      */
-    protected void help(String searchString) {
+    protected void help(@RUntainted String searchString) {
 
         String commandList;
         boolean foundSomething = false;

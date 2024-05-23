@@ -31,6 +31,7 @@ import org.opencms.file.CmsObject;
 
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface for a data source for use by CmsDataViewWidget.<p>
@@ -75,7 +76,7 @@ public interface I_CmsDataView {
      *
      * @return the page size
      */
-    int getPageSize();
+    @RUntainted int getPageSize();
 
     /**
      * Gets the result for the given query, with the given offset and limited to the given number of results.<p>

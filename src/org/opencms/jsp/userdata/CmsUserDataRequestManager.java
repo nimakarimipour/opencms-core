@@ -66,6 +66,7 @@ import org.dom4j.Element;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.xml.sax.Attributes;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manager class for user data requests.<p>
@@ -110,7 +111,7 @@ public class CmsUserDataRequestManager {
     private boolean m_autoload;
 
     /** List of all domains, both the ones from the configuration and the ones loaded via service loader. */
-    private List<I_CmsUserDataDomain> m_allDomains = new ArrayList<>();
+    private @RUntainted List<I_CmsUserDataDomain> m_allDomains = new ArrayList<>();
 
     /**
      * Adds digester rules for configuration.
@@ -213,7 +214,7 @@ public class CmsUserDataRequestManager {
      *
      * @return the list of all user data domains
      */
-    public List<I_CmsUserDataDomain> getAllDomains() {
+    public @RUntainted List<I_CmsUserDataDomain> getAllDomains() {
 
         return m_allDomains;
     }
@@ -310,7 +311,7 @@ public class CmsUserDataRequestManager {
      * @param path the site path of the configuration
      * @return the configuration for the given path
      */
-    public Optional<CmsUserDataRequestConfig> loadConfig(CmsObject cms, String path) {
+    public Optional<CmsUserDataRequestConfig> loadConfig(@RUntainted CmsObject cms, String path) {
 
         LOG.debug("loading user data request config for path " + path);
         if (path == null) {
@@ -375,7 +376,7 @@ public class CmsUserDataRequestManager {
      * @throws EmailException if sending the email fails
      * @throws AddressException if parsing the email address fails
      */
-    public void startUserDataRequest(CmsObject cms, CmsUserDataRequestConfig config, String email)
+    public void startUserDataRequest(CmsObject cms, CmsUserDataRequestConfig config, @RUntainted String email)
     throws CmsUserDataRequestException, EmailException, AddressException {
 
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(email)) {

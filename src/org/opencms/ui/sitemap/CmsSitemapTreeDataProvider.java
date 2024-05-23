@@ -50,6 +50,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Loads node data for the sitemap tree.<p>
@@ -119,11 +120,11 @@ public class CmsSitemapTreeDataProvider {
      * @param nodeData the node whose children to get
      * @return the children
      */
-    public List<CmsSitemapTreeNodeData> getChildren(CmsSitemapTreeNodeData nodeData) {
+    public List<@RUntainted CmsSitemapTreeNodeData> getChildren(CmsSitemapTreeNodeData nodeData) {
 
         CmsClientSitemapEntry entry = nodeData.getClientEntry();
 
-        List<CmsSitemapTreeNodeData> result = Lists.newArrayList();
+        List<@RUntainted CmsSitemapTreeNodeData> result = Lists.newArrayList();
 
         try {
             CmsVfsSitemapService svc = getSitemapService();
@@ -179,7 +180,7 @@ public class CmsSitemapTreeDataProvider {
      * @param resource a resource
      * @return the data for the resource
      */
-    public CmsSitemapTreeNodeData getData(CmsResource resource) {
+    public @RUntainted CmsSitemapTreeNodeData getData(CmsResource resource) {
 
         try {
             CmsVfsSitemapService svc = new CmsVfsSitemapService();
@@ -206,7 +207,7 @@ public class CmsSitemapTreeDataProvider {
      *
      * @return the node data
      */
-    public CmsSitemapTreeNodeData getRoot() {
+    public @RUntainted CmsSitemapTreeNodeData getRoot() {
 
         return getData(m_root);
 

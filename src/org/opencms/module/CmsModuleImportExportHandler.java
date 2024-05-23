@@ -78,6 +78,7 @@ import org.apache.commons.logging.Log;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.xml.sax.SAXException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Import/export handler implementation for Cms modules.<p>
@@ -96,7 +97,7 @@ public class CmsModuleImportExportHandler implements I_CmsImportExportHandler {
     private String m_description;
 
     /** The name of the export file in the real file system.<p> */
-    private String m_fileName;
+    private @RUntainted String m_fileName;
 
     /** The module imported with the digester. */
     private CmsModule m_importedModule;
@@ -105,7 +106,7 @@ public class CmsModuleImportExportHandler implements I_CmsImportExportHandler {
     private CmsImportParameters m_importParams;
 
     /** The (package) name of the module to be exported.<p> */
-    private String m_moduleName;
+    private @RUntainted String m_moduleName;
 
     /**
      * Creates a new Cms module import/export handler.<p>
@@ -184,7 +185,7 @@ public class CmsModuleImportExportHandler implements I_CmsImportExportHandler {
      *
      * @throws CmsConfigurationException if the module could not be imported
      */
-    public static CmsModule readModuleFromImport(String importResource) throws CmsConfigurationException {
+    public static CmsModule readModuleFromImport(@RUntainted String importResource) throws CmsConfigurationException {
 
         // instantiate Digester and enable XML validation
         Digester digester = new Digester();
@@ -334,7 +335,7 @@ public class CmsModuleImportExportHandler implements I_CmsImportExportHandler {
      * @param report the report to write to
      * @param modulePackageName the module name
      */
-    public static void reportBeginImport(I_CmsReport report, String modulePackageName) {
+    public static void reportBeginImport(I_CmsReport report, @RUntainted String modulePackageName) {
 
         report.print(Messages.get().container(Messages.RPT_IMPORT_MODULE_BEGIN_0), I_CmsReport.FORMAT_HEADLINE);
         if (report instanceof CmsHtmlReport) {
@@ -466,7 +467,7 @@ public class CmsModuleImportExportHandler implements I_CmsImportExportHandler {
      *
      * @return the name of the export file in the real file system
      */
-    public String getFileName() {
+    public @RUntainted String getFileName() {
 
         CmsMacroResolver resolver = new CmsMacroResolver();
         resolver.addMacro("version", OpenCms.getModuleManager().getModule(m_moduleName).getVersionStr());
@@ -488,7 +489,7 @@ public class CmsModuleImportExportHandler implements I_CmsImportExportHandler {
      *
      * @return the (package) name of the module to be exported
      */
-    public String getModuleName() {
+    public @RUntainted String getModuleName() {
 
         return m_moduleName;
     }
@@ -506,7 +507,7 @@ public class CmsModuleImportExportHandler implements I_CmsImportExportHandler {
     /**
      * @see org.opencms.importexport.I_CmsImportExportHandler#importData(CmsObject, I_CmsReport)
      */
-    public synchronized void importData(CmsObject cms, I_CmsReport report)
+    public synchronized void importData(@RUntainted CmsObject cms, @RUntainted I_CmsReport report)
     throws CmsXmlException, CmsImportExportException, CmsRoleViolationException, CmsException {
 
         CmsImportParameters parameters = getImportParameters();
@@ -575,7 +576,7 @@ public class CmsModuleImportExportHandler implements I_CmsImportExportHandler {
      * @deprecated use {@link #importData(CmsObject, I_CmsReport)} instead
      */
     @Deprecated
-    public void importData(CmsObject cms, String importFile, String importPath, I_CmsReport report)
+    public void importData(CmsObject cms, @RUntainted String importFile, @RUntainted String importPath, @RUntainted I_CmsReport report)
     throws CmsXmlException, CmsImportExportException, CmsRoleViolationException, CmsException {
 
         CmsImportParameters parameters = new CmsImportParameters(importFile, importPath, true);
@@ -617,7 +618,7 @@ public class CmsModuleImportExportHandler implements I_CmsImportExportHandler {
      *
      * @param fileName the name of the export file in the real file system
      */
-    public void setFileName(String fileName) {
+    public void setFileName(@RUntainted String fileName) {
 
         m_fileName = fileName;
     }
@@ -647,7 +648,7 @@ public class CmsModuleImportExportHandler implements I_CmsImportExportHandler {
      *
      * @param moduleName the (package) name of the module to be exported
      */
-    public void setModuleName(String moduleName) {
+    public void setModuleName(@RUntainted String moduleName) {
 
         m_moduleName = moduleName;
     }
@@ -676,7 +677,7 @@ public class CmsModuleImportExportHandler implements I_CmsImportExportHandler {
      *      dependencies are not fulfilled
      * @throws CmsException if errors occur reading the module data
      */
-    private synchronized CmsModule importModule(CmsObject cms, I_CmsReport report, CmsImportParameters parameters)
+    private synchronized CmsModule importModule(@RUntainted CmsObject cms, I_CmsReport report, CmsImportParameters parameters)
     throws CmsSecurityException, CmsConfigurationException, CmsException {
 
         // check if the user has the required permissions

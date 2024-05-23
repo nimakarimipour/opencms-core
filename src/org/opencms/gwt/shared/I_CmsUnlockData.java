@@ -26,6 +26,7 @@
  */
 
 package org.opencms.gwt.shared;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Parameters for the unlock service.
@@ -39,7 +40,7 @@ public interface I_CmsUnlockData {
      *
      * @return the detail content id
      */
-    String getDetailId();
+    @RUntainted String getDetailId();
 
     /**
      * Gets the locale
@@ -53,7 +54,7 @@ public interface I_CmsUnlockData {
      *
      * @return the page id
      */
-    String getPageId();
+    @RUntainted String getPageId();
 
     /**
      * Sets the detail content id.

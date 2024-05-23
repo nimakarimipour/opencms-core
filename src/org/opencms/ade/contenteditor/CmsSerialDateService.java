@@ -45,6 +45,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
 import java.util.SortedSet;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Implementation of the serial date RPC service. */
 public class CmsSerialDateService extends CmsGwtService implements I_CmsSerialDateService {
@@ -53,16 +54,16 @@ public class CmsSerialDateService extends CmsGwtService implements I_CmsSerialDa
     private static final long serialVersionUID = -5078405766510438917L;
 
     /** Date formatter for status messages. */
-    private DateFormat m_dateFormat;
+    private @RUntainted DateFormat m_dateFormat;
 
     /**
      * @see org.opencms.acacia.shared.rpc.I_CmsSerialDateService#getDates(java.lang.String)
      */
-    public Collection<CmsPair<Date, Boolean>> getDates(String config) {
+    public Collection<CmsPair<Date, Boolean>> getDates(@RUntainted String config) {
 
         I_CmsSerialDateBean bean = CmsSerialDateBeanFactory.createSerialDateBean(config);
         if (null != bean) {
-            Collection<Date> dates = bean.getDates();
+            Collection<@RUntainted Date> dates = bean.getDates();
             Collection<Date> exceptions = bean.getExceptions();
             Collection<CmsPair<Date, Boolean>> result = new ArrayList<>(dates.size() + exceptions.size());
             for (Date d : dates) {
@@ -79,7 +80,7 @@ public class CmsSerialDateService extends CmsGwtService implements I_CmsSerialDa
     /**
      * @see org.opencms.acacia.shared.rpc.I_CmsSerialDateService#getStatus(java.lang.String)
      */
-    public CmsPair<Boolean, String> getStatus(String config) {
+    public CmsPair<Boolean, String> getStatus(@RUntainted String config) {
 
         I_CmsSerialDateValue value = new CmsSerialDateValue(config);
         Locale l = OpenCms.getWorkplaceManager().getWorkplaceLocale(getCmsObject());
@@ -94,7 +95,7 @@ public class CmsSerialDateService extends CmsGwtService implements I_CmsSerialDa
                         Integer.valueOf(CmsSerialDateUtil.getMaxEvents()),
                         formatDate(bean.getDates().last())));
             } else {
-                SortedSet<Date> dates = bean.getDates();
+                SortedSet<@RUntainted Date> dates = bean.getDates();
                 String message;
                 if (dates.isEmpty()) {
                     message = messages.key(Messages.GUI_SERIALDATE_EMPTY_EVENT_SERIES_0);
@@ -123,7 +124,7 @@ public class CmsSerialDateService extends CmsGwtService implements I_CmsSerialDa
      *
      * @return the formatted date.
      */
-    private String formatDate(Date date) {
+    private @RUntainted String formatDate(@RUntainted Date date) {
 
         if (null == m_dateFormat) {
             m_dateFormat = DateFormat.getDateInstance(

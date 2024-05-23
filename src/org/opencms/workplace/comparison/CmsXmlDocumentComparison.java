@@ -43,6 +43,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A comparison of properties, attributes and elements of xml documents.<p>
@@ -101,7 +102,7 @@ public class CmsXmlDocumentComparison extends CmsResourceComparison {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsXmlDocumentComparison(CmsObject cms, CmsFile res1, CmsFile res2)
+    public CmsXmlDocumentComparison(@RUntainted CmsObject cms, CmsFile res1, CmsFile res2)
     throws CmsException {
 
         I_CmsXmlDocument resource1;
@@ -200,7 +201,7 @@ public class CmsXmlDocumentComparison extends CmsResourceComparison {
         Iterator<Locale> locales = xmlPage.getLocales().iterator();
         while (locales.hasNext()) {
             Locale locale = locales.next();
-            Iterator<String> elementNames = xmlPage.getNames(locale).iterator();
+            Iterator<@RUntainted String> elementNames = xmlPage.getNames(locale).iterator();
             while (elementNames.hasNext()) {
                 String elementName = elementNames.next();
                 elements.add(new CmsElementComparison(locale, elementName));

@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vaadin.ui.themes.ValoTheme;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Context menu builder for resource items.<p>

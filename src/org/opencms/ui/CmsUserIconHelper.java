@@ -55,6 +55,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generates user ident-icons.<p>
@@ -74,7 +75,7 @@ public class CmsUserIconHelper {
         Tiny(23, TINY_ICON_SUFFIX);
 
         /**Size in pixel.*/
-        private int m_size;
+        private @RUntainted int m_size;
 
         /**Suffix to append to filename.*/
         private String m_suffix;
@@ -85,7 +86,7 @@ public class CmsUserIconHelper {
          * @param size in pixel
          * @param suffix for filename
          */
-        private IconSize(int size, String suffix) {
+        private IconSize(@RUntainted int size, String suffix) {
 
             m_size = size;
             m_suffix = suffix;
@@ -96,7 +97,7 @@ public class CmsUserIconHelper {
          *
          * @return icon size in pixel
          */
-        public int getSize() {
+        public @RUntainted int getSize() {
 
             return m_size;
         }
@@ -106,7 +107,7 @@ public class CmsUserIconHelper {
          *
          * @return string
          */
-        public String getSuffix() {
+        public @RUntainted String getSuffix() {
 
             return m_suffix;
         }
@@ -259,7 +260,7 @@ public class CmsUserIconHelper {
      *
      * @return <code>true</code> in case the image was set successfully
      */
-    public boolean handleImageUpload(CmsObject cms, CmsUser user, String uploadedFile) {
+    public boolean handleImageUpload(CmsObject cms, CmsUser user, @RUntainted String uploadedFile) {
 
         boolean result = false;
         try {
@@ -305,7 +306,7 @@ public class CmsUserIconHelper {
      *
      * @throws CmsException in case anything goes wrong
      */
-    public void setUserImage(CmsObject cms, CmsUser user, String rootPath) throws CmsException {
+    public void setUserImage(CmsObject cms, CmsUser user, @RUntainted String rootPath) throws CmsException {
 
         CmsFile tempFile = cms.readFile(cms.getRequestContext().removeSiteRoot(rootPath));
         CmsImageScaler scaler = new CmsImageScaler(tempFile.getContents(), tempFile.getRootPath());
@@ -314,7 +315,7 @@ public class CmsUserIconHelper {
             scaler.setType(2);
             scaler.setHeight(192);
             scaler.setWidth(192);
-            byte[] content = scaler.scaleImage(tempFile);
+            @RUntainted byte[] content = scaler.scaleImage(tempFile);
             String previousImage = (String)user.getAdditionalInfo(CmsUserIconHelper.USER_IMAGE_INFO);
             String newFileName = USER_IMAGE_FOLDER
                 + user.getId().toString()
@@ -426,7 +427,7 @@ public class CmsUserIconHelper {
      *
      * @return the suffix
      */
-    private String getSuffix(String fileName) {
+    private @RUntainted String getSuffix(@RUntainted String fileName) {
 
         int index = fileName.lastIndexOf(".");
         if (index > 0) {
@@ -457,7 +458,7 @@ public class CmsUserIconHelper {
      *
      * @return the path
      */
-    private String toRfsName(String name, IconSize size) {
+    private @RUntainted String toRfsName(String name, IconSize size) {
 
         return CmsStringUtil.joinPaths(m_cache.getRepositoryPath(), "" + name.hashCode()) + size.getSuffix();
     }

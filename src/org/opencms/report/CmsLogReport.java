@@ -30,6 +30,7 @@ package org.opencms.report;
 import org.opencms.main.CmsLog;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Report class used for the logfile.<p>
@@ -53,7 +54,7 @@ public class CmsLogReport extends A_CmsReport {
      * @param locale the locale to use for the report output messages
      * @param channel the log channel
      */
-    public CmsLogReport(Locale locale, Class<?> channel) {
+    public CmsLogReport(@RUntainted Locale locale, Class<?> channel) {
         this(locale, (Object)channel);
 
     }
@@ -65,7 +66,7 @@ public class CmsLogReport extends A_CmsReport {
      * @param locale the locale to use for the report output messages
      * @param channel the log channel (usually a string with the package name, or a class)
      */
-    public CmsLogReport(Locale locale, Object channel) {
+    public CmsLogReport(@RUntainted Locale locale, Object channel) {
 
         init(locale, null);
         m_buffer = new StringBuffer();

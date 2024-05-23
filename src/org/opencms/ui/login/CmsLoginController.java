@@ -92,6 +92,8 @@ import com.vaadin.server.VaadinServletResponse;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Controller class which actually handles the login dialog logic.<p>
@@ -250,7 +252,7 @@ public class CmsLoginController {
     protected static class UserAgreementHelper extends CmsLoginUserAgreement {
 
         /** The replacement CMS context. */
-        private CmsObject m_cms;
+        private @RUntainted CmsObject m_cms;
 
         /** The replacemenet workplace settings. */
         private CmsWorkplaceSettings m_wpSettings;
@@ -261,7 +263,7 @@ public class CmsLoginController {
          * @param cms the replacement CMS context
          * @param wpSettings the replacement workplace settings
          */
-        public UserAgreementHelper(CmsObject cms, CmsWorkplaceSettings wpSettings) {
+        public UserAgreementHelper(@RUntainted CmsObject cms, CmsWorkplaceSettings wpSettings) {
 
             super(null);
             m_cms = cms;
@@ -273,7 +275,7 @@ public class CmsLoginController {
          * @see org.opencms.workplace.CmsWorkplace#getCms()
          */
         @Override
-        public CmsObject getCms() {
+        public @RUntainted CmsObject getCms() {
 
             return m_cms;
         }
@@ -349,7 +351,7 @@ public class CmsLoginController {
      *
      * @return the login form link
      */
-    public static String getFormLink(CmsObject cms) {
+    public static @RUntainted String getFormLink(CmsObject cms) {
 
         return OpenCms.getLinkManager().substituteLinkForUnknownTarget(
             cms,
@@ -368,7 +370,7 @@ public class CmsLoginController {
      *
      * @throws CmsException in case the user has insufficient permissions to access the login target
      */
-    public static String getLoginTarget(CmsObject currentCms, CmsWorkplaceSettings settings, String requestedResource)
+    public static @RPolyTainted String getLoginTarget(@RUntainted CmsObject currentCms, CmsWorkplaceSettings settings, @RPolyTainted String requestedResource)
     throws CmsException {
 
         String directEditPath = CmsLoginHelper.getDirectEditPath(currentCms, settings.getUserSettings(), false);
@@ -690,13 +692,13 @@ public class CmsLoginController {
                             // nothing to do
                         }
 
-                        public List<CmsUUID> getAllStructureIdsInView() {
+                        public List<@RUntainted CmsUUID> getAllStructureIdsInView() {
 
                             return null;
                         }
 
                         @Override
-                        public CmsObject getCms() {
+                        public @RUntainted CmsObject getCms() {
 
                             return loginCms;
                         }
@@ -810,7 +812,7 @@ public class CmsLoginController {
      * @param user the user being logged in
      * @param e the error
      */
-    protected void handleError(CmsObject currentCms, String user, Exception e) {
+    protected void handleError(CmsObject currentCms, @RUntainted String user, Exception e) {
 
         CmsMessageContainer message = null;
 

@@ -32,6 +32,7 @@ import org.opencms.report.A_CmsReportThread;
 import org.opencms.report.I_CmsReport;
 
 import java.util.function.Consumer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Report thread for searching user data.
@@ -47,7 +48,7 @@ public class CmsUserDataReportThread extends A_CmsReportThread {
      * @param cms the CMS context
      * @param action the action to execute
      */
-    public CmsUserDataReportThread(CmsObject cms, Consumer<I_CmsReport> action) {
+    public CmsUserDataReportThread(@RUntainted CmsObject cms, Consumer<I_CmsReport> action) {
 
         super(cms, "userData");
         m_action = action;

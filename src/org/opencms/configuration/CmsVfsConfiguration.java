@@ -56,6 +56,7 @@ import org.apache.commons.digester3.Rule;
 
 import org.dom4j.Element;
 import org.xml.sax.Attributes;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * VFS master configuration class.<p>
@@ -197,19 +198,19 @@ public class CmsVfsConfiguration extends A_CmsXmlConfiguration {
     CmsXmlContentTypeManager m_xmlContentTypeManager;
 
     /** The list of configured default files. */
-    private List<String> m_defaultFiles;
+    private @RUntainted List<@RUntainted String> m_defaultFiles;
 
     /** Controls if file translation is enabled. */
     private boolean m_fileTranslationEnabled;
 
     /** The list of file translations. */
-    private List<String> m_fileTranslations;
+    private List<@RUntainted String> m_fileTranslations;
 
     /** Controls if folder translation is enabled. */
     private boolean m_folderTranslationEnabled;
 
     /** The list of folder translations. */
-    private List<String> m_folderTranslations;
+    private List<@RUntainted String> m_folderTranslations;
 
     /** The configured resource manager. */
     private CmsResourceManager m_resourceManager;
@@ -218,7 +219,7 @@ public class CmsVfsConfiguration extends A_CmsXmlConfiguration {
     private boolean m_xsdTranslationEnabled;
 
     /** The list of XSD translations. */
-    private List<String> m_xsdTranslations;
+    private List<@RUntainted String> m_xsdTranslations;
 
     /**
      * Adds the resource type rules to the given digester.<p>
@@ -328,7 +329,7 @@ public class CmsVfsConfiguration extends A_CmsXmlConfiguration {
                 resourceType.addAttribute(A_NAME, resType.getTypeName());
                 resourceType.addAttribute(A_ID, String.valueOf(resType.getTypeId()));
                 // add resource mappings
-                List<String> mappings = resType.getConfiguredMappings();
+                List<@RUntainted String> mappings = resType.getConfiguredMappings();
                 if ((mappings != null) && (mappings.size() > 0)) {
                     Element mappingsNode = resourceType.addElement(N_MAPPINGS);
                     for (int j = 0; j < mappings.size(); j++) {
@@ -357,7 +358,7 @@ public class CmsVfsConfiguration extends A_CmsXmlConfiguration {
                     }
                 }
                 // add copy resources
-                List<CmsConfigurationCopyResource> copyRes = resType.getConfiguredCopyResources();
+                List<@RUntainted CmsConfigurationCopyResource> copyRes = resType.getConfiguredCopyResources();
                 if ((copyRes != null) && (copyRes.size() > 0)) {
                     Element copyResNode = resourceType.addElement(N_COPY_RESOURCES);
                     Iterator<CmsConfigurationCopyResource> p = copyRes.iterator();
@@ -396,7 +397,7 @@ public class CmsVfsConfiguration extends A_CmsXmlConfiguration {
      *
      * @param defaultFile the directory default file to add
      */
-    public void addDefaultFile(String defaultFile) {
+    public void addDefaultFile(@RUntainted String defaultFile) {
 
         m_defaultFiles.add(defaultFile);
         if (CmsLog.INIT.isInfoEnabled()) {
@@ -413,7 +414,7 @@ public class CmsVfsConfiguration extends A_CmsXmlConfiguration {
      *
      * @param translation the file translation rule to add
      */
-    public void addFileTranslation(String translation) {
+    public void addFileTranslation(@RUntainted String translation) {
 
         m_fileTranslations.add(translation);
         if (CmsLog.INIT.isInfoEnabled()) {
@@ -426,7 +427,7 @@ public class CmsVfsConfiguration extends A_CmsXmlConfiguration {
      *
      * @param translation the folder translation rule to add
      */
-    public void addFolderTranslation(String translation) {
+    public void addFolderTranslation(@RUntainted String translation) {
 
         m_folderTranslations.add(translation);
         if (CmsLog.INIT.isInfoEnabled()) {
@@ -569,11 +570,11 @@ public class CmsVfsConfiguration extends A_CmsXmlConfiguration {
         final List<String> aliases = new ArrayList<>();
         digester.addRule("*/" + N_VFS + "/" + N_XMLCONTENT + "/" + N_WIDGETS + "/" + N_WIDGET, new Rule() {
 
-            private String m_className;
-            private String m_config;
+            private @RUntainted String m_className;
+            private @RUntainted String m_config;
 
             @Override
-            public void begin(String namespace, String name, Attributes attributes) throws Exception {
+            public void begin(String namespace, String name, @RUntainted Attributes attributes) throws Exception {
 
                 m_className = attributes.getValue(A_CLASS);
                 m_config = attributes.getValue(A_CONFIGURATION);
@@ -623,7 +624,7 @@ public class CmsVfsConfiguration extends A_CmsXmlConfiguration {
      *
      * @param translation the XSD translation rule to add
      */
-    public void addXsdTranslation(String translation) {
+    public void addXsdTranslation(@RUntainted String translation) {
 
         m_xsdTranslations.add(translation);
         if (CmsLog.INIT.isInfoEnabled()) {
@@ -787,7 +788,7 @@ public class CmsVfsConfiguration extends A_CmsXmlConfiguration {
      *
      * @return the (unmodifiable) list of configured directory default files
      */
-    public List<String> getDefaultFiles() {
+    public @RUntainted List<@RUntainted String> getDefaultFiles() {
 
         return Collections.unmodifiableList(m_defaultFiles);
     }
@@ -795,7 +796,7 @@ public class CmsVfsConfiguration extends A_CmsXmlConfiguration {
     /**
      * @see org.opencms.configuration.I_CmsXmlConfiguration#getDtdFilename()
      */
-    public String getDtdFilename() {
+    public @RUntainted String getDtdFilename() {
 
         return CONFIGURATION_DTD_NAME;
     }
@@ -806,9 +807,9 @@ public class CmsVfsConfiguration extends A_CmsXmlConfiguration {
      *
      * @return the file resource translator
      */
-    public CmsResourceTranslator getFileTranslator() {
+    public @RUntainted CmsResourceTranslator getFileTranslator() {
 
-        String[] array = new String[0];
+        @RUntainted String[] array = new String[0];
         if (m_fileTranslationEnabled) {
             array = new String[m_fileTranslations.size()];
             for (int i = 0; i < m_fileTranslations.size(); i++) {
@@ -824,9 +825,9 @@ public class CmsVfsConfiguration extends A_CmsXmlConfiguration {
      *
      * @return the folder resource translator
      */
-    public CmsResourceTranslator getFolderTranslator() {
+    public @RUntainted CmsResourceTranslator getFolderTranslator() {
 
-        String[] array = new String[0];
+        @RUntainted String[] array = new String[0];
         if (m_folderTranslationEnabled) {
             array = new String[m_folderTranslations.size()];
             for (int i = 0; i < m_folderTranslations.size(); i++) {
@@ -864,7 +865,7 @@ public class CmsVfsConfiguration extends A_CmsXmlConfiguration {
      */
     public CmsResourceTranslator getXsdTranslator() {
 
-        String[] array = m_xsdTranslationEnabled ? new String[m_xsdTranslations.size()] : new String[0];
+        @RUntainted String[] array = m_xsdTranslationEnabled ? new String[m_xsdTranslations.size()] : new String[0];
         for (int i = 0; i < m_xsdTranslations.size(); i++) {
             array[i] = m_xsdTranslations.get(i);
         }

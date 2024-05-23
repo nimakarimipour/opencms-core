@@ -43,6 +43,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Advanced link substitution behavior.<p>
@@ -69,7 +70,7 @@ public class CmsAdvancedLinkSubstitutionHandler extends CmsDefaultLinkSubstituti
      * @see org.opencms.staticexport.CmsDefaultLinkSubstitutionHandler#getLink(org.opencms.file.CmsObject, java.lang.String, java.lang.String, boolean)
      */
     @Override
-    public String getLink(CmsObject cms, String link, String siteRoot, boolean forceSecure) {
+    public @RUntainted String getLink(@RUntainted CmsObject cms, @RUntainted String link, @RUntainted String siteRoot, boolean forceSecure) {
 
         if (isExcluded(cms, link)) {
             return link;
@@ -81,7 +82,7 @@ public class CmsAdvancedLinkSubstitutionHandler extends CmsDefaultLinkSubstituti
      * @see org.opencms.staticexport.I_CmsLinkSubstitutionHandler#getRootPath(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
     @Override
-    public String getRootPath(CmsObject cms, String targetUri, String basePath) {
+    public @RUntainted String getRootPath(@RUntainted CmsObject cms, @RUntainted String targetUri, String basePath) {
 
         if (cms == null) {
             // required by unit test cases
@@ -125,7 +126,7 @@ public class CmsAdvancedLinkSubstitutionHandler extends CmsDefaultLinkSubstituti
      *
      * @return <code>true</code> if the given path starts with an exclude prefix
      */
-    protected boolean isExcluded(CmsObject cms, String path) {
+    protected boolean isExcluded(@RUntainted CmsObject cms, String path) {
 
         List<String> excludes = getExcludes(cms);
         // now check if the current link start with one of the exclude links
@@ -144,7 +145,7 @@ public class CmsAdvancedLinkSubstitutionHandler extends CmsDefaultLinkSubstituti
      *
      * @return the exclude prefix list
      */
-    private List<String> getExcludes(CmsObject cms) {
+    private List<String> getExcludes(@RUntainted CmsObject cms) {
 
         // get the list of link excludes form the cache if possible
         CmsVfsMemoryObjectCache cache = CmsVfsMemoryObjectCache.getVfsMemoryObjectCache();
@@ -165,7 +166,7 @@ public class CmsAdvancedLinkSubstitutionHandler extends CmsDefaultLinkSubstituti
      * @param cms the current CmsObject
      * @return list of Strings, containing link exclude paths
      */
-    private List<String> readLinkExcludes(CmsObject cms) {
+    private List<String> readLinkExcludes(@RUntainted CmsObject cms) {
 
         List<String> linkExcludes = new ArrayList<String>();
 

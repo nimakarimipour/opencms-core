@@ -90,6 +90,7 @@ import org.apache.chemistry.opencmis.commons.impl.dataobjects.PropertiesImpl;
 import org.apache.chemistry.opencmis.commons.impl.server.ObjectInfoImpl;
 import org.apache.chemistry.opencmis.commons.impl.server.RenditionInfoImpl;
 import org.apache.chemistry.opencmis.commons.server.RenditionInfo;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for CRUD operations on resources.<p>
@@ -116,7 +117,7 @@ public class CmsCmisResourceHelper implements I_CmsCmisObjectHelper {
      * @param objectId the id of the object to delete
      * @param allVersions flag to delete all version
      */
-    public synchronized void deleteObject(CmsCmisCallContext context, String objectId, boolean allVersions) {
+    public synchronized void deleteObject(CmsCmisCallContext context, @RUntainted String objectId, boolean allVersions) {
 
         try {
             CmsObject cms = m_repository.getCmsObject(context);
@@ -144,7 +145,7 @@ public class CmsCmisResourceHelper implements I_CmsCmisObjectHelper {
      *
      * @return the ACL for the object
      */
-    public synchronized Acl getAcl(CmsCmisCallContext context, String objectId, boolean onlyBasicPermissions) {
+    public synchronized Acl getAcl(CmsCmisCallContext context, @RUntainted String objectId, boolean onlyBasicPermissions) {
 
         try {
 
@@ -166,7 +167,7 @@ public class CmsCmisResourceHelper implements I_CmsCmisObjectHelper {
      * @param objectId the object id
      * @return the allowable actions
      */
-    public synchronized AllowableActions getAllowableActions(CmsCmisCallContext context, String objectId) {
+    public synchronized AllowableActions getAllowableActions(CmsCmisCallContext context, @RUntainted String objectId) {
 
         try {
             CmsObject cms = m_repository.getCmsObject(context);
@@ -195,7 +196,7 @@ public class CmsCmisResourceHelper implements I_CmsCmisObjectHelper {
      */
     public synchronized ObjectData getObject(
         CmsCmisCallContext context,
-        String objectId,
+        @RUntainted String objectId,
         String filter,
         boolean includeAllowableActions,
         IncludeRelationships includeRelationships,
@@ -416,7 +417,7 @@ public class CmsCmisResourceHelper implements I_CmsCmisObjectHelper {
         List<String> relationSourceIds = new ArrayList<String>();
         List<String> relationTargetIds = new ArrayList<String>();
         try {
-            List<CmsRelation> relations = cms.getRelationsForResource(resource, CmsRelationFilter.ALL);
+            List<@RUntainted CmsRelation> relations = cms.getRelationsForResource(resource, CmsRelationFilter.ALL);
             for (CmsRelation relation : relations) {
                 if (resource.getStructureId().equals(relation.getSourceId())) {
                     relationTargetIds.add(relation.getTargetId().toString());

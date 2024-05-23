@@ -35,6 +35,7 @@ import org.opencms.workplace.explorer.Messages;
 
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The about dialog action.<p>
@@ -84,7 +85,7 @@ public class CmsAboutDialogAction extends A_CmsToolbarAction implements I_CmsADE
     /**
      * @see org.opencms.ui.actions.I_CmsADEAction#getJspPath()
      */
-    public String getJspPath() {
+    public @RUntainted String getJspPath() {
 
         return null;
     }
@@ -92,7 +93,7 @@ public class CmsAboutDialogAction extends A_CmsToolbarAction implements I_CmsADE
     /**
      * @see org.opencms.ui.actions.I_CmsADEAction#getParams()
      */
-    public Map<String, String> getParams() {
+    public Map<String, @RUntainted String> getParams() {
 
         return null;
     }
@@ -109,7 +110,7 @@ public class CmsAboutDialogAction extends A_CmsToolbarAction implements I_CmsADE
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
      */
     @Override
-    protected String getTitleKey() {
+    protected @RUntainted String getTitleKey() {
 
         return Messages.GUI_EXPLORER_CONTEXT_ABOUT_0;
     }

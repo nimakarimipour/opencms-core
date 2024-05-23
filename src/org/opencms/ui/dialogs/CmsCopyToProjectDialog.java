@@ -51,6 +51,7 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The copy to project dialog.<p>
@@ -77,7 +78,7 @@ public class CmsCopyToProjectDialog extends CmsBasicDialog {
         String projectName = m_context.getCms().getRequestContext().getCurrentProject().getName();
         Panel resourceListPanel = null;
         try {
-            List<String> projectRes = m_context.getCms().readProjectResources(
+            List<@RUntainted String> projectRes = m_context.getCms().readProjectResources(
                 m_context.getCms().getRequestContext().getCurrentProject());
             List<CmsResource> resources = new ArrayList<CmsResource>();
             CmsObject rootCms = OpenCms.initCmsObject(m_context.getCms());

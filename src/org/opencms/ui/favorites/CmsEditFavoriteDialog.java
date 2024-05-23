@@ -41,6 +41,7 @@ import org.apache.commons.logging.Log;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog for editing bookmark title.
@@ -69,7 +70,7 @@ public class CmsEditFavoriteDialog extends CmsBasicDialog {
     private Button m_okButton;
 
     /** The title field. */
-    private TextField m_title;
+    private @RUntainted TextField m_title;
 
     /**
      * Creates a new instance.

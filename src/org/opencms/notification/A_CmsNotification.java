@@ -51,6 +51,7 @@ import javax.mail.MessagingException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.mail.EmailException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract class to create a notfication which will be send as a html mail to
@@ -79,10 +80,10 @@ public abstract class A_CmsNotification extends CmsHtmlMail {
     protected CmsXmlContent m_mailContent;
 
     /** The CmsObject. */
-    protected CmsObject m_cms;
+    protected @RUntainted CmsObject m_cms;
 
     /** The locale of the receiver of the content notification. */
-    protected Locale m_locale;
+    protected @RUntainted Locale m_locale;
 
     /** The macro resolver used. */
     protected CmsNotificationMacroResolver m_macroResolver;
@@ -96,7 +97,7 @@ public abstract class A_CmsNotification extends CmsHtmlMail {
      * @param cms the cms object to use
      * @param receiver the receiver of the notification
      */
-    public A_CmsNotification(CmsObject cms, CmsUser receiver) {
+    public A_CmsNotification(@RUntainted CmsObject cms, CmsUser receiver) {
 
         m_cms = cms;
         m_receiver = receiver;
@@ -132,7 +133,7 @@ public abstract class A_CmsNotification extends CmsHtmlMail {
      *
      * @return the locale
      */
-    public Locale getLocale() {
+    public @RUntainted Locale getLocale() {
 
         return m_locale;
     }
@@ -169,7 +170,7 @@ public abstract class A_CmsNotification extends CmsHtmlMail {
             m_mailContent = CmsXmlContentFactory.unmarshal(m_cms, m_cms.readFile(getNotificationContent()));
 
             // detect locale
-            List<Locale> locales = m_mailContent.getLocales();
+            List<@RUntainted Locale> locales = m_mailContent.getLocales();
             Locale userLocale = new CmsUserSettings(m_receiver).getLocale();
             if (locales.contains(userLocale)) {
                 // mail is localized in the user locale, use that

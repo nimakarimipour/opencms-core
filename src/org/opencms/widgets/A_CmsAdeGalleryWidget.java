@@ -49,6 +49,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Base class for all ADE gallery widget implementations.<p>
@@ -79,7 +80,7 @@ public abstract class A_CmsAdeGalleryWidget extends A_CmsWidget implements I_Cms
      *
      * @param configuration the configuration to use
      */
-    protected A_CmsAdeGalleryWidget(String configuration) {
+    protected A_CmsAdeGalleryWidget(@RUntainted String configuration) {
 
         super(configuration);
     }
@@ -87,12 +88,12 @@ public abstract class A_CmsAdeGalleryWidget extends A_CmsWidget implements I_Cms
     /**
      * @see org.opencms.widgets.I_CmsADEWidget#getConfiguration(org.opencms.file.CmsObject, org.opencms.xml.types.A_CmsXmlContentValue, org.opencms.i18n.CmsMessages, org.opencms.file.CmsResource, java.util.Locale)
      */
-    public String getConfiguration(
+    public @RUntainted String getConfiguration(
         CmsObject cms,
         A_CmsXmlContentValue schemaType,
         CmsMessages messages,
         CmsResource resource,
-        Locale contentLocale) {
+        @RUntainted Locale contentLocale) {
 
         return getJSONConfig(cms, schemaType, messages, resource, contentLocale).toString();
     }
@@ -208,7 +209,7 @@ public abstract class A_CmsAdeGalleryWidget extends A_CmsWidget implements I_Cms
      *
      * @return the lower case name of the gallery
      */
-    public abstract String getGalleryName();
+    public abstract @RUntainted String getGalleryName();
 
     /**
      * @see org.opencms.widgets.I_CmsADEWidget#getInitCall()
@@ -229,7 +230,7 @@ public abstract class A_CmsAdeGalleryWidget extends A_CmsWidget implements I_Cms
     /**
      * @see org.opencms.widgets.I_CmsADEWidget#getWidgetName()
      */
-    public String getWidgetName() {
+    public @RUntainted String getWidgetName() {
 
         return A_CmsAdeGalleryWidget.class.getName();
     }
@@ -282,14 +283,14 @@ public abstract class A_CmsAdeGalleryWidget extends A_CmsWidget implements I_Cms
      *
      * @return the gallery open parameters
      */
-    protected Map<String, String> getGalleryOpenParams(
+    protected Map<@RUntainted String, @RUntainted String> getGalleryOpenParams(
         CmsObject cms,
         CmsMessages messages,
         I_CmsWidgetParameter param,
-        String resource,
-        long hashId) {
+        @RUntainted String resource,
+        @RUntainted long hashId) {
 
-        Map<String, String> result = new HashMap<String, String>();
+        Map<@RUntainted String, @RUntainted String> result = new HashMap<@RUntainted String, @RUntainted String>();
         result.put(I_CmsGalleryProviderConstants.CONFIG_GALLERY_MODE, A_CmsAjaxGallery.MODE_WIDGET);
         result.put(I_CmsGalleryProviderConstants.CONFIG_GALLERY_STORAGE_PREFIX, getGalleryStoragePrefix());
         result.put(I_CmsGalleryProviderConstants.CONFIG_RESOURCE_TYPES, getGalleryTypes());
@@ -323,7 +324,7 @@ public abstract class A_CmsAdeGalleryWidget extends A_CmsWidget implements I_Cms
      *
      * @return the key prefix
      */
-    protected String getGalleryStoragePrefix() {
+    protected @RUntainted String getGalleryStoragePrefix() {
 
         return "";
     }
@@ -333,7 +334,7 @@ public abstract class A_CmsAdeGalleryWidget extends A_CmsWidget implements I_Cms
      *
      * @return the resource type names
      */
-    protected abstract String getGalleryTypes();
+    protected abstract @RUntainted String getGalleryTypes();
 
     /**
      * Returns the gallery widget configuration as a JSON object.<p>
@@ -351,11 +352,11 @@ public abstract class A_CmsAdeGalleryWidget extends A_CmsWidget implements I_Cms
         A_CmsXmlContentValue schemaType,
         CmsMessages messages,
         CmsResource resource,
-        Locale contentLocale) {
+        @RUntainted Locale contentLocale) {
 
         JSONObject result = new JSONObject();
         try {
-            for (Entry<String, String> paramEntry : getGalleryOpenParams(
+            for (Entry<@RUntainted String, @RUntainted String> paramEntry : getGalleryOpenParams(
                 cms,
                 messages,
                 schemaType,
@@ -389,7 +390,7 @@ public abstract class A_CmsAdeGalleryWidget extends A_CmsWidget implements I_Cms
         CmsObject cms,
         I_CmsWidgetDialog widgetDialog,
         I_CmsWidgetParameter param,
-        long hashId) {
+        @RUntainted long hashId) {
 
         StringBuffer sb = new StringBuffer(128);
         sb.append("javascript:cmsOpenDialog('");
@@ -410,7 +411,7 @@ public abstract class A_CmsAdeGalleryWidget extends A_CmsWidget implements I_Cms
         }
         sb.append("?__locale=").append(contentLocale.toString());
         // add other open parameters
-        for (Entry<String, String> paramEntry : getGalleryOpenParams(
+        for (Entry<String, @RUntainted String> paramEntry : getGalleryOpenParams(
             cms,
             widgetDialog.getMessages(),
             param,

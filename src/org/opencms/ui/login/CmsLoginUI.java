@@ -81,6 +81,7 @@ import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.Window.CloseListener;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The UI class for the Vaadin-based login dialog.<p>
@@ -221,7 +222,7 @@ public class CmsLoginUI extends A_CmsUI {
      * @throws IOException in case writing to the response fails
      * @throws CmsException in case the user has not the required role
      */
-    public static String displayVaadinLoginDialog(HttpServletRequest request, HttpServletResponse response)
+    public static String displayVaadinLoginDialog(@RUntainted HttpServletRequest request, HttpServletResponse response)
     throws IOException, CmsException {
 
         CmsFlexController controller = CmsFlexController.getController(request);
@@ -264,7 +265,7 @@ public class CmsLoginUI extends A_CmsUI {
         CmsLoginHelper.LoginParameters params = CmsLoginHelper.getLoginParameters(cms, request, false);
         request.getSession().setAttribute(CmsLoginUI.INIT_DATA_SESSION_ATTR, params);
         try {
-            byte[] pageBytes = CmsFileUtil.readFully(
+            @RUntainted byte[] pageBytes = CmsFileUtil.readFully(
                 Thread.currentThread().getContextClassLoader().getResourceAsStream(
                     "org/opencms/ui/login/login-page.html"));
             String page = new String(pageBytes, "UTF-8");
@@ -325,11 +326,11 @@ public class CmsLoginUI extends A_CmsUI {
      *
      * @throws IOException in case reading the html template fails
      */
-    public static String generateLoginHtmlFragment(CmsObject cms, VaadinRequest request) throws IOException {
+    public static String generateLoginHtmlFragment(CmsObject cms, @RUntainted VaadinRequest request) throws IOException {
 
         LoginParameters parameters = CmsLoginHelper.getLoginParameters(cms, (HttpServletRequest)request, true);
         request.getWrappedSession().setAttribute(CmsLoginUI.INIT_DATA_SESSION_ATTR, parameters);
-        byte[] pageBytes;
+        @RUntainted byte[] pageBytes;
 
         pageBytes = CmsFileUtil.readFully(
             Thread.currentThread().getContextClassLoader().getResourceAsStream(
@@ -370,7 +371,7 @@ public class CmsLoginUI extends A_CmsUI {
      *
      * @return the settings
      */
-    private static CmsWorkplaceSettings getWorkplaceSettings(CmsObject cms, HttpSession session) {
+    private static CmsWorkplaceSettings getWorkplaceSettings(CmsObject cms, @RUntainted HttpSession session) {
 
         CmsWorkplaceSettings settings = (CmsWorkplaceSettings)session.getAttribute(
             CmsWorkplaceManager.SESSION_WORKPLACE_SETTINGS);
@@ -447,7 +448,7 @@ public class CmsLoginUI extends A_CmsUI {
      * @param loginTarget the login target
      * @param isPublicPC the public PC flag
      */
-    public void openLoginTarget(String loginTarget, boolean isPublicPC) {
+    public void openLoginTarget(@RUntainted String loginTarget, boolean isPublicPC) {
 
         // login was successful, remove login init data from session
         VaadinService.getCurrentRequest().getWrappedSession().removeAttribute(INIT_DATA_SESSION_ATTR);
@@ -585,7 +586,7 @@ public class CmsLoginUI extends A_CmsUI {
      * @see com.vaadin.ui.UI#init(com.vaadin.server.VaadinRequest)
      */
     @Override
-    protected void init(VaadinRequest request) {
+    protected void init(@RUntainted VaadinRequest request) {
 
         addStyleName("login-dialog");
         LoginParameters params = (LoginParameters)(request.getWrappedSession().getAttribute(INIT_DATA_SESSION_ATTR));

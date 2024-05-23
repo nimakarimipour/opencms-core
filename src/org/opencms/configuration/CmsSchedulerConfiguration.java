@@ -40,6 +40,7 @@ import java.util.List;
 import org.apache.commons.digester3.Digester;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Scheduled jobs configuration class.<p>
@@ -98,7 +99,7 @@ public class CmsSchedulerConfiguration extends A_CmsXmlConfiguration {
     public static final String N_USERNAME = "user";
 
     /** The list of jobs for the scheduler. */
-    private List<CmsScheduledJobInfo> m_configuredJobs;
+    private @RUntainted List<CmsScheduledJobInfo> m_configuredJobs;
 
     /** The configured schedule manager. */
     private CmsScheduleManager m_scheduleManager;
@@ -220,7 +221,7 @@ public class CmsSchedulerConfiguration extends A_CmsXmlConfiguration {
     /**
      * @see org.opencms.configuration.I_CmsXmlConfiguration#getDtdFilename()
      */
-    public String getDtdFilename() {
+    public @RUntainted String getDtdFilename() {
 
         return CONFIGURATION_DTD_NAME;
     }

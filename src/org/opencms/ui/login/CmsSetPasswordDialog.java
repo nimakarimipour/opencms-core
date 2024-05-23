@@ -47,6 +47,7 @@ import java.util.Locale;
 import org.apache.commons.logging.Log;
 
 import com.vaadin.server.UserError;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog used to change the password.<p>
@@ -66,7 +67,7 @@ public class CmsSetPasswordDialog extends CmsChangePasswordDialog {
      * @param user the user
      * @param locale the locale
      */
-    public CmsSetPasswordDialog(final CmsObject cms, CmsUser user, Locale locale) {
+    public CmsSetPasswordDialog(final CmsObject cms, CmsUser user, @RUntainted Locale locale) {
 
         super(cms, user, locale);
         // hide the old password field, it's not required

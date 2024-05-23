@@ -28,6 +28,7 @@
 package org.opencms.workplace.comparison;
 
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Comparison of resource attributes.<p>
@@ -35,7 +36,7 @@ import org.opencms.util.CmsStringUtil;
 public class CmsAttributeComparison {
 
     /** The name of the property.<p> */
-    private String m_name;
+    private @RUntainted String m_name;
 
     /** The type of the attribute comparison.<p> */
     private String m_status;
@@ -61,7 +62,7 @@ public class CmsAttributeComparison {
      * @param version1 the first value of the property
      * @param version2 the second value of the property
      */
-    public CmsAttributeComparison(String name, String version1, String version2) {
+    public CmsAttributeComparison(@RUntainted String name, String version1, String version2) {
 
         m_name = name;
         m_version1 = version1;
@@ -92,7 +93,7 @@ public class CmsAttributeComparison {
      * @see CmsResourceComparison#TYPE_REMOVED
      * @see CmsResourceComparison#TYPE_UNCHANGED
      */
-    public CmsAttributeComparison(String name, String version1, String version2, String type) {
+    public CmsAttributeComparison(@RUntainted String name, String version1, String version2, String type) {
 
         m_name = name;
         m_version1 = version1;
@@ -105,7 +106,7 @@ public class CmsAttributeComparison {
      *
      * @return the locale
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_name;
     }
@@ -145,7 +146,7 @@ public class CmsAttributeComparison {
      *
      * @param name the name to set
      */
-    public void setName(String name) {
+    public void setName(@RUntainted String name) {
 
         m_name = name;
     }

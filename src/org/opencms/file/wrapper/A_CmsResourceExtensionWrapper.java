@@ -39,6 +39,7 @@ import org.opencms.main.CmsException;
 import org.opencms.main.CmsIllegalArgumentException;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract base class which implements {@link I_CmsResourceWrapper} and
@@ -52,7 +53,7 @@ public abstract class A_CmsResourceExtensionWrapper extends A_CmsResourceWrapper
      * @see org.opencms.file.wrapper.A_CmsResourceWrapper#copyResource(org.opencms.file.CmsObject, java.lang.String, java.lang.String, org.opencms.file.CmsResource.CmsResourceCopyMode)
      */
     @Override
-    public boolean copyResource(CmsObject cms, String source, String destination, CmsResourceCopyMode siblingMode)
+    public boolean copyResource(CmsObject cms, String source, @RUntainted String destination, CmsResourceCopyMode siblingMode)
     throws CmsException, CmsIllegalArgumentException {
 
         CmsResource res = getResource(cms, source);
@@ -74,9 +75,9 @@ public abstract class A_CmsResourceExtensionWrapper extends A_CmsResourceWrapper
     @Override
     public CmsResource createResource(
         CmsObject cms,
-        String resourcename,
+        @RUntainted String resourcename,
         int type,
-        byte[] content,
+        @RUntainted byte[] content,
         List<CmsProperty> properties) throws CmsException, CmsIllegalArgumentException {
 
         if (checkTypeId(type)) {
@@ -95,7 +96,7 @@ public abstract class A_CmsResourceExtensionWrapper extends A_CmsResourceWrapper
      * @see org.opencms.file.wrapper.A_CmsResourceWrapper#deleteResource(CmsObject, String, org.opencms.file.CmsResource.CmsResourceDeleteMode)
      */
     @Override
-    public boolean deleteResource(CmsObject cms, String resourcename, CmsResourceDeleteMode siblingMode)
+    public boolean deleteResource(CmsObject cms, @RUntainted String resourcename, CmsResourceDeleteMode siblingMode)
     throws CmsException {
 
         CmsResource res = getResource(cms, resourcename);
@@ -159,7 +160,7 @@ public abstract class A_CmsResourceExtensionWrapper extends A_CmsResourceWrapper
      * @see org.opencms.file.wrapper.A_CmsResourceWrapper#moveResource(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
     @Override
-    public boolean moveResource(CmsObject cms, String source, String destination)
+    public boolean moveResource(CmsObject cms, String source, @RUntainted String destination)
     throws CmsException, CmsIllegalArgumentException {
 
         CmsResource res = getResource(cms, source);
@@ -221,7 +222,7 @@ public abstract class A_CmsResourceExtensionWrapper extends A_CmsResourceWrapper
      * @see org.opencms.file.wrapper.A_CmsResourceWrapper#restoreLink(org.opencms.file.CmsObject, java.lang.String)
      */
     @Override
-    public String restoreLink(CmsObject cms, String uri) {
+    public @RUntainted String restoreLink(CmsObject cms, String uri) {
 
         CmsResource res = getResource(cms, uri);
         if (res != null) {
@@ -235,7 +236,7 @@ public abstract class A_CmsResourceExtensionWrapper extends A_CmsResourceWrapper
      * @see org.opencms.file.wrapper.A_CmsResourceWrapper#rewriteLink(CmsObject, CmsResource)
      */
     @Override
-    public String rewriteLink(CmsObject cms, CmsResource res) {
+    public @RUntainted String rewriteLink(CmsObject cms, CmsResource res) {
 
         if (checkTypeId(res.getTypeId())) {
             return CmsResourceWrapperUtils.addFileExtension(cms, res.getRootPath(), getExtension());
@@ -299,14 +300,14 @@ public abstract class A_CmsResourceExtensionWrapper extends A_CmsResourceWrapper
      * @param typeId the type id to check
      * @return true if the type id belongs to this wrapper otherwise false
      */
-    protected abstract boolean checkTypeId(int typeId);
+    protected abstract boolean checkTypeId(@RUntainted int typeId);
 
     /**
      * Returns the extension to add and/or remove to/from the resource.<p>
      *
      * @return the extension to use
      */
-    protected abstract String getExtension();
+    protected abstract @RUntainted String getExtension();
 
     /**
      * Trys to read the resourcename after removing the file extension and return the
@@ -332,7 +333,7 @@ public abstract class A_CmsResourceExtensionWrapper extends A_CmsResourceWrapper
      *
      * @return the resource or null if not found
      */
-    private CmsResource getResource(CmsObject cms, String resourcename, CmsResourceFilter filter) {
+    private @RUntainted CmsResource getResource(CmsObject cms, String resourcename, CmsResourceFilter filter) {
 
         CmsResource res = null;
 

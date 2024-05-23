@@ -43,6 +43,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A wrapper context menu action which first checks whether the resources for which the action is executed have any children
@@ -75,7 +76,7 @@ public class CmsBlockingLockCheck implements I_CmsContextMenuAction {
     public void executeAction(final I_CmsDialogContext context) {
 
         CmsObject cms = context.getCms();
-        List<CmsResource> resources = context.getResources();
+        List<@RUntainted CmsResource> resources = context.getResources();
         List<CmsResource> blocked = Lists.newArrayList();
         for (CmsResource resource : resources) {
             try {

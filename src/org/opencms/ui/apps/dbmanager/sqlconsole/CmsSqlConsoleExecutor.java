@@ -47,6 +47,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manages the SQL console.<p>
@@ -96,7 +97,7 @@ public final class CmsSqlConsoleExecutor {
                 LOG.info(message.key());
             }
 
-            List<String> sentences = normalize(sql);
+            List<@RUntainted String> sentences = normalize(sql);
             if (sentences.size() < 1) {
                 write(
                     report,
@@ -177,7 +178,7 @@ public final class CmsSqlConsoleExecutor {
      * @throws SQLException in the case of a error
      */
     @SuppressWarnings("resource")
-    private CmsSqlConsoleResults executeQuery(String sentence, String poolName) throws SQLException {
+    private @RUntainted CmsSqlConsoleResults executeQuery(String sentence, String poolName) throws SQLException {
 
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -235,7 +236,7 @@ public final class CmsSqlConsoleExecutor {
      *
      * @throws SQLException if there is an error
      */
-    private int executeUpdate(String sentence, String poolName) throws SQLException {
+    private @RUntainted int executeUpdate(String sentence, String poolName) throws SQLException {
 
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -260,7 +261,7 @@ public final class CmsSqlConsoleExecutor {
      *
      * @return a list of sql sentences
      */
-    private List<String> normalize(String sql) {
+    private List<@RUntainted String> normalize(String sql) {
 
         String normSql = sql.replaceAll(";", "; ");
         normSql = normSql.replaceAll("\\s+", " ");

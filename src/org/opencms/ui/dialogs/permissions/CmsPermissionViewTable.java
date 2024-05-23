@@ -57,6 +57,7 @@ import com.vaadin.ui.CssLayout;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Table for the ACE Entries.<p>
@@ -113,7 +114,7 @@ public class CmsPermissionViewTable extends Table {
         List<CmsAccessControlEntry> entries,
         boolean editable,
         boolean showRes,
-        Map<CmsUUID, String> parents,
+        Map<CmsUUID, @RUntainted String> parents,
         CmsPermissionDialog dialog) {
 
         m_editable = editable;
@@ -186,7 +187,7 @@ public class CmsPermissionViewTable extends Table {
         CmsObject cms,
         CmsAccessControlEntry entry,
         final CmsPermissionView view,
-        String resPath) {
+        @RUntainted String resPath) {
 
         VerticalLayout res = new VerticalLayout();
         res.setSpacing(false);

@@ -34,6 +34,7 @@ import java.io.Serializable;
 import java.net.URI;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A matcher object to compare request data against the configured sites.<p>
@@ -105,13 +106,13 @@ public final class CmsSiteMatcher implements Cloneable, Serializable {
     private transient Integer m_hashCode;
 
     /** The hostname (e.g. localhost) which is required to access this site. */
-    private String m_serverName;
+    private @RUntainted String m_serverName;
 
     /** The port (e.g. 80) which is required to access this site. */
-    private int m_serverPort;
+    private @RUntainted int m_serverPort;
 
     /** The protocol (e.g. "http", "https") which is required to access this site. */
-    private String m_serverProtocol;
+    private @RUntainted String m_serverProtocol;
 
     /** The time offset. */
     private long m_timeOffset;
@@ -127,7 +128,7 @@ public final class CmsSiteMatcher implements Cloneable, Serializable {
      *
      * @param serverString the String, e.g. http://localhost:8080
      */
-    public CmsSiteMatcher(String serverString) {
+    public CmsSiteMatcher(@RUntainted String serverString) {
 
         this(serverString, 0);
     }
@@ -141,7 +142,7 @@ public final class CmsSiteMatcher implements Cloneable, Serializable {
      * @param serverString the String, e.g. http://localhost:8080
      * @param timeOffset the time offset
      */
-    public CmsSiteMatcher(String serverString, long timeOffset) {
+    public CmsSiteMatcher(@RUntainted String serverString, long timeOffset) {
 
         if (serverString == null) {
             init(WILDCARD, WILDCARD, 0, timeOffset);
@@ -217,7 +218,7 @@ public final class CmsSiteMatcher implements Cloneable, Serializable {
      * @param serverName the server URL prefix to which this site is mapped
      * @param serverPort the port required to access this site
      */
-    public CmsSiteMatcher(String serverProtocol, String serverName, int serverPort) {
+    public CmsSiteMatcher(@RUntainted String serverProtocol, @RUntainted String serverName, @RUntainted int serverPort) {
 
         init(serverProtocol, serverName, serverPort, 0);
     }
@@ -230,7 +231,7 @@ public final class CmsSiteMatcher implements Cloneable, Serializable {
      * @param serverPort the port required to access this site
      * @param timeOffset the time offset
      */
-    public CmsSiteMatcher(String serverProtocol, String serverName, int serverPort, long timeOffset) {
+    public CmsSiteMatcher(@RUntainted String serverProtocol, @RUntainted String serverName, @RUntainted int serverPort, long timeOffset) {
 
         init(serverProtocol, serverName, serverPort, timeOffset);
     }
@@ -255,7 +256,7 @@ public final class CmsSiteMatcher implements Cloneable, Serializable {
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public boolean equals(Object obj) {
+    public @RUntainted boolean equals(Object obj) {
 
         if (obj == this) {
             return true;
@@ -279,7 +280,7 @@ public final class CmsSiteMatcher implements Cloneable, Serializable {
      * @param scheme the new scheme
      * @return the new site matcher
      */
-    public CmsSiteMatcher forDifferentScheme(String scheme) {
+    public @RUntainted CmsSiteMatcher forDifferentScheme(@RUntainted String scheme) {
 
         try {
             URI uri = new URI(getUrl());
@@ -308,7 +309,7 @@ public final class CmsSiteMatcher implements Cloneable, Serializable {
      *
      * @return the hostname (e.g. localhost) which is required to access this site
      */
-    public String getServerName() {
+    public @RUntainted String getServerName() {
 
         return m_serverName;
     }
@@ -318,7 +319,7 @@ public final class CmsSiteMatcher implements Cloneable, Serializable {
      *
      * @return the port (e.g. 80) which is required to access this site
      */
-    public int getServerPort() {
+    public @RUntainted int getServerPort() {
 
         return m_serverPort;
     }
@@ -338,7 +339,7 @@ public final class CmsSiteMatcher implements Cloneable, Serializable {
      *
      * @return the time Offset
      */
-    public long getTimeOffset() {
+    public @RUntainted long getTimeOffset() {
 
         return m_timeOffset;
     }
@@ -348,7 +349,7 @@ public final class CmsSiteMatcher implements Cloneable, Serializable {
      *
      * @return the url, i.e. {protocol}://{servername}[:{port}], port appened only if != 80
      */
-    public String getUrl() {
+    public @RUntainted String getUrl() {
 
         return m_serverProtocol
             + "://"
@@ -416,7 +417,7 @@ public final class CmsSiteMatcher implements Cloneable, Serializable {
      *
      * @param serverName the hostname (e.g. localhost) which is required to access this site
      */
-    protected void setServerName(String serverName) {
+    protected void setServerName(@RUntainted String serverName) {
 
         if (CmsStringUtil.isEmpty(serverName) || (WILDCARD.equals(serverName))) {
             m_serverName = WILDCARD;
@@ -432,7 +433,7 @@ public final class CmsSiteMatcher implements Cloneable, Serializable {
      *
      * @param serverPort the port (e.g. 80) which is required to access this site
      */
-    protected void setServerPort(int serverPort) {
+    protected void setServerPort(@RUntainted int serverPort) {
 
         m_serverPort = serverPort;
         if (m_serverPort < 0) {
@@ -447,7 +448,7 @@ public final class CmsSiteMatcher implements Cloneable, Serializable {
      *
      * @param serverProtocol the protocol (e.g. "http", "https") which is required to access this site
      */
-    protected void setServerProtocol(String serverProtocol) {
+    protected void setServerProtocol(@RUntainted String serverProtocol) {
 
         if (CmsStringUtil.isEmpty(serverProtocol) || (WILDCARD.equals(serverProtocol))) {
             m_serverProtocol = WILDCARD;
@@ -479,7 +480,7 @@ public final class CmsSiteMatcher implements Cloneable, Serializable {
      * @param serverPort the port required to access this site
      * @param timeOffset the time offset
      */
-    private void init(String serverProtocol, String serverName, int serverPort, long timeOffset) {
+    private void init(@RUntainted String serverProtocol, @RUntainted String serverName, @RUntainted int serverPort, long timeOffset) {
 
         setServerProtocol(serverProtocol);
         setServerName(serverName);

@@ -40,6 +40,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Performs attribute changes in a sitemap configuration file CmsXmlContent instance.
@@ -74,13 +75,13 @@ public class CmsSitemapAttributeUpdater {
      *
      * @return the map of updates (with null values indicating that the key should be removed)
      */
-    public static Map<String, String> computeUpdatesRelativeToInheritedValues(
-        Map<String, String> newAttributes,
+    public static Map<@RUntainted String, @RUntainted String> computeUpdatesRelativeToInheritedValues(
+        Map<@RUntainted String, @RUntainted String> newAttributes,
         CmsADEConfigData config) {
 
-        Map<String, String> updates = new HashMap<>();
+        Map<@RUntainted String, @RUntainted String> updates = new HashMap<>();
         CmsADEConfigData parentConfig = config.parent();
-        for (Map.Entry<String, String> entry : newAttributes.entrySet()) {
+        for (Map.Entry<@RUntainted String, @RUntainted String> entry : newAttributes.entrySet()) {
             String attrName = entry.getKey();
             String attrValue = entry.getValue();
             String updateValue = attrValue;
@@ -103,9 +104,9 @@ public class CmsSitemapAttributeUpdater {
      *
      * @return the map of sitemap attributes
      */
-    public Map<String, String> getAttributesFromContent() {
+    public Map<@RUntainted String, @RUntainted String> getAttributesFromContent() {
 
-        Map<String, String> allValues = new LinkedHashMap<>();
+        Map<@RUntainted String, @RUntainted String> allValues = new LinkedHashMap<>();
         List<I_CmsXmlContentValue> attributeValues = m_sitemapConfig.getValues(
             CmsConfigurationReader.N_ATTRIBUTE,
             Locale.ENGLISH);
@@ -135,13 +136,13 @@ public class CmsSitemapAttributeUpdater {
      *
      * @param allValues the new sitemap attributes that should replace the existing ones
      */
-    public void replaceAttributes(Map<String, String> allValues) {
+    public void replaceAttributes(Map<@RUntainted String, @RUntainted String> allValues) {
 
         while (m_sitemapConfig.hasValue(CmsConfigurationReader.N_ATTRIBUTE, Locale.ENGLISH)) {
             m_sitemapConfig.removeValue(CmsConfigurationReader.N_ATTRIBUTE, Locale.ENGLISH, 0);
         }
         CmsObject cms = m_cms;
-        for (Map.Entry<String, String> entry : allValues.entrySet()) {
+        for (Map.Entry<@RUntainted String, @RUntainted String> entry : allValues.entrySet()) {
             I_CmsXmlContentValue newAttrValue = m_sitemapConfig.addValue(
                 cms,
                 CmsConfigurationReader.N_ATTRIBUTE,
@@ -166,12 +167,12 @@ public class CmsSitemapAttributeUpdater {
      * @param attributes the attributes to save
      * @return true if any changes were made
      */
-    public boolean saveAttributesFromEditorDialog(Map<String, String> attributes) {
+    public boolean saveAttributesFromEditorDialog(Map<@RUntainted String, @RUntainted String> attributes) {
 
         CmsADEConfigData config = OpenCms.getADEManager().lookupConfigurationWithCache(
             m_cms,
             m_sitemapConfig.getFile().getRootPath());
-        Map<String, String> updates = computeUpdatesRelativeToInheritedValues(attributes, config);
+        Map<@RUntainted String, @RUntainted String> updates = computeUpdatesRelativeToInheritedValues(attributes, config);
         return updateAttributes(updates);
     }
 
@@ -184,11 +185,11 @@ public class CmsSitemapAttributeUpdater {
      * @param attributeUpdates a map of attributes
      * @return true if any attribute changes were necessary in the XML content
      */
-    public boolean updateAttributes(Map<String, String> attributeUpdates) {
+    public boolean updateAttributes(Map<@RUntainted String, @RUntainted String> attributeUpdates) {
 
-        Map<String, String> oldValues = getAttributesFromContent();
-        Map<String, String> newValues = new LinkedHashMap<>(oldValues);
-        for (Map.Entry<String, String> entry : attributeUpdates.entrySet()) {
+        Map<@RUntainted String, @RUntainted String> oldValues = getAttributesFromContent();
+        Map<@RUntainted String, @RUntainted String> newValues = new LinkedHashMap<>(oldValues);
+        for (Map.Entry<@RUntainted String, @RUntainted String> entry : attributeUpdates.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
             if (value != null) {

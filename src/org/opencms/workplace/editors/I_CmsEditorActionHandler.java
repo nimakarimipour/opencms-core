@@ -35,6 +35,7 @@ import org.opencms.workplace.editors.directedit.CmsDirectEditPermissions;
 import java.io.IOException;
 
 import javax.servlet.jsp.JspException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a method for performing an individual action if the user pressed a special button in the editor.<p>
@@ -197,7 +198,7 @@ public interface I_CmsEditorActionHandler {
      *
      * @return the key name of the button
      */
-    String getButtonName();
+    @RUntainted String getButtonName();
 
     /**
      * Returns the URL of the button displayed in the editor.<p>

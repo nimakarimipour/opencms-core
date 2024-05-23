@@ -59,6 +59,7 @@ import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.v7.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.v7.ui.Table;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Table used to display scheduled jobs, together with buttons for modifying the jobs.<p>
@@ -97,7 +98,7 @@ public class CmsJobTable extends Table {
         nextExecution("nextExecution", org.opencms.workplace.tools.scheduler.Messages.GUI_JOBS_LIST_COL_NEXTEXE_0);
 
         /**Message for the header.*/
-        private String m_header;
+        private @RUntainted String m_header;
 
         /**Name of column.*/
         private String m_name;
@@ -108,7 +109,7 @@ public class CmsJobTable extends Table {
          * @param propName name of property
          * @param header message
          */
-        private TableProperty(String propName, String header) {
+        private TableProperty(String propName, @RUntainted String header) {
 
             m_header = header;
             m_name = propName;
@@ -161,7 +162,7 @@ public class CmsJobTable extends Table {
          *
          * @return message
          */
-        String getMessageKey() {
+        @RUntainted String getMessageKey() {
 
             return m_header;
         }
@@ -190,10 +191,10 @@ public class CmsJobTable extends Table {
         run(org.opencms.workplace.tools.scheduler.Messages.GUI_JOBS_LIST_ACTION_EXECUTE_NAME_0, "");
 
         /** The message key. */
-        private String m_key;
+        private @RUntainted String m_key;
 
         /** The message key for activated case.*/
-        private String m_keyActivated;
+        private @RUntainted String m_keyActivated;
 
         /**
          * Creates a new action.<p>
@@ -201,7 +202,7 @@ public class CmsJobTable extends Table {
          * @param key the message key for the action
          * @param activatedKey an (optional) message key
          */
-        private Action(String key, String activatedKey) {
+        private Action(@RUntainted String key, @RUntainted String activatedKey) {
 
             m_key = key;
             m_keyActivated = activatedKey;
@@ -212,7 +213,7 @@ public class CmsJobTable extends Table {
          *
          * @return a message key
          */
-        String getActivatedMessageKey() {
+        @RUntainted String getActivatedMessageKey() {
 
             return CmsStringUtil.isEmptyOrWhitespaceOnly(m_keyActivated) ? m_key : m_keyActivated;
         }
@@ -222,7 +223,7 @@ public class CmsJobTable extends Table {
          *
          * @return the message key
          */
-        String getMessageKey() {
+        @RUntainted String getMessageKey() {
 
             return m_key;
         }
@@ -362,7 +363,7 @@ public class CmsJobTable extends Table {
         public void executeAction(Set<String> data) {
 
             String jobNames = "";
-            final List<String> jobIds = new ArrayList<String>();
+            final List<@RUntainted String> jobIds = new ArrayList<@RUntainted String>();
             List<CmsResourceInfo> jobInfos = new ArrayList<CmsResourceInfo>();
             for (CmsJobBean job : (Set<CmsJobBean>)getValue()) {
                 jobIds.add(job.getJob().getId());

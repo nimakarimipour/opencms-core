@@ -58,6 +58,7 @@ import dev.samstevens.totp.secret.SecretGenerator;
 import dev.samstevens.totp.time.SystemTimeProvider;
 import dev.samstevens.totp.time.TimeProvider;
 import dev.samstevens.totp.util.Utils;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements two-factor authentication for OpenCms users via TOTP.
@@ -104,7 +105,7 @@ public class CmsTwoFactorAuthenticationHandler {
     private CmsAESTextEncryption m_encryption;
 
     /** Shared secret generator (threadsafe). */
-    private final SecretGenerator m_secretGenerator = new DefaultSecretGenerator();
+    private final @RUntainted SecretGenerator m_secretGenerator = new DefaultSecretGenerator();
 
     /** The time provider used for TOTP. */
     private final TimeProvider m_timeProvider = new SystemTimeProvider();
@@ -162,7 +163,7 @@ public class CmsTwoFactorAuthenticationHandler {
      * @param locale the locale
      * @return the message
      */
-    public String getSetupMessage(Locale locale) {
+    public String getSetupMessage(@RUntainted Locale locale) {
 
         String rawMessage = m_config.getSetupMessage();
         CmsMacroResolver resolver = new CmsMacroResolver();

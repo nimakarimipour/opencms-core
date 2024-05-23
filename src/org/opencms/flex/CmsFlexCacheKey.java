@@ -45,6 +45,8 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Key used to describe the caching behaviour of a specific resource.<p>
@@ -201,7 +203,7 @@ public class CmsFlexCacheKey {
     private Set<Integer> m_ports;
 
     /** The OpenCms resource that this key is used for. */
-    private String m_resource;
+    private @RUntainted String m_resource;
 
     /** Cache key variable: Distinguishes request schemes (http, https etc.). */
     private Set<String> m_schemes;
@@ -213,7 +215,7 @@ public class CmsFlexCacheKey {
     private String m_site;
 
     /** Cache key variable: Timeout of the resource. */
-    private long m_timeout;
+    private @RUntainted long m_timeout;
 
     /** Cache key variable: The uri of the original request. */
     private String m_uri;
@@ -243,7 +245,7 @@ public class CmsFlexCacheKey {
      * @param cacheDirectives the cache directives of the resource (value of the property "cache")
      * @param online must be true for an online resource, false for offline resources
      */
-    public CmsFlexCacheKey(String resourcename, String cacheDirectives, boolean online) {
+    public CmsFlexCacheKey(@RUntainted String resourcename, @RUntainted String cacheDirectives, boolean online) {
 
         m_actualResource = resourcename;
         m_resource = getKeyName(resourcename, online);
@@ -266,7 +268,7 @@ public class CmsFlexCacheKey {
      *
      * @return the FlexCache key name
      */
-    public static String getKeyName(String resourcename, boolean online) {
+    public static @RPolyTainted String getKeyName(@RPolyTainted String resourcename, boolean online) {
 
         return resourcename.concat(online ? CmsFlexCache.CACHE_ONLINESUFFIX : CmsFlexCache.CACHE_OFFLINESUFFIX);
     }
@@ -381,7 +383,7 @@ public class CmsFlexCacheKey {
      * @param key the key to match this key with
      * @return null if not cachable, or the Variation String if cachable
      */
-    public String matchRequestKey(CmsFlexRequestKey key) {
+    public @RUntainted String matchRequestKey(CmsFlexRequestKey key) {
 
         StringBuffer str = new StringBuffer(100);
         if (m_always < 0) {
@@ -618,7 +620,7 @@ public class CmsFlexCacheKey {
      * @return a complete String representation for this key
      */
     @Override
-    public String toString() {
+    public @RUntainted String toString() {
 
         StringBuffer str = new StringBuffer(100);
 
@@ -819,7 +821,7 @@ public class CmsFlexCacheKey {
      *
      * @return the resource
      */
-    protected String getResource() {
+    protected @RUntainted String getResource() {
 
         return m_resource;
     }
@@ -829,7 +831,7 @@ public class CmsFlexCacheKey {
      *
      * @return the timeout
      */
-    protected long getTimeout() {
+    protected @RUntainted long getTimeout() {
 
         return m_timeout;
     }
@@ -840,10 +842,10 @@ public class CmsFlexCacheKey {
      *
      * @param key the String to parse (usually read from the file property "cache")
      */
-    private void parseFlexKey(String key) {
+    private void parseFlexKey(@RUntainted String key) {
 
-        List<String> tokens = CmsStringUtil.splitAsList(key, ';', false);
-        Iterator<String> i = tokens.iterator();
+        List<@RUntainted String> tokens = CmsStringUtil.splitAsList(key, ';', false);
+        Iterator<@RUntainted String> i = tokens.iterator();
         try {
             while (i.hasNext()) {
                 String t = i.next();
@@ -994,7 +996,7 @@ public class CmsFlexCacheKey {
      * @param value the String to parse
      * @return a Map that contains of the parsed values, only the keyset of the Map is needed later
      */
-    private Set<String> parseValueList(String value) {
+    private Set<String> parseValueList(@RUntainted String value) {
 
         if (value.charAt(0) == '(') {
             value = value.substring(1);
@@ -1009,7 +1011,7 @@ public class CmsFlexCacheKey {
         if (LOG.isDebugEnabled()) {
             LOG.debug(Messages.get().getBundle().key(Messages.LOG_FLEXCACHEKEY_PARSE_VALUES_1, value));
         }
-        List<String> tokens = CmsStringUtil.splitAsList(value, ',', true);
+        List<@RUntainted String> tokens = CmsStringUtil.splitAsList(value, ',', true);
         Set<String> result = new HashSet<String>();
         result.addAll(tokens);
         return result;

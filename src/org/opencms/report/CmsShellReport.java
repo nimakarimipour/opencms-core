@@ -32,6 +32,7 @@ import org.opencms.main.CmsShell;
 
 import java.io.PrintStream;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Report class used for the shell.<p>
@@ -50,7 +51,7 @@ public class CmsShellReport extends CmsPrintStreamReport {
      *
      * @param locale the locale to use for the output language
      */
-    public CmsShellReport(Locale locale) {
+    public CmsShellReport(@RUntainted Locale locale) {
 
         super(getOutputStream(), locale, false);
     }
@@ -162,7 +163,7 @@ public class CmsShellReport extends CmsPrintStreamReport {
      * @see org.opencms.report.A_CmsReport#printMessageWithParam(org.opencms.i18n.CmsMessageContainer, java.lang.Object)
      */
     @Override
-    public void printMessageWithParam(CmsMessageContainer container, Object param) {
+    public void printMessageWithParam(CmsMessageContainer container, @RUntainted Object param) {
 
         super.printMessageWithParam(container, param);
         m_stillRunning = true;
@@ -172,7 +173,7 @@ public class CmsShellReport extends CmsPrintStreamReport {
      * @see org.opencms.report.A_CmsReport#printMessageWithParam(int, int, org.opencms.i18n.CmsMessageContainer, java.lang.Object)
      */
     @Override
-    public void printMessageWithParam(int m, int n, CmsMessageContainer container, Object param) {
+    public void printMessageWithParam(@RUntainted int m, @RUntainted int n, CmsMessageContainer container, @RUntainted Object param) {
 
         super.printMessageWithParam(m, n, container, param);
         m_stillRunning = true;

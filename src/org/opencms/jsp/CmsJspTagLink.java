@@ -48,6 +48,8 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Implements the <code>&lt;cms:link&gt;[filename]&lt;/cms:link&gt;</code>
@@ -65,16 +67,16 @@ public class CmsJspTagLink extends BodyTagSupport {
     public static class Parameters {
 
         /** The target. */
-        public String m_target;
+        public @RUntainted String m_target;
 
         /** The base uri. */
-        public String m_baseUri;
+        public @RUntainted String m_baseUri;
 
         /** The detail page. */
         public String m_detailPage;
 
         /** The locale. */
-        public Locale m_locale;
+        public @RUntainted Locale m_locale;
 
         /** The type. */
         public Type m_type;
@@ -93,7 +95,7 @@ public class CmsJspTagLink extends BodyTagSupport {
          * @param locale the locale
          * @param type the type
          */
-        public Parameters(String target, String baseUri, String detailPage, Locale locale, Type type) {
+        public Parameters(@RUntainted String target, @RUntainted String baseUri, String detailPage, @RUntainted Locale locale, Type type) {
 
             m_target = target;
             m_baseUri = baseUri;
@@ -107,7 +109,7 @@ public class CmsJspTagLink extends BodyTagSupport {
          *
          * @return the base uri
          */
-        public String getBaseUri() {
+        public @RUntainted String getBaseUri() {
 
             return m_baseUri;
         }
@@ -127,7 +129,7 @@ public class CmsJspTagLink extends BodyTagSupport {
          *
          * @return the locale
          */
-        public Locale getLocale() {
+        public @RUntainted Locale getLocale() {
 
             return m_locale;
         }
@@ -137,7 +139,7 @@ public class CmsJspTagLink extends BodyTagSupport {
          *
          * @return the target
          */
-        public String getTarget() {
+        public @RUntainted String getTarget() {
 
             return m_target;
         }
@@ -157,7 +159,7 @@ public class CmsJspTagLink extends BodyTagSupport {
          *
          * @param baseUri the new base uri
          */
-        public void setBaseUri(String baseUri) {
+        public void setBaseUri(@RUntainted String baseUri) {
 
             m_baseUri = baseUri;
         }
@@ -177,7 +179,7 @@ public class CmsJspTagLink extends BodyTagSupport {
          *
          * @param locale the new locale
          */
-        public void setLocale(Locale locale) {
+        public void setLocale(@RUntainted Locale locale) {
 
             m_locale = locale;
         }
@@ -187,7 +189,7 @@ public class CmsJspTagLink extends BodyTagSupport {
          *
          * @param target the new target
          */
-        public void setTarget(String target) {
+        public void setTarget(@RUntainted String target) {
 
             m_target = target;
         }
@@ -239,13 +241,13 @@ public class CmsJspTagLink extends BodyTagSupport {
     private String m_scope;
 
     /** The optional base URI to create the link from. */
-    private String m_baseUri;
+    private @RUntainted String m_baseUri;
 
     /** The target detail page path. */
     private String m_detailPage;
 
     /** The optional locale attribute. */
-    private Locale m_locale;
+    private @RUntainted Locale m_locale;
 
     /** The link type. */
     private Type m_type;
@@ -259,7 +261,7 @@ public class CmsJspTagLink extends BodyTagSupport {
      * @param baseUri the base URI for which to read the locale
      * @return the locale
      */
-    public static Locale getBaseUriLocale(CmsObject cms, String baseUri) {
+    public static @RUntainted Locale getBaseUriLocale(CmsObject cms, String baseUri) {
 
         try {
             try {
@@ -304,7 +306,7 @@ public class CmsJspTagLink extends BodyTagSupport {
      *
      * @since 8.0.3
      */
-    public static String linkTagAction(Parameters params, ServletRequest req) {
+    public static @RUntainted String linkTagAction(Parameters params, ServletRequest req) {
 
         CmsFlexController controller = CmsFlexController.getController(req);
         // be sure the link is absolute
@@ -347,7 +349,7 @@ public class CmsJspTagLink extends BodyTagSupport {
      *
      * @see org.opencms.staticexport.CmsLinkManager#substituteLinkForUnknownTarget(org.opencms.file.CmsObject, String)
      */
-    public static String linkTagAction(String target, ServletRequest req) {
+    public static String linkTagAction(@RUntainted String target, ServletRequest req) {
 
         return linkTagAction(target, req, null);
     }
@@ -372,7 +374,7 @@ public class CmsJspTagLink extends BodyTagSupport {
      *
      * @since 8.0.3
      */
-    public static String linkTagAction(String target, ServletRequest req, String baseUri) {
+    public static @RUntainted String linkTagAction(@RUntainted String target, ServletRequest req, @RUntainted String baseUri) {
 
         return linkTagAction(target, req, baseUri, null);
     }
@@ -403,7 +405,7 @@ public class CmsJspTagLink extends BodyTagSupport {
      *
      * @since 8.0.3
      */
-    public static String linkTagAction(String target, ServletRequest req, String baseUri, Locale locale) {
+    public static @RUntainted String linkTagAction(@RUntainted String target, ServletRequest req, @RUntainted String baseUri, @RUntainted Locale locale) {
 
         return linkTagAction(target, req, baseUri, null, locale);
     }
@@ -435,12 +437,12 @@ public class CmsJspTagLink extends BodyTagSupport {
      *
      * @since 8.0.3
      */
-    public static String linkTagAction(
-        String target,
+    public static @RUntainted String linkTagAction(
+        @RUntainted String target,
         ServletRequest req,
-        String baseUri,
+        @RUntainted String baseUri,
         String detailPage,
-        Locale locale) {
+        @RUntainted Locale locale) {
 
         return linkTagAction(new Parameters(target, baseUri, detailPage, locale, Type.DEFAULT), req);
     }
@@ -532,7 +534,7 @@ public class CmsJspTagLink extends BodyTagSupport {
      *
      * @return  the base URI used to create the link target
      */
-    public String getBaseUri() {
+    public @RUntainted String getBaseUri() {
 
         return m_baseUri;
     }
@@ -561,7 +563,7 @@ public class CmsJspTagLink extends BodyTagSupport {
      *
      * @param baseUri the base URI used to create the link target
      */
-    public void setBaseUri(String baseUri) {
+    public void setBaseUri(@RUntainted String baseUri) {
 
         m_baseUri = baseUri;
     }
@@ -581,7 +583,7 @@ public class CmsJspTagLink extends BodyTagSupport {
      *
      * @param locale the locale to use for the link
      */
-    public void setLocale(Locale locale) {
+    public void setLocale(@RUntainted Locale locale) {
 
         m_locale = locale;
     }
@@ -591,7 +593,7 @@ public class CmsJspTagLink extends BodyTagSupport {
      *
      * @param localeName name of the locale, e.g. "en", "en_US", ...
      */
-    public void setLocale(String localeName) {
+    public void setLocale(@RUntainted String localeName) {
 
         m_locale = CmsLocaleManager.getLocale(localeName);
     }

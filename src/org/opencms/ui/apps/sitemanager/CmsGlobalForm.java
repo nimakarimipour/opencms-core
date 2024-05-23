@@ -57,6 +57,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  *Class for the Global configuration dialog.<p>
@@ -88,7 +89,7 @@ public class CmsGlobalForm extends CmsBasicDialog {
     private ComboBox m_fieldDefaultURI;
 
     /**Vaadin field.*/
-    private ComboBox m_fieldSharedFolder;
+    private @RUntainted ComboBox m_fieldSharedFolder;
 
     /**Site manager instance. */
     private CmsSiteManager m_manager;
@@ -196,9 +197,9 @@ public class CmsGlobalForm extends CmsBasicDialog {
      *
      * @return a string list
      */
-    Map<String, CmsSSLMode> getWebserverList() {
+    Map<@RUntainted String, CmsSSLMode> getWebserverList() {
 
-        Map<String, CmsSSLMode> ret = new LinkedHashMap<String, CmsSSLMode>();
+        Map<@RUntainted String, CmsSSLMode> ret = new LinkedHashMap<@RUntainted String, CmsSSLMode>();
         for (I_CmsEditableGroupRow row : m_workplaceServerGroup.getRows()) {
             CmsWorkplaceServerWidget widget = (CmsWorkplaceServerWidget)row.getComponent();
             ret.put(widget.getServer(), widget.getSSLMode());
@@ -234,7 +235,7 @@ public class CmsGlobalForm extends CmsBasicDialog {
      *
      * @param sites from sitemanager
      */
-    private void setServerLayout(final List<CmsSite> sites) {
+    private void setServerLayout(final @RUntainted List<CmsSite> sites) {
 
         m_workplaceServerGroup = new CmsEditableGroup(m_serverLayout, new Supplier<Component>() {
 
@@ -281,7 +282,7 @@ public class CmsGlobalForm extends CmsBasicDialog {
         m_fieldSharedFolder.setNullSelectionAllowed(false);
         m_fieldSharedFolder.setTextInputAllowed(false);
         try {
-            List<CmsResource> folderUnderRoot = m_cms.readResources("/", CmsResourceFilter.DEFAULT_FOLDERS, false);
+            List<@RUntainted CmsResource> folderUnderRoot = m_cms.readResources("/", CmsResourceFilter.DEFAULT_FOLDERS, false);
             for (CmsResource folder : folderUnderRoot) {
                 if (!m_forbiddenFolder.contains(folder.getRootPath())) {
                     m_fieldSharedFolder.addItem(folder.getRootPath().replace("/", ""));

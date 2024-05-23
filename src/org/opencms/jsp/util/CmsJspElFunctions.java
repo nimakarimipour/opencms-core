@@ -66,6 +66,8 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Provides utility methods to be used as functions from a JSP with the EL.<p>
@@ -116,7 +118,7 @@ public final class CmsJspElFunctions {
      *
      * @return an OpenCms user context created from an Object
      */
-    public static CmsObject convertCmsObject(Object input) {
+    public static @RPolyTainted CmsObject convertCmsObject(@RPolyTainted Object input) {
 
         CmsObject result;
         if (input instanceof CmsObject) {
@@ -173,7 +175,7 @@ public final class CmsJspElFunctions {
      *
      * @return a Date created from the given Object
      */
-    public static Date convertDate(Object input) {
+    public static @RPolyTainted Date convertDate(@RPolyTainted Object input) {
 
         Date result;
         if (input instanceof Date) {
@@ -276,7 +278,7 @@ public final class CmsJspElFunctions {
      *
      * @return a Locale created from the given Object
      */
-    public static Locale convertLocale(Object input) {
+    public static Locale convertLocale(@RUntainted Object input) {
 
         Locale locale;
         if (input instanceof Locale) {
@@ -306,7 +308,7 @@ public final class CmsJspElFunctions {
      *
      * @throws CmsException in case of errors accessing the OpenCms VFS for reading the resource
      */
-    public static CmsResource convertRawResource(CmsObject cms, Object input) throws CmsException {
+    public static @RUntainted CmsResource convertRawResource(CmsObject cms, @RUntainted Object input) throws CmsException {
 
         CmsResource result;
         CmsResourceFilter filter = CmsResourceFilter.ignoreExpirationOffline(cms);
@@ -343,7 +345,7 @@ public final class CmsJspElFunctions {
      *
      * @return a request object, or <code>null</code>
      */
-    public static ServletRequest convertRequest(Object input) {
+    public static @RPolyTainted ServletRequest convertRequest(@RPolyTainted Object input) {
 
         ServletRequest req = null;
         if (input instanceof ServletRequest) {
@@ -366,7 +368,7 @@ public final class CmsJspElFunctions {
      *
      * @throws CmsException in case of errors accessing the OpenCms VFS for reading the resource
      */
-    public static CmsJspResourceWrapper convertResource(CmsObject cms, Object input) throws CmsException {
+    public static CmsJspResourceWrapper convertResource(CmsObject cms, @RUntainted Object input) throws CmsException {
 
         CmsJspResourceWrapper result;
         if (input instanceof CmsResource) {
@@ -407,7 +409,7 @@ public final class CmsJspElFunctions {
      *
      * @return a CmsUUID created from the given Object
      */
-    public static CmsUUID convertUUID(Object input) {
+    public static CmsUUID convertUUID(@RUntainted Object input) {
 
         CmsUUID uuid;
         if (input instanceof CmsUUID) {
@@ -440,7 +442,7 @@ public final class CmsJspElFunctions {
      *
      * @return the current OpenCms user context from the given page context
      */
-    public static CmsObject getCmsObject(Object input) {
+    public static CmsObject getCmsObject(@RUntainted Object input) {
 
         return convertCmsObject(input);
     }
@@ -488,7 +490,7 @@ public final class CmsJspElFunctions {
      * @deprecated On a JSP use <code>${cms.requestContext.uri}</code> instead.
      */
     @Deprecated
-    public static String getNavigationUri(Object input) {
+    public static String getNavigationUri(@RUntainted Object input) {
 
         ServletRequest req = convertRequest(input);
         if (req == null) {
@@ -515,7 +517,7 @@ public final class CmsJspElFunctions {
      * @param paramName the request parameter name
      * @return the value of the parameter
      */
-    public static String getRequestParam(String url, String paramName) {
+    public static String getRequestParam(@RUntainted String url, String paramName) {
 
         Map<String, String[]> params = Collections.emptyMap();
         if (CmsStringUtil.isNotEmpty(url)) {
@@ -538,7 +540,7 @@ public final class CmsJspElFunctions {
      *
      * @return a JSP / EL VFS access bean
      */
-    public static CmsJspVfsAccessBean getVfsAccessBean(Object input) {
+    public static CmsJspVfsAccessBean getVfsAccessBean(@RUntainted Object input) {
 
         return CmsJspVfsAccessBean.create(CmsJspElFunctions.convertCmsObject(input));
     }
@@ -630,7 +632,7 @@ public final class CmsJspElFunctions {
      * @param map the map represented as a String
      * @return the element found in the map with the given key, or the empty String
      */
-    public static String lookup(String key, String map) {
+    public static String lookup(String key, @RUntainted String map) {
 
         return lookup(key, map, "");
     }
@@ -646,7 +648,7 @@ public final class CmsJspElFunctions {
      * @param defaultValue the default value
      * @return the element found in the map with the given key, or the default value
      */
-    public static String lookup(String key, String map, String defaultValue) {
+    public static String lookup(String key, @RUntainted String map, String defaultValue) {
 
         Map<String, String> values = CmsStringUtil.splitAsMap(map, "|", ":");
         String result = values.get(key);

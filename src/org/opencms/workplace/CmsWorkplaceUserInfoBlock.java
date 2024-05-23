@@ -29,6 +29,7 @@ package org.opencms.workplace;
 
 import java.util.ArrayList;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents an user additional information block.<p>
@@ -60,7 +61,7 @@ public final class CmsWorkplaceUserInfoBlock {
      * @param params the widget parameters
      * @param optional if optional
      */
-    public void addEntry(String key, String type, String widget, String params, String optional) {
+    public void addEntry(String key, String type, String widget, @RUntainted String params, String optional) {
 
         m_entries.add(new CmsWorkplaceUserInfoEntry(key, type, widget, params, optional));
     }

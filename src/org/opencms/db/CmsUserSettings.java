@@ -60,6 +60,7 @@ import java.util.TreeMap;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Object to conveniently access and modify the users workplace settings.<p>
@@ -100,7 +101,7 @@ public class CmsUserSettings {
          * @param style the workplace search result style string representation
          * @param key the localization key for this style
          */
-        private CmsSearchResultStyle(String style, String key) {
+        private CmsSearchResultStyle(@RUntainted String style, String key) {
 
             super(style);
             m_key = key;
@@ -276,16 +277,16 @@ public class CmsUserSettings {
     private static final String SEARCH_INDEX_DEFAULT = "Offline project (VFS)";
 
     /** Map used to store user-defined preferences. */
-    private Map<String, String> m_additionalPreferences = new LinkedHashMap<String, String>();
+    private Map<String, @RUntainted String> m_additionalPreferences = new LinkedHashMap<String, @RUntainted String>();
 
     /** The direct publish setting. */
-    private boolean m_dialogDirectpublish;
+    private @RUntainted boolean m_dialogDirectpublish;
 
     /** The expand inherited permissions setting. */
-    private boolean m_dialogExpandInheritedPermissions;
+    private @RUntainted boolean m_dialogExpandInheritedPermissions;
 
     /** The expand user permissions setting. */
-    private boolean m_dialogExpandUserPermissions;
+    private @RUntainted boolean m_dialogExpandUserPermissions;
 
     /** The resource copy mode setting. */
     private CmsResourceCopyMode m_dialogFileCopy;
@@ -297,34 +298,34 @@ public class CmsUserSettings {
     private CmsResourceCopyMode m_dialogFolderCopy;
 
     /** The inherit permission on folder setting. */
-    private boolean m_dialogPermissionsInheritOnFolder;
+    private @RUntainted boolean m_dialogPermissionsInheritOnFolder;
 
     /** The direct edit button setting. */
-    private int m_directeditButtonStyle;
+    private @RUntainted int m_directeditButtonStyle;
 
     /** The editor button style setting. */
-    private int m_editorButtonStyle;
+    private @RUntainted int m_editorButtonStyle;
 
     /** The editor settings. */
-    private SortedMap<String, String> m_editorSettings;
+    private SortedMap<String, @RUntainted String> m_editorSettings;
 
     /** The explorer button style. */
-    private int m_explorerButtonStyle;
+    private @RUntainted int m_explorerButtonStyle;
 
     /** The explorer file entries setting. */
-    private int m_explorerFileEntries;
+    private @RUntainted int m_explorerFileEntries;
 
     /** The list of numbers in the preferences dialog, how much entries shown on a page. */
     private String m_explorerFileEntryOptions;
 
     /** The explorer setting. */
-    private int m_explorerSettings;
+    private @RUntainted int m_explorerSettings;
 
     /** Flag to determine if all projects should be list. */
-    private boolean m_listAllProjects;
+    private @RUntainted boolean m_listAllProjects;
 
     /** The locale.*/
-    private Locale m_locale;
+    private @RUntainted Locale m_locale;
 
     /** Controls if the "create index page" check box in the new folder dialog should be initially be checked or not. */
     private Boolean m_newFolderCreateIndexPage;
@@ -333,13 +334,13 @@ public class CmsUserSettings {
     private Boolean m_newFolderEditProperties;
 
     /** The project. */
-    private String m_project;
+    private @RUntainted String m_project;
 
     /** Controls appearance of the publish button. */
     private String m_publishButtonAppearance;
 
     /** The restricted explorer view setting. */
-    private boolean m_restrictExplorerView;
+    private @RUntainted boolean m_restrictExplorerView;
 
     /** The show export setting. */
     private boolean m_showExportSettings;
@@ -348,46 +349,46 @@ public class CmsUserSettings {
     private boolean m_showFileUploadButton;
 
     /** The show lock setting. */
-    private boolean m_showLock;
+    private @RUntainted boolean m_showLock;
 
     /** Flag to determine if the publish notifications should be shown. */
-    private boolean m_showPublishNotification;
+    private @RUntainted boolean m_showPublishNotification;
 
     /** Controls if the resource type dialog for uploaded resources (not the applet) is shown or not. */
     private Boolean m_showUploadTypeDialog;
 
     /** The start folder. */
-    private String m_startFolder;
+    private @RUntainted String m_startFolder;
 
     /** Contains the key value entries with start setting for different gallery types. */
-    private SortedMap<String, String> m_startGalleriesSettings;
+    private SortedMap<String, @RUntainted String> m_startGalleriesSettings;
 
     /** The start site. */
-    private String m_startSite;
+    private @RUntainted String m_startSite;
 
     /** The synchronize settings. */
     private CmsSynchronizeSettings m_synchronizeSettings;
 
     /** The custom user surf time. */
-    private long m_timeWarp;
+    private @RUntainted long m_timeWarp;
 
     /** The path of the preselected folder for the upload applet on the client machine. */
-    private String m_uploadAppletClientFolder;
+    private @RUntainted String m_uploadAppletClientFolder;
 
     /** Stores the upload variant enum. */
-    private UploadVariant m_uploadVariant;
+    private @RUntainted UploadVariant m_uploadVariant;
 
     /** The user. */
     private CmsUser m_user;
 
     /** The view. */
-    private String m_view;
+    private @RUntainted String m_view;
 
     /** The workplace button style. */
-    private int m_workplaceButtonStyle;
+    private @RUntainted int m_workplaceButtonStyle;
 
     /** The workplace report type. */
-    private String m_workplaceReportType;
+    private @RUntainted String m_workplaceReportType;
 
     /** The name of the search index to use in the workplace. */
     private String m_workplaceSearchIndexName;
@@ -466,7 +467,7 @@ public class CmsUserSettings {
      * @param key the setting name
      * @param value the value
      */
-    public static void setAdditionalPreference(CmsObject cms, String key, String value) {
+    public static void setAdditionalPreference(CmsObject cms, String key, @RUntainted String value) {
 
         CmsUser user = cms.getRequestContext().getCurrentUser();
         CmsUserSettings settings = new CmsUserSettings(user);
@@ -486,7 +487,7 @@ public class CmsUserSettings {
      *
      * @return the preference value
      */
-    public String getAdditionalPreference(String name, boolean useDefault) {
+    public @RUntainted String getAdditionalPreference(String name, boolean useDefault) {
 
         String value = m_additionalPreferences.get(name);
         if ((value == null) && useDefault) {
@@ -533,7 +534,7 @@ public class CmsUserSettings {
      *
      * @return true if inherited permissions should be expanded, otherwise false
      */
-    public boolean getDialogExpandInheritedPermissions() {
+    public @RUntainted boolean getDialogExpandInheritedPermissions() {
 
         return m_dialogExpandInheritedPermissions;
     }
@@ -543,7 +544,7 @@ public class CmsUserSettings {
      *
      * @return true if the users permissions should be expanded, otherwise false
      */
-    public boolean getDialogExpandUserPermissions() {
+    public @RUntainted boolean getDialogExpandUserPermissions() {
 
         return m_dialogExpandUserPermissions;
     }
@@ -553,7 +554,7 @@ public class CmsUserSettings {
      *
      * @return true if permissions should be inherited on folders, otherwise false
      */
-    public boolean getDialogPermissionsInheritOnFolder() {
+    public @RUntainted boolean getDialogPermissionsInheritOnFolder() {
 
         return m_dialogPermissionsInheritOnFolder;
     }
@@ -563,7 +564,7 @@ public class CmsUserSettings {
      *
      * @return the default setting for direct publishing: true if siblings should be published, otherwise false
      */
-    public boolean getDialogPublishSiblings() {
+    public @RUntainted boolean getDialogPublishSiblings() {
 
         return m_dialogDirectpublish;
     }
@@ -583,7 +584,7 @@ public class CmsUserSettings {
      *
      * @return true if the lock dialog is shown, otherwise false
      */
-    public boolean getDialogShowLock() {
+    public @RUntainted boolean getDialogShowLock() {
 
         return m_showLock;
     }
@@ -593,7 +594,7 @@ public class CmsUserSettings {
      *
      * @return the style of the direct edit buttons of the user
      */
-    public int getDirectEditButtonStyle() {
+    public @RUntainted int getDirectEditButtonStyle() {
 
         return m_directeditButtonStyle;
     }
@@ -603,7 +604,7 @@ public class CmsUserSettings {
      *
      * @return the style of the editor buttons of the user
      */
-    public int getEditorButtonStyle() {
+    public @RUntainted int getEditorButtonStyle() {
 
         return m_editorButtonStyle;
     }
@@ -613,7 +614,7 @@ public class CmsUserSettings {
      *
      * @return the editor settings of the user
      */
-    public Map<String, String> getEditorSettings() {
+    public Map<String, @RUntainted String> getEditorSettings() {
 
         return m_editorSettings;
     }
@@ -623,7 +624,7 @@ public class CmsUserSettings {
      *
      * @return the style of the explorer buttons of the user
      */
-    public int getExplorerButtonStyle() {
+    public @RUntainted int getExplorerButtonStyle() {
 
         return m_explorerButtonStyle;
     }
@@ -633,7 +634,7 @@ public class CmsUserSettings {
      *
      * @return the number of displayed files per page of the user
      */
-    public int getExplorerFileEntries() {
+    public @RUntainted int getExplorerFileEntries() {
 
         return m_explorerFileEntries;
     }
@@ -653,7 +654,7 @@ public class CmsUserSettings {
      *
      * @return the explorer start settings
      */
-    public int getExplorerSettings() {
+    public @RUntainted int getExplorerSettings() {
 
         return m_explorerSettings;
     }
@@ -663,7 +664,7 @@ public class CmsUserSettings {
      *
      * @return true if all projects should be listed, otherwise false
      */
-    public boolean getListAllProjects() {
+    public @RUntainted boolean getListAllProjects() {
 
         return m_listAllProjects;
     }
@@ -673,7 +674,7 @@ public class CmsUserSettings {
      *
      * @return the locale of the user
      */
-    public Locale getLocale() {
+    public @RUntainted Locale getLocale() {
 
         return m_locale;
     }
@@ -732,7 +733,7 @@ public class CmsUserSettings {
      *
      * @return true if the explorer view is restricted, otherwise false
      */
-    public boolean getRestrictExplorerView() {
+    public @RUntainted boolean getRestrictExplorerView() {
 
         return m_restrictExplorerView;
     }
@@ -752,7 +753,7 @@ public class CmsUserSettings {
      *
      * @return true if the publish notifications should be shown, otherwise false
      */
-    public boolean getShowPublishNotification() {
+    public @RUntainted boolean getShowPublishNotification() {
 
         return m_showPublishNotification;
     }
@@ -774,7 +775,7 @@ public class CmsUserSettings {
      *
      * @return the start folder of the user
      */
-    public String getStartFolder() {
+    public @RUntainted String getStartFolder() {
 
         return m_startFolder;
     }
@@ -784,7 +785,7 @@ public class CmsUserSettings {
      *
      * @return the start galleries settings of the user
      */
-    public Map<String, String> getStartGalleriesSettings() {
+    public Map<String, @RUntainted String> getStartGalleriesSettings() {
 
         return m_startGalleriesSettings;
     }
@@ -795,7 +796,7 @@ public class CmsUserSettings {
      * @param galleryType the type of the gallery
      * @return the path to the start gallery or null, if no key
      */
-    public String getStartGallery(String galleryType) {
+    public @RUntainted String getStartGallery(String galleryType) {
 
         return m_startGalleriesSettings.get(galleryType);
 
@@ -808,7 +809,7 @@ public class CmsUserSettings {
      * @param cms Cms object
      * @return the root site path to the start gallery or the default key, null if "not set"
      */
-    public String getStartGallery(String galleryType, CmsObject cms) {
+    public @RUntainted String getStartGallery(String galleryType, CmsObject cms) {
 
         String startGallerySetting = getStartGallery(galleryType);
         String pathSetting = null;
@@ -833,7 +834,7 @@ public class CmsUserSettings {
      *
      * @return the start project of the user
      */
-    public String getStartProject() {
+    public @RUntainted String getStartProject() {
 
         return m_project;
     }
@@ -843,7 +844,7 @@ public class CmsUserSettings {
      *
      * @return the start site of the user
      */
-    public String getStartSite() {
+    public @RUntainted String getStartSite() {
 
         return m_startSite;
     }
@@ -853,7 +854,7 @@ public class CmsUserSettings {
      *
      * @return the current start view of the user
      */
-    public String getStartView() {
+    public @RUntainted String getStartView() {
 
         return m_view;
     }
@@ -876,7 +877,7 @@ public class CmsUserSettings {
      * @return the current users time warp time, or
      *      {@link org.opencms.main.CmsContextInfo#CURRENT_TIME} if this feature is disabled
      */
-    public long getTimeWarp() {
+    public @RUntainted long getTimeWarp() {
 
         return m_timeWarp;
     }
@@ -896,7 +897,7 @@ public class CmsUserSettings {
      *
      * @return the uploadVariant
      */
-    public UploadVariant getUploadVariant() {
+    public @RUntainted UploadVariant getUploadVariant() {
 
         return m_uploadVariant;
     }
@@ -916,7 +917,7 @@ public class CmsUserSettings {
      *
      * @return the style of the workplace buttons of the user
      */
-    public int getWorkplaceButtonStyle() {
+    public @RUntainted int getWorkplaceButtonStyle() {
 
         return m_workplaceButtonStyle;
     }
@@ -926,7 +927,7 @@ public class CmsUserSettings {
      *
      * @return the type of the report (simple or extended) of the user
      */
-    public String getWorkplaceReportType() {
+    public @RUntainted String getWorkplaceReportType() {
 
         return m_workplaceReportType;
     }
@@ -1255,7 +1256,7 @@ public class CmsUserSettings {
             boolean enabled = ((Boolean)m_user.getAdditionalInfo(
                 PREFERENCES + SYNC_SETTINGS + SYNC_ENABLED)).booleanValue();
             String destination = (String)m_user.getAdditionalInfo(PREFERENCES + SYNC_SETTINGS + SYNC_DESTINATION);
-            List<String> vfsList = CmsStringUtil.splitAsList(
+            List<@RUntainted String> vfsList = CmsStringUtil.splitAsList(
                 (String)m_user.getAdditionalInfo(PREFERENCES + SYNC_SETTINGS + SYNC_VFS_LIST),
                 '|');
             m_synchronizeSettings = new CmsSynchronizeSettings();
@@ -1269,7 +1270,7 @@ public class CmsUserSettings {
         // upload applet client folder path
         m_uploadAppletClientFolder = (String)m_user.getAdditionalInfo(ADDITIONAL_INFO_UPLOADAPPLET_CLIENTFOLDER);
 
-        for (Map.Entry<String, Object> entry : m_user.getAdditionalInfo().entrySet()) {
+        for (Map.Entry<String, @RUntainted Object> entry : m_user.getAdditionalInfo().entrySet()) {
             String key = entry.getKey();
             if (key.startsWith(CmsUserSettings.PREFERENCES_ADDITIONAL_PREFIX)) {
                 try {
@@ -1656,7 +1657,7 @@ public class CmsUserSettings {
         }
         // start settings for galleries
         if (m_startGalleriesSettings.size() > 0) {
-            Iterator<Map.Entry<String, String>> itEntries = m_startGalleriesSettings.entrySet().iterator();
+            Iterator<Map.Entry<String, @RUntainted String>> itEntries = m_startGalleriesSettings.entrySet().iterator();
             while (itEntries.hasNext()) {
                 Map.Entry<String, String> entry = itEntries.next();
                 if ((entry.getValue() != null) && !entry.getValue().equals(CmsWorkplace.INPUT_DEFAULT)) {
@@ -1725,7 +1726,7 @@ public class CmsUserSettings {
         for (String key : additionalInfosToDelete) {
             m_user.deleteAdditionalInfo(key);
         }
-        for (Map.Entry<String, String> entry : m_additionalPreferences.entrySet()) {
+        for (Map.Entry<String, @RUntainted String> entry : m_additionalPreferences.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
             m_user.setAdditionalInfo(PREFERENCES_ADDITIONAL_PREFIX + key, value);
@@ -1743,7 +1744,7 @@ public class CmsUserSettings {
      * @param name the additional preference name
      * @param value the preference value
      */
-    public void setAdditionalPreference(String name, String value) {
+    public void setAdditionalPreference(String name, @RUntainted String value) {
 
         if (value == null) {
             m_additionalPreferences.remove(name);
@@ -1797,7 +1798,7 @@ public class CmsUserSettings {
      *
      * @param dialogShowInheritedPermissions the default setting for expanding inherited permissions in the dialog
      */
-    public void setDialogExpandInheritedPermissions(boolean dialogShowInheritedPermissions) {
+    public void setDialogExpandInheritedPermissions(@RUntainted boolean dialogShowInheritedPermissions) {
 
         m_dialogExpandInheritedPermissions = dialogShowInheritedPermissions;
     }
@@ -1807,7 +1808,7 @@ public class CmsUserSettings {
      *
      * @param dialogShowUserPermissions the default setting for expanding the users permissions in the dialog
      */
-    public void setDialogExpandUserPermissions(boolean dialogShowUserPermissions) {
+    public void setDialogExpandUserPermissions(@RUntainted boolean dialogShowUserPermissions) {
 
         m_dialogExpandUserPermissions = dialogShowUserPermissions;
     }
@@ -1817,7 +1818,7 @@ public class CmsUserSettings {
      *
      * @param dialogPermissionsInheritOnFolder the default setting for inheriting permissions on folders
      */
-    public void setDialogPermissionsInheritOnFolder(boolean dialogPermissionsInheritOnFolder) {
+    public void setDialogPermissionsInheritOnFolder(@RUntainted boolean dialogPermissionsInheritOnFolder) {
 
         m_dialogPermissionsInheritOnFolder = dialogPermissionsInheritOnFolder;
     }
@@ -1827,7 +1828,7 @@ public class CmsUserSettings {
      *
      * @param publishSiblings the default setting for direct publishing: true if siblings should be published, otherwise false
      */
-    public void setDialogPublishSiblings(boolean publishSiblings) {
+    public void setDialogPublishSiblings(@RUntainted boolean publishSiblings) {
 
         m_dialogDirectpublish = publishSiblings;
     }
@@ -1847,7 +1848,7 @@ public class CmsUserSettings {
      *
      * @param show true if the lock dialog should be shown, otherwise false
      */
-    public void setDialogShowLock(boolean show) {
+    public void setDialogShowLock(@RUntainted boolean show) {
 
         m_showLock = show;
     }
@@ -1857,7 +1858,7 @@ public class CmsUserSettings {
      *
      * @param style the style of the direct edit buttons of the user
      */
-    public void setDirectEditButtonStyle(int style) {
+    public void setDirectEditButtonStyle(@RUntainted int style) {
 
         m_directeditButtonStyle = style;
     }
@@ -1867,7 +1868,7 @@ public class CmsUserSettings {
      *
      * @param style the style of the editor buttons of the user
      */
-    public void setEditorButtonStyle(int style) {
+    public void setEditorButtonStyle(@RUntainted int style) {
 
         m_editorButtonStyle = style;
     }
@@ -1887,7 +1888,7 @@ public class CmsUserSettings {
      *
      * @param style the style of the explorer buttons of the user
      */
-    public void setExplorerButtonStyle(int style) {
+    public void setExplorerButtonStyle(@RUntainted int style) {
 
         m_explorerButtonStyle = style;
     }
@@ -1897,7 +1898,7 @@ public class CmsUserSettings {
      *
      * @param entries the number of displayed files per page of the user
      */
-    public void setExplorerFileEntries(int entries) {
+    public void setExplorerFileEntries(@RUntainted int entries) {
 
         m_explorerFileEntries = entries;
     }
@@ -1917,7 +1918,7 @@ public class CmsUserSettings {
      *
      * @param settings explorer start settings to use
      */
-    public void setExplorerSettings(int settings) {
+    public void setExplorerSettings(@RUntainted int settings) {
 
         m_explorerSettings = settings;
     }
@@ -1927,7 +1928,7 @@ public class CmsUserSettings {
      *
      * @param listAllProjects true if all the projects should be shown, otherwise false
      */
-    public void setListAllProjects(boolean listAllProjects) {
+    public void setListAllProjects(@RUntainted boolean listAllProjects) {
 
         m_listAllProjects = listAllProjects;
     }
@@ -1937,7 +1938,7 @@ public class CmsUserSettings {
      *
      * @param locale the locale of the user
      */
-    public void setLocale(Locale locale) {
+    public void setLocale(@RUntainted Locale locale) {
 
         m_locale = locale;
     }
@@ -1972,7 +1973,7 @@ public class CmsUserSettings {
      * @param resourceType the resource type
      * @param editorUri the editor URI
      */
-    public void setPreferredEditor(String resourceType, String editorUri) {
+    public void setPreferredEditor(String resourceType, @RUntainted String editorUri) {
 
         if (editorUri == null) {
             m_editorSettings.remove(resourceType);
@@ -2009,7 +2010,7 @@ public class CmsUserSettings {
      *
      * @param restrict true if the explorer view is restricted, otherwise false
      */
-    public void setRestrictExplorerView(boolean restrict) {
+    public void setRestrictExplorerView(@RUntainted boolean restrict) {
 
         m_restrictExplorerView = restrict;
     }
@@ -2159,7 +2160,7 @@ public class CmsUserSettings {
      *
      * @param showPublishNotification true if the publish notifications should be shown, otherwise false
      */
-    public void setShowPublishNotification(boolean showPublishNotification) {
+    public void setShowPublishNotification(@RUntainted boolean showPublishNotification) {
 
         m_showPublishNotification = showPublishNotification;
     }
@@ -2181,7 +2182,7 @@ public class CmsUserSettings {
      *
      * @param folder the start folder of the user
      */
-    public void setStartFolder(String folder) {
+    public void setStartFolder(@RUntainted String folder) {
 
         if (!folder.startsWith("/")) {
             folder = "/" + folder;
@@ -2208,7 +2209,7 @@ public class CmsUserSettings {
      * @param galleryType the type of the gallery
      * @param galleryUri the gallery URI
      */
-    public void setStartGallery(String galleryType, String galleryUri) {
+    public void setStartGallery(String galleryType, @RUntainted String galleryUri) {
 
         if (galleryUri == null) {
             m_startGalleriesSettings.remove(galleryType);
@@ -2222,7 +2223,7 @@ public class CmsUserSettings {
      *
      * @param project the start project name of the user
      */
-    public void setStartProject(String project) {
+    public void setStartProject(@RUntainted String project) {
 
         m_project = project;
     }
@@ -2232,7 +2233,7 @@ public class CmsUserSettings {
      *
      * @param site the start site of the user
      */
-    public void setStartSite(String site) {
+    public void setStartSite(@RUntainted String site) {
 
         m_startSite = site;
     }
@@ -2242,7 +2243,7 @@ public class CmsUserSettings {
      *
      * @param view the current start view of the user
      */
-    public void setStartView(String view) {
+    public void setStartView(@RUntainted String view) {
 
         m_view = view;
     }
@@ -2269,7 +2270,7 @@ public class CmsUserSettings {
      *
      * @param timewarp the time warp time to set
      */
-    public void setTimeWarp(long timewarp) {
+    public void setTimeWarp(@RUntainted long timewarp) {
 
         if (timewarp < 0) {
             timewarp = CmsContextInfo.CURRENT_TIME; // other negative values will break the workplace
@@ -2282,7 +2283,7 @@ public class CmsUserSettings {
      *
      * @param uploadAppletClientFolder the folder path  of the upload applet on the client machine
      */
-    public void setUploadAppletClientFolder(String uploadAppletClientFolder) {
+    public void setUploadAppletClientFolder(@RUntainted String uploadAppletClientFolder) {
 
         m_uploadAppletClientFolder = uploadAppletClientFolder;
     }
@@ -2314,7 +2315,7 @@ public class CmsUserSettings {
      *
      * @param uploadVariant the upload variant
      */
-    public void setUploadVariant(UploadVariant uploadVariant) {
+    public void setUploadVariant(@RUntainted UploadVariant uploadVariant) {
 
         m_uploadVariant = uploadVariant;
     }
@@ -2334,7 +2335,7 @@ public class CmsUserSettings {
      *
      * @param style the style of the workplace buttons of the user
      */
-    public void setWorkplaceButtonStyle(int style) {
+    public void setWorkplaceButtonStyle(@RUntainted int style) {
 
         m_workplaceButtonStyle = style;
     }
@@ -2344,7 +2345,7 @@ public class CmsUserSettings {
      *
      * @param type the type of the report (simple or extended) of the user
      */
-    public void setWorkplaceReportType(String type) {
+    public void setWorkplaceReportType(@RUntainted String type) {
 
         m_workplaceReportType = type;
     }
@@ -2505,7 +2506,7 @@ public class CmsUserSettings {
      * @param set true if the setting should be set, otherwise false
      * @param setting the settings constant value for the explorer settings
      */
-    private void setExplorerSetting(boolean set, int setting) {
+    private void setExplorerSetting(boolean set, @RUntainted int setting) {
 
         if (set) {
             m_explorerSettings |= setting;

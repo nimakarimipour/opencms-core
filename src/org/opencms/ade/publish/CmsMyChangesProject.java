@@ -43,6 +43,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Virtual project for the "My changes" mode in the publish dialog.<p>
@@ -89,7 +90,7 @@ public class CmsMyChangesProject implements I_CmsVirtualProject {
     /**
      * @see org.opencms.ade.publish.I_CmsVirtualProject#getResources(org.opencms.file.CmsObject, java.util.Map, java.lang.String)
      */
-    public List<CmsResource> getResources(CmsObject cms, Map<String, String> params, String workflowId) {
+    public @RUntainted List<CmsResource> getResources(CmsObject cms, Map<String, String> params, String workflowId) {
 
         try {
             return Lists.newArrayList(OpenCms.getPublishManager().getUsersPubList(cms));

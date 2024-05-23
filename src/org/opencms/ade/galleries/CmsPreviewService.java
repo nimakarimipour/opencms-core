@@ -87,6 +87,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles all RPC services related to the gallery preview dialog.<p>
@@ -116,11 +117,11 @@ public class CmsPreviewService extends CmsGwtService implements I_CmsPreviewServ
      * @return the rendered HTML preview content
      */
     public static String getPreviewContent(
-        HttpServletRequest request,
-        HttpServletResponse response,
-        CmsObject cms,
-        CmsResource resource,
-        Locale locale) {
+        @RUntainted HttpServletRequest request,
+        @RUntainted HttpServletResponse response,
+        @RUntainted CmsObject cms,
+        @RUntainted CmsResource resource,
+        @RUntainted Locale locale) {
 
         try {
             if (CmsResourceTypeXmlContent.isXmlContent(resource)) {
@@ -137,8 +138,8 @@ public class CmsPreviewService extends CmsGwtService implements I_CmsPreviewServ
                     request.setAttribute(CmsJspStandardContextBean.ATTRIBUTE_CMS_OBJECT, tempCms);
                     CmsJspStandardContextBean standardContext = CmsJspStandardContextBean.getInstance(request);
 
-                    Map<String, String> settings = new HashMap<>();
-                    for (Map.Entry<String, CmsXmlContentProperty> entry : formatter.getSettings(adeConfig).entrySet()) {
+                    Map<@RUntainted String, @RUntainted String> settings = new HashMap<>();
+                    for (Map.Entry<@RUntainted String, CmsXmlContentProperty> entry : formatter.getSettings(adeConfig).entrySet()) {
                         CmsXmlContentProperty settingConfig = entry.getValue();
                         String defaultValue = settingConfig.getDefault();
                         if (defaultValue != null) {
@@ -214,7 +215,7 @@ public class CmsPreviewService extends CmsGwtService implements I_CmsPreviewServ
     /**
      * @see org.opencms.ade.galleries.shared.rpc.I_CmsPreviewService#getImageInfo(java.lang.String, java.lang.String)
      */
-    public CmsImageInfoBean getImageInfo(String resourcePath, String locale) throws CmsRpcException {
+    public CmsImageInfoBean getImageInfo(String resourcePath, @RUntainted String locale) throws CmsRpcException {
 
         CmsObject cms = getCmsObject();
         CmsImageInfoBean resInfo = new CmsImageInfoBean();
@@ -257,7 +258,7 @@ public class CmsPreviewService extends CmsGwtService implements I_CmsPreviewServ
     /**
      * @see org.opencms.ade.galleries.shared.rpc.I_CmsPreviewService#getResourceInfo(java.lang.String, java.lang.String)
      */
-    public CmsResourceInfoBean getResourceInfo(String resourcePath, String locale) throws CmsRpcException {
+    public CmsResourceInfoBean getResourceInfo(String resourcePath, @RUntainted String locale) throws CmsRpcException {
 
         CmsObject cms = getCmsObject();
         CmsResourceInfoBean resInfo = new CmsResourceInfoBean();
@@ -285,7 +286,7 @@ public class CmsPreviewService extends CmsGwtService implements I_CmsPreviewServ
      *
      * @throws CmsException if something goes wrong
      */
-    public void readResourceInfo(CmsObject cms, CmsResource resource, CmsResourceInfoBean resInfo, String locale)
+    public void readResourceInfo(@RUntainted CmsObject cms, CmsResource resource, CmsResourceInfoBean resInfo, @RUntainted String locale)
     throws CmsException {
 
         I_CmsResourceType type = OpenCms.getResourceManager().getResourceType(resource.getTypeId());
@@ -307,10 +308,10 @@ public class CmsPreviewService extends CmsGwtService implements I_CmsPreviewServ
         resInfo.setNoEditReason(new CmsResourceUtil(cms, resource).getNoEditReason(wpLocale, true));
         // reading default explorer-type properties
         CmsExplorerTypeSettings setting = OpenCms.getWorkplaceManager().getExplorerTypeSetting(type.getTypeName());
-        List<String> properties;
+        List<@RUntainted String> properties;
         String rootPathForConfig = cms.getRequestContext().getRootUri();
         CmsADEConfigData config = OpenCms.getADEManager().lookupConfiguration(cms, rootPathForConfig);
-        Map<String, CmsXmlContentProperty> propConfig = config.getPropertyConfigurationAsMap();
+        Map<@RUntainted String, CmsXmlContentProperty> propConfig = config.getPropertyConfigurationAsMap();
         CmsMacroResolver resolver = new CmsMacroResolver();
         resolver.setCmsObject(cms);
         resolver.setMessages(OpenCms.getWorkplaceManager().getMessages(wpLocale));
@@ -340,7 +341,7 @@ public class CmsPreviewService extends CmsGwtService implements I_CmsPreviewServ
             }
         }
         Map<String, String> props = new LinkedHashMap<String, String>();
-        Iterator<String> propIt = properties.iterator();
+        Iterator<@RUntainted String> propIt = properties.iterator();
         while (propIt.hasNext()) {
             String propertyName = propIt.next();
             CmsProperty property = cms.readPropertyObject(resource, propertyName, false);
@@ -358,7 +359,7 @@ public class CmsPreviewService extends CmsGwtService implements I_CmsPreviewServ
     /**
      * @see org.opencms.ade.galleries.shared.rpc.I_CmsPreviewService#updateImageProperties(java.lang.String, java.lang.String, java.util.Map)
      */
-    public CmsImageInfoBean updateImageProperties(String resourcePath, String locale, Map<String, String> properties)
+    public CmsImageInfoBean updateImageProperties(String resourcePath, @RUntainted String locale, Map<@RUntainted String, @RUntainted String> properties)
     throws CmsRpcException {
 
         try {
@@ -374,8 +375,8 @@ public class CmsPreviewService extends CmsGwtService implements I_CmsPreviewServ
      */
     public CmsResourceInfoBean updateResourceProperties(
         String resourcePath,
-        String locale,
-        Map<String, String> properties)
+        @RUntainted String locale,
+        Map<@RUntainted String, @RUntainted String> properties)
     throws CmsRpcException {
 
         try {
@@ -395,7 +396,7 @@ public class CmsPreviewService extends CmsGwtService implements I_CmsPreviewServ
      *
      * @return the rendered HTML preview content
      */
-    private String getPreviewContent(CmsObject cms, CmsResource resource, Locale locale) {
+    private String getPreviewContent(@RUntainted CmsObject cms, CmsResource resource, @RUntainted Locale locale) {
 
         return getPreviewContent(getRequest(), getResponse(), cms, resource, locale);
     }
@@ -435,7 +436,7 @@ public class CmsPreviewService extends CmsGwtService implements I_CmsPreviewServ
      *
      * @throws CmsException if something goes wrong
      */
-    private void saveProperties(String resourcePath, Map<String, String> properties) throws CmsException {
+    private void saveProperties(@RUntainted String resourcePath, Map<@RUntainted String, @RUntainted String> properties) throws CmsException {
 
         CmsResource resource;
         CmsObject cms = getCmsObject();
@@ -447,7 +448,7 @@ public class CmsPreviewService extends CmsGwtService implements I_CmsPreviewServ
         resource = cms.readResource(resName);
 
         if (properties != null) {
-            for (Entry<String, String> entry : properties.entrySet()) {
+            for (Entry<@RUntainted String, @RUntainted String> entry : properties.entrySet()) {
                 String propertyName = entry.getKey();
                 String propertyValue = entry.getValue();
                 if (CmsStringUtil.isEmptyOrWhitespaceOnly(propertyValue)) {

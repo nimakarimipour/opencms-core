@@ -30,6 +30,7 @@ package org.opencms.jsp.util;
 import org.opencms.file.CmsObject;
 
 import org.apache.commons.collections.Transformer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a Map which provides access to function wrapped objects.<p>
@@ -51,7 +52,7 @@ public class CmsObjectFunctionTransformer implements Transformer {
     /**
      * @see org.apache.commons.collections.Transformer#transform(java.lang.Object)
      */
-    public Object transform(Object input) {
+    public Object transform(@RUntainted Object input) {
 
         return CmsJspObjectValueWrapper.createWrapper(m_cms, input);
     }

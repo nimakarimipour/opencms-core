@@ -78,6 +78,7 @@ import com.vaadin.ui.Window;
 import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.ComboBox.ItemStyleGenerator;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The copy move dialog.<p>
@@ -599,7 +600,7 @@ public class CmsCopyMoveDialog extends CmsBasicDialog {
      *
      * @throws CmsException in case the checking the resources fails
      */
-    private List<CmsResource> getExistingFileCollisions(CmsResource targetFolder, String targetName)
+    private @RUntainted List<CmsResource> getExistingFileCollisions(CmsResource targetFolder, String targetName)
     throws CmsException {
 
         List<CmsResource> collidingResources = new ArrayList<CmsResource>();
@@ -841,7 +842,7 @@ public class CmsCopyMoveDialog extends CmsBasicDialog {
      *
      * @param collidingResources the colliding resources
      */
-    private void showConfirmOverwrite(List<CmsResource> collidingResources) {
+    private void showConfirmOverwrite(@RUntainted List<CmsResource> collidingResources) {
 
         final Window window = CmsBasicDialog.prepareWindow();
         window.setCaption(CmsVaadinUtils.getMessageText(Messages.GUI_COPY_MOVE_CONFIRM_OVERWRITE_TITLE_0));
@@ -873,7 +874,7 @@ public class CmsCopyMoveDialog extends CmsBasicDialog {
      *
      * @param resource to be copied.
      */
-    private void showMacroResolverDialog(CmsResource resource) {
+    private void showMacroResolverDialog(@RUntainted CmsResource resource) {
 
         final Window window = CmsBasicDialog.prepareWindow(DialogWidth.wide);
         window.setCaption(CmsVaadinUtils.getMessageText(Messages.GUI_COPY_MOVE_SET_MACRO_VALUES_TITLE_0));

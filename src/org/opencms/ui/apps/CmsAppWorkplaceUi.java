@@ -73,6 +73,7 @@ import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The workplace ui.<p>
@@ -129,7 +130,7 @@ implements ViewDisplay, ViewProvider, ViewChangeListener, I_CmsWindowCloseListen
     private CmsExpiringValue<Locale> m_localeCache = new CmsExpiringValue<Locale>(1000);
 
     /** The navigation state manager. */
-    private NavigationStateManager m_navigationStateManager;
+    private @RUntainted NavigationStateManager m_navigationStateManager;
 
     /** Currently refreshing? */
     private boolean m_refreshing;
@@ -332,7 +333,7 @@ implements ViewDisplay, ViewProvider, ViewChangeListener, I_CmsWindowCloseListen
      *
      * @return the state parameter of the current app
      */
-    public String getAppState() {
+    public @RUntainted String getAppState() {
 
         NavigationState state = new NavigationState(m_navigationStateManager.getState());
         return state.getParams();
@@ -394,7 +395,7 @@ implements ViewDisplay, ViewProvider, ViewChangeListener, I_CmsWindowCloseListen
     /**
      * @see com.vaadin.navigator.ViewProvider#getViewName(java.lang.String)
      */
-    public String getViewName(String viewAndParameters) {
+    public String getViewName(@RUntainted String viewAndParameters) {
 
         NavigationState state = new NavigationState(viewAndParameters);
         return state.getViewName();
@@ -529,7 +530,7 @@ implements ViewDisplay, ViewProvider, ViewChangeListener, I_CmsWindowCloseListen
     * @see com.vaadin.ui.UI#init(com.vaadin.server.VaadinRequest)
     */
     @Override
-    protected void init(VaadinRequest req) {
+    protected void init(@RUntainted VaadinRequest req) {
 
         super.init(req);
         if (!OpenCms.getRoleManager().hasRole(getCmsObject(), CmsRole.ELEMENT_AUTHOR)) {

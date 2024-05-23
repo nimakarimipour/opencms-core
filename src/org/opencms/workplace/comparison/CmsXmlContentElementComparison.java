@@ -28,6 +28,7 @@
 package org.opencms.workplace.comparison;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Comparison of two xml content elements.<p>
@@ -44,7 +45,7 @@ public class CmsXmlContentElementComparison extends CmsElementComparison {
      * @param type the type of the compared element
      * @param name the name of the compared element
      */
-    public CmsXmlContentElementComparison(Locale locale, String name, String type) {
+    public CmsXmlContentElementComparison(Locale locale, @RUntainted String name, String type) {
 
         super(locale, name);
         m_type = type;

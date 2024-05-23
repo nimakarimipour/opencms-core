@@ -40,6 +40,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes the XML content type "OpenCmsVfsImage".<p>
@@ -93,7 +94,7 @@ public class CmsXmlVfsImageValue extends CmsXmlVfsFileValue {
      * @param locale the locale this value is created for
      * @param type the type instance to create the value for
      */
-    public CmsXmlVfsImageValue(I_CmsXmlDocument document, Element element, Locale locale, I_CmsXmlSchemaType type) {
+    public CmsXmlVfsImageValue(I_CmsXmlDocument document, @RUntainted Element element, @RUntainted Locale locale, I_CmsXmlSchemaType type) {
 
         super(document, element, locale, type);
     }
@@ -105,7 +106,7 @@ public class CmsXmlVfsImageValue extends CmsXmlVfsFileValue {
      * @param minOccurs minimum number of occurrences of this type according to the XML schema
      * @param maxOccurs maximum number of occurrences of this type according to the XML schema
      */
-    public CmsXmlVfsImageValue(String name, String minOccurs, String maxOccurs) {
+    public CmsXmlVfsImageValue(@RUntainted String name, String minOccurs, String maxOccurs) {
 
         super(name, minOccurs, maxOccurs);
     }
@@ -114,7 +115,7 @@ public class CmsXmlVfsImageValue extends CmsXmlVfsFileValue {
      * @see org.opencms.xml.types.A_CmsXmlContentValue#createValue(I_CmsXmlDocument, org.dom4j.Element, Locale)
      */
     @Override
-    public I_CmsXmlContentValue createValue(I_CmsXmlDocument document, Element element, Locale locale) {
+    public I_CmsXmlContentValue createValue(I_CmsXmlDocument document, @RUntainted Element element, @RUntainted Locale locale) {
 
         return new CmsXmlVfsImageValue(document, element, locale, this);
     }
@@ -205,7 +206,7 @@ public class CmsXmlVfsImageValue extends CmsXmlVfsFileValue {
      * @see org.opencms.xml.types.A_CmsXmlContentValue#getTypeName()
      */
     @Override
-    public String getTypeName() {
+    public @RUntainted String getTypeName() {
 
         return TYPE_NAME_IMAGE;
     }
@@ -214,7 +215,7 @@ public class CmsXmlVfsImageValue extends CmsXmlVfsFileValue {
      * @see org.opencms.xml.types.A_CmsXmlContentValue#newInstance(java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public I_CmsXmlSchemaType newInstance(String name, String minOccurs, String maxOccurs) {
+    public I_CmsXmlSchemaType newInstance(@RUntainted String name, String minOccurs, String maxOccurs) {
 
         return new CmsXmlVfsImageValue(name, minOccurs, maxOccurs);
     }
@@ -281,7 +282,7 @@ public class CmsXmlVfsImageValue extends CmsXmlVfsFileValue {
      * @see org.opencms.xml.types.A_CmsXmlContentValue#setStringValue(org.opencms.file.CmsObject, java.lang.String)
      */
     @Override
-    public void setStringValue(CmsObject cms, String value) throws CmsIllegalArgumentException {
+    public void setStringValue(CmsObject cms, @RUntainted String value) throws CmsIllegalArgumentException {
 
         // call the super implementation to set the value
         super.setStringValue(cms, value);
@@ -323,7 +324,7 @@ public class CmsXmlVfsImageValue extends CmsXmlVfsFileValue {
      * @param url the url String to get the parameters from
      * @return the parameters as Map
      */
-    private Map<String, String[]> getParameterMap(String url) {
+    private Map<String, String[]> getParameterMap(@RUntainted String url) {
 
         Map<String, String[]> result = new HashMap<String, String[]>();
         if (CmsStringUtil.isNotEmpty(url)) {

@@ -41,6 +41,7 @@ import org.opencms.ui.apps.A_CmsWorkplaceApp;
 import org.opencms.ui.apps.CmsFileExplorerConfiguration;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents an entry in the favorite location list.
@@ -58,14 +59,14 @@ public class CmsFavoriteEntry {
         page("p");
 
         /** String representing this type in the JSON format. */
-        private String m_jsonId;
+        private @RUntainted String m_jsonId;
 
         /**
          * Creates new value.
          *
          * @param jsonId the JSON id.
          */
-        private Type(String jsonId) {
+        private Type(@RUntainted String jsonId) {
 
             m_jsonId = jsonId;
 
@@ -92,7 +93,7 @@ public class CmsFavoriteEntry {
          *
          * @return the JSON id
          */
-        public String getJsonId() {
+        public @RUntainted String getJsonId() {
 
             return m_jsonId;
         }
@@ -117,19 +118,19 @@ public class CmsFavoriteEntry {
     public static final String JSON_TYPE = "t";
 
     /** The custom title. */
-    private String m_customTitle;
+    private @RUntainted String m_customTitle;
 
     /** The detail id. */
-    private CmsUUID m_detailId;
+    private @RUntainted CmsUUID m_detailId;
 
     /** The project id. */
-    private CmsUUID m_projectId;
+    private @RUntainted CmsUUID m_projectId;
 
     /** The site root. */
-    private String m_siteRoot;
+    private @RUntainted String m_siteRoot;
 
     /** The structure id. */
-    private CmsUUID m_structureId;
+    private @RUntainted CmsUUID m_structureId;
 
     /** The type. */
     private Type m_type;
@@ -164,7 +165,7 @@ public class CmsFavoriteEntry {
      *
      * @return the UUID
      */
-    public static CmsUUID readId(JSONObject obj, String key) {
+    public static @RUntainted CmsUUID readId(JSONObject obj, String key) {
 
         String strValue = obj.optString(key);
         if (!CmsUUID.isValidUUID(strValue)) {
@@ -188,7 +189,7 @@ public class CmsFavoriteEntry {
      *
      * @return the detail id
      */
-    public CmsUUID getDetailId() {
+    public @RUntainted CmsUUID getDetailId() {
 
         return m_detailId;
     }
@@ -198,7 +199,7 @@ public class CmsFavoriteEntry {
      *
      * @return the project id
      */
-    public CmsUUID getProjectId() {
+    public @RUntainted CmsUUID getProjectId() {
 
         return m_projectId;
     }
@@ -208,7 +209,7 @@ public class CmsFavoriteEntry {
      *
      * @return the site root
      */
-    public String getSiteRoot() {
+    public @RUntainted String getSiteRoot() {
 
         return m_siteRoot;
     }
@@ -218,7 +219,7 @@ public class CmsFavoriteEntry {
      *
      * @return the structure id
      */
-    public CmsUUID getStructureId() {
+    public @RUntainted CmsUUID getStructureId() {
 
         return m_structureId;
     }
@@ -238,7 +239,7 @@ public class CmsFavoriteEntry {
      *
      * @param title the custom title
      */
-    public void setCustomTitle(String title) {
+    public void setCustomTitle(@RUntainted String title) {
 
         if (CmsStringUtil.isEmpty(title)) {
             m_customTitle = null;
@@ -252,7 +253,7 @@ public class CmsFavoriteEntry {
      *
      * @param detailId the detail id
      */
-    public void setDetailId(CmsUUID detailId) {
+    public void setDetailId(@RUntainted CmsUUID detailId) {
 
         m_detailId = detailId;
     }
@@ -262,7 +263,7 @@ public class CmsFavoriteEntry {
      *
      * @param projectId the project id
      */
-    public void setProjectId(CmsUUID projectId) {
+    public void setProjectId(@RUntainted CmsUUID projectId) {
 
         m_projectId = projectId;
     }
@@ -272,7 +273,7 @@ public class CmsFavoriteEntry {
      *
      * @param siteRoot the site root
      */
-    public void setSiteRoot(String siteRoot) {
+    public void setSiteRoot(@RUntainted String siteRoot) {
 
         if (siteRoot != null) {
             siteRoot = siteRoot.replaceFirst("/$", "");
@@ -284,7 +285,7 @@ public class CmsFavoriteEntry {
      * Sets the structure id.
      * @param structureId the structure id
      */
-    public void setStructureId(CmsUUID structureId) {
+    public void setStructureId(@RUntainted CmsUUID structureId) {
 
         m_structureId = structureId;
     }
@@ -306,7 +307,7 @@ public class CmsFavoriteEntry {
      *
      * @throws JSONException if JSON operations fail
      */
-    public JSONObject toJson() throws JSONException {
+    public @RUntainted JSONObject toJson() throws JSONException {
 
         JSONObject result = new JSONObject();
         if (m_detailId != null) {

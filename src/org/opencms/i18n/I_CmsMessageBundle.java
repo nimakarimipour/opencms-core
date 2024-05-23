@@ -28,6 +28,7 @@
 package org.opencms.i18n;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Utility interface for generating localized messages for internal OpenCms operations.<p>
@@ -76,7 +77,7 @@ public interface I_CmsMessageBundle {
      * @param key the message key to use
      * @return a message container for this package with the given arguments
      */
-    CmsMessageContainer container(String key);
+    CmsMessageContainer container(@RUntainted String key);
 
     /**
      * Creates a message container for this package with the given arguments.<p>
@@ -87,7 +88,7 @@ public interface I_CmsMessageBundle {
      * @param arg0 the message argument
      * @return a message container for this package with the given arguments
      */
-    CmsMessageContainer container(String key, Object arg0);
+    CmsMessageContainer container(@RUntainted String key, @RUntainted Object arg0);
 
     /**
      * Creates a message container for this package with the given arguments.<p>
@@ -99,7 +100,7 @@ public interface I_CmsMessageBundle {
      * @param arg1 the second message argument
      * @return a message container for this package with the given arguments
      */
-    CmsMessageContainer container(String key, Object arg0, Object arg1);
+    CmsMessageContainer container(@RUntainted String key, @RUntainted Object arg0, @RUntainted Object arg1);
 
     /**
      * Creates a message container for this package with the given arguments.<p>
@@ -113,7 +114,7 @@ public interface I_CmsMessageBundle {
      *
      * @return a message container for this package with the given arguments
      */
-    CmsMessageContainer container(String key, Object arg0, Object arg1, Object arg2);
+    CmsMessageContainer container(@RUntainted String key, @RUntainted Object arg0, @RUntainted Object arg1, @RUntainted Object arg2);
 
     /**
      * Creates a message container for this package with the given arguments.<p>
@@ -122,7 +123,7 @@ public interface I_CmsMessageBundle {
      * @param args the message arguments to use
      * @return a message container for this package with the given arguments
      */
-    CmsMessageContainer container(String key, Object[] args);
+    CmsMessageContainer container(@RUntainted String key, @RUntainted Object[] args);
 
     /**
      * Returns the localized message bundle wrapped in this instance initialized with the OpenCms default locale.<p>
@@ -141,12 +142,12 @@ public interface I_CmsMessageBundle {
      *
      * @return the localized message bundle wrapped in this instance initialized with the provided locale
      */
-    CmsMessages getBundle(Locale locale);
+    CmsMessages getBundle(@RUntainted Locale locale);
 
     /**
      * Returns the bundle name for this OpenCms package.<p>
      *
      * @return the bundle name for this OpenCms package
      */
-    String getBundleName();
+    @RUntainted String getBundleName();
 }

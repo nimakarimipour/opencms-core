@@ -37,6 +37,7 @@ import org.opencms.report.I_CmsReport;
 import java.io.IOException;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements the management of indexing threads.<p>
@@ -49,7 +50,7 @@ public class CmsIndexingThreadManager {
     private static final Log LOG = CmsLog.getLog(CmsIndexingThreadManager.class);
 
     /** Number of threads abandoned. */
-    private int m_abandonedCounter;
+    private @RUntainted int m_abandonedCounter;
 
     /** The time the last error was written to the log. */
     private long m_lastLogErrorTime;
@@ -61,10 +62,10 @@ public class CmsIndexingThreadManager {
     private int m_maxModificationsBeforeCommit;
 
     /** Number of thread returned. */
-    private int m_returnedCounter;
+    private @RUntainted int m_returnedCounter;
 
     /** Overall number of threads started. */
-    private int m_startedCounter;
+    private @RUntainted int m_startedCounter;
 
     /** Timeout for abandoning threads. */
     private long m_timeout;
@@ -93,7 +94,7 @@ public class CmsIndexingThreadManager {
      * @param writer the index writer that can update the index
      * @param res the resource
      */
-    public void createIndexingThread(CmsVfsIndexer indexer, I_CmsIndexWriter writer, CmsResource res) {
+    public void createIndexingThread(CmsVfsIndexer indexer, I_CmsIndexWriter writer, @RUntainted CmsResource res) {
 
         I_CmsReport report = indexer.getReport();
         m_startedCounter++;

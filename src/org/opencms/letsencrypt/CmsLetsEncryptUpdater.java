@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.net.Socket;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Updates the certificate configuration for the LetsEncrypt container.<p>
@@ -58,7 +59,7 @@ public class CmsLetsEncryptUpdater implements I_CmsLetsEncryptUpdater {
     /**
      * @see org.opencms.letsencrypt.I_CmsLetsEncryptUpdater#update(java.lang.String)
      */
-    public boolean update(String certConfig) {
+    public boolean update(@RUntainted String certConfig) {
 
         if (m_config.isValidAndEnabled()) {
             LOG.debug("Trying to write certificate configuration: " + certConfig);

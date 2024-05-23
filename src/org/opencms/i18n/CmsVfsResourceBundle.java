@@ -46,6 +46,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Iterators;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource bundle which loads its data from a VFS resource.<p>
@@ -67,7 +68,7 @@ public class CmsVfsResourceBundle extends ResourceBundle implements I_CmsResourc
          *
          * @throws Exception if something goes wrong
          */
-        Map<Locale, Map<String, String>> loadData(CmsObject cms, CmsVfsBundleParameters params) throws Exception;
+        Map<@RUntainted Locale, Map<String, String>> loadData(@RUntainted CmsObject cms, CmsVfsBundleParameters params) throws Exception;
     }
 
     /** Name constant for the 'properties' vfs bundle type. */
@@ -77,7 +78,7 @@ public class CmsVfsResourceBundle extends ResourceBundle implements I_CmsResourc
     public static final String TYPE_XML = "xml";
 
     /** The CMS context to use. */
-    protected static CmsObject m_cms;
+    protected static @RUntainted CmsObject m_cms;
 
     /** The logger instance for this class. */
     private static final Log LOG = CmsLog.getLog(CmsVfsResourceBundle.class);
@@ -89,14 +90,14 @@ public class CmsVfsResourceBundle extends ResourceBundle implements I_CmsResourc
     protected I_Loader m_loader;
 
     /** The VFS bundle parameters. */
-    protected CmsVfsBundleParameters m_parameters;
+    protected @RUntainted CmsVfsBundleParameters m_parameters;
 
     /**
      * Creates a new VFS bundle instance.<p>
      *
      * @param params the VFS bundle parameters
      */
-    public CmsVfsResourceBundle(CmsVfsBundleParameters params) {
+    public CmsVfsResourceBundle(@RUntainted CmsVfsBundleParameters params) {
 
         m_parameters = params;
         m_loader = initLoader(params.getType());
@@ -109,7 +110,7 @@ public class CmsVfsResourceBundle extends ResourceBundle implements I_CmsResourc
      *
      * @param cms the CMS context to set
      */
-    public static void setCmsObject(CmsObject cms) {
+    public static void setCmsObject(@RUntainted CmsObject cms) {
 
         m_cms = cms;
     }
@@ -135,7 +136,7 @@ public class CmsVfsResourceBundle extends ResourceBundle implements I_CmsResourc
     /**
      * @see org.opencms.i18n.I_CmsResourceBundle#getClone()
      */
-    public CmsVfsResourceBundle getClone() {
+    public @RUntainted CmsVfsResourceBundle getClone() {
 
         return new CmsVfsResourceBundle(m_parameters);
     }
@@ -159,7 +160,7 @@ public class CmsVfsResourceBundle extends ResourceBundle implements I_CmsResourc
      * @see java.util.ResourceBundle#getLocale()
      */
     @Override
-    public Locale getLocale() {
+    public @RUntainted Locale getLocale() {
 
         return m_parameters.getLocale();
     }
@@ -196,7 +197,7 @@ public class CmsVfsResourceBundle extends ResourceBundle implements I_CmsResourc
      *
      * @return the root path of the file containing the message data
      */
-    protected String getFilePath() {
+    protected @RUntainted String getFilePath() {
 
         return m_parameters.getBasePath();
     }
@@ -234,10 +235,10 @@ public class CmsVfsResourceBundle extends ResourceBundle implements I_CmsResourc
      *
      * @return the message data
      */
-    private Map<Locale, Map<String, String>> getData() {
+    private Map<@RUntainted Locale, Map<String, String>> getData() {
 
         @SuppressWarnings("unchecked")
-        Map<Locale, Map<String, String>> result = (Map<Locale, Map<String, String>>)m_cache.getCachedObject(
+        Map<@RUntainted Locale, Map<String, String>> result = (Map<Locale, Map<String, String>>)m_cache.getCachedObject(
             m_cms,
             getFilePath());
         if (result == null) {
@@ -258,11 +259,11 @@ public class CmsVfsResourceBundle extends ResourceBundle implements I_CmsResourc
      */
     private Map<String, String> getMessagesForLocale() {
 
-        Map<Locale, Map<String, String>> data = getData();
+        Map<@RUntainted Locale, Map<String, String>> data = getData();
         if (data == null) {
             return Collections.emptyMap();
         }
-        List<Locale> available = new ArrayList<Locale>(data.keySet());
+        List<@RUntainted Locale> available = new ArrayList<@RUntainted Locale>(data.keySet());
         Locale bestMatchingLocale = OpenCms.getLocaleManager().getBestMatchingLocale(
             getLocale(),
             OpenCms.getLocaleManager().getDefaultLocales(),

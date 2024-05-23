@@ -77,6 +77,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The OpenCms "operating system" that provides
@@ -138,7 +139,7 @@ public final class OpenCms {
      *
      * @param listener the listener to add
      */
-    public static void addCmsEventListener(I_CmsEventListener listener) {
+    public static void addCmsEventListener(@RUntainted I_CmsEventListener listener) {
 
         OpenCmsCore.getInstance().getEventManager().addCmsEventListener(listener);
     }
@@ -149,7 +150,7 @@ public final class OpenCms {
      * @param listener the listener to add
      * @param eventTypes the events to listen for
      */
-    public static void addCmsEventListener(I_CmsEventListener listener, int[] eventTypes) {
+    public static void addCmsEventListener(@RUntainted I_CmsEventListener listener, int[] eventTypes) {
 
         OpenCmsCore.getInstance().getEventManager().addCmsEventListener(listener, eventTypes);
     }
@@ -172,7 +173,7 @@ public final class OpenCms {
      * @param type event type
      * @param data event data
      */
-    public static void fireCmsEvent(int type, Map<String, Object> data) {
+    public static void fireCmsEvent(@RUntainted int type, @RUntainted Map<@RUntainted String, @RUntainted Object> data) {
 
         OpenCmsCore.getInstance().getEventManager().fireEvent(type, data);
     }
@@ -236,7 +237,7 @@ public final class OpenCms {
      *
      * @return the database pool names
      */
-    public static List<String> getDbPoolNames() {
+    public static List<@RUntainted String> getDbPoolNames() {
 
         return OpenCmsCore.getInstance().getDbPoolNames();
     }
@@ -248,7 +249,7 @@ public final class OpenCms {
      *
      * @return the configured list of default directory file names
      */
-    public static List<String> getDefaultFiles() {
+    public static @RUntainted List<@RUntainted String> getDefaultFiles() {
 
         return OpenCmsCore.getInstance().getDefaultFiles();
     }
@@ -511,7 +512,7 @@ public final class OpenCms {
      * @param key the key to look up in the runtime properties
      * @return the value for the key, or null if the key was not found
      */
-    public static Object getRuntimeProperty(Object key) {
+    public static @RUntainted Object getRuntimeProperty(Object key) {
 
         return OpenCmsCore.getInstance().getRuntimeProperty(key);
     }
@@ -738,7 +739,7 @@ public final class OpenCms {
      * @see OpenCms#initCmsObject(CmsObject, CmsContextInfo)
      * @see OpenCms#initCmsObject(String)
      */
-    public static CmsObject initCmsObject(CmsObject cms) throws CmsException {
+    public static @RUntainted CmsObject initCmsObject(CmsObject cms) throws CmsException {
 
         return OpenCmsCore.getInstance().initCmsObject(cms);
     }
@@ -764,7 +765,7 @@ public final class OpenCms {
      * @see OpenCms#initCmsObject(CmsObject, CmsContextInfo)
      * @see OpenCms#initCmsObject(String)
      */
-    public static CmsObject initCmsObject(CmsObject adminCms, CmsContextInfo contextInfo) throws CmsException {
+    public static @RUntainted CmsObject initCmsObject(CmsObject adminCms, CmsContextInfo contextInfo) throws CmsException {
 
         return OpenCmsCore.getInstance().initCmsObject(adminCms, contextInfo);
     }
@@ -796,7 +797,7 @@ public final class OpenCms {
      * @see OpenCms#initCmsObject(CmsObject, CmsContextInfo)
      * @see OpenCms#initCmsObject(String)
      */
-    public static CmsObject initCmsObject(String user) throws CmsException {
+    public static @RUntainted CmsObject initCmsObject(@RUntainted String user) throws CmsException {
 
         return OpenCmsCore.getInstance().initCmsObject(user);
     }
@@ -824,10 +825,10 @@ public final class OpenCms {
      *
      * @throws CmsException in case the requested file does not exist or the user has insufficient access permissions
      */
-    public static CmsResource initResource(
+    public static @RUntainted CmsResource initResource(
         CmsObject cms,
-        String resourceName,
-        HttpServletRequest req,
+        @RUntainted String resourceName,
+        @RUntainted HttpServletRequest req,
         HttpServletResponse res)
     throws CmsException {
 
@@ -852,7 +853,7 @@ public final class OpenCms {
      * @param key the key to add the Object with
      * @param value the value of the Object to add
      */
-    public static void setRuntimeProperty(Object key, Object value) {
+    public static void setRuntimeProperty(Object key, @RUntainted Object value) {
 
         OpenCmsCore.getInstance().setRuntimeProperty(key, value);
     }

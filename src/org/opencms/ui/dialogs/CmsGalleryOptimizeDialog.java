@@ -106,6 +106,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class representing a dialog for optimizing galleries.<p>
@@ -138,7 +139,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
         /**
          * @see org.opencms.ui.shared.rpc.I_CmsGwtContextMenuServerRpc#refresh(java.lang.String)
          */
-        public void refresh(String uuid) {
+        public void refresh(@RUntainted String uuid) {
 
             if (uuid != null) {
                 try {
@@ -188,7 +189,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
         private FileDeleteComposite m_compositeFileDelete;
 
         /** The copyright information of this editable gallery item. */
-        private String m_copyright;
+        private @RUntainted String m_copyright;
 
         /** Date when this editable gallery item was last modified. */
         private Long m_dateLastModified;
@@ -197,7 +198,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
         private Boolean m_deleteFlag = Boolean.valueOf(false);
 
         /** The description of this editable gallery item. */
-        private String m_description;
+        private @RUntainted String m_description;
 
         /** Whether this editable gallery item is used. */
         private Boolean m_isUsed;
@@ -209,20 +210,20 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
         private String m_path;
 
         /** The CMS resource of this editable gallery item. */
-        private CmsResource m_resource;
+        private @RUntainted CmsResource m_resource;
 
         /** The CMS resource utility of this editable gallery item. */
         private CmsResourceUtil m_resourceUtil;
 
         /** The title of this editable gallery item. */
-        private String m_title;
+        private @RUntainted String m_title;
 
         /**
          * Creates a new editable gallery item for a given CMS resource.<p>
          *
          * @param resource the CMS resource
          */
-        public DataItem(CmsResource resource) {
+        public DataItem(@RUntainted CmsResource resource) {
 
             m_resource = resource;
             initData();
@@ -378,7 +379,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
          *
          * @return the CMS resource
          */
-        public CmsResource getResource() {
+        public @RUntainted CmsResource getResource() {
 
             return m_resource;
         }
@@ -461,7 +462,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
          *
          * @param copyright the copyright information
          */
-        public void setCopyright(String copyright) {
+        public void setCopyright(@RUntainted String copyright) {
 
             m_copyright = copyright;
         }
@@ -481,7 +482,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
          *
          * @param description the description
          */
-        public void setDescription(String description) {
+        public void setDescription(@RUntainted String description) {
 
             m_description = description;
         }
@@ -501,7 +502,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
          *
          * @param resource the CMS resource
          */
-        public void setResource(CmsResource resource) {
+        public void setResource(@RUntainted CmsResource resource) {
 
             m_resource = resource;
             initData();
@@ -513,7 +514,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
          *
          * @param title the title
          */
-        public void setTitle(String title) {
+        public void setTitle(@RUntainted String title) {
 
             m_title = title;
         }
@@ -536,7 +537,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
 
             m_resourceUtil = new CmsResourceUtil(A_CmsUI.getCmsObject(), m_resource);
             try {
-                List<CmsRelation> relations = getCms().getRelationsForResource(m_resource, CmsRelationFilter.SOURCES);
+                List<@RUntainted CmsRelation> relations = getCms().getRelationsForResource(m_resource, CmsRelationFilter.SOURCES);
                 m_name = m_resource.getName();
                 m_path = m_resource.getRootPath();
                 m_title = readPropertyTitle();
@@ -567,7 +568,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
          * @return the copyright property value
          * @throws CmsException thrown if the property read fails
          */
-        private String readPropertyCopyright() throws CmsException {
+        private @RUntainted String readPropertyCopyright() throws CmsException {
 
             String value = getCms().readPropertyObject(
                 m_resource,
@@ -582,7 +583,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
          * @return the description property value
          * @throws CmsException thrown if the property read fails
          */
-        private String readPropertyDescription() throws CmsException {
+        private @RUntainted String readPropertyDescription() throws CmsException {
 
             String value = getCms().readPropertyObject(
                 m_resource,
@@ -597,7 +598,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
          * @return the title property value
          * @throws CmsException thrown if the property read fails
          */
-        private String readPropertyTitle() throws CmsException {
+        private @RUntainted String readPropertyTitle() throws CmsException {
 
             String value = getCms().readPropertyObject(
                 m_resource,
@@ -670,7 +671,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
          *
          * @param index the page index
          */
-        public void selectPage(int index) {
+        public void selectPage(@RUntainted int index) {
 
             m_selectPage.setValue(null);
             handlePageChange(index, false);
@@ -720,7 +721,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
 
                 private static final long serialVersionUID = 1L;
 
-                public String apply(Integer item) {
+                public String apply(@RUntainted Integer item) {
 
                     return CmsVaadinUtils.getMessageText(
                         Messages.GUI_GALLERY_OPTIMIZE_SELECTED_PAGE_2,
@@ -818,7 +819,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
          * @param display whether to re-render the data item list
          */
         @SuppressWarnings("synthetic-access")
-        private void handlePageChange(int index, boolean display) {
+        private void handlePageChange(@RUntainted int index, boolean display) {
 
             m_pageHandler.setCurrentPage(index);
             Label label = createLabelPageInfo();
@@ -1264,7 +1265,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
          * @param date the date to format
          * @return the formatted date
          */
-        private String formatDateTime(long date) {
+        private @RUntainted String formatDateTime(long date) {
 
             return CmsDateUtil.getDateTime(
                 new Date(date),
@@ -1282,7 +1283,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
         public static final int LIMIT = 50;
 
         /** The index of the page currently selected by the user. */
-        private int m_currentPage = 0;
+        private @RUntainted int m_currentPage = 0;
 
         /**
          * Creates a new page handler.<p>
@@ -1305,7 +1306,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
          *
          * @return the number of the first item currently selected
          */
-        public int getNumFirstItem() {
+        public @RUntainted int getNumFirstItem() {
 
             return (LIMIT * m_currentPage) + 1;
         }
@@ -1353,7 +1354,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
          * @return the total number of items
          */
         @SuppressWarnings("synthetic-access")
-        public int getSizeItem() {
+        public @RUntainted int getSizeItem() {
 
             return m_provider.size(m_filterHandler);
         }
@@ -1374,7 +1375,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
          *
          * @param index the page index to set
          */
-        public void setCurrentPage(int index) {
+        public void setCurrentPage(@RUntainted int index) {
 
             m_currentPage = index;
         }
@@ -1460,7 +1461,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
          * @see com.vaadin.data.provider.ListDataProvider#getItems()
          */
         @Override
-        public List<DataItem> getItems() {
+        public @RUntainted List<DataItem> getItems() {
 
             return (List<DataItem>)super.getItems();
         }
@@ -1471,7 +1472,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
          * @param filterHandler the filter handler
          * @return the size
          */
-        public int size(FilterHandler filterHandler) {
+        public @RUntainted int size(FilterHandler filterHandler) {
 
             Query<DataItem, SerializablePredicate<DataItem>> filterQuery = composeFilterQuery(filterHandler);
             return filterQuery == null ? getItems().size() : super.size(filterQuery);
@@ -1483,7 +1484,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
          * @param filterHandler the given filter handler
          * @return the provider query
          */
-        private Query<DataItem, SerializablePredicate<DataItem>> composeFilterQuery(FilterHandler filterHandler) {
+        private @RUntainted Query<DataItem, SerializablePredicate<DataItem>> composeFilterQuery(FilterHandler filterHandler) {
 
             Query<DataItem, SerializablePredicate<DataItem>> filterQuery = null;
             if (!CmsStringUtil.isEmptyOrWhitespaceOnly(filterHandler.getQuery())) {
@@ -1575,7 +1576,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
          *
          * @return the resources
          */
-        List<CmsResource> getDeletedCurrentResource() {
+        @RUntainted List<CmsResource> getDeletedCurrentResource() {
 
             return new ArrayList<CmsResource>(m_deletedCurrentResource);
         }
@@ -1673,7 +1674,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
     private GridLayout m_dataListView;
 
     /** The gallery */
-    private CmsResource m_gallery;
+    private @RUntainted CmsResource m_gallery;
 
     /** The lock action record for the gallery folder. */
     private CmsLockActionRecord m_lockActionRecord;
@@ -1960,7 +1961,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
         CmsObject cms = A_CmsUI.getCmsObject();
         try {
             CmsResourceFilter resourceFilter = CmsResourceFilter.IGNORE_EXPIRATION.addRequireFile();
-            List<CmsResource> resources = cms.readResources(cms.getSitePath(m_gallery), resourceFilter);
+            List<@RUntainted CmsResource> resources = cms.readResources(cms.getSitePath(m_gallery), resourceFilter);
             for (CmsResource resource : resources) {
                 DataItem dataItem = new DataItem(resource);
                 dataList.add(dataItem);
@@ -1980,7 +1981,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
             m_dataListHeaderView.addComponent(createDisplayInOnlineProject());
         } else {
             try {
-                List<CmsRelation> relations = getCms().getRelationsForResource(m_gallery, CmsRelationFilter.SOURCES);
+                List<@RUntainted CmsRelation> relations = getCms().getRelationsForResource(m_gallery, CmsRelationFilter.SOURCES);
                 if ((relations != null) && !relations.isEmpty()) {
                     m_dataListHeaderView.addComponent(createDisplayGalleryInUse());
                 }
@@ -2068,7 +2069,7 @@ public class CmsGalleryOptimizeDialog extends CmsBasicDialog {
      * @return the title
      * @throws CmsException the CMS exception
      */
-    private String getGalleryTitle() throws CmsException {
+    private @RUntainted String getGalleryTitle() throws CmsException {
 
         String galleryTitle = getCms().readPropertyObject(
             m_gallery,

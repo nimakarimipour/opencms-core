@@ -73,6 +73,7 @@ import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.v7.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.v7.ui.Table;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for Vaadin Table showing history queue elements.<p>
@@ -296,7 +297,7 @@ public class CmsQueuedTable extends Table {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> data) {
+        public void executeAction(Set<@RUntainted String> data) {
 
             showReportDialog(data.iterator().next());
         }
@@ -337,7 +338,7 @@ public class CmsQueuedTable extends Table {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> data) {
+        public void executeAction(Set<@RUntainted String> data) {
 
             showResourceDialog(data.iterator().next());
 
@@ -370,7 +371,7 @@ public class CmsQueuedTable extends Table {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> data) {
+        public void executeAction(Set<@RUntainted String> data) {
 
             String jobid = data.iterator().next();
             CmsPublishJobBase job = OpenCms.getPublishManager().getJobByPublishHistoryId(new CmsUUID(jobid));
@@ -499,7 +500,7 @@ public class CmsQueuedTable extends Table {
     private static final String STATE_ENQUEUE = "queue";
 
     /** Publish job state constant. */
-    private static final Map<String, String> STATUS_MESSAGES = getStatusMap();
+    private static final Map<String, @RUntainted String> STATUS_MESSAGES = getStatusMap();
 
     /**Container. */
     BeanItemContainer<Row> m_container;
@@ -619,9 +620,9 @@ public class CmsQueuedTable extends Table {
      *
      * @return the status message map
      */
-    private static Map<String, String> getStatusMap() {
+    private static Map<String, @RUntainted String> getStatusMap() {
 
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, @RUntainted String> map = new HashMap<String, @RUntainted String>();
         map.put(STATE_OK, Messages.GUI_PQUEUE_STATUS_OK_0);
         map.put(STATE_WARNING, Messages.GUI_PQUEUE_STATUS_WARNING_0);
         map.put(STATE_ERROR, Messages.GUI_PQUEUE_STATUS_ERROR_0);
@@ -653,7 +654,7 @@ public class CmsQueuedTable extends Table {
      *
      * @param jobid to show report for
      */
-    protected void showReportDialog(String jobid) {
+    protected void showReportDialog(@RUntainted String jobid) {
 
         CmsPublishReport pReport = new CmsPublishReport(jobid);
         final Window window = CmsBasicDialog.prepareWindow(DialogWidth.wide);
@@ -683,7 +684,7 @@ public class CmsQueuedTable extends Table {
      *
      * @param jobid to show resources for
      */
-    protected void showResourceDialog(String jobid) {
+    protected void showResourceDialog(@RUntainted String jobid) {
 
         CmsPublishResources pResources = new CmsPublishResources(jobid);
         final Window window = CmsBasicDialog.prepareWindow(DialogWidth.wide);

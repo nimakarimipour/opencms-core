@@ -33,6 +33,7 @@ import org.opencms.xml.types.I_CmsXmlContentValue;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents the root of an XML content for a given locale.<p>
@@ -78,7 +79,7 @@ public class CmsXmlContentRootLocation implements I_CmsXmlContentLocation {
     /**
      * @see org.opencms.xml.content.I_CmsXmlContentLocation#getSubValue(java.lang.String)
      */
-    public I_CmsXmlContentValueLocation getSubValue(String subPath) {
+    public @RUntainted I_CmsXmlContentValueLocation getSubValue(String subPath) {
 
         I_CmsXmlContentValue value = m_document.getValue(subPath, m_locale);
         if (value == null) {

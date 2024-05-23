@@ -35,6 +35,7 @@ import org.opencms.xml.content.CmsXmlContentProperty;
 import java.util.Map;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A bean representing the state of a single resource to be edited in the upload property dialog.<p>
@@ -51,7 +52,7 @@ public class CmsPostUploadDialogPanelBean implements IsSerializable {
     private Map<String, CmsClientProperty> m_properties;
 
     /** The property definitions for the resource type of the resource. */
-    private Map<String, CmsXmlContentProperty> m_propertyDefinitions;
+    private Map<@RUntainted String, CmsXmlContentProperty> m_propertyDefinitions;
 
     /** The structure id of the resource. */
     private CmsUUID m_structureId;
@@ -152,7 +153,7 @@ public class CmsPostUploadDialogPanelBean implements IsSerializable {
      *
      * @param propertyDefinitions the map of property definitions
      */
-    public void setPropertyDefinitions(Map<String, CmsXmlContentProperty> propertyDefinitions) {
+    public void setPropertyDefinitions(Map<@RUntainted String, CmsXmlContentProperty> propertyDefinitions) {
 
         m_propertyDefinitions = propertyDefinitions;
     }

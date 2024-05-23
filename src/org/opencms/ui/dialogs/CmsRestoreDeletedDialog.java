@@ -62,6 +62,7 @@ import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.Label;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog for restoring deleted resources in a folder.<p>
@@ -93,7 +94,7 @@ public class CmsRestoreDeletedDialog extends CmsBasicDialog {
     private CheckBox m_selectAllField;
 
     /** Data model for check boxes / selection. */
-    private IndexedContainer m_selectionContainer;
+    private @RUntainted IndexedContainer m_selectionContainer;
 
     /**
      * Creates a new instance.<p>
@@ -172,10 +173,10 @@ public class CmsRestoreDeletedDialog extends CmsBasicDialog {
      *
      * @return the ids of the selected resources
      */
-    public List<CmsUUID> getSelectedIds() {
+    public List<@RUntainted CmsUUID> getSelectedIds() {
 
-        List<?> itemIds = m_selectionContainer.getItemIds();
-        List<CmsUUID> result = Lists.newArrayList();
+        List<@RUntainted ?> itemIds = m_selectionContainer.getItemIds();
+        List<@RUntainted CmsUUID> result = Lists.newArrayList();
         for (Object itemId : itemIds) {
             CmsUUID structureId = (CmsUUID)itemId;
             Boolean value = (Boolean)(m_selectionContainer.getItem(itemId).getItemProperty(PROP_SELECTED).getValue());
@@ -228,7 +229,7 @@ public class CmsRestoreDeletedDialog extends CmsBasicDialog {
      */
     void submit() {
 
-        List<CmsUUID> selectedIds = getSelectedIds();
+        List<@RUntainted CmsUUID> selectedIds = getSelectedIds();
         List<CmsUUID> updated = Lists.newArrayList();
         CmsObject cms = m_dialogContext.getCms();
         try {

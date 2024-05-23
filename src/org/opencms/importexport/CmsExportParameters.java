@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Export parameters.<p>
@@ -82,7 +83,7 @@ public class CmsExportParameters {
     private String m_overrideSiteRoot;
 
     /** The file path, should be a zip file. */
-    private String m_path;
+    private @RUntainted String m_path;
 
     /** If the resources should be recursively exported. */
     private boolean m_recursive = true;
@@ -126,7 +127,7 @@ public class CmsExportParameters {
      * @param exportMode the export mode to use
      */
     public CmsExportParameters(
-        String exportFile,
+        @RUntainted String exportFile,
         Element moduleElement,
         boolean exportResourceData,
         boolean exportUserdata,
@@ -134,7 +135,7 @@ public class CmsExportParameters {
         List<String> resourcesToExport,
         boolean includeSystem,
         boolean includeUnchanged,
-        long contentAge,
+        @RUntainted long contentAge,
         boolean recursive,
         boolean inProject,
         ExportMode exportMode) {
@@ -174,7 +175,7 @@ public class CmsExportParameters {
      *      which meta data should be exported, even if they do not belong the the resourcesToExport.
      */
     public CmsExportParameters(
-        String exportFile,
+        @RUntainted String exportFile,
         Element moduleElement,
         boolean exportResourceData,
         boolean exportUserdata,
@@ -182,7 +183,7 @@ public class CmsExportParameters {
         List<String> resourcesToExport,
         boolean includeSystem,
         boolean includeUnchanged,
-        long contentAge,
+        @RUntainted long contentAge,
         boolean recursive,
         boolean inProject,
         ExportMode exportMode,
@@ -268,7 +269,7 @@ public class CmsExportParameters {
      *
      * @return the file path
      */
-    public String getPath() {
+    public @RUntainted String getPath() {
 
         // ensure the export file name ends with ".zip" in case of ZIP file export
         if ((m_path != null) && !isExportAsFiles() && !m_path.toLowerCase().endsWith(".zip")) {
@@ -282,7 +283,7 @@ public class CmsExportParameters {
      *
      * @return the resources
      */
-    public List<String> getResources() {
+    public List<@RUntainted String> getResources() {
 
         if (m_resources == null) {
             return Collections.emptyList();
@@ -430,7 +431,7 @@ public class CmsExportParameters {
      *
      * @param contentAge the content Age to set
      */
-    public void setContentAge(long contentAge) {
+    public void setContentAge(@RUntainted long contentAge) {
 
         if (contentAge < 0) {
             String ageString = Long.toString(contentAge);
@@ -535,7 +536,7 @@ public class CmsExportParameters {
      *
      * @param path the file path
      */
-    public void setPath(String path) {
+    public void setPath(@RUntainted String path) {
 
         if (CmsStringUtil.isEmpty(path) || !path.trim().equals(path)) {
             throw new CmsIllegalArgumentException(Messages.get().container(Messages.ERR_BAD_FILE_NAME_1, path));

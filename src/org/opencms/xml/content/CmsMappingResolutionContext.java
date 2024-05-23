@@ -53,6 +53,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A class which represents the context for resolving all content value mappings of an XML content.<p>
@@ -78,7 +79,7 @@ public class CmsMappingResolutionContext {
         private Locale m_locale;
 
         /** URL name of the mapping. */
-        private String m_name;
+        private @RUntainted String m_name;
 
         /** Structure ID of the mapping. */
         private CmsUUID m_structureId;
@@ -90,7 +91,7 @@ public class CmsMappingResolutionContext {
          * @param name the URL name
          * @param locale the locale
          */
-        public InternalUrlNameMappingEntry(CmsUUID structureId, String name, Locale locale) {
+        public InternalUrlNameMappingEntry(CmsUUID structureId, @RUntainted String name, Locale locale) {
 
             m_name = name;
             m_structureId = structureId;
@@ -112,7 +113,7 @@ public class CmsMappingResolutionContext {
          *
          * @return the name
          */
-        public String getName() {
+        public @RUntainted String getName() {
 
             return m_name;
         }
@@ -139,10 +140,10 @@ public class CmsMappingResolutionContext {
     private CmsXmlContent m_content;
 
     /** Stored expiration dates. */
-    private Map<Locale, Long> m_dateExpired = new HashMap<>();
+    private Map<Locale, @RUntainted Long> m_dateExpired = new HashMap<>();
 
     /** Stored release dates. */
-    private Map<Locale, Long> m_dateReleased = new HashMap<>();
+    private Map<Locale, @RUntainted Long> m_dateReleased = new HashMap<>();
 
     /** True if the schema for the content has attribute mappings. */
     private boolean m_hasAttributeMappings;
@@ -168,7 +169,7 @@ public class CmsMappingResolutionContext {
      */
     public void commitUrlNameMappings() throws CmsException {
 
-        Set<CmsUUID> structureIds = Sets.newHashSet();
+        Set<@RUntainted CmsUUID> structureIds = Sets.newHashSet();
         for (InternalUrlNameMappingEntry entry : m_urlNameMappingEntries) {
             structureIds.add(entry.getStructureId());
         }
@@ -218,7 +219,7 @@ public class CmsMappingResolutionContext {
      * @param locale the locale
      * @param expiration the expiration date
      */
-    public void putExpirationDate(Locale locale, long expiration) {
+    public void putExpirationDate(Locale locale, @RUntainted long expiration) {
 
         m_dateExpired.put(locale, Long.valueOf(expiration));
     }
@@ -229,7 +230,7 @@ public class CmsMappingResolutionContext {
      * @param locale the locale
      * @param release the release date
      */
-    public void putReleaseDate(Locale locale, long release) {
+    public void putReleaseDate(Locale locale, @RUntainted long release) {
 
         m_dateReleased.put(locale, Long.valueOf(release));
     }
@@ -245,7 +246,7 @@ public class CmsMappingResolutionContext {
      *
      * @throws CmsException if something goes wrong
      */
-    public void setAttribute(CmsResource res, AttributeType type, Long value) throws CmsException {
+    public void setAttribute(@RUntainted CmsResource res, AttributeType type, @RUntainted Long value) throws CmsException {
 
         if (type == AttributeType.release) {
             long actualValue = value != null ? value.longValue() : 0;
@@ -288,10 +289,10 @@ public class CmsMappingResolutionContext {
                         sibling,
                         CmsPropertyDefinition.PROPERTY_LOCALE,
                         true);
-                    List<Locale> locales = OpenCms.getLocaleManager().getDefaultLocales();
+                    List<@RUntainted Locale> locales = OpenCms.getLocaleManager().getDefaultLocales();
                     if (!localeProp.isNullProperty()) {
                         String localeStr = localeProp.getValue();
-                        List<Locale> tempLocales = CmsLocaleManager.getLocales(localeStr);
+                        List<@RUntainted Locale> tempLocales = CmsLocaleManager.getLocales(localeStr);
                         if (!tempLocales.isEmpty()) {
                             locales = tempLocales;
                         }
@@ -331,7 +332,7 @@ public class CmsMappingResolutionContext {
      * @param locale the locale
      * @param structureId the structure ID
      */
-    void addUrlNameMapping(String name, Locale locale, CmsUUID structureId) {
+    void addUrlNameMapping(@RUntainted String name, Locale locale, CmsUUID structureId) {
 
         m_urlNameMappingEntries.add(new InternalUrlNameMappingEntry(structureId, name, locale));
     }

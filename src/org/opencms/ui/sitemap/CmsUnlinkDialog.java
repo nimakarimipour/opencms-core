@@ -52,6 +52,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.Label;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog to confirm detaching a resource from a locale group.<p>
@@ -80,7 +81,7 @@ public class CmsUnlinkDialog extends CmsBasicDialog {
     protected Button m_okButton;
 
     /** The other resource.*/
-    protected CmsResource m_otherResource;
+    protected @RUntainted CmsResource m_otherResource;
 
     /** The container for the resource boxes. */
     protected HorizontalLayout m_resourceBoxContainer;

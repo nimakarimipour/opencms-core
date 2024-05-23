@@ -136,6 +136,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Multimap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Allows convenient access to the most important OpenCms functions on a JSP page,
@@ -188,7 +189,7 @@ public final class CmsJspStandardContextBean {
          * @see org.opencms.xml.containerpage.CmsContainerElementBean#editorHash()
          */
         @Override
-        public String editorHash() {
+        public @RUntainted String editorHash() {
 
             return m_wrappedElement.editorHash();
         }
@@ -215,7 +216,7 @@ public final class CmsJspStandardContextBean {
          * @see org.opencms.xml.containerpage.CmsContainerElementBean#getId()
          */
         @Override
-        public CmsUUID getId() {
+        public @RUntainted CmsUUID getId() {
 
             return m_wrappedElement.getId();
         }
@@ -224,7 +225,7 @@ public final class CmsJspStandardContextBean {
          * @see org.opencms.xml.containerpage.CmsContainerElementBean#getIndividualSettings()
          */
         @Override
-        public Map<String, String> getIndividualSettings() {
+        public @RUntainted Map<@RUntainted String, @RUntainted String> getIndividualSettings() {
 
             return m_wrappedElement.getIndividualSettings();
         }
@@ -242,7 +243,7 @@ public final class CmsJspStandardContextBean {
          * @see org.opencms.xml.containerpage.CmsContainerElementBean#getInstanceId()
          */
         @Override
-        public String getInstanceId() {
+        public @RUntainted String getInstanceId() {
 
             return m_wrappedElement.getInstanceId();
         }
@@ -265,7 +266,7 @@ public final class CmsJspStandardContextBean {
          * @see org.opencms.xml.containerpage.CmsContainerElementBean#getResource()
          */
         @Override
-        public CmsResource getResource() {
+        public @RUntainted CmsResource getResource() {
 
             return m_wrappedElement.getResource();
         }
@@ -309,7 +310,7 @@ public final class CmsJspStandardContextBean {
          * @see org.opencms.xml.containerpage.CmsContainerElementBean#getSettings()
          */
         @Override
-        public Map<String, String> getSettings() {
+        public @RUntainted Map<@RUntainted String, @RUntainted String> getSettings() {
 
             return m_wrappedElement.getSettings();
         }
@@ -318,7 +319,7 @@ public final class CmsJspStandardContextBean {
          * @see org.opencms.xml.containerpage.CmsContainerElementBean#getSitePath()
          */
         @Override
-        public String getSitePath() {
+        public @RUntainted String getSitePath() {
 
             return m_wrappedElement.getSitePath();
         }
@@ -346,12 +347,12 @@ public final class CmsJspStandardContextBean {
          */
         @Override
         public void initSettings(
-            CmsObject cms,
+            @RUntainted CmsObject cms,
             CmsADEConfigData config,
             I_CmsFormatterBean formatterBean,
             Locale locale,
             ServletRequest request,
-            Map<String, String> settingPresets) {
+            @RUntainted Map<@RUntainted String, @RUntainted String> settingPresets) {
 
             m_wrappedElement.initSettings(cms, config, formatterBean, locale, request, settingPresets);
         }
@@ -510,7 +511,7 @@ public final class CmsJspStandardContextBean {
         private I_CmsFormatterBean m_formatter;
 
         /** The configured formatter settings. */
-        private Map<String, CmsXmlContentProperty> m_formatterSettingsConfig;
+        private Map<@RUntainted String, CmsXmlContentProperty> m_formatterSettingsConfig;
 
         /** The element. */
         private CmsContainerElementBean m_transformElement;
@@ -703,13 +704,13 @@ public final class CmsJspStandardContextBean {
     class MetaMapping {
 
         /** The mapping content structure id. */
-        CmsUUID m_contentId;
+        @RUntainted CmsUUID m_contentId;
 
         /** The default value. */
-        String m_defaultValue;
+        @RUntainted String m_defaultValue;
 
         /** The mapping value xpath. */
-        String m_elementXPath;
+        @RUntainted String m_elementXPath;
 
         /** The mapping key. */
         String m_key;
@@ -728,7 +729,7 @@ public final class CmsJspStandardContextBean {
     protected static final Log LOG = CmsLog.getLog(CmsJspStandardContextBean.class);
 
     /** OpenCms user context. */
-    protected CmsObject m_cms;
+    protected @RUntainted CmsObject m_cms;
 
     /** The sitemap configuration. */
     protected CmsADEConfigData m_config;
@@ -737,7 +738,7 @@ public final class CmsJspStandardContextBean {
     Map<String, MetaMapping> m_metaMappings;
 
     /** The current request. */
-    ServletRequest m_request;
+    @RUntainted ServletRequest m_request;
 
     /** Lazily initialized map from a category path to all sub-categories of that category. */
     private Map<String, CmsJspCategoryAccessBean> m_allSubCategories;
@@ -752,7 +753,7 @@ public final class CmsJspStandardContextBean {
     private CmsContainerBean m_container;
 
     /** The current detail content resource if available. */
-    private CmsResource m_detailContentResource;
+    private @RUntainted CmsResource m_detailContentResource;
 
     /** The detail function page. */
     private CmsResource m_detailFunctionPage;
@@ -829,7 +830,7 @@ public final class CmsJspStandardContextBean {
      *
      * @param req the current servlet request
      */
-    private CmsJspStandardContextBean(ServletRequest req) {
+    private CmsJspStandardContextBean(@RUntainted ServletRequest req) {
 
         this();
         CmsFlexController controller = CmsFlexController.getController(req);
@@ -860,7 +861,7 @@ public final class CmsJspStandardContextBean {
      *
      * @return the link
      */
-    public static String getFunctionDetailLink(CmsObject cms, String prefix, String functionName, boolean fullLink) {
+    public static String getFunctionDetailLink(CmsObject cms, String prefix, String functionName, @RUntainted boolean fullLink) {
 
         String type = prefix + functionName;
 
@@ -945,7 +946,7 @@ public final class CmsJspStandardContextBean {
      *
      * @return a new instance of the standard JSP context bean
      */
-    public static CmsJspStandardContextBean getInstance(ServletRequest req) {
+    public static CmsJspStandardContextBean getInstance(@RUntainted ServletRequest req) {
 
         Object attribute = req.getAttribute(ATTRIBUTE_NAME);
         CmsJspStandardContextBean result;
@@ -982,7 +983,7 @@ public final class CmsJspStandardContextBean {
      * @param text the encrypted stirng
      * @return the decrypted string
      */
-    public String decrypt(String text) {
+    public String decrypt(@RUntainted String text) {
 
         try {
             return OpenCms.getTextEncryptions().get("default").decrypt(text);
@@ -1020,7 +1021,7 @@ public final class CmsJspStandardContextBean {
      * @param text the input text
      * @return the encrypted text
      */
-    public String encrypt(String text) {
+    public String encrypt(@RUntainted String text) {
 
         try {
             return OpenCms.getTextEncryptions().get("default").encrypt(text);
@@ -1047,7 +1048,7 @@ public final class CmsJspStandardContextBean {
      *
      * @return the locales available for the currently requested URI.
      */
-    public List<Locale> getAvailableLocales() {
+    public List<@RUntainted Locale> getAvailableLocales() {
 
         return OpenCms.getLocaleManager().getAvailableLocales(m_cms, getRequestContext().getUri());
     }
@@ -1059,7 +1060,7 @@ public final class CmsJspStandardContextBean {
      * @param className name of the class to instantiate. Must be a subclass of {@link A_CmsJspCustomContextBean}.
      * @return an instance of the provided class with the current context already set.
      */
-    public Object getBean(String className) {
+    public Object getBean(@RUntainted String className) {
 
         try {
             Class<?> clazz = Class.forName(className);
@@ -1209,7 +1210,7 @@ public final class CmsJspStandardContextBean {
         String messageKey,
         String backLinkAnchor,
         String backLinkParams,
-        String bundleName) {
+        @RUntainted String bundleName) {
 
         if (!m_cms.getRequestContext().getCurrentProject().isOnlineProject()) {
             String filePath = null;
@@ -1340,7 +1341,7 @@ public final class CmsJspStandardContextBean {
      *
      * @return the current detail content, or <code>null</code> if no detail content is requested.<p>
      */
-    public CmsJspResourceWrapper getDetailContent() {
+    public @RUntainted CmsJspResourceWrapper getDetailContent() {
 
         return CmsJspResourceWrapper.wrap(m_cms, m_detailContentResource);
     }
@@ -1350,7 +1351,7 @@ public final class CmsJspStandardContextBean {
      *
      * @return the structure id of the current detail content, or <code>null</code> if no detail content is requested.<p>
      */
-    public CmsUUID getDetailContentId() {
+    public @RUntainted CmsUUID getDetailContentId() {
 
         return m_detailContentResource == null ? null : m_detailContentResource.getStructureId();
     }
@@ -1518,7 +1519,7 @@ public final class CmsJspStandardContextBean {
      * @param formatterKey a formatter key
      * @return the formatter information for the formatter key, or null if no formatter was found
      */
-    public CmsFormatterInfoWrapper getFormatterInfo(String formatterKey) {
+    public CmsFormatterInfoWrapper getFormatterInfo(@RUntainted String formatterKey) {
 
         CmsObject cms = m_cms;
         CmsADEConfigData config = m_config;
@@ -1752,7 +1753,7 @@ public final class CmsJspStandardContextBean {
      *
      * @return the current locale
      */
-    public Locale getLocale() {
+    public @RUntainted Locale getLocale() {
 
         return getRequestContext().getLocale();
     }
@@ -1827,7 +1828,7 @@ public final class CmsJspStandardContextBean {
      *
      * @return the container page bean
      */
-    public CmsContainerPageBean getPage(Object page, Object locale) {
+    public CmsContainerPageBean getPage(@RUntainted Object page, @RUntainted Object locale) {
 
         CmsResource pageResource = null;
         CmsContainerPageBean result = null;
@@ -2017,7 +2018,7 @@ public final class CmsJspStandardContextBean {
             m_allSubCategories = CmsCollectionsGenericWrapper.createLazyMap(new Transformer() {
 
                 @Override
-                public Object transform(Object categoryPath) {
+                public Object transform(@RUntainted Object categoryPath) {
 
                     try {
                         List<CmsCategory> categories = CmsCategoryService.getInstance().readCategories(
@@ -2094,7 +2095,7 @@ public final class CmsJspStandardContextBean {
         if (null == m_categories) {
             m_categories = CmsCollectionsGenericWrapper.createLazyMap(new Transformer() {
 
-                public Object transform(Object categoryPath) {
+                public Object transform(@RUntainted Object categoryPath) {
 
                     try {
                         CmsCategoryService catService = CmsCategoryService.getInstance();
@@ -2170,7 +2171,7 @@ public final class CmsJspStandardContextBean {
         if (null == m_resourceCategories) {
             m_resourceCategories = CmsCollectionsGenericWrapper.createLazyMap(new Transformer() {
 
-                public Object transform(Object resourceName) {
+                public Object transform(@RUntainted Object resourceName) {
 
                     try {
                         CmsResource resource = m_cms.readResource(
@@ -2206,7 +2207,7 @@ public final class CmsJspStandardContextBean {
      *
      * @return the stored request
      */
-    public ServletRequest getRequest() {
+    public @RUntainted ServletRequest getRequest() {
 
         return m_request;
     }
@@ -2229,7 +2230,7 @@ public final class CmsJspStandardContextBean {
      * @param typeName the type name
      * @return the bean representing the resource type
      */
-    public CmsResourceTypeInfoWrapper getResourceTypeInfo(String typeName) {
+    public CmsResourceTypeInfoWrapper getResourceTypeInfo(@RUntainted String typeName) {
 
         try {
             I_CmsResourceType type = OpenCms.getResourceManager().getResourceType(typeName);
@@ -2272,7 +2273,7 @@ public final class CmsJspStandardContextBean {
         if (m_sitePaths == null) {
             m_sitePaths = CmsCollectionsGenericWrapper.createLazyMap(new Transformer() {
 
-                public Object transform(Object rootPath) {
+                public Object transform(@RUntainted Object rootPath) {
 
                     if (rootPath instanceof String) {
                         return getRequestContext().removeSiteRoot((String)rootPath);
@@ -2342,7 +2343,7 @@ public final class CmsJspStandardContextBean {
         if (m_localeTitles == null) {
             m_localeTitles = CmsCollectionsGenericWrapper.createLazyMap(new Transformer() {
 
-                public Object transform(Object inputLocale) {
+                public Object transform(@RUntainted Object inputLocale) {
 
                     Locale locale = null;
                     if (null != inputLocale) {
@@ -2524,7 +2525,7 @@ public final class CmsJspStandardContextBean {
      * @param link the link to check
      * @return true if the link is a link to different subsite
      */
-    public boolean isLinkToDifferentSite(String link) {
+    public boolean isLinkToDifferentSite(@RUntainted String link) {
 
         CmsObject cms = getControllerCms();
         try {
@@ -2550,7 +2551,7 @@ public final class CmsJspStandardContextBean {
      * @param link the link to check
      * @return true if the link is a link to different site
      */
-    public boolean isLinkToDifferentSubSite(String link) {
+    public boolean isLinkToDifferentSubSite(@RUntainted String link) {
 
         CmsObject cms = getControllerCms();
         String subSite = CmsLinkManager.getLinkSubsite(cms, link);
@@ -2588,7 +2589,7 @@ public final class CmsJspStandardContextBean {
      * @param path the path
      * @return the link wrapper
      */
-    public CmsJspLinkWrapper link(String path) {
+    public CmsJspLinkWrapper link(@RUntainted String path) {
 
         return CmsJspObjectValueWrapper.createWrapper(m_cms, path).getToLink();
 
@@ -2727,7 +2728,7 @@ public final class CmsJspStandardContextBean {
      * @param obj the object to convert
      * @return the resource wrapper
      */
-    public CmsJspResourceWrapper toResource(Object obj) {
+    public CmsJspResourceWrapper toResource(@RUntainted Object obj) {
 
         Object wrapper = wrap(obj);
         try {
@@ -2750,7 +2751,7 @@ public final class CmsJspStandardContextBean {
      *
      * @param cms the new OpenCms user context
      */
-    public void updateCmsObject(CmsObject cms) {
+    public void updateCmsObject(@RUntainted CmsObject cms) {
 
         try {
             m_cms = OpenCms.initCmsObject(cms);
@@ -2770,7 +2771,7 @@ public final class CmsJspStandardContextBean {
      *
      * @param cmsFlexRequest the request from which to update the data
      */
-    public void updateRequestData(CmsFlexRequest cmsFlexRequest) {
+    public void updateRequestData(@RUntainted CmsFlexRequest cmsFlexRequest) {
 
         CmsResource detailRes = CmsDetailPageResourceHandler.getDetailResource(cmsFlexRequest);
         m_detailContentResource = detailRes;
@@ -2798,7 +2799,7 @@ public final class CmsJspStandardContextBean {
      * @param obj the object to wrap
      * @return an EL access wrapper map for the given object
      */
-    public Object wrap(Object obj) {
+    public Object wrap(@RUntainted Object obj) {
 
         if ((obj instanceof A_CmsJspValueWrapper) || (obj instanceof CmsJspResourceWrapper)) {
             return obj;
@@ -2814,7 +2815,7 @@ public final class CmsJspStandardContextBean {
      *
      * @return the CmsObject
      */
-    protected CmsObject getCmsObject() {
+    protected @RUntainted CmsObject getCmsObject() {
 
         return m_cms;
     }
@@ -2839,7 +2840,7 @@ public final class CmsJspStandardContextBean {
         }
         if (container != null) {
             String containerName = container.getName();
-            Map<String, String> settings = element.getSettings();
+            Map<@RUntainted String, @RUntainted String> settings = element.getSettings();
             if (settings != null) {
                 String formatterConfigId = settings.get(CmsFormatterConfig.getSettingsKeyForContainer(containerName));
                 I_CmsFormatterBean dynamicFmt = m_config.findFormatter(formatterConfigId);
@@ -2877,7 +2878,7 @@ public final class CmsJspStandardContextBean {
      * @param locale the locale for which the title should be read.
      * @return the title according to the given locale
      */
-    protected String getLocaleSpecificTitle(Locale locale) {
+    protected String getLocaleSpecificTitle(@RUntainted Locale locale) {
 
         String result = null;
 

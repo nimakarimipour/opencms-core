@@ -54,6 +54,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for finding all related resources for a set of resources to be published, for use with the new ADE publish dialog.<p>
@@ -144,7 +145,7 @@ public class CmsPublishRelationFinder {
     private static final Log LOG = CmsLog.getLog(CmsPublishRelationFinder.class);
 
     /** The resource types whose resources will be also added as related resources, even if the relation pointing to them is a weak relation.<p> */
-    private static final String[] VALID_WEAK_RELATION_TARGET_TYPES = {
+    private static final @RUntainted String[] VALID_WEAK_RELATION_TARGET_TYPES = {
         CmsResourceTypePlain.getStaticTypeName(),
         CmsResourceTypeImage.getStaticTypeName(),
         CmsResourceTypePointer.getStaticTypeName(),
@@ -414,7 +415,7 @@ public class CmsPublishRelationFinder {
      * @param currentResource the resource for which to get the relation
      * @return the outgoing relations
      */
-    private List<CmsRelation> getRelationsFromResource(CmsResource currentResource) {
+    private List<@RUntainted CmsRelation> getRelationsFromResource(CmsResource currentResource) {
 
         try {
             return m_cms.readRelations(CmsRelationFilter.relationsFromStructureId(currentResource.getStructureId()));
@@ -430,7 +431,7 @@ public class CmsPublishRelationFinder {
      * @param structureId the structure id
      * @return the resource with the given structure id
      */
-    private CmsResource getResource(CmsUUID structureId) {
+    private CmsResource getResource(@RUntainted CmsUUID structureId) {
 
         CmsResource resource = m_resources.get(structureId);
         if (resource == null) {

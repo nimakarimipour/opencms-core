@@ -33,6 +33,7 @@ import org.opencms.security.CmsRole;
 import java.util.Locale;
 
 import com.vaadin.server.Resource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains the configuration of a single workplace app.<p>
@@ -70,7 +71,7 @@ public interface I_CmsWorkplaceAppConfiguration extends I_CmsHasOrder {
      *
      * @return the help text
      */
-    String getHelpText(Locale locale);
+    String getHelpText(@RUntainted Locale locale);
 
     /**
      * Returns the app icon resource.<p>
@@ -93,7 +94,7 @@ public interface I_CmsWorkplaceAppConfiguration extends I_CmsHasOrder {
      *
      * @return the app name
      */
-    String getName(Locale locale);
+    String getName(@RUntainted Locale locale);
 
     /**
      * Gets the priority of the app configuration.<p>

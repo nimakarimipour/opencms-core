@@ -30,6 +30,7 @@ package org.opencms.ui.actions;
 import org.opencms.ui.I_CmsDialogContext;
 import org.opencms.ui.Messages;
 import org.opencms.ui.dialogs.CmsProjectSelectDialog;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The set project dialog action.<p>
@@ -59,7 +60,7 @@ public class CmsProjectDialogAction extends A_CmsToolbarAction {
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
      */
     @Override
-    protected String getTitleKey() {
+    protected @RUntainted String getTitleKey() {
 
         return Messages.GUI_ACTION_SWITCH_PROJECT_AND_SITE_0;
     }

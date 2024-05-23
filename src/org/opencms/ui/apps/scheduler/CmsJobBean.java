@@ -35,6 +35,7 @@ import org.opencms.util.CmsUUID;
 import java.util.Date;
 
 import com.vaadin.server.Resource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Don't use CmsScheduledJobInfo directly, so we don't need to change it if we want to change how the values are
@@ -119,7 +120,7 @@ public class CmsJobBean {
      *
      * @return the job name
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_jobInfo.getJobName();
     }

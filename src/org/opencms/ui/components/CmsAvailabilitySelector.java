@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vaadin.ui.ComboBox;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Expired/unreleased resources selection component.
@@ -54,13 +55,13 @@ public class CmsAvailabilitySelector extends ComboBox<CmsPair<String, String>> {
     private static final String OPTION_ONLY = "only";
 
     /** Option that selects all resources including the expired/unreleased resources. */
-    public static CmsPair<String, String> m_optionAll;
+    public static CmsPair<String, @RUntainted String> m_optionAll;
 
     /** Option that selects all resources without the expired/unreleased resources. */
-    public static CmsPair<String, String> m_optionWithout;
+    public static CmsPair<String, @RUntainted String> m_optionWithout;
 
     /** Option that selects only the expired/unreleased resources. */
-    public static CmsPair<String, String> m_optionOnly;
+    public static CmsPair<String, @RUntainted String> m_optionOnly;
 
     /** Option list. */
     private static List<CmsPair<String, String>> m_options;
@@ -93,7 +94,7 @@ public class CmsAvailabilitySelector extends ComboBox<CmsPair<String, String>> {
      * @param option the option string
      * @return the option
      */
-    public CmsPair<String, String> getOption(final String option) {
+    public CmsPair<String, @RUntainted String> getOption(final String option) {
 
         if (option == null) {
             return m_optionAll;

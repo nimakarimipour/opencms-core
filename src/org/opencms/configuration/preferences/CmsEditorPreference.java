@@ -30,6 +30,7 @@ package org.opencms.configuration.preferences;
 import org.opencms.configuration.CmsDefaultUserSettings;
 import org.opencms.file.CmsObject;
 import org.opencms.xml.content.CmsXmlContentProperty;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Preference subclass for preferred editors.<p>
@@ -40,10 +41,10 @@ public class CmsEditorPreference extends A_CmsPreference {
     public static final String EDITOR_PREFIX = "editor.";
 
     /** The preference default value. */
-    private String m_value;
+    private @RUntainted String m_value;
 
     /** The resource type for which this preference controls the editor to use. */
-    private String m_editorType;
+    private @RUntainted String m_editorType;
 
     /**
      *
@@ -51,7 +52,7 @@ public class CmsEditorPreference extends A_CmsPreference {
      *
      * @param value the default value
      */
-    public CmsEditorPreference(String editorType, String value) {
+    public CmsEditorPreference(String editorType, @RUntainted String value) {
 
         m_editorType = editorType;
         m_value = value;
@@ -60,7 +61,7 @@ public class CmsEditorPreference extends A_CmsPreference {
     /**
      * @see org.opencms.configuration.preferences.I_CmsPreference#getDefaultValue()
      */
-    public String getDefaultValue() {
+    public @RUntainted String getDefaultValue() {
 
         return m_value;
     }
@@ -68,7 +69,7 @@ public class CmsEditorPreference extends A_CmsPreference {
     /**
      * @see org.opencms.configuration.preferences.I_CmsPreference#getName()
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return EDITOR_PREFIX + m_editorType;
     }
@@ -98,7 +99,7 @@ public class CmsEditorPreference extends A_CmsPreference {
     /**
      * @see org.opencms.configuration.preferences.I_CmsPreference#getTab()
      */
-    public String getTab() {
+    public @RUntainted String getTab() {
 
         return "hidden";
     }

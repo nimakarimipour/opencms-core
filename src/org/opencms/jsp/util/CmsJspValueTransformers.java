@@ -38,6 +38,7 @@ import java.util.Map;
 
 import org.apache.commons.collections.Transformer;
 import org.apache.commons.lang3.LocaleUtils;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Utility class for providing {@link Transformer} implementations for various purposes. */
 public final class CmsJspValueTransformers {
@@ -73,7 +74,7 @@ public final class CmsJspValueTransformers {
         /**
          * @see org.apache.commons.collections.Transformer#transform(java.lang.Object)
          */
-        public Object transform(Object inputLocale) {
+        public Object transform(@RUntainted Object inputLocale) {
 
             Locale locale = null;
             if (null != inputLocale) {
@@ -108,7 +109,7 @@ public final class CmsJspValueTransformers {
         /** The resource where the properties are read from. */
         private CmsResource m_res;
         /** The locale for which properties should be read. */
-        private Locale m_locale;
+        private @RUntainted Locale m_locale;
         /** Search for the property or not. */
         private boolean m_search;
 
@@ -135,7 +136,7 @@ public final class CmsJspValueTransformers {
          * @param cms the {@link CmsObject} used for reading properties.
          * @param search flag, indicating if property should be searched or not.
          */
-        public CmsPropertyLoaderTransformer(CmsObject cms, CmsResource resource, boolean search, Locale locale) {
+        public CmsPropertyLoaderTransformer(CmsObject cms, CmsResource resource, boolean search, @RUntainted Locale locale) {
 
             m_cms = cms;
             m_res = resource;
@@ -147,7 +148,7 @@ public final class CmsJspValueTransformers {
         /**
          * @see org.apache.commons.collections.Transformer#transform(java.lang.Object)
          */
-        public Object transform(Object input) {
+        public Object transform(@RUntainted Object input) {
 
             String result;
             try {

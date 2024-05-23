@@ -28,6 +28,7 @@
 package org.opencms.xml.content;
 
 import org.opencms.xml.types.I_CmsXmlContentValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Visitor interface that allows looping through all the values in a XML content document.<p>
@@ -45,5 +46,5 @@ public interface I_CmsXmlContentValueVisitor {
      *
      * @param value the value to visit
      */
-    void visit(I_CmsXmlContentValue value);
+    void visit(@RUntainted I_CmsXmlContentValue value);
 }

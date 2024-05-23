@@ -31,6 +31,7 @@ import org.opencms.util.CmsUUID;
 
 import java.io.Serializable;
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The tree open state of a gallery tree tab.<p>
@@ -72,7 +73,7 @@ public class CmsTreeOpenState implements Serializable {
      *
      * @return the set of structure ids of open tree entries
      */
-    public Set<CmsUUID> getOpenItems() {
+    public Set<@RUntainted CmsUUID> getOpenItems() {
 
         return m_openItems;
     }

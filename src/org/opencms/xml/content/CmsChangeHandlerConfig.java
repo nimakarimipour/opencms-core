@@ -30,6 +30,7 @@ package org.opencms.xml.content;
 import org.opencms.main.CmsLog;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A configuration bean representing a &lt;ChangeHandler&gt; element configured in an XSD's field settings.
@@ -46,7 +47,7 @@ public class CmsChangeHandlerConfig {
     private String m_className;
 
     /** The configuration string for the change handler. */
-    private String m_config;
+    private @RUntainted String m_config;
 
     /**
      * Creates a new instance.
@@ -55,7 +56,7 @@ public class CmsChangeHandlerConfig {
      * @param className the handler class name
      * @param config the configuration string
      */
-    public CmsChangeHandlerConfig(String field, String className, String config) {
+    public CmsChangeHandlerConfig(String field, String className, @RUntainted String config) {
 
         m_field = field;
         m_className = className.trim();

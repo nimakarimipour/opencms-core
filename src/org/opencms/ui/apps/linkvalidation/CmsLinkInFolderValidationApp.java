@@ -67,6 +67,7 @@ import com.vaadin.ui.Window;
 import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.v7.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * App to check relations of resources in folder to other folder.<p>
@@ -130,7 +131,7 @@ public class CmsLinkInFolderValidationApp extends A_CmsWorkplaceApp implements I
 
                 private static final long serialVersionUID = -7729459896374968941L;
 
-                public void itemClick(ItemClickEvent event) {
+                public void itemClick(@RUntainted ItemClickEvent event) {
 
                     if (event.getButton().equals(MouseButton.RIGHT)) {
                         return;
@@ -159,7 +160,7 @@ public class CmsLinkInFolderValidationApp extends A_CmsWorkplaceApp implements I
          * @see org.opencms.ui.apps.linkvalidation.A_CmsLinkValidator#getPropertyName()
          */
         @Override
-        public String getPropertyName() {
+        public @RUntainted String getPropertyName() {
 
             return "Relations";
         }
@@ -182,7 +183,7 @@ public class CmsLinkInFolderValidationApp extends A_CmsWorkplaceApp implements I
          *
          * @return key for caption
          */
-        String getCaptionKey() {
+        @RUntainted String getCaptionKey() {
 
             return org.opencms.ui.apps.Messages.GUI_LINKVALIDATION_CHECK_FOLDER_RELATIONS_COLUMN_HEADER_0;
         }
@@ -195,16 +196,16 @@ public class CmsLinkInFolderValidationApp extends A_CmsWorkplaceApp implements I
     static class CmsStateBean {
 
         /**State seperator. */
-        protected static String STATE_SEPERATOR = A_CmsWorkplaceApp.PARAM_SEPARATOR;
+        protected static @RUntainted String STATE_SEPERATOR = A_CmsWorkplaceApp.PARAM_SEPARATOR;
 
         /**Seperator for resources in state. */
-        private static String RESOURCE_SEPERATOR = ";";
+        private static @RUntainted String RESOURCE_SEPERATOR = ";";
 
         /**List of resources. */
-        private List<String> m_resources;
+        private @RUntainted List<String> m_resources;
 
         /**Reverse the output? */
-        private boolean m_reverse;
+        private @RUntainted boolean m_reverse;
 
         /**CmsObject */
         private CmsObject m_cms = null;
@@ -216,7 +217,7 @@ public class CmsLinkInFolderValidationApp extends A_CmsWorkplaceApp implements I
          * @param reverse boolean
          *
          */
-        public CmsStateBean(List<String> resources, boolean reverse) {
+        public CmsStateBean(List<String> resources, @RUntainted boolean reverse) {
 
             setCmsObject();
 
@@ -230,7 +231,7 @@ public class CmsLinkInFolderValidationApp extends A_CmsWorkplaceApp implements I
          * @param resources Resources as state string
          * @param reverse boolean
          */
-        public CmsStateBean(String resources, boolean reverse) {
+        public CmsStateBean(@RUntainted String resources, @RUntainted boolean reverse) {
 
             setCmsObject();
             m_resources = getResourcesFromState(resources);
@@ -243,12 +244,12 @@ public class CmsLinkInFolderValidationApp extends A_CmsWorkplaceApp implements I
          * @param state to be read
          * @return CmsStateBean
          */
-        public static CmsStateBean parseState(String state) {
+        public static CmsStateBean parseState(@RUntainted String state) {
 
             if (CmsStringUtil.isEmptyOrWhitespaceOnly(state)) {
                 return new CmsStateBean(Collections.emptyList(), false);
             }
-            String[] parameter = state.split(STATE_SEPERATOR);
+            @RUntainted String[] parameter = state.split(STATE_SEPERATOR);
             boolean reverse = false;
             if (parameter.length > 1) {
                 reverse = Boolean.parseBoolean(parameter[1]);
@@ -261,7 +262,7 @@ public class CmsLinkInFolderValidationApp extends A_CmsWorkplaceApp implements I
          *
          * @return List of resource root paths
          */
-        public List<String> getResources() {
+        public @RUntainted List<String> getResources() {
 
             return m_resources;
         }
@@ -271,7 +272,7 @@ public class CmsLinkInFolderValidationApp extends A_CmsWorkplaceApp implements I
          *
          * @return state string
          */
-        public String getState() {
+        public @RUntainted String getState() {
 
             return getResourceString() + STATE_SEPERATOR + Boolean.valueOf(m_reverse).toString();
 
@@ -293,7 +294,7 @@ public class CmsLinkInFolderValidationApp extends A_CmsWorkplaceApp implements I
          * @param resources state string
          * @return List of resource paths
          */
-        private List<String> getResourcesFromState(String resources) {
+        private List<String> getResourcesFromState(@RUntainted String resources) {
 
             if (CmsStringUtil.isEmptyOrWhitespaceOnly(resources)) {
                 return Collections.EMPTY_LIST;
@@ -315,7 +316,7 @@ public class CmsLinkInFolderValidationApp extends A_CmsWorkplaceApp implements I
          *
          * @return resources as string to use in state
          */
-        private String getResourceString() {
+        private @RUntainted String getResourceString() {
 
             String res = "";
             try {
@@ -383,7 +384,7 @@ public class CmsLinkInFolderValidationApp extends A_CmsWorkplaceApp implements I
      * @see org.opencms.ui.apps.A_CmsWorkplaceApp#getComponentForState(java.lang.String)
      */
     @Override
-    protected Component getComponentForState(String state) {
+    protected Component getComponentForState(@RUntainted String state) {
 
         m_stateBean = CmsStateBean.parseState(state);
         if (m_revertButton == null) {

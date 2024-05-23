@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains the settings for the synchronization.<p>
@@ -50,13 +51,13 @@ public class CmsSynchronizeSettings implements Serializable {
     private static final long serialVersionUID = 3713893787290111758L;
 
     /** The destination path of the synchronization in the "real" file system. */
-    private String m_destinationPathInRfs;
+    private @RUntainted String m_destinationPathInRfs;
 
     /** Indicates if the synchronization is enabled or not. */
-    private boolean m_enabled;
+    private @RUntainted boolean m_enabled;
 
     /** The source path list of the synchronization in the OpenCms VFS. */
-    private List<String> m_sourceListInVfs;
+    private List<@RUntainted String> m_sourceListInVfs;
 
     /**
      * Empty constructor, called from the configuration.<p>
@@ -104,7 +105,7 @@ public class CmsSynchronizeSettings implements Serializable {
      *
      * @return the destination path of the synchronization in the "real" file system
      */
-    public String getDestinationPathInRfs() {
+    public @RUntainted String getDestinationPathInRfs() {
 
         return m_destinationPathInRfs;
     }
@@ -116,7 +117,7 @@ public class CmsSynchronizeSettings implements Serializable {
      *
      * @return the source path list of the synchronization in the OpenCms VFS
      */
-    public List<String> getSourceListInVfs() {
+    public List<@RUntainted String> getSourceListInVfs() {
 
         return m_sourceListInVfs;
     }
@@ -126,7 +127,7 @@ public class CmsSynchronizeSettings implements Serializable {
      *
      * @return the enabled flag
      */
-    public boolean isEnabled() {
+    public @RUntainted boolean isEnabled() {
 
         return m_enabled;
     }
@@ -149,7 +150,7 @@ public class CmsSynchronizeSettings implements Serializable {
      *
      * @param destinationPathInRfs the destination path of the synchronization in the "real" file system to set
      */
-    public void setDestinationPathInRfs(String destinationPathInRfs) {
+    public void setDestinationPathInRfs(@RUntainted String destinationPathInRfs) {
 
         String destination;
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(destinationPathInRfs)) {
@@ -183,7 +184,7 @@ public class CmsSynchronizeSettings implements Serializable {
      *
      * @param enabled the enabled flag to set
      */
-    public void setEnabled(boolean enabled) {
+    public void setEnabled(@RUntainted boolean enabled) {
 
         m_enabled = enabled;
     }
@@ -195,7 +196,7 @@ public class CmsSynchronizeSettings implements Serializable {
      *
      * @param sourceListInVfs the source path list of the synchronization in the OpenCms VFS to set
      */
-    public void setSourceListInVfs(List<String> sourceListInVfs) {
+    public void setSourceListInVfs(List<@RUntainted String> sourceListInVfs) {
 
         if (sourceListInVfs == null) {
             m_sourceListInVfs = new ArrayList<String>();
@@ -241,14 +242,14 @@ public class CmsSynchronizeSettings implements Serializable {
      * @param sourceListInVfs the list of VFS resources to optimize
      * @return the optimized result list
      */
-    protected List<String> optimizeSourceList(List<String> sourceListInVfs) {
+    protected List<@RUntainted String> optimizeSourceList(List<@RUntainted String> sourceListInVfs) {
 
         // input should be sorted but may be immutable
-        List<String> input = new ArrayList<String>(sourceListInVfs);
+        List<@RUntainted String> input = new ArrayList<@RUntainted String>(sourceListInVfs);
         Collections.sort(input);
 
-        List<String> result = new ArrayList<String>();
-        Iterator<String> i = input.iterator();
+        List<@RUntainted String> result = new ArrayList<@RUntainted String>();
+        Iterator<@RUntainted String> i = input.iterator();
         while (i.hasNext()) {
             // check all sources in the list
             String sourceInVfs = i.next();

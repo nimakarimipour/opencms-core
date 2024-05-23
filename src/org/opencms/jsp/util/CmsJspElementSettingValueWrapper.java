@@ -29,6 +29,7 @@ package org.opencms.jsp.util;
 
 import org.opencms.file.CmsObject;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Element setting access wrapper.<p>
@@ -45,7 +46,7 @@ public class CmsJspElementSettingValueWrapper extends A_CmsJspValueWrapper {
     private int m_hashCode;
 
     /** The wrapped setting value, which always is a String. */
-    private String m_value;
+    private @RUntainted String m_value;
 
     /**
      * Constructor.<p>
@@ -54,7 +55,7 @@ public class CmsJspElementSettingValueWrapper extends A_CmsJspValueWrapper {
      * @param value the wrapped value
      * @param exists flag indicating the setting has been configured
      */
-    CmsJspElementSettingValueWrapper(CmsJspStandardContextBean contextBean, String value, boolean exists) {
+    CmsJspElementSettingValueWrapper(CmsJspStandardContextBean contextBean, @RUntainted String value, boolean exists) {
 
         m_contextBean = contextBean;
         m_value = value;
@@ -107,7 +108,7 @@ public class CmsJspElementSettingValueWrapper extends A_CmsJspValueWrapper {
      * @see org.opencms.jsp.util.A_CmsJspValueWrapper#getObjectValue()
      */
     @Override
-    public Object getObjectValue() {
+    public @RUntainted Object getObjectValue() {
 
         return m_value;
     }

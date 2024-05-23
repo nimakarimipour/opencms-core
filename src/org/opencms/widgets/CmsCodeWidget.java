@@ -51,6 +51,7 @@ import org.apache.commons.logging.Log;
 import com.google.web.bindery.autobean.shared.AutoBean;
 import com.google.web.bindery.autobean.shared.AutoBeanCodex;
 import com.google.web.bindery.autobean.vm.AutoBeanFactorySource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Widget for editing source code.
@@ -85,7 +86,7 @@ public class CmsCodeWidget extends A_CmsWidget implements I_CmsADEWidget {
      *
      * @param configuration the configuration
      */
-    public CmsCodeWidget(String configuration) {
+    public CmsCodeWidget(@RUntainted String configuration) {
 
         setConfiguration(configuration);
     }
@@ -175,7 +176,7 @@ public class CmsCodeWidget extends A_CmsWidget implements I_CmsADEWidget {
     /**
      * @see org.opencms.widgets.I_CmsADEWidget#getWidgetName()
      */
-    public String getWidgetName() {
+    public @RUntainted String getWidgetName() {
 
         return CmsCodeWidget.class.getName();
     }

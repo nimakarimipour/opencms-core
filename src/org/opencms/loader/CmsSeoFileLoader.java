@@ -38,6 +38,7 @@ import org.opencms.xml.content.CmsXmlContentFactory;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The SEO file loader.<p>
@@ -53,7 +54,7 @@ public class CmsSeoFileLoader extends A_CmsXmlDocumentLoader {
     /**
      * @see org.opencms.loader.I_CmsResourceLoader#getLoaderId()
      */
-    public int getLoaderId() {
+    public @RUntainted int getLoaderId() {
 
         return LOADER_ID;
     }
@@ -72,7 +73,7 @@ public class CmsSeoFileLoader extends A_CmsXmlDocumentLoader {
     @Override
     protected CmsTemplateLoaderFacade getTemplateLoaderFacade(
         CmsObject cms,
-        CmsResource resource,
+        @RUntainted CmsResource resource,
         HttpServletRequest req)
     throws CmsException {
 
@@ -84,7 +85,7 @@ public class CmsSeoFileLoader extends A_CmsXmlDocumentLoader {
      * @see org.opencms.loader.A_CmsXmlDocumentLoader#getTemplatePropertyDefinition()
      */
     @Override
-    protected String getTemplatePropertyDefinition() {
+    protected @RUntainted String getTemplatePropertyDefinition() {
 
         throw new CmsRuntimeException(
             Messages.get().container(Messages.ERR_TEMPLATE_PROTERTY_UNSUPPORTED_1, getClass().getName()));
@@ -94,7 +95,7 @@ public class CmsSeoFileLoader extends A_CmsXmlDocumentLoader {
      * @see org.opencms.loader.A_CmsXmlDocumentLoader#unmarshalXmlDocument(org.opencms.file.CmsObject, org.opencms.file.CmsResource, javax.servlet.ServletRequest)
      */
     @Override
-    protected I_CmsXmlDocument unmarshalXmlDocument(CmsObject cms, CmsResource resource, ServletRequest req)
+    protected I_CmsXmlDocument unmarshalXmlDocument(@RUntainted CmsObject cms, @RUntainted CmsResource resource, ServletRequest req)
     throws CmsException {
 
         return CmsXmlContentFactory.unmarshal(cms, resource, req);

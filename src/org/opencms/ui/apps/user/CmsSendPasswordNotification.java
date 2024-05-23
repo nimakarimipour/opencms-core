@@ -37,6 +37,7 @@ import org.opencms.notification.CmsNotificationMacroResolver;
 import org.opencms.ui.login.CmsLoginHelper;
 import org.opencms.util.CmsMacroResolver;
 import org.opencms.workplace.CmsWorkplaceLoginHandler;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class to send email to user in case of password reset or creating new user.<p>
@@ -67,10 +68,10 @@ public class CmsSendPasswordNotification extends A_CmsNotification {
      * @param tempPassword <code>true</code> to use a temporary password
      */
     public CmsSendPasswordNotification(
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         String password,
         CmsUser receiver,
-        String ou,
+        @RUntainted String ou,
         CmsUser adminUser,
         boolean newUser,
         boolean tempPassword) {
@@ -116,10 +117,10 @@ public class CmsSendPasswordNotification extends A_CmsNotification {
      */
     @Deprecated
     public CmsSendPasswordNotification(
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         String password,
         CmsUser receiver,
-        String ou,
+        @RUntainted String ou,
         CmsUser adminUser,
         String link,
         boolean newUser,

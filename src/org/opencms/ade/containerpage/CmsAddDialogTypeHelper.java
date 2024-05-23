@@ -63,6 +63,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for preparing the resource type lists for gallery and new dialog.<p>
@@ -74,7 +75,7 @@ public class CmsAddDialogTypeHelper {
     private static final Log LOG = CmsLog.getLog(CmsAddDialogTypeHelper.class);
 
     /** All types from the ADE config previously processed. */
-    private Set<String> m_allAdeTypes = Sets.newHashSet();
+    private Set<@RUntainted String> m_allAdeTypes = Sets.newHashSet();
 
     /** Cached type lists. */
     private Multimap<CmsUUID, CmsResourceTypeBean> m_cachedTypes;
@@ -122,9 +123,9 @@ public class CmsAddDialogTypeHelper {
      * @throws CmsException if something goes wrong
      */
     public List<CmsResourceTypeBean> getResourceTypes(
-        CmsObject cms,
-        String folderRootPath,
-        String createContextPath,
+        @RUntainted CmsObject cms,
+        @RUntainted String folderRootPath,
+        @RUntainted String createContextPath,
         String checkViewableReferenceUri,
         CmsElementView elementView,
         I_CmsResourceTypeEnabledCheck checkEnabled)
@@ -152,7 +153,7 @@ public class CmsAddDialogTypeHelper {
             }
         }
         if (OpenCms.getRoleManager().hasRole(cms, CmsRole.DEVELOPER) && elementView.isOther()) {
-            Set<String> hiddenTypes = new HashSet<String>(m_allAdeTypes);
+            Set<@RUntainted String> hiddenTypes = new HashSet<@RUntainted String>(m_allAdeTypes);
             hiddenTypes.removeAll(m_includedAdeTypes);
             for (String typeName : hiddenTypes) {
                 if (OpenCms.getResourceManager().hasResourceType(typeName)) {
@@ -183,8 +184,8 @@ public class CmsAddDialogTypeHelper {
      * @param check object to check whether resource types should be enabled
      */
     public void precomputeTypeLists(
-        CmsObject cms,
-        String folderRootPath,
+        @RUntainted CmsObject cms,
+        @RUntainted String folderRootPath,
         String checkViewableReferenceUri,
         List<CmsElementView> views,
         I_CmsResourceTypeEnabledCheck check) {
@@ -241,9 +242,9 @@ public class CmsAddDialogTypeHelper {
      * @throws CmsException if something goes wrong
      */
     private List<CmsResourceTypeBean> internalGetResourceTypesFromConfig(
-        CmsObject cms,
-        String folderRootPath,
-        String createContextPath,
+        @RUntainted CmsObject cms,
+        @RUntainted String folderRootPath,
+        @RUntainted String createContextPath,
         String checkViewableReferenceUri,
         CmsElementView elementView,
         List<I_CmsResourceType> additionalTypes,
@@ -259,7 +260,7 @@ public class CmsAddDialogTypeHelper {
         Set<String> disabledTypes = new HashSet<String>();
         final Set<String> typesAtTheEndOfTheList = Sets.newHashSet();
         Set<String> typesFromConfig = Sets.newHashSet();
-        Map<String, String> createPaths = Maps.newHashMap();
+        Map<String, @RUntainted String> createPaths = Maps.newHashMap();
         Map<String, String> namePatterns = Maps.newHashMap();
         for (CmsResourceTypeConfig typeConfig : config.getResourceTypes()) {
             m_allAdeTypes.add(typeConfig.getTypeName());

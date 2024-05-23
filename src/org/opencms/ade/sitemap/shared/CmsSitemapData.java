@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Sitemap initialization data bean for prefetching.<p>
@@ -134,7 +135,7 @@ public class CmsSitemapData implements IsSerializable {
     private String m_noEditReason;
 
     /** The path at which the sitemap should be opened, or null. */
-    private String m_openPath;
+    private @RUntainted String m_openPath;
 
     /** The properties of the root's parent. */
     private Map<String, CmsClientProperty> m_parentProperties;
@@ -143,7 +144,7 @@ public class CmsSitemapData implements IsSerializable {
     private String m_parentSitemap;
 
     /** The sitemap properties. */
-    private Map<String, CmsXmlContentProperty> m_properties;
+    private Map<@RUntainted String, CmsXmlContentProperty> m_properties;
 
     /** The resource type information. */
     private List<CmsNewResourceInfo> m_resourceTypeInfos;
@@ -215,7 +216,7 @@ public class CmsSitemapData implements IsSerializable {
      */
     public CmsSitemapData(
         Map<String, CmsClientTemplateBean> templates,
-        Map<String, CmsXmlContentProperty> properties,
+        Map<@RUntainted String, CmsXmlContentProperty> properties,
         CmsSitemapClipboardData clipboardData,
         List<CmsContextMenuEntryBean> contextMenuEntries,
         Map<String, CmsClientProperty> parentProperties,
@@ -231,7 +232,7 @@ public class CmsSitemapData implements IsSerializable {
         CmsSitemapInfo sitemapInfo,
         String parentSitemap,
         CmsClientSitemapEntry root,
-        String openPath,
+        @RUntainted String openPath,
         int maxDepth,
         CmsDetailPageTable detailPageTable,
         List<CmsNewResourceInfo> resourceTypeInfos,
@@ -466,7 +467,7 @@ public class CmsSitemapData implements IsSerializable {
      *
      * @return the path at which the sitemap should be opened
      */
-    public String getOpenPath() {
+    public @RUntainted String getOpenPath() {
 
         return m_openPath;
     }

@@ -73,6 +73,7 @@ import com.vaadin.server.Resource;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Main module manager app class.<p>
@@ -138,7 +139,7 @@ public class CmsModuleApp extends A_CmsAttributeAwareApp implements I_CmsCachabl
          */
         @SuppressWarnings("synthetic-access")
         @Override
-        public void executeAction(final Set<String> context) {
+        public void executeAction(final @RUntainted Set<@RUntainted String> context) {
 
             try {
                 final String moduleName = context.iterator().next();
@@ -182,7 +183,7 @@ public class CmsModuleApp extends A_CmsAttributeAwareApp implements I_CmsCachabl
                                 }
 
                                 @Override
-                                public void onSiteSelect(String site) {
+                                public void onSiteSelect(@RUntainted String site) {
 
                                     cms.getRequestContext().setSiteRoot(site);
                                     openReport(
@@ -348,7 +349,7 @@ public class CmsModuleApp extends A_CmsAttributeAwareApp implements I_CmsCachabl
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
         @Override
-        public void executeAction(final Set<String> context) {
+        public void executeAction(final @RUntainted Set<@RUntainted String> context) {
 
             final CmsObject cms = A_CmsUI.getCmsObject();
             final String moduleName = context.iterator().next();
@@ -395,7 +396,7 @@ public class CmsModuleApp extends A_CmsAttributeAwareApp implements I_CmsCachabl
                     }
 
                     @Override
-                    public void onSiteSelect(String site) {
+                    public void onSiteSelect(@RUntainted String site) {
 
                         cms.getRequestContext().setSiteRoot(site);
                         Window window = CmsBasicDialog.prepareWindow(DialogWidth.wide);
@@ -638,7 +639,7 @@ public class CmsModuleApp extends A_CmsAttributeAwareApp implements I_CmsCachabl
      * @see org.opencms.ui.apps.A_CmsWorkplaceApp#onStateChange(java.lang.String)
      */
     @Override
-    public void onStateChange(String state) {
+    public void onStateChange(@RUntainted String state) {
 
         View view = CmsAppWorkplaceUi.get().getCurrentView();
         ((CmsAppView)view).setCacheStatus(CacheStatus.cache);
@@ -664,7 +665,7 @@ public class CmsModuleApp extends A_CmsAttributeAwareApp implements I_CmsCachabl
      * @param thread the report thread which should be displayed in the sub view
      * @param label the label to display for the report
      */
-    public void openReport(String newState, A_CmsReportThread thread, String label) {
+    public void openReport(@RUntainted String newState, A_CmsReportThread thread, String label) {
 
         setReport(newState, thread);
         m_labels.put(thread, label);

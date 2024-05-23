@@ -31,6 +31,7 @@ import org.opencms.file.CmsFile;
 import org.opencms.file.CmsObject;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This interface serves to retrieve all links from a given file by parsing.<p>
@@ -61,5 +62,5 @@ public interface I_CmsLinkParseable {
      *
      * @return a list of {@link CmsLink} objects with the URIs of all linked resources
      */
-    List<CmsLink> parseLinks(CmsObject cms, CmsFile file);
+    List<CmsLink> parseLinks(@RUntainted CmsObject cms, CmsFile file);
 }

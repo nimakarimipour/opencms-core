@@ -47,6 +47,7 @@ import org.opencms.ui.favorites.CmsPageEditorFavoriteContext;
 import java.util.List;
 
 import com.vaadin.server.VaadinRequest;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The action for the favorite dialog.
@@ -110,7 +111,7 @@ public class CmsFavoriteDialogAction extends A_CmsWorkplaceAction {
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
      */
     @Override
-    protected String getTitleKey() {
+    protected @RUntainted String getTitleKey() {
 
         return "FAVORITE";
     }

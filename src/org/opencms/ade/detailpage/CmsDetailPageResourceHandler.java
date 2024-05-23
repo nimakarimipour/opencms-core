@@ -50,6 +50,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Resource init handler for detail-pages.<p>
@@ -115,7 +117,7 @@ public class CmsDetailPageResourceHandler implements I_CmsResourceInit {
     /**
      * @see org.opencms.main.I_CmsResourceInit#initResource(org.opencms.file.CmsResource, org.opencms.file.CmsObject, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-    public CmsResource initResource(
+    public @RUntainted CmsResource initResource(
         CmsResource resource,
         CmsObject cms,
         HttpServletRequest req,

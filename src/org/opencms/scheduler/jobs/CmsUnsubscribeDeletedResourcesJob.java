@@ -33,6 +33,7 @@ import org.opencms.scheduler.I_CmsScheduledJob;
 import org.opencms.util.CmsStringUtil;
 
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A scheduled OpenCms job to unsubscribe deleted resources.<p>
@@ -57,7 +58,7 @@ public class CmsUnsubscribeDeletedResourcesJob implements I_CmsScheduledJob {
     /**
      * @see org.opencms.scheduler.I_CmsScheduledJob#launch(org.opencms.file.CmsObject, java.util.Map)
      */
-    public String launch(CmsObject cms, Map<String, String> parameters) throws Exception {
+    public @RUntainted String launch(CmsObject cms, Map<String, String> parameters) throws Exception {
 
         // read the parameter for the deleted days
         int deletedDays = 30;

@@ -35,6 +35,7 @@ import org.opencms.util.CmsUUID;
 
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Project wrapper which specially handles the 'release' workflow by reading resources of a project regardless of publish permissions.
@@ -55,7 +56,7 @@ public class CmsExtendedRealProjectWrapper extends CmsRealProjectVirtualWrapper 
      * @see org.opencms.ade.publish.CmsRealProjectVirtualWrapper#getResources(org.opencms.file.CmsObject, java.util.Map, java.lang.String)
      */
     @Override
-    public List<CmsResource> getResources(CmsObject cms, Map<String, String> params, String workflowId)
+    public @RUntainted List<CmsResource> getResources(CmsObject cms, Map<String, String> params, String workflowId)
     throws CmsException {
 
         if (CmsExtendedWorkflowManager.WORKFLOW_RELEASE.equals(workflowId)) {

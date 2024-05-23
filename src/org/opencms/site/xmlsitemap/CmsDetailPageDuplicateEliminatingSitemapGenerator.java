@@ -53,6 +53,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Sitemap generator class which tries to eliminate duplicate detail pages for the same content and locale.<p>
@@ -81,7 +82,7 @@ public class CmsDetailPageDuplicateEliminatingSitemapGenerator extends CmsXmlSit
      * @param sitemapPath the sitemap path
      * @throws CmsException if something goes wrong
      */
-    public CmsDetailPageDuplicateEliminatingSitemapGenerator(String sitemapPath)
+    public CmsDetailPageDuplicateEliminatingSitemapGenerator(@RUntainted String sitemapPath)
     throws CmsException {
 
         super(sitemapPath);
@@ -149,7 +150,7 @@ public class CmsDetailPageDuplicateEliminatingSitemapGenerator extends CmsXmlSit
      * @see org.opencms.site.xmlsitemap.CmsXmlSitemapGenerator#addDetailLinks(org.opencms.file.CmsResource, java.util.Locale)
      */
     @Override
-    protected void addDetailLinks(CmsResource containerPage, Locale locale) throws CmsException {
+    protected void addDetailLinks(CmsResource containerPage, @RUntainted Locale locale) throws CmsException {
 
         Collection<DetailInfo> detailInfos = getDetailInfosForPage(containerPage);
         for (DetailInfo info : detailInfos) {
@@ -186,7 +187,7 @@ public class CmsDetailPageDuplicateEliminatingSitemapGenerator extends CmsXmlSit
      *
      * @throws CmsException if something goes wrong
      */
-    private List<CmsResource> getContents(String folderPath, String type) throws CmsException {
+    private List<CmsResource> getContents(String folderPath, @RUntainted String type) throws CmsException {
 
         CmsPathMap<CmsResource> pathMap = getPathMapForType(type);
         return pathMap.getChildValues(folderPath);
@@ -222,7 +223,7 @@ public class CmsDetailPageDuplicateEliminatingSitemapGenerator extends CmsXmlSit
      *
      * @throws CmsException if something goes wrong
      */
-    private CmsPathMap<CmsResource> getPathMapForType(String typeName) throws CmsException {
+    private CmsPathMap<CmsResource> getPathMapForType(@RUntainted String typeName) throws CmsException {
 
         if (!m_pathMapsByType.containsKey(typeName)) {
             CmsPathMap<CmsResource> pathMap = readPathMapForType(
@@ -243,7 +244,7 @@ public class CmsDetailPageDuplicateEliminatingSitemapGenerator extends CmsXmlSit
         List<CmsResource> result = new ArrayList<CmsResource>();
         CmsResourceFilter filter = CmsResourceFilter.DEFAULT_FILES.addRequireType(type);
         try {
-            List<CmsResource> siteFiles = m_guestCms.readResources(m_siteRoot, filter, true);
+            List<@RUntainted CmsResource> siteFiles = m_guestCms.readResources(m_siteRoot, filter, true);
             result.addAll(siteFiles);
         } catch (CmsException e) {
             LOG.error("XML sitemap generator error: " + e.getLocalizedMessage(), e);
@@ -251,7 +252,7 @@ public class CmsDetailPageDuplicateEliminatingSitemapGenerator extends CmsXmlSit
         String shared = CmsFileUtil.removeTrailingSeparator(OpenCms.getSiteManager().getSharedFolder());
         if (shared != null) {
             try {
-                List<CmsResource> sharedFiles = m_guestCms.readResources(shared, filter, true);
+                List<@RUntainted CmsResource> sharedFiles = m_guestCms.readResources(shared, filter, true);
                 result.addAll(sharedFiles);
             } catch (CmsException e) {
                 LOG.error("XML sitemap generator error: " + e.getLocalizedMessage(), e);

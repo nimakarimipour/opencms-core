@@ -60,6 +60,7 @@ import java.text.DecimalFormatSymbols;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Vector;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * PrintfFormat allows the formatting of an array of
@@ -521,7 +522,7 @@ public class PrintfFormat {
         private int m_argumentPositionForPrecision;
 
         /** Control string type. */
-        private char m_conversionCharacter;
+        private @RUntainted char m_conversionCharacter;
 
         /**
          * If the converted value has fewer bytes than the
@@ -654,7 +655,7 @@ public class PrintfFormat {
          *     input string is null, zero length, or
          *     otherwise malformed.
          */
-        ConversionSpecification(String fmtArg)
+        ConversionSpecification(@RUntainted String fmtArg)
         throws CmsIllegalArgumentException {
 
             if (fmtArg == null) {
@@ -3307,7 +3308,7 @@ public class PrintfFormat {
     DecimalFormatSymbols m_dfs;
 
     /** Character position. Used by the constructor. */
-    private int m_cPos;
+    private @RUntainted int m_cPos;
 
     /** Vector of control strings and format literals. */
     private Vector<ConversionSpecification> m_vFmt = new Vector<ConversionSpecification>();
@@ -3325,7 +3326,7 @@ public class PrintfFormat {
      * string is null, zero length, or otherwise
      * malformed.
      */
-    public PrintfFormat(Locale locale, String fmtArg)
+    public PrintfFormat(Locale locale, @RUntainted String fmtArg)
     throws CmsIllegalArgumentException {
 
         m_dfs = new DecimalFormatSymbols(locale);
@@ -3405,7 +3406,7 @@ public class PrintfFormat {
      * string is null, zero length, or otherwise
      * malformed.
      */
-    public PrintfFormat(String fmtArg)
+    public PrintfFormat(@RUntainted String fmtArg)
     throws IllegalArgumentException {
 
         this(Locale.getDefault(), fmtArg);
@@ -3645,7 +3646,7 @@ public class PrintfFormat {
      * @exception CmsIllegalArgumentException if the
      *   conversion character is neither s nor S.
      */
-    public String sprintf(String x) throws CmsIllegalArgumentException {
+    public @RUntainted String sprintf(String x) throws CmsIllegalArgumentException {
 
         Enumeration<ConversionSpecification> e = m_vFmt.elements();
         ConversionSpecification cs = null;
@@ -3678,7 +3679,7 @@ public class PrintfFormat {
      * @return the substring from the start position
      *     to the beginning of the control string.
      */
-    private String nonControl(String s, int start) {
+    private String nonControl(@RUntainted String s, @RUntainted int start) {
 
         m_cPos = s.indexOf("%", start);
         if (m_cPos == -1) {

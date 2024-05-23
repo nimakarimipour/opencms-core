@@ -30,6 +30,7 @@ package org.opencms.configuration.preferences;
 import org.opencms.file.CmsObject;
 import org.opencms.main.OpenCms;
 import org.opencms.xml.content.CmsXmlContentProperty;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Workplace mode preference configuration.<p>
@@ -50,7 +51,7 @@ public class CmsWorkplaceModePreference extends CmsBuiltinPreference {
      *
      * @param propName the name of the bean property used to access this preference
      */
-    public CmsWorkplaceModePreference(String propName) {
+    public CmsWorkplaceModePreference(@RUntainted String propName) {
 
         super(propName);
         m_basic = false;
@@ -60,7 +61,7 @@ public class CmsWorkplaceModePreference extends CmsBuiltinPreference {
      * @see org.opencms.configuration.preferences.CmsBuiltinPreference#getDefaultValue()
      */
     @Override
-    public String getDefaultValue() {
+    public @RUntainted String getDefaultValue() {
 
         return "new";
     }
@@ -70,7 +71,7 @@ public class CmsWorkplaceModePreference extends CmsBuiltinPreference {
      *
      * @return the nice name key
      */
-    public String getNiceName() {
+    public @RUntainted String getNiceName() {
 
         return NICE_NAME;
     }

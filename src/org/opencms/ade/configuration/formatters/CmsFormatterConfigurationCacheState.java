@@ -43,6 +43,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents the currently cached collection of all formatter beans extracted from formatter configuration files.<p>
@@ -58,7 +59,7 @@ public class CmsFormatterConfigurationCacheState {
     private Map<CmsUUID, I_CmsFormatterBean> m_autoEnabledFormatters;
 
     /** Map of formatter beans by structure id. */
-    private Map<CmsUUID, I_CmsFormatterBean> m_formatters = new HashMap<CmsUUID, I_CmsFormatterBean>();
+    private Map<CmsUUID, @RUntainted I_CmsFormatterBean> m_formatters = new HashMap<CmsUUID, @RUntainted I_CmsFormatterBean>();
 
     /** The map of formatters by resource type. */
     private Multimap<String, I_CmsFormatterBean> m_formattersByType;
@@ -110,7 +111,7 @@ public class CmsFormatterConfigurationCacheState {
 
         if (m_autoEnabledFormatters == null) {
             Map<CmsUUID, I_CmsFormatterBean> result = Maps.newHashMap();
-            for (Map.Entry<CmsUUID, I_CmsFormatterBean> entry : m_formatters.entrySet()) {
+            for (Map.Entry<CmsUUID, @RUntainted I_CmsFormatterBean> entry : m_formatters.entrySet()) {
                 if (entry.getValue().isAutoEnabled()) {
                     result.put(entry.getKey(), entry.getValue());
                 }
@@ -125,7 +126,7 @@ public class CmsFormatterConfigurationCacheState {
      *
      * @return the map of all formatters
      */
-    public Map<CmsUUID, I_CmsFormatterBean> getFormatters() {
+    public Map<CmsUUID, @RUntainted I_CmsFormatterBean> getFormatters() {
 
         return Collections.unmodifiableMap(m_formatters);
     }

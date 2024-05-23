@@ -51,6 +51,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A collector to fetch XML contents in a folder or the current site filtered by one or more given category types.<p>
@@ -101,7 +102,7 @@ public class CmsCategoryResourceCollector extends A_CmsResourceCollector {
         public static final String PARAM_KEY_SUB_TREE = "subTree";
 
         /** The list of category types. */
-        private List<String> m_categoryTypes;
+        private List<@RUntainted String> m_categoryTypes;
 
         /** Indicates if the returned list will be sorted ascending or not (descending). */
         private boolean m_sortAsc;
@@ -122,7 +123,7 @@ public class CmsCategoryResourceCollector extends A_CmsResourceCollector {
          *
          * @throws CmsLoaderException if the given configuration is not valid.
          */
-        public CmsCategoryCollectorData(String data)
+        public CmsCategoryCollectorData(@RUntainted String data)
         throws CmsLoaderException {
 
             parseExtendedData(data);
@@ -133,7 +134,7 @@ public class CmsCategoryResourceCollector extends A_CmsResourceCollector {
          *
          * @return the list of requested categories
          */
-        public List<String> getCategoryTypes() {
+        public List<@RUntainted String> getCategoryTypes() {
 
             return m_categoryTypes;
         }
@@ -195,13 +196,13 @@ public class CmsCategoryResourceCollector extends A_CmsResourceCollector {
          *
          * @throws CmsLoaderException if something goes wrong
          */
-        private void parseExtendedData(String data) throws CmsLoaderException {
+        private void parseExtendedData(@RUntainted String data) throws CmsLoaderException {
 
-            String[] keyValueTokens = CmsStringUtil.splitAsArray(data, '|');
+            @RUntainted String[] keyValueTokens = CmsStringUtil.splitAsArray(data, '|');
             setType(-1);
             for (int i = keyValueTokens.length - 1; i >= 0; i--) {
                 String relation = keyValueTokens[i];
-                String[] keyValuePair = CmsStringUtil.splitAsArray(relation, '=');
+                @RUntainted String[] keyValuePair = CmsStringUtil.splitAsArray(relation, '=');
 
                 String key = keyValuePair[0];
                 String value = keyValuePair[1];
@@ -279,15 +280,15 @@ public class CmsCategoryResourceCollector extends A_CmsResourceCollector {
     protected static final Log LOG = CmsLog.getLog(CmsCategoryResourceCollector.class);
 
     /** Static array of the collectors implemented by this class. */
-    private static final String[] COLLECTORS = {"allKeyValuePairFiltered"};
+    private static final @RUntainted String[] COLLECTORS = {"allKeyValuePairFiltered"};
 
     /** Array list for fast collector name lookup. */
-    private static final List<String> COLLECTORS_LIST = Collections.unmodifiableList(Arrays.asList(COLLECTORS));
+    private static final List<@RUntainted String> COLLECTORS_LIST = Collections.unmodifiableList(Arrays.asList(COLLECTORS));
 
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getCollectorNames()
      */
-    public List<String> getCollectorNames() {
+    public List<@RUntainted String> getCollectorNames() {
 
         return COLLECTORS_LIST;
     }
@@ -295,7 +296,7 @@ public class CmsCategoryResourceCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getCreateLink(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String getCreateLink(CmsObject cms, String collectorName, String param)
+    public @RUntainted String getCreateLink(CmsObject cms, @RUntainted String collectorName, String param)
     throws CmsException, CmsDataAccessException {
 
         // if action is not set, use default action
@@ -316,7 +317,7 @@ public class CmsCategoryResourceCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getCreateParam(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String getCreateParam(CmsObject cms, String collectorName, String param) throws CmsDataAccessException {
+    public @RUntainted String getCreateParam(CmsObject cms, @RUntainted String collectorName, String param) throws CmsDataAccessException {
 
         // if action is not set, use default action
         if (collectorName == null) {
@@ -336,7 +337,7 @@ public class CmsCategoryResourceCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getResults(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public List<CmsResource> getResults(CmsObject cms, String collectorName, String param)
+    public List<CmsResource> getResults(CmsObject cms, @RUntainted String collectorName, String param)
     throws CmsDataAccessException, CmsException {
 
         return getResults(cms, collectorName, param, -1);
@@ -345,7 +346,7 @@ public class CmsCategoryResourceCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getResults(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public List<CmsResource> getResults(CmsObject cms, String collectorName, String param, int numResults)
+    public List<CmsResource> getResults(CmsObject cms, @RUntainted String collectorName, String param, int numResults)
     throws CmsDataAccessException, CmsException {
 
         // if action is not set use default
@@ -375,7 +376,7 @@ public class CmsCategoryResourceCollector extends A_CmsResourceCollector {
      *
      * @throws CmsException if something goes wrong
      */
-    protected List<CmsResource> allKeyValuePairFiltered(CmsObject cms, String param, int numResults)
+    protected List<CmsResource> allKeyValuePairFiltered(CmsObject cms, @RUntainted String param, int numResults)
     throws CmsException {
 
         CmsCategoryCollectorData data = new CmsCategoryCollectorData(param);
@@ -402,7 +403,7 @@ public class CmsCategoryResourceCollector extends A_CmsResourceCollector {
                 filter = filter.addExcludeTimerange();
             }
 
-            List<CmsResource> resources = cms.readResources(foldername, filter, includeSubTree);
+            List<@RUntainted CmsResource> resources = cms.readResources(foldername, filter, includeSubTree);
             List<String> categoryTypes = data.getCategoryTypes();
             Iterator<CmsResource> itResources = resources.iterator();
             CmsResource resource;

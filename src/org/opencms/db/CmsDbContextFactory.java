@@ -28,6 +28,7 @@
 package org.opencms.db;
 
 import org.opencms.file.CmsRequestContext;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A default implementation of {@link I_CmsDbContextFactory}.<p>
@@ -47,7 +48,7 @@ public class CmsDbContextFactory implements I_CmsDbContextFactory {
     /**
      * @see org.opencms.db.I_CmsDbContextFactory#getDbContext(org.opencms.file.CmsRequestContext)
      */
-    public CmsDbContext getDbContext(CmsRequestContext context) {
+    public @RUntainted CmsDbContext getDbContext(@RUntainted CmsRequestContext context) {
 
         return new CmsDbContext(context);
     }

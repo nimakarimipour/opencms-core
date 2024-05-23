@@ -34,6 +34,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.report.A_CmsReportThread;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Exports selected resources of the OpenCms into an OpenCms export file.<p>
@@ -55,7 +56,7 @@ public class CmsExportThread extends A_CmsReportThread {
      * @param handler export handler containing the export data
      * @param old flag for old report mode
      */
-    public CmsExportThread(CmsObject cms, I_CmsImportExportHandler handler, boolean old) {
+    public CmsExportThread(@RUntainted CmsObject cms, I_CmsImportExportHandler handler, boolean old) {
 
         super(cms, "OpenCms: " + handler.getDescription());
         m_handler = handler;

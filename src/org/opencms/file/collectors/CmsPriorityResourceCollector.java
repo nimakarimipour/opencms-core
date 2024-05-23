@@ -40,6 +40,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A collector to fetch sorted XML contents in a folder or subtree based on their priority
@@ -61,7 +62,7 @@ public class CmsPriorityResourceCollector extends A_CmsResourceCollector {
     public static final String PROPERTY_PRIORITY = "collector.priority";
 
     /** Static array of the collectors implemented by this class. */
-    private static final String[] COLLECTORS = {
+    private static final @RUntainted String[] COLLECTORS = {
         "allInFolderPriorityDateAsc",
         "allInSubTreePriorityDateAsc",
         "allInFolderPriorityDateDesc",
@@ -72,12 +73,12 @@ public class CmsPriorityResourceCollector extends A_CmsResourceCollector {
         "allMappedToUriPriorityDateDesc"};
 
     /** Array list for fast collector name lookup. */
-    private static final List<String> COLLECTORS_LIST = Collections.unmodifiableList(Arrays.asList(COLLECTORS));
+    private static final List<@RUntainted String> COLLECTORS_LIST = Collections.unmodifiableList(Arrays.asList(COLLECTORS));
 
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getCollectorNames()
      */
-    public List<String> getCollectorNames() {
+    public List<@RUntainted String> getCollectorNames() {
 
         return COLLECTORS_LIST;
     }
@@ -85,7 +86,7 @@ public class CmsPriorityResourceCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getCreateLink(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String getCreateLink(CmsObject cms, String collectorName, String param) throws CmsException {
+    public @RUntainted String getCreateLink(CmsObject cms, @RUntainted String collectorName, @RUntainted String param) throws CmsException {
 
         // if action is not set, use default action
         if (collectorName == null) {
@@ -115,7 +116,7 @@ public class CmsPriorityResourceCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getCreateParam(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String getCreateParam(CmsObject cms, String collectorName, String param) throws CmsDataAccessException {
+    public @RUntainted String getCreateParam(CmsObject cms, @RUntainted String collectorName, @RUntainted String param) throws CmsDataAccessException {
 
         // if action is not set, use default action
         if (collectorName == null) {
@@ -146,7 +147,7 @@ public class CmsPriorityResourceCollector extends A_CmsResourceCollector {
      * @see org.opencms.file.collectors.A_CmsResourceCollector#getCreateTypeId(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
     @Override
-    public int getCreateTypeId(CmsObject cms, String collectorName, String param) {
+    public int getCreateTypeId(CmsObject cms, String collectorName, @RUntainted String param) {
 
         int result = -1;
         if (param != null) {
@@ -158,7 +159,7 @@ public class CmsPriorityResourceCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getResults(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public List<CmsResource> getResults(CmsObject cms, String collectorName, String param)
+    public List<CmsResource> getResults(CmsObject cms, @RUntainted String collectorName, @RUntainted String param)
     throws CmsDataAccessException, CmsException {
 
         return getResults(cms, collectorName, param, -1);
@@ -167,7 +168,7 @@ public class CmsPriorityResourceCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getResults(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public List<CmsResource> getResults(CmsObject cms, String collectorName, String param, int numResults)
+    public List<CmsResource> getResults(CmsObject cms, @RUntainted String collectorName, @RUntainted String param, int numResults)
     throws CmsException, CmsDataAccessException {
 
         // if action is not set use default
@@ -223,7 +224,7 @@ public class CmsPriorityResourceCollector extends A_CmsResourceCollector {
      */
     protected List<CmsResource> allInFolderPriorityDate(
         CmsObject cms,
-        String param,
+        @RUntainted String param,
         boolean tree,
         boolean asc,
         int numResults) throws CmsException {
@@ -237,7 +238,7 @@ public class CmsPriorityResourceCollector extends A_CmsResourceCollector {
             // include all not yet released and expired resources in an offline project
             filter = filter.addExcludeTimerange();
         }
-        List<CmsResource> result = cms.readResources(foldername, filter, tree);
+        List<@RUntainted CmsResource> result = cms.readResources(foldername, filter, tree);
 
         // create priority comparator to use to sort the resources
         CmsPriorityDateResourceComparator comparator = new CmsPriorityDateResourceComparator(cms, asc);
@@ -258,7 +259,7 @@ public class CmsPriorityResourceCollector extends A_CmsResourceCollector {
      *
      * @throws CmsException if something goes wrong
      */
-    protected List<CmsResource> allInFolderPriorityTitle(CmsObject cms, String param, boolean tree, int numResults)
+    protected List<CmsResource> allInFolderPriorityTitle(CmsObject cms, @RUntainted String param, boolean tree, int numResults)
     throws CmsException {
 
         CmsCollectorData data = new CmsCollectorData(param);
@@ -270,7 +271,7 @@ public class CmsPriorityResourceCollector extends A_CmsResourceCollector {
             // include all not yet released and expired resources in an offline project
             filter = filter.addExcludeTimerange();
         }
-        List<CmsResource> result = cms.readResources(foldername, filter, tree);
+        List<@RUntainted CmsResource> result = cms.readResources(foldername, filter, tree);
 
         // create priority comparator to use to sort the resources
         CmsPriorityTitleResourceComparator comparator = new CmsPriorityTitleResourceComparator(cms);
@@ -292,7 +293,7 @@ public class CmsPriorityResourceCollector extends A_CmsResourceCollector {
      *
      * @throws CmsException if something goes wrong
      */
-    protected List<CmsResource> allMappedToUriPriorityDate(CmsObject cms, String param, boolean asc, int numResults)
+    protected List<CmsResource> allMappedToUriPriorityDate(CmsObject cms, @RUntainted String param, boolean asc, int numResults)
     throws CmsException {
 
         CmsCollectorData data = new CmsCollectorData(param);
@@ -305,7 +306,7 @@ public class CmsPriorityResourceCollector extends A_CmsResourceCollector {
             filter = filter.addExcludeTimerange();
         }
 
-        List<CmsResource> result = cms.readResources(foldername, filter, true);
+        List<@RUntainted CmsResource> result = cms.readResources(foldername, filter, true);
         List<CmsResource> mapped = new ArrayList<CmsResource>();
 
         // sort out the resources mapped to the current page

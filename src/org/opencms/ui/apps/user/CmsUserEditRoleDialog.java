@@ -53,6 +53,7 @@ import com.vaadin.v7.data.Item;
 import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the dialog to edit and view roles of user.<p>
@@ -97,9 +98,9 @@ public class CmsUserEditRoleDialog extends A_CmsEditUserGroupRoleDialog {
      * @see org.opencms.ui.apps.user.A_CmsEditUserGroupRoleDialog#addItem(java.util.Set)
      */
     @Override
-    public void addItem(Set<String> data) {
+    public void addItem(Set<@RUntainted String> data) {
 
-        Iterator<String> it = data.iterator();
+        Iterator<@RUntainted String> it = data.iterator();
         while (it.hasNext()) {
             String roleName = it.next();
             try {
@@ -204,7 +205,7 @@ public class CmsUserEditRoleDialog extends A_CmsEditUserGroupRoleDialog {
      * @see org.opencms.ui.apps.user.A_CmsEditUserGroupRoleDialog#getEmptyMessage()
      */
     @Override
-    public String getEmptyMessage() {
+    public @RUntainted String getEmptyMessage() {
 
         return Messages.GUI_USERMANAGEMENT_EDIT_EMPTY_ROLES_0;
     }
@@ -313,9 +314,9 @@ public class CmsUserEditRoleDialog extends A_CmsEditUserGroupRoleDialog {
      * @see org.opencms.ui.apps.user.A_CmsEditUserGroupRoleDialog#getStringSetValue(java.util.Set)
      */
     @Override
-    public Set<String> getStringSetValue(Set<Object> value) {
+    public Set<@RUntainted String> getStringSetValue(Set<Object> value) {
 
-        Set<String> res = new HashSet<String>();
+        Set<@RUntainted String> res = new HashSet<@RUntainted String>();
         for (Object o : value) {
             CmsRole role = (CmsRole)o;
             res.add(role.getFqn());
@@ -327,7 +328,7 @@ public class CmsUserEditRoleDialog extends A_CmsEditUserGroupRoleDialog {
      * @see org.opencms.ui.apps.user.A_CmsEditUserGroupRoleDialog#getWindowCaptionMessageKey()
      */
     @Override
-    public String getWindowCaptionMessageKey() {
+    public @RUntainted String getWindowCaptionMessageKey() {
 
         return Messages.GUI_USERMANAGEMENT_EDIT_USERROLES_1;
     }
@@ -336,10 +337,10 @@ public class CmsUserEditRoleDialog extends A_CmsEditUserGroupRoleDialog {
      * @see org.opencms.ui.apps.user.A_CmsEditUserGroupRoleDialog#removeItem(java.util.Set)
      */
     @Override
-    public void removeItem(Set<String> items) {
+    public void removeItem(Set<@RUntainted String> items) {
 
         try {
-            Iterator<String> iterator = items.iterator();
+            Iterator<@RUntainted String> iterator = items.iterator();
             while (iterator.hasNext()) {
                 CmsRole role = CmsRole.valueOfRoleName(iterator.next());
                 OpenCms.getRoleManager().removeUserFromRole(m_cms, role, m_principal.getName());

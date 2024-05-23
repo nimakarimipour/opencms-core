@@ -77,6 +77,7 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.solr.common.SolrInputDocument;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The search field implementation for Solr.<p>
@@ -89,7 +90,7 @@ public class CmsSolrFieldConfiguration extends CmsSearchFieldConfiguration {
     private static final Log LOG = CmsLog.getLog(CmsSolrFieldConfiguration.class);
 
     /** The content locale for the indexed document is stored in order to save performance. */
-    private Collection<Locale> m_contentLocales;
+    private Collection<@RUntainted Locale> m_contentLocales;
 
     /** A list of Solr fields. */
     private Map<String, CmsSolrField> m_solrFields = new HashMap<String, CmsSolrField>();
@@ -142,7 +143,7 @@ public class CmsSolrFieldConfiguration extends CmsSearchFieldConfiguration {
     @Override
     protected I_CmsSearchDocument appendAdditionalValuesToDcoument(
         I_CmsSearchDocument document,
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         CmsResource resource,
         I_CmsExtractionResult extractionResult,
         List<CmsProperty> properties,
@@ -174,7 +175,7 @@ public class CmsSolrFieldConfiguration extends CmsSearchFieldConfiguration {
             LOG.error(e.getMessage(), e);
         }
 
-        List<String> searchExcludeOptions = document.getMultivaluedFieldAsStringList(
+        List<@RUntainted String> searchExcludeOptions = document.getMultivaluedFieldAsStringList(
             CmsSearchField.FIELD_SEARCH_EXCLUDE);
         if ((searchExcludeOptions == null) || searchExcludeOptions.isEmpty()) {
             document.addSearchField(m_solrFields.get(CmsSearchField.FIELD_SEARCH_EXCLUDE), "false");
@@ -306,8 +307,8 @@ public class CmsSolrFieldConfiguration extends CmsSearchFieldConfiguration {
     @Override
     protected I_CmsSearchDocument appendFieldMappings(
         I_CmsSearchDocument document,
-        CmsObject cms,
-        CmsResource resource,
+        @RUntainted CmsObject cms,
+        @RUntainted CmsResource resource,
         I_CmsExtractionResult extractionResult,
         List<CmsProperty> properties,
         List<CmsProperty> propertiesSearched) {
@@ -315,7 +316,7 @@ public class CmsSolrFieldConfiguration extends CmsSearchFieldConfiguration {
         List<String> systemFields = new ArrayList<String>();
         // append field mappings directly stored in the extraction result
         if (null != extractionResult) {
-            Map<String, String> fieldMappings = extractionResult.getFieldMappings();
+            Map<@RUntainted String, @RUntainted String> fieldMappings = extractionResult.getFieldMappings();
             for (String fieldName : fieldMappings.keySet()) {
                 String value = fieldMappings.get(fieldName);
                 CmsSolrField f = new CmsSolrField(fieldName, null, null, null);
@@ -376,8 +377,8 @@ public class CmsSolrFieldConfiguration extends CmsSearchFieldConfiguration {
      */
     protected I_CmsSearchDocument appendFieldMappingsFromElementsOnThePage(
         I_CmsSearchDocument document,
-        CmsObject cms,
-        CmsResource resource,
+        @RUntainted CmsObject cms,
+        @RUntainted CmsResource resource,
         List<String> systemFields) {
 
         try {
@@ -444,13 +445,13 @@ public class CmsSolrFieldConfiguration extends CmsSearchFieldConfiguration {
     protected I_CmsSearchDocument appendLocales(
         I_CmsSearchDocument document,
         CmsObject cms,
-        CmsResource resource,
+        @RUntainted CmsResource resource,
         I_CmsExtractionResult extraction,
         List<CmsProperty> properties,
         List<CmsProperty> propertiesSearched) {
 
         // append the resource locales
-        Collection<Locale> resourceLocales = new ArrayList<Locale>();
+        Collection<@RUntainted Locale> resourceLocales = new ArrayList<@RUntainted Locale>();
         if ((extraction != null) && (!extraction.getLocales().isEmpty())) {
 
             CmsResourceManager resMan = OpenCms.getResourceManager();
@@ -489,7 +490,7 @@ public class CmsSolrFieldConfiguration extends CmsSearchFieldConfiguration {
                     final String value = prop.getValue();
 
                     // Write a Solr locale-aware field for every locale the system supports...
-                    final List<Locale> availableLocales = OpenCms.getLocaleManager().getAvailableLocales();
+                    final List<@RUntainted Locale> availableLocales = OpenCms.getLocaleManager().getAvailableLocales();
                     for (final Locale locale : availableLocales) {
                         final String lang = locale.getLanguage();
                         // Don't proceed if a field has already written for this locale.
@@ -582,7 +583,7 @@ public class CmsSolrFieldConfiguration extends CmsSearchFieldConfiguration {
      *
      * @return the determined locales for the given resource
      */
-    protected List<Locale> getContentLocales(CmsObject cms, CmsResource resource, I_CmsExtractionResult extraction) {
+    protected List<@RUntainted Locale> getContentLocales(CmsObject cms, @RUntainted CmsResource resource, I_CmsExtractionResult extraction) {
 
         // try to detect locale by filename
         Locale detectedLocale = CmsStringUtil.getLocaleForName(resource.getRootPath());
@@ -597,7 +598,7 @@ public class CmsSolrFieldConfiguration extends CmsSearchFieldConfiguration {
             detectedLocale = CmsStringUtil.getLocaleForText(extraction.getContent());
         }
         // take the detected locale or use the first configured default locale for this resource
-        List<Locale> result = new ArrayList<Locale>();
+        List<@RUntainted Locale> result = new ArrayList<@RUntainted Locale>();
         if (detectedLocale != null) {
             // take the found locale
             result.add(detectedLocale);
@@ -618,7 +619,7 @@ public class CmsSolrFieldConfiguration extends CmsSearchFieldConfiguration {
      *
      * @return the fields to map
      */
-    protected Set<CmsSearchField> getXSDMappings(CmsObject cms, CmsResource resource) {
+    protected Set<CmsSearchField> getXSDMappings(@RUntainted CmsObject cms, CmsResource resource) {
 
         try {
             if (CmsResourceTypeXmlContent.isXmlContent(resource)) {
@@ -641,7 +642,7 @@ public class CmsSolrFieldConfiguration extends CmsSearchFieldConfiguration {
      *
      * @return the fields to map
      */
-    protected Set<CmsSearchField> getXSDMappingsForPage(CmsObject cms, CmsResource resource) {
+    protected Set<CmsSearchField> getXSDMappingsForPage(@RUntainted CmsObject cms, CmsResource resource) {
 
         try {
             if (CmsResourceTypeXmlContent.isXmlContent(resource)) {

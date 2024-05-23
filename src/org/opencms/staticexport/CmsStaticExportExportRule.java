@@ -40,6 +40,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Help class for storing of export-rules.<p>
@@ -156,7 +157,7 @@ public class CmsStaticExportExportRule {
                 resources.add(new CmsPublishedResource(res));
                 if (res.isFolder()) {
                     // if the resource is a folder add also all sub-resources
-                    List<CmsResource> vfsResources = cms.readResources(
+                    List<@RUntainted CmsResource> vfsResources = cms.readResources(
                         exportRes,
                         CmsResourceFilter.ALL.addExcludeFlags(CmsResource.FLAG_INTERNAL));
                     // loop through the list and create the list of CmsPublishedResources

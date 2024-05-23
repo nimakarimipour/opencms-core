@@ -36,6 +36,7 @@ import org.apache.commons.logging.Log;
 
 import com.vaadin.server.AbstractExtension;
 import com.vaadin.ui.UI;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Server side component used to open the login target for a logged in user.<p>
@@ -64,7 +65,7 @@ public class CmsLoginTargetOpener extends AbstractExtension {
      * @param target the login target URL
      * @param isPublicPC the public PC flag
      */
-    public void openTarget(String target, boolean isPublicPC) {
+    public void openTarget(@RUntainted String target, boolean isPublicPC) {
 
         if (isPublicPC) {
             getRpcProxy(I_CmsLoginTargetRpc.class).openTargetForPublicPc(target);

@@ -40,6 +40,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean holding all element information including it's formatted contents.<p>
@@ -82,7 +83,7 @@ public class CmsContainerElementData extends CmsContainerElement {
     private String m_navText;
 
     /** The settings for this container entry. */
-    private Map<String, String> m_settings;
+    private Map<@RUntainted String, @RUntainted String> m_settings;
 
     /** The contained sub-item id's. */
     private List<String> m_subItems = new ArrayList<String>();
@@ -161,7 +162,7 @@ public class CmsContainerElementData extends CmsContainerElement {
         List<CmsAdditionalInfoBean> result = new ArrayList<CmsAdditionalInfoBean>();
         CmsFormatterConfig config = getFormatterConfig(containerId);
         if ((m_settings != null) && (config != null)) {
-            for (Entry<String, String> settingEntry : m_settings.entrySet()) {
+            for (Entry<@RUntainted String, @RUntainted String> settingEntry : m_settings.entrySet()) {
                 String settingKey = settingEntry.getKey();
                 if (config.getSettingConfig().containsKey(settingEntry.getKey())) {
                     String niceName = config.getSettingConfig().get(settingEntry.getKey()).getNiceName();
@@ -309,7 +310,7 @@ public class CmsContainerElementData extends CmsContainerElement {
      *
      * @return a map of settings
      */
-    public Map<String, String> getSettings() {
+    public Map<@RUntainted String, @RUntainted String> getSettings() {
 
         return m_settings;
     }
@@ -566,7 +567,7 @@ public class CmsContainerElementData extends CmsContainerElement {
      *
      * @param settings the new settings
      */
-    public void setSettings(Map<String, String> settings) {
+    public void setSettings(Map<@RUntainted String, @RUntainted String> settings) {
 
         m_settings = settings;
     }

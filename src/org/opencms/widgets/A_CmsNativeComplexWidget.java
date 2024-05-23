@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This is an abstract class which you can inherit from to relatively easily implement complex widgets for rendering nested contents in Javascript.<p>
@@ -55,7 +56,7 @@ public abstract class A_CmsNativeComplexWidget implements I_CmsComplexWidget {
     protected String m_configuration;
 
     /** The configuration map created from the configuration string. */
-    protected Map<String, String> m_configurationMap;
+    protected @RUntainted Map<String, String> m_configurationMap;
 
     /** The configuration map in JSON format. */
     protected JSONObject m_jsonConfig;
@@ -106,7 +107,7 @@ public abstract class A_CmsNativeComplexWidget implements I_CmsComplexWidget {
      *
      * @param config the widget configuration string
      */
-    public final void initConfiguration(String config) {
+    public final void initConfiguration(@RUntainted String config) {
 
         m_configuration = config;
         m_configurationMap = CmsStringUtil.splitAsMap(config, "|", ":");

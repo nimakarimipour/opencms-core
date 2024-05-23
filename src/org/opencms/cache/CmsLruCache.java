@@ -30,6 +30,7 @@ package org.opencms.cache;
 import org.opencms.main.CmsLog;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements an LRU (last recently used) cache.<p>
@@ -67,16 +68,16 @@ public class CmsLruCache extends java.lang.Object {
     private I_CmsLruCacheObject m_listTail;
 
     /** The maximum sum of costs the cached objects might reach. */
-    private long m_maxCacheCosts;
+    private @RUntainted long m_maxCacheCosts;
 
     /** The maximum costs of cacheable objects. */
-    private int m_maxObjectCosts;
+    private @RUntainted int m_maxObjectCosts;
 
     /** The costs of all cached objects. */
-    private int m_objectCosts;
+    private @RUntainted int m_objectCosts;
 
     /** The sum of all cached objects. */
-    private int m_objectCount;
+    private @RUntainted int m_objectCount;
 
     /**
      * The constructor with all options.<p>
@@ -85,7 +86,7 @@ public class CmsLruCache extends java.lang.Object {
      * @param theAvgCacheCosts the average cache costs of all cached objects
      * @param theMaxObjectCosts the maximum allowed cache costs per object. Set theMaxObjectCosts to -1 if you don't want to limit the max. allowed cache costs per object
      */
-    public CmsLruCache(long theMaxCacheCosts, long theAvgCacheCosts, int theMaxObjectCosts) {
+    public CmsLruCache(@RUntainted long theMaxCacheCosts, long theAvgCacheCosts, @RUntainted int theMaxObjectCosts) {
 
         m_maxCacheCosts = theMaxCacheCosts;
         m_avgCacheCosts = theAvgCacheCosts;
@@ -169,7 +170,7 @@ public class CmsLruCache extends java.lang.Object {
      *
      * @return the max costs of all cached objects
      */
-    public long getMaxCacheCosts() {
+    public @RUntainted long getMaxCacheCosts() {
 
         return m_maxCacheCosts;
     }
@@ -189,7 +190,7 @@ public class CmsLruCache extends java.lang.Object {
      *
      * @return the current costs of all cached objects
      */
-    public int getObjectCosts() {
+    public @RUntainted int getObjectCosts() {
 
         return m_objectCosts;
     }
@@ -240,7 +241,7 @@ public class CmsLruCache extends java.lang.Object {
      *
      * @return the count of all cached objects
      */
-    public int size() {
+    public @RUntainted int size() {
 
         return m_objectCount;
     }

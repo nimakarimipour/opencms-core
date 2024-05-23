@@ -51,6 +51,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class extracting the Geo coordinates from a content field.
@@ -98,8 +99,8 @@ public class CmsGeoCoordinateFieldMapping implements I_CmsSearchFieldMapping {
     /**
      * @see org.opencms.search.fields.I_CmsSearchFieldMapping#getStringValue(org.opencms.file.CmsObject, org.opencms.file.CmsResource, org.opencms.search.extractors.I_CmsExtractionResult, java.util.List, java.util.List)
      */
-    public String getStringValue(
-        CmsObject cms,
+    public @RUntainted String getStringValue(
+        @RUntainted CmsObject cms,
         CmsResource res,
         I_CmsExtractionResult extractionResult,
         List<CmsProperty> properties,
@@ -120,10 +121,10 @@ public class CmsGeoCoordinateFieldMapping implements I_CmsSearchFieldMapping {
      *
      * @return the mapped value
      */
-    public String getStringValue(
+    public @RUntainted String getStringValue(
         int depth,
         CmsGeoMappingConfiguration mappingConfig,
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         CmsResource res,
         I_CmsExtractionResult extractionResult) {
 
@@ -250,7 +251,7 @@ public class CmsGeoCoordinateFieldMapping implements I_CmsSearchFieldMapping {
      * @param extractionResult the extraction result
      * @return the coordinates value
      */
-    private String findFirstCoordinatesValue(I_CmsExtractionResult extractionResult, String xpath) {
+    private @RUntainted String findFirstCoordinatesValue(I_CmsExtractionResult extractionResult, @RUntainted String xpath) {
 
         xpath = CmsXmlUtils.createXpath(xpath, 1);
         String value = extractionResult.getContentItems().get(xpath);

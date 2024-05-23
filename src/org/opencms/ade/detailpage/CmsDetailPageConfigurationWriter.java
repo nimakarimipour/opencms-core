@@ -41,6 +41,7 @@ import org.opencms.xml.types.I_CmsXmlContentValue;
 
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for writing detail page information to an XML configuration file.<p>
@@ -59,16 +60,16 @@ public class CmsDetailPageConfigurationWriter {
     public static final String N_TYPE = "Type";
 
     /** The CMS context. */
-    private CmsObject m_cms;
+    private @RUntainted CmsObject m_cms;
 
     /** The content of the configuration file. */
     private CmsXmlContent m_document;
 
     /** The configuration file record. */
-    private CmsFile m_file;
+    private @RUntainted CmsFile m_file;
 
     /** The configuration file resource. */
-    private CmsResource m_resource;
+    private @RUntainted CmsResource m_resource;
 
     /**
      * Creates a new detail page configuration writer.<p>
@@ -76,7 +77,7 @@ public class CmsDetailPageConfigurationWriter {
      * @param cms the current CMS context
      * @param res the configuration file resource
      */
-    public CmsDetailPageConfigurationWriter(CmsObject cms, CmsResource res) {
+    public CmsDetailPageConfigurationWriter(@RUntainted CmsObject cms, @RUntainted CmsResource res) {
 
         m_cms = cms;
         m_resource = res;
@@ -90,7 +91,7 @@ public class CmsDetailPageConfigurationWriter {
      *
      * @throws CmsException if something goes wrong
      */
-    public void updateAndSave(List<CmsDetailPageInfo> infos, CmsUUID newId) throws CmsException {
+    public void updateAndSave(List<CmsDetailPageInfo> infos, @RUntainted CmsUUID newId) throws CmsException {
 
         if (m_resource != null) {
             getDocument();
@@ -131,7 +132,7 @@ public class CmsDetailPageConfigurationWriter {
     private Locale getLocale() throws CmsException {
 
         getDocument();
-        List<Locale> locales = m_document.getLocales();
+        List<@RUntainted Locale> locales = m_document.getLocales();
         if (locales.contains(Locale.ENGLISH) || locales.isEmpty()) {
             return Locale.ENGLISH;
         }
@@ -161,7 +162,7 @@ public class CmsDetailPageConfigurationWriter {
      * @param infos the list of detail page information bean
      * @param newId the id to use for new pages
      */
-    private void writeDetailPageInfos(List<CmsDetailPageInfo> infos, CmsUUID newId) {
+    private void writeDetailPageInfos(List<CmsDetailPageInfo> infos, @RUntainted CmsUUID newId) {
 
         int i = 0;
         for (CmsDetailPageInfo info : infos) {
@@ -184,7 +185,7 @@ public class CmsDetailPageConfigurationWriter {
      * @param id the page id of the detail page
      * @param index the position at which the detail page info should be added
      */
-    private void writeValue(String type, CmsUUID id, int index) {
+    private void writeValue(@RUntainted String type, @RUntainted CmsUUID id, @RUntainted int index) {
 
         Locale locale = CmsLocaleManager.getLocale("en");
         // todo: check actual locale.

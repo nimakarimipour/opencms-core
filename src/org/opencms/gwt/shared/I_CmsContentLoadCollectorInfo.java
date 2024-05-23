@@ -26,6 +26,7 @@
  */
 
 package org.opencms.gwt.shared;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface defining the data used to call a content collector.<p>
@@ -37,14 +38,14 @@ public interface I_CmsContentLoadCollectorInfo {
      *
      * @return the collector name
      */
-    public String getCollectorName();
+    public @RUntainted String getCollectorName();
 
     /**
      * Returns the collectorParams.<p>
      *
      * @return the collectorParams
      */
-    public String getCollectorParams();
+    public @RUntainted String getCollectorParams();
 
     /**
      * Sets the collectorName.<p>
@@ -58,7 +59,7 @@ public interface I_CmsContentLoadCollectorInfo {
      *
      * @param collectorParams the collectorParams to set
      */
-    public void setCollectorParams(String collectorParams);
+    public void setCollectorParams(@RUntainted String collectorParams);
 
     /** Returns the fully qualified class name of the used collector. It has to be specified only if the collector name is not set.
      * @return the fully qualified class name of the used collector.

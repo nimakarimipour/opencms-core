@@ -39,6 +39,7 @@ import org.apache.commons.logging.Log;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.Label;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource info box.<p>
@@ -75,7 +76,7 @@ public class CmsFavInfo extends CustomLayout implements I_CmsEditableGroupRow {
     private Label m_projectLabel = new Label();
 
     /** The resource. */
-    private CmsResource m_resource;
+    private @RUntainted CmsResource m_resource;
 
     /** The site label. */
     private Label m_siteLabel = new Label();
@@ -138,7 +139,7 @@ public class CmsFavInfo extends CustomLayout implements I_CmsEditableGroupRow {
     /**
      * @see org.opencms.ui.components.editablegroup.I_CmsEditableGroupRow#getComponent()
      */
-    public Component getComponent() {
+    public @RUntainted Component getComponent() {
 
         return this;
     }
@@ -172,7 +173,7 @@ public class CmsFavInfo extends CustomLayout implements I_CmsEditableGroupRow {
      *
      * @return the resource
      */
-    public CmsResource getResource() {
+    public @RUntainted CmsResource getResource() {
 
         return m_resource;
     }
@@ -243,7 +244,7 @@ public class CmsFavInfo extends CustomLayout implements I_CmsEditableGroupRow {
      *
      * @param resource the resource to set
      */
-    public void setResource(CmsResource resource) {
+    public void setResource(@RUntainted CmsResource resource) {
 
         m_resource = resource;
 

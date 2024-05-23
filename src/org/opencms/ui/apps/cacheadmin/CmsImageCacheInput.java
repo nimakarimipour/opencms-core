@@ -35,6 +35,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * class for the input dialog to search for cached images.<p>
@@ -81,7 +82,7 @@ public class CmsImageCacheInput extends VerticalLayout {
      *
      * @return search pattern
      */
-    protected String getSearchPattern() {
+    protected @RUntainted String getSearchPattern() {
 
         return m_searchString.getValue();
     }

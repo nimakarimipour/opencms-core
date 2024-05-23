@@ -34,6 +34,7 @@ import org.opencms.xml.I_CmsXmlDocument;
 import java.util.Locale;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes the XML content type "OpenCmsPlainTextString".<p>
@@ -63,8 +64,8 @@ public class CmsXmlPlainTextStringValue extends A_CmsXmlValueCdataBase {
      */
     public CmsXmlPlainTextStringValue(
         I_CmsXmlDocument document,
-        Element element,
-        Locale locale,
+        @RUntainted Element element,
+        @RUntainted Locale locale,
         I_CmsXmlSchemaType type) {
 
         super(document, element, locale, type);
@@ -77,7 +78,7 @@ public class CmsXmlPlainTextStringValue extends A_CmsXmlValueCdataBase {
      * @param minOccurs minimum number of occurrences of this type according to the XML schema
      * @param maxOccurs maximum number of occurrences of this type according to the XML schema
      */
-    public CmsXmlPlainTextStringValue(String name, String minOccurs, String maxOccurs) {
+    public CmsXmlPlainTextStringValue(@RUntainted String name, String minOccurs, String maxOccurs) {
 
         super(name, minOccurs, maxOccurs);
     }
@@ -85,7 +86,7 @@ public class CmsXmlPlainTextStringValue extends A_CmsXmlValueCdataBase {
     /**
      * @see org.opencms.xml.types.A_CmsXmlContentValue#createValue(I_CmsXmlDocument, org.dom4j.Element, Locale)
      */
-    public I_CmsXmlContentValue createValue(I_CmsXmlDocument document, Element element, Locale locale) {
+    public @RUntainted I_CmsXmlContentValue createValue(I_CmsXmlDocument document, @RUntainted Element element, @RUntainted Locale locale) {
 
         return new CmsXmlPlainTextStringValue(document, element, locale, this);
     }
@@ -94,7 +95,7 @@ public class CmsXmlPlainTextStringValue extends A_CmsXmlValueCdataBase {
      * @see org.opencms.xml.types.I_CmsXmlContentValue#getPlainText(org.opencms.file.CmsObject)
      */
     @Override
-    public String getPlainText(CmsObject cms) {
+    public @RUntainted String getPlainText(CmsObject cms) {
 
         try {
             return CmsHtmlExtractor.extractText(getStringValue(cms), m_document.getEncoding());
@@ -114,7 +115,7 @@ public class CmsXmlPlainTextStringValue extends A_CmsXmlValueCdataBase {
     /**
      * @see org.opencms.xml.types.A_CmsXmlContentValue#getTypeName()
      */
-    public String getTypeName() {
+    public @RUntainted String getTypeName() {
 
         return TYPE_NAME;
     }
@@ -122,7 +123,7 @@ public class CmsXmlPlainTextStringValue extends A_CmsXmlValueCdataBase {
     /**
      * @see org.opencms.xml.types.A_CmsXmlContentValue#newInstance(java.lang.String, java.lang.String, java.lang.String)
      */
-    public I_CmsXmlSchemaType newInstance(String name, String minOccurs, String maxOccurs) {
+    public I_CmsXmlSchemaType newInstance(@RUntainted String name, String minOccurs, String maxOccurs) {
 
         return new CmsXmlPlainTextStringValue(name, minOccurs, maxOccurs);
     }

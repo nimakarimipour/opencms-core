@@ -51,6 +51,7 @@ import org.dom4j.Element;
 import org.dom4j.Node;
 
 import com.google.common.primitives.Doubles;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for accessing global 'weighted' configuration parameters defined in parameter files in the VFS. Used as a singleton.

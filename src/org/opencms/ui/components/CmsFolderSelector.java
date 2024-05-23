@@ -32,6 +32,7 @@ import org.opencms.file.CmsResourceFilter;
 import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.apps.Messages;
 import org.opencms.ui.components.fileselect.CmsPathSelectField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Folder selector component.
@@ -59,7 +60,7 @@ public class CmsFolderSelector extends CmsPathSelectField {
      * Returns the CMS object of this folder selector.
      * @return the CMS object of this folder selector
      */
-    public CmsObject getCmsObject() {
+    public @RUntainted CmsObject getCmsObject() {
 
         return m_cms;
     }

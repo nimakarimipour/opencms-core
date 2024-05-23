@@ -56,6 +56,7 @@ import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.xml.sax.EntityResolver;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides factory methods to unmarshal (read) an XML page object.<p>
@@ -83,7 +84,7 @@ public final class CmsXmlPageFactory {
      *
      * @return a valid XML page document
      */
-    public static Document createDocument(Locale locale) {
+    public static @RUntainted Document createDocument(Locale locale) {
 
         Document doc = DocumentHelper.createDocument();
         Element pages = doc.addElement(CmsXmlPage.NODE_PAGES);
@@ -174,7 +175,7 @@ public final class CmsXmlPageFactory {
      */
     public static CmsXmlPage unmarshal(CmsObject cms, CmsFile file, boolean keepEncoding) throws CmsXmlException {
 
-        byte[] content = file.getContents();
+        @RUntainted byte[] content = file.getContents();
 
         String fileName = cms.getSitePath(file);
         boolean allowRelative = false;
@@ -245,7 +246,7 @@ public final class CmsXmlPageFactory {
      *
      * @throws CmsException in something goes wrong
      */
-    public static CmsXmlPage unmarshal(CmsObject cms, CmsResource resource, ServletRequest req) throws CmsException {
+    public static CmsXmlPage unmarshal(CmsObject cms, @RUntainted CmsResource resource, ServletRequest req) throws CmsException {
 
         String rootPath = resource.getRootPath();
 
@@ -280,7 +281,7 @@ public final class CmsXmlPageFactory {
      *
      * @throws CmsException in something goes wrong
      */
-    public static I_CmsXmlDocument unmarshal(CmsObject cms, String filename, ServletRequest req) throws CmsException {
+    public static I_CmsXmlDocument unmarshal(@RUntainted CmsObject cms, String filename, ServletRequest req) throws CmsException {
 
         // add site root to filename
         String rootPath = cms.getRequestContext().addSiteRoot(filename);
@@ -327,7 +328,7 @@ public final class CmsXmlPageFactory {
      *
      * @throws CmsXmlException if something goes wrong
      */
-    public static CmsXmlPage unmarshal(String xmlData, String encoding, EntityResolver resolver)
+    public static CmsXmlPage unmarshal(@RUntainted String xmlData, String encoding, EntityResolver resolver)
     throws CmsXmlException {
 
         return new CmsXmlPage(CmsXmlUtils.unmarshalHelper(xmlData, resolver), encoding);

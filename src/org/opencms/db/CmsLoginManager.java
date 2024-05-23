@@ -45,6 +45,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides functions used to check the validity of a user login.<p>
@@ -68,10 +69,10 @@ public class CmsLoginManager {
     private class CmsUserData {
 
         /** The start time this account was disabled. */
-        private long m_disableTimeStart;
+        private @RUntainted long m_disableTimeStart;
 
         /** The count of the failed attempts. */
-        private int m_invalidLoginCount;
+        private @RUntainted int m_invalidLoginCount;
 
         /**
          * Creates a new user data instance.<p>
@@ -87,7 +88,7 @@ public class CmsLoginManager {
          *
          * @return the bad attempt count for this user
          */
-        protected Integer getInvalidLoginCount() {
+        protected @RUntainted Integer getInvalidLoginCount() {
 
             return Integer.valueOf(m_invalidLoginCount);
         }
@@ -97,7 +98,7 @@ public class CmsLoginManager {
          *
          * @return the date this disabled user is released again
          */
-        protected Date getReleaseDate() {
+        protected @RUntainted Date getReleaseDate() {
 
             return new Date(m_disableTimeStart + m_disableMillis + 1);
         }
@@ -168,7 +169,7 @@ public class CmsLoginManager {
     private static final Log LOG = CmsLog.getLog(CmsLoginManager.class);
 
     /** The milliseconds to disable an account if the threshold is reached. */
-    protected int m_disableMillis;
+    protected @RUntainted int m_disableMillis;
 
     /** The minutes to disable an account if the threshold is reached. */
     protected int m_disableMinutes;
@@ -192,7 +193,7 @@ public class CmsLoginManager {
     private CmsLoginMessage m_loginMessage;
 
     /** The logout URI. */
-    private String m_logoutUri;
+    private @RUntainted String m_logoutUri;
 
     /** Max inactivity time. */
     private String m_maxInactive;
@@ -220,7 +221,7 @@ public class CmsLoginManager {
      * @param logoutUri the alternative logout handler URI
      */
     public CmsLoginManager(
-        int disableMinutes,
+        @RUntainted int disableMinutes,
         int maxBadAttempts,
         boolean enableSecurity,
         String tokenLifetime,
@@ -228,7 +229,7 @@ public class CmsLoginManager {
         String passwordChangeInterval,
         String userDataCheckInterval,
         boolean requireOrgUnit,
-        String logoutUri) {
+        @RUntainted String logoutUri) {
 
         m_maxBadAttempts = maxBadAttempts;
         if (TEMP_DISABLED_USER == null) {
@@ -317,7 +318,7 @@ public class CmsLoginManager {
      *
      * @throws CmsAuthentificationException in case the threshold of invalid login attempts has been reached
      */
-    public void checkInvalidLogins(String userName, String remoteAddress) throws CmsAuthentificationException {
+    public void checkInvalidLogins(@RUntainted String userName, @RUntainted String remoteAddress) throws CmsAuthentificationException {
 
         if (m_maxBadAttempts < 0) {
             // invalid login storage is disabled
@@ -413,7 +414,7 @@ public class CmsLoginManager {
      *
      * @return the logout URI
      */
-    public String getLogoutUri() {
+    public @RUntainted String getLogoutUri() {
 
         return m_logoutUri;
     }

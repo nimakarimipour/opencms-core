@@ -49,6 +49,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.jsp.JspException;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Creates HTML code for &lt;img src&gt; tags that use the OpenCms image scaling capabilities.<p>
@@ -158,7 +159,7 @@ public class CmsJspTagImage extends CmsJspImageScalerTagSupport implements I_Cms
      *
      * @return the images scaler used by this image tag
      */
-    public static CmsImageScaler getScaler(CmsImageScaler scaler, CmsImageScaler original, String scaleParam) {
+    public static CmsImageScaler getScaler(CmsImageScaler scaler, CmsImageScaler original, @RUntainted String scaleParam) {
 
         if (scaleParam != null) {
             CmsImageScaler cropScaler = null;
@@ -197,7 +198,7 @@ public class CmsJspTagImage extends CmsJspImageScalerTagSupport implements I_Cms
      * @throws CmsException in case something goes wrong
      */
     public static String imageTagAction(
-        String src,
+        @RUntainted String src,
         CmsImageScaler scaler,
         Map<String, String> attributes,
         boolean partialTag,
@@ -215,7 +216,7 @@ public class CmsJspTagImage extends CmsJspImageScalerTagSupport implements I_Cms
         String scaleParam = null;
         if (splitSrc.getQuery() != null) {
             // check if the original URI already has parameters, this is true if original has been cropped
-            String[] scaleStr = CmsRequestUtil.createParameterMap(splitSrc.getQuery()).get(CmsImageScaler.PARAM_SCALE);
+            @RUntainted String[] scaleStr = CmsRequestUtil.createParameterMap(splitSrc.getQuery()).get(CmsImageScaler.PARAM_SCALE);
             if (scaleStr != null) {
                 scaleParam = scaleStr[0];
             }
@@ -286,7 +287,7 @@ public class CmsJspTagImage extends CmsJspImageScalerTagSupport implements I_Cms
      * @throws CmsException in case something goes wrong
      */
     public static String imageTagAction(
-        String src,
+        @RUntainted String src,
         CmsImageScaler scaler,
         Map<String, String> attributes,
         boolean partialTag,
@@ -299,7 +300,7 @@ public class CmsJspTagImage extends CmsJspImageScalerTagSupport implements I_Cms
     /**
      * @see org.opencms.jsp.I_CmsJspTagParamParent#addParameter(java.lang.String, java.lang.String)
      */
-    public void addParameter(String name, String value) {
+    public void addParameter(String name, @RUntainted String value) {
 
         String key = name.trim().toLowerCase();
         switch (SCALER_ATTRS_LIST.indexOf(key)) {

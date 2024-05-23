@@ -66,6 +66,7 @@ import org.apache.commons.logging.Log;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.Node;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the OpenCms Import Interface ({@link org.opencms.importexport.I_CmsImport}) for
@@ -100,7 +101,7 @@ public class CmsImportVersion3 extends A_CmsImport {
      * @see org.opencms.importexport.I_CmsImport#getVersion()
      * @return the version number of this import implementation
      */
-    public int getVersion() {
+    public @RUntainted int getVersion() {
 
         return CmsImportVersion3.IMPORT_VERSION;
     }
@@ -155,10 +156,10 @@ public class CmsImportVersion3 extends A_CmsImport {
     @Deprecated
     public void importResources(
         CmsObject cms,
-        String importPath,
+        @RUntainted String importPath,
         I_CmsReport report,
-        File importResource,
-        ZipFile importZip,
+        @RUntainted File importResource,
+        @RUntainted ZipFile importZip,
         Document docXml)
     throws CmsImportExportException {
 
@@ -179,15 +180,15 @@ public class CmsImportVersion3 extends A_CmsImport {
      */
     @Override
     protected void importUser(
-        String name,
-        String flags,
+        @RUntainted String name,
+        @RUntainted String flags,
         String password,
-        String firstname,
-        String lastname,
-        String email,
-        long dateCreated,
-        Map<String, Object> userInfo,
-        List<String> userGroups)
+        @RUntainted String firstname,
+        @RUntainted String lastname,
+        @RUntainted String email,
+        @RUntainted long dateCreated,
+        @RUntainted Map<String, @RUntainted Object> userInfo,
+        List<@RUntainted String> userGroups)
     throws CmsImportExportException {
 
         boolean convert = false;
@@ -214,8 +215,8 @@ public class CmsImportVersion3 extends A_CmsImport {
         String source, destination, type, uuidresource, userlastmodified, usercreated, flags, timestamp;
         long datelastmodified, datecreated;
 
-        List<Node> fileNodes;
-        List<Node> acentryNodes;
+        List<@RUntainted Node> fileNodes;
+        List<@RUntainted Node> acentryNodes;
         Element currentElement, currentEntry;
         List<CmsProperty> properties = null;
 
@@ -410,18 +411,18 @@ public class CmsImportVersion3 extends A_CmsImport {
      * @return imported resource
      */
     private CmsResource importResource(
-        String source,
-        String destination,
-        String type,
-        String uuidresource,
-        long datelastmodified,
-        String userlastmodified,
-        long datecreated,
-        String usercreated,
-        String flags,
+        @RUntainted String source,
+        @RUntainted String destination,
+        @RUntainted String type,
+        @RUntainted String uuidresource,
+        @RUntainted long datelastmodified,
+        @RUntainted String userlastmodified,
+        @RUntainted long datecreated,
+        @RUntainted String usercreated,
+        @RUntainted String flags,
         List<CmsProperty> properties) {
 
-        byte[] content = null;
+        @RUntainted byte[] content = null;
         CmsResource result = null;
 
         try {

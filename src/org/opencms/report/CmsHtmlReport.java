@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.StringTokenizer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * HTML report output to be used for import / export / publish operations
@@ -77,7 +78,7 @@ public class CmsHtmlReport extends A_CmsReport {
      * @param locale the locale to use for the output language
      * @param siteRoot the site root of the user who started this report (may be <code>null</code>)
      */
-    public CmsHtmlReport(Locale locale, String siteRoot) {
+    public CmsHtmlReport(@RUntainted Locale locale, String siteRoot) {
 
         this(locale, siteRoot, false, false);
     }
@@ -90,7 +91,7 @@ public class CmsHtmlReport extends A_CmsReport {
      * @param writeHtml if <code>true</code>, this report should generate HTML instead of JavaScript output
      * @param isTransient If set to <code>true</code> nothing is kept in memory
      */
-    public CmsHtmlReport(Locale locale, String siteRoot, boolean writeHtml, boolean isTransient) {
+    public CmsHtmlReport(@RUntainted Locale locale, String siteRoot, boolean writeHtml, boolean isTransient) {
 
         init(locale, siteRoot);
         m_content = new ArrayList<Object>(256);

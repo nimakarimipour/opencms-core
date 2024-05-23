@@ -28,6 +28,7 @@
 package org.opencms.widgets;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Select box widget that can transform into a combo box by clicking an edit icon.
@@ -61,7 +62,7 @@ public class CmsSelectComboWidget extends CmsComboWidget {
      *
      * @param configuration the configuration (possible options) for the combo box
      */
-    public CmsSelectComboWidget(String configuration) {
+    public CmsSelectComboWidget(@RUntainted String configuration) {
 
         super(configuration);
     }
@@ -70,7 +71,7 @@ public class CmsSelectComboWidget extends CmsComboWidget {
      * @see org.opencms.widgets.A_CmsSelectWidget#getWidgetName()
      */
     @Override
-    public String getWidgetName() {
+    public @RUntainted String getWidgetName() {
 
         return CmsSelectComboWidget.class.getName();
     }

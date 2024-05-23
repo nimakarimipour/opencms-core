@@ -62,6 +62,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class used by a service to edit or import aliases for a whole site.<p>
@@ -91,13 +92,13 @@ public class CmsAliasBulkEditHelper {
      * @param response the response
      * @throws Exception if something goes wrong
      */
-    public void importAliases(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void importAliases(@RUntainted HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         FileItemFactory factory = new DiskFileItemFactory();
         ServletFileUpload upload = new ServletFileUpload(factory);
         @SuppressWarnings("unchecked")
-        List<FileItem> items = upload.parseRequest(request);
-        byte[] data = null;
+        List<@RUntainted FileItem> items = upload.parseRequest(request);
+        @RUntainted byte[] data = null;
         String siteRoot = null;
         String separator = ",";
         for (FileItem fileItem : items) {
@@ -273,7 +274,7 @@ public class CmsAliasBulkEditHelper {
      *
      * @return the message string
      */
-    private String messageDuplicateAliasPath(Locale locale) {
+    private String messageDuplicateAliasPath(@RUntainted Locale locale) {
 
         return Messages.get().getBundle(locale).key(Messages.ERR_ALIAS_DUPLICATE_ALIAS_PATH_0);
     }
@@ -285,7 +286,7 @@ public class CmsAliasBulkEditHelper {
      *
      * @return the message string
      */
-    private String messageInvalidAliasPath(Locale locale) {
+    private String messageInvalidAliasPath(@RUntainted Locale locale) {
 
         return Messages.get().getBundle(locale).key(Messages.ERR_ALIAS_INVALID_ALIAS_PATH_0);
     }
@@ -297,7 +298,7 @@ public class CmsAliasBulkEditHelper {
      *
      * @return the message string
      */
-    private String messageResourceNotFound(Locale locale) {
+    private String messageResourceNotFound(@RUntainted Locale locale) {
 
         return Messages.get().getBundle(locale).key(Messages.ERR_ALIAS_RESOURCE_NOT_FOUND_0);
 

@@ -41,6 +41,7 @@ import java.util.Map;
 
 import org.apache.commons.collections.Transformer;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * An instance of a date series with a start and optional end time,
@@ -191,13 +192,13 @@ public class CmsJspInstanceDateBean {
     private static final String DATE_SEPARATOR = " - ";
 
     /** Beginning of this instance date. */
-    private Date m_start;
+    private @RUntainted Date m_start;
 
     /** End of this instance date. */
-    private Date m_end;
+    private @RUntainted Date m_end;
 
     /** Explicitely set end of the instance date. */
-    private Date m_explicitEnd;
+    private @RUntainted Date m_explicitEnd;
 
     /** Indicates if this instance date explicitely lasts the whole day. */
     private Boolean m_explicitWholeDay;
@@ -250,7 +251,7 @@ public class CmsJspInstanceDateBean {
      * @param locale the locale used to format the date
      *
      */
-    public CmsJspInstanceDateBean(Date start, Locale locale) {
+    public CmsJspInstanceDateBean(@RUntainted Date start, Locale locale) {
 
         this(start, new CmsJspDateSeriesBean(Long.toString(start.getTime()), locale));
     }
@@ -260,7 +261,7 @@ public class CmsJspInstanceDateBean {
      *
      * @return the end time of this instance date
      */
-    public Date getEnd() {
+    public @RUntainted Date getEnd() {
 
         if (m_explicitEnd != null) {
             return isWholeDay() ? adjustForWholeDay(m_explicitEnd, true) : m_explicitEnd;
@@ -357,7 +358,7 @@ public class CmsJspInstanceDateBean {
      *
      * @return the start time of this instance date
      */
-    public Date getStart() {
+    public @RUntainted Date getStart() {
 
         // Adjust the start time for an explicitely whole day option that overwrites the series' whole day option.
         if (m_start == null) {
@@ -386,7 +387,7 @@ public class CmsJspInstanceDateBean {
      * @param start the start date for this instance date
      * @param locale the locale used to format the date
      */
-    public void init(Date start, Locale locale) {
+    public void init(@RUntainted Date start, Locale locale) {
 
         m_start = start;
         m_series = new CmsJspDateSeriesBean(Long.toString(start.getTime()), locale);
@@ -400,7 +401,7 @@ public class CmsJspInstanceDateBean {
      * @param start the start date for this instance date
      * @param localeStr a String representing the locale used to format the date
      */
-    public void init(Date start, String localeStr) {
+    public void init(@RUntainted Date start, String localeStr) {
 
         init(start, new Locale(localeStr));
     }
@@ -517,7 +518,7 @@ public class CmsJspInstanceDateBean {
      *
      * @return the adjusted date, which will be exactly the beginning or the end of the provide date's day
      */
-    private Date adjustForWholeDay(Date date, boolean isEnd) {
+    private @RUntainted Date adjustForWholeDay(Date date, boolean isEnd) {
 
         Calendar result = new GregorianCalendar();
         result.setTime(date);

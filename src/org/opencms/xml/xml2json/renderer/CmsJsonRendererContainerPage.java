@@ -58,6 +58,7 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Used for rendering container pages as a JSON structure.
@@ -120,7 +121,7 @@ public class CmsJsonRendererContainerPage {
          *
          * @return the container name
          */
-        public String getName() {
+        public @RUntainted String getName() {
 
             return m_container.getName();
         }
@@ -130,7 +131,7 @@ public class CmsJsonRendererContainerPage {
          *
          * @return the container type
          */
-        public String getType() {
+        public @RUntainted String getType() {
 
             return m_container.getType();
         }
@@ -238,10 +239,10 @@ public class CmsJsonRendererContainerPage {
     private static final Log LOG = CmsLog.getLog(CmsJsonRendererContainerPage.class);
 
     /** The CMS context used for VFS operations. */
-    private CmsObject m_cms;
+    private @RUntainted CmsObject m_cms;
 
     /** The container page. */
-    private CmsResource m_page;
+    private @RUntainted CmsResource m_page;
 
     /** The property filter. */
     private Predicate<String> m_propFilter;
@@ -253,7 +254,7 @@ public class CmsJsonRendererContainerPage {
      * @param page the container page to render
      * @param propertyFilter the property filter
      */
-    public CmsJsonRendererContainerPage(CmsObject cms, CmsResource page, Predicate<String> propertyFilter) {
+    public CmsJsonRendererContainerPage(@RUntainted CmsObject cms, @RUntainted CmsResource page, Predicate<String> propertyFilter) {
 
         m_cms = cms;
         m_page = page;
@@ -321,7 +322,7 @@ public class CmsJsonRendererContainerPage {
      * @return the JSON for the container page
      * @throws Exception if something goes wrong
      */
-    public Object renderJson() throws Exception {
+    public @RUntainted Object renderJson() throws Exception {
 
         CmsFile file = m_cms.readFile(m_page);
         CmsXmlContainerPage page = CmsXmlContainerPageFactory.unmarshal(m_cms, file);
@@ -337,7 +338,7 @@ public class CmsJsonRendererContainerPage {
      * @return the JSON for the node
      * @throws JSONException if something goes wrong with JSON processing
      */
-    JSONObject containerToJson(ContainerNode containerNode) throws JSONException {
+    @RUntainted JSONObject containerToJson(ContainerNode containerNode) throws JSONException {
 
         JSONObject result = new JSONObject();
         result.put("name", containerNode.getName());
@@ -360,7 +361,7 @@ public class CmsJsonRendererContainerPage {
      * @return the JSON for the element
      * @throws JSONException if something goes wrong
      */
-    JSONObject elementToJson(ElementNode elementNode) throws JSONException {
+    @RUntainted JSONObject elementToJson(ElementNode elementNode) throws JSONException {
 
         JSONObject result = new JSONObject();
         if (elementNode.getElement() != null) {
@@ -371,7 +372,7 @@ public class CmsJsonRendererContainerPage {
                 elementNode.getElement());
             result.put("formatterKey", formatterKey);
             JSONObject settings = new JSONObject();
-            for (Map.Entry<String, String> entry : elementNode.getElement().getSettings().entrySet()) {
+            for (Map.Entry<@RUntainted String, @RUntainted String> entry : elementNode.getElement().getSettings().entrySet()) {
                 // formatterSettings and element_instance_id setting have become obsolete in the new container page format
                 if (entry.getKey().startsWith("formatterSettings") || entry.getKey().equals("element_instance_id")) {
                     continue;
@@ -414,7 +415,7 @@ public class CmsJsonRendererContainerPage {
             formatters.put(new CmsUUID(formatter.getId()), formatter);
         }
 
-        Map<String, String> settings = elementBean.getIndividualSettings();
+        Map<@RUntainted String, @RUntainted String> settings = elementBean.getIndividualSettings();
         I_CmsFormatterBean result = null;
 
         String forKeyWithContainer = settings.get(CmsFormatterConfig.FORMATTER_SETTINGS_KEY + container.getName());

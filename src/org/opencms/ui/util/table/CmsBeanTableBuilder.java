@@ -52,6 +52,7 @@ import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.Table.Align;
 import com.vaadin.v7.ui.Table.CellStyleGenerator;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Builds a table based on a given bean class.<p>
@@ -356,7 +357,7 @@ public class CmsBeanTableBuilder<T> {
      *
      * @return true if the view matches
      */
-    private boolean matchView(String actualView, String declaredView) {
+    private boolean matchView(String actualView, @RUntainted String declaredView) {
 
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(declaredView) || CmsStringUtil.isEmptyOrWhitespaceOnly(actualView)) {
             return true;

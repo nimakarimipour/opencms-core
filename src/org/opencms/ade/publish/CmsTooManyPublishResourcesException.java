@@ -26,6 +26,7 @@
  */
 
 package org.opencms.ade.publish;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * An exception thrown to signal that the amount of publish resources exceeds the configured limit in the workflow manager.<p>
@@ -36,14 +37,14 @@ public class CmsTooManyPublishResourcesException extends RuntimeException {
     private static final long serialVersionUID = -8365302498000090186L;
 
     /** The amount of publish resources. */
-    private int m_count;
+    private @RUntainted int m_count;
 
     /**
      * Creates a new instance.<p>
      *
      * @param count the amount of publish resources
      */
-    public CmsTooManyPublishResourcesException(int count) {
+    public CmsTooManyPublishResourcesException(@RUntainted int count) {
         super();
         m_count = count;
     }
@@ -55,7 +56,7 @@ public class CmsTooManyPublishResourcesException extends RuntimeException {
      *
      * @return the amount of publish resources
      */
-    public int getCount() {
+    public @RUntainted int getCount() {
 
         return m_count;
     }

@@ -55,6 +55,7 @@ import org.opencms.ui.apps.Messages; //TODO move messages
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Remove the publish locks.<p>
@@ -67,7 +68,7 @@ public class CmsRemovePubLocksThread extends A_CmsReportThread {
     private Throwable m_error;
 
     /** The list of resource names. */
-    private List<String> m_resources;
+    private List<@RUntainted String> m_resources;
 
     /**
      * Creates an Thread to remove the publish locks.<p>
@@ -75,7 +76,7 @@ public class CmsRemovePubLocksThread extends A_CmsReportThread {
      * @param cms the current OpenCms context object
      * @param resources a list of resource names
      */
-    public CmsRemovePubLocksThread(CmsObject cms, List<String> resources) {
+    public CmsRemovePubLocksThread(@RUntainted CmsObject cms, List<@RUntainted String> resources) {
 
         super(cms, Messages.get().getBundle().key(Messages.GUI_DB_PUBLOCKS_THREAD_NAME_0));
         m_resources = new ArrayList<String>(resources);
@@ -120,13 +121,13 @@ public class CmsRemovePubLocksThread extends A_CmsReportThread {
             CmsLockFilter filter = CmsLockFilter.FILTER_ALL;
             filter = filter.filterType(CmsLockType.PUBLISH);
 
-            Iterator<String> it = m_resources.iterator();
+            Iterator<@RUntainted String> it = m_resources.iterator();
             while (it.hasNext()) {
                 String paramResName = it.next();
                 getReport().println(
                     Messages.get().container(Messages.RPT_DB_PUBLOCKS_READLOCKS_1, paramResName),
                     I_CmsReport.FORMAT_NOTE);
-                Iterator<String> itResources = cms.getLockedResources(paramResName, filter).iterator();
+                Iterator<@RUntainted String> itResources = cms.getLockedResources(paramResName, filter).iterator();
                 while (itResources.hasNext()) {
                     String resName = itResources.next();
                     if (!cms.existsResource(resName, CmsResourceFilter.ALL)) {

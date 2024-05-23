@@ -44,6 +44,7 @@ import org.apache.commons.logging.Log;
 
 import org.dom4j.Document;
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Single editor configuration object.<p>
@@ -127,7 +128,7 @@ public class CmsWorkplaceEditorConfiguration {
     private boolean m_validConfiguration;
 
     /** The widget editor. */
-    private String m_widgetEditor;
+    private @RUntainted String m_widgetEditor;
 
     /**
      * Constructor with xml data String.<p>
@@ -263,7 +264,7 @@ public class CmsWorkplaceEditorConfiguration {
      *
      * @return the widget editor class for rich text editing
      */
-    public String getWidgetEditor() {
+    public @RUntainted String getWidgetEditor() {
 
         return m_widgetEditor;
     }
@@ -294,7 +295,7 @@ public class CmsWorkplaceEditorConfiguration {
      * @param currentBrowser the users browser String to test
      * @return true if the browser matches the configuration, otherwise false
      */
-    public boolean matchesBrowser(String currentBrowser) {
+    public boolean matchesBrowser(@RUntainted String currentBrowser) {
 
         if (currentBrowser == null) {
             return false;
@@ -329,7 +330,7 @@ public class CmsWorkplaceEditorConfiguration {
      * @param editorUri the editor workplace URI
      */
     @SuppressWarnings("unchecked")
-    private void initialize(Document document, String editorUri) {
+    private void initialize(@RUntainted Document document, String editorUri) {
 
         m_parameters.clear();
 
@@ -349,7 +350,7 @@ public class CmsWorkplaceEditorConfiguration {
         setEditorUri(editorUri);
 
         // create the map of valid resource types
-        Iterator<Element> i = rootElement.element(N_RESOURCETYPES).elementIterator(N_TYPE);
+        Iterator<@RUntainted Element> i = rootElement.element(N_RESOURCETYPES).elementIterator(N_TYPE);
         Map<String, String[]> resTypes = new HashMap<String, String[]>();
         while (i.hasNext()) {
             Element currentType = i.next();
@@ -447,7 +448,7 @@ public class CmsWorkplaceEditorConfiguration {
      * @param message the message specifying the configuration error
      * @param t the Throwable object or null
      */
-    private void logConfigurationError(String message, Throwable t) {
+    private void logConfigurationError(@RUntainted String message, Throwable t) {
 
         setValidConfiguration(false);
         if (LOG.isErrorEnabled()) {

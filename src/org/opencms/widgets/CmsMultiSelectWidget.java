@@ -34,6 +34,7 @@ import org.opencms.workplace.CmsWorkplace;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a widget for a standard HTML form multi select list or a group of check boxes.<p>
@@ -108,7 +109,7 @@ public class CmsMultiSelectWidget extends A_CmsSelectWidget {
      *
      * @param configuration the configuration (possible options) for the select box
      */
-    public CmsMultiSelectWidget(String configuration) {
+    public CmsMultiSelectWidget(@RUntainted String configuration) {
 
         super(configuration);
     }
@@ -247,7 +248,7 @@ public class CmsMultiSelectWidget extends A_CmsSelectWidget {
      * @see org.opencms.widgets.I_CmsADEWidget#getWidgetName()
      */
     @Override
-    public String getWidgetName() {
+    public @RUntainted String getWidgetName() {
 
         return CmsMultiSelectWidget.class.getName();
     }
@@ -264,7 +265,7 @@ public class CmsMultiSelectWidget extends A_CmsSelectWidget {
      * @see org.opencms.widgets.A_CmsWidget#setConfiguration(java.lang.String)
      */
     @Override
-    public void setConfiguration(String configuration) {
+    public void setConfiguration(@RUntainted String configuration) {
 
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(configuration)) {
             int asCheckBoxesIndex = configuration.indexOf(CONFIGURATION_ASCHECKBOXES);

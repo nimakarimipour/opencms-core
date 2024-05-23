@@ -37,6 +37,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface for template context providers.<p>
@@ -66,7 +67,7 @@ public interface I_CmsTemplateContextProvider {
      * @param locale the locale for i18n
      * @return the label for the default template context option
      */
-    default String getDefaultLabel(Locale locale) {
+    default String getDefaultLabel(@RUntainted Locale locale) {
 
         return null;
     }
@@ -79,7 +80,7 @@ public interface I_CmsTemplateContextProvider {
      *
      * @return the path of the style sheet to be used for the resource
      */
-    String getEditorStyleSheet(CmsObject cms, String editedResourcePath);
+    @RUntainted String getEditorStyleSheet(CmsObject cms, String editedResourcePath);
 
     /**
      * Returns a set of structure ids of dynamic functions that are allowed to appear in the gallery dialog search results, or null if the dynamic function results should not be restricted.
@@ -162,7 +163,7 @@ public interface I_CmsTemplateContextProvider {
      * @param cms the current CMS context
      * @param config the template context provider configuration
      */
-    void initialize(CmsObject cms, String config);
+    void initialize(CmsObject cms, @RUntainted String config);
 
     /**
      * Checks if the template context should be hidden in the GUI.
@@ -199,7 +200,7 @@ public interface I_CmsTemplateContextProvider {
      *
      * @throws CmsException if something goes wrong
      */
-    String readCommonProperty(CmsObject cms, String propertyName, String fallbackValue) throws CmsException;
+    @RUntainted String readCommonProperty(CmsObject cms, @RUntainted String propertyName, @RUntainted String fallbackValue) throws CmsException;
 
     /**
      * Checks if the context menu option for switching the template should be shown for the given user context.

@@ -100,6 +100,7 @@ import com.vaadin.v7.ui.Field;
 import com.vaadin.v7.ui.TextArea;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Form for editing a module.<p>
@@ -223,7 +224,7 @@ public class CmsEditModuleForm extends CmsBasicDialog {
     private TextArea m_importScript;
 
     /** Select box for the module site. */
-    private CmsAutoItemCreatingComboBox m_importSite;
+    private @RUntainted CmsAutoItemCreatingComboBox m_importSite;
 
     /** Contains the widget used to display the module site information. */
     private CmsComponentField<CmsResourceInfo> m_info = new CmsComponentField<CmsResourceInfo>();
@@ -351,7 +352,7 @@ public class CmsEditModuleForm extends CmsBasicDialog {
 
             private static final long serialVersionUID = 1L;
 
-            public void validate(Object value) throws InvalidValueException {
+            public void validate(@RUntainted Object value) throws InvalidValueException {
 
                 try {
                     @SuppressWarnings("unused")
@@ -479,7 +480,7 @@ public class CmsEditModuleForm extends CmsBasicDialog {
             private static final long serialVersionUID = 1L;
 
             @SuppressWarnings("synthetic-access")
-            public void valueChange(ValueChangeEvent event) {
+            public void valueChange(@RUntainted ValueChangeEvent event) {
 
                 String siteRoot = (String)(event.getProperty().getValue());
                 updateSiteInfo(siteRoot);
@@ -546,7 +547,7 @@ public class CmsEditModuleForm extends CmsBasicDialog {
      * @param src the export point source
      * @param target the export point target
      */
-    public void addExportPointRow(String src, String target) {
+    public void addExportPointRow(@RUntainted String src, @RUntainted String target) {
 
         CmsExportPointWidget exportPointWidget = new CmsExportPointWidget(src, target);
         m_exportPointGroup.addRow(exportPointWidget);
@@ -579,7 +580,7 @@ public class CmsEditModuleForm extends CmsBasicDialog {
             }
             m_module.setParameters(params);
 
-            List<CmsExportPoint> exportPoints = Lists.newArrayList();
+            List<@RUntainted CmsExportPoint> exportPoints = Lists.newArrayList();
             for (I_CmsEditableGroupRow row : m_exportPointGroup.getRows()) {
                 CmsExportPointWidget widget = (CmsExportPointWidget)(row.getComponent());
                 String source = widget.getUri().trim();
@@ -666,7 +667,7 @@ public class CmsEditModuleForm extends CmsBasicDialog {
      * @param moduleName the module name
      * @param version the module version
      */
-    void addDependency(String moduleName, String version) {
+    void addDependency(String moduleName, @RUntainted String version) {
 
         try {
             m_dependencies.addComponent(
@@ -726,7 +727,7 @@ public class CmsEditModuleForm extends CmsBasicDialog {
      *
      * @return the module resource selection field
      */
-    CmsModuleResourceSelectField createModuleResourceField(String moduleResource) {
+    @RUntainted CmsModuleResourceSelectField createModuleResourceField(String moduleResource) {
 
         CmsModuleResourceSelectField resField = new CmsModuleResourceSelectField();
         CmsObject moduleCms = null;
@@ -775,7 +776,7 @@ public class CmsEditModuleForm extends CmsBasicDialog {
      *
      * @return the currently selected module site
      */
-    String getSelectedSite() {
+    @RUntainted String getSelectedSite() {
 
         return (String)(m_importSite.getValue());
     }
@@ -812,7 +813,7 @@ public class CmsEditModuleForm extends CmsBasicDialog {
     private CmsModule createModuleFolders(CmsObject cms, CmsModule module) throws CmsException {
 
         String modulePath = CmsWorkplace.VFS_PATH_MODULES + module.getName() + "/";
-        List<CmsExportPoint> exportPoints = module.getExportPoints();
+        List<@RUntainted CmsExportPoint> exportPoints = module.getExportPoints();
         List<String> resources = module.getResources();
 
         // set the createModuleFolder flag if any other flag is set
@@ -975,7 +976,7 @@ public class CmsEditModuleForm extends CmsBasicDialog {
      *
      * @param siteRoot the new module site root
      */
-    private void updateSiteInfo(final String siteRoot) {
+    private void updateSiteInfo(final @RUntainted String siteRoot) {
 
         String top = "";
         String bottom = "";

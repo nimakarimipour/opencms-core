@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The file table dialog context.<p>
@@ -63,7 +64,7 @@ public class CmsFileTableDialogContext extends A_CmsDialogContext implements I_C
         String appId,
         ContextType contextType,
         CmsFileTable fileTable,
-        List<CmsResource> resources) {
+        @RUntainted List<CmsResource> resources) {
 
         super(appId, contextType, resources);
         m_fileTable = fileTable;
@@ -72,7 +73,7 @@ public class CmsFileTableDialogContext extends A_CmsDialogContext implements I_C
     /**
      * @see org.opencms.ui.I_CmsEditPropertyContext#editProperty(java.lang.Object)
      */
-    public void editProperty(Object propertyId) {
+    public void editProperty(@RUntainted Object propertyId) {
 
         new CmsContextMenuEditHandler(
             getResources().get(0).getStructureId(),
@@ -85,7 +86,7 @@ public class CmsFileTableDialogContext extends A_CmsDialogContext implements I_C
      * @see org.opencms.ui.A_CmsDialogContext#finish(org.opencms.file.CmsProject, java.lang.String)
      */
     @Override
-    public void finish(CmsProject project, String siteRoot) {
+    public void finish(CmsProject project, @RUntainted String siteRoot) {
 
         super.finish(null);
         super.reload();
@@ -116,7 +117,7 @@ public class CmsFileTableDialogContext extends A_CmsDialogContext implements I_C
     /**
      * @see org.opencms.ui.I_CmsDialogContext#getAllStructureIdsInView()
      */
-    public List<CmsUUID> getAllStructureIdsInView() {
+    public List<@RUntainted CmsUUID> getAllStructureIdsInView() {
 
         return Lists.newArrayList(m_fileTable.getAllIds());
     }

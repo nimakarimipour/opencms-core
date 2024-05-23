@@ -49,6 +49,7 @@ import org.apache.commons.collections.Transformer;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.RangeFacet;
 import org.apache.solr.client.solrj.response.SpellCheckResponse.Suggestion;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Wrapper for the whole search result. Also allowing to access the search form controller. */
 public class CmsSearchResultWrapper implements I_CmsSearchResultWrapper {
@@ -62,7 +63,7 @@ public class CmsSearchResultWrapper implements I_CmsSearchResultWrapper {
     /** The last index of the documents displayed. */
     private final int m_end;
     /** The number of found results. */
-    private final long m_numFound;
+    private final @RUntainted long m_numFound;
     /** The maximal score of the results. */
     private final Float m_maxScore;
     /** The main controller for the search form. */
@@ -232,7 +233,7 @@ public class CmsSearchResultWrapper implements I_CmsSearchResultWrapper {
             m_fieldFacetMap = CmsCollectionsGenericWrapper.createLazyMap(new Transformer() {
 
                 @Override
-                public Object transform(final Object fieldName) {
+                public Object transform(final @RUntainted Object fieldName) {
 
                     return m_solrResultList == null ? null : m_solrResultList.getFacetField(fieldName.toString());
                 }
@@ -286,7 +287,7 @@ public class CmsSearchResultWrapper implements I_CmsSearchResultWrapper {
             m_missingFieldFacetEntryMap = CmsCollectionsGenericWrapper.createLazyMap(new Transformer() {
 
                 @Override
-                public Object transform(final Object fieldName) {
+                public Object transform(final @RUntainted Object fieldName) {
 
                     FacetField facetResult = m_solrResultList == null
                     ? null
@@ -397,7 +398,7 @@ public class CmsSearchResultWrapper implements I_CmsSearchResultWrapper {
      * @see org.opencms.jsp.search.result.I_CmsSearchResultWrapper#getNumFound()
      */
     @Override
-    public long getNumFound() {
+    public @RUntainted long getNumFound() {
 
         return m_numFound;
     }

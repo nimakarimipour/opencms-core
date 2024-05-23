@@ -18,6 +18,7 @@ import javax.servlet.jsp.JspException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This tag allows using the OpenCms native image scaling mechanism within JSP.<p>
@@ -74,7 +75,7 @@ public class CmsJspTagScaleImage extends CmsJspImageScalerTagSupport {
     private static final long serialVersionUID = -6639978110802734737L;
 
     /** List of hi-DPI variant sizes to produce, e.g. 1.3x, 1.5x, 2x, 3x */
-    private List<String> m_hiDpiVariantList;
+    private List<@RUntainted String> m_hiDpiVariantList;
 
     /** Name of the request attribute used to store the created image bean. */
     private String m_var;
@@ -100,9 +101,9 @@ public class CmsJspTagScaleImage extends CmsJspImageScalerTagSupport {
      */
     public static CmsJspImageBean imageTagAction(
         CmsObject cms,
-        String imageUri,
+        @RUntainted String imageUri,
         CmsImageScaler targetScaler,
-        List<String> hiDpiVariantList)
+        List<@RUntainted String> hiDpiVariantList)
     throws CmsException {
 
         CmsJspImageBean image = new CmsJspImageBean(cms, imageUri, targetScaler);

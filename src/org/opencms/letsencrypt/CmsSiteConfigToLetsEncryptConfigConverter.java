@@ -61,6 +61,7 @@ import com.google.common.collect.Sets;
 
 import de.malkusch.whoisServerList.publicSuffixList.PublicSuffixList;
 import de.malkusch.whoisServerList.publicSuffixList.PublicSuffixListFactory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class which converts the OpenCms site configuration to a certificate configuration for the LetsEncrypt docker instance.
@@ -73,14 +74,14 @@ public class CmsSiteConfigToLetsEncryptConfigConverter {
     public static class DomainGrouping {
 
         /** The list of domain sets. */
-        private List<Set<String>> m_domainGroups = Lists.newArrayList();
+        private List<@RUntainted Set<@RUntainted String>> m_domainGroups = Lists.newArrayList();
 
         /**
          * Adds a domain group.<p>
          *
          * @param domains the domain group
          */
-        public void addDomainSet(Set<String> domains) {
+        public void addDomainSet(@RUntainted Set<@RUntainted String> domains) {
 
             if (!domains.isEmpty()) {
                 m_domainGroups.add(domains);
@@ -96,7 +97,7 @@ public class CmsSiteConfigToLetsEncryptConfigConverter {
 
             try {
                 JSONObject result = new JSONObject();
-                for (Set<String> domainGroup : m_domainGroups) {
+                for (Set<@RUntainted String> domainGroup : m_domainGroups) {
                     String key = computeName(domainGroup);
                     if (key != null) {
                         result.put(key, new JSONArray(domainGroup));
@@ -117,7 +118,7 @@ public class CmsSiteConfigToLetsEncryptConfigConverter {
         public Set<String> getUnresolvableDomains() {
 
             Set<String> result = Sets.newHashSet();
-            for (Set<String> domainGroup : m_domainGroups) {
+            for (Set<@RUntainted String> domainGroup : m_domainGroups) {
                 for (String domain : domainGroup) {
                     try {
                         InetAddress.getByName(domain);
@@ -147,10 +148,10 @@ public class CmsSiteConfigToLetsEncryptConfigConverter {
          * @param domains the domains
          * @return the certificate name
          */
-        private String computeName(Set<String> domains) {
+        private @RUntainted String computeName(Set<@RUntainted String> domains) {
 
             try {
-                List<String> domainList = Lists.newArrayList(domains);
+                List<@RUntainted String> domainList = Lists.newArrayList(domains);
                 Collections.sort(domainList);
                 String prefix = domainList.get(0);
                 MessageDigest md5 = MessageDigest.getInstance("MD5");
@@ -177,7 +178,7 @@ public class CmsSiteConfigToLetsEncryptConfigConverter {
         private String m_commonRootDomain;
 
         /** The set of domains for the site. */
-        private Set<String> m_domains = Sets.newHashSet();
+        private Set<@RUntainted String> m_domains = Sets.newHashSet();
 
         /** True if an invalid port was used. */
         private boolean m_invalidPort;
@@ -211,7 +212,7 @@ public class CmsSiteConfigToLetsEncryptConfigConverter {
          *
          * @return the set of domains
          */
-        public Set<String> getDomains() {
+        public Set<@RUntainted String> getDomains() {
 
             return m_domains;
         }
@@ -359,9 +360,9 @@ public class CmsSiteConfigToLetsEncryptConfigConverter {
      * @param infos a collection of SiteDomainInfo beans
      * @return the domains for the beans
      */
-    private static Set<String> getDomains(Collection<SiteDomainInfo> infos) {
+    private static @RUntainted Set<@RUntainted String> getDomains(Collection<SiteDomainInfo> infos) {
 
-        Set<String> domains = Sets.newHashSet();
+        Set<@RUntainted String> domains = Sets.newHashSet();
         for (SiteDomainInfo info : infos) {
             for (String domain : info.getDomains()) {
                 domains.add(domain);
@@ -390,7 +391,7 @@ public class CmsSiteConfigToLetsEncryptConfigConverter {
                 }
             }
             List<CmsSite> sites = Lists.newArrayList(siteIdMap.values());
-            List<String> workplaceServers = siteManager.getWorkplaceServers(CmsSSLMode.LETS_ENCRYPT);
+            List<@RUntainted String> workplaceServers = siteManager.getWorkplaceServers(CmsSSLMode.LETS_ENCRYPT);
             return run(report, sites, workplaceServers);
         }
     }
@@ -402,7 +403,7 @@ public class CmsSiteConfigToLetsEncryptConfigConverter {
      * @param workplaceUrls the workplace URLS
      * @return the domain grouping
      */
-    private DomainGrouping computeDomainGrouping(Collection<CmsSite> sites, Collection<String> workplaceUrls) {
+    private DomainGrouping computeDomainGrouping(Collection<CmsSite> sites, Collection<@RUntainted String> workplaceUrls) {
 
         DomainGrouping result = new DomainGrouping();
         if (LOG.isInfoEnabled()) {
@@ -425,7 +426,7 @@ public class CmsSiteConfigToLetsEncryptConfigConverter {
         }
 
         if (addWp) {
-            Set<String> workplaceDomains = Sets.newHashSet();
+            Set<@RUntainted String> workplaceDomains = Sets.newHashSet();
             for (String wpServer : workplaceUrls) {
                 try {
                     URI uri = new URI(wpServer);
@@ -476,7 +477,7 @@ public class CmsSiteConfigToLetsEncryptConfigConverter {
                 LOG.info("DOMAINS (site config): " + domains);
             }
             for (String key : infosByRootDomain.keySet()) {
-                Set<String> domains = getDomains(infosByRootDomain.get(key));
+                Set<@RUntainted String> domains = getDomains(infosByRootDomain.get(key));
                 result.addDomainSet(domains);
                 LOG.info("DOMAINS (" + key + ")" + domains);
             }
@@ -493,7 +494,7 @@ public class CmsSiteConfigToLetsEncryptConfigConverter {
      *
      * @return true if the Letsencrypt update was successful
      */
-    private boolean run(I_CmsReport report, Collection<CmsSite> sites, Collection<String> workplaceUrls) {
+    private boolean run(I_CmsReport report, Collection<CmsSite> sites, Collection<@RUntainted String> workplaceUrls) {
 
         try {
             DomainGrouping domainGrouping = computeDomainGrouping(sites, workplaceUrls);

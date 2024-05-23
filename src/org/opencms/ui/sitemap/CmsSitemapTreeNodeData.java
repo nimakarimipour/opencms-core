@@ -44,6 +44,7 @@ import java.util.Collection;
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents the data of a sitemap tree node.
@@ -70,13 +71,13 @@ public class CmsSitemapTreeNodeData {
     private CmsResource m_linkedResource;
 
     /** String containing locales for which no translations should be provided, read from locale.notranslation property. */
-    private String m_noTranslation;
+    private @RUntainted String m_noTranslation;
 
     /** The other locale. */
     private Locale m_otherLocale;
 
     /** The entry resource. */
-    private CmsResource m_resource;
+    private @RUntainted CmsResource m_resource;
 
     /**
      * Creates a new instance.<p>
@@ -113,7 +114,7 @@ public class CmsSitemapTreeNodeData {
      *
      * @return the resource
      */
-    public CmsResource getResource() {
+    public @RUntainted CmsResource getResource() {
 
         return m_resource;
 

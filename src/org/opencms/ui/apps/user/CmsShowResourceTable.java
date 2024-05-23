@@ -60,6 +60,7 @@ import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.v7.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.v7.ui.Table;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Table with resources for which a given principal has permissions.<p>
@@ -89,7 +90,7 @@ public class CmsShowResourceTable extends Table {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#getTitle(java.util.Locale)
          */
-        public String getTitle(Locale locale) {
+        public String getTitle(@RUntainted Locale locale) {
 
             return Messages.get().getBundle(locale).key(Messages.GUI_EXPLORER_TITLE_0);
         }
@@ -320,7 +321,7 @@ public class CmsShowResourceTable extends Table {
      * @return Set of CmsResource
      * @throws CmsException if resources can not be read
      */
-    private Set<CmsResource> getResourcesFromPrincipal(CmsObject cms, CmsUUID id) throws CmsException {
+    private Set<@RUntainted CmsResource> getResourcesFromPrincipal(CmsObject cms, @RUntainted CmsUUID id) throws CmsException {
 
         return cms.getResourcesForPrincipal(id, null, false);
     }

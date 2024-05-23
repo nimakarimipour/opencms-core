@@ -74,6 +74,7 @@ import org.dom4j.io.XMLWriter;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Configuration manager for digesting the OpenCms XML configuration.<p>
@@ -122,19 +123,19 @@ public class CmsConfigurationManager implements I_CmsXmlConfiguration {
     private static final long MAX_BACKUP_DAYS = 15;
 
     /** The folder where to store the backup files of the configuration. */
-    private File m_backupFolder;
+    private @RUntainted File m_backupFolder;
 
     /** The base folder where the configuration files are located. */
-    private File m_baseFolder;
+    private @RUntainted File m_baseFolder;
 
     /** The initialized configuration classes. */
     private List<I_CmsXmlConfiguration> m_configurations;
 
     /** The digester for reading the XML configuration. */
-    private Digester m_digester;
+    private @RUntainted Digester m_digester;
 
     /** The configuration based on <code>opencms.properties</code>. */
-    private CmsParameterConfiguration m_propertyConfiguration;
+    private @RUntainted CmsParameterConfiguration m_propertyConfiguration;
 
     /** The admin CmsObject. */
     private CmsObject m_adminCms;
@@ -144,7 +145,7 @@ public class CmsConfigurationManager implements I_CmsXmlConfiguration {
      *
      * @param baseFolder base folder where XML configurations to load are located
      */
-    public CmsConfigurationManager(String baseFolder) {
+    public CmsConfigurationManager(@RUntainted String baseFolder) {
 
         m_baseFolder = new File(baseFolder);
         if (!m_baseFolder.exists()) {
@@ -180,7 +181,7 @@ public class CmsConfigurationManager implements I_CmsXmlConfiguration {
      *
      * @param configuration the configuration to add
      */
-    public void addConfiguration(I_CmsXmlConfiguration configuration) {
+    public void addConfiguration(@RUntainted I_CmsXmlConfiguration configuration) {
 
         if (LOG.isDebugEnabled()) {
             LOG.debug(Messages.get().getBundle().key(Messages.LOG_ADD_CONFIG_1, configuration));
@@ -268,7 +269,7 @@ public class CmsConfigurationManager implements I_CmsXmlConfiguration {
      * @see #setConfiguration(CmsParameterConfiguration)
      * @see org.opencms.configuration.I_CmsConfigurationParameterHandler#getConfiguration()
      */
-    public CmsParameterConfiguration getConfiguration() {
+    public @RUntainted CmsParameterConfiguration getConfiguration() {
 
         return m_propertyConfiguration;
     }
@@ -303,7 +304,7 @@ public class CmsConfigurationManager implements I_CmsXmlConfiguration {
     /**
      * @see org.opencms.configuration.I_CmsXmlConfiguration#getDtdFilename()
      */
-    public String getDtdFilename() {
+    public @RUntainted String getDtdFilename() {
 
         return DTD_FILE_NAME;
     }
@@ -311,7 +312,7 @@ public class CmsConfigurationManager implements I_CmsXmlConfiguration {
     /**
      * @see org.opencms.configuration.I_CmsXmlConfiguration#getDtdSystemLocation()
      */
-    public String getDtdSystemLocation() {
+    public @RUntainted String getDtdSystemLocation() {
 
         return DEFAULT_DTD_LOCATION;
     }
@@ -319,7 +320,7 @@ public class CmsConfigurationManager implements I_CmsXmlConfiguration {
     /**
      * @see org.opencms.configuration.I_CmsXmlConfiguration#getDtdUrlPrefix()
      */
-    public String getDtdUrlPrefix() {
+    public @RUntainted String getDtdUrlPrefix() {
 
         return DEFAULT_DTD_PREFIX;
     }
@@ -327,7 +328,7 @@ public class CmsConfigurationManager implements I_CmsXmlConfiguration {
     /**
      * @see org.opencms.configuration.I_CmsXmlConfiguration#getXmlFileName()
      */
-    public String getXmlFileName() {
+    public @RUntainted String getXmlFileName() {
 
         return DEFAULT_XML_FILE_NAME;
     }
@@ -395,7 +396,7 @@ public class CmsConfigurationManager implements I_CmsXmlConfiguration {
      *
      * @see #getConfiguration()
      */
-    public void setConfiguration(CmsParameterConfiguration propertyConfiguration) {
+    public void setConfiguration(@RUntainted CmsParameterConfiguration propertyConfiguration) {
 
         m_propertyConfiguration = propertyConfiguration;
     }
@@ -471,7 +472,7 @@ public class CmsConfigurationManager implements I_CmsXmlConfiguration {
      *
      * @return the path to the XSLT transformation
      */
-    String getTransformationPath() {
+    @RUntainted String getTransformationPath() {
 
         String path = System.getProperty("opencms.config.transform");
         if (path == null) {
@@ -633,7 +634,7 @@ public class CmsConfigurationManager implements I_CmsXmlConfiguration {
      * @throws SAXException in case of XML parse errors
      * @throws IOException in case of file IO errors
      */
-    private void loadXmlConfiguration(URL url, I_CmsXmlConfiguration configuration) throws SAXException, IOException {
+    private void loadXmlConfiguration(@RUntainted URL url, I_CmsXmlConfiguration configuration) throws SAXException, IOException {
 
         // generate the file URL for the XML input
         URL fileUrl = new URL(url, configuration.getXmlFileName());
@@ -681,7 +682,7 @@ public class CmsConfigurationManager implements I_CmsXmlConfiguration {
     private void removeOldBackups(long daysToKeep) {
 
         long maxAge = (System.currentTimeMillis() - (daysToKeep * 24 * 60 * 60 * 1000));
-        File[] files = m_backupFolder.listFiles();
+        @RUntainted File[] files = m_backupFolder.listFiles();
         for (int i = 0; i < files.length; i++) {
             File file = files[i];
             long lastMod = file.lastModified();

@@ -26,6 +26,7 @@
  */
 
 package org.opencms.db;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The settings of the OpenCms memory monitor.<p>
@@ -35,46 +36,46 @@ package org.opencms.db;
 public class CmsCacheSettings {
 
     /** The size of the memory monitor's cache for ACLs. */
-    private int m_aclCacheSize;
+    private @RUntainted int m_aclCacheSize;
 
     /** The name of the class to generate cache keys. */
-    private String m_cacheKeyGenerator;
+    private @RUntainted String m_cacheKeyGenerator;
 
     /** The size of the memory monitor's cache for groups. */
-    private int m_groupCacheSize;
+    private @RUntainted int m_groupCacheSize;
 
     /** The size of the memory monitor's cache for organizational units. */
-    private int m_orgUnitCacheSize = -1; // this configuration entry is optional
+    private @RUntainted int m_orgUnitCacheSize = -1; // this configuration entry is optional
 
     /** The size of the memory monitor's cache for permission checks. */
-    private int m_permissionCacheSize;
+    private @RUntainted int m_permissionCacheSize;
 
     /** The size of the memory monitor's cache for projects. */
-    private int m_projectCacheSize;
+    private @RUntainted int m_projectCacheSize;
 
     /** The size of the memory monitor's cache for project resources. */
-    private int m_projectResourcesCacheSize = -1; // this configuration entry is optional
+    private @RUntainted int m_projectResourcesCacheSize = -1; // this configuration entry is optional
 
     /** The size of the memory monitor's cache for properties. */
-    private int m_propertyCacheSize;
+    private @RUntainted int m_propertyCacheSize;
 
     /** The size of the memory monitor's cache for property lists. */
-    private int m_propertyListsCacheSize = -1; // this configuration entry is optional
+    private @RUntainted int m_propertyListsCacheSize = -1; // this configuration entry is optional
 
     /** The size of the memory monitor's cache for resources. */
-    private int m_resourceCacheSize;
+    private @RUntainted int m_resourceCacheSize;
 
     /** The size of the memory monitor's cache for lists of resources. */
-    private int m_resourcelistCacheSize;
+    private @RUntainted int m_resourcelistCacheSize;
 
     /** The size of the memory monitor's cache for roles. */
-    private int m_rolesCacheSize = -1; // this configuration entry is optional
+    private @RUntainted int m_rolesCacheSize = -1; // this configuration entry is optional
 
     /** The size of the memory monitor's cache for users. */
-    private int m_userCacheSize;
+    private @RUntainted int m_userCacheSize;
 
     /** The size of the memory monitor's cache for user/group relations. */
-    private int m_userGroupsCacheSize;
+    private @RUntainted int m_userGroupsCacheSize;
 
     /**
      * Default constructor.<p>
@@ -89,7 +90,7 @@ public class CmsCacheSettings {
      *
      * @return the size of the memory monitor's cache for ACLs
      */
-    public int getAclCacheSize() {
+    public @RUntainted int getAclCacheSize() {
 
         return m_aclCacheSize;
     }
@@ -99,7 +100,7 @@ public class CmsCacheSettings {
      *
      * @return the name of the class to generate cache keys
      */
-    public String getCacheKeyGenerator() {
+    public @RUntainted String getCacheKeyGenerator() {
 
         return m_cacheKeyGenerator;
     }
@@ -157,7 +158,7 @@ public class CmsCacheSettings {
      *
      * @return the size of the memory monitor's cache for groups
      */
-    public int getGroupCacheSize() {
+    public @RUntainted int getGroupCacheSize() {
 
         return m_groupCacheSize;
     }
@@ -167,7 +168,7 @@ public class CmsCacheSettings {
      *
      * @return the size of the memory monitor's cache for organizational units
      */
-    public int getOrgUnitCacheSize() {
+    public @RUntainted int getOrgUnitCacheSize() {
 
         if (m_orgUnitCacheSize < 0) {
             return getGroupCacheSize();
@@ -180,7 +181,7 @@ public class CmsCacheSettings {
      *
      * @return the size of the memory monitor's cache for permission checks
      */
-    public int getPermissionCacheSize() {
+    public @RUntainted int getPermissionCacheSize() {
 
         return m_permissionCacheSize;
     }
@@ -190,7 +191,7 @@ public class CmsCacheSettings {
      *
      * @return the size of the memory monitor's cache for projects
      */
-    public int getProjectCacheSize() {
+    public @RUntainted int getProjectCacheSize() {
 
         return m_projectCacheSize;
     }
@@ -200,7 +201,7 @@ public class CmsCacheSettings {
      *
      * @return the size of the memory monitor's cache for project resources
      */
-    public int getProjectResourcesCacheSize() {
+    public @RUntainted int getProjectResourcesCacheSize() {
 
         if (m_propertyListsCacheSize < 0) {
             return getProjectCacheSize();
@@ -213,7 +214,7 @@ public class CmsCacheSettings {
      *
      * @return the size of the memory monitor's cache for properties
      */
-    public int getPropertyCacheSize() {
+    public @RUntainted int getPropertyCacheSize() {
 
         return m_propertyCacheSize;
     }
@@ -223,7 +224,7 @@ public class CmsCacheSettings {
      *
      * @return the size of the memory monitor's cache for property lists
      */
-    public int getPropertyListsCacheSize() {
+    public @RUntainted int getPropertyListsCacheSize() {
 
         if (m_propertyListsCacheSize < 0) {
             return getPropertyCacheSize();
@@ -236,7 +237,7 @@ public class CmsCacheSettings {
      *
      * @return the size of the memory monitor's cache for resources
      */
-    public int getResourceCacheSize() {
+    public @RUntainted int getResourceCacheSize() {
 
         return m_resourceCacheSize;
     }
@@ -246,7 +247,7 @@ public class CmsCacheSettings {
      *
      * @return the size of the memory monitor's cache for lists of resources
      */
-    public int getResourcelistCacheSize() {
+    public @RUntainted int getResourcelistCacheSize() {
 
         return m_resourcelistCacheSize;
     }
@@ -256,7 +257,7 @@ public class CmsCacheSettings {
      *
      * @return the size of the memory monitor's cache for roles
      */
-    public int getRolesCacheSize() {
+    public @RUntainted int getRolesCacheSize() {
 
         if (m_rolesCacheSize < 0) {
             return getPermissionCacheSize();
@@ -269,7 +270,7 @@ public class CmsCacheSettings {
      *
      * @return the size of the memory monitor's cache for users
      */
-    public int getUserCacheSize() {
+    public @RUntainted int getUserCacheSize() {
 
         return m_userCacheSize;
     }
@@ -279,7 +280,7 @@ public class CmsCacheSettings {
      *
      * @return the size of the memory monitor's cache for user/group relations
      */
-    public int getUserGroupsCacheSize() {
+    public @RUntainted int getUserGroupsCacheSize() {
 
         return m_userGroupsCacheSize;
     }
@@ -289,7 +290,7 @@ public class CmsCacheSettings {
      *
      * @param size the size of the memory monitor's cache for ACLs
      */
-    public void setAclCacheSize(String size) {
+    public void setAclCacheSize(@RUntainted String size) {
 
         m_aclCacheSize = getIntValue(size, 1024);
     }
@@ -299,7 +300,7 @@ public class CmsCacheSettings {
      *
      * @param classname the name of the class to generate cache keys
      */
-    public void setCacheKeyGenerator(String classname) {
+    public void setCacheKeyGenerator(@RUntainted String classname) {
 
         m_cacheKeyGenerator = classname;
     }
@@ -309,7 +310,7 @@ public class CmsCacheSettings {
      *
      * @param size the size of the memory monitor's cache for groups
      */
-    public void setGroupCacheSize(String size) {
+    public void setGroupCacheSize(@RUntainted String size) {
 
         m_groupCacheSize = getIntValue(size, 64);
     }
@@ -319,7 +320,7 @@ public class CmsCacheSettings {
      *
      * @param size the size of the memory monitor's cache for organizational units
      */
-    public void setOrgUnitCacheSize(String size) {
+    public void setOrgUnitCacheSize(@RUntainted String size) {
 
         m_orgUnitCacheSize = getIntValue(size, 64);
     }
@@ -329,7 +330,7 @@ public class CmsCacheSettings {
      *
      * @param size the size of the memory monitor's cache for permission checks
      */
-    public void setPermissionCacheSize(String size) {
+    public void setPermissionCacheSize(@RUntainted String size) {
 
         m_permissionCacheSize = getIntValue(size, 1024);
     }
@@ -339,7 +340,7 @@ public class CmsCacheSettings {
      *
      * @param size the size of the memory monitor's cache for projects
      */
-    public void setProjectCacheSize(String size) {
+    public void setProjectCacheSize(@RUntainted String size) {
 
         m_projectCacheSize = getIntValue(size, 32);
     }
@@ -349,7 +350,7 @@ public class CmsCacheSettings {
      *
      * @param size the size of the memory monitor's cache for project resources
      */
-    public void setProjectResourcesCacheSize(String size) {
+    public void setProjectResourcesCacheSize(@RUntainted String size) {
 
         m_projectResourcesCacheSize = getIntValue(size, -1);
     }
@@ -359,7 +360,7 @@ public class CmsCacheSettings {
      *
      * @param size the size of the memory monitor's cache for properties
      */
-    public void setPropertyCacheSize(String size) {
+    public void setPropertyCacheSize(@RUntainted String size) {
 
         m_propertyCacheSize = getIntValue(size, 128);
     }
@@ -369,7 +370,7 @@ public class CmsCacheSettings {
      *
      * @param size the size of the memory monitor's cache for property lists
      */
-    public void setPropertyListsCacheSize(String size) {
+    public void setPropertyListsCacheSize(@RUntainted String size) {
 
         m_propertyListsCacheSize = getIntValue(size, -1);
     }
@@ -379,7 +380,7 @@ public class CmsCacheSettings {
      *
      * @param size the size of the memory monitor's cache for resources
      */
-    public void setResourceCacheSize(String size) {
+    public void setResourceCacheSize(@RUntainted String size) {
 
         m_resourceCacheSize = getIntValue(size, 8192);
     }
@@ -389,7 +390,7 @@ public class CmsCacheSettings {
      *
      * @param size the size of the memory monitor's cache for lists of resources
      */
-    public void setResourcelistCacheSize(String size) {
+    public void setResourcelistCacheSize(@RUntainted String size) {
 
         m_resourcelistCacheSize = getIntValue(size, 256);
     }
@@ -399,7 +400,7 @@ public class CmsCacheSettings {
      *
      * @param size the size of the memory monitor's cache for roles
      */
-    public void setRolesCacheSize(String size) {
+    public void setRolesCacheSize(@RUntainted String size) {
 
         m_rolesCacheSize = getIntValue(size, 8192);
     }
@@ -409,7 +410,7 @@ public class CmsCacheSettings {
      *
      * @param size the size of the memory monitor's cache for users
      */
-    public void setUserCacheSize(String size) {
+    public void setUserCacheSize(@RUntainted String size) {
 
         m_userCacheSize = getIntValue(size, 64);
     }
@@ -419,7 +420,7 @@ public class CmsCacheSettings {
      *
      * @param size the size of the memory monitor's cache for user/group relations
      */
-    public void setUserGroupsCacheSize(String size) {
+    public void setUserGroupsCacheSize(@RUntainted String size) {
 
         m_userGroupsCacheSize = getIntValue(size, 256);
     }
@@ -431,7 +432,7 @@ public class CmsCacheSettings {
      * @param defaultValue a default value to be returned in case the string could not be parsed or the parsed int value is <= 0
      * @return the int value of the string
      */
-    private int getIntValue(String str, int defaultValue) {
+    private @RUntainted int getIntValue(@RUntainted String str, @RUntainted int defaultValue) {
 
         try {
             int intValue = Integer.parseInt(str);

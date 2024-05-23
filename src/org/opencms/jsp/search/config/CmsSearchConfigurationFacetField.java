@@ -29,6 +29,7 @@ package org.opencms.jsp.search.config;
 
 import java.util.Collection;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Search configuration special for field facets. Extends @see{org.opencms.jsp.search.config.CmsSearchConfigurationFacet}.
@@ -75,9 +76,9 @@ implements I_CmsSearchConfigurationFacetField {
         final SortOrder order,
         final String filterQueryModifier,
         final Boolean isAndFacet,
-        final List<String> preselection,
+        final List<@RUntainted String> preselection,
         final Boolean ignoreFiltersFromAllFacets,
-        final Collection<String> excludeTags) {
+        final Collection<@RUntainted String> excludeTags) {
 
         super(
             minCount,

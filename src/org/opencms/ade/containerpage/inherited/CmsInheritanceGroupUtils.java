@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Utility methods for inheritance groups which don't fit anywhere else.<p>
@@ -67,12 +68,12 @@ public final class CmsInheritanceGroupUtils {
      *
      * @throws CmsException if something goes wrong
      */
-    public static CmsResource getInheritanceGroupContentByName(CmsObject cms, String name) throws CmsException {
+    public static CmsResource getInheritanceGroupContentByName(CmsObject cms, @RUntainted String name) throws CmsException {
 
         String oldSiteRoot = cms.getRequestContext().getSiteRoot();
         try {
             cms.getRequestContext().setSiteRoot("");
-            List<CmsResource> resources = cms.readResourcesWithProperty(
+            List<@RUntainted CmsResource> resources = cms.readResourcesWithProperty(
                 "/",
                 CmsPropertyDefinition.PROPERTY_KEYWORDS,
                 name);
@@ -108,12 +109,12 @@ public final class CmsInheritanceGroupUtils {
      *
      * @throws CmsException if something goes wrong
      */
-    public static Set<String> getNamesOfGroupsContainingResource(
-        CmsObject cms,
-        CmsResource inheritanceConfig,
+    public static Set<@RUntainted String> getNamesOfGroupsContainingResource(
+        @RUntainted CmsObject cms,
+        @RUntainted CmsResource inheritanceConfig,
         CmsResource target) throws CmsException {
 
-        Set<String> names = new HashSet<String>();
+        Set<@RUntainted String> names = new HashSet<@RUntainted String>();
         CmsContainerConfigurationParser parser = new CmsContainerConfigurationParser(cms);
         parser.parse(inheritanceConfig);
         Map<Locale, Map<String, CmsContainerConfiguration>> contents = parser.getParsedResults();

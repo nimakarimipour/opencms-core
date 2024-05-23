@@ -36,6 +36,7 @@ import java.io.Serializable;
 
 import org.apache.commons.fileupload.ProgressListener;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides the upload listener for the upload widget.<p>
@@ -51,25 +52,25 @@ public class CmsUploadListener implements ProgressListener, Serializable {
     private static final long serialVersionUID = -6431275569719042836L;
 
     /** The content length of the request (larger than the sum of file sizes). */
-    protected long m_contentLength;
+    protected @RUntainted long m_contentLength;
 
     /** Stores the exception if one has been occurred. */
-    protected RuntimeException m_exception;
+    protected @RUntainted RuntimeException m_exception;
 
     /** Signals that there occurred an exception before. */
     protected boolean m_exceptionTrhown;
 
     /** The bytes read so far. */
-    private long m_bytesRead;
+    private @RUntainted long m_bytesRead;
 
     /** The upload delay. */
-    private int m_delay;
+    private @RUntainted int m_delay;
 
     /** A flag that signals if the upload is finished. */
     private boolean m_finished;
 
     /** The UUID for this listener. */
-    private CmsUUID m_id;
+    private @RUntainted CmsUUID m_id;
 
     /** Stores the current item. */
     private int m_item;
@@ -104,7 +105,7 @@ public class CmsUploadListener implements ProgressListener, Serializable {
      *
      * @return the bytes transfered so far
      */
-    public long getBytesRead() {
+    public @RUntainted long getBytesRead() {
 
         return m_bytesRead;
     }
@@ -114,7 +115,7 @@ public class CmsUploadListener implements ProgressListener, Serializable {
      *
      * @return the content length of the request (larger than the sum of file sizes)
      */
-    public long getContentLength() {
+    public @RUntainted long getContentLength() {
 
         return m_contentLength;
     }
@@ -134,7 +135,7 @@ public class CmsUploadListener implements ProgressListener, Serializable {
      *
      * @return the listeners UUID
      */
-    public CmsUUID getId() {
+    public @RUntainted CmsUUID getId() {
 
         return m_id;
     }
@@ -191,7 +192,7 @@ public class CmsUploadListener implements ProgressListener, Serializable {
      *
      * @return boolean<code>true</code> if the process has been canceled due to an error or by the user
      */
-    public boolean isCanceled() {
+    public @RUntainted boolean isCanceled() {
 
         return m_exception != null;
     }
@@ -230,7 +231,7 @@ public class CmsUploadListener implements ProgressListener, Serializable {
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString() {
+    public @RUntainted String toString() {
 
         return "UUID="
             + getId()

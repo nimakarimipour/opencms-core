@@ -74,6 +74,7 @@ import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the dialog to show the principal table.<p>
@@ -141,7 +142,7 @@ public class CmsPrincipalSelectDialog extends CmsBasicDialog {
     private boolean m_realOnly;
 
     /**Vaadin component.*/
-    private ComboBox m_ouCombo;
+    private @RUntainted ComboBox m_ouCombo;
 
     /** The principal select handler. */
     private I_PrincipalSelectHandler m_selectHandler;
@@ -390,7 +391,7 @@ public class CmsPrincipalSelectDialog extends CmsBasicDialog {
      */
     public static void openEmbeddedDialogV2(
         final CmsEmbeddedDialogContext dialogContext,
-        Map<String, String> params,
+        Map<String, @RUntainted String> params,
         boolean includeWebOus) {
 
         String ou = params.get(PARAM_OU);
@@ -517,7 +518,7 @@ public class CmsPrincipalSelectDialog extends CmsBasicDialog {
      * @return indexed container
      * @throws CmsException exception
      */
-    private IndexedContainer getContainerForType(CmsPrincipalSelect.PrincipalType type, boolean realOnly, String ou)
+    private IndexedContainer getContainerForType(CmsPrincipalSelect.PrincipalType type, boolean realOnly, @RUntainted String ou)
     throws CmsException {
 
         IndexedContainer res = null;

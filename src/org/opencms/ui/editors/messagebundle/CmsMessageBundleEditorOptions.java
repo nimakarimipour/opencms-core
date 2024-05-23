@@ -57,6 +57,7 @@ import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** View of the message bundle editor options, i.e., language/mode switcher, file name display and "Add key" option. */
 public class CmsMessageBundleEditorOptions {
@@ -85,7 +86,7 @@ public class CmsMessageBundleEditorOptions {
     /** The input field that displays the path of the currently edited file. */
     private TextField m_filePathField;
     /** The "Add key" input field. */
-    TextField m_addKeyInput;
+    @RUntainted TextField m_addKeyInput;
     /** A flag, indicating if the mode switch should be shown. */
     private boolean m_showModeSwitch;
     /** A flag, indicating if the "Add key" row should be shown. */
@@ -101,7 +102,7 @@ public class CmsMessageBundleEditorOptions {
      * @param optionListener the option listener.
      */
     public CmsMessageBundleEditorOptions(
-        final Collection<Locale> locales,
+        final Collection<@RUntainted Locale> locales,
         final Locale currentLocale,
         final EditMode currentMode,
         final I_OptionListener optionListener) {
@@ -348,7 +349,7 @@ public class CmsMessageBundleEditorOptions {
      * @param locales the locales that can be selected.
      * @param current the currently selected locale.
      */
-    private void initLanguageSwitch(Collection<Locale> locales, Locale current) {
+    private void initLanguageSwitch(Collection<@RUntainted Locale> locales, Locale current) {
 
         FormLayout languages = new FormLayout();
         languages.setHeight("100%");
@@ -375,7 +376,7 @@ public class CmsMessageBundleEditorOptions {
 
             private static final long serialVersionUID = 1L;
 
-            public void valueChange(ValueChangeEvent event) {
+            public void valueChange(@RUntainted ValueChangeEvent event) {
 
                 m_listener.handleLanguageChange((Locale)event.getProperty().getValue());
 

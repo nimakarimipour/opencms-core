@@ -47,6 +47,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The properties dialog action.<p>
@@ -74,7 +75,7 @@ public class CmsPropertiesDialogAction extends A_CmsWorkplaceAction implements I
                 A_CmsUI.get(),
                 new I_CmsUpdateListener<String>() {
 
-                    public void onUpdate(List<String> updatedItems) {
+                    public void onUpdate(List<@RUntainted String> updatedItems) {
 
                         List<CmsUUID> updatedIds = Lists.newArrayList();
                         for (String item : updatedItems) {
@@ -112,7 +113,7 @@ public class CmsPropertiesDialogAction extends A_CmsWorkplaceAction implements I
     /**
      * @see org.opencms.ui.actions.I_CmsADEAction#getJspPath()
      */
-    public String getJspPath() {
+    public @RUntainted String getJspPath() {
 
         return null;
     }
@@ -120,7 +121,7 @@ public class CmsPropertiesDialogAction extends A_CmsWorkplaceAction implements I
     /**
      * @see org.opencms.ui.actions.I_CmsADEAction#getParams()
      */
-    public Map<String, String> getParams() {
+    public Map<String, @RUntainted String> getParams() {
 
         return null;
     }
@@ -163,7 +164,7 @@ public class CmsPropertiesDialogAction extends A_CmsWorkplaceAction implements I
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
      */
     @Override
-    protected String getTitleKey() {
+    protected @RUntainted String getTitleKey() {
 
         return Messages.GUI_EXPLORER_CONTEXT_ADVANCED_PROPERTIES_0;
     }

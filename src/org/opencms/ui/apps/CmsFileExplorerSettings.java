@@ -42,6 +42,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Stores the file explorer settings.<p>
@@ -107,7 +108,7 @@ public class CmsFileExplorerSettings implements Serializable, I_CmsAppSettings {
     /**
      * @see org.opencms.ui.apps.I_CmsAppSettings#getSettingsString()
      */
-    public String getSettingsString() {
+    public @RUntainted String getSettingsString() {
 
         JSONObject json = new JSONObject();
         try {

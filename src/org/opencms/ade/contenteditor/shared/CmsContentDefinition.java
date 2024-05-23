@@ -40,6 +40,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Contains all information needed for editing an XMLContent.<p>
@@ -95,7 +97,7 @@ public class CmsContentDefinition extends org.opencms.acacia.shared.CmsContentDe
     private String m_resourceType;
 
     /** The site path. */
-    private String m_sitePath;
+    private @RUntainted String m_sitePath;
 
     /** The paths to skip during locale synchronization. */
     private Collection<String> m_skipPaths;
@@ -168,7 +170,7 @@ public class CmsContentDefinition extends org.opencms.acacia.shared.CmsContentDe
         Map<String, String> syncValues,
         Collection<String> skipPaths,
         String title,
-        String sitePath,
+        @RUntainted String sitePath,
         String resourceType,
         String iconClasses,
         boolean performedAutocorrection,
@@ -207,7 +209,7 @@ public class CmsContentDefinition extends org.opencms.acacia.shared.CmsContentDe
      *
      * @return the entity id
      */
-    public static CmsUUID entityIdToUuid(String entityId) {
+    public static @RUntainted CmsUUID entityIdToUuid(@RUntainted String entityId) {
 
         if (entityId.startsWith(ENTITY_ID_PREFIX)) {
             entityId = entityId.substring(entityId.lastIndexOf("/") + 1);
@@ -222,7 +224,7 @@ public class CmsContentDefinition extends org.opencms.acacia.shared.CmsContentDe
      *
      * @return the locale
      */
-    public static String getLocaleFromId(String entityId) {
+    public static @RPolyTainted String getLocaleFromId(@RPolyTainted String entityId) {
 
         if (entityId.startsWith(ENTITY_ID_PREFIX)) {
             return entityId.substring(ENTITY_ID_PREFIX.length(), entityId.lastIndexOf("/"));
@@ -267,7 +269,7 @@ public class CmsContentDefinition extends org.opencms.acacia.shared.CmsContentDe
                     result = values.get(index);
                 }
             } else if (attribute.getValueCount() > (index)) {
-                List<CmsEntity> values = attribute.getComplexValues();
+                List<@RUntainted CmsEntity> values = attribute.getComplexValues();
                 result = getValueForPath(values.get(index), path);
             }
         }
@@ -373,7 +375,7 @@ public class CmsContentDefinition extends org.opencms.acacia.shared.CmsContentDe
      *
      * @return the entity id
      */
-    public static String uuidToEntityId(CmsUUID uuid, String locale) {
+    public static @RPolyTainted String uuidToEntityId(CmsUUID uuid, @RPolyTainted String locale) {
 
         return ENTITY_ID_PREFIX + locale + "/" + uuid.toString();
     }
@@ -515,7 +517,7 @@ public class CmsContentDefinition extends org.opencms.acacia.shared.CmsContentDe
      *
      * @return the site path
      */
-    public String getSitePath() {
+    public @RUntainted String getSitePath() {
 
         return m_sitePath;
     }

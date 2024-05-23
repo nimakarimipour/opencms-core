@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This is the XML content handler class for the "dynamic functionality" resource type.<p>
@@ -64,13 +65,13 @@ public class CmsXmlDynamicFunctionHandler extends CmsDefaultXmlContentHandler {
      * @see org.opencms.xml.content.CmsDefaultXmlContentHandler#getFormatterConfiguration(org.opencms.file.CmsObject, org.opencms.file.CmsResource)
      */
     @Override
-    public CmsFormatterConfiguration getFormatterConfiguration(CmsObject cms, CmsResource resource) {
+    public CmsFormatterConfiguration getFormatterConfiguration(@RUntainted CmsObject cms, @RUntainted CmsResource resource) {
 
         try {
             CmsDynamicFunctionParser parser = new CmsDynamicFunctionParser();
             CmsDynamicFunctionBean functionBean = parser.parseFunctionBean(cms, resource);
-            List<CmsFormatterBean> formatters = functionBean.getFormatters();
-            List<I_CmsFormatterBean> wrappers = new ArrayList<I_CmsFormatterBean>();
+            List<@RUntainted CmsFormatterBean> formatters = functionBean.getFormatters();
+            List<@RUntainted I_CmsFormatterBean> wrappers = new ArrayList<@RUntainted I_CmsFormatterBean>();
             for (CmsFormatterBean formatter : formatters) {
                 wrappers.add(new CmsSchemaFormatterBeanWrapper(cms, formatter, this, resource));
             }
@@ -84,7 +85,7 @@ public class CmsXmlDynamicFunctionHandler extends CmsDefaultXmlContentHandler {
      * @see org.opencms.xml.content.CmsDefaultXmlContentHandler#getSettings(org.opencms.file.CmsObject, org.opencms.file.CmsResource)
      */
     @Override
-    public Map<String, CmsXmlContentProperty> getSettings(CmsObject cms, CmsResource res) {
+    public Map<@RUntainted String, CmsXmlContentProperty> getSettings(@RUntainted CmsObject cms, @RUntainted CmsResource res) {
 
         try {
             CmsDynamicFunctionParser parser = new CmsDynamicFunctionParser();

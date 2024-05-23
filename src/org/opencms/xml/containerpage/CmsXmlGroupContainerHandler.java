@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The XML content handler class for group containers.
@@ -68,7 +69,7 @@ public class CmsXmlGroupContainerHandler extends CmsDefaultXmlContentHandler {
      *
      * @throws CmsException if something goes wrong
      */
-    protected static List<CmsContainerElementBean> loadGroupContainerElements(CmsObject cms, CmsResource resource)
+    protected static List<CmsContainerElementBean> loadGroupContainerElements(@RUntainted CmsObject cms, @RUntainted CmsResource resource)
     throws CmsException {
 
         CmsXmlGroupContainer xmlGroupContainer = CmsXmlGroupContainerFactory.unmarshal(cms, resource);
@@ -88,9 +89,9 @@ public class CmsXmlGroupContainerHandler extends CmsDefaultXmlContentHandler {
      * @see org.opencms.xml.content.CmsDefaultXmlContentHandler#getCSSHeadIncludes(org.opencms.file.CmsObject, org.opencms.file.CmsResource)
      */
     @Override
-    public Set<String> getCSSHeadIncludes(CmsObject cms, CmsResource resource) throws CmsException {
+    public Set<@RUntainted String> getCSSHeadIncludes(@RUntainted CmsObject cms, CmsResource resource) throws CmsException {
 
-        Set<String> result = new LinkedHashSet<String>();
+        Set<@RUntainted String> result = new LinkedHashSet<@RUntainted String>();
 
         List<CmsContainerElementBean> containerElements = loadGroupContainerElements(cms, resource);
         for (CmsContainerElementBean elementBean : containerElements) {
@@ -102,7 +103,7 @@ public class CmsXmlGroupContainerHandler extends CmsDefaultXmlContentHandler {
                         elementBean.getResource().getRootPath()));
             }
             CmsResource elementResource = elementBean.getResource();
-            Set<String> elementIncludes = CmsXmlContentDefinition.getContentHandlerForResource(
+            Set<@RUntainted String> elementIncludes = CmsXmlContentDefinition.getContentHandlerForResource(
                 cms,
                 elementResource).getCSSHeadIncludes(cms, elementResource);
             result.addAll(elementIncludes);
@@ -114,9 +115,9 @@ public class CmsXmlGroupContainerHandler extends CmsDefaultXmlContentHandler {
      * @see org.opencms.xml.content.CmsDefaultXmlContentHandler#getJSHeadIncludes(org.opencms.file.CmsObject, org.opencms.file.CmsResource)
      */
     @Override
-    public Set<String> getJSHeadIncludes(CmsObject cms, CmsResource resource) throws CmsException {
+    public Set<@RUntainted String> getJSHeadIncludes(@RUntainted CmsObject cms, CmsResource resource) throws CmsException {
 
-        Set<String> result = new LinkedHashSet<String>();
+        Set<@RUntainted String> result = new LinkedHashSet<@RUntainted String>();
         List<CmsContainerElementBean> containerElements = loadGroupContainerElements(cms, resource);
         for (CmsContainerElementBean elementBean : containerElements) {
             if (elementBean.isGroupContainer(cms) || elementBean.isInheritedContainer(cms)) {
@@ -127,7 +128,7 @@ public class CmsXmlGroupContainerHandler extends CmsDefaultXmlContentHandler {
                         elementBean.getResource().getRootPath()));
             }
             CmsResource elementResource = elementBean.getResource();
-            Set<String> elementIncludes = CmsXmlContentDefinition.getContentHandlerForResource(
+            Set<@RUntainted String> elementIncludes = CmsXmlContentDefinition.getContentHandlerForResource(
                 cms,
                 elementResource).getJSHeadIncludes(cms, elementResource);
             result.addAll(elementIncludes);

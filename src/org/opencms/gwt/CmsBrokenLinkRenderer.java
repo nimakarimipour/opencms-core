@@ -49,6 +49,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A helper class used to generate the necessary information for displaying links which will be broken
@@ -60,7 +61,7 @@ public class CmsBrokenLinkRenderer {
     private static final Log LOG = CmsLog.getLog(CmsBrokenLinkRenderer.class);
 
     /** The CMS context used by the broken link renderer.<p> */
-    private CmsObject m_cms;
+    private @RUntainted CmsObject m_cms;
 
     /**
      * Creates a new broken link renderer instance.<p>
@@ -161,7 +162,7 @@ public class CmsBrokenLinkRenderer {
 
         List<CmsBrokenLinkBean> result = new ArrayList<CmsBrokenLinkBean>();
         try {
-            Set<String> names = CmsInheritanceGroupUtils.getNamesOfGroupsContainingResource(m_cms, source, target);
+            Set<@RUntainted String> names = CmsInheritanceGroupUtils.getNamesOfGroupsContainingResource(m_cms, source, target);
             if (!names.isEmpty()) {
                 for (String name : names) {
                     String title = null;
@@ -180,7 +181,7 @@ public class CmsBrokenLinkRenderer {
                         title = titleProp.getValue();
                     }
                     path = m_cms.getRequestContext().removeSiteRoot(source.getRootPath());
-                    List<CmsRelation> relations = m_cms.readRelations(
+                    List<@RUntainted CmsRelation> relations = m_cms.readRelations(
                         CmsRelationFilter.relationsToStructureId(group.getStructureId()));
                     List<CmsResource> referencingPages = new ArrayList<CmsResource>();
                     for (CmsRelation relation : relations) {
@@ -300,7 +301,7 @@ public class CmsBrokenLinkRenderer {
      */
     private CmsResource findReferencingPage(CmsResource source) throws CmsException {
 
-        List<CmsRelation> relationsToFile = m_cms.readRelations(
+        List<@RUntainted CmsRelation> relationsToFile = m_cms.readRelations(
             CmsRelationFilter.relationsToStructureId(source.getStructureId()));
         for (CmsRelation relation : relationsToFile) {
             try {
@@ -320,7 +321,7 @@ public class CmsBrokenLinkRenderer {
      *
      * @return the workplace locale
      */
-    private Locale getLocale() {
+    private @RUntainted Locale getLocale() {
 
         return OpenCms.getWorkplaceManager().getWorkplaceLocale(m_cms);
     }

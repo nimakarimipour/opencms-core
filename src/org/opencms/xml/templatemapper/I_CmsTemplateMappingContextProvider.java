@@ -26,6 +26,7 @@
  */
 
 package org.opencms.xml.templatemapper;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface for a mapping template context providers.<p>
@@ -39,5 +40,5 @@ public interface I_CmsTemplateMappingContextProvider {
      *
      * @return the absolute VFS path where the mapping configuration file is stored
      */
-    String getMappingConfigurationPath(String version);
+    @RUntainted String getMappingConfigurationPath(String version);
 }

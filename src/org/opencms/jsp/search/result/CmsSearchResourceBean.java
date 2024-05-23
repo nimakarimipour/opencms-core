@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.Transformer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** JSP EL friendly wrapper class for a single search result (document). */
 public class CmsSearchResourceBean implements I_CmsSearchResourceBean {
@@ -53,7 +54,7 @@ public class CmsSearchResourceBean implements I_CmsSearchResourceBean {
     /** Lazy map to access content in different locales. */
     private Map<String, CmsJspContentAccessBean> m_localizedContent;
     /** Cms object. */
-    final CmsObject m_cmsObject;
+    final @RUntainted CmsObject m_cmsObject;
 
     /** Constructor taking the search resource to wrap.
      * @param searchResource The search resource to wrap.
@@ -75,7 +76,7 @@ public class CmsSearchResourceBean implements I_CmsSearchResourceBean {
             m_datefields = CmsCollectionsGenericWrapper.createLazyMap(new Transformer() {
 
                 @Override
-                public Object transform(final Object fieldName) {
+                public Object transform(final @RUntainted Object fieldName) {
 
                     return getSearchResource().getDateField(fieldName.toString());
                 }
@@ -94,7 +95,7 @@ public class CmsSearchResourceBean implements I_CmsSearchResourceBean {
             m_stringfields = CmsCollectionsGenericWrapper.createLazyMap(new Transformer() {
 
                 @Override
-                public Object transform(final Object fieldName) {
+                public Object transform(final @RUntainted Object fieldName) {
 
                     return getSearchResource().getField(fieldName.toString());
                 }
@@ -113,7 +114,7 @@ public class CmsSearchResourceBean implements I_CmsSearchResourceBean {
             m_multivaluedfields = CmsCollectionsGenericWrapper.createLazyMap(new Transformer() {
 
                 @Override
-                public Object transform(final Object fieldName) {
+                public Object transform(final @RUntainted Object fieldName) {
 
                     return getSearchResource().getMultivaluedField(fieldName.toString());
                 }
@@ -156,7 +157,7 @@ public class CmsSearchResourceBean implements I_CmsSearchResourceBean {
             m_localizedContent = CmsCollectionsGenericWrapper.createLazyMap(new Transformer() {
 
                 @Override
-                public Object transform(final Object locale) {
+                public Object transform(final @RUntainted Object locale) {
 
                     CmsJspContentAccessBean accessBean = null;
                     try {

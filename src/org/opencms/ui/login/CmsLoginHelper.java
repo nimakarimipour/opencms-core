@@ -65,6 +65,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Utility to login users to the OpenCms workplace.<p>
@@ -83,7 +85,7 @@ public class CmsLoginHelper extends CmsJspLoginBean {
         private String m_authToken;
 
         /** The locale to use for display, this will not be the workplace locale, but the browser locale. */
-        private Locale m_locale;
+        private @RUntainted Locale m_locale;
 
         /** The logout flag. */
         private boolean m_logout;
@@ -95,7 +97,7 @@ public class CmsLoginHelper extends CmsJspLoginBean {
         private String m_pcType;
 
         /** The redirect URL after a successful login. */
-        private String m_requestedResource;
+        private @RUntainted String m_requestedResource;
 
         /** The value of the user name parameter. */
         private String m_username;
@@ -119,8 +121,8 @@ public class CmsLoginHelper extends CmsJspLoginBean {
             String username,
             String pcType,
             String oufqn,
-            String requestedResource,
-            Locale locale,
+            @RUntainted String requestedResource,
+            @RUntainted Locale locale,
             String authToken,
             boolean logout,
             boolean reset) {
@@ -150,7 +152,7 @@ public class CmsLoginHelper extends CmsJspLoginBean {
          *
          * @return the locale
          */
-        public Locale getLocale() {
+        public @RUntainted Locale getLocale() {
 
             return m_locale;
         }
@@ -180,7 +182,7 @@ public class CmsLoginHelper extends CmsJspLoginBean {
          *
          * @return the requested resource
          */
-        public String getRequestedResource() {
+        public @RUntainted String getRequestedResource() {
 
             return m_requestedResource;
         }
@@ -299,7 +301,7 @@ public class CmsLoginHelper extends CmsJspLoginBean {
      *
      * @return the copyright info HTML
      */
-    public static String getCopyrightHtml(Locale locale) {
+    public static String getCopyrightHtml(@RUntainted Locale locale) {
 
         StringBuffer html = new StringBuffer();
         html.append("<div style=\"text-align: center; font-size: 10px; white-space: nowrap;\">");
@@ -325,7 +327,7 @@ public class CmsLoginHelper extends CmsJspLoginBean {
      *
      * @return the direct edit path
      */
-    public static String getDirectEditPath(CmsObject cms, CmsUserSettings userSettings, boolean forceDirectEdit) {
+    public static @RUntainted String getDirectEditPath(CmsObject cms, CmsUserSettings userSettings, boolean forceDirectEdit) {
 
         if (forceDirectEdit
             || (userSettings.getStartView().equals(CmsWorkplace.VIEW_DIRECT_EDIT)
@@ -363,9 +365,9 @@ public class CmsLoginHelper extends CmsJspLoginBean {
      *
      * @return the login parameters
      */
-    public static LoginParameters getLoginParameters(
+    public static @RPolyTainted LoginParameters getLoginParameters(
         CmsObject cms,
-        HttpServletRequest request,
+        @RUntainted HttpServletRequest request,
         boolean workplaceUiRequest) {
 
         String authToken = request.getParameter(PARAM_AUTHTOKEN);
@@ -440,7 +442,7 @@ public class CmsLoginHelper extends CmsJspLoginBean {
      *
      * @return the list of organizational units for the OU selector
      */
-    public static List<CmsOrganizationalUnit> getOrgUnitsForLoginDialog(CmsObject cms, String predefOu) {
+    public static List<CmsOrganizationalUnit> getOrgUnitsForLoginDialog(CmsObject cms, @RUntainted String predefOu) {
 
         List<CmsOrganizationalUnit> result = new ArrayList<CmsOrganizationalUnit>();
         try {
@@ -471,7 +473,7 @@ public class CmsLoginHelper extends CmsJspLoginBean {
      *
      * @return the start view
      */
-    public static String getStartView(CmsObject cms) {
+    public static @RUntainted String getStartView(CmsObject cms) {
 
         CmsUserSettings settings = new CmsUserSettings(cms);
         String targetView = getDirectEditPath(cms, settings, false);
@@ -495,7 +497,7 @@ public class CmsLoginHelper extends CmsJspLoginBean {
      * @param locale the locale
      * @return the window title
      */
-    public static String getTitle(Locale locale) {
+    public static String getTitle(@RUntainted Locale locale) {
 
         return Messages.get().getBundle(locale).key(Messages.GUI_LOGIN_TITLE_0);
     }
@@ -506,7 +508,7 @@ public class CmsLoginHelper extends CmsJspLoginBean {
      * @param cms the CMS context which should be initialized
      * @return the workplace set
      */
-    public static CmsWorkplaceSettings initSiteAndProject(CmsObject cms) {
+    public static @RUntainted CmsWorkplaceSettings initSiteAndProject(CmsObject cms) {
 
         CmsWorkplaceSettings workplaceSettings = CmsWorkplace.initWorkplaceSettings(cms, null, false);
         String startSite = CmsWorkplace.getStartSiteRoot(cms, workplaceSettings);
@@ -548,9 +550,9 @@ public class CmsLoginHelper extends CmsJspLoginBean {
      * @param response the current response
      */
     public static void setCookieData(
-        String pcType,
-        String username,
-        String oufqn,
+        @RUntainted String pcType,
+        @RUntainted String username,
+        @RUntainted String oufqn,
         HttpServletRequest request,
         HttpServletResponse response) {
 
@@ -617,7 +619,7 @@ public class CmsLoginHelper extends CmsJspLoginBean {
      *
      * @return the cookie
      */
-    protected static Cookie getCookie(HttpServletRequest request, String name) {
+    protected static @RPolyTainted Cookie getCookie(HttpServletRequest request, @RPolyTainted String name) {
 
         Cookie[] cookies = request.getCookies();
         for (int i = 0; (cookies != null) && (i < cookies.length); i++) {
@@ -637,7 +639,7 @@ public class CmsLoginHelper extends CmsJspLoginBean {
      * @param response the current response
      */
     protected static void setCookie(
-        Cookie cookie,
+        @RUntainted Cookie cookie,
         boolean delete,
         HttpServletRequest request,
         HttpServletResponse response) {
@@ -670,13 +672,13 @@ public class CmsLoginHelper extends CmsJspLoginBean {
      *
      * @return the locale
      */
-    private static Locale getLocaleForRequest(HttpServletRequest req) {
+    private static @RUntainted Locale getLocaleForRequest(HttpServletRequest req) {
 
         CmsAcceptLanguageHeaderParser parser = new CmsAcceptLanguageHeaderParser(
             req,
             OpenCms.getWorkplaceManager().getDefaultLocale());
-        List<Locale> acceptedLocales = parser.getAcceptedLocales();
-        List<Locale> workplaceLocales = OpenCms.getWorkplaceManager().getLocales();
+        List<@RUntainted Locale> acceptedLocales = parser.getAcceptedLocales();
+        List<@RUntainted Locale> workplaceLocales = OpenCms.getWorkplaceManager().getLocales();
         Locale locale = OpenCms.getLocaleManager().getFirstMatchingLocale(acceptedLocales, workplaceLocales);
         if (locale == null) {
             // no match found - use OpenCms default locale
@@ -692,7 +694,7 @@ public class CmsLoginHelper extends CmsJspLoginBean {
      *
      * @return the pc type
      */
-    private static String getPcType(HttpServletRequest request) {
+    private static @RUntainted String getPcType(HttpServletRequest request) {
 
         String pcType = null;
         if (!OpenCms.getLoginManager().isEnableSecurity()) {
@@ -722,7 +724,7 @@ public class CmsLoginHelper extends CmsJspLoginBean {
      *
      * @return the ou fqn
      */
-    private static String getPreDefOuFqn(CmsObject cms, HttpServletRequest request, boolean logout) {
+    private static @RPolyTainted String getPreDefOuFqn(CmsObject cms, @RPolyTainted HttpServletRequest request, boolean logout) {
 
         if (logout && (request.getAttribute(PARAM_PREDEF_OUFQN) == null)) {
             String oufqn = cms.getRequestContext().getOuFqn();

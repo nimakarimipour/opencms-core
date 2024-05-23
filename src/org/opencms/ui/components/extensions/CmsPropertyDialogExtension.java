@@ -55,6 +55,7 @@ import com.google.gwt.user.server.rpc.RPC;
 import com.google.gwt.user.server.rpc.impl.ServerSerializationStreamReader;
 import com.vaadin.server.AbstractExtension;
 import com.vaadin.ui.UI;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Extension used for the GWT-based property dialog called from the workplace.
@@ -71,7 +72,7 @@ public class CmsPropertyDialogExtension extends AbstractExtension implements I_C
     private static final long serialVersionUID = 1L;
 
     /** The list of structure ids. */
-    List<CmsUUID> m_ids = Lists.newArrayList();
+    List<@RUntainted CmsUUID> m_ids = Lists.newArrayList();
 
     /** Current position in the ID list. */
     int m_position;
@@ -80,7 +81,7 @@ public class CmsPropertyDialogExtension extends AbstractExtension implements I_C
     private CmsNewResourceBuilder m_newResourceBuilder;
 
     /** The structure ids of possibly updated resources. */
-    private HashSet<CmsUUID> m_updatedIds = Sets.newHashSet();
+    private HashSet<@RUntainted CmsUUID> m_updatedIds = Sets.newHashSet();
 
     /** The update listener. */
     private I_CmsUpdateListener<String> m_updateListener;
@@ -104,7 +105,7 @@ public class CmsPropertyDialogExtension extends AbstractExtension implements I_C
      * @param allIds structure ids of resources for the prev/next navigation
      * @param editName controls whether the file name should be editable
      */
-    public void editProperties(CmsUUID structureId, List<CmsUUID> allIds, boolean editName) {
+    public void editProperties(@RUntainted CmsUUID structureId, List<@RUntainted CmsUUID> allIds, boolean editName) {
 
         m_position = allIds.indexOf(structureId);
 
@@ -140,7 +141,7 @@ public class CmsPropertyDialogExtension extends AbstractExtension implements I_C
     /**
      * @see org.opencms.ui.shared.rpc.I_CmsPropertyServerRpc#onClose(long)
      */
-    public void onClose(long delayMillis) {
+    public void onClose(@RUntainted long delayMillis) {
 
         remove();
         if (delayMillis > 0) {
@@ -150,7 +151,7 @@ public class CmsPropertyDialogExtension extends AbstractExtension implements I_C
                 // ignore
             }
         }
-        List<String> updates = Lists.newArrayList();
+        List<@RUntainted String> updates = Lists.newArrayList();
         for (CmsUUID id : m_updatedIds) {
             updates.add("" + id);
         }
@@ -215,7 +216,7 @@ public class CmsPropertyDialogExtension extends AbstractExtension implements I_C
      * @param id a structure id
      * @return true if the user can edit the file
      */
-    protected boolean canEdit(CmsUUID id) {
+    protected boolean canEdit(@RUntainted CmsUUID id) {
 
         CmsObject cms = A_CmsUI.getCmsObject();
         CmsResource res = null;

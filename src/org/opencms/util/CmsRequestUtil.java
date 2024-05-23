@@ -66,6 +66,8 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Provides utility functions for dealing with values a <code>{@link HttpServletRequest}</code>.<p>
@@ -220,7 +222,7 @@ public final class CmsRequestUtil {
      *
      * @return the URL with the given parameter appended
      */
-    public static String appendParameters(String url, Map<String, String[]> params, boolean encode) {
+    public static @RPolyTainted String appendParameters(@RPolyTainted String url, Map<String, String[]> params, boolean encode) {
 
         if (CmsStringUtil.isEmpty(url)) {
             return null;
@@ -275,7 +277,7 @@ public final class CmsRequestUtil {
      * @param optionalRequest the current request - may be null if no check against the current request is desired
      * @return true if the link is a valid backlink
      */
-    public static boolean checkBacklink(String backlink, HttpServletRequest optionalRequest) {
+    public static boolean checkBacklink(@RUntainted String backlink, HttpServletRequest optionalRequest) {
 
         if (!backlinkCheckEnabled) {
             return true;
@@ -316,16 +318,16 @@ public final class CmsRequestUtil {
      * @param params the map of parameters to create a parameter map from
      * @return the created parameter map, all values will be instances of <code>String[]</code>
      */
-    public static Map<String, String[]> createParameterMap(Map<String, ?> params) {
+    public static @RUntainted Map<String, @RUntainted String[]> createParameterMap(@RUntainted Map<@RUntainted String, @RUntainted ?> params) {
 
         if (params == null) {
             return null;
         }
-        Map<String, String[]> result = new HashMap<String, String[]>();
+        Map<String, @RUntainted String[]> result = new HashMap<String, @RUntainted String[]>();
         Iterator<?> i = params.entrySet().iterator();
         while (i.hasNext()) {
             @SuppressWarnings("unchecked")
-            Map.Entry<String, ?> entry = (Entry<String, ?>)i.next();
+            Map.Entry<String, @RUntainted ?> entry = (Entry<String, ?>)i.next();
             String key = entry.getKey();
             Object values = entry.getValue();
             if (values instanceof String[]) {
@@ -351,7 +353,7 @@ public final class CmsRequestUtil {
      * @param query the query to parse
      * @return the parameter map created from the query
      */
-    public static Map<String, String[]> createParameterMap(String query) {
+    public static @RUntainted Map<String, @RUntainted String[]> createParameterMap(@RUntainted String query) {
 
         return createParameterMap(query, false, null);
     }
@@ -370,7 +372,7 @@ public final class CmsRequestUtil {
      * @param encoding the character encoding used while decoding. If <code>null</code>, the default character encoding is used.
      * @return the parameter map created from the query
      */
-    public static Map<String, String[]> createParameterMap(String query, boolean decodeParameters, String encoding) {
+    public static @RUntainted Map<@RUntainted String, @RUntainted String[]> createParameterMap(@RUntainted String query, boolean decodeParameters, String encoding) {
 
         if (CmsStringUtil.isEmpty(query)) {
             // empty query
@@ -381,8 +383,8 @@ public final class CmsRequestUtil {
             query = query.substring(1);
         }
         // cut along the different parameters
-        String[] params = CmsStringUtil.splitAsArray(query, PARAMETER_DELIMITER);
-        Map<String, String[]> parameters = new HashMap<String, String[]>(params.length);
+        @RUntainted String[] params = CmsStringUtil.splitAsArray(query, PARAMETER_DELIMITER);
+        Map<String, @RUntainted String[]> parameters = new HashMap<String, @RUntainted String[]>(params.length);
         for (int i = 0; i < params.length; i++) {
             String key = null;
             String value = null;
@@ -406,13 +408,13 @@ public final class CmsRequestUtil {
                     key = CmsEncoder.decode(key, encoding);
                     value = CmsEncoder.decode(value, encoding);
                 }
-                String[] values = parameters.get(key);
+                @RUntainted String[] values = parameters.get(key);
                 if (values == null) {
                     // this is the first value, create new array
                     values = new String[] {value};
                 } else {
                     // append to the existing value array
-                    String[] copy = new String[values.length + 1];
+                    @RUntainted String[] copy = new String[values.length + 1];
                     System.arraycopy(values, 0, copy, 0, values.length);
                     copy[copy.length - 1] = value;
                     values = copy;
@@ -444,7 +446,7 @@ public final class CmsRequestUtil {
      *
      * @return all initialized parameters of the given request as request parameter URL String
      */
-    public static String encodeParams(HttpServletRequest req) {
+    public static @RUntainted String encodeParams(HttpServletRequest req) {
 
         StringBuffer result = new StringBuffer(512);
         Map<String, String[]> params = CmsCollectionsGenericWrapper.map(req.getParameterMap());
@@ -477,7 +479,7 @@ public final class CmsRequestUtil {
      * @param uri the URI to encode
      * @return the encoded URI, with all parameters from the given request appended
      */
-    public static String encodeParamsWithUri(String uri, HttpServletRequest req) {
+    public static @RPolyTainted String encodeParamsWithUri(@RPolyTainted String uri, HttpServletRequest req) {
 
         String result;
         String params = encodeParams(req);
@@ -507,12 +509,12 @@ public final class CmsRequestUtil {
      * @throws IOException in case the forwarding fails
      * @throws ServletException in case the forwarding fails
      */
-    public static void forwardRequest(String target, HttpServletRequest req, HttpServletResponse res)
+    public static void forwardRequest(@RUntainted String target, HttpServletRequest req, HttpServletResponse res)
     throws IOException, ServletException {
 
         // clear the current parameters
         CmsUriSplitter uri = new CmsUriSplitter(target);
-        Map<String, String[]> params = createParameterMap(uri.getQuery());
+        Map<String, @RUntainted String[]> params = createParameterMap(uri.getQuery());
         forwardRequest(uri.getPrefix(), params, req, res);
     }
 
@@ -533,8 +535,8 @@ public final class CmsRequestUtil {
      * @throws ServletException in case the forwarding fails
      */
     public static void forwardRequest(
-        String target,
-        Map<String, String[]> params,
+        @RUntainted String target,
+        Map<String, @RUntainted String[]> params,
         HttpServletRequest req,
         HttpServletResponse res)
     throws IOException, ServletException {
@@ -564,7 +566,7 @@ public final class CmsRequestUtil {
      *
      * @return the attribute map
      */
-    public static Map<String, Object> getAtrributeMap(ServletRequest req) {
+    public static @RUntainted Map<String, Object> getAtrributeMap(ServletRequest req) {
 
         return getAttributeMap(req);
     }
@@ -576,7 +578,7 @@ public final class CmsRequestUtil {
      *
      * @return the attribute map
      */
-    public static Map<String, Object> getAttributeMap(ServletRequest req) {
+    public static @RUntainted Map<String, Object> getAttributeMap(ServletRequest req) {
 
         if (req instanceof CmsFlexRequest) {
             return ((CmsFlexRequest)req).getAttributeMap();
@@ -613,7 +615,7 @@ public final class CmsRequestUtil {
      *
      * @return the cookie value, or null if cookie with the given name wasn't found
      */
-    public static String getCookieValue(Cookie[] cookies, String name) {
+    public static @RUntainted String getCookieValue(Cookie[] cookies, String name) {
 
         for (int i = 0; (cookies != null) && (i < cookies.length); i++) {
             if (name.equalsIgnoreCase(cookies[i].getName())) {
@@ -630,10 +632,10 @@ public final class CmsRequestUtil {
      *
      * @return the JSON representation of the given parameter map
      */
-    public static JSONObject getJsonParameterMap(Map<String, String[]> params) {
+    public static JSONObject getJsonParameterMap(Map<@RUntainted String, @RUntainted String[]> params) {
 
         JSONObject result = new JSONObject();
-        for (Map.Entry<String, String[]> entry : params.entrySet()) {
+        for (Map.Entry<@RUntainted String, @RUntainted String[]> entry : params.entrySet()) {
             String paramKey = entry.getKey();
             JSONArray paramValue = new JSONArray();
             for (int i = 0, l = entry.getValue().length; i < l; i++) {
@@ -679,7 +681,7 @@ public final class CmsRequestUtil {
      *
      * @return the request parameter value for the given parameter
      */
-    public static String getNotEmptyParameter(HttpServletRequest request, String paramName) {
+    public static @RPolyTainted String getNotEmptyParameter(@RPolyTainted HttpServletRequest request, @RPolyTainted String paramName) {
 
         String result = request.getParameter(paramName);
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(result)) {
@@ -716,7 +718,7 @@ public final class CmsRequestUtil {
      * @param uri the URI
      * @return the parameter map
      */
-    public static Multimap<String, String> getParameters(URI uri) {
+    public static Multimap<String, String> getParameters(@RUntainted URI uri) {
 
         return getParametersFromRawQuery(uri.getRawQuery());
     }
@@ -728,7 +730,7 @@ public final class CmsRequestUtil {
      *
      * @return the parameter map
      */
-    public static Multimap<String, String> getParametersFromRawQuery(String rawQuery) {
+    public static Multimap<String, String> getParametersFromRawQuery(@RUntainted String rawQuery) {
 
         Multimap<String, String> result = ArrayListMultimap.create();
         if (rawQuery != null) {
@@ -757,7 +759,7 @@ public final class CmsRequestUtil {
      * @param url the URL to remove the parameters from
      * @return the URL without any parameters
      */
-    public static String getRequestLink(String url) {
+    public static @RPolyTainted String getRequestLink(@RPolyTainted String url) {
 
         if (CmsStringUtil.isEmpty(url)) {
             return null;
@@ -816,7 +818,7 @@ public final class CmsRequestUtil {
      * @return the list of <code>{@link FileItem}</code> extracted from the multipart request,
      *      or <code>null</code> if the request was not of type <code>multipart/form-data</code>
      */
-    public static List<FileItem> readMultipartFileItems(HttpServletRequest request, String tempFolderPath) {
+    public static List<FileItem> readMultipartFileItems(HttpServletRequest request, @RUntainted String tempFolderPath) {
 
         if (!ServletFileUpload.isMultipartContent(request)) {
             return null;
@@ -852,12 +854,12 @@ public final class CmsRequestUtil {
      *
      * @see #readMultipartFileItems(HttpServletRequest)
      */
-    public static Map<String, String[]> readParameterMapFromMultiPart(
-        String encoding,
-        List<FileItem> multiPartFileItems) {
+    public static Map<String, @RUntainted String[]> readParameterMapFromMultiPart(
+        @RUntainted String encoding,
+        List<@RUntainted FileItem> multiPartFileItems) {
 
-        Map<String, String[]> parameterMap = new HashMap<String, String[]>();
-        Iterator<FileItem> i = multiPartFileItems.iterator();
+        Map<String, @RUntainted String[]> parameterMap = new HashMap<String, @RUntainted String[]>();
+        Iterator<@RUntainted FileItem> i = multiPartFileItems.iterator();
         while (i.hasNext()) {
             FileItem item = i.next();
             String name = item.getFieldName();
@@ -874,7 +876,7 @@ public final class CmsRequestUtil {
 
                     // append value to parameter values array
                     String[] oldValues = parameterMap.get(name);
-                    String[] newValues = new String[oldValues.length + 1];
+                    @RUntainted String[] newValues = new String[oldValues.length + 1];
                     System.arraycopy(oldValues, 0, newValues, 0, oldValues.length);
                     newValues[oldValues.length] = value;
                     parameterMap.put(name, newValues);
@@ -895,7 +897,7 @@ public final class CmsRequestUtil {
      * @param jsp the OpenCms JSP context
      * @param target the target link
      */
-    public static void redirectPermanently(CmsJspActionElement jsp, String target) {
+    public static void redirectPermanently(CmsJspActionElement jsp, @RUntainted String target) {
 
         target = OpenCms.getLinkManager().substituteLink(jsp.getCmsObject(), target);
         jsp.getResponse().setHeader(HEADER_CONNECTION, "close");
@@ -923,7 +925,7 @@ public final class CmsRequestUtil {
      *
      * @throws IOException if something goes wrong during redirection
      */
-    public static void redirectRequestSecure(CmsJspActionElement jsp, String target) throws IOException {
+    public static void redirectRequestSecure(CmsJspActionElement jsp, @RUntainted String target) throws IOException {
 
         jsp.getResponse().sendRedirect(OpenCms.getLinkManager().substituteLink(jsp.getCmsObject(), target, null, true));
     }
@@ -951,7 +953,7 @@ public final class CmsRequestUtil {
      * @param name the name of the cookie
      * @param value the value of the cookie
      */
-    public static void setCookieValue(CmsJspActionElement jsp, String name, String value) {
+    public static void setCookieValue(CmsJspActionElement jsp, @RUntainted String name, @RUntainted String value) {
 
         Cookie[] cookies = jsp.getRequest().getCookies();
         for (int i = 0; (cookies != null) && (i < cookies.length); i++) {
@@ -995,7 +997,7 @@ public final class CmsRequestUtil {
      * @param key the key of the object to be stored in the session
      * @param value the object to be stored in the session
      */
-    public static void setSessionValue(HttpServletRequest request, String key, Object value) {
+    public static void setSessionValue(HttpServletRequest request, @RUntainted String key, @RUntainted Object value) {
 
         HttpSession session = request.getSession(true);
         session.setAttribute(key, value);

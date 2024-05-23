@@ -63,6 +63,7 @@ import javax.xml.transform.stream.StreamSource;
 import org.apache.commons.logging.Log;
 
 import org.w3c.dom.Document;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Transforms all resources of a given type by
@@ -79,10 +80,10 @@ public class CmsXmlFileTransformer {
     private CmsObject m_onlineCms;
 
     /** The path. */
-    private String m_path;
+    private @RUntainted String m_path;
 
     /** The type name. */
-    private String m_type;
+    private @RUntainted String m_type;
 
     /** The bytes of the XSL transformation. */
     private byte[] m_xslt;
@@ -91,10 +92,10 @@ public class CmsXmlFileTransformer {
     private TransformerFactory m_transformerFactory;
 
     /** The report to write to. */
-    private I_CmsReport m_report;
+    private @RUntainted I_CmsReport m_report;
 
     /** The origin of the XSL transform. */
-    private String m_xslName;
+    private @RUntainted String m_xslName;
 
     /**
      * Creates a new instance.
@@ -111,11 +112,11 @@ public class CmsXmlFileTransformer {
      */
     public CmsXmlFileTransformer(
         CmsObject cms,
-        String path,
-        String type,
-        String xslName,
+        @RUntainted String path,
+        @RUntainted String type,
+        @RUntainted String xslName,
         InputStream xslStream,
-        I_CmsReport report)
+        @RUntainted I_CmsReport report)
     throws CmsException, IOException {
 
         OpenCms.getRoleManager().checkRole(cms, CmsRole.ROOT_ADMIN);
@@ -144,7 +145,7 @@ public class CmsXmlFileTransformer {
         m_report.println(message("Path: " + m_path));
         m_report.println(message("Type: " + m_type));
         try {
-            List<CmsResource> resources = m_offlineCms.readResources(
+            List<@RUntainted CmsResource> resources = m_offlineCms.readResources(
                 m_path,
                 CmsResourceFilter.ALL.addRequireType(OpenCms.getResourceManager().getResourceType(m_type)),
                 true);
@@ -175,7 +176,7 @@ public class CmsXmlFileTransformer {
      * @return the temporary project
      * @throws CmsException if something goes wrong
      */
-    private CmsProject getTempfileProject(CmsObject cms) throws CmsException {
+    private @RUntainted CmsProject getTempfileProject(CmsObject cms) throws CmsException {
 
         try {
             return cms.readProject(I_CmsProjectDriver.TEMP_FILE_PROJECT_NAME);
@@ -190,7 +191,7 @@ public class CmsXmlFileTransformer {
      * @param content the message string
      * @return the message container
      */
-    private CmsMessageContainer message(String content) {
+    private CmsMessageContainer message(@RUntainted String content) {
 
         content = CmsXmlFileTransformer.class.getSimpleName() + ": " + content;
         return org.opencms.report.Messages.get().container(org.opencms.report.Messages.RPT_GENERIC_1, content);
@@ -221,9 +222,9 @@ public class CmsXmlFileTransformer {
      *
      * @param resources the resources to process
      */
-    private void processResources(List<CmsResource> resources) {
+    private void processResources(List<@RUntainted CmsResource> resources) {
 
-        List<String> changedPaths = new ArrayList<>();
+        List<@RUntainted String> changedPaths = new ArrayList<>();
         for (CmsResource resource : resources) {
             boolean changed = false;
             CmsResourceState state = resource.getState();
@@ -329,7 +330,7 @@ public class CmsXmlFileTransformer {
      *
      * @throws CmsException if something goes wrong
      */
-    private byte[] readOfflineContent(CmsResource res) throws CmsException {
+    private byte[] readOfflineContent(@RUntainted CmsResource res) throws CmsException {
 
         return m_offlineCms.readFile(res).getContents();
     }
@@ -356,7 +357,7 @@ public class CmsXmlFileTransformer {
      * @return true if the XML is equivalent
      *
      */
-    private boolean sameXml(byte[] xml1, byte[] xml2) {
+    private boolean sameXml(@RUntainted byte[] xml1, @RUntainted byte[] xml2) {
 
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         dbf.setNamespaceAware(true);
@@ -408,7 +409,7 @@ public class CmsXmlFileTransformer {
      *
      * @throws CmsException if something goes wrong
      */
-    private boolean writeContent(CmsResource res, byte[] content) throws CmsException {
+    private boolean writeContent(@RUntainted CmsResource res, byte[] content) throws CmsException {
 
         CmsFile file = m_offlineCms.readFile(res);
         file.setContents(content);

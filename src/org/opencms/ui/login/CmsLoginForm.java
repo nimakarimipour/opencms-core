@@ -53,6 +53,7 @@ import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Login form.<p>
@@ -119,7 +120,7 @@ public class CmsLoginForm extends VerticalLayout {
      * @param controller the login controller
      * @param locale the locale to use
      */
-    public CmsLoginForm(CmsLoginController controller, Locale locale) {
+    public CmsLoginForm(CmsLoginController controller, @RUntainted Locale locale) {
 
         m_controller = controller;
         final CmsMessages messages = OpenCms.getWorkplaceManager().getMessages(locale);

@@ -28,6 +28,7 @@
 package org.opencms.gwt.shared;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A simple bean class which represents a validation request for a single form field.<p>
@@ -37,13 +38,13 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 public class CmsValidationQuery implements IsSerializable {
 
     /** The configuration string for the server-side validator. */
-    private String m_config;
+    private @RUntainted String m_config;
 
     /** The class name of the server-side validator. */
-    private String m_validatorId;
+    private @RUntainted String m_validatorId;
 
     /** The value which should be validated. */
-    private String m_value;
+    private @RUntainted String m_value;
 
     /**
      * Constructor.<p>
@@ -52,7 +53,7 @@ public class CmsValidationQuery implements IsSerializable {
      * @param value the value to validate
      * @param config the configuration string for the server-side validator
      */
-    public CmsValidationQuery(String validator, String value, String config) {
+    public CmsValidationQuery(String validator, @RUntainted String value, @RUntainted String config) {
 
         m_validatorId = validator;
         m_value = value;
@@ -72,7 +73,7 @@ public class CmsValidationQuery implements IsSerializable {
      *
      * @return a configuration string
      */
-    public String getConfig() {
+    public @RUntainted String getConfig() {
 
         return m_config;
     }
@@ -82,7 +83,7 @@ public class CmsValidationQuery implements IsSerializable {
      *
      * @return  the class name of the server-side validator
      */
-    public String getValidatorId() {
+    public @RUntainted String getValidatorId() {
 
         return m_validatorId;
     }
@@ -92,7 +93,7 @@ public class CmsValidationQuery implements IsSerializable {
      *
      * @return the value which should be validated
      */
-    public String getValue() {
+    public @RUntainted String getValue() {
 
         return m_value;
     }

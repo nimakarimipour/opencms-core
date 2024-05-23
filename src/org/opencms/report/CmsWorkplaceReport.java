@@ -36,6 +36,7 @@ import java.util.Locale;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Report class for displaying reports to the user in the workplace.<p>
@@ -77,7 +78,7 @@ public class CmsWorkplaceReport extends A_CmsReport {
      * @param isTransient If set to <code>true</code> nothing is kept in memory
      * @param logChannel the log channel to send the report output to (or null if this shouldn't be done)
      */
-    public CmsWorkplaceReport(Locale locale, String siteRoot, boolean isTransient, Object logChannel) {
+    public CmsWorkplaceReport(@RUntainted Locale locale, String siteRoot, boolean isTransient, Object logChannel) {
 
         init(locale, siteRoot);
         if (logChannel != null) {
@@ -95,7 +96,7 @@ public class CmsWorkplaceReport extends A_CmsReport {
      * @param siteRoot the site root of the user who started this report (may be <code>null</code>)
      * @param logChannel the log channel to send the report output to (or null if this shouldn't be done)
      */
-    public CmsWorkplaceReport(Locale locale, String siteRoot, Object logChannel) {
+    public CmsWorkplaceReport(@RUntainted Locale locale, String siteRoot, Object logChannel) {
 
         this(locale, siteRoot, false, logChannel);
     }

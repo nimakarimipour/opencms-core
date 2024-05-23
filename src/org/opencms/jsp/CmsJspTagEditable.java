@@ -50,6 +50,7 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the <code>&lt;cms:editable/&gt;</code> tag.<p>
@@ -84,13 +85,13 @@ public class CmsJspTagEditable extends BodyTagSupport {
     private static final long serialVersionUID = 4137789622146499225L;
 
     /** File with editable elements. */
-    protected String m_file;
+    protected @RUntainted String m_file;
 
     /** Indicates which direct edit mode is active. */
     protected transient CmsDirectEditMode m_mode;
 
     /** Class name of the direct edit provider. */
-    protected String m_provider;
+    protected @RUntainted String m_provider;
 
     /** The edit empty tag attribute. */
     private boolean m_editEmpty;
@@ -111,7 +112,7 @@ public class CmsJspTagEditable extends BodyTagSupport {
      *
      * @throws JspException in case something goes wrong
      */
-    public static void editableTagAction(PageContext context, String provider, CmsDirectEditMode mode, String fileName)
+    public static void editableTagAction(@RUntainted PageContext context, @RUntainted String provider, CmsDirectEditMode mode, @RUntainted String fileName)
     throws JspException {
 
         ServletRequest req = context.getRequest();
@@ -210,10 +211,10 @@ public class CmsJspTagEditable extends BodyTagSupport {
      * @throws JspException in case writing to page context fails
      */
     public static void insertEditEmpty(
-        PageContext context,
+        @RUntainted PageContext context,
         I_CmsXmlContentContainer container,
         CmsDirectEditMode mode,
-        String id)
+        @RUntainted String id)
     throws CmsException, JspException {
 
         ServletRequest req = context.getRequest();
@@ -291,7 +292,7 @@ public class CmsJspTagEditable extends BodyTagSupport {
      *
      * @throws JspException in case something goes wrong
      */
-    public static boolean startDirectEdit(PageContext context, CmsDirectEditParams params) throws JspException {
+    public static boolean startDirectEdit(@RUntainted PageContext context, CmsDirectEditParams params) throws JspException {
 
         // get the direct edit bean from the context
         I_CmsDirectEditProvider eb = getDirectEditProvider(context);
@@ -492,7 +493,7 @@ public class CmsJspTagEditable extends BodyTagSupport {
      *
      * @param file the file to set
      */
-    public void setFile(String file) {
+    public void setFile(@RUntainted String file) {
 
         m_file = file;
     }
@@ -512,7 +513,7 @@ public class CmsJspTagEditable extends BodyTagSupport {
      *
      * @param provider the class name of the direct edit provider to set
      */
-    public void setProvider(String provider) {
+    public void setProvider(@RUntainted String provider) {
 
         m_provider = provider;
     }

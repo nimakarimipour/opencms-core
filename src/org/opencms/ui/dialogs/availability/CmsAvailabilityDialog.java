@@ -77,6 +77,7 @@ import com.vaadin.v7.data.Validator;
 import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Availability dialog.<p>
@@ -114,10 +115,10 @@ public class CmsAvailabilityDialog extends CmsBasicDialog {
     private CheckBox m_modifySiblingsField;
 
     /**  'enable notification' check box. */
-    private CheckBox m_notificationEnabledField;
+    private @RUntainted CheckBox m_notificationEnabledField;
 
     /** Field for the notification interval. */
-    private TextField m_notificationIntervalField;
+    private @RUntainted TextField m_notificationIntervalField;
 
     /** Panel for notifications. */
     private Panel m_notificationPanel;
@@ -157,7 +158,7 @@ public class CmsAvailabilityDialog extends CmsBasicDialog {
             this,
             OpenCms.getWorkplaceManager().getMessages(A_CmsUI.get().getLocale()),
             null);
-        List<CmsResource> resources = dialogContext.getResources();
+        List<@RUntainted CmsResource> resources = dialogContext.getResources();
         m_notificationIntervalField.addValidator(new Validator() {
 
             /** Serial version id. */
@@ -193,11 +194,11 @@ public class CmsAvailabilityDialog extends CmsBasicDialog {
                 m_expiredField.setDate(new Date(onlyResource.getDateExpired()));
             }
             initNotification();
-            Map<CmsPrincipalBean, String> responsibles = m_availabilityInfo.getResponsibles();
+            Map<CmsPrincipalBean, @RUntainted String> responsibles = m_availabilityInfo.getResponsibles();
             if (!responsibles.isEmpty()) {
                 m_responsiblesPanel.setVisible(true);
                 m_notificationPanel.setVisible(true);
-                for (Map.Entry<CmsPrincipalBean, String> entry : responsibles.entrySet()) {
+                for (Map.Entry<CmsPrincipalBean, @RUntainted String> entry : responsibles.entrySet()) {
                     CmsPrincipalBean principal = entry.getKey();
                     String icon = principal.isGroup()
                     ? CmsWorkplace.getResourceUri("buttons/group.png")
@@ -409,9 +410,9 @@ public class CmsAvailabilityDialog extends CmsBasicDialog {
      *
      * @return the responsibles
      */
-    Map<CmsPrincipalBean, String> getResponsibles(CmsObject cms, CmsResource res) {
+    Map<CmsPrincipalBean, @RUntainted String> getResponsibles(CmsObject cms, CmsResource res) {
 
-        Map<CmsPrincipalBean, String> result = new HashMap<CmsPrincipalBean, String>();
+        Map<CmsPrincipalBean, @RUntainted String> result = new HashMap<CmsPrincipalBean, @RUntainted String>();
         List<CmsResource> parentResources = new ArrayList<CmsResource>();
         // get all parent folders of the current file
         try {
@@ -485,10 +486,10 @@ public class CmsAvailabilityDialog extends CmsBasicDialog {
      * @throws CmsException if something goes wrong
      */
     private void changeAvailability(
-        CmsResource resource,
-        Date released,
+        @RUntainted CmsResource resource,
+        @RUntainted Date released,
         boolean resetReleased,
-        Date expired,
+        @RUntainted Date expired,
         boolean resetExpired,
         boolean modifySubresources)
     throws CmsException {
@@ -561,12 +562,12 @@ public class CmsAvailabilityDialog extends CmsBasicDialog {
     private void performSingleResourceNotification(
         CmsObject cms,
         String resName,
-        boolean enableNotification,
-        int notificationInterval,
+        @RUntainted boolean enableNotification,
+        @RUntainted int notificationInterval,
         boolean modifySiblings)
     throws CmsException {
 
-        List<CmsResource> resources = new ArrayList<CmsResource>();
+        List<@RUntainted CmsResource> resources = new ArrayList<@RUntainted CmsResource>();
         if (modifySiblings) {
             // modify all siblings of a resource
             resources = cms.readSiblings(resName, CmsResourceFilter.IGNORE_EXPIRATION);
@@ -574,7 +575,7 @@ public class CmsAvailabilityDialog extends CmsBasicDialog {
             // modify only resource without siblings
             resources.add(cms.readResource(resName, CmsResourceFilter.IGNORE_EXPIRATION));
         }
-        Iterator<CmsResource> i = resources.iterator();
+        Iterator<@RUntainted CmsResource> i = resources.iterator();
         while (i.hasNext()) {
             CmsResource resource = i.next();
             // lock resource if auto lock is enabled
@@ -609,7 +610,7 @@ public class CmsAvailabilityDialog extends CmsBasicDialog {
      *
      * @throws CmsException if something goes wrong
      */
-    private void writeProperty(CmsObject cms, CmsResource resource, String propertyName, String propertyValue)
+    private void writeProperty(CmsObject cms, @RUntainted CmsResource resource, @RUntainted String propertyName, @RUntainted String propertyValue)
     throws CmsException {
 
         if (CmsStringUtil.isEmpty(propertyValue)) {

@@ -101,6 +101,7 @@ import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.TextArea;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the dialog to edit user settings.<p>
@@ -145,7 +146,7 @@ public class CmsUserEditDialog extends CmsBasicDialog implements I_CmsPasswordFe
         /**
          * @see com.vaadin.v7.data.Validator#validate(java.lang.Object)
          */
-        public void validate(Object value) throws InvalidValueException {
+        public void validate(@RUntainted Object value) throws InvalidValueException {
 
             if (value == null) {
                 throw new InvalidValueException(
@@ -326,7 +327,7 @@ public class CmsUserEditDialog extends CmsBasicDialog implements I_CmsPasswordFe
     CmsPasswordForm m_pw;
 
     /**vaadin component.*/
-    ComboBox m_site;
+    @RUntainted ComboBox m_site;
 
     /**vaadin component.*/
     CmsPathSelectField m_startfolder;
@@ -338,10 +339,10 @@ public class CmsUserEditDialog extends CmsBasicDialog implements I_CmsPasswordFe
     private Button m_cancel;
 
     /**CmsObject. */
-    private CmsObject m_cms;
+    private @RUntainted CmsObject m_cms;
 
     /**vaadin component.*/
-    private TextArea m_description;
+    private @RUntainted TextArea m_description;
 
     /** Label containing invisible dummy password fields to dissuade Firefox from saving the password *after* the user edit dialog. */
     private Label m_dummyPasswordLabel;
@@ -362,10 +363,10 @@ public class CmsUserEditDialog extends CmsBasicDialog implements I_CmsPasswordFe
     private CmsPrincipalSelect m_group;
 
     /**vaadin component.*/
-    private ComboBox m_language;
+    private @RUntainted ComboBox m_language;
 
     /**vaadin component.*/
-    private TextField m_loginname;
+    private @RUntainted TextField m_loginname;
 
     /**Flag indicates if name was empty. */
     private boolean m_name_was_empty;
@@ -377,12 +378,12 @@ public class CmsUserEditDialog extends CmsBasicDialog implements I_CmsPasswordFe
     private Button m_ok;
 
     /**vaadin component.*/
-    private Label m_ou;
+    private @RUntainted Label m_ou;
 
     private PasswordValidator m_passwordValidator = new PasswordValidator();
 
     /**vaadin component.*/
-    private ComboBox m_project;
+    private @RUntainted ComboBox m_project;
 
     /** Check box for resetting 2FA information. */
     private CheckBox m_resetTwoFactorAuthentication;
@@ -397,7 +398,7 @@ public class CmsUserEditDialog extends CmsBasicDialog implements I_CmsPasswordFe
     private CheckBox m_sendEmail;
 
     /**vaadin component.*/
-    private ComboBox m_startview;
+    private @RUntainted ComboBox m_startview;
 
     /**vaadin component.*/
     private TabSheet m_tab;
@@ -501,7 +502,7 @@ public class CmsUserEditDialog extends CmsBasicDialog implements I_CmsPasswordFe
      * @param ou organizational unit
      * @param app accounts app instance
      */
-    public CmsUserEditDialog(CmsObject cms, final Window window, String ou, final CmsAccountsApp app) {
+    public CmsUserEditDialog(CmsObject cms, final Window window, @RUntainted String ou, final CmsAccountsApp app) {
 
         CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
         CmsOrganizationalUnit myOu = null;
@@ -575,7 +576,7 @@ public class CmsUserEditDialog extends CmsBasicDialog implements I_CmsPasswordFe
      * @param roleComboBox ComboBox
      * @param log LOG
      */
-    protected static void iniRole(CmsObject cms, String ou, com.vaadin.ui.ComboBox<CmsRole> roleComboBox, Log log) {
+    protected static void iniRole(CmsObject cms, @RUntainted String ou, com.vaadin.ui.ComboBox<CmsRole> roleComboBox, Log log) {
 
         try {
             List<CmsRole> roles = OpenCms.getRoleManager().getRoles(cms, ou, false);
@@ -624,7 +625,7 @@ public class CmsUserEditDialog extends CmsBasicDialog implements I_CmsPasswordFe
      */
     protected static void iniRole(
         CmsObject cms,
-        String ou,
+        @RUntainted String ou,
         ComboBox roleComboBox,
         Log log,
         boolean includeNoRoleEntry) {
@@ -684,10 +685,10 @@ public class CmsUserEditDialog extends CmsBasicDialog implements I_CmsPasswordFe
      * @param changePassword has the user to change password?
      */
     protected static void sendMail(
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         String password,
         CmsUser user,
-        String ou,
+        @RUntainted String ou,
         boolean newUser,
         boolean changePassword) {
 
@@ -971,7 +972,7 @@ public class CmsUserEditDialog extends CmsBasicDialog implements I_CmsPasswordFe
      * @param username to check
      * @return boolean
      */
-    protected boolean userAlreadyExists(String username) {
+    protected boolean userAlreadyExists(@RUntainted String username) {
 
         if (m_user != null) {
             return false;
@@ -1004,7 +1005,7 @@ public class CmsUserEditDialog extends CmsBasicDialog implements I_CmsPasswordFe
      *
      * @param password the password
      */
-    void checkSecurity(String password) {
+    void checkSecurity(@RUntainted String password) {
 
         I_CmsPasswordHandler handler = OpenCms.getPasswordHandler();
         try {
@@ -1031,7 +1032,7 @@ public class CmsUserEditDialog extends CmsBasicDialog implements I_CmsPasswordFe
      * @param siteRoot to be used
      * @return CmsObject
      */
-    CmsObject getCmsObjectWithSite(String siteRoot) {
+    @RUntainted CmsObject getCmsObjectWithSite(@RUntainted String siteRoot) {
 
         if (siteRoot == null) {
             siteRoot = "/";
@@ -1301,7 +1302,7 @@ public class CmsUserEditDialog extends CmsBasicDialog implements I_CmsPasswordFe
     private void iniProject(CmsUserSettings settings) {
 
         try {
-            List<CmsProject> projects = OpenCms.getOrgUnitManager().getAllAccessibleProjects(
+            List<@RUntainted CmsProject> projects = OpenCms.getOrgUnitManager().getAllAccessibleProjects(
                 m_cms,
                 m_ou.getValue(),
                 false);

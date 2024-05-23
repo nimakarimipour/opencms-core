@@ -34,6 +34,7 @@ import org.opencms.xml.types.I_CmsXmlSchemaType;
 
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes the sequence of XML content values of a specific type in an XML content instance.<p>
@@ -58,7 +59,7 @@ public class CmsXmlContentValueSequence {
     private int m_minOccurs;
 
     /** The Xpath this content value sequence was generated for. */
-    private String m_path;
+    private @RUntainted String m_path;
 
     /** The list of XML content values for the selected schema type and locale in the XML content. */
     private List<I_CmsXmlContentValue> m_values;
@@ -70,7 +71,7 @@ public class CmsXmlContentValueSequence {
      * @param locale the locale to get the content values from
      * @param content the XML content to generate the sequence element out of
      */
-    public CmsXmlContentValueSequence(String path, Locale locale, CmsXmlContent content) {
+    public CmsXmlContentValueSequence(@RUntainted String path, Locale locale, CmsXmlContent content) {
 
         m_locale = locale;
         m_content = content;
@@ -108,7 +109,7 @@ public class CmsXmlContentValueSequence {
      * @see #addValue(CmsObject, String, int)
      * @see #addValue(CmsObject, int)
      */
-    public I_CmsXmlContentValue addValue(CmsObject cms, I_CmsXmlSchemaType type, int index) {
+    public I_CmsXmlContentValue addValue(CmsObject cms, I_CmsXmlSchemaType type, @RUntainted int index) {
 
         String xpath = CmsXmlUtils.concatXpath(CmsXmlUtils.removeLastXpathElement(getPath()), type.getName());
         return addValue(cms, xpath, index);
@@ -130,7 +131,7 @@ public class CmsXmlContentValueSequence {
      * @see #addValue(CmsObject, String, int)
      * @see #addValue(CmsObject, I_CmsXmlSchemaType, int)
      */
-    public I_CmsXmlContentValue addValue(CmsObject cms, int index) {
+    public I_CmsXmlContentValue addValue(CmsObject cms, @RUntainted int index) {
 
         return addValue(cms, getPath(), index);
     }
@@ -149,7 +150,7 @@ public class CmsXmlContentValueSequence {
      * @see #addValue(CmsObject, I_CmsXmlSchemaType, int)
      * @see #addValue(CmsObject, int)
      */
-    public I_CmsXmlContentValue addValue(CmsObject cms, String xpath, int index) {
+    public I_CmsXmlContentValue addValue(CmsObject cms, @RUntainted String xpath, @RUntainted int index) {
 
         I_CmsXmlContentValue newValue = m_content.addValue(cms, xpath, getLocale(), index);
 
@@ -174,7 +175,7 @@ public class CmsXmlContentValueSequence {
      *
      * @return the locale this sequence is based on
      */
-    public Locale getLocale() {
+    public @RUntainted Locale getLocale() {
 
         return m_locale;
     }
@@ -210,7 +211,7 @@ public class CmsXmlContentValueSequence {
      * @return the (simplified) Xpath expression that identifies the root node
      *      of this content value sequence
      */
-    public String getPath() {
+    public @RUntainted String getPath() {
 
         return m_path;
     }

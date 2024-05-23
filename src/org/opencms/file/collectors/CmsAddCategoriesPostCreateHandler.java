@@ -36,6 +36,7 @@ import org.opencms.relations.CmsCategoryService;
 
 import java.util.Arrays;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A post create handler that adds categories to newly created resources (that are not a copy of an existing resource).<p>
@@ -74,10 +75,10 @@ public class CmsAddCategoriesPostCreateHandler implements I_CmsCollectorPostCrea
      *
      * @see org.opencms.file.collectors.I_CmsCollectorPostCreateHandler#onCreate(org.opencms.file.CmsObject, org.opencms.file.CmsResource, boolean, java.lang.String)
      */
-    public void onCreate(CmsObject cms, CmsResource createdResource, boolean copyMode, String config) {
+    public void onCreate(CmsObject cms, CmsResource createdResource, boolean copyMode, @RUntainted String config) {
 
         if ((null != config) && !copyMode) {
-            List<String> cats = Arrays.asList(config.split(","));
+            List<@RUntainted String> cats = Arrays.asList(config.split(","));
             CmsCategoryService catService = CmsCategoryService.getInstance();
             try {
                 try (AutoCloseable c = CmsLockUtil.withLockedResources(cms, createdResource)) {

@@ -28,6 +28,7 @@
 package org.opencms.ui.apps;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * App category interface.<p>
@@ -48,7 +49,7 @@ public interface I_CmsAppCategory extends I_CmsHasOrder {
      *
      * @return the localized name
      */
-    String getName(Locale locale);
+    String getName(@RUntainted Locale locale);
 
     /**
      * Returns the parentId.<p>

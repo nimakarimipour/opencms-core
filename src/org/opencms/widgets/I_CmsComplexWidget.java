@@ -29,6 +29,7 @@ package org.opencms.widgets;
 
 import org.opencms.ade.contenteditor.shared.CmsComplexWidgetData;
 import org.opencms.file.CmsObject;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface for complex widgets which are used in the Acacia editor to render whole nested contents.<p>

@@ -40,6 +40,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.tagext.Tag;
 import javax.servlet.jsp.tagext.TagSupport;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Used to check the availablity of an XML content item for conditional display.<p>
@@ -58,7 +59,7 @@ public class CmsJspTagContentCheck extends TagSupport {
     private boolean m_checknone;
 
     /** The list of element to check. */
-    private String m_elementList;
+    private @RUntainted String m_elementList;
 
     /** The locale to check for. */
     private Locale m_locale;
@@ -76,7 +77,7 @@ public class CmsJspTagContentCheck extends TagSupport {
      * @return true if the test succeeds, false if the test fails
      */
     public static boolean contentCheckTagAction(
-        String elementList,
+        @RUntainted String elementList,
         String prefix,
         boolean checkall,
         boolean checknone,
@@ -223,7 +224,7 @@ public class CmsJspTagContentCheck extends TagSupport {
      *
      * @param elementList the list of elements to check for
      */
-    public void setIfexists(String elementList) {
+    public void setIfexists(@RUntainted String elementList) {
 
         if (elementList != null) {
             m_elementList = elementList;
@@ -237,7 +238,7 @@ public class CmsJspTagContentCheck extends TagSupport {
      *
      * @param elementList the list of elements to check for
      */
-    public void setIfexistsall(String elementList) {
+    public void setIfexistsall(@RUntainted String elementList) {
 
         if (elementList != null) {
             m_elementList = elementList;
@@ -251,7 +252,7 @@ public class CmsJspTagContentCheck extends TagSupport {
      *
      * @param elementList the list of elements to check for
      */
-    public void setIfexistsnone(String elementList) {
+    public void setIfexistsnone(@RUntainted String elementList) {
 
         if (elementList != null) {
             m_elementList = elementList;
@@ -265,7 +266,7 @@ public class CmsJspTagContentCheck extends TagSupport {
      *
      * @param elementList the list of elements to check for
      */
-    public void setIfexistsone(String elementList) {
+    public void setIfexistsone(@RUntainted String elementList) {
 
         if (elementList != null) {
             m_elementList = elementList;
@@ -279,7 +280,7 @@ public class CmsJspTagContentCheck extends TagSupport {
      *
      * @param locale the locale to set
      */
-    public void setLocale(String locale) {
+    public void setLocale(@RUntainted String locale) {
 
         if (CmsStringUtil.isEmpty(locale)) {
             m_locale = null;

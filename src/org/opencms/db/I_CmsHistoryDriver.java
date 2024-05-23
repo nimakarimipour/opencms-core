@@ -38,6 +38,7 @@ import org.opencms.security.I_CmsPrincipal;
 import org.opencms.util.CmsUUID;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Definitions of all required history driver methods.<p>
@@ -83,7 +84,7 @@ public interface I_CmsHistoryDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    int deleteEntries(CmsDbContext dbc, I_CmsHistoryResource histResource, int versionsToKeep, long time)
+    @RUntainted int deleteEntries(CmsDbContext dbc, I_CmsHistoryResource histResource, int versionsToKeep, long time)
     throws CmsDataAccessException;
 
     /**
@@ -112,7 +113,7 @@ public interface I_CmsHistoryDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    List<I_CmsHistoryResource> getAllDeletedEntries(CmsDbContext dbc) throws CmsDataAccessException;
+    @RUntainted List<I_CmsHistoryResource> getAllDeletedEntries(CmsDbContext dbc) throws CmsDataAccessException;
 
     /**
      * Returns all historical resources (of not deleted resources).<p>
@@ -123,7 +124,7 @@ public interface I_CmsHistoryDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    List<I_CmsHistoryResource> getAllNotDeletedEntries(CmsDbContext dbc) throws CmsDataAccessException;
+    @RUntainted List<I_CmsHistoryResource> getAllNotDeletedEntries(CmsDbContext dbc) throws CmsDataAccessException;
 
     /**
      * Returns the SqlManager of this driver.<p>
@@ -139,7 +140,7 @@ public interface I_CmsHistoryDriver {
      *
      * @return the SQL manager for this driver
      */
-    CmsSqlManager initSqlManager(String classname);
+    CmsSqlManager initSqlManager(@RUntainted String classname);
 
     /**
      * Reads all file headers of the resource with the given structure id.<p>
@@ -230,7 +231,7 @@ public interface I_CmsHistoryDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    CmsHistoryPrincipal readPrincipal(CmsDbContext dbc, CmsUUID principalId) throws CmsDataAccessException;
+    CmsHistoryPrincipal readPrincipal(CmsDbContext dbc, @RUntainted CmsUUID principalId) throws CmsDataAccessException;
 
     /**
      * Reads the latest historical project version with the given id.<p>
@@ -254,7 +255,7 @@ public interface I_CmsHistoryDriver {
      *
      * @throws CmsDataAccessException is something goes wrong
      */
-    CmsHistoryProject readProject(CmsDbContext dbc, int publishTag) throws CmsDataAccessException;
+    CmsHistoryProject readProject(CmsDbContext dbc, @RUntainted int publishTag) throws CmsDataAccessException;
 
     /**
      * Reads all resources that belong to the historical project identified by the given publish tag.<p>
@@ -266,7 +267,7 @@ public interface I_CmsHistoryDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    List<String> readProjectResources(CmsDbContext dbc, int publishTag) throws CmsDataAccessException;
+    @RUntainted List<String> readProjectResources(CmsDbContext dbc, int publishTag) throws CmsDataAccessException;
 
     /**
      * Returns all projects from the history.<p>
@@ -303,7 +304,7 @@ public interface I_CmsHistoryDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    CmsPropertyDefinition readPropertyDefinition(CmsDbContext dbc, String name) throws CmsDataAccessException;
+    CmsPropertyDefinition readPropertyDefinition(CmsDbContext dbc, @RUntainted String name) throws CmsDataAccessException;
 
     /**
      * Gets the publish tag of the first historical project after a given date.<p>
@@ -330,7 +331,7 @@ public interface I_CmsHistoryDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    I_CmsHistoryResource readResource(CmsDbContext dbc, CmsUUID structureId, int version) throws CmsDataAccessException;
+    I_CmsHistoryResource readResource(CmsDbContext dbc, @RUntainted CmsUUID structureId, int version) throws CmsDataAccessException;
 
     /**
      * Sets the driver manager for this driver if possible.<p>

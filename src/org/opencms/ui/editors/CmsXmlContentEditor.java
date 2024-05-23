@@ -29,6 +29,7 @@ package org.opencms.ui.editors;
 
 import org.opencms.file.types.CmsResourceTypeXmlContent;
 import org.opencms.file.types.I_CmsResourceType;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The acacia XML content editor.<p>
@@ -66,7 +67,7 @@ public class CmsXmlContentEditor extends A_CmsFrameEditor {
      * @see org.opencms.ui.editors.A_CmsFrameEditor#getEditorUri()
      */
     @Override
-    protected String getEditorUri() {
+    protected @RUntainted String getEditorUri() {
 
         return "/system/workplace/editors/xmlcontent/editor.jsp";
     }

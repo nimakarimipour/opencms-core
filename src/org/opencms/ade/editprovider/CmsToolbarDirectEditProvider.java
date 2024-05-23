@@ -35,6 +35,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A Direct Edit provider class which also offers some limited ADE functionality,
@@ -66,7 +67,7 @@ public class CmsToolbarDirectEditProvider extends CmsAdvancedDirectEditProvider 
      *
      * @throws Exception if something goes wrong
      */
-    public String getIncludes(PageContext context, CmsDirectEditParams params) throws Exception {
+    public String getIncludes(@RUntainted PageContext context, CmsDirectEditParams params) throws Exception {
 
         return new CmsEditProviderActionElement(
             context,
@@ -78,7 +79,7 @@ public class CmsToolbarDirectEditProvider extends CmsAdvancedDirectEditProvider 
      * @see org.opencms.workplace.editors.directedit.I_CmsDirectEditProvider#insertDirectEditIncludes(javax.servlet.jsp.PageContext, org.opencms.workplace.editors.directedit.CmsDirectEditParams)
      */
     @Override
-    public void insertDirectEditIncludes(PageContext context, CmsDirectEditParams params) throws JspException {
+    public void insertDirectEditIncludes(@RUntainted PageContext context, CmsDirectEditParams params) throws JspException {
 
         JspException error = null;
         String includeData = "";

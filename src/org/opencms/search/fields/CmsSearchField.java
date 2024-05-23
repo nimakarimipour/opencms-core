@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.solr.uninverting.UninvertingReader.Type;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A abstract implementation for a search field.<p>
@@ -277,7 +278,7 @@ public class CmsSearchField implements Serializable {
     private static final long serialVersionUID = 3185631015824549119L;
 
     /** A default value for the field in case the content does not provide the value. */
-    private String m_defaultValue;
+    private @RUntainted String m_defaultValue;
 
     /** Indicates if this field should be used for generating the excerpt. */
     private boolean m_excerpt;
@@ -289,7 +290,7 @@ public class CmsSearchField implements Serializable {
     private List<I_CmsSearchFieldMapping> m_mappings;
 
     /** The name of the field. */
-    private String m_name;
+    private @RUntainted String m_name;
 
     /** Indicates if the content of this field should be stored. */
     private boolean m_stored;
@@ -309,7 +310,7 @@ public class CmsSearchField implements Serializable {
      * @param defaultValue the default value to use, see {@link #setDefaultValue(String)}
      *
      */
-    public CmsSearchField(String name, String defaultValue) {
+    public CmsSearchField(@RUntainted String name, @RUntainted String defaultValue) {
 
         this();
         m_name = name;
@@ -398,7 +399,7 @@ public class CmsSearchField implements Serializable {
      *
      * @return the default value to use if no content for this field was collected
      */
-    public String getDefaultValue() {
+    public @RUntainted String getDefaultValue() {
 
         return m_defaultValue;
     }
@@ -430,7 +431,7 @@ public class CmsSearchField implements Serializable {
      *
      * @return the name of this field in the Lucene search index
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_name;
     }
@@ -486,7 +487,7 @@ public class CmsSearchField implements Serializable {
      *
      * @param defaultValue the default value to set
      */
-    public void setDefaultValue(String defaultValue) {
+    public void setDefaultValue(@RUntainted String defaultValue) {
 
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(defaultValue)) {
             m_defaultValue = defaultValue.trim();
@@ -520,7 +521,7 @@ public class CmsSearchField implements Serializable {
      *
      * @param fieldName the name to set
      */
-    public void setName(String fieldName) {
+    public void setName(@RUntainted String fieldName) {
 
         m_name = fieldName;
     }

@@ -46,6 +46,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Direct edit provider that uses the same JSP include based logic that has been
@@ -97,10 +98,10 @@ public class CmsDirectEditJspIncludeProvider extends A_CmsDirectEditProvider {
     public static final String DIRECT_EDIT_PARAM_TARGET = "__directEditTarget";
 
     /** The last direct edit element. */
-    protected String m_editElement;
+    protected @RUntainted String m_editElement;
 
     /** The last direct edit target. */
-    protected String m_editTarget;
+    protected @RUntainted String m_editTarget;
 
     /** The last calculated direct edit permissions. */
     protected String m_permissions;
@@ -124,13 +125,13 @@ public class CmsDirectEditJspIncludeProvider extends A_CmsDirectEditProvider {
      */
     public static String includeDirectEditElement(
         PageContext context,
-        String jspIncludeFile,
-        String element,
-        String editTarget,
-        String editElement,
-        String editOptions,
-        String editPermissions,
-        String createLink)
+        @RUntainted String jspIncludeFile,
+        @RUntainted String element,
+        @RUntainted String editTarget,
+        @RUntainted String editElement,
+        @RUntainted String editOptions,
+        @RUntainted String editPermissions,
+        @RUntainted String createLink)
     throws JspException {
 
         if (editPermissions == null) {
@@ -146,7 +147,7 @@ public class CmsDirectEditJspIncludeProvider extends A_CmsDirectEditProvider {
         element = element + "_" + editPermissions;
 
         // set request parameters required by the included direct edit JSP
-        Map<String, String[]> parameterMap = new HashMap<String, String[]>();
+        Map<String, @RUntainted String[]> parameterMap = new HashMap<String, @RUntainted String[]>();
         CmsJspTagInclude.addParameter(parameterMap, I_CmsResourceLoader.PARAMETER_ELEMENT, element, true);
         CmsJspTagInclude.addParameter(parameterMap, DIRECT_EDIT_PARAM_TARGET, editTarget, true);
         CmsJspTagInclude.addParameter(
@@ -171,7 +172,7 @@ public class CmsDirectEditJspIncludeProvider extends A_CmsDirectEditProvider {
         }
 
         // save old parameters from current request
-        Map<String, String[]> oldParameterMap = controller.getCurrentRequest().getParameterMap();
+        Map<String, @RUntainted String[]> oldParameterMap = controller.getCurrentRequest().getParameterMap();
 
         try {
             controller.getCurrentRequest().addParameterMap(parameterMap);
@@ -207,7 +208,7 @@ public class CmsDirectEditJspIncludeProvider extends A_CmsDirectEditProvider {
      * @see org.opencms.workplace.editors.directedit.A_CmsDirectEditProvider#init(org.opencms.file.CmsObject, org.opencms.workplace.editors.directedit.CmsDirectEditMode, java.lang.String)
      */
     @Override
-    public void init(CmsObject cms, CmsDirectEditMode mode, String fileName) {
+    public void init(@RUntainted CmsObject cms, CmsDirectEditMode mode, @RUntainted String fileName) {
 
         m_cms = cms;
         m_fileName = fileName;
@@ -242,7 +243,7 @@ public class CmsDirectEditJspIncludeProvider extends A_CmsDirectEditProvider {
     /**
      * @see org.opencms.workplace.editors.directedit.I_CmsDirectEditProvider#insertDirectEditIncludes(javax.servlet.jsp.PageContext, org.opencms.workplace.editors.directedit.CmsDirectEditParams)
      */
-    public void insertDirectEditIncludes(PageContext context, CmsDirectEditParams params) throws JspException {
+    public void insertDirectEditIncludes(@RUntainted PageContext context, CmsDirectEditParams params) throws JspException {
 
         try {
             CmsJspTagInclude.includeTagAction(

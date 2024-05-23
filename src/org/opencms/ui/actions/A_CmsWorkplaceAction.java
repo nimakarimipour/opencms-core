@@ -48,6 +48,7 @@ import java.util.Locale;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract workplace actions class providing helper methods.<p>
@@ -72,7 +73,7 @@ public abstract class A_CmsWorkplaceAction implements I_CmsWorkplaceAction {
      *
      * @return the dialog title message bundle key
      */
-    protected String getDialogTitleKey() {
+    protected @RUntainted String getDialogTitleKey() {
 
         return getTitleKey();
     }
@@ -80,7 +81,7 @@ public abstract class A_CmsWorkplaceAction implements I_CmsWorkplaceAction {
     /**
      * @see org.opencms.ui.actions.I_CmsWorkplaceAction#getTitle(java.util.Locale)
      */
-    public String getTitle(Locale locale) {
+    public @RUntainted String getTitle(@RUntainted Locale locale) {
 
         return OpenCms.getWorkplaceManager().getMessages(locale).key(getTitleKey());
     }
@@ -90,7 +91,7 @@ public abstract class A_CmsWorkplaceAction implements I_CmsWorkplaceAction {
      *
      * @return the title message bundle key
      */
-    protected abstract String getTitleKey();
+    protected abstract @RUntainted String getTitleKey();
 
     /**
      * @see org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.ui.I_CmsDialogContext)
@@ -111,7 +112,7 @@ public abstract class A_CmsWorkplaceAction implements I_CmsWorkplaceAction {
     protected boolean hasBlockingLocks(final I_CmsDialogContext context) {
 
         CmsObject cms = context.getCms();
-        List<CmsResource> resources = context.getResources();
+        List<@RUntainted CmsResource> resources = context.getResources();
         List<CmsResource> blocked = Lists.newArrayList();
         for (CmsResource resource : resources) {
             try {

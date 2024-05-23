@@ -38,6 +38,7 @@ import org.opencms.ui.contextmenu.CmsStandardVisibilityCheck;
 import org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The edit table property action.<p>
@@ -52,10 +53,10 @@ public class CmsEditPropertyAction extends A_CmsWorkplaceAction {
         CmsStandardVisibilityCheck.DEFAULT);
 
     /** The property id. */
-    private CmsResourceTableProperty m_propertyId;
+    private @RUntainted CmsResourceTableProperty m_propertyId;
 
     /** The action title message key. */
-    private String m_titleKey;
+    private @RUntainted String m_titleKey;
 
     /**
      * Constructor.<p>
@@ -63,7 +64,7 @@ public class CmsEditPropertyAction extends A_CmsWorkplaceAction {
      * @param propertyId the property id
      * @param titleKey the title message key
      */
-    public CmsEditPropertyAction(CmsResourceTableProperty propertyId, String titleKey) {
+    public CmsEditPropertyAction(@RUntainted CmsResourceTableProperty propertyId, @RUntainted String titleKey) {
         m_propertyId = propertyId;
         m_titleKey = titleKey;
     }
@@ -89,7 +90,7 @@ public class CmsEditPropertyAction extends A_CmsWorkplaceAction {
     /**
      * @see org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject, java.util.List)
      */
-    public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
+    public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<@RUntainted CmsResource> resources) {
 
         return VISIBILITY.getVisibility(cms, resources);
     }
@@ -112,7 +113,7 @@ public class CmsEditPropertyAction extends A_CmsWorkplaceAction {
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
      */
     @Override
-    protected String getTitleKey() {
+    protected @RUntainted String getTitleKey() {
 
         return m_titleKey;
     }

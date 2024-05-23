@@ -35,6 +35,7 @@ import java.util.Map;
 
 import com.google.common.base.Function;
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A client-side bean for representing an OpenCms property.<p>
@@ -67,7 +68,7 @@ public class CmsClientProperty implements IsSerializable {
          *
          * @return the new property
          */
-        public CmsClientProperty apply(String name) {
+        public CmsClientProperty apply(@RUntainted String name) {
 
             return new CmsClientProperty(name, "", "");
         }
@@ -104,16 +105,16 @@ public class CmsClientProperty implements IsSerializable {
     public static final String PROPERTY_TITLE = "Title";
 
     /** The name of the property. */
-    private String m_name;
+    private @RUntainted String m_name;
 
     /** The origin of the property (will usually be null). */
     private String m_origin;
 
     /** The resource value of the property. */
-    private String m_resourceValue;
+    private @RUntainted String m_resourceValue;
 
     /** The structure value of the property. */
-    private String m_structureValue;
+    private @RUntainted String m_structureValue;
 
     /**
      * Copy constructor.<p>
@@ -134,7 +135,7 @@ public class CmsClientProperty implements IsSerializable {
      * @param structureValue the structure value
      * @param resourceValue the resource value
      */
-    public CmsClientProperty(String name, String structureValue, String resourceValue) {
+    public CmsClientProperty(@RUntainted String name, @RUntainted String structureValue, @RUntainted String resourceValue) {
 
         m_name = name;
         m_structureValue = structureValue;
@@ -254,7 +255,7 @@ public class CmsClientProperty implements IsSerializable {
      *
      * @return the effective value of the property
      */
-    public String getEffectiveValue() {
+    public @RUntainted String getEffectiveValue() {
 
         return getPathValue().getValue();
     }
@@ -264,7 +265,7 @@ public class CmsClientProperty implements IsSerializable {
      *
      * @return the name of the property
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_name;
     }
@@ -319,7 +320,7 @@ public class CmsClientProperty implements IsSerializable {
      *
      * @return the resource value
      */
-    public String getResourceValue() {
+    public @RUntainted String getResourceValue() {
 
         return m_resourceValue;
     }
@@ -329,7 +330,7 @@ public class CmsClientProperty implements IsSerializable {
      *
      * @return  the structure value
      */
-    public String getStructureValue() {
+    public @RUntainted String getStructureValue() {
 
         return m_structureValue;
     }
@@ -360,7 +361,7 @@ public class CmsClientProperty implements IsSerializable {
      *
      * @param resourceValue the new resource value
      */
-    public void setResourceValue(String resourceValue) {
+    public void setResourceValue(@RUntainted String resourceValue) {
 
         m_resourceValue = resourceValue;
     }
@@ -370,7 +371,7 @@ public class CmsClientProperty implements IsSerializable {
      *
      * @param structureValue the new structure value
      */
-    public void setStructureValue(String structureValue) {
+    public void setStructureValue(@RUntainted String structureValue) {
 
         m_structureValue = structureValue;
     }

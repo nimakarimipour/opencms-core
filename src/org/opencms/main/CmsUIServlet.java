@@ -83,6 +83,7 @@ import com.vaadin.server.VaadinServletService;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.ApplicationConstants;
 import com.vaadin.ui.UI;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Servlet for workplace UI requests.<p>
@@ -99,7 +100,7 @@ public class CmsUIServlet extends VaadinServlet implements SystemMessagesProvide
             // nothing to do
         }
 
-        public void modifyBootstrapPage(BootstrapPageResponse response) {
+        public void modifyBootstrapPage(@RUntainted BootstrapPageResponse response) {
 
             CmsCoreService svc = new CmsCoreService();
             HttpServletRequest request = (HttpServletRequest)VaadinService.getCurrentRequest();
@@ -211,7 +212,7 @@ public class CmsUIServlet extends VaadinServlet implements SystemMessagesProvide
     private static final String HEARTBEAT_PREFIX = '/' + ApplicationConstants.HEARTBEAT_PATH + '/';
 
     /** The current CMS context. */
-    private ThreadLocal<CmsObject> m_perThreadCmsObject = new ThreadLocal<>();
+    private ThreadLocal<@RUntainted CmsObject> m_perThreadCmsObject = new ThreadLocal<>();
 
     /** Map of stored system messages objects. */
     private Map<Locale, SystemMessages> m_systemMessages = new ConcurrentHashMap<Locale, SystemMessages>();
@@ -247,7 +248,7 @@ public class CmsUIServlet extends VaadinServlet implements SystemMessagesProvide
      *
      * @return the current cms context
      */
-    public CmsObject getCmsObject() {
+    public @RUntainted CmsObject getCmsObject() {
 
         return m_perThreadCmsObject.get();
     }
@@ -255,7 +256,7 @@ public class CmsUIServlet extends VaadinServlet implements SystemMessagesProvide
     /**
      * @see com.vaadin.server.SystemMessagesProvider#getSystemMessages(com.vaadin.server.SystemMessagesInfo)
      */
-    public SystemMessages getSystemMessages(SystemMessagesInfo systemMessagesInfo) {
+    public SystemMessages getSystemMessages(@RUntainted SystemMessagesInfo systemMessagesInfo) {
 
         Locale locale = systemMessagesInfo.getLocale();
         if (!m_systemMessages.containsKey(locale)) {
@@ -290,7 +291,7 @@ public class CmsUIServlet extends VaadinServlet implements SystemMessagesProvide
      *
      * @param cms the current cms context to set
      */
-    public synchronized void setCms(CmsObject cms) {
+    public synchronized void setCms(@RUntainted CmsObject cms) {
 
         m_perThreadCmsObject.set(cms);
     }
@@ -311,7 +312,7 @@ public class CmsUIServlet extends VaadinServlet implements SystemMessagesProvide
      * @see com.vaadin.server.VaadinServlet#service(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
-    protected void service(HttpServletRequest request, HttpServletResponse response)
+    protected void service(@RUntainted HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
 
         CmsRequestUtil.disableCrossSiteFrameEmbedding(response);
@@ -417,7 +418,7 @@ public class CmsUIServlet extends VaadinServlet implements SystemMessagesProvide
      *
      * @return the system messages
      */
-    private SystemMessages createSystemMessages(Locale locale) {
+    private SystemMessages createSystemMessages(@RUntainted Locale locale) {
 
         CmsMessages messages = Messages.get().getBundle(locale);
         CustomizedSystemMessages systemMessages = new CustomizedSystemMessages();

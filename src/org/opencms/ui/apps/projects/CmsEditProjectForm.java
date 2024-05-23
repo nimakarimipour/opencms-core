@@ -72,6 +72,7 @@ import com.vaadin.v7.data.Validator.InvalidValueException;
 import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.Field;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The edit project form component.<p>
@@ -89,7 +90,7 @@ public class CmsEditProjectForm extends CmsBasicDialog {
         /**
          * @see com.vaadin.data.Validator#validate(java.lang.Object)
          */
-        public void validate(Object value) throws InvalidValueException {
+        public void validate(@RUntainted Object value) throws InvalidValueException {
 
             if (m_fieldOU.isEnabled() && CmsStringUtil.isNotEmptyOrWhitespaceOnly((String)value)) {
                 try {
@@ -147,7 +148,7 @@ public class CmsEditProjectForm extends CmsBasicDialog {
     private static final long serialVersionUID = 2345799706922671537L;
 
     /** The OU field. */
-    TextField m_fieldOU;
+    @RUntainted TextField m_fieldOU;
 
     /** The add resources button. */
     private Button m_addResource;
@@ -159,7 +160,7 @@ public class CmsEditProjectForm extends CmsBasicDialog {
     private CheckBox m_fieldDeleteAfterPublish;
 
     /** The project description field. */
-    private TextField m_fieldDescription;
+    private @RUntainted TextField m_fieldDescription;
 
     /** The manager group field. */
     private CmsPrincipalSelect m_fieldManager;
@@ -180,7 +181,7 @@ public class CmsEditProjectForm extends CmsBasicDialog {
     private Button m_ok;
 
     /** The edited project. */
-    private CmsProject m_project;
+    private @RUntainted CmsProject m_project;
 
     /** The resources form layout. */
     private FormLayout m_resources;
@@ -199,7 +200,7 @@ public class CmsEditProjectForm extends CmsBasicDialog {
      * @param projectId the project to edit
      * @param window the window this form is displayed in
      */
-    public CmsEditProjectForm(CmsProjectsTable table, CmsUUID projectId, Window window) {
+    public CmsEditProjectForm(CmsProjectsTable table, @RUntainted CmsUUID projectId, Window window) {
 
         this(table, window);
         CmsObject cms = A_CmsUI.getCmsObject();
@@ -511,7 +512,7 @@ public class CmsEditProjectForm extends CmsBasicDialog {
                 }
             }
             // read project resources again!
-            List<String> currentResNames = cms.readProjectResources(m_project);
+            List<@RUntainted String> currentResNames = cms.readProjectResources(m_project);
             // copy missing resources
             for (String resName : resourceRootPaths) {
                 if (!currentResNames.contains(resName)) {

@@ -34,6 +34,7 @@ import org.opencms.acacia.shared.I_CmsSerialDateValue.WeekDay;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.SortedSet;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of @{link org.opencms.widgets.serialdate.I_CmsSerialDateBean}
@@ -44,7 +45,7 @@ public class CmsSerialDateBeanWeekly extends A_CmsSerialDateBean {
     /** The number of weeks till the next event occurs. */
     private int m_interval;
     /** The weekdays the event occurs. */
-    private SortedSet<WeekDay> m_weekDays;
+    private SortedSet<@RUntainted WeekDay> m_weekDays;
 
     /**
      * Constructs the bean with all the information provided by the {@link org.opencms.widgets.CmsSerialDateWidget}.
@@ -66,9 +67,9 @@ public class CmsSerialDateBeanWeekly extends A_CmsSerialDateBean {
         EndType endType,
         Date serialEndDate,
         int occurrences,
-        SortedSet<Date> exceptions,
+        SortedSet<@RUntainted Date> exceptions,
         int interval,
-        SortedSet<WeekDay> weekDays) {
+        SortedSet<@RUntainted WeekDay> weekDays) {
         super(startDate, endDate, isWholeDay, endType, serialEndDate, occurrences, exceptions);
         m_interval = interval;
         m_weekDays = weekDays;
@@ -115,7 +116,7 @@ public class CmsSerialDateBeanWeekly extends A_CmsSerialDateBean {
      * @param weekDay the current weekday.
      * @return the number of days to the next weekday an event could occur.
      */
-    private int getDaysToNextMatch(WeekDay weekDay) {
+    private int getDaysToNextMatch(@RUntainted WeekDay weekDay) {
 
         for (WeekDay wd : m_weekDays) {
             if (wd.compareTo(weekDay) > 0) {

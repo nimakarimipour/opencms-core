@@ -60,6 +60,7 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the <code>&lt;cms:include/&gt;</code> tag,
@@ -73,7 +74,7 @@ public class CmsJspTagInclude extends BodyTagSupport implements I_CmsJspTagParam
     private static final long serialVersionUID = 705978510743164951L;
 
     /** The value of the "attribute" attribute. */
-    private String m_attribute;
+    private @RUntainted String m_attribute;
 
     /** The value of the "cacheable" attribute. */
     private boolean m_cacheable;
@@ -82,19 +83,19 @@ public class CmsJspTagInclude extends BodyTagSupport implements I_CmsJspTagParam
     private boolean m_editable;
 
     /** The value of the "element" attribute. */
-    private String m_element;
+    private @RUntainted String m_element;
 
     /** Map to save parameters to the include in. */
-    private Map<String, String[]> m_parameterMap;
+    private @RUntainted Map<String, @RUntainted String[]> m_parameterMap;
 
     /** The value of the "property" attribute. */
-    private String m_property;
+    private @RUntainted String m_property;
 
     /** The value of the "suffix" attribute. */
-    private String m_suffix;
+    private @RUntainted String m_suffix;
 
     /** The value of the "page" attribute. */
-    private String m_target;
+    private @RUntainted String m_target;
 
     /**
      * Empty constructor, required for attribute value initialization.<p>
@@ -115,7 +116,7 @@ public class CmsJspTagInclude extends BodyTagSupport implements I_CmsJspTagParam
      *      a parameter with the same name, otherwise the request will have multiple parameters
      *      with the same name (which is possible in http requests)
      */
-    public static void addParameter(Map<String, String[]> parameters, String name, String value, boolean overwrite) {
+    public static void addParameter(Map<String, @RUntainted String[]> parameters, String name, @RUntainted String value, boolean overwrite) {
 
         // No null values allowed in parameters
         if ((parameters == null) || (name == null) || (value == null)) {
@@ -126,13 +127,13 @@ public class CmsJspTagInclude extends BodyTagSupport implements I_CmsJspTagParam
         if (parameters.containsKey(name) && (!overwrite)) {
             // Yes: Check name values if value exists, if so do nothing, else add new value
             String[] values = parameters.get(name);
-            String[] newValues = new String[values.length + 1];
+            @RUntainted String[] newValues = new String[values.length + 1];
             System.arraycopy(values, 0, newValues, 0, values.length);
             newValues[values.length] = value;
             parameters.put(name, newValues);
         } else {
             // No: Add new parameter name / value pair
-            String[] values = new String[] {value};
+            @RUntainted String[] values = new String[] {value};
             parameters.put(name, values);
         }
     }
@@ -154,14 +155,14 @@ public class CmsJspTagInclude extends BodyTagSupport implements I_CmsJspTagParam
      * @throws JspException in case something goes wrong
      */
     public static void includeTagAction(
-        PageContext context,
-        String target,
-        String element,
+        @RUntainted PageContext context,
+        @RUntainted String target,
+        @RUntainted String element,
         boolean editable,
-        Map<String, String[]> paramMap,
-        Map<String, Object> attrMap,
-        ServletRequest req,
-        ServletResponse res)
+        @RUntainted Map<String, @RUntainted String[]> paramMap,
+        @RUntainted Map<String, Object> attrMap,
+        @RUntainted ServletRequest req,
+        @RUntainted ServletResponse res)
     throws JspException {
 
         // no locale and no cachable parameter are used by default
@@ -187,16 +188,16 @@ public class CmsJspTagInclude extends BodyTagSupport implements I_CmsJspTagParam
      * @throws JspException in case something goes wrong
      */
     public static void includeTagAction(
-        PageContext context,
-        String target,
-        String element,
-        Locale locale,
+        @RUntainted PageContext context,
+        @RUntainted String target,
+        @RUntainted String element,
+        @RUntainted Locale locale,
         boolean editable,
         boolean cacheable,
-        Map<String, String[]> paramMap,
-        Map<String, Object> attrMap,
-        ServletRequest req,
-        ServletResponse res)
+        @RUntainted Map<String, @RUntainted String[]> paramMap,
+        @RUntainted Map<String, Object> attrMap,
+        @RUntainted ServletRequest req,
+        @RUntainted ServletResponse res)
     throws JspException {
 
         // the Flex controller provides access to the internal OpenCms structures
@@ -224,10 +225,10 @@ public class CmsJspTagInclude extends BodyTagSupport implements I_CmsJspTagParam
             && CmsJspTagEditable.startDirectEdit(context, new CmsDirectEditParams(target, element));
 
         // save old parameters from request
-        Map<String, String[]> oldParameterMap = CmsCollectionsGenericWrapper.map(req.getParameterMap());
+        Map<String, @RUntainted String[]> oldParameterMap = CmsCollectionsGenericWrapper.map(req.getParameterMap());
         try {
             // each include will have it's unique map of parameters
-            Map<String, String[]> parameterMap = (paramMap == null)
+            Map<String, @RUntainted String[]> parameterMap = (paramMap == null)
             ? new HashMap<String, String[]>()
             : new HashMap<String, String[]>(paramMap);
             if (cacheable && (element != null)) {
@@ -298,11 +299,11 @@ public class CmsJspTagInclude extends BodyTagSupport implements I_CmsJspTagParam
     private static void includeActionNoCache(
         CmsFlexController controller,
         PageContext context,
-        String target,
-        String element,
-        Locale locale,
-        ServletRequest req,
-        ServletResponse res)
+        @RUntainted String target,
+        @RUntainted String element,
+        @RUntainted Locale locale,
+        @RUntainted ServletRequest req,
+        @RUntainted ServletResponse res)
     throws JspException {
 
         try {
@@ -391,9 +392,9 @@ public class CmsJspTagInclude extends BodyTagSupport implements I_CmsJspTagParam
     private static void includeActionWithCache(
         CmsFlexController controller,
         PageContext context,
-        String target,
-        Map<String, String[]> parameterMap,
-        Map<String, Object> attributeMap,
+        @RUntainted String target,
+        @RUntainted Map<String, @RUntainted String[]> parameterMap,
+        @RUntainted Map<String, Object> attributeMap,
         ServletRequest req,
         ServletResponse res)
     throws JspException {
@@ -438,7 +439,7 @@ public class CmsJspTagInclude extends BodyTagSupport implements I_CmsJspTagParam
      * @param value the value to add
      * @see org.opencms.jsp.I_CmsJspTagParamParent#addParameter(String, String)
      */
-    public void addParameter(String name, String value) {
+    public void addParameter(String name, @RUntainted String value) {
 
         // No null values allowed in parameters
         if ((name == null) || (value == null)) {
@@ -624,7 +625,7 @@ public class CmsJspTagInclude extends BodyTagSupport implements I_CmsJspTagParam
      *
      * @return the suffix
      */
-    public String getSuffix() {
+    public @RUntainted String getSuffix() {
 
         return m_suffix != null ? m_suffix : "";
     }
@@ -650,7 +651,7 @@ public class CmsJspTagInclude extends BodyTagSupport implements I_CmsJspTagParam
      *
      * @param attribute the attribute to set
      */
-    public void setAttribute(String attribute) {
+    public void setAttribute(@RUntainted String attribute) {
 
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(attribute)) {
             m_attribute = attribute;
@@ -690,7 +691,7 @@ public class CmsJspTagInclude extends BodyTagSupport implements I_CmsJspTagParam
      *
      * @param element the element to set
      */
-    public void setElement(String element) {
+    public void setElement(@RUntainted String element) {
 
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(element)) {
             m_element = element;
@@ -703,7 +704,7 @@ public class CmsJspTagInclude extends BodyTagSupport implements I_CmsJspTagParam
      * @param file the file to set
      * @see #setPage(String)
      */
-    public void setFile(String file) {
+    public void setFile(@RUntainted String file) {
 
         setPage(file);
     }
@@ -713,7 +714,7 @@ public class CmsJspTagInclude extends BodyTagSupport implements I_CmsJspTagParam
      *
      * @param target the target to set
      */
-    public void setPage(String target) {
+    public void setPage(@RUntainted String target) {
 
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(target)) {
             m_target = target;
@@ -725,7 +726,7 @@ public class CmsJspTagInclude extends BodyTagSupport implements I_CmsJspTagParam
      *
      * @param property the property to set
      */
-    public void setProperty(String property) {
+    public void setProperty(@RUntainted String property) {
 
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(property)) {
             m_property = property;
@@ -737,7 +738,7 @@ public class CmsJspTagInclude extends BodyTagSupport implements I_CmsJspTagParam
      *
      * @param suffix the suffix to set
      */
-    public void setSuffix(String suffix) {
+    public void setSuffix(@RUntainted String suffix) {
 
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(suffix)) {
             m_suffix = suffix.toLowerCase();

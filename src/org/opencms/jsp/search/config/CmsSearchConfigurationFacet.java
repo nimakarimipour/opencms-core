@@ -32,6 +32,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Configuration that is common for all facets. Used as base class for special facet configurations, e.g. for the field facet configuration.
@@ -69,9 +70,9 @@ public class CmsSearchConfigurationFacet implements I_CmsSearchConfigurationFace
         final String label,
         final String name,
         final Boolean isAndFacet,
-        final List<String> preselection,
+        final List<@RUntainted String> preselection,
         final Boolean ignoreFiltersFromFacets,
-        final Collection<String> excludeTags) {
+        final Collection<@RUntainted String> excludeTags) {
 
         m_minCount = minCount;
         m_label = label == null ? name : label;

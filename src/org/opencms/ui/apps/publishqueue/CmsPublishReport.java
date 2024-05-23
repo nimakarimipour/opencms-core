@@ -45,6 +45,7 @@ import org.apache.commons.logging.Log;
 import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Vertical Layout showing a publish report of a publish job.<p>
@@ -75,7 +76,7 @@ public class CmsPublishReport extends VerticalLayout {
      *
      * @param jobId of chosen job
      */
-    public CmsPublishReport(String jobId) {
+    public CmsPublishReport(@RUntainted String jobId) {
 
         CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
 

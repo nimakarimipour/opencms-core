@@ -67,6 +67,8 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * This is the internal cache class used for storing configuration data. It is not public because it is only meant
@@ -123,7 +125,7 @@ class CmsConfigurationCache implements I_CmsGlobalConfigurationCache {
     protected I_CmsResourceType m_moduleConfigType;
 
     /** The CMS context used for reading configuration data. */
-    private CmsObject m_cms;
+    private @RUntainted CmsObject m_cms;
 
     /** Cache for keeping track of which pages are detail pages. */
     private LoadingCache<CmsResource, Boolean> m_detailPageIdCache = CacheBuilder.newBuilder().expireAfterWrite(
@@ -151,7 +153,7 @@ class CmsConfigurationCache implements I_CmsGlobalConfigurationCache {
     private I_CmsResourceType m_elementViewType;
 
     /** A cache which stores resources' paths by their structure IDs. */
-    private ConcurrentHashMap<CmsUUID, String> m_pathCache = new ConcurrentHashMap<CmsUUID, String>();
+    private ConcurrentHashMap<CmsUUID, @RUntainted String> m_pathCache = new ConcurrentHashMap<CmsUUID, @RUntainted String>();
 
     /** The current configuration state (immutable). */
     private volatile CmsADEConfigCacheState m_state;
@@ -171,7 +173,7 @@ class CmsConfigurationCache implements I_CmsGlobalConfigurationCache {
      * @param elementViewType the element view resource type
      */
     public CmsConfigurationCache(
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         I_CmsResourceType configType,
         I_CmsResourceType moduleConfigType,
         I_CmsResourceType elementViewType) {
@@ -189,7 +191,7 @@ class CmsConfigurationCache implements I_CmsGlobalConfigurationCache {
      *
      * @return the base path for the sitemap configuration file
      */
-    public static String getBasePath(String siteConfigFile) {
+    public static @RPolyTainted String getBasePath(@RPolyTainted String siteConfigFile) {
 
         if (siteConfigFile.endsWith(CmsADEManager.CONFIG_SUFFIX)) {
             return CmsResource.getParentFolder(CmsResource.getParentFolder(siteConfigFile));
@@ -217,7 +219,7 @@ class CmsConfigurationCache implements I_CmsGlobalConfigurationCache {
      *
      * @throws CmsException if the resource with the given id was not found or another error occurred
      */
-    public String getPathForStructureId(CmsUUID structureId) throws CmsException {
+    public @RUntainted String getPathForStructureId(CmsUUID structureId) throws CmsException {
 
         String rootPath;
         if (structureId == null) {
@@ -322,7 +324,7 @@ class CmsConfigurationCache implements I_CmsGlobalConfigurationCache {
         if (m_cms.existsResource("/")) {
             try {
                 @SuppressWarnings("deprecation")
-                List<CmsResource> configFileCandidates = m_cms.readResources(
+                List<@RUntainted CmsResource> configFileCandidates = m_cms.readResources(
                     "/",
                     CmsResourceFilter.DEFAULT.addRequireType(m_configType.getTypeId()));
                 CmsLog.INIT.info(
@@ -334,7 +336,7 @@ class CmsConfigurationCache implements I_CmsGlobalConfigurationCache {
                         + (m_cms.getRequestContext().getCurrentProject().isOnlineProject() ? "online" : "offline")
                         + " project.");
                 if (OpenCms.getResourceManager().hasResourceType(TYPE_SITEMAP_MASTER_CONFIG)) {
-                    List<CmsResource> masterCandidates = m_cms.readResources(
+                    List<@RUntainted CmsResource> masterCandidates = m_cms.readResources(
                         "/",
                         CmsResourceFilter.DEFAULT.addRequireType(
                             OpenCms.getResourceManager().getResourceType(TYPE_SITEMAP_MASTER_CONFIG)));
@@ -449,7 +451,7 @@ class CmsConfigurationCache implements I_CmsGlobalConfigurationCache {
      *
      * @return <code>true</code> in case of a macro or flex formatter
      */
-    protected boolean isMacroOrFlexFormatter(int type, String rootPath) {
+    protected boolean isMacroOrFlexFormatter(@RUntainted int type, String rootPath) {
 
         boolean result = false;
         try {
@@ -519,7 +521,7 @@ class CmsConfigurationCache implements I_CmsGlobalConfigurationCache {
                 @SuppressWarnings("deprecation")
                 CmsResourceFilter filter = CmsResourceFilter.ONLY_VISIBLE_NO_DELETED.addRequireType(
                     m_elementViewType.getTypeId());
-                List<CmsResource> groups = m_cms.readResources("/", filter);
+                List<@RUntainted CmsResource> groups = m_cms.readResources("/", filter);
                 for (CmsResource res : groups) {
                     try {
                         views.add(new CmsElementView(m_cms, res));
@@ -680,7 +682,7 @@ class CmsConfigurationCache implements I_CmsGlobalConfigurationCache {
      * @param type the type id of the resource
      * @param resState the state of the resource
      */
-    protected void update(CmsUUID structureId, String rootPath, int type, CmsResourceState resState) {
+    protected void update(CmsUUID structureId, @RUntainted String rootPath, @RUntainted int type, CmsResourceState resState) {
 
         if (CmsResource.isTemporaryFileName(rootPath)) {
             return;
@@ -774,7 +776,7 @@ class CmsConfigurationCache implements I_CmsGlobalConfigurationCache {
                 @SuppressWarnings("deprecation")
                 CmsResourceFilter filter = CmsResourceFilter.ONLY_VISIBLE_NO_DELETED.addRequireType(
                     OpenCms.getResourceManager().getResourceType(TYPE_ATTRIBUTE_EDITOR_CONFIG).getTypeId());
-                List<CmsResource> configResources = m_cms.readResources("/", filter);
+                List<@RUntainted CmsResource> configResources = m_cms.readResources("/", filter);
                 for (CmsResource res : configResources) {
                     try {
                         CmsSitemapAttributeEditorConfiguration config = CmsSitemapAttributeEditorConfiguration.read(
@@ -808,7 +810,7 @@ class CmsConfigurationCache implements I_CmsGlobalConfigurationCache {
                 @SuppressWarnings("deprecation")
                 CmsResourceFilter filter = CmsResourceFilter.ONLY_VISIBLE_NO_DELETED.addRequireType(
                     OpenCms.getResourceManager().getResourceType(TYPE_SITE_PLUGIN).getTypeId());
-                List<CmsResource> pluginResources = m_cms.readResources("/", filter);
+                List<@RUntainted CmsResource> pluginResources = m_cms.readResources("/", filter);
                 for (CmsResource res : pluginResources) {
                     try {
                         CmsSitePlugin sitePlugin = CmsSitePlugin.read(m_cms, res);

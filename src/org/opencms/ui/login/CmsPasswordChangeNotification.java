@@ -32,6 +32,7 @@ import org.opencms.file.CmsUser;
 import org.opencms.i18n.CmsEncoder;
 import org.opencms.main.OpenCms;
 import org.opencms.notification.A_CmsNotification;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Notification used to send password change link to user.<p>
@@ -49,7 +50,7 @@ public class CmsPasswordChangeNotification extends A_CmsNotification {
      * @param link the link
      * @param expiration the formatted link expiration date
      */
-    public CmsPasswordChangeNotification(CmsObject cms, CmsUser receiver, String link, String expiration) {
+    public CmsPasswordChangeNotification(@RUntainted CmsObject cms, CmsUser receiver, String link, String expiration) {
 
         super(cms, receiver);
         m_link = CmsEncoder.escapeXml(link);

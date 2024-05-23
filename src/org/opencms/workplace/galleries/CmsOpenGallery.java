@@ -44,6 +44,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides methods for open gallery dialog.<p>
@@ -81,7 +82,7 @@ public class CmsOpenGallery extends CmsDialog {
      * @param req the JSP request
      * @param res the JSP response
      */
-    public CmsOpenGallery(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsOpenGallery(@RUntainted PageContext context, @RUntainted HttpServletRequest req, @RUntainted HttpServletResponse res) {
 
         this(new CmsJspActionElement(context, req, res));
     }
@@ -152,7 +153,7 @@ public class CmsOpenGallery extends CmsDialog {
      * @see org.opencms.workplace.CmsWorkplace#initWorkplaceRequestValues(org.opencms.workplace.CmsWorkplaceSettings, javax.servlet.http.HttpServletRequest)
      */
     @Override
-    protected void initWorkplaceRequestValues(CmsWorkplaceSettings settings, HttpServletRequest request) {
+    protected void initWorkplaceRequestValues(CmsWorkplaceSettings settings, @RUntainted HttpServletRequest request) {
 
         // fill the parameter values in the get/set methods
         fillParamValues(request);

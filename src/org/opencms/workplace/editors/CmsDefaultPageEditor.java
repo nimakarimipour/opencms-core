@@ -52,6 +52,7 @@ import javax.servlet.ServletException;
 import javax.servlet.jsp.JspException;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides methods for building editors for the CmsDefaultPage page type.<p>
@@ -69,7 +70,7 @@ public abstract class CmsDefaultPageEditor extends CmsEditor {
     public static final String PARAM_OLDELEMENTNAME = "oldelementname";
 
     /** option values for font select boxes. */
-    public static final String[] SELECTBOX_FONTS = {
+    public static final @RUntainted String[] SELECTBOX_FONTS = {
         "Arial",
         "Arial Narrow",
         "System",
@@ -85,7 +86,7 @@ public abstract class CmsDefaultPageEditor extends CmsEditor {
     private static final Log LOG = CmsLog.getLog(CmsDefaultPageEditor.class);
 
     /** File object used to read and write contents. */
-    protected CmsFile m_file;
+    protected @RUntainted CmsFile m_file;
 
     /** Page object used from the action and init methods, be sure to initialize this e.g. in the initWorkplaceRequestValues method. */
     protected CmsXmlPage m_page;
@@ -94,13 +95,13 @@ public abstract class CmsDefaultPageEditor extends CmsEditor {
     private List<CmsDialogElement> m_elementList;
 
     /** The element locale. */
-    private Locale m_elementLocale;
+    private @RUntainted Locale m_elementLocale;
 
     /** The element name parameter. */
-    private String m_paramElementname;
+    private @RUntainted String m_paramElementname;
 
     /** The old element name parameter. */
-    private String m_paramOldelementname;
+    private @RUntainted String m_paramOldelementname;
 
     /** The URI of the style sheet to use in the editor. */
     private String m_uriStyleSheet;
@@ -201,7 +202,7 @@ public abstract class CmsDefaultPageEditor extends CmsEditor {
             //write the modified xml content
             m_file.setContents(m_page.marshal());
             m_file = getCms().writeFile(m_file);
-            List<Locale> locales = m_page.getLocales();
+            List<@RUntainted Locale> locales = m_page.getLocales();
             if (locales.size() > 0) {
                 // set first locale as new display locale
                 Locale newLoc = locales.get(0);
@@ -333,8 +334,8 @@ public abstract class CmsDefaultPageEditor extends CmsEditor {
 
         int counter = 0;
         int currentIndex = -1;
-        List<String> options = new ArrayList<String>(elementList.size());
-        List<String> values = new ArrayList<String>(elementList.size());
+        List<@RUntainted String> options = new ArrayList<@RUntainted String>(elementList.size());
+        List<@RUntainted String> values = new ArrayList<@RUntainted String>(elementList.size());
         String elementName = getParamElementname();
         if (CmsStringUtil.isEmpty(elementName)) {
             elementName = getParamOldelementname();
@@ -366,7 +367,7 @@ public abstract class CmsDefaultPageEditor extends CmsEditor {
      */
     public String buildSelectFonts(String attributes) {
 
-        List<String> names = new ArrayList<String>();
+        List<@RUntainted String> names = new ArrayList<@RUntainted String>();
         for (int i = 0; i < CmsDefaultPageEditor.SELECTBOX_FONTS.length; i++) {
             String value = CmsDefaultPageEditor.SELECTBOX_FONTS[i];
             names.add(value);
@@ -390,7 +391,7 @@ public abstract class CmsDefaultPageEditor extends CmsEditor {
      *
      * @return the current element locale
      */
-    public Locale getElementLocale() {
+    public @RUntainted Locale getElementLocale() {
 
         if (m_elementLocale == null) {
             m_elementLocale = CmsLocaleManager.getLocale(getParamElementlanguage());
@@ -403,7 +404,7 @@ public abstract class CmsDefaultPageEditor extends CmsEditor {
      *
      * @return the current element name
      */
-    public String getParamElementname() {
+    public @RUntainted String getParamElementname() {
 
         return m_paramElementname;
     }
@@ -413,7 +414,7 @@ public abstract class CmsDefaultPageEditor extends CmsEditor {
      *
      * @return the old element name
      */
-    public String getParamOldelementname() {
+    public @RUntainted String getParamOldelementname() {
 
         return m_paramOldelementname;
     }
@@ -476,7 +477,7 @@ public abstract class CmsDefaultPageEditor extends CmsEditor {
      *
      * @param elementName the current element name
      */
-    public void setParamElementname(String elementName) {
+    public void setParamElementname(@RUntainted String elementName) {
 
         m_paramElementname = elementName;
     }
@@ -486,7 +487,7 @@ public abstract class CmsDefaultPageEditor extends CmsEditor {
      *
      * @param oldElementName the old element name
      */
-    public void setParamOldelementname(String oldElementName) {
+    public void setParamOldelementname(@RUntainted String oldElementName) {
 
         m_paramOldelementname = oldElementName;
     }
@@ -509,7 +510,7 @@ public abstract class CmsDefaultPageEditor extends CmsEditor {
      */
     protected void initBodyElementLanguage() {
 
-        List<Locale> locales = m_page.getLocales();
+        List<@RUntainted Locale> locales = m_page.getLocales();
         Locale defaultLocale = OpenCms.getLocaleManager().getDefaultLocales(getCms(), getCms().getSitePath(m_file)).get(
             0);
 
@@ -553,15 +554,15 @@ public abstract class CmsDefaultPageEditor extends CmsEditor {
      *
      * @param elementName the name of the element to initialize or null, if default element should be used
      */
-    protected void initBodyElementName(String elementName) {
+    protected void initBodyElementName(@RUntainted String elementName) {
 
         if ((elementName == null)
             || (m_page.hasValue(elementName, getElementLocale())
                 && !m_page.isEnabled(elementName, getElementLocale()))) {
             // elementName not specified or given element is disabled, determine default element
-            List<String> allElements = m_page.getNames(getElementLocale());
+            List<@RUntainted String> allElements = m_page.getNames(getElementLocale());
             int elementCount = allElements.size();
-            List<String> elements = new ArrayList<String>(elementCount);
+            List<@RUntainted String> elements = new ArrayList<@RUntainted String>(elementCount);
             for (int i = 0; i < elementCount; i++) {
                 // filter disabled elements
                 if (m_page.isEnabled(allElements.get(i), getElementLocale())) {
@@ -635,7 +636,7 @@ public abstract class CmsDefaultPageEditor extends CmsEditor {
      * @param locale the body locale to write
      * @throws CmsException if writing the file fails
      */
-    protected void performSaveContent(String body, Locale locale) throws CmsException {
+    protected void performSaveContent(@RUntainted String body, @RUntainted Locale locale) throws CmsException {
 
         // prepare the content for saving
         String content = prepareContent(true);

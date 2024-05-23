@@ -42,6 +42,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean to collect navigation information from a resource in the OpenCms VFS.<p>
@@ -63,7 +64,7 @@ public class CmsJspNavElement implements Comparable<CmsJspNavElement> {
     private static final Log LOG = CmsLog.getLog(CmsJspNavElement.class);
 
     /** The locale for which the property should be read. */
-    protected Locale m_locale;
+    protected @RUntainted Locale m_locale;
 
     /** The navigation context. */
     protected CmsJspNavBuilder.NavContext m_navContext;
@@ -72,7 +73,7 @@ public class CmsJspNavElement implements Comparable<CmsJspNavElement> {
     private boolean m_changedNavPos;
 
     /** The file name. */
-    private String m_fileName;
+    private @RUntainted String m_fileName;
 
     /** The has navigation flag. */
     private Boolean m_hasNav;
@@ -81,25 +82,25 @@ public class CmsJspNavElement implements Comparable<CmsJspNavElement> {
     private Boolean m_isHiddenNavigationEntry;
 
     /** The properties accessed according to the chosen locale. */
-    private Map<String, String> m_localeProperties;
+    private Map<String, @RUntainted String> m_localeProperties;
 
     /** The navigation tree level. */
     private int m_navTreeLevel = Integer.MIN_VALUE;
 
     /** The navigation position. */
-    private float m_position;
+    private @RUntainted float m_position;
 
     /** The properties. */
-    private Map<String, String> m_properties;
+    private Map<String, @RUntainted String> m_properties;
 
     /** The resource. */
-    private CmsResource m_resource;
+    private @RUntainted CmsResource m_resource;
 
     /** The site path. */
-    private String m_sitePath;
+    private @RUntainted String m_sitePath;
 
     /** The navigation text. */
-    private String m_text;
+    private @RUntainted String m_text;
 
     private List<CmsJspNavElement> m_subNavigation;
 
@@ -129,7 +130,7 @@ public class CmsJspNavElement implements Comparable<CmsJspNavElement> {
      * @param resource the resource
      * @param properties will be passed to <code>init</code>
      */
-    public CmsJspNavElement(String sitePath, CmsResource resource, Map<String, String> properties) {
+    public CmsJspNavElement(@RUntainted String sitePath, CmsResource resource, Map<String, @RUntainted String> properties) {
 
         setResource(resource);
         init(sitePath, properties);
@@ -146,7 +147,7 @@ public class CmsJspNavElement implements Comparable<CmsJspNavElement> {
      *
      * @see #init(String, Map, int, Locale)
      */
-    public CmsJspNavElement(String sitePath, CmsResource resource, Map<String, String> properties, int navTreeLevel) {
+    public CmsJspNavElement(@RUntainted String sitePath, CmsResource resource, Map<String, @RUntainted String> properties, int navTreeLevel) {
 
         this(sitePath, resource, properties, navTreeLevel, null);
     }
@@ -164,11 +165,11 @@ public class CmsJspNavElement implements Comparable<CmsJspNavElement> {
      * @see #init(String, Map, int, Locale)
      */
     public CmsJspNavElement(
-        String sitePath,
+        @RUntainted String sitePath,
         CmsResource resource,
-        Map<String, String> properties,
+        Map<String, @RUntainted String> properties,
         int navTreeLevel,
-        Locale locale) {
+        @RUntainted Locale locale) {
 
         setResource(resource);
         init(sitePath, properties, navTreeLevel, locale);
@@ -186,7 +187,7 @@ public class CmsJspNavElement implements Comparable<CmsJspNavElement> {
      * @deprecated use {@link #CmsJspNavElement(String, CmsResource, Map)}
      */
     @Deprecated
-    public CmsJspNavElement(String sitePath, Map<String, String> properties) {
+    public CmsJspNavElement(@RUntainted String sitePath, Map<String, @RUntainted String> properties) {
 
         init(sitePath, properties, -1, null);
     }
@@ -204,7 +205,7 @@ public class CmsJspNavElement implements Comparable<CmsJspNavElement> {
      * @deprecated use {@link #CmsJspNavElement(String, CmsResource, Map, int)}
      */
     @Deprecated
-    public CmsJspNavElement(String sitePath, Map<String, String> properties, int navTreeLevel) {
+    public CmsJspNavElement(@RUntainted String sitePath, Map<String, @RUntainted String> properties, int navTreeLevel) {
 
         init(sitePath, properties, navTreeLevel, null);
     }
@@ -251,7 +252,7 @@ public class CmsJspNavElement implements Comparable<CmsJspNavElement> {
      * @return the value of the property PROPERTY_DESCRIPTION of this navigation element
      *          or <code>null</code> if this property is not set
      */
-    public String getDescription() {
+    public @RUntainted String getDescription() {
 
         return getProperties().get(CmsPropertyDefinition.PROPERTY_DESCRIPTION);
     }
@@ -263,7 +264,7 @@ public class CmsJspNavElement implements Comparable<CmsJspNavElement> {
      * @return the filename of the navigation element, i.e.
      *          the name of the navigation resource without any path information
      */
-    public String getFileName() {
+    public @RUntainted String getFileName() {
 
         if (m_fileName == null) {
             // use "lazy initializing"
@@ -330,7 +331,7 @@ public class CmsJspNavElement implements Comparable<CmsJspNavElement> {
      *          or a value of <code>Float.MAX_VALUE</code> if the navigation position property is not
      *          set (or not a valid number) for this resource
      */
-    public float getNavPosition() {
+    public @RUntainted float getNavPosition() {
 
         return m_position;
     }
@@ -344,7 +345,7 @@ public class CmsJspNavElement implements Comparable<CmsJspNavElement> {
      *          or a warning message if this property is not set
      *          (this method will never return <code>null</code>)
      */
-    public String getNavText() {
+    public @RUntainted String getNavText() {
 
         if (m_text == null) {
             // use "lazy initializing"
@@ -390,7 +391,7 @@ public class CmsJspNavElement implements Comparable<CmsJspNavElement> {
      * @return the original map of all file properties of the resource that
      *          the navigation element belongs to
      */
-    public Map<String, String> getProperties() {
+    public Map<String, @RUntainted String> getProperties() {
 
         if (null == m_locale) {
             return m_properties;
@@ -409,7 +410,7 @@ public class CmsJspNavElement implements Comparable<CmsJspNavElement> {
      *
      * @return the value of the selected property
      */
-    public String getProperty(String key) {
+    public @RUntainted String getProperty(String key) {
 
         return getProperties().get(key);
     }
@@ -419,7 +420,7 @@ public class CmsJspNavElement implements Comparable<CmsJspNavElement> {
      *
      * @return the resource
      */
-    public CmsResource getResource() {
+    public @RUntainted CmsResource getResource() {
 
         return m_resource;
     }
@@ -429,7 +430,7 @@ public class CmsJspNavElement implements Comparable<CmsJspNavElement> {
      *
      * @return the resource name this navigation element was initialized with
      */
-    public String getResourceName() {
+    public @RUntainted String getResourceName() {
 
         return m_sitePath;
     }
@@ -471,7 +472,7 @@ public class CmsJspNavElement implements Comparable<CmsJspNavElement> {
      * @return the value of the property PROPERTY_TITLE of this navigation element
      *          or <code>null</code> if this property is not set
      */
-    public String getTitle() {
+    public @RUntainted String getTitle() {
 
         return getProperties().get(CmsPropertyDefinition.PROPERTY_TITLE);
     }
@@ -505,7 +506,7 @@ public class CmsJspNavElement implements Comparable<CmsJspNavElement> {
      *     information from
      * @param properties the properties of the resource read from the vfs
      */
-    public void init(String resource, Map<String, String> properties) {
+    public void init(@RUntainted String resource, Map<String, @RUntainted String> properties) {
 
         init(resource, properties, -1, null);
     }
@@ -531,7 +532,7 @@ public class CmsJspNavElement implements Comparable<CmsJspNavElement> {
      *
      * @see CmsJspNavBuilder#getNavigationForResource()
      */
-    public void init(String resource, Map<String, String> properties, int navTreeLevel) {
+    public void init(@RUntainted String resource, Map<String, @RUntainted String> properties, int navTreeLevel) {
 
         init(resource, properties, navTreeLevel, null);
     }
@@ -558,7 +559,7 @@ public class CmsJspNavElement implements Comparable<CmsJspNavElement> {
      *
      * @see CmsJspNavBuilder#getNavigationForResource()
      */
-    public void init(String resource, Map<String, String> properties, int navTreeLevel, Locale locale) {
+    public void init(@RUntainted String resource, Map<String, @RUntainted String> properties, int navTreeLevel, @RUntainted Locale locale) {
 
         m_sitePath = resource;
         m_properties = properties;
@@ -650,7 +651,7 @@ public class CmsJspNavElement implements Comparable<CmsJspNavElement> {
      *
      * @param value the value to set
      */
-    public void setNavPosition(float value) {
+    public void setNavPosition(@RUntainted float value) {
 
         m_position = value;
         m_changedNavPos = true;
@@ -661,7 +662,7 @@ public class CmsJspNavElement implements Comparable<CmsJspNavElement> {
      *
      * @param text the text to set
      */
-    public void setNavText(String text) {
+    public void setNavText(@RUntainted String text) {
 
         m_text = text;
     }
@@ -706,7 +707,7 @@ public class CmsJspNavElement implements Comparable<CmsJspNavElement> {
      *
      * @return the target resource site path
      */
-    protected String getSitePath() {
+    protected @RUntainted String getSitePath() {
 
         return m_sitePath;
     }
@@ -726,7 +727,7 @@ public class CmsJspNavElement implements Comparable<CmsJspNavElement> {
      *
      * @return the locale specific properties map.
      */
-    private Map<String, String> getLocaleProperties() {
+    private Map<String, @RUntainted String> getLocaleProperties() {
 
         if (m_localeProperties == null) {
             m_localeProperties = CmsCollectionsGenericWrapper.createLazyMap(

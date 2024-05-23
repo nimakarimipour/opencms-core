@@ -48,6 +48,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Module data read from a module zip file.<p>
@@ -58,7 +59,7 @@ public class CmsModuleImportData {
     private static final Log LOG = CmsLog.getLog(CmsModuleImportData.class);
 
     /** The CMS context. */
-    private CmsObject m_cms;
+    private @RUntainted CmsObject m_cms;
 
     /** The map of conflicting ids (keys are structure ids from the manifest, values are structure ids from VFS). */
     private Map<CmsUUID, CmsUUID> m_conflictingIds = new HashMap<>();
@@ -70,7 +71,7 @@ public class CmsModuleImportData {
     private CmsObject m_onlineCms;
 
     /** The list of resource data for each entry in the manifest. */
-    private List<CmsResourceImportData> m_resources = new ArrayList<>();
+    private @RUntainted List<CmsResourceImportData> m_resources = new ArrayList<>();
 
     /**
      * Adds the information for a single resource.<p>
@@ -109,7 +110,7 @@ public class CmsModuleImportData {
             Map<CmsUUID, CmsResourceImportData> importResourcesById = new HashMap<>();
             Map<CmsPath, CmsResourceImportData> importResourcesByPath = new HashMap<>();
             Map<String, CmsUUID> structureIdsByParentIdAndName = new HashMap<>();
-            Map<CmsUUID, Map<String, CmsUUID>> parentFolderMaps = new HashMap<>();
+            Map<@RUntainted CmsUUID, Map<String, CmsUUID>> parentFolderMaps = new HashMap<>();
             for (CmsResourceImportData resData : getResourceData()) {
                 if (resData.hasStructureId()) {
                     importResourcesById.put(resData.getResource().getStructureId(), resData);
@@ -268,7 +269,7 @@ public class CmsModuleImportData {
      *
      * @return the CMS object
      */
-    public CmsObject getCms() {
+    public @RUntainted CmsObject getCms() {
 
         return m_cms;
     }
@@ -300,7 +301,7 @@ public class CmsModuleImportData {
      *
      * @return the resource data objects
      */
-    public List<CmsResourceImportData> getResourceData() {
+    public @RUntainted List<CmsResourceImportData> getResourceData() {
 
         return Collections.unmodifiableList(m_resources);
     }

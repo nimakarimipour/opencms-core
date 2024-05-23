@@ -53,6 +53,7 @@ import org.opencms.util.CmsStringUtil;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements methods to utilize a report thread for <code>CmsIndexingReport</code>.<p>
@@ -65,7 +66,7 @@ public class CmsIndexingReportThread extends A_CmsReportThread {
     private Throwable m_error;
 
     /** A list of names of the indexes to refresh or null for all indexes. */
-    private List<String> m_indexNames;
+    private List<@RUntainted String> m_indexNames;
 
     /**
      * Creates an indexing Thread for full update.<p>
@@ -73,7 +74,7 @@ public class CmsIndexingReportThread extends A_CmsReportThread {
      * @param cms the current OpenCms context object
      * @param indexNames a list of names of the indexes to refresh or null for all indexes
      */
-    public CmsIndexingReportThread(CmsObject cms, List<String> indexNames) {
+    public CmsIndexingReportThread(@RUntainted CmsObject cms, List<@RUntainted String> indexNames) {
 
         super(cms, Messages.get().getBundle().key(Messages.GUI_INDEXING_THREAD_NAME_0));
         initHtmlReport(cms.getRequestContext().getLocale());
@@ -116,7 +117,7 @@ public class CmsIndexingReportThread extends A_CmsReportThread {
             I_CmsReport.FORMAT_HEADLINE);
 
         try {
-            Map<String, Object> params = new HashMap<String, Object>();
+            Map<@RUntainted String, @RUntainted Object> params = new HashMap<@RUntainted String, @RUntainted Object>();
             params.put(I_CmsEventListener.KEY_REPORT, getReport());
             if (m_indexNames != null) {
                 params.put(I_CmsEventListener.KEY_INDEX_NAMES, CmsStringUtil.collectionAsString(m_indexNames, ","));

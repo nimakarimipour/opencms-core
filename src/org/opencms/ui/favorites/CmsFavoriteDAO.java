@@ -46,6 +46,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Loads/saves favorites.
@@ -80,7 +81,7 @@ public class CmsFavoriteDAO {
     private CmsObject m_rootCms;
 
     /** Name of user from which bookmarks should be loaded. */
-    private String m_userName;
+    private @RUntainted String m_userName;
 
     /**
      * Creates a new instance.

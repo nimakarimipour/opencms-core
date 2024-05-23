@@ -59,6 +59,7 @@ import javax.imageio.ImageReader;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Creates scaled images, acting as it's own parameter container.<p>
@@ -128,19 +129,19 @@ public class CmsImageScaler {
     protected static final Log LOG = CmsLog.getLog(CmsImageScaler.class);
 
     /** The target background color (optional). */
-    private Color m_color;
+    private @RUntainted Color m_color;
 
     /** The height for image cropping. */
-    private int m_cropHeight;
+    private @RUntainted int m_cropHeight;
 
     /** The width for image cropping. */
-    private int m_cropWidth;
+    private @RUntainted int m_cropWidth;
 
     /** The x coordinate for image cropping. */
-    private int m_cropX;
+    private @RUntainted int m_cropX;
 
     /** The y coordinate for image cropping. */
-    private int m_cropY;
+    private @RUntainted int m_cropY;
 
     /** The list of image filter names (Strings) to apply. */
     private List<String> m_filters;
@@ -149,7 +150,7 @@ public class CmsImageScaler {
     private CmsPoint m_focalPoint;
 
     /** The target height (required). */
-    private int m_height;
+    private @RUntainted int m_height;
 
     /** Indicates if this image scaler was only used to read the image properties. */
     private boolean m_isOriginalScaler;
@@ -164,22 +165,22 @@ public class CmsImageScaler {
     private int m_maxWidth;
 
     /** The target position (optional). */
-    private int m_position;
+    private @RUntainted int m_position;
 
     /** The target image save quality (if applicable, for example used with JPEG images) (optional). */
     private int m_quality;
 
     /** The image processing renderings hints constant mode indicator (optional). */
-    private int m_renderMode;
+    private @RUntainted int m_renderMode;
 
     /** The final (parsed and corrected) scale parameters. */
-    private String m_scaleParameters;
+    private @RUntainted String m_scaleParameters;
 
     /** The target scale type (optional). */
-    private int m_type;
+    private @RUntainted int m_type;
 
     /** The target width (required). */
-    private int m_width;
+    private @RUntainted int m_width;
 
     /**
      * Creates a new, empty image scaler object.<p>
@@ -205,7 +206,7 @@ public class CmsImageScaler {
      * @param content the image to calculate the dimensions for
      * @param rootPath the root path of the resource (for error logging)
      */
-    public CmsImageScaler(byte[] content, String rootPath) {
+    public CmsImageScaler(@RUntainted byte[] content, @RUntainted String rootPath) {
 
         init();
         try {
@@ -236,7 +237,7 @@ public class CmsImageScaler {
      * @param width the width to set for this scaler
      * @param height the height to set for this scaler
      */
-    public CmsImageScaler(CmsImageScaler base, int width, int height) {
+    public CmsImageScaler(CmsImageScaler base, @RUntainted int width, @RUntainted int height) {
 
         initValuesFrom(base);
         setWidth(width);
@@ -294,7 +295,7 @@ public class CmsImageScaler {
      * @param maxScaleSize the maximum scale size (width or height) for the image
      * @param maxBlurSize the maximum size of the image (width * height) to apply blur
      */
-    public CmsImageScaler(HttpServletRequest request, int maxScaleSize, int maxBlurSize) {
+    public CmsImageScaler(@RUntainted HttpServletRequest request, int maxScaleSize, int maxBlurSize) {
 
         init();
         m_maxBlurSize = maxBlurSize;
@@ -317,7 +318,7 @@ public class CmsImageScaler {
      * @param width the width
      * @param height the height
      */
-    public CmsImageScaler(int width, int height) {
+    public CmsImageScaler(@RUntainted int width, @RUntainted int height) {
 
         init();
         m_width = width;
@@ -329,7 +330,7 @@ public class CmsImageScaler {
      *
      * @param parameters the scale parameters to use
      */
-    public CmsImageScaler(String parameters) {
+    public CmsImageScaler(@RUntainted String parameters) {
 
         init();
         if (CmsStringUtil.isNotEmpty(parameters)) {
@@ -430,7 +431,7 @@ public class CmsImageScaler {
      *
      * @return the color
      */
-    public Color getColor() {
+    public @RUntainted Color getColor() {
 
         return m_color;
     }
@@ -469,7 +470,7 @@ public class CmsImageScaler {
      *
      * @return the crop area height
      */
-    public int getCropHeight() {
+    public @RUntainted int getCropHeight() {
 
         return m_cropHeight;
     }
@@ -502,7 +503,7 @@ public class CmsImageScaler {
      *
      * @return the crop area width
      */
-    public int getCropWidth() {
+    public @RUntainted int getCropWidth() {
 
         return m_cropWidth;
     }
@@ -514,7 +515,7 @@ public class CmsImageScaler {
      *
      * @return the crop area X start coordinate
      */
-    public int getCropX() {
+    public @RUntainted int getCropX() {
 
         return m_cropX;
     }
@@ -526,7 +527,7 @@ public class CmsImageScaler {
      *
      * @return the crop area Y start coordinate
      */
-    public int getCropY() {
+    public @RUntainted int getCropY() {
 
         return m_cropY;
     }
@@ -623,7 +624,7 @@ public class CmsImageScaler {
      *
      * @return the height
      */
-    public int getHeight() {
+    public @RUntainted int getHeight() {
 
         return m_height;
     }
@@ -704,7 +705,7 @@ public class CmsImageScaler {
      *
      * @return the position
      */
-    public int getPosition() {
+    public @RUntainted int getPosition() {
 
         return m_position;
     }
@@ -787,7 +788,7 @@ public class CmsImageScaler {
                 scales[1] = width / maxHeight;
                 scales[2] = maxWidth / height;
                 int useScale = calculateClosest(scaleOfImage, scales);
-                int[] dimensions;
+                @RUntainted int[] dimensions;
                 switch (useScale) {
                     case 1:
                         dimensions = calculateDimension(getWidth(), getHeight(), width, (int)maxHeight);
@@ -904,7 +905,7 @@ public class CmsImageScaler {
      *
      * @return the type
      */
-    public int getType() {
+    public @RUntainted int getType() {
 
         return m_type;
     }
@@ -914,7 +915,7 @@ public class CmsImageScaler {
      *
      * @return the width
      */
-    public int getWidth() {
+    public @RUntainted int getWidth() {
 
         return m_width;
     }
@@ -1055,7 +1056,7 @@ public class CmsImageScaler {
      *
      * @param parameters the parameters to parse
      */
-    public void parseParameters(String parameters) {
+    public void parseParameters(@RUntainted String parameters) {
 
         m_width = -1;
         m_height = -1;
@@ -1067,8 +1068,8 @@ public class CmsImageScaler {
         m_cropWidth = -1;
         m_cropHeight = -1;
 
-        List<String> tokens = CmsStringUtil.splitAsList(parameters, ',');
-        Iterator<String> it = tokens.iterator();
+        List<@RUntainted String> tokens = CmsStringUtil.splitAsList(parameters, ',');
+        Iterator<@RUntainted String> it = tokens.iterator();
         String k;
         String v;
         while (it.hasNext()) {
@@ -1145,9 +1146,9 @@ public class CmsImageScaler {
      *
      * @return a scaled version of the given image byte content according to the provided scaler parameters
      */
-    public byte[] scaleImage(byte[] content, BufferedImage image, String rootPath) {
+    public @RUntainted byte[] scaleImage(@RUntainted byte[] content, @RUntainted BufferedImage image, @RUntainted String rootPath) {
 
-        byte[] result = content;
+        @RUntainted byte[] result = content;
         // flag for processed image
         boolean imageProcessed = false;
         // initialize image crop area
@@ -1351,7 +1352,7 @@ public class CmsImageScaler {
      *
      * @return a scaled version of the given image byte content according to the provided scaler parameters
      */
-    public byte[] scaleImage(byte[] content, String rootPath) {
+    public @RUntainted byte[] scaleImage(@RUntainted byte[] content, @RUntainted String rootPath) {
 
         return scaleImage(content, (BufferedImage)null, rootPath);
     }
@@ -1363,7 +1364,7 @@ public class CmsImageScaler {
      *
      * @return a scaled version of the given image file according to the provided scaler parameters
      */
-    public byte[] scaleImage(CmsFile file) {
+    public @RUntainted byte[] scaleImage(CmsFile file) {
 
         return scaleImage(file.getContents(), file.getRootPath());
     }
@@ -1373,7 +1374,7 @@ public class CmsImageScaler {
      *
      * @param color the color to set
      */
-    public void setColor(Color color) {
+    public void setColor(@RUntainted Color color) {
 
         m_color = color;
     }
@@ -1383,7 +1384,7 @@ public class CmsImageScaler {
      *
      * @param value the color to set
      */
-    public void setColor(String value) {
+    public void setColor(@RUntainted String value) {
 
         if (COLOR_TRANSPARENT.indexOf(value) == 0) {
             setColor(Simapi.COLOR_TRANSPARENT);
@@ -1400,7 +1401,7 @@ public class CmsImageScaler {
      * @param width the crop width
      * @param height the crop height
      */
-    public void setCropArea(int x, int y, int width, int height) {
+    public void setCropArea(@RUntainted int x, @RUntainted int y, @RUntainted int width, @RUntainted int height) {
 
         m_cropX = x;
         m_cropY = y;
@@ -1413,10 +1414,10 @@ public class CmsImageScaler {
      *
      * @param value the list of filters to set
      */
-    public void setFilters(String value) {
+    public void setFilters(@RUntainted String value) {
 
         m_filters = new ArrayList<String>();
-        List<String> filters = CmsStringUtil.splitAsList(value, ':');
+        List<@RUntainted String> filters = CmsStringUtil.splitAsList(value, ':');
         Iterator<String> i = filters.iterator();
         while (i.hasNext()) {
             String filter = i.next();
@@ -1448,7 +1449,7 @@ public class CmsImageScaler {
      *
      * @param height the height to set
      */
-    public void setHeight(int height) {
+    public void setHeight(@RUntainted int height) {
 
         m_height = height;
     }
@@ -1532,7 +1533,7 @@ public class CmsImageScaler {
      *
      * @see #getRenderMode() for a list of allowed values for the rendering mode
      */
-    public void setRenderMode(int renderMode) {
+    public void setRenderMode(@RUntainted int renderMode) {
 
         if ((renderMode < Simapi.RENDER_QUALITY) || (renderMode > Simapi.RENDER_SPEED)) {
             renderMode = Simapi.RENDER_QUALITY;
@@ -1547,7 +1548,7 @@ public class CmsImageScaler {
      *
      * @see #getType() for a detailed description of the possible values for the type
      */
-    public void setType(int type) {
+    public void setType(@RUntainted int type) {
 
         if ((type < 0) || (type > 8)) {
             // invalid type, use 0
@@ -1562,7 +1563,7 @@ public class CmsImageScaler {
      *
      * @param width the width to set
      */
-    public void setWidth(int width) {
+    public void setWidth(@RUntainted int width) {
 
         m_width = width;
     }
@@ -1575,7 +1576,7 @@ public class CmsImageScaler {
      *
      * @return a request parameter configured with the values from this image scaler
      */
-    public String toRequestParam() {
+    public @RUntainted String toRequestParam() {
 
         StringBuffer result = new StringBuffer(128);
         result.append('?');
@@ -1590,7 +1591,7 @@ public class CmsImageScaler {
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString() {
+    public @RUntainted String toString() {
 
         if (m_scaleParameters != null) {
             return m_scaleParameters;

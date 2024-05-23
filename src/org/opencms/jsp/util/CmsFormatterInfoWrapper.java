@@ -46,6 +46,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper class for accessing formatter information from JSPs.
@@ -71,7 +72,7 @@ public class CmsFormatterInfoWrapper implements I_CmsFormatterInfo {
      * @param config the sitemap configuration
      * @param formatter the formatter bean to wrap
      */
-    public CmsFormatterInfoWrapper(CmsObject cms, CmsADEConfigData config, I_CmsFormatterBean formatter) {
+    public CmsFormatterInfoWrapper(@RUntainted CmsObject cms, CmsADEConfigData config, I_CmsFormatterBean formatter) {
 
         m_cms = cms;
         m_formatter = formatter;
@@ -86,7 +87,7 @@ public class CmsFormatterInfoWrapper implements I_CmsFormatterInfo {
      * @param formatter the formatter bean
      * @return the macro resolver to sue
      */
-    public static CmsMacroResolver getMacroResolverForFormatter(CmsObject cms, I_CmsFormatterBean formatter) {
+    public static CmsMacroResolver getMacroResolverForFormatter(@RUntainted CmsObject cms, I_CmsFormatterBean formatter) {
 
         final CmsMacroResolver resolver = new CmsMacroResolver();
         resolver.setCmsObject(cms);
@@ -121,7 +122,7 @@ public class CmsFormatterInfoWrapper implements I_CmsFormatterInfo {
      * @param locale the locale to use
      * @return the description
      */
-    public String description(Locale locale) {
+    public String description(@RUntainted Locale locale) {
 
         String result = m_formatter.getDescription(locale);
         result = m_macroResolver.resolveMacros(result);
@@ -341,7 +342,7 @@ public class CmsFormatterInfoWrapper implements I_CmsFormatterInfo {
      */
     public List<CmsSettingDefinitionWrapper> getSettings() {
 
-        Map<String, CmsXmlContentProperty> settingDefs = m_formatter.getSettings(m_config);
+        Map<@RUntainted String, CmsXmlContentProperty> settingDefs = m_formatter.getSettings(m_config);
         List<CmsSettingDefinitionWrapper> result = new ArrayList<>();
         for (Map.Entry<String, CmsXmlContentProperty> entry : settingDefs.entrySet()) {
             CmsSettingDefinitionWrapper setting = new CmsSettingDefinitionWrapper(
@@ -359,9 +360,9 @@ public class CmsFormatterInfoWrapper implements I_CmsFormatterInfo {
      *
      * @return the resource types
      */
-    public List<String> getTypes() {
+    public List<@RUntainted String> getTypes() {
 
-        List<String> result = new ArrayList<>(m_formatter.getResourceTypeNames());
+        List<@RUntainted String> result = new ArrayList<>(m_formatter.getResourceTypeNames());
         Collections.sort(result);
         return result;
     }
@@ -372,7 +373,7 @@ public class CmsFormatterInfoWrapper implements I_CmsFormatterInfo {
      * @param locale the locale to use
      * @return the nice name of the formatter
      */
-    public String niceName(Locale locale) {
+    public String niceName(@RUntainted Locale locale) {
 
         return m_formatter.getNiceName(locale);
     }

@@ -32,6 +32,7 @@ import org.opencms.util.CmsStringUtil;
 import java.util.Map;
 
 import com.google.common.base.Optional;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Message key fallback handler which replaces a given set of prefixes with alternative prefixes.<p>
@@ -39,14 +40,14 @@ import com.google.common.base.Optional;
 public class CmsReplaceMessageKeyPrefix implements CmsMultiMessages.I_KeyFallbackHandler {
 
     /** The prefix substitutions. */
-    private Map<String, String> m_substitutions;
+    private Map<@RUntainted String, @RUntainted String> m_substitutions;
 
     /**
      * Creates a new instance.<p>
      *
      * @param configuration a pipe-separated list of colon-separated key-value pairs, where the key is the prefix and the value is the replacement
      */
-    public CmsReplaceMessageKeyPrefix(String configuration) {
+    public CmsReplaceMessageKeyPrefix(@RUntainted String configuration) {
 
         m_substitutions = CmsStringUtil.splitAsMap(configuration, "|", ":");
 
@@ -55,7 +56,7 @@ public class CmsReplaceMessageKeyPrefix implements CmsMultiMessages.I_KeyFallbac
     /**
      * @see org.opencms.i18n.CmsMultiMessages.I_KeyFallbackHandler#getFallbackKey(java.lang.String)
      */
-    public Optional<String> getFallbackKey(String key) {
+    public Optional<@RUntainted String> getFallbackKey(@RUntainted String key) {
 
         for (String prefix : m_substitutions.keySet()) {
             if (key.startsWith(prefix)) {

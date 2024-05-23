@@ -32,6 +32,7 @@ import org.opencms.xml.content.I_CmsXmlContentHandler.DisplayType;
 
 import java.util.Iterator;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a widget for a standard HTML form for a group of radio buttons.<p>
@@ -78,7 +79,7 @@ public class CmsRadioSelectWidget extends A_CmsSelectWidget {
      *
      * @param configuration the configuration (possible options) for the select box
      */
-    public CmsRadioSelectWidget(String configuration) {
+    public CmsRadioSelectWidget(@RUntainted String configuration) {
 
         super(configuration);
     }
@@ -131,7 +132,7 @@ public class CmsRadioSelectWidget extends A_CmsSelectWidget {
      * @see org.opencms.widgets.I_CmsADEWidget#getWidgetName()
      */
     @Override
-    public String getWidgetName() {
+    public @RUntainted String getWidgetName() {
 
         return CmsRadioSelectWidget.class.getName();
     }

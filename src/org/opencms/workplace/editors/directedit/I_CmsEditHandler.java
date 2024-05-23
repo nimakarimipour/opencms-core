@@ -36,6 +36,7 @@ import org.opencms.xml.containerpage.CmsContainerElementBean;
 
 import java.util.Locale;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Edit handlers are optional and can be configured within the XSD-schema of a resource type.<p>
@@ -55,10 +56,10 @@ public interface I_CmsEditHandler {
      * @return the available delete options
      */
     CmsDialogOptions getDeleteOptions(
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         CmsContainerElementBean elementBean,
         CmsUUID pageContextId,
-        Map<String, String[]> requestParams);
+        Map<String, @RUntainted String[]> requestParams);
 
     /**
      * Returns a map of edit options. The value being the option description displayed to the user.<p>
@@ -72,10 +73,10 @@ public interface I_CmsEditHandler {
      * @return the available edit options
      */
     CmsDialogOptions getEditOptions(
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         CmsContainerElementBean elementBean,
         CmsUUID pageContextId,
-        Map<String, String[]> requestParams,
+        Map<String, @RUntainted String[]> requestParams,
         boolean isListElement);
 
     /**
@@ -108,11 +109,11 @@ public interface I_CmsEditHandler {
      * @throws CmsException if something goes wrong
      */
     void handleDelete(
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         CmsContainerElementBean elementBean,
-        String deleteOption,
+        @RUntainted String deleteOption,
         CmsUUID pageContextId,
-        Map<String, String[]> requestParams)
+        Map<String, @RUntainted String[]> requestParams)
     throws CmsException;
 
     /**
@@ -159,11 +160,11 @@ public interface I_CmsEditHandler {
      * @throws CmsException if something goes wrong
      */
     CmsUUID prepareForEdit(
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         CmsContainerElementBean elementBean,
-        String editOption,
+        @RUntainted String editOption,
         CmsUUID pageContextId,
-        Map<String, String[]> requestParams)
+        Map<String, @RUntainted String[]> requestParams)
     throws CmsException;
 
     /**

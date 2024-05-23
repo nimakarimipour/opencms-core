@@ -36,6 +36,7 @@ import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.apps.Messages;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Clears the file history of the OpenCms database.<p>
@@ -48,13 +49,13 @@ public class CmsHistoryClearThread extends A_CmsReportThread {
     static Log LOG = CmsLog.getLog(CmsHistoryClearThread.class.getName());
 
     /**Clear all deleted versions older than this date.*/
-    private long m_dateClearDeletedOlder;
+    private @RUntainted long m_dateClearDeletedOlder;
 
     /**amount of versions to keep for deleted resources. */
-    private int m_keepDeletedVersions;
+    private @RUntainted int m_keepDeletedVersions;
 
     /**amount of versions to keep.*/
-    private int m_keepVersions;
+    private @RUntainted int m_keepVersions;
 
     /**
      * Creates the history clear Thread.<p>
@@ -64,7 +65,7 @@ public class CmsHistoryClearThread extends A_CmsReportThread {
      * @param keepD count of Versions to keep for deleted resources
      * @param date Clear all deleted versions older than this date
      */
-    public CmsHistoryClearThread(CmsObject cms, int keepV, int keepD, long date) {
+    public CmsHistoryClearThread(@RUntainted CmsObject cms, @RUntainted int keepV, @RUntainted int keepD, @RUntainted long date) {
 
         super(
             cms,

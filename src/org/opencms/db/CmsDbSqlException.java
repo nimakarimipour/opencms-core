@@ -34,6 +34,7 @@ import org.opencms.main.CmsLog;
 import java.sql.Statement;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Used to signal sql related issues.<p>
@@ -83,7 +84,7 @@ public class CmsDbSqlException extends CmsDbException {
      * @param stmt the Statement to get the crashed query from
      * @return the crashed query
      */
-    public static String getErrorQuery(Statement stmt) {
+    public static @RPolyTainted String getErrorQuery(@RPolyTainted Statement stmt) {
 
         if (stmt != null) {
             // the query that crashed

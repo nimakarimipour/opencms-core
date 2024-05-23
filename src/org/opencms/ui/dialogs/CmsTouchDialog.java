@@ -60,6 +60,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CheckBox;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog used to change resource modification times.<p>
@@ -220,7 +221,7 @@ public class CmsTouchDialog extends CmsBasicDialog {
      *
      * @throws CmsException if something goes wrong
      */
-    private void hardTouch(CmsResource resource) throws CmsException {
+    private void hardTouch(@RUntainted CmsResource resource) throws CmsException {
 
         CmsFile file = m_context.getCms().readFile(resource);
         CmsObject cms = OpenCms.initCmsObject(m_context.getCms());
@@ -242,7 +243,7 @@ public class CmsTouchDialog extends CmsBasicDialog {
      */
     private void touchSingleResource(
         String resourceName,
-        long timeStamp,
+        @RUntainted long timeStamp,
         boolean recursive,
         boolean correctDate,
         boolean touchContent)
@@ -259,7 +260,7 @@ public class CmsTouchDialog extends CmsBasicDialog {
             if (sourceRes.isFile()) {
                 hardTouch(sourceRes);
             } else if (recursive) {
-                Iterator<CmsResource> it = cms.readResources(resourceName, CmsResourceFilter.ALL, true).iterator();
+                Iterator<@RUntainted CmsResource> it = cms.readResources(resourceName, CmsResourceFilter.ALL, true).iterator();
                 while (it.hasNext()) {
                     CmsResource subRes = it.next();
                     if (subRes.isFile()) {

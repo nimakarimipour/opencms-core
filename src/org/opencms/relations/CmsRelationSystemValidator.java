@@ -53,6 +53,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.HashMultimap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Validates relations of resources in the OpenCms VFS.<p>
@@ -103,7 +104,7 @@ public class CmsRelationSystemValidator {
      *
      * @throws Exception if something goes wrong
      */
-    public Map<String, List<CmsRelation>> validateResources(
+    public Map<@RUntainted String, List<CmsRelation>> validateResources(
         CmsDbContext dbc,
         CmsPublishList publishList,
         I_CmsReport report) throws Exception {
@@ -114,14 +115,14 @@ public class CmsRelationSystemValidator {
             thread = (A_CmsProgressThread)Thread.currentThread();
         }
 
-        Map<String, List<CmsRelation>> invalidResources = new HashMap<String, List<CmsRelation>>();
+        Map<@RUntainted String, List<CmsRelation>> invalidResources = new HashMap<@RUntainted String, List<CmsRelation>>();
         boolean interProject = (publishList != null);
         if (report != null) {
             report.println(
                 Messages.get().container(Messages.RPT_HTMLLINK_VALIDATOR_BEGIN_0),
                 I_CmsReport.FORMAT_HEADLINE);
         }
-        List<CmsResource> resources = new ArrayList<CmsResource>();
+        List<@RUntainted CmsResource> resources = new ArrayList<@RUntainted CmsResource>();
         if (publishList == null) {
             CmsResourceFilter filter = CmsResourceFilter.IGNORE_EXPIRATION;
             List<I_CmsResourceType> resTypes = OpenCms.getResourceManager().getResourceTypes();
@@ -302,7 +303,7 @@ public class CmsRelationSystemValidator {
         CmsDbContext dbc,
         CmsResource resource,
         CmsRelation relation,
-        String link,
+        @RUntainted String link,
         CmsProject project,
         Map<String, CmsResource> fileLookup) {
 
@@ -371,17 +372,17 @@ public class CmsRelationSystemValidator {
      */
     protected List<CmsRelation> validateLinks(
         CmsDbContext dbc,
-        CmsResource resource,
+        @RUntainted CmsResource resource,
         Map<String, CmsResource> fileLookup,
-        CmsProject project,
+        @RUntainted CmsProject project,
         I_CmsReport report) {
 
         List<CmsRelation> brokenRelations = new ArrayList<CmsRelation>();
         Map<String, Boolean> validatedLinks = new HashMap<String, Boolean>();
 
         // get the relations
-        List<CmsRelation> incomingRelationsOnline = new ArrayList<CmsRelation>();
-        List<CmsRelation> outgoingRelationsOffline = new ArrayList<CmsRelation>();
+        List<@RUntainted CmsRelation> incomingRelationsOnline = new ArrayList<@RUntainted CmsRelation>();
+        List<@RUntainted CmsRelation> outgoingRelationsOffline = new ArrayList<@RUntainted CmsRelation>();
         try {
             if (!resource.getState().isDeleted()) {
                 // search the target of links in the current (offline) project

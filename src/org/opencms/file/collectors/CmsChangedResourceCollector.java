@@ -46,6 +46,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A resource collector that collects resources changed in a given time frame and supports flexible sorting based on resource dates.<p>
@@ -73,14 +74,14 @@ public class CmsChangedResourceCollector extends A_CmsResourceCollector {
     public static final String PARAM_KEY_SORTBY = "sortby";
 
     /** Static array of the collectors implemented by this class. */
-    private static final String[] COLLECTORS = {
+    private static final @RUntainted String[] COLLECTORS = {
         "allChangedInFolderDateDesc",
         "allChangedInFolderDateAsc",
         "allChangedInSubTreeDateDesc",
         "allChangedInSubTreeDateAsc"};
 
     /** Array list for fast collector name lookup. */
-    private static final List<String> COLLECTORS_LIST = Collections.unmodifiableList(Arrays.asList(COLLECTORS));
+    private static final List<@RUntainted String> COLLECTORS_LIST = Collections.unmodifiableList(Arrays.asList(COLLECTORS));
 
     /** The log object for this class. */
     private static final Log LOG = CmsLog.getLog(CmsChangedResourceCollector.class);
@@ -88,7 +89,7 @@ public class CmsChangedResourceCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getCollectorNames()
      */
-    public List<String> getCollectorNames() {
+    public List<@RUntainted String> getCollectorNames() {
 
         return COLLECTORS_LIST;
     }
@@ -96,7 +97,7 @@ public class CmsChangedResourceCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getCreateLink(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String getCreateLink(CmsObject cms, String collectorName, String param) {
+    public @RUntainted String getCreateLink(CmsObject cms, String collectorName, String param) {
 
         // this collector does not support creation of new resources
         return null;
@@ -105,7 +106,7 @@ public class CmsChangedResourceCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getCreateParam(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String getCreateParam(CmsObject cms, String collectorName, String param) {
+    public @RUntainted String getCreateParam(CmsObject cms, String collectorName, String param) {
 
         // this collector does not support creation of new resources
         return null;
@@ -114,7 +115,7 @@ public class CmsChangedResourceCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getResults(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public List<CmsResource> getResults(CmsObject cms, String collectorName, String param)
+    public List<CmsResource> getResults(CmsObject cms, @RUntainted String collectorName, @RUntainted String param)
     throws CmsDataAccessException, CmsException {
 
         return getResults(cms, collectorName, param, -1);
@@ -123,7 +124,7 @@ public class CmsChangedResourceCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getResults(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public List<CmsResource> getResults(CmsObject cms, String collectorName, String param, int numResults)
+    public List<CmsResource> getResults(CmsObject cms, @RUntainted String collectorName, @RUntainted String param, int numResults)
     throws CmsDataAccessException, CmsException {
 
         // if action is not set use default
@@ -167,12 +168,12 @@ public class CmsChangedResourceCollector extends A_CmsResourceCollector {
      */
     protected List<CmsResource> allChangedInFolderDate(
         CmsObject cms,
-        String param,
+        @RUntainted String param,
         boolean tree,
         boolean asc,
         int numResults) throws CmsException {
 
-        Map<String, String> params = getParameters(param);
+        Map<String, @RUntainted String> params = getParameters(param);
 
         String foldername = "/";
         if (params.containsKey(PARAM_KEY_RESOURCE)) {
@@ -251,14 +252,14 @@ public class CmsChangedResourceCollector extends A_CmsResourceCollector {
         }
 
         // read the resources using the configured filter
-        List<CmsResource> result = cms.readResources(foldername, filter, tree);
+        List<@RUntainted CmsResource> result = cms.readResources(foldername, filter, tree);
 
         // determine which attribute should be used to sort the result
         String sortBy = CmsDateResourceComparator.DATE_ATTRIBUTES_LIST.get(1);
         if (params.containsKey(PARAM_KEY_SORTBY)) {
             sortBy = params.get(PARAM_KEY_SORTBY);
         }
-        List<String> dateIdentifiers = new ArrayList<String>(1);
+        List<@RUntainted String> dateIdentifiers = new ArrayList<@RUntainted String>(1);
         dateIdentifiers.add(sortBy);
 
         // a special date comparator is used to sort the resources
@@ -292,7 +293,7 @@ public class CmsChangedResourceCollector extends A_CmsResourceCollector {
      *
      * @return the collector parameters
      */
-    private Map<String, String> getParameters(String param) {
+    private @RUntainted Map<String, @RUntainted String> getParameters(@RUntainted String param) {
 
         if (CmsStringUtil.isNotEmpty(param)) {
             return CmsStringUtil.splitAsMap(param, "|", "=");

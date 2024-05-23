@@ -40,6 +40,7 @@ import java.util.ResourceBundle;
 import java.util.function.Function;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Reads localized resource Strings from a <code>java.util.ResourceBundle</code>
@@ -64,13 +65,13 @@ public class CmsMessages {
     private static final Log LOG = CmsLog.getLog(CmsMessages.class);
 
     /** The resource bundle base name this object was initialized with. */
-    private String m_bundleName;
+    private @RUntainted String m_bundleName;
 
     /** The locale to use for looking up the messages from the bundle. */
-    private Locale m_locale;
+    private @RUntainted Locale m_locale;
 
     /** The resource bundle this message object was initialized with. */
-    private ResourceBundle m_resourceBundle;
+    private @RUntainted ResourceBundle m_resourceBundle;
 
     /**
      * Constructor for the messages with an initialized <code>java.util.Locale</code>.
@@ -78,7 +79,7 @@ public class CmsMessages {
      * @param bundleName the base ResourceBundle name
      * @param locale the m_locale to use, eg. "de", "en" etc.
      */
-    public CmsMessages(String bundleName, Locale locale) {
+    public CmsMessages(@RUntainted String bundleName, @RUntainted Locale locale) {
 
         try {
             m_locale = locale;
@@ -103,7 +104,7 @@ public class CmsMessages {
      * @param bundleName the base ResourceBundle name
      * @param language ISO language indentificator for the m_locale of the bundle
      */
-    public CmsMessages(String bundleName, String language) {
+    public CmsMessages(@RUntainted String bundleName, @RUntainted String language) {
 
         this(bundleName, language, "", "");
     }
@@ -121,7 +122,7 @@ public class CmsMessages {
      * @param language ISO language indentificator for the m_locale of the bundle
      * @param country ISO 2 letter country code for the m_locale of the bundle
      */
-    public CmsMessages(String bundleName, String language, String country) {
+    public CmsMessages(@RUntainted String bundleName, @RUntainted String language, @RUntainted String country) {
 
         this(bundleName, language, country, "");
     }
@@ -141,7 +142,7 @@ public class CmsMessages {
      * @param country 2 letter country code for the m_locale of the bundle
      * @param variant a vendor or browser-specific variant code
      */
-    public CmsMessages(String bundleName, String language, String country, String variant) {
+    public CmsMessages(@RUntainted String bundleName, @RUntainted String language, @RUntainted String country, @RUntainted String variant) {
 
         this(bundleName, new Locale(language, country, variant));
     }
@@ -162,7 +163,7 @@ public class CmsMessages {
      *
      * @see #isUnknownKey(String)
      */
-    public static String formatUnknownKey(String keyName) {
+    public static @RUntainted String formatUnknownKey(String keyName) {
 
         StringBuffer buf = new StringBuffer(64);
         buf.append(UNKNOWN_KEY_EXTENSION);
@@ -283,7 +284,7 @@ public class CmsMessages {
      * @param time the time value to format as date
      * @return the formatted date and time
      */
-    public String getDateTime(long time) {
+    public @RUntainted String getDateTime(long time) {
 
         return CmsDateUtil.getDateTime(new Date(time), DateFormat.SHORT, m_locale);
     }
@@ -293,7 +294,7 @@ public class CmsMessages {
      *
      * @return the locale to use for looking up this messages
      */
-    public Locale getLocale() {
+    public @RUntainted Locale getLocale() {
 
         return m_locale;
     }
@@ -320,7 +321,7 @@ public class CmsMessages {
      *
      * @throws CmsMessageException in case the key is not found or the bundle is not initialized
      */
-    public String getString(String keyName) throws CmsMessageException {
+    public @RUntainted String getString(@RUntainted String keyName) throws CmsMessageException {
 
         if (m_resourceBundle != null) {
             try {
@@ -374,7 +375,7 @@ public class CmsMessages {
      * @param keyName the key for the desired string
      * @return the resource string for the given key
      */
-    public String key(String keyName) {
+    public @RUntainted String key(@RUntainted String keyName) {
 
         return key(keyName, false);
     }
@@ -394,7 +395,7 @@ public class CmsMessages {
      * @param allowNull if true, 'null' is an allowed return value
      * @return the resource string for the given key
      */
-    public String key(String keyName, boolean allowNull) {
+    public @RUntainted String key(@RUntainted String keyName, boolean allowNull) {
 
         try {
             if (m_resourceBundle != null) {
@@ -419,7 +420,7 @@ public class CmsMessages {
      *
      * @return the selected localized message for the initialized resource bundle and locale
      */
-    public String key(String key, Object arg0) {
+    public @RUntainted String key(@RUntainted String key, @RUntainted Object arg0) {
 
         return key(key, new Object[] {arg0});
     }
@@ -435,7 +436,7 @@ public class CmsMessages {
      *
      * @return the selected localized message for the initialized resource bundle and locale
      */
-    public String key(String key, Object arg0, Object arg1) {
+    public @RUntainted String key(@RUntainted String key, @RUntainted Object arg0, @RUntainted Object arg1) {
 
         return key(key, new Object[] {arg0, arg1});
     }
@@ -452,7 +453,7 @@ public class CmsMessages {
      *
      * @return the selected localized message for the initialized resource bundle and locale
      */
-    public String key(String key, Object arg0, Object arg1, Object arg2) {
+    public @RUntainted String key(@RUntainted String key, @RUntainted Object arg0, @RUntainted Object arg1, @RUntainted Object arg2) {
 
         return key(key, new Object[] {arg0, arg1, arg2});
     }
@@ -472,7 +473,7 @@ public class CmsMessages {
      *
      * @return the selected localized message for the initialized resource bundle and locale
      */
-    public String key(String key, Object[] args) {
+    public @RUntainted String key(@RUntainted String key, @RUntainted Object[] args) {
 
         return key(key, args, CmsMessages::formatUnknownKey);
     }
@@ -492,7 +493,7 @@ public class CmsMessages {
      *
      * @return the selected localized message for the initialized resource bundle and locale
      */
-    public String key(String key, Object[] args, Function<String, String> unknownKeyFormatter) {
+    public @RUntainted String key(@RUntainted String key, @RUntainted Object[] args, Function<String, @RUntainted String> unknownKeyFormatter) {
 
         String result = key(key, true);
         if (result == null) {
@@ -529,7 +530,7 @@ public class CmsMessages {
      * @param defaultValue the default value in case the key does not exist in the bundle
      * @return the resource string for the given key it it exists, or the given default if not
      */
-    public String keyDefault(String keyName, String defaultValue) {
+    public @RUntainted String keyDefault(@RUntainted String keyName, @RUntainted String defaultValue) {
 
         String result = key(keyName, true);
         return (result == null) ? defaultValue : result;
@@ -560,7 +561,7 @@ public class CmsMessages {
      * @see #key(String, Object[])
      * @see #key(String)
      */
-    public String keyWithParams(String keyName) {
+    public String keyWithParams(@RUntainted String keyName) {
 
         return keyWithParams(keyName, CmsMessages::formatUnknownKey);
     }
@@ -589,16 +590,16 @@ public class CmsMessages {
      * @see #key(String, Object[])
      * @see #key(String)
      */
-    public String keyWithParams(String keyName, Function<String, String> unknownKeyFormatter) {
+    public String keyWithParams(@RUntainted String keyName, Function<String, @RUntainted String> unknownKeyFormatter) {
 
         if (keyName.indexOf('|') == -1) {
             // no separator found, key has no parameters
             return key(keyName, null, unknownKeyFormatter);
         } else {
             // this key contains parameters
-            String[] values = CmsStringUtil.splitAsArray(keyName, '|');
+            @RUntainted String[] values = CmsStringUtil.splitAsArray(keyName, '|');
             String cutKeyName = values[0];
-            String[] params = new String[values.length - 1];
+            @RUntainted String[] params = new String[values.length - 1];
             System.arraycopy(values, 1, params, 0, params.length);
             return key(cutKeyName, params, unknownKeyFormatter);
         }
@@ -628,7 +629,7 @@ public class CmsMessages {
      *
      * @return the name of the resource bundle this object was initialized with
      */
-    protected String getBundleName() {
+    protected @RUntainted String getBundleName() {
 
         return m_bundleName;
     }
@@ -638,7 +639,7 @@ public class CmsMessages {
      *
      * @param bundleName the bundleName to set
      */
-    protected void setBundleName(String bundleName) {
+    protected void setBundleName(@RUntainted String bundleName) {
 
         m_bundleName = bundleName;
     }
@@ -648,7 +649,7 @@ public class CmsMessages {
      *
      * @param locale the locale to set
      */
-    protected void setLocale(Locale locale) {
+    protected void setLocale(@RUntainted Locale locale) {
 
         m_locale = locale;
     }
@@ -658,7 +659,7 @@ public class CmsMessages {
      *
      * @param resourceBundle the resource bundle to set
      */
-    protected void setResourceBundle(ResourceBundle resourceBundle) {
+    protected void setResourceBundle(@RUntainted ResourceBundle resourceBundle) {
 
         m_resourceBundle = resourceBundle;
     }

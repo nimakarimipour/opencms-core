@@ -46,6 +46,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for representing information about a 'restriction' field defined in a schema.
@@ -118,7 +119,7 @@ public class CmsAccessRestrictionInfo {
 
         Map<String, I_CmsXmlSchemaType> typesByPath = new HashMap<>();
         collectTypesByPath(contentDef, "", typesByPath);
-        for (Map.Entry<String, I_CmsXmlSchemaType> entry : typesByPath.entrySet()) {
+        for (Map.Entry<@RUntainted String, I_CmsXmlSchemaType> entry : typesByPath.entrySet()) {
             I_CmsXmlSchemaType type = entry.getValue();
             try {
                 if (type instanceof CmsXmlAccessRestrictionValue) {
@@ -160,7 +161,7 @@ public class CmsAccessRestrictionInfo {
      *
      * @return the xpath of the restriction field
      */
-    public String getPath() {
+    public @RUntainted String getPath() {
 
         return m_path;
     }

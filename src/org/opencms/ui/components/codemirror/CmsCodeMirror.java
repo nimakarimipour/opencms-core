@@ -48,6 +48,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.v7.data.Property;
 
 import elemental.json.JsonArray;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Code mirror input component.<p>
@@ -145,7 +146,7 @@ implements Property<String>, Property.ValueChangeNotifier {
         public boolean m_enableUndoRedo;
 
         /** The font size. */
-        public String m_fontSize = "14px";
+        public @RUntainted String m_fontSize = "14px";
 
         /** The height. */
         public String m_height = "600";
@@ -466,7 +467,7 @@ implements Property<String>, Property.ValueChangeNotifier {
      *
      * @return the font size
      */
-    public String getFontSize() {
+    public @RUntainted String getFontSize() {
 
         return getState().m_fontSize;
     }
@@ -619,7 +620,7 @@ implements Property<String>, Property.ValueChangeNotifier {
      *
      * @param fontSize the editor font size
      */
-    public void setFontSize(String fontSize) {
+    public void setFontSize(@RUntainted String fontSize) {
 
         getState().m_fontSize = fontSize;
         markAsDirty();

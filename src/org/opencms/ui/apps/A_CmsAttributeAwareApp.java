@@ -34,6 +34,7 @@ import com.google.common.collect.Maps;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
 import com.vaadin.v7.ui.Label;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * An abstract subclass of A_CmsWorkplaceApp which provides an additional way for the main component of an app
@@ -63,7 +64,7 @@ public abstract class A_CmsAttributeAwareApp extends A_CmsWorkplaceApp {
      * @param updateState <code>true</code> to update the state URL token
      */
     @Override
-    public void openSubView(String state, boolean updateState) {
+    public void openSubView(@RUntainted String state, boolean updateState) {
 
         if (updateState) {
             CmsAppWorkplaceUi.get().changeCurrentAppState(state);

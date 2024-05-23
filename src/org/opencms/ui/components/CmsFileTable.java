@@ -124,6 +124,7 @@ import com.vaadin.v7.ui.Table.TableDragMode;
 import com.vaadin.v7.ui.TextField;
 
 import au.com.bytecode.opencsv.CSVWriter;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Table for displaying resources.<p>
@@ -292,7 +293,7 @@ public class CmsFileTable extends CmsResourceTable {
          *
          * @param folderId the selected folder id
          */
-        void onFolderSelect(CmsUUID folderId);
+        void onFolderSelect(@RUntainted CmsUUID folderId);
     }
 
     /** The default file table columns. */
@@ -365,7 +366,7 @@ public class CmsFileTable extends CmsResourceTable {
     private CmsUUID m_editItemId;
 
     /** The edited property id. */
-    private CmsResourceTableProperty m_editProperty;
+    private @RUntainted CmsResourceTableProperty m_editProperty;
 
     /** Saved container filters. */
     private Collection<Filter> m_filters = Collections.emptyList();
@@ -419,10 +420,10 @@ public class CmsFileTable extends CmsResourceTable {
 
             private static final long serialVersionUID = 1L;
 
-            public void valueChange(ValueChangeEvent event) {
+            public void valueChange(@RUntainted ValueChangeEvent event) {
 
                 @SuppressWarnings("unchecked")
-                Set<String> selectedIds = (Set<String>)event.getProperty().getValue();
+                Set<@RUntainted String> selectedIds = (Set<String>)event.getProperty().getValue();
                 List<CmsResource> selectedResources = new ArrayList<CmsResource>();
                 for (String id : selectedIds) {
                     try {
@@ -445,7 +446,7 @@ public class CmsFileTable extends CmsResourceTable {
 
             private static final long serialVersionUID = 1L;
 
-            public void itemClick(ItemClickEvent event) {
+            public void itemClick(@RUntainted ItemClickEvent event) {
 
                 handleFileItemClick(event);
             }
@@ -716,7 +717,7 @@ public class CmsFileTable extends CmsResourceTable {
      *
      * @return the list of selected resources
      */
-    public List<CmsResource> getSelectedResources() {
+    public @RUntainted List<CmsResource> getSelectedResources() {
 
         return m_currentResources;
     }
@@ -897,7 +898,7 @@ public class CmsFileTable extends CmsResourceTable {
      */
     public void startEdit(
         CmsUUID itemId,
-        CmsResourceTableProperty propertyId,
+        @RUntainted CmsResourceTableProperty propertyId,
         I_CmsFilePropertyEditHandler editHandler) {
 
         m_editItemId = itemId;
@@ -943,7 +944,7 @@ public class CmsFileTable extends CmsResourceTable {
      * @param ids the resource structure ids to update
      * @param remove true if the item should be removed only
      */
-    public void update(Collection<CmsUUID> ids, boolean remove) {
+    public void update(Collection<@RUntainted CmsUUID> ids, boolean remove) {
 
         for (CmsUUID id : ids) {
             updateItem(id, remove);
@@ -1030,7 +1031,7 @@ public class CmsFileTable extends CmsResourceTable {
      *
      * @param event the click event
      */
-    void handleFileItemClick(ItemClickEvent event) {
+    void handleFileItemClick(@RUntainted ItemClickEvent event) {
 
         if (isEditing()) {
             stopEdit();
@@ -1148,7 +1149,7 @@ public class CmsFileTable extends CmsResourceTable {
      * @param itemId the item id
      * @param remove true if the item should be removed only
      */
-    private void updateItem(CmsUUID itemId, boolean remove) {
+    private void updateItem(@RUntainted CmsUUID itemId, boolean remove) {
 
         if (remove) {
             String idStr = itemId != null ? itemId.toString() : null;

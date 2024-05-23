@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A repository session which provides basic file and folder operations
@@ -52,7 +53,7 @@ public interface I_CmsRepositorySession {
      *
      * @throws CmsException if something goes wrong
      */
-    void copy(String src, String dest, boolean overwrite, boolean shallow) throws CmsException;
+    void copy(@RUntainted String src, @RUntainted String dest, boolean overwrite, boolean shallow) throws CmsException;
 
     /**
      * Creates a new item at the given path.<p>
@@ -63,7 +64,7 @@ public interface I_CmsRepositorySession {
      *
      * @throws CmsException if something goes wrong
      */
-    void create(String path) throws CmsException;
+    void create(@RUntainted String path) throws CmsException;
 
     /**
      * Deletes the item at the given path.<p>
@@ -72,7 +73,7 @@ public interface I_CmsRepositorySession {
      *
      * @throws CmsException if something goes wrong
      */
-    void delete(String path) throws CmsException;
+    void delete(@RUntainted String path) throws CmsException;
 
     /**
      * Returns if an item exists at the given path.<p>
@@ -81,7 +82,7 @@ public interface I_CmsRepositorySession {
      *
      * @return true if the item exists otherwise false
      */
-    boolean exists(String path);
+    boolean exists(@RUntainted String path);
 
     /**
      * Returns the item found at the given path.<p>
@@ -92,7 +93,7 @@ public interface I_CmsRepositorySession {
      *
      * @throws CmsException if something goes wrong
      */
-    I_CmsRepositoryItem getItem(String path) throws CmsException;
+    I_CmsRepositoryItem getItem(@RUntainted String path) throws CmsException;
 
     /**
      * Returns the lock for the resource at the given path.<p>
@@ -101,7 +102,7 @@ public interface I_CmsRepositorySession {
      *
      * @return the found lock as CmsWebdavLockInfo or null if not found
      */
-    CmsRepositoryLockInfo getLock(String path);
+    CmsRepositoryLockInfo getLock(@RUntainted String path);
 
     /**
      * Gets the properties for the given path.
@@ -122,7 +123,7 @@ public interface I_CmsRepositorySession {
      *
      * @throws CmsException if something goes wrong
      */
-    List<I_CmsRepositoryItem> list(String path) throws CmsException;
+    List<I_CmsRepositoryItem> list(@RUntainted String path) throws CmsException;
 
     /**
      * Creates a new lock on the item at the path with the given information
@@ -135,7 +136,7 @@ public interface I_CmsRepositorySession {
      *
      * @throws CmsException if something goes wrong
      */
-    boolean lock(String path, CmsRepositoryLockInfo lock) throws CmsException;
+    boolean lock(@RUntainted String path, CmsRepositoryLockInfo lock) throws CmsException;
 
     /**
      * Moves an item from a source path to a destination path.<p>
@@ -146,7 +147,7 @@ public interface I_CmsRepositorySession {
      *
      * @throws CmsException if something goes wrong
      */
-    void move(String src, String dest, boolean overwrite) throws CmsException;
+    void move(@RUntainted String src, @RUntainted String dest, boolean overwrite) throws CmsException;
 
     /**
      * Saves an item at the given path.<p>
@@ -160,14 +161,14 @@ public interface I_CmsRepositorySession {
      * @throws CmsException if something goes wrong
      * @throws IOException if a write error occurs
      */
-    void save(String path, InputStream inputStream, boolean overwrite) throws CmsException, IOException;
+    void save(@RUntainted String path, InputStream inputStream, boolean overwrite) throws CmsException, IOException;
 
     /**
      * Unlocks the item found at the path.<p>
      *
      * @param path The complete path of the item to unlock
      */
-    void unlock(String path);
+    void unlock(@RUntainted String path);
 
     /**
      * Updates the properties for the given path.
@@ -177,5 +178,5 @@ public interface I_CmsRepositorySession {
      *
      * @throws CmsException if something goes wrong
      */
-    void updateProperties(String path, Map<CmsPropertyName, String> properties) throws CmsException;
+    void updateProperties(@RUntainted String path, @RUntainted Map<CmsPropertyName, @RUntainted String> properties) throws CmsException;
 }

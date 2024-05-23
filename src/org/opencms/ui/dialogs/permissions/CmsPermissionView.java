@@ -59,6 +59,7 @@ import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.TableFieldFactory;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Displays the permission settings for a single principal.<p>
@@ -76,7 +77,7 @@ public class CmsPermissionView extends CssLayout {
          * @param principalType the principal type
          * @param principalName the principal name
          */
-        void deletePermissionSet(String principalType, String principalName);
+        void deletePermissionSet(String principalType, @RUntainted String principalName);
 
         /**
          * Called on view changes, allowing for resizing or centering.<p>
@@ -173,7 +174,7 @@ public class CmsPermissionView extends CssLayout {
     private Table m_permissions;
 
     /** The principal name. */
-    private String m_principalName;
+    private @RUntainted String m_principalName;
 
     /** The principal type. */
     private String m_principalType;

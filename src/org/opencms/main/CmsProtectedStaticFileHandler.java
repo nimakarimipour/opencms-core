@@ -54,6 +54,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URIBuilder;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Resource init handler that provides an alternative way of serving static files like images or binary files, using the API authorization mechanism
@@ -105,7 +107,7 @@ implements I_CmsResourceInit, I_CmsConfigurationParameterHandler, I_CmsNeedsAdmi
     private Pattern m_typeFilter;
 
     /** The link rewrite prefix. */
-    private String m_linkRewritePrefix;
+    private @RUntainted String m_linkRewritePrefix;
 
     /**
      * Merges a link prefix with additional link components.
@@ -116,7 +118,7 @@ implements I_CmsResourceInit, I_CmsConfigurationParameterHandler, I_CmsNeedsAdmi
      *
      * @return the combined link
      */
-    public static String mergeLinkPrefix(String prefix, String path, String query) {
+    public static @RPolyTainted String mergeLinkPrefix(@RPolyTainted String prefix, String path, @RPolyTainted String query) {
 
         try {
             URI baseUri = new URI(prefix);
@@ -149,9 +151,9 @@ implements I_CmsResourceInit, I_CmsConfigurationParameterHandler, I_CmsNeedsAdmi
      *
      * @return the initialized CmsObject
      */
-    private static CmsObject authorize(
+    private static @RPolyTainted CmsObject authorize(
         CmsObject adminCms,
-        CmsObject defaultCms,
+        @RPolyTainted CmsObject defaultCms,
         HttpServletRequest request,
         String authChain) {
 
@@ -196,7 +198,7 @@ implements I_CmsResourceInit, I_CmsConfigurationParameterHandler, I_CmsNeedsAdmi
     /**
      * @see org.opencms.configuration.I_CmsConfigurationParameterHandler#addConfigurationParameter(java.lang.String, java.lang.String)
      */
-    public void addConfigurationParameter(String paramName, String paramValue) {
+    public void addConfigurationParameter(String paramName, @RUntainted String paramValue) {
 
         m_config.add(paramName, paramValue);
     }
@@ -212,7 +214,7 @@ implements I_CmsResourceInit, I_CmsConfigurationParameterHandler, I_CmsNeedsAdmi
     /**
      * @see org.opencms.relations.I_CmsCustomLinkRenderer#getLink(org.opencms.file.CmsObject, org.opencms.relations.CmsLink)
      */
-    public String getLink(CmsObject cms, CmsLink link) {
+    public @RUntainted String getLink(CmsObject cms, CmsLink link) {
 
         try {
             CmsObject adminCms = OpenCms.initCmsObject(m_adminCms);
@@ -232,7 +234,7 @@ implements I_CmsResourceInit, I_CmsConfigurationParameterHandler, I_CmsNeedsAdmi
     /**
      * @see org.opencms.relations.I_CmsCustomLinkRenderer#getLink(org.opencms.file.CmsObject, org.opencms.file.CmsResource)
      */
-    public String getLink(CmsObject cms, CmsResource resource) {
+    public @RUntainted String getLink(CmsObject cms, CmsResource resource) {
 
         if (checkResourceAccessible(resource)) {
             return mergeLinkPrefix(m_linkRewritePrefix, resource.getRootPath(), null);
@@ -258,7 +260,7 @@ implements I_CmsResourceInit, I_CmsConfigurationParameterHandler, I_CmsNeedsAdmi
     /**
      * @see org.opencms.main.I_CmsResourceInit#initResource(org.opencms.file.CmsResource, org.opencms.file.CmsObject, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-    public CmsResource initResource(CmsResource origRes, CmsObject cms, HttpServletRequest req, HttpServletResponse res)
+    public @RUntainted CmsResource initResource(CmsResource origRes, @RUntainted CmsObject cms, HttpServletRequest req, HttpServletResponse res)
     throws CmsResourceInitException {
 
         String uri = cms.getRequestContext().getUri();
@@ -349,7 +351,7 @@ implements I_CmsResourceInit, I_CmsConfigurationParameterHandler, I_CmsNeedsAdmi
      * @param typeId a type id
      * @return true if the type matches the configured type filter
      */
-    private boolean checkType(int typeId) {
+    private boolean checkType(@RUntainted int typeId) {
 
         try {
             I_CmsResourceType type = OpenCms.getResourceManager().getResourceType(typeId);

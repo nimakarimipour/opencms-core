@@ -33,6 +33,7 @@ import org.opencms.report.I_CmsReport;
 import org.opencms.util.CmsUUID;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract implementation for the <code>{@link I_CmsStaticExportHandler}</code> interface.<p>
@@ -53,7 +54,7 @@ public abstract class A_CmsOnDemandStaticExportHandler extends A_CmsStaticExport
      * @see org.opencms.staticexport.I_CmsStaticExportHandler#performEventPublishProject(org.opencms.util.CmsUUID, org.opencms.report.I_CmsReport)
      */
     @Override
-    public void performEventPublishProject(CmsUUID publishHistoryId, I_CmsReport report) {
+    public void performEventPublishProject(@RUntainted CmsUUID publishHistoryId, I_CmsReport report) {
 
         int count = 0;
         // if the handler is still running, we must wait up to 30 secounds until it is finished
@@ -77,7 +78,7 @@ public abstract class A_CmsOnDemandStaticExportHandler extends A_CmsStaticExport
 
         if (isBusy()) {
             // if the handler is still busy write a warning to the log and exit
-            Object[] arguments = new Object[] {
+            @RUntainted Object[] arguments = new Object[] {
                 publishHistoryId,
                 Integer.valueOf(CmsStaticExportManager.HANDLER_FINISH_TIME)};
             LOG.error(Messages.get().getBundle().key(Messages.LOG_SCRUBBING_FOLDER_FAILED_2, arguments));

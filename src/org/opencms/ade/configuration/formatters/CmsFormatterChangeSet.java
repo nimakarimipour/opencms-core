@@ -40,6 +40,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class represents the changes which can be made to formatters in a sitemap configuration file.<p>
@@ -69,7 +70,7 @@ public class CmsFormatterChangeSet implements Cloneable {
     private boolean m_removeFunctions;
 
     /** A map which indicates whether schema formatters for a type (which is the key) should be added (value=true) or removed (value=False). */
-    private Map<String, Boolean> m_typeUpdateSet = new HashMap<String, Boolean>();
+    private Map<@RUntainted String, Boolean> m_typeUpdateSet = new HashMap<@RUntainted String, Boolean>();
 
     /** A map which indicates whether a formatter (whose id is the key) should be added (value=true) or removed (value= false). */
     private Map<CmsUUID, Boolean> m_updateSet = new HashMap<CmsUUID, Boolean>();
@@ -94,8 +95,8 @@ public class CmsFormatterChangeSet implements Cloneable {
      * @param functionsToRemove the set of functions to remove
      */
     public CmsFormatterChangeSet(
-        Collection<String> toRemove,
-        Collection<String> toAdd,
+        Collection<@RUntainted String> toRemove,
+        Collection<@RUntainted String> toAdd,
         String siteRoot,
         boolean removeAllNonExplicitlyAdded,
         boolean removeFunctions,
@@ -182,12 +183,12 @@ public class CmsFormatterChangeSet implements Cloneable {
      *
      * @param types the set of types to apply the changes to
      */
-    public void applyToTypes(Set<String> types) {
+    public void applyToTypes(Set<@RUntainted String> types) {
 
         if (m_removeAllNonExplicitlyAdded) {
             types.removeIf(type -> !CmsXmlDynamicFunctionHandler.TYPE_FUNCTION.equals(type));
         }
-        for (Map.Entry<String, Boolean> typeUpdateEntry : m_typeUpdateSet.entrySet()) {
+        for (Map.Entry<@RUntainted String, Boolean> typeUpdateEntry : m_typeUpdateSet.entrySet()) {
             String typeName = typeUpdateEntry.getKey();
             Boolean add = typeUpdateEntry.getValue();
             if (add.booleanValue()) {
@@ -235,8 +236,8 @@ public class CmsFormatterChangeSet implements Cloneable {
      * @param removeAllNonExplicitlyAdded flag, indicating if all formatters that are not explicitly added should be removed
      */
     private void initialize(
-        Collection<String> toRemove,
-        Collection<String> toAdd,
+        Collection<@RUntainted String> toRemove,
+        Collection<@RUntainted String> toAdd,
         String siteRoot,
         boolean removeAllNonExplicitlyAdded) {
 
@@ -273,7 +274,7 @@ public class CmsFormatterChangeSet implements Cloneable {
      *
      * @return the key with the prefix removed
      */
-    private String removePrefix(String key) {
+    private @RUntainted String removePrefix(@RUntainted String key) {
 
         if (key.startsWith(PREFIX_TYPE)) {
             return key.substring(PREFIX_TYPE.length());

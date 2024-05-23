@@ -37,6 +37,7 @@ import org.opencms.util.CmsUUID;
 import org.opencms.workplace.commons.Messages;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Utility methods for the history list.<p>
@@ -58,7 +59,7 @@ public final class CmsHistoryListUtil {
      *
      * @return the display name
      */
-    public static String getDisplayVersion(String version, Locale locale) {
+    public static String getDisplayVersion(@RUntainted String version, @RUntainted Locale locale) {
 
         int ver = Integer.parseInt(version);
         if (ver == CmsHistoryResourceHandler.PROJECT_OFFLINE_VERSION) {
@@ -82,7 +83,7 @@ public final class CmsHistoryListUtil {
      *
      * @return the link to an historical file
      */
-    public static String getHistoryLink(CmsObject cms, CmsUUID structureId, String version) {
+    public static @RUntainted String getHistoryLink(CmsObject cms, @RUntainted CmsUUID structureId, String version) {
 
         String resourcePath;
         CmsResource resource;

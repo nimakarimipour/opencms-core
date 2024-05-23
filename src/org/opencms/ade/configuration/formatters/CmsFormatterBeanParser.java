@@ -73,6 +73,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Parses formatter beans from formatter configuration XML contents.<p>
@@ -260,58 +261,58 @@ public class CmsFormatterBeanParser {
     private static final Log LOG = CmsLog.getLog(CmsFormatterBeanParser.class);
 
     /** Parsed field. */
-    int m_width;
+    @RUntainted int m_width;
 
     /** Additional setting configurations for includes. Entries consist of structure ids of setting definition files as keys and the corresponding setting definition maps as entries. */
-    private Map<CmsUUID, Map<CmsSharedSettingKey, CmsXmlContentProperty>> m_additionalSettingConfigs = new HashMap<>();
+    private @RUntainted Map<CmsUUID, Map<CmsSharedSettingKey, CmsXmlContentProperty>> m_additionalSettingConfigs = new HashMap<>();
 
     /** Parsed field. */
-    private boolean m_autoEnabled;
+    private @RUntainted boolean m_autoEnabled;
 
     /** The CMS object used for parsing. */
     private CmsObject m_cms;
 
     /** Parsed field. */
-    private Set<String> m_containerTypes;
+    private @RUntainted Set<String> m_containerTypes;
 
     /** Parsed field. */
-    private List<String> m_cssPaths = new ArrayList<String>();
+    private @RUntainted List<@RUntainted String> m_cssPaths = new ArrayList<@RUntainted String>();
 
     /** Parsed field. */
-    private boolean m_extractContent;
+    private @RUntainted boolean m_extractContent;
 
     /** Parsed field. */
     private CmsResource m_formatterResource;
 
     /** Parsed field. */
-    private StringBuffer m_inlineCss = new StringBuffer();
+    private @RUntainted StringBuffer m_inlineCss = new StringBuffer();
 
     /** Parsed field. */
-    private StringBuffer m_inlineJs = new StringBuffer();
+    private @RUntainted StringBuffer m_inlineJs = new StringBuffer();
 
     /** Parsed field. */
-    private List<String> m_jsPaths = new ArrayList<String>();
+    private @RUntainted List<@RUntainted String> m_jsPaths = new ArrayList<@RUntainted String>();
 
     /** The formatter key. */
-    private String m_key;
+    private @RUntainted String m_key;
 
     /** Parsed field. */
-    private int m_maxWidth;
+    private @RUntainted int m_maxWidth;
 
     /** Parsed field. */
-    private String m_niceName;
+    private @RUntainted String m_niceName;
 
     /** Parsed field. */
-    private boolean m_preview;
+    private @RUntainted boolean m_preview;
 
     /** Parsed field. */
-    private int m_rank;
+    private @RUntainted int m_rank;
 
     /** Parsed field. */
-    private Set<String> m_resourceType;
+    private @RUntainted Set<@RUntainted String> m_resourceType;
 
     /** Setting configurations read from content. **/
-    private List<CmsXmlContentProperty> m_settingList = new ArrayList<>();
+    private @RUntainted List<CmsXmlContentProperty> m_settingList = new ArrayList<>();
 
     /**
      * Creates a new parser instance.<p>
@@ -353,7 +354,7 @@ public class CmsFormatterBeanParser {
      * @throws ParseException if parsing goes wrong
      * @throws CmsException if something else goes wrong
      */
-    public I_CmsFormatterBean parse(CmsXmlContent content, String location, String id)
+    public @RUntainted I_CmsFormatterBean parse(CmsXmlContent content, @RUntainted String location, @RUntainted String id)
     throws CmsException, ParseException {
 
         I_CmsResourceType type = OpenCms.getResourceManager().getResourceType(content.getFile());
@@ -640,7 +641,7 @@ public class CmsFormatterBeanParser {
      *
      * @return the found value
      */
-    private String getString(I_CmsXmlContentLocation val, String path, String defaultValue) {
+    private @RUntainted String getString(I_CmsXmlContentLocation val, String path, @RUntainted String defaultValue) {
 
         if ((val != null)) {
             I_CmsXmlContentValueLocation subVal = val.getSubValue(path);
@@ -659,9 +660,9 @@ public class CmsFormatterBeanParser {
      *
      * @return a set of string values
      */
-    private Set<String> getStringSet(I_CmsXmlContentLocation val, String path) {
+    private @RUntainted Set<@RUntainted String> getStringSet(I_CmsXmlContentLocation val, String path) {
 
-        Set<String> valueSet = new HashSet<String>();
+        Set<@RUntainted String> valueSet = new HashSet<@RUntainted String>();
         if ((val != null)) {
             List<I_CmsXmlContentValueLocation> singleValueLocs = val.getSubValues(path);
             for (I_CmsXmlContentValueLocation singleValueLoc : singleValueLocs) {
@@ -678,7 +679,7 @@ public class CmsFormatterBeanParser {
      * @param formatterLoc the node location
      * @return the map of formatter attributes (unmodifiable)
      */
-    private Map<String, String> parseAttributes(I_CmsXmlContentLocation formatterLoc) {
+    private @RUntainted Map<String, String> parseAttributes(I_CmsXmlContentLocation formatterLoc) {
 
         Map<String, String> result = new LinkedHashMap<>();
         for (I_CmsXmlContentValueLocation mappingLoc : formatterLoc.getSubValues(N_ATTRIBUTE)) {
@@ -780,7 +781,7 @@ public class CmsFormatterBeanParser {
      *
      * @return the mappings
      */
-    private List<CmsMetaMapping> parseMetaMappings(I_CmsXmlContentLocation formatterLoc) {
+    private @RUntainted List<CmsMetaMapping> parseMetaMappings(I_CmsXmlContentLocation formatterLoc) {
 
         List<CmsMetaMapping> mappings = new ArrayList<CmsMetaMapping>();
         for (I_CmsXmlContentValueLocation mappingLoc : formatterLoc.getSubValues(N_META_MAPPING)) {
@@ -809,7 +810,7 @@ public class CmsFormatterBeanParser {
      *
      * @return the parameter map
      */
-    private Map<String, String[]> parseParams(I_CmsXmlContentLocation root) {
+    private @RUntainted Map<String, String[]> parseParams(I_CmsXmlContentLocation root) {
 
         // first use multimap for convenience, to group values for the same key,
         // and then convert to result format
@@ -851,7 +852,7 @@ public class CmsFormatterBeanParser {
      *
      * @return the referenced formatters
      */
-    private Map<String, CmsUUID> readReferencedFormatters(CmsXmlContent xmlContent) {
+    private @RUntainted Map<String, CmsUUID> readReferencedFormatters(CmsXmlContent xmlContent) {
 
         Map<String, CmsUUID> result = new LinkedHashMap<String, CmsUUID>();
         List<I_CmsXmlContentValue> formatters = xmlContent.getValues(

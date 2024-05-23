@@ -35,6 +35,7 @@ import org.opencms.acacia.shared.CmsValidationResult;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.RemoteService;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The content service used to load and persist entity and type information.<p>
@@ -90,7 +91,7 @@ public interface I_CmsContentService extends RemoteService {
      *
      * @throws Exception if something goes wrong processing the request
      */
-    CmsEntityHtml updateEntityHtml(CmsEntity entity, String contextUri, String htmlContextInfo) throws Exception;
+    CmsEntityHtml updateEntityHtml(CmsEntity entity, @RUntainted String contextUri, String htmlContextInfo) throws Exception;
 
     /**
      * Validates the given entity and returns maps of error and warning messages in case of invalid attributes.<p>

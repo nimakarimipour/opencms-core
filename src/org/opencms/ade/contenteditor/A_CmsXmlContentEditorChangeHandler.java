@@ -30,6 +30,7 @@ package org.opencms.ade.contenteditor;
 import org.opencms.file.CmsResource;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.content.I_CmsXmlContentEditorChangeHandler;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract implementation of the content editor change handler.<p>
@@ -37,7 +38,7 @@ import org.opencms.xml.content.I_CmsXmlContentEditorChangeHandler;
 public abstract class A_CmsXmlContentEditorChangeHandler implements I_CmsXmlContentEditorChangeHandler {
 
     /** The configuration string. */
-    protected String m_configuration;
+    protected @RUntainted String m_configuration;
 
     /** The content field to watch for changes. */
     protected String m_scope;
@@ -66,7 +67,7 @@ public abstract class A_CmsXmlContentEditorChangeHandler implements I_CmsXmlCont
      *
      * @return the resolved path
      */
-    public String resolveRelativePath(String source, String target) {
+    public @RUntainted String resolveRelativePath(String source, @RUntainted String target) {
 
         String result = null;
         if (target.startsWith(".")) {
@@ -87,7 +88,7 @@ public abstract class A_CmsXmlContentEditorChangeHandler implements I_CmsXmlCont
     /**
      * @see org.opencms.xml.content.I_CmsXmlContentEditorChangeHandler#setConfiguration(java.lang.String)
      */
-    public void setConfiguration(String configuration) {
+    public void setConfiguration(@RUntainted String configuration) {
 
         m_configuration = configuration;
     }

@@ -73,6 +73,7 @@ import com.vaadin.ui.themes.ValoTheme;
 import com.vaadin.v7.event.FieldEvents.TextChangeEvent;
 import com.vaadin.v7.event.FieldEvents.TextChangeListener;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manager class for the Site manager app.
@@ -126,7 +127,7 @@ public class CmsSiteManager extends A_CmsWorkplaceApp implements I_CmsCRUDApp<Cm
     private Button m_publishButton;
 
     /** The root cms object. */
-    private CmsObject m_rootCms;
+    private @RUntainted CmsObject m_rootCms;
 
     /**
      * Method to check if a folder under given path contains a bundle for macro resolving.<p>
@@ -203,7 +204,7 @@ public class CmsSiteManager extends A_CmsWorkplaceApp implements I_CmsCRUDApp<Cm
     /**
      * @see org.opencms.ui.apps.I_CmsCRUDApp#defaultAction(java.lang.String)
      */
-    public void defaultAction(String elementId) {
+    public void defaultAction(@RUntainted String elementId) {
 
         openEditDialog(elementId);
 
@@ -212,7 +213,7 @@ public class CmsSiteManager extends A_CmsWorkplaceApp implements I_CmsCRUDApp<Cm
     /**
      * @see org.opencms.ui.apps.I_CmsCRUDApp#deleteElements(java.util.List)
      */
-    public void deleteElements(List<String> elementId) {
+    public void deleteElements(List<@RUntainted String> elementId) {
 
         for (String siteRoot : elementId) {
             try {
@@ -250,7 +251,7 @@ public class CmsSiteManager extends A_CmsWorkplaceApp implements I_CmsCRUDApp<Cm
     /**
      * @see org.opencms.ui.apps.I_CmsCRUDApp#getElement(java.lang.String)
      */
-    public CmsSite getElement(String elementId) {
+    public CmsSite getElement(@RUntainted String elementId) {
 
         return OpenCms.getSiteManager().getSiteForSiteRoot(elementId);
     }
@@ -304,7 +305,7 @@ public class CmsSiteManager extends A_CmsWorkplaceApp implements I_CmsCRUDApp<Cm
      *
      * @param data the site roots
      */
-    public void openDeleteDialog(Set<String> data) {
+    public void openDeleteDialog(Set<@RUntainted String> data) {
 
         CmsDeleteSiteDialog form = new CmsDeleteSiteDialog(this, data);
         openDialog(form, CmsVaadinUtils.getMessageText(Messages.GUI_SITE_DELETE_0));
@@ -315,7 +316,7 @@ public class CmsSiteManager extends A_CmsWorkplaceApp implements I_CmsCRUDApp<Cm
      *
      * @param siteRoot the site root of the site to edit, if <code>null</code>
      */
-    public void openEditDialog(String siteRoot) {
+    public void openEditDialog(@RUntainted String siteRoot) {
 
         CmsEditSiteForm form;
         String caption;
@@ -360,8 +361,8 @@ public class CmsSiteManager extends A_CmsWorkplaceApp implements I_CmsCRUDApp<Cm
     public void updateGeneralSettings(
         CmsObject cms,
         String defaultUri,
-        Map<String, CmsSSLMode> workplaceServers,
-        String sharedFolder) {
+        Map<@RUntainted String, CmsSSLMode> workplaceServers,
+        @RUntainted String sharedFolder) {
 
         try {
             OpenCms.getSiteManager().updateGeneralSettings(cms, defaultUri, workplaceServers, sharedFolder);

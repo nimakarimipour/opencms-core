@@ -46,6 +46,8 @@ import org.apache.taglibs.standard.lang.support.ExpressionEvaluatorManager;
 import org.apache.taglibs.standard.tag.common.fmt.BundleSupport;
 import org.apache.taglibs.standard.tag.common.fmt.SetLocaleSupport;
 import org.apache.taglibs.standard.tag.el.fmt.BundleTag;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Provides tag access to OpenCms resource bundles.<p>
@@ -86,7 +88,7 @@ public class CmsJspTagBundle extends BundleTag {
      *
      * @return the initialized localization context
      */
-    public static LocalizationContext getLocalizationContext(PageContext pc, String basename) {
+    public static LocalizationContext getLocalizationContext(@RUntainted PageContext pc, @RUntainted String basename) {
 
         LocalizationContext locCtxt = null;
         ResourceBundle bundle = null;
@@ -136,7 +138,7 @@ public class CmsJspTagBundle extends BundleTag {
      * configuration parameter, or <tt>null</tt> if no scoped attribute or
      * configuration parameter with the given name exists
      */
-    static Locale getLocale(PageContext pageContext, String name) {
+    static @RPolyTainted Locale getLocale(@RPolyTainted PageContext pageContext, @RPolyTainted String name) {
 
         Locale loc = null;
 
@@ -192,7 +194,7 @@ public class CmsJspTagBundle extends BundleTag {
      * @param pref the preferred locale
      * @return the resource bundle.
      */
-    private static ResourceBundle findMatch(String basename, Locale pref) {
+    private static ResourceBundle findMatch(@RUntainted String basename, @RUntainted Locale pref) {
 
         ResourceBundle match = null;
         try {

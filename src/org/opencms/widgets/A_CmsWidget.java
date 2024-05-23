@@ -37,6 +37,7 @@ import org.opencms.util.CmsStringUtil;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Base class for XML editor widgets.<p>
@@ -49,7 +50,7 @@ public abstract class A_CmsWidget implements I_CmsWidget {
     public class CmsDummyWidgetDialog implements I_CmsWidgetDialog {
 
         /** The locale of this widget. */
-        private Locale m_locale;
+        private @RUntainted Locale m_locale;
 
         /** The massage of this widget. */
         private CmsMessages m_message;
@@ -61,7 +62,7 @@ public abstract class A_CmsWidget implements I_CmsWidget {
          * @param locale the locale of the dialog
          * @param message the message of the dialog
          */
-        public CmsDummyWidgetDialog(Locale locale, CmsMessages message) {
+        public CmsDummyWidgetDialog(@RUntainted Locale locale, CmsMessages message) {
 
             m_locale = locale;
             m_message = message;
@@ -142,7 +143,7 @@ public abstract class A_CmsWidget implements I_CmsWidget {
         /**
          * @see org.opencms.widgets.I_CmsWidgetDialog#getLocale()
          */
-        public Locale getLocale() {
+        public @RUntainted Locale getLocale() {
 
             return m_locale;
         }
@@ -168,7 +169,7 @@ public abstract class A_CmsWidget implements I_CmsWidget {
         /**
          * @see org.opencms.widgets.I_CmsWidgetDialog#getUserAgent()
          */
-        public String getUserAgent() {
+        public @RUntainted String getUserAgent() {
 
             return null;
         }
@@ -200,7 +201,7 @@ public abstract class A_CmsWidget implements I_CmsWidget {
     public static final String LABEL_PREFIX = "label.";
 
     /** The configuration options of this widget. */
-    private String m_configuration;
+    private @RUntainted String m_configuration;
 
     /**
      * Default constructor.<p>
@@ -215,7 +216,7 @@ public abstract class A_CmsWidget implements I_CmsWidget {
      *
      * @param configuration the configuration string
      */
-    protected A_CmsWidget(String configuration) {
+    protected A_CmsWidget(@RUntainted String configuration) {
 
         setConfiguration(configuration);
     }
@@ -226,7 +227,7 @@ public abstract class A_CmsWidget implements I_CmsWidget {
      *
      * @return the localized help key for the provided widget parameter
      */
-    public static String getHelpKey(I_CmsWidgetParameter param) {
+    public static @RUntainted String getHelpKey(I_CmsWidgetParameter param) {
 
         // calculate the key
         StringBuffer result = new StringBuffer(64);
@@ -243,7 +244,7 @@ public abstract class A_CmsWidget implements I_CmsWidget {
      *
      * @return the localized label key for the provided widget parameter
      */
-    public static String getLabelKey(I_CmsWidgetParameter param) {
+    public static @RUntainted String getLabelKey(I_CmsWidgetParameter param) {
 
         // calculate the key
         StringBuffer result = new StringBuffer(64);
@@ -273,7 +274,7 @@ public abstract class A_CmsWidget implements I_CmsWidget {
      *
      * @return the configuration string
      */
-    public String getConfiguration() {
+    public @RUntainted String getConfiguration() {
 
         return m_configuration;
     }
@@ -418,7 +419,7 @@ public abstract class A_CmsWidget implements I_CmsWidget {
     /**
      * @see org.opencms.widgets.I_CmsWidget#setConfiguration(java.lang.String)
      */
-    public void setConfiguration(String configuration) {
+    public void setConfiguration(@RUntainted String configuration) {
 
         m_configuration = configuration;
     }
@@ -428,7 +429,7 @@ public abstract class A_CmsWidget implements I_CmsWidget {
      */
     public void setEditorValue(
         CmsObject cms,
-        Map<String, String[]> formParameters,
+        @RUntainted Map<String, @RUntainted String[]> formParameters,
         I_CmsWidgetDialog widgetDialog,
         I_CmsWidgetParameter param) {
 

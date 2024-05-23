@@ -32,6 +32,7 @@ import org.opencms.ui.CmsCssIcon;
 import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.apps.Messages;
 import org.opencms.ui.components.OpenCmsTheme;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**Type of element.*/
 public enum CmsOuTreeType implements I_CmsOuTreeType {
@@ -49,7 +50,7 @@ public enum CmsOuTreeType implements I_CmsOuTreeType {
     Messages.GUI_USERMANAGEMENT_NO_USER_0);
 
     /**Bundle key for empty message.*/
-    private String m_emptyMessageKey;
+    private @RUntainted String m_emptyMessageKey;
 
     /**Icon for type. */
     private CmsCssIcon m_icon;
@@ -61,7 +62,7 @@ public enum CmsOuTreeType implements I_CmsOuTreeType {
     private boolean m_isExpandable;
 
     /**Name of entry. */
-    private String m_name;
+    private @RUntainted String m_name;
 
     /**
      * constructor.<p>
@@ -72,7 +73,7 @@ public enum CmsOuTreeType implements I_CmsOuTreeType {
      * @param icon icon
      * @param empty empty string
      */
-    CmsOuTreeType(String name, String id, boolean isExpandable, CmsCssIcon icon, String empty) {
+    CmsOuTreeType(@RUntainted String name, String id, boolean isExpandable, CmsCssIcon icon, @RUntainted String empty) {
 
         m_name = name;
         m_id = id;
@@ -86,7 +87,7 @@ public enum CmsOuTreeType implements I_CmsOuTreeType {
      *
      * @return key as string
      */
-    public String getEmptyMessageKey() {
+    public @RUntainted String getEmptyMessageKey() {
 
         return m_emptyMessageKey;
     }
@@ -106,7 +107,7 @@ public enum CmsOuTreeType implements I_CmsOuTreeType {
      *
      * @return id string
      */
-    public String getId() {
+    public @RUntainted String getId() {
 
         return m_id;
     }

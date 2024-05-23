@@ -30,6 +30,7 @@ package org.opencms.xml.content;
 import org.opencms.util.CmsStringUtil;
 
 import java.io.Serializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes both VFS properties and Container Page Element settings, used by the GWT client.<p>
@@ -125,34 +126,34 @@ public class CmsXmlContentProperty implements Serializable {
     protected Visibility m_visibility;
 
     /** Alias names, separated by pipes, possibly null. */
-    private String m_aliasName;
+    private @RUntainted String m_aliasName;
 
     /** Default value. */
-    private String m_default;
+    private @RUntainted String m_default;
 
     /** The description. */
-    private String m_description;
+    private @RUntainted String m_description;
 
     /** The error message. */
-    private String m_error;
+    private @RUntainted String m_error;
 
     /** The include name. */
     private String m_includeName;
 
     /** The name of the property. */
-    private String m_name;
+    private @RUntainted String m_name;
 
     /** The nice name. */
-    private String m_niceName;
+    private @RUntainted String m_niceName;
 
     /** The "prefer folder" option. */
     private String m_preferFolder;
 
     /** The validation rule regex. */
-    private String m_ruleRegex;
+    private @RUntainted String m_ruleRegex;
 
     /** The validation rule type. */
-    private String m_ruleType;
+    private @RUntainted String m_ruleType;
 
     /** The value which indicates whether the user can influence how this property is going to be inherited. */
     private String m_selectInherit;
@@ -164,10 +165,10 @@ public class CmsXmlContentProperty implements Serializable {
     private String m_type;
 
     /** The widget to use in the editor. */
-    private String m_widget;
+    private @RUntainted String m_widget;
 
     /** The widget configuration. */
-    private String m_widgetConfiguration;
+    private @RUntainted String m_widgetConfiguration;
 
     /**
      * Public constructor.<p>
@@ -185,16 +186,16 @@ public class CmsXmlContentProperty implements Serializable {
      * @param preferFolder the "prefer folder" option
      */
     public CmsXmlContentProperty(
-        String name,
+        @RUntainted String name,
         String type,
-        String widget,
-        String widgetConfiguration,
-        String ruleRegex,
-        String ruleType,
-        String default1,
-        String niceName,
-        String description,
-        String error,
+        @RUntainted String widget,
+        @RUntainted String widgetConfiguration,
+        @RUntainted String ruleRegex,
+        @RUntainted String ruleType,
+        @RUntainted String default1,
+        @RUntainted String niceName,
+        @RUntainted String description,
+        @RUntainted String error,
         String preferFolder
 
     ) {
@@ -235,18 +236,18 @@ public class CmsXmlContentProperty implements Serializable {
      * @param translation the value translation string (newval1:oldval1|newval2:oldval2|...)
      */
     public CmsXmlContentProperty(
-        String name,
-        String aliasName,
+        @RUntainted String name,
+        @RUntainted String aliasName,
         String type,
         Visibility visibility,
-        String widget,
-        String widgetConfiguration,
-        String ruleRegex,
-        String ruleType,
-        String default1,
-        String niceName,
-        String description,
-        String error,
+        @RUntainted String widget,
+        @RUntainted String widgetConfiguration,
+        @RUntainted String ruleRegex,
+        @RUntainted String ruleType,
+        @RUntainted String default1,
+        @RUntainted String niceName,
+        @RUntainted String description,
+        @RUntainted String error,
         String preferFolder,
         String translation
 
@@ -322,7 +323,7 @@ public class CmsXmlContentProperty implements Serializable {
      *
      * @return the alias name(s)
      */
-    public String getAliasName() {
+    public @RUntainted String getAliasName() {
 
         return m_aliasName;
     }
@@ -342,7 +343,7 @@ public class CmsXmlContentProperty implements Serializable {
      *
      * @return the configured widget
      */
-    public String getConfiguredWidget() {
+    public @RUntainted String getConfiguredWidget() {
 
         return m_widget;
     }
@@ -352,7 +353,7 @@ public class CmsXmlContentProperty implements Serializable {
      *
      * @return the default
      */
-    public String getDefault() {
+    public @RUntainted String getDefault() {
 
         return m_default;
     }
@@ -362,7 +363,7 @@ public class CmsXmlContentProperty implements Serializable {
      *
      * @return the description
      */
-    public String getDescription() {
+    public @RUntainted String getDescription() {
 
         return m_description;
     }
@@ -372,7 +373,7 @@ public class CmsXmlContentProperty implements Serializable {
      *
      * @return the error
      */
-    public String getError() {
+    public @RUntainted String getError() {
 
         return m_error;
     }
@@ -400,7 +401,7 @@ public class CmsXmlContentProperty implements Serializable {
      *
      * @return the property name
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_name;
     }
@@ -410,7 +411,7 @@ public class CmsXmlContentProperty implements Serializable {
      *
      * @return the niceName
      */
-    public String getNiceName() {
+    public @RUntainted String getNiceName() {
 
         return m_niceName;
     }
@@ -420,7 +421,7 @@ public class CmsXmlContentProperty implements Serializable {
      *
      * @return the ruleRegex
      */
-    public String getRuleRegex() {
+    public @RUntainted String getRuleRegex() {
 
         return m_ruleRegex;
     }
@@ -430,7 +431,7 @@ public class CmsXmlContentProperty implements Serializable {
      *
      * @return the rule type
      */
-    public String getRuleType() {
+    public @RUntainted String getRuleType() {
 
         return m_ruleType;
     }
@@ -485,7 +486,7 @@ public class CmsXmlContentProperty implements Serializable {
      *
      * @return the widget
      */
-    public String getWidget() {
+    public @RUntainted String getWidget() {
 
         if (m_widget == null) {
             return "string";
@@ -498,7 +499,7 @@ public class CmsXmlContentProperty implements Serializable {
      *
      * @return the widgetConfiguration
      */
-    public String getWidgetConfiguration() {
+    public @RUntainted String getWidgetConfiguration() {
 
         return m_widgetConfiguration;
     }
@@ -553,7 +554,7 @@ public class CmsXmlContentProperty implements Serializable {
      * @param config the new widget configuration
      * @return the copy with the modified widget configuration
      */
-    public CmsXmlContentProperty withConfig(String config) {
+    public CmsXmlContentProperty withConfig(@RUntainted String config) {
 
         return new CmsXmlContentProperty(
             m_name,
@@ -579,7 +580,7 @@ public class CmsXmlContentProperty implements Serializable {
      *
      * @return the copied property definition
      */
-    public CmsXmlContentProperty withDefaultWidget(String defaultWidget) {
+    public CmsXmlContentProperty withDefaultWidget(@RUntainted String defaultWidget) {
 
         return new CmsXmlContentProperty(
             m_name,
@@ -622,7 +623,7 @@ public class CmsXmlContentProperty implements Serializable {
      *
      * @return the copied property definition
      */
-    public CmsXmlContentProperty withName(String name) {
+    public CmsXmlContentProperty withName(@RUntainted String name) {
 
         return new CmsXmlContentProperty(
             name,
@@ -648,7 +649,7 @@ public class CmsXmlContentProperty implements Serializable {
      *
      * @return the copied property definition
      */
-    public CmsXmlContentProperty withNiceName(String niceName) {
+    public CmsXmlContentProperty withNiceName(@RUntainted String niceName) {
 
         return new CmsXmlContentProperty(
             m_name,
@@ -676,7 +677,7 @@ public class CmsXmlContentProperty implements Serializable {
      *
      * @return the copied property definition
      */
-    public CmsXmlContentProperty withValidation(String pattern, String type, String error) {
+    public CmsXmlContentProperty withValidation(@RUntainted String pattern, @RUntainted String type, @RUntainted String error) {
 
         return new CmsXmlContentProperty(
             m_name,

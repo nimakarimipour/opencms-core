@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manager that controls the OpenCms event system.
@@ -58,7 +59,7 @@ public class CmsEventManager {
     private static final Log LOG = CmsLog.getLog(CmsEventManager.class);
 
     /** Stores the active event listeners. */
-    private Map<Integer, List<I_CmsEventListener>> m_eventListeners;
+    private Map<Integer, List<@RUntainted I_CmsEventListener>> m_eventListeners;
 
     /**
      * Create a new instance of an OpenCms event manager.<p>
@@ -73,7 +74,7 @@ public class CmsEventManager {
      *
      * @param listener the listener to add
      */
-    public void addCmsEventListener(I_CmsEventListener listener) {
+    public void addCmsEventListener(@RUntainted I_CmsEventListener listener) {
 
         addCmsEventListener(listener, null);
     }
@@ -84,7 +85,7 @@ public class CmsEventManager {
      * @param listener the listener to add
      * @param eventTypes the events to listen for
      */
-    public void addCmsEventListener(I_CmsEventListener listener, int[] eventTypes) {
+    public void addCmsEventListener(@RUntainted I_CmsEventListener listener, int[] eventTypes) {
 
         synchronized (m_eventListeners) {
             if (eventTypes == null) {
@@ -94,7 +95,7 @@ public class CmsEventManager {
             for (int i = 0; i < eventTypes.length; i++) {
                 // register the listener for all configured event types
                 Integer eventType = Integer.valueOf(eventTypes[i]);
-                List<I_CmsEventListener> listeners = m_eventListeners.get(eventType);
+                List<@RUntainted I_CmsEventListener> listeners = m_eventListeners.get(eventType);
                 if (listeners == null) {
                     listeners = new ArrayList<I_CmsEventListener>();
                     m_eventListeners.put(eventType, listeners);
@@ -123,7 +124,7 @@ public class CmsEventManager {
      *
      * @param type event type
      */
-    public void fireEvent(int type) {
+    public void fireEvent(@RUntainted int type) {
 
         fireEvent(type, new HashMap<String, Object>());
     }
@@ -134,7 +135,7 @@ public class CmsEventManager {
      * @param type event type
      * @param data event data
      */
-    public void fireEvent(int type, Map<String, Object> data) {
+    public void fireEvent(@RUntainted int type, @RUntainted Map<@RUntainted String, @RUntainted Object> data) {
 
         fireEvent(new CmsEvent(type, data));
     }
@@ -149,7 +150,7 @@ public class CmsEventManager {
         synchronized (m_eventListeners) {
             Iterator<Integer> it = m_eventListeners.keySet().iterator();
             while (it.hasNext()) {
-                List<I_CmsEventListener> listeners = m_eventListeners.get(it.next());
+                List<@RUntainted I_CmsEventListener> listeners = m_eventListeners.get(it.next());
                 listeners.remove(listener);
             }
         }
@@ -161,7 +162,7 @@ public class CmsEventManager {
      * @param listeners the listeners to fire
      * @param event the event to fire
      */
-    protected void fireEventHandler(List<I_CmsEventListener> listeners, CmsEvent event) {
+    protected void fireEventHandler(List<@RUntainted I_CmsEventListener> listeners, CmsEvent event) {
 
         if (!LOG.isDebugEnabled()) {
             // no logging required
@@ -189,7 +190,7 @@ public class CmsEventManager {
             LOG.debug(Messages.get().getBundle().key(Messages.LOG_DEBUG_EVENT_1, event.toString()));
             if ((listeners != null) && (listeners.size() > 0)) {
                 // handle all event listeners that listen to this event type
-                I_CmsEventListener[] list = listeners.toArray(EVENT_LIST);
+                @RUntainted I_CmsEventListener[] list = listeners.toArray(EVENT_LIST);
                 // log the event data
                 if (event.getData() != null) {
                     Iterator<String> i = event.getData().keySet().iterator();
@@ -253,7 +254,7 @@ public class CmsEventManager {
      *
      * @return the map of all configured event listeners
      */
-    protected Map<Integer, List<I_CmsEventListener>> getEventListeners() {
+    protected Map<Integer, List<@RUntainted I_CmsEventListener>> getEventListeners() {
 
         return m_eventListeners;
     }

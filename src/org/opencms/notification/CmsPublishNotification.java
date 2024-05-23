@@ -35,6 +35,7 @@ import org.opencms.report.I_CmsReport;
 
 import java.util.Iterator;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class to send a notification to an OpenCms user with a summary of warnings and
@@ -57,7 +58,7 @@ public class CmsPublishNotification extends A_CmsNotification {
      * @param receiver the notification receiver
      * @param report the report to write the output to
      */
-    public CmsPublishNotification(CmsObject cms, CmsUser receiver, I_CmsReport report) {
+    public CmsPublishNotification(@RUntainted CmsObject cms, CmsUser receiver, I_CmsReport report) {
 
         super(cms, receiver);
         m_report = report;

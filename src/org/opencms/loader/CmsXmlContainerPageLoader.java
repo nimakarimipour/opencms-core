@@ -41,6 +41,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * OpenCms loader for resources of type <code>{@link org.opencms.file.types.CmsResourceTypeXmlContainerPage}</code>.<p>
@@ -66,7 +67,7 @@ public class CmsXmlContainerPageLoader extends CmsXmlContentLoader {
      * @see org.opencms.loader.I_CmsResourceLoader#getLoaderId()
      */
     @Override
-    public int getLoaderId() {
+    public @RUntainted int getLoaderId() {
 
         return CONTAINER_PAGE_RESOURCE_LOADER_ID;
     }
@@ -96,7 +97,7 @@ public class CmsXmlContainerPageLoader extends CmsXmlContentLoader {
      * @see org.opencms.loader.A_CmsXmlDocumentLoader#load(org.opencms.file.CmsObject, org.opencms.file.CmsResource, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
-    public void load(CmsObject cms, CmsResource resource, HttpServletRequest req, HttpServletResponse res)
+    public void load(@RUntainted CmsObject cms, CmsResource resource, @RUntainted HttpServletRequest req, @RUntainted HttpServletResponse res)
     throws ServletException, IOException, CmsException {
 
         CmsTemplateLoaderFacade loaderFacade = OpenCms.getResourceManager().getTemplateLoaderFacade(
@@ -112,7 +113,7 @@ public class CmsXmlContainerPageLoader extends CmsXmlContentLoader {
      * @see org.opencms.loader.A_CmsXmlDocumentLoader#getTemplatePropertyDefinition()
      */
     @Override
-    protected String getTemplatePropertyDefinition() {
+    protected @RUntainted String getTemplatePropertyDefinition() {
 
         return CmsPropertyDefinition.PROPERTY_TEMPLATE;
     }
@@ -121,7 +122,7 @@ public class CmsXmlContainerPageLoader extends CmsXmlContentLoader {
      * @see org.opencms.loader.A_CmsXmlDocumentLoader#unmarshalXmlDocument(org.opencms.file.CmsObject, org.opencms.file.CmsResource, javax.servlet.ServletRequest)
      */
     @Override
-    protected CmsXmlContainerPage unmarshalXmlDocument(CmsObject cms, CmsResource resource, ServletRequest req)
+    protected CmsXmlContainerPage unmarshalXmlDocument(@RUntainted CmsObject cms, CmsResource resource, ServletRequest req)
     throws CmsException {
 
         return CmsXmlContainerPageFactory.unmarshal(cms, resource, req);

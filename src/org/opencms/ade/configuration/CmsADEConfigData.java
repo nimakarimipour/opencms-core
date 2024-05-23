@@ -92,6 +92,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A class which represents the accessible configuration data at a given point in a sitemap.<p>
@@ -219,7 +220,7 @@ public class CmsADEConfigData {
     private Map<CmsUUID, I_CmsFormatterBean> m_activeFormatters;
 
     /** Lazily initialized cache for active formatters by formatter key. */
-    private Multimap<String, I_CmsFormatterBean> m_activeFormattersByKey;
+    private Multimap<String, @RUntainted I_CmsFormatterBean> m_activeFormattersByKey;
 
     /** The sitemap attributes (may be null if not yet computed). */
     private Map<String, AttributeValue> m_attributes;
@@ -243,10 +244,10 @@ public class CmsADEConfigData {
     private Multimap<CmsUUID, I_CmsFormatterBean> m_formattersByJspId;
 
     /** Lazily initialized cache for formatters by formatter key. */
-    private Multimap<String, I_CmsFormatterBean> m_formattersByKey;
+    private Multimap<String, @RUntainted I_CmsFormatterBean> m_formattersByKey;
 
     /** Loading cache for for formatters grouped by type. */
-    private LoadingCache<String, List<I_CmsFormatterBean>> m_formattersByTypeCache = CacheBuilder.newBuilder().build(
+    private LoadingCache<String, List<@RUntainted I_CmsFormatterBean>> m_formattersByTypeCache = CacheBuilder.newBuilder().build(
         new CacheLoader<String, List<I_CmsFormatterBean>>() {
 
             @Override
@@ -405,7 +406,7 @@ public class CmsADEConfigData {
      * @param id the formatter ID
      * @return the best formatter the given ID
      */
-    public I_CmsFormatterBean findFormatter(CmsUUID id) {
+    public @RUntainted I_CmsFormatterBean findFormatter(CmsUUID id) {
 
         return findFormatter(id, false);
     }
@@ -420,7 +421,7 @@ public class CmsADEConfigData {
      * @param noWarn if true, disables warnings
      * @return the best formatter the given ID
      */
-    public I_CmsFormatterBean findFormatter(CmsUUID id, boolean noWarn) {
+    public @RUntainted I_CmsFormatterBean findFormatter(CmsUUID id, boolean noWarn) {
 
         if (id == null) {
             return null;
@@ -468,7 +469,7 @@ public class CmsADEConfigData {
      * @param name a formatter name (key or ID)
      * @return the best formatter for that name, or null if no formatter could be found
      */
-    public I_CmsFormatterBean findFormatter(String name) {
+    public @RUntainted I_CmsFormatterBean findFormatter(@RUntainted String name) {
 
         return findFormatter(name, false);
     }
@@ -484,7 +485,7 @@ public class CmsADEConfigData {
      * @param noWarn if true, disables warnings
      * @return the best formatter for that name, or null if no formatter could be found
      */
-    public I_CmsFormatterBean findFormatter(String name, boolean noWarn) {
+    public @RUntainted I_CmsFormatterBean findFormatter(@RUntainted String name, boolean noWarn) {
 
         if (name == null) {
             return null;
@@ -505,7 +506,7 @@ public class CmsADEConfigData {
             return null;
         }
 
-        Multimap<String, I_CmsFormatterBean> active = getActiveFormattersByKey();
+        Multimap<String, @RUntainted I_CmsFormatterBean> active = getActiveFormattersByKey();
         I_CmsFormatterBean result = getFormatterAndWarnIfAmbiguous(active, name, noWarn);
         if (result != null) {
             return result;
@@ -529,7 +530,7 @@ public class CmsADEConfigData {
             OpenCmsServlet.withRequestCache(rc -> rc.addLog(REQUEST_LOG_CHANNEL, "warn", REQ_LOG_PREFIX + message1));
         }
 
-        Multimap<String, I_CmsFormatterBean> all = getFormattersByKey();
+        Multimap<String, @RUntainted I_CmsFormatterBean> all = getFormattersByKey();
         result = getFormatterAndWarnIfAmbiguous(all, name, noWarn);
         if (result != null) {
             return result;
@@ -705,7 +706,7 @@ public class CmsADEConfigData {
      *
      * @return the attribute value
      */
-    public String getAttribute(String key, String defaultValue) {
+    public @RUntainted String getAttribute(String key, @RUntainted String defaultValue) {
 
         AttributeValue value = getAttributes().get(key);
         if (value != null) {
@@ -779,7 +780,7 @@ public class CmsADEConfigData {
      *
      * @return the base path of the configuration
      */
-    public String getBasePath() {
+    public @RUntainted String getBasePath() {
 
         return m_data.getBasePath();
     }
@@ -814,9 +815,9 @@ public class CmsADEConfigData {
      *
      * @return the names of the bundles configured as workplace bundles in any module configuration.
      */
-    public Set<String> getConfiguredWorkplaceBundles() {
+    public Set<@RUntainted String> getConfiguredWorkplaceBundles() {
 
-        Set<String> result = new HashSet<String>();
+        Set<@RUntainted String> result = new HashSet<@RUntainted String>();
         for (CmsResourceTypeConfig config : internalGetResourceTypes(false)) {
             String bundlename = config.getConfiguredWorkplaceBundle();
             if (null != bundlename) {
@@ -833,7 +834,7 @@ public class CmsADEConfigData {
      *
      * @return the content folder path
      */
-    public String getContentFolderPath() {
+    public @RUntainted String getContentFolderPath() {
 
         return CmsStringUtil.joinPaths(m_data.getBasePath(), CmsADEManager.CONTENT_FOLDER_NAME);
 
@@ -848,7 +849,7 @@ public class CmsADEConfigData {
      *
      * @throws CmsException if something goes wrong
      */
-    public List<CmsResourceTypeConfig> getCreatableTypes(CmsObject cms, String pageFolderRootPath) throws CmsException {
+    public List<CmsResourceTypeConfig> getCreatableTypes(CmsObject cms, @RUntainted String pageFolderRootPath) throws CmsException {
 
         List<CmsResourceTypeConfig> result = new ArrayList<CmsResourceTypeConfig>();
         for (CmsResourceTypeConfig typeConfig : getResourceTypes()) {
@@ -1122,7 +1123,7 @@ public class CmsADEConfigData {
      *
      * @return the configuration of formatters for the resource
      */
-    public CmsFormatterConfiguration getFormatters(CmsObject cms, CmsResource res) {
+    public CmsFormatterConfiguration getFormatters(@RUntainted CmsObject cms, @RUntainted CmsResource res) {
 
         if (CmsResourceTypeFunctionConfig.isFunction(res)) {
 
@@ -1300,19 +1301,19 @@ public class CmsADEConfigData {
      * @param defaultProperties the default property configurations
      * @return the ordered map of property configurations for the property dialog
      */
-    public Map<String, CmsXmlContentProperty> getPropertyConfiguration(
+    public Map<@RUntainted String, CmsXmlContentProperty> getPropertyConfiguration(
         Map<String, CmsXmlContentProperty> defaultProperties) {
 
         List<CmsPropertyConfig> myPropConfigs = getPropertyConfiguration();
         Map<String, CmsXmlContentProperty> allProps = new LinkedHashMap<>(defaultProperties);
-        Map<String, CmsXmlContentProperty> result = new LinkedHashMap<>();
+        Map<@RUntainted String, CmsXmlContentProperty> result = new LinkedHashMap<>();
         for (CmsPropertyConfig prop : myPropConfigs) {
             allProps.put(prop.getName(), prop.getPropertyData());
             if (prop.isTop()) {
                 result.put(prop.getName(), prop.getPropertyData());
             }
         }
-        for (Map.Entry<String, CmsXmlContentProperty> entry : allProps.entrySet()) {
+        for (Map.Entry<@RUntainted String, CmsXmlContentProperty> entry : allProps.entrySet()) {
             if (!result.containsKey(entry.getKey())) {
                 result.put(entry.getKey(), entry.getValue());
             }
@@ -1326,9 +1327,9 @@ public class CmsADEConfigData {
      *
      * @return the map of property configurations
      */
-    public Map<String, CmsXmlContentProperty> getPropertyConfigurationAsMap() {
+    public Map<@RUntainted String, CmsXmlContentProperty> getPropertyConfigurationAsMap() {
 
-        Map<String, CmsXmlContentProperty> result = new LinkedHashMap<String, CmsXmlContentProperty>();
+        Map<@RUntainted String, CmsXmlContentProperty> result = new LinkedHashMap<@RUntainted String, CmsXmlContentProperty>();
         for (CmsPropertyConfig propConf : getPropertyConfiguration()) {
             result.put(propConf.getName(), propConf.getPropertyData());
         }
@@ -1340,7 +1341,7 @@ public class CmsADEConfigData {
      *
      * @return the resource from which this configuration was read
      */
-    public CmsResource getResource() {
+    public @RUntainted CmsResource getResource() {
 
         return m_data.getResource();
     }
@@ -1511,9 +1512,9 @@ public class CmsADEConfigData {
      *
      * @return the set of types for which schema formatters are active
      */
-    public Set<String> getTypesWithActiveSchemaFormatters() {
+    public Set<@RUntainted String> getTypesWithActiveSchemaFormatters() {
 
-        Set<String> result = Sets.newHashSet(getTypesWithModifiableFormatters());
+        Set<@RUntainted String> result = Sets.newHashSet(getTypesWithModifiableFormatters());
         for (CmsFormatterChangeSet changeSet : getFormatterChangeSets()) {
             changeSet.applyToTypes(result);
         }
@@ -1525,9 +1526,9 @@ public class CmsADEConfigData {
      *
      * @return the set of names of resource types which have schema-based formatters that can be enabled or disabled
      */
-    public Set<String> getTypesWithModifiableFormatters() {
+    public @RUntainted Set<@RUntainted String> getTypesWithModifiableFormatters() {
 
-        Set<String> result = new HashSet<String>();
+        Set<@RUntainted String> result = new HashSet<@RUntainted String>();
         for (I_CmsResourceType type : OpenCms.getResourceManager().getResourceTypes()) {
             if (type instanceof CmsResourceTypeXmlContent) {
                 CmsXmlContentDefinition contentDef = null;
@@ -1554,7 +1555,7 @@ public class CmsADEConfigData {
      *
      * @return if there are any matching formatters
      */
-    public boolean hasFormatters(CmsObject cms, I_CmsResourceType resType, Collection<CmsContainer> containers) {
+    public boolean hasFormatters(@RUntainted CmsObject cms, I_CmsResourceType resType, Collection<CmsContainer> containers) {
 
         try {
             if (CmsXmlDynamicFunctionHandler.TYPE_FUNCTION.equals(resType.getTypeName())
@@ -1782,7 +1783,7 @@ public class CmsADEConfigData {
      *
      * @return the CMS object used for VFS operations
      */
-    protected CmsObject getCms() {
+    protected @RUntainted CmsObject getCms() {
 
         return m_cache.getCms();
     }
@@ -1829,7 +1830,7 @@ public class CmsADEConfigData {
         Map<String, String> result = new HashMap<String, String>();
         CmsObject cms = OpenCms.initCmsObject(getCms());
         if (m_data.isModuleConfig()) {
-            Set<String> siteRoots = OpenCms.getSiteManager().getSiteRoots();
+            Set<@RUntainted String> siteRoots = OpenCms.getSiteManager().getSiteRoots();
             for (String siteRoot : siteRoots) {
                 cms.getRequestContext().setSiteRoot(siteRoot);
                 for (CmsResourceTypeConfig config : getResourceTypes()) {
@@ -1871,8 +1872,8 @@ public class CmsADEConfigData {
         CmsFormatterConfiguration schemaFormatters) {
 
         String typeName = resType.getTypeName();
-        List<I_CmsFormatterBean> formatters = new ArrayList<I_CmsFormatterBean>();
-        Set<String> types = new HashSet<String>();
+        List<@RUntainted I_CmsFormatterBean> formatters = new ArrayList<@RUntainted I_CmsFormatterBean>();
+        Set<@RUntainted String> types = new HashSet<@RUntainted String>();
         types.add(typeName);
         for (CmsFormatterChangeSet changeSet : getFormatterChangeSets()) {
             if (changeSet != null) {
@@ -1887,7 +1888,7 @@ public class CmsADEConfigData {
         }
 
         try {
-            List<I_CmsFormatterBean> formattersForType = m_formattersByTypeCache.get(typeName);
+            List<@RUntainted I_CmsFormatterBean> formattersForType = m_formattersByTypeCache.get(typeName);
             formatters.addAll(formattersForType);
         } catch (ExecutionException e) {
             LOG.error(e.getLocalizedMessage(), e);
@@ -1904,7 +1905,7 @@ public class CmsADEConfigData {
      *
      * @return the formatters from the schema
      */
-    protected CmsFormatterConfiguration getFormattersFromSchema(CmsObject cms, CmsResource res) {
+    protected CmsFormatterConfiguration getFormattersFromSchema(@RUntainted CmsObject cms, CmsResource res) {
 
         try {
             return OpenCms.getResourceManager().getResourceType(res.getTypeId()).getFormattersForResource(cms, res);
@@ -2061,7 +2062,7 @@ public class CmsADEConfigData {
      *
      * @return the map of active formatters by key
      */
-    private Multimap<String, I_CmsFormatterBean> getActiveFormattersByKey() {
+    private Multimap<String, @RUntainted I_CmsFormatterBean> getActiveFormattersByKey() {
 
         if (m_activeFormattersByKey == null) {
             ArrayListMultimap<String, I_CmsFormatterBean> activeFormattersByKey = ArrayListMultimap.create();
@@ -2084,14 +2085,14 @@ public class CmsADEConfigData {
      * @param noWarn if true, disables warnings
      * @return the formatter for the key (null if none are found, the first one if multiple are found)
      */
-    private I_CmsFormatterBean getFormatterAndWarnIfAmbiguous(
-        Multimap<String, I_CmsFormatterBean> formatterMap,
+    private @RUntainted I_CmsFormatterBean getFormatterAndWarnIfAmbiguous(
+        Multimap<String, @RUntainted I_CmsFormatterBean> formatterMap,
         String name,
         boolean noWarn) {
 
         I_CmsFormatterBean result;
         result = null;
-        Collection<I_CmsFormatterBean> activeForKey = formatterMap.get(name);
+        Collection<@RUntainted I_CmsFormatterBean> activeForKey = formatterMap.get(name);
         if (activeForKey.size() > 0) {
             if (activeForKey.size() > 1) {
                 if (!noWarn) {
@@ -2146,7 +2147,7 @@ public class CmsADEConfigData {
      *
      * @return the map of formatters by key
      */
-    private Multimap<String, I_CmsFormatterBean> getFormattersByKey() {
+    private Multimap<String, @RUntainted I_CmsFormatterBean> getFormattersByKey() {
 
         if (m_formattersByKey == null) {
             ArrayListMultimap<String, I_CmsFormatterBean> formattersByKey = ArrayListMultimap.create();

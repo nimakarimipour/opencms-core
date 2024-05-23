@@ -33,6 +33,7 @@ import org.opencms.gwt.shared.sort.I_CmsHasType;
 
 import java.util.ArrayList;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A bean holding all info to be displayed in {@link org.opencms.gwt.client.ui.CmsListItemWidget}s.<p>
@@ -102,7 +103,7 @@ public class CmsListInfoBean extends CmsIconBean implements I_CmsHasTitle, I_Cms
     private String m_subTitle;
 
     /** The title. */
-    private String m_title;
+    private @RUntainted String m_title;
 
     /**
      * Default constructor.<p>
@@ -119,7 +120,7 @@ public class CmsListInfoBean extends CmsIconBean implements I_CmsHasTitle, I_Cms
      * @param subtitle the subtitle
      * @param additionalInfo the additional info
      */
-    public CmsListInfoBean(String title, String subtitle, List<CmsAdditionalInfoBean> additionalInfo) {
+    public CmsListInfoBean(@RUntainted String title, String subtitle, List<CmsAdditionalInfoBean> additionalInfo) {
 
         m_title = title;
         setSubTitle(subtitle);
@@ -209,7 +210,7 @@ public class CmsListInfoBean extends CmsIconBean implements I_CmsHasTitle, I_Cms
      *
      * @return the resource type name
      */
-    public String getResourceType() {
+    public @RUntainted String getResourceType() {
 
         return m_resourceType;
     }
@@ -241,7 +242,7 @@ public class CmsListInfoBean extends CmsIconBean implements I_CmsHasTitle, I_Cms
      *
      * @return the title
      */
-    public String getTitle() {
+    public @RUntainted String getTitle() {
 
         return m_title;
     }
@@ -249,7 +250,7 @@ public class CmsListInfoBean extends CmsIconBean implements I_CmsHasTitle, I_Cms
     /**
      * @see org.opencms.gwt.shared.sort.I_CmsHasType#getType()
      */
-    public String getType() {
+    public @RUntainted String getType() {
 
         return getResourceType();
     }
@@ -371,7 +372,7 @@ public class CmsListInfoBean extends CmsIconBean implements I_CmsHasTitle, I_Cms
      *
      * @param title the title to set
      */
-    public void setTitle(String title) {
+    public void setTitle(@RUntainted String title) {
 
         m_title = title;
     }

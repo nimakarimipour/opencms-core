@@ -46,6 +46,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableList;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains the setting-related data for a formatter bean.
@@ -56,7 +57,7 @@ public class CmsSettingConfiguration {
     private static final Log LOG = CmsLog.getLog(CmsSettingConfiguration.class);
 
     /** Cache for calculating and storing the setting definition maps for various combinations of override shared setting configuration file ids. */
-    private LoadingCache<ImmutableList<CmsUUID>, Map<String, CmsXmlContentProperty>> m_cache = CacheBuilder.newBuilder().concurrencyLevel(
+    private LoadingCache<ImmutableList<CmsUUID>, Map<@RUntainted String, CmsXmlContentProperty>> m_cache = CacheBuilder.newBuilder().concurrencyLevel(
         4).build(new CacheLoader<ImmutableList<CmsUUID>, Map<String, CmsXmlContentProperty>>() {
 
             @SuppressWarnings("synthetic-access")
@@ -71,7 +72,7 @@ public class CmsSettingConfiguration {
         });
 
     /** The display type. */
-    private String m_displayType;
+    private @RUntainted String m_displayType;
 
     /** The key of the formatter using this configuration (may be null). */
     private String m_formatterKey;
@@ -109,7 +110,7 @@ public class CmsSettingConfiguration {
         Map<CmsUUID, Map<CmsSharedSettingKey, CmsXmlContentProperty>> sharedSettingConfigsById,
         List<CmsUUID> includeIds,
         String formatterKey,
-        String displayType) {
+        @RUntainted String displayType) {
 
         m_listedSettings = listedSettings;
         m_sharedSettingConfigsById = sharedSettingConfigsById;
@@ -130,7 +131,7 @@ public class CmsSettingConfiguration {
      *
      * @return the setting definition map
      */
-    public Map<String, CmsXmlContentProperty> getSettings(ImmutableList<CmsUUID> sharedSettingOverrides) {
+    public Map<@RUntainted String, CmsXmlContentProperty> getSettings(ImmutableList<CmsUUID> sharedSettingOverrides) {
 
         try {
             return m_cache.get(sharedSettingOverrides);

@@ -56,6 +56,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides the dependency information about one search result document,
@@ -129,7 +130,7 @@ public final class CmsDocumentDependency {
     private String m_documentSuffix;
 
     /** The locale of this document container. */
-    private Locale m_locale;
+    private @RUntainted Locale m_locale;
 
     /** Signals whether this document exists with different locale file name extensions.  */
     private boolean m_localeFileName;
@@ -167,7 +168,7 @@ public final class CmsDocumentDependency {
      * @param resource the VFS resource for which the dependencies are calculated
      * @param rootPath the root path to use
      */
-    private CmsDocumentDependency(CmsPublishedResource resource, String rootPath) {
+    private CmsDocumentDependency(CmsPublishedResource resource, @RUntainted String rootPath) {
 
         m_resource = resource;
         m_rootPath = rootPath;
@@ -235,7 +236,7 @@ public final class CmsDocumentDependency {
      *
      * @return the dependency object created from a String representation
      */
-    public static CmsDocumentDependency fromDependencyString(String input, String rootPath) {
+    public static CmsDocumentDependency fromDependencyString(@RUntainted String input, @RUntainted String rootPath) {
 
         CmsDocumentDependency result = new CmsDocumentDependency(null, rootPath);
         if (input != null) {
@@ -256,7 +257,7 @@ public final class CmsDocumentDependency {
                     }
                 } else {
                     // special handling for news
-                    String[] docs = CmsStringUtil.splitAsArray(input, '|');
+                    @RUntainted String[] docs = CmsStringUtil.splitAsArray(input, '|');
                     for (int i = 0; i < docs.length; i++) {
                         String doc = docs[i];
 
@@ -291,7 +292,7 @@ public final class CmsDocumentDependency {
      *
      * @return the locale of the given resource based on the resource root path
      */
-    public static Locale getLocale(String rootPath) {
+    public static Locale getLocale(@RUntainted String rootPath) {
 
         return (new CmsDocumentDependency(null, rootPath)).getLocale();
     }
@@ -358,7 +359,7 @@ public final class CmsDocumentDependency {
      *
      * @return a dependency object for the given parameters
      */
-    protected static CmsDocumentDependency loadForTest(String rootPath) {
+    protected static CmsDocumentDependency loadForTest(@RUntainted String rootPath) {
 
         return new CmsDocumentDependency(null, rootPath);
     }
@@ -706,7 +707,7 @@ public final class CmsDocumentDependency {
 
         try {
             // read all resources in the parent folder of the published resource
-            List<CmsResource> folderContent = cms.getResourcesInFolder(
+            List<@RUntainted CmsResource> folderContent = cms.getResourcesInFolder(
                 CmsResource.getParentFolder(cms.getRequestContext().removeSiteRoot(getResource().getRootPath())),
                 CmsResourceFilter.DEFAULT);
             // now calculate the dependencies form the folder content that has been read
@@ -837,7 +838,7 @@ public final class CmsDocumentDependency {
      *
      * @param locale the locale of this document container
      */
-    public void setLocale(Locale locale) {
+    public void setLocale(@RUntainted Locale locale) {
 
         m_locale = locale;
     }
@@ -860,7 +861,7 @@ public final class CmsDocumentDependency {
                 m_mainDocument = mainDocument;
             } else {
                 // check if the new document is a "better" one
-                List<Locale> locales = OpenCms.getLocaleManager().getDefaultLocales();
+                List<@RUntainted Locale> locales = OpenCms.getLocaleManager().getDefaultLocales();
                 int pos1 = locales.indexOf(m_mainDocument.getLocale());
                 if (pos1 > 0) {
                     int pos2 = locales.indexOf(mainDocument.getLocale());
@@ -954,14 +955,14 @@ public final class CmsDocumentDependency {
      *
      * @return a JSON object describing this dependency document
      */
-    public JSONObject toJSON(CmsObject cms, boolean includeLang) {
+    public @RUntainted JSONObject toJSON(CmsObject cms, boolean includeLang) {
 
         try {
             CmsObject clone = OpenCms.initCmsObject(cms);
             clone.getRequestContext().setSiteRoot("");
             JSONObject jsonAttachment = new JSONObject();
             CmsResource res = clone.readResource(m_rootPath, CmsResourceFilter.IGNORE_EXPIRATION);
-            Map<String, String> props = CmsProperty.toMap(clone.readPropertyObjects(res, false));
+            Map<String, @RUntainted String> props = CmsProperty.toMap(clone.readPropertyObjects(res, false));
             // id and path
             jsonAttachment.put(JSON_UUID, res.getStructureId());
             jsonAttachment.put(JSON_PATH, res.getRootPath());

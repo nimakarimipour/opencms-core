@@ -54,6 +54,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper class for a HttpServletResponse, required in order to process JSPs from the OpenCms VFS.<p>
@@ -76,10 +77,10 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
     private static class CmsServletOutputStream extends ServletOutputStream {
 
         /** The optional output stream to write to. */
-        private ServletOutputStream m_servletStream;
+        private @RUntainted ServletOutputStream m_servletStream;
 
         /** The internal stream buffer. */
-        private ByteArrayOutputStream m_stream;
+        private @RUntainted ByteArrayOutputStream m_stream;
 
         /**
          * Constructor that must be used if the stream should write
@@ -97,7 +98,7 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
          *
          * @param servletStream The stream to write to
          */
-        public CmsServletOutputStream(ServletOutputStream servletStream) {
+        public CmsServletOutputStream(@RUntainted ServletOutputStream servletStream) {
 
             m_servletStream = servletStream;
             clear();
@@ -145,7 +146,7 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
          *
          * @return the cached bytes from the buffer
          */
-        public byte[] getBytes() {
+        public @RUntainted byte[] getBytes() {
 
             return m_stream.toByteArray();
         }
@@ -205,13 +206,13 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
     protected static final Log LOG = CmsLog.getLog(CmsFlexResponse.class);
 
     /** Map to save response headers belonging to a single include call in .*/
-    private Map<String, List<String>> m_bufferHeaders;
+    private Map<@RUntainted String, List<String>> m_bufferHeaders;
 
     /** String to hold a buffered redirect target. */
-    private String m_bufferRedirect;
+    private @RUntainted String m_bufferRedirect;
 
     /** Byte array used for "cached leafs" optimization. */
-    private byte[] m_cacheBytes;
+    private @RUntainted byte[] m_cacheBytes;
 
     /** The cached entry that is constructed from this response. */
     private CmsFlexCacheEntry m_cachedEntry;
@@ -226,16 +227,16 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
     private String m_encoding;
 
     /** Map to save all response headers (including sub-elements) in. */
-    private Map<String, List<String>> m_headers;
+    private Map<@RUntainted String, List<String>> m_headers;
 
     /** A list of include calls that origin from this page, i.e. these are sub elements of this element. */
-    private List<String> m_includeList;
+    private List<@RUntainted String> m_includeList;
 
     /** A list of attributes that belong to the include calls. */
-    private List<Map<String, Object>> m_includeListAttributes;
+    private List<@RUntainted Map<String, Object>> m_includeListAttributes;
 
     /** A list of parameters that belong to the include calls. */
-    private List<Map<String, String[]>> m_includeListParameters;
+    private List<@RUntainted Map<String, String[]>> m_includeListParameters;
 
     /** Indicates if this element is currently in include mode, i.e. processing a sub-element. */
     private boolean m_includeMode;
@@ -259,7 +260,7 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
     private boolean m_redirectPermanent;
 
     /** The wrapped ServletResponse. */
-    private HttpServletResponse m_res;
+    private @RUntainted HttpServletResponse m_res;
 
     /** Indicates if this response is suspended (probably because of a redirect). */
     private boolean m_suspended;
@@ -280,7 +281,7 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
      * @param res the CmsFlexResponse to wrap
      * @param controller the controller to use
      */
-    public CmsFlexResponse(HttpServletResponse res, CmsFlexController controller) {
+    public CmsFlexResponse(@RUntainted HttpServletResponse res, CmsFlexController controller) {
 
         super(res);
         m_res = res;
@@ -303,7 +304,7 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
      * @param isTopElement indicates if this is the top element of an include cascade
      */
     public CmsFlexResponse(
-        HttpServletResponse res,
+        @RUntainted HttpServletResponse res,
         CmsFlexController controller,
         boolean streaming,
         boolean isTopElement) {
@@ -325,14 +326,14 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
      * @param headers the headers to add
      * @param res the response to add the headers to
      */
-    public static void processHeaders(Map<String, List<String>> headers, HttpServletResponse res) {
+    public static void processHeaders(Map<@RUntainted String, List<String>> headers, HttpServletResponse res) {
 
         if (headers != null) {
-            Iterator<Map.Entry<String, List<String>>> i = headers.entrySet().iterator();
+            Iterator<Map.Entry<@RUntainted String, List<String>>> i = headers.entrySet().iterator();
             while (i.hasNext()) {
-                Map.Entry<String, List<String>> entry = i.next();
+                Map.Entry<@RUntainted String, List<String>> entry = i.next();
                 String key = entry.getKey();
-                List<String> l = entry.getValue();
+                List<@RUntainted String> l = entry.getValue();
                 for (int j = 0; j < l.size(); j++) {
                     if ((j == 0) && ((l.get(0)).startsWith(SET_HEADER))) {
                         String s = l.get(0);
@@ -423,7 +424,7 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
      * @see javax.servlet.http.HttpServletResponse#addDateHeader(java.lang.String, long)
      */
     @Override
-    public void addDateHeader(String name, long date) {
+    public void addDateHeader(@RUntainted String name, @RUntainted long date) {
 
         addHeader(name, CmsDateUtil.getHeaderDate(date));
     }
@@ -434,7 +435,7 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
      * @see javax.servlet.http.HttpServletResponse#addHeader(java.lang.String, java.lang.String)
      */
     @Override
-    public void addHeader(String name, String value) {
+    public void addHeader(@RUntainted String name, @RUntainted String value) {
 
         if (isSuspended()) {
             return;
@@ -480,7 +481,7 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
      * @see javax.servlet.http.HttpServletResponse#addIntHeader(java.lang.String, int)
      */
     @Override
-    public void addIntHeader(String name, int value) {
+    public void addIntHeader(@RUntainted String name, @RUntainted int value) {
 
         addHeader(name, String.valueOf(value));
     }
@@ -495,7 +496,7 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
      * @param parameterMap the map of parameters given with the include command
      * @param attributeMap the map of attributes given with the include command
      */
-    public void addToIncludeList(String target, Map<String, String[]> parameterMap, Map<String, Object> attributeMap) {
+    public void addToIncludeList(@RUntainted String target, @RUntainted Map<String, @RUntainted String[]> parameterMap, @RUntainted Map<String, Object> attributeMap) {
 
         if (m_includeList == null) {
             m_includeList = new ArrayList<String>(10);
@@ -544,7 +545,7 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
      *
      * @return the Map of cached headers
      */
-    public Map<String, List<String>> getHeaders() {
+    public Map<@RUntainted String, List<String>> getHeaders() {
 
         return m_headers;
     }
@@ -582,7 +583,7 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
      *
      * @return the bytes that have been written on the current writers output stream
      */
-    public byte[] getWriterBytes() {
+    public @RUntainted byte[] getWriterBytes() {
 
         if (isSuspended()) {
             // No output whatsoever if the response is suspended
@@ -640,7 +641,7 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
      * @throws IllegalArgumentException In case of a malformed location string
      */
     @Override
-    public void sendRedirect(String location) throws IOException {
+    public void sendRedirect(@RUntainted String location) throws IOException {
 
         sendRedirect(location, false);
     }
@@ -653,7 +654,7 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
      *
      * @throws IOException if IO operations on the response fail
      */
-    public void sendRedirect(String location, boolean permanent) throws IOException {
+    public void sendRedirect(@RUntainted String location, boolean permanent) throws IOException {
 
         // Ignore any redirects after the first one
         if (isSuspended() && (!location.equals(m_bufferRedirect))) {
@@ -718,7 +719,7 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
      * @see javax.servlet.ServletResponse#setContentType(java.lang.String)
      */
     @Override
-    public void setContentType(String type) {
+    public void setContentType(@RUntainted String type) {
 
         if (LOG.isDebugEnabled()) {
             LOG.debug(Messages.get().getBundle().key(Messages.LOG_FLEXRESPONSE_SETTING_CONTENTTYPE_1, type));
@@ -739,7 +740,7 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
      * @see javax.servlet.http.HttpServletResponse#setDateHeader(java.lang.String, long)
      */
     @Override
-    public void setDateHeader(String name, long date) {
+    public void setDateHeader(@RUntainted String name, @RUntainted long date) {
 
         setHeader(name, CmsDateUtil.getHeaderDate(date));
     }
@@ -750,7 +751,7 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
      * @see javax.servlet.http.HttpServletResponse#setHeader(java.lang.String, java.lang.String)
      */
     @Override
-    public void setHeader(String name, String value) {
+    public void setHeader(@RUntainted String name, @RUntainted String value) {
 
         if (isSuspended()) {
             return;
@@ -796,7 +797,7 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
      * @see javax.servlet.http.HttpServletResponse#setIntHeader(java.lang.String, int)
      */
     @Override
-    public void setIntHeader(String name, int value) {
+    public void setIntHeader(@RUntainted String name, @RUntainted int value) {
 
         setHeader(name, "" + value);
     }
@@ -965,7 +966,7 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
      *
      * @throws CmsFlexCacheException in case the value String had a parse error
      */
-    CmsFlexCacheKey setCmsCacheKey(String resourcename, String cacheDirectives, boolean online)
+    CmsFlexCacheKey setCmsCacheKey(@RUntainted String resourcename, @RUntainted String cacheDirectives, boolean online)
     throws CmsFlexCacheException {
 
         m_key = new CmsFlexCacheKey(resourcename, cacheDirectives, online);
@@ -1031,7 +1032,7 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
      *
      * @throws IOException in case something goes wrong while writing to the stream
      */
-    void writeToOutputStream(byte[] bytes, boolean useArray) throws IOException {
+    void writeToOutputStream(@RUntainted byte[] bytes, boolean useArray) throws IOException {
 
         if (isSuspended()) {
             return;
@@ -1064,7 +1065,7 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
      * @param name the name to look up
      * @param value the value to set
      */
-    private void addHeaderList(Map<String, List<String>> headers, String name, String value) {
+    private void addHeaderList(Map<@RUntainted String, List<String>> headers, @RUntainted String name, String value) {
 
         List<String> values = headers.get(name);
         if (values == null) {
@@ -1195,7 +1196,7 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
      * @param name the name to set
      * @param value the value to set
      */
-    private void setHeaderList(Map<String, List<String>> headers, String name, String value) {
+    private void setHeaderList(Map<@RUntainted String, List<String>> headers, @RUntainted String name, String value) {
 
         List<String> values = new ArrayList<String>();
         values.add(SET_HEADER + value);
@@ -1212,7 +1213,7 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
      */
     private void writeCachedResultToStream(HttpServletResponse res) throws IOException {
 
-        List<Object> elements = m_cachedEntry.elements();
+        List<@RUntainted Object> elements = m_cachedEntry.elements();
         int count = 0;
         if (elements != null) {
             for (int i = 0; i < elements.size(); i++) {

@@ -37,6 +37,7 @@ import org.opencms.ui.components.OpenCmsTheme;
 import java.util.Locale;
 
 import com.vaadin.server.Resource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * App configuration for the 'user data' app.
@@ -94,7 +95,7 @@ public class CmsUserDataAppConfiguration extends A_CmsWorkplaceAppConfiguration 
      * @see org.opencms.ui.apps.A_CmsWorkplaceAppConfiguration#getName(java.util.Locale)
      */
     @Override
-    public String getName(Locale locale) {
+    public String getName(@RUntainted Locale locale) {
 
         return org.opencms.ui.apps.Messages.get().getBundle(locale).key(
             org.opencms.ui.apps.Messages.GUI_USERDATA_APP_0);

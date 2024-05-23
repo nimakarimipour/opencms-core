@@ -59,6 +59,7 @@ import java.util.Set;
 import javax.servlet.ServletRequest;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles special XML content livetime events, and also provides XML content editor rendering hints.<p>
@@ -93,7 +94,7 @@ public interface I_CmsXmlContentHandler {
         private String m_className;
 
         /** The parameters for the renderer. */
-        private Map<String, String> m_params;
+        private Map<@RUntainted String, @RUntainted String> m_params;
 
         /**
          * Creates a new instance.
@@ -101,7 +102,7 @@ public interface I_CmsXmlContentHandler {
          * @param className the class name
          * @param params the parameters
          */
-        public JsonRendererSettings(String className, Map<String, String> params) {
+        public JsonRendererSettings(String className, Map<@RUntainted String, @RUntainted String> params) {
 
             m_className = className;
             m_params = params;
@@ -122,7 +123,7 @@ public interface I_CmsXmlContentHandler {
          *
          * @return the parameters
          */
-        public Map<String, String> getParameters() {
+        public Map<@RUntainted String, @RUntainted String> getParameters() {
 
             if (m_params == null) {
                 return Collections.emptyMap();
@@ -205,8 +206,8 @@ public interface I_CmsXmlContentHandler {
         CmsObject cms,
         CmsXmlContent content,
         CmsMappingResolutionContext.AttributeType attr,
-        List<Locale> locales,
-        long value)
+        List<@RUntainted Locale> locales,
+        @RUntainted long value)
     throws CmsException;
 
     /**
@@ -257,7 +258,7 @@ public interface I_CmsXmlContentHandler {
      * @param remainingPath a sub-path
      * @return the widget configuration for the given sub-path
      */
-    String getConfiguration(String remainingPath);
+    @RUntainted String getConfiguration(String remainingPath);
 
     /**
      * Gets the configured display type for a given path.<p>
@@ -274,7 +275,7 @@ public interface I_CmsXmlContentHandler {
      *
      * @return the CSS resources to include into the html-page head
      */
-    Set<String> getCSSHeadIncludes();
+    Set<@RUntainted String> getCSSHeadIncludes();
 
     /**
      * Returns all the CSS resources to include into the html-page head.<p>
@@ -286,7 +287,7 @@ public interface I_CmsXmlContentHandler {
      *
      * @return the CSS resources to include into the html-page head
      */
-    Set<String> getCSSHeadIncludes(CmsObject cms, CmsResource resource) throws CmsException;
+    Set<@RUntainted String> getCSSHeadIncludes(@RUntainted CmsObject cms, CmsResource resource) throws CmsException;
 
     /**
      * Returns the default String value for the given XML content schema type object in the given XML content.<p>
@@ -303,7 +304,7 @@ public interface I_CmsXmlContentHandler {
      *
      * @see org.opencms.xml.types.I_CmsXmlSchemaType#getDefault(Locale)
      */
-    String getDefault(CmsObject cms, CmsResource resource, I_CmsXmlSchemaType type, String path, Locale locale);
+    @RUntainted String getDefault(CmsObject cms, CmsResource resource, I_CmsXmlSchemaType type, @RUntainted String path, @RUntainted Locale locale);
 
     /**
      * Returns the default String value for the given XML content schema type object in the given XML content.<p>
@@ -318,7 +319,7 @@ public interface I_CmsXmlContentHandler {
      *
      * @see org.opencms.xml.types.I_CmsXmlSchemaType#getDefault(Locale)
      */
-    String getDefault(CmsObject cms, I_CmsXmlContentValue value, Locale locale);
+    @RUntainted String getDefault(CmsObject cms, I_CmsXmlContentValue value, @RUntainted Locale locale);
 
     /**
      * Gets the default complex widget to be used for this type.<p>
@@ -339,7 +340,7 @@ public interface I_CmsXmlContentHandler {
      *
      * @return the default complex widget configuration string
      */
-    String getDefaultComplexWidgetConfiguration();
+    @RUntainted String getDefaultComplexWidgetConfiguration();
 
     /**
      * Returns if the widget for this type should be displayed in compact view.<p>
@@ -373,7 +374,7 @@ public interface I_CmsXmlContentHandler {
      *
      * @return the container page element formatter configuration for this handler
      */
-    CmsFormatterConfiguration getFormatterConfiguration(CmsObject cms, CmsResource res);
+    CmsFormatterConfiguration getFormatterConfiguration(@RUntainted CmsObject cms, CmsResource res);
 
     /**
      * Gets the geo-coordinate mapping configuration.
@@ -398,7 +399,7 @@ public interface I_CmsXmlContentHandler {
      *
      * @return the javascript resources to include into the html-page head
      */
-    Set<String> getJSHeadIncludes();
+    Set<@RUntainted String> getJSHeadIncludes();
 
     /**
      * Returns all the javascript resources to include into the html-page head.<p>
@@ -410,7 +411,7 @@ public interface I_CmsXmlContentHandler {
      *
      * @throws CmsException if something goes wrong
      */
-    Set<String> getJSHeadIncludes(CmsObject cms, CmsResource resource) throws CmsException;
+    Set<@RUntainted String> getJSHeadIncludes(@RUntainted CmsObject cms, CmsResource resource) throws CmsException;
 
     /**
      * Gets the JSON renderer settings.
@@ -433,7 +434,7 @@ public interface I_CmsXmlContentHandler {
      *
      * @return the mapping defined for the given element xpath
      */
-    List<String> getMappings(String elementName);
+    List<@RUntainted String> getMappings(String elementName);
 
     /**
      * Gets the message key fallback handler.<p>
@@ -456,14 +457,14 @@ public interface I_CmsXmlContentHandler {
      * @return the {@link CmsMessages} that are used to resolve localized keys
      * for the given locale in this content handler
      */
-    CmsMessages getMessages(Locale locale);
+    CmsMessages getMessages(@RUntainted Locale locale);
 
     /**
      * Returns the folder name that contains eventual XML content model files to use for this resource type.<p>
      *
      * @return the folder name containing eventual XML content master files
      */
-    String getModelFolder();
+    @RUntainted String getModelFolder();
 
     /**
      * Returns the nested formatters for the given resource.<p>
@@ -475,7 +476,7 @@ public interface I_CmsXmlContentHandler {
      *
      * @return the nested formatter ids
      */
-    List<String> getNestedFormatters(CmsObject cms, CmsResource res, Locale locale, ServletRequest req);
+    List<@RUntainted String> getNestedFormatters(@RUntainted CmsObject cms, @RUntainted CmsResource res, Locale locale, ServletRequest req);
 
     /**
     * Gets the parameter with the given name..<p>
@@ -496,7 +497,7 @@ public interface I_CmsXmlContentHandler {
      *
      * @return the preview URI for the given XML content value object to be displayed in the editor
      */
-    String getPreview(CmsObject cms, CmsXmlContent content, String resourcename);
+    @RUntainted String getPreview(CmsObject cms, CmsXmlContent content, String resourcename);
 
     /**
      * Returns the relation type for the given value.<p>
@@ -517,7 +518,7 @@ public interface I_CmsXmlContentHandler {
      *
      * @return the relation type for the given path
      */
-    CmsRelationType getRelationType(String path);
+    @RUntainted CmsRelationType getRelationType(String path);
 
     /**
      * Returns the relation type for the given path.<p>
@@ -527,7 +528,7 @@ public interface I_CmsXmlContentHandler {
      *
      * @return the relation type for the given path
      */
-    CmsRelationType getRelationType(String xpath, CmsRelationType defaultType);
+    @RUntainted CmsRelationType getRelationType(String xpath, CmsRelationType defaultType);
 
     /**
      * Returns the search content type, ie., the way how to integrate the value into full text search.<p>
@@ -580,7 +581,7 @@ public interface I_CmsXmlContentHandler {
      *
      * @return the element settings defined for the container page formatters
      */
-    Map<String, CmsXmlContentProperty> getSettings(CmsObject cms, CmsResource resource);
+    Map<@RUntainted String, CmsXmlContentProperty> getSettings(@RUntainted CmsObject cms, CmsResource resource);
 
     /**
      * Returns the configuration for elements that require a synchronization across all locales.<p>
@@ -606,7 +607,7 @@ public interface I_CmsXmlContentHandler {
      *
      * @return the "Title" mapping set for the given XML content document in the given Locale
      */
-    String getTitleMapping(CmsObject cms, CmsXmlContent document, Locale locale);
+    String getTitleMapping(CmsObject cms, CmsXmlContent document, @RUntainted Locale locale);
 
     /**
      * Gets the version transformation VFS path.
@@ -616,7 +617,7 @@ public interface I_CmsXmlContentHandler {
      *
      * @return the VFS path to read an XSLT file for version transformation from
      */
-    String getVersionTransformation();
+    @RUntainted String getVersionTransformation();
 
     /**
      * Gets the widget for the given path and CMS context.
@@ -679,7 +680,7 @@ public interface I_CmsXmlContentHandler {
      *
      * @throws CmsXmlException if something goes wrong
      */
-    void initialize(Element appInfoElement, CmsXmlContentDefinition contentDefinition) throws CmsXmlException;
+    void initialize(@RUntainted Element appInfoElement, CmsXmlContentDefinition contentDefinition) throws CmsXmlException;
 
     /**
      * Performs a check of the given XML document.<p>
@@ -764,7 +765,7 @@ public interface I_CmsXmlContentHandler {
      *
      * @return the prepared content to be used
      */
-    CmsXmlContent prepareForUse(CmsObject cms, CmsXmlContent content);
+    @RUntainted CmsXmlContent prepareForUse(CmsObject cms, @RUntainted CmsXmlContent content);
 
     /**
      * Prepares the given XML content to be written to the OpenCms VFS.<p>
@@ -781,7 +782,7 @@ public interface I_CmsXmlContentHandler {
      *
      * @throws CmsException in case something goes wrong
      */
-    CmsFile prepareForWrite(CmsObject cms, CmsXmlContent content, CmsFile file) throws CmsException;
+    @RUntainted CmsFile prepareForWrite(CmsObject cms, @RUntainted CmsXmlContent content, CmsFile file) throws CmsException;
 
     /**
      * Resolves the value mappings of the given XML content value, according

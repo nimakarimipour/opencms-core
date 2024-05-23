@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A context menu entry bean.<p>
@@ -54,7 +55,7 @@ public class CmsContextMenuEntryBean implements IsSerializable {
     private String m_name;
 
     /** The map of parameters for the context menu command. */
-    private Map<String, String> m_params = new HashMap<String, String>();
+    private Map<String, @RUntainted String> m_params = new HashMap<String, @RUntainted String>();
 
     /** The reason for de-activation of the menu entry. */
     private String m_reason;
@@ -153,7 +154,7 @@ public class CmsContextMenuEntryBean implements IsSerializable {
      *
      * @return the parameters
      */
-    public Map<String, String> getParams() {
+    public Map<String, @RUntainted String> getParams() {
 
         return m_params;
     }
@@ -273,7 +274,7 @@ public class CmsContextMenuEntryBean implements IsSerializable {
      *
      * @param params the parameters for the context menu command
      */
-    public void setParams(Map<String, String> params) {
+    public void setParams(Map<String, @RUntainted String> params) {
 
         if (params != null) {
             m_params = params;

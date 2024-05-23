@@ -28,6 +28,7 @@
 package org.opencms.i18n;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Data class containing the parameters for a VFS-based resource bundle.<p>
@@ -35,13 +36,13 @@ import java.util.Locale;
 public class CmsVfsBundleParameters {
 
     /** The base path in the VFS. */
-    private String m_basePath;
+    private @RUntainted String m_basePath;
 
     /** True if this is the set of parameters for the default message bundle. */
     private boolean m_isDefault;
 
     /** The locale of the message bundle. */
-    private Locale m_locale;
+    private @RUntainted Locale m_locale;
 
     /** The name of the message bundle. */
     private String m_name;
@@ -57,7 +58,7 @@ public class CmsVfsBundleParameters {
      * @param isDefault true if this is the set of parameters for the default locale
      * @param type a string constant indicating the type of the resource bundle
      */
-    public CmsVfsBundleParameters(String name, String basePath, Locale locale, boolean isDefault, String type) {
+    public CmsVfsBundleParameters(String name, @RUntainted String basePath, @RUntainted Locale locale, boolean isDefault, String type) {
 
         m_name = name;
         m_basePath = basePath;
@@ -71,7 +72,7 @@ public class CmsVfsBundleParameters {
      *
      * @return the base path of the resource bundle
      */
-    public String getBasePath() {
+    public @RUntainted String getBasePath() {
 
         return m_basePath;
     }
@@ -81,7 +82,7 @@ public class CmsVfsBundleParameters {
      *
      * @return the locale
      */
-    public Locale getLocale() {
+    public @RUntainted Locale getLocale() {
 
         return m_locale;
     }

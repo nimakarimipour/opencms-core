@@ -31,6 +31,7 @@ import org.opencms.configuration.CmsConfigurationException;
 import org.opencms.configuration.CmsParameterConfiguration;
 import org.opencms.main.CmsException;
 import org.opencms.util.CmsResourceTranslator;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract implementation of the repository interface {@link I_CmsRepository}.<p>
@@ -52,7 +53,7 @@ public abstract class A_CmsRepository implements I_CmsRepository {
     private CmsRepositoryFilter m_filter;
 
     /** The name of the repository. */
-    private String m_name;
+    private @RUntainted String m_name;
 
     /** The resource translation. */
     private CmsResourceTranslator m_translation;
@@ -72,7 +73,7 @@ public abstract class A_CmsRepository implements I_CmsRepository {
     /**
      * @see org.opencms.configuration.I_CmsConfigurationParameterHandler#addConfigurationParameter(java.lang.String, java.lang.String)
      */
-    public void addConfigurationParameter(String paramName, String paramValue) {
+    public void addConfigurationParameter(String paramName, @RUntainted String paramValue) {
 
         m_configuration.add(paramName, paramValue);
     }
@@ -98,7 +99,7 @@ public abstract class A_CmsRepository implements I_CmsRepository {
     /**
      * @see org.opencms.repository.I_CmsRepository#getName()
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_name;
     }
@@ -160,7 +161,7 @@ public abstract class A_CmsRepository implements I_CmsRepository {
     /**
      * @see org.opencms.repository.I_CmsRepository#setName(String)
      */
-    public void setName(String name) {
+    public void setName(@RUntainted String name) {
 
         m_name = name;
     }

@@ -39,6 +39,7 @@ import org.opencms.ui.apps.Messages;
 import java.util.Locale;
 
 import com.vaadin.server.Resource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the app folder.<p>
@@ -62,7 +63,7 @@ public class CmsDbManagerFolder implements I_CmsFolderAppCategory {
     /**
      * @see org.opencms.ui.apps.I_CmsFolderAppCategory#getHelpText(java.util.Locale)
      */
-    public String getHelpText(Locale locale) {
+    public String getHelpText(@RUntainted Locale locale) {
 
         return Messages.get().getBundle(locale).key(Messages.GUI_DATABASEAPP_ADMIN_TOOL_HELP_0);
     }
@@ -86,7 +87,7 @@ public class CmsDbManagerFolder implements I_CmsFolderAppCategory {
     /**
      * @see org.opencms.ui.apps.I_CmsAppCategory#getName(java.util.Locale)
      */
-    public String getName(Locale locale) {
+    public String getName(@RUntainted Locale locale) {
 
         return Messages.get().getBundle(locale).key(Messages.GUI_DATABASEAPP_ADMIN_TOOL_NAME_0);
     }

@@ -50,6 +50,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Widget used to select a formatter to add.<p>
@@ -177,10 +178,10 @@ public class CmsAddFormatterWidget extends A_CmsFormatterWidget {
         boolean allRemoved) {
 
         List<CmsSelectWidgetOption> result = Lists.newArrayList();
-        Set<String> types = adeConfig.getTypesWithModifiableFormatters();
-        Set<String> inactiveTypes = new HashSet<String>(types);
+        Set<@RUntainted String> types = adeConfig.getTypesWithModifiableFormatters();
+        Set<@RUntainted String> inactiveTypes = new HashSet<@RUntainted String>(types);
         if (!allRemoved) {
-            Set<String> activeTypes = adeConfig.getTypesWithActiveSchemaFormatters();
+            Set<@RUntainted String> activeTypes = adeConfig.getTypesWithActiveSchemaFormatters();
             inactiveTypes.removeAll(activeTypes);
         }
         for (String inactiveType : inactiveTypes) {
@@ -254,10 +255,10 @@ public class CmsAddFormatterWidget extends A_CmsFormatterWidget {
      * @see org.opencms.widgets.A_CmsFormatterWidget#getSelectedInFile(org.opencms.ade.configuration.CmsConfigurationReader, org.opencms.xml.content.CmsXmlContent)
      */
     @Override
-    protected Set<String> getSelectedInFile(CmsConfigurationReader reader, CmsXmlContent content) {
+    protected Set<@RUntainted String> getSelectedInFile(CmsConfigurationReader reader, CmsXmlContent content) {
 
         CmsXmlContentRootLocation root = new CmsXmlContentRootLocation(content, Locale.ENGLISH);
-        Set<String> addFormatters = reader.parseAddFormatters(root);
+        Set<@RUntainted String> addFormatters = reader.parseAddFormatters(root);
         return addFormatters;
     }
 

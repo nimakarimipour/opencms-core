@@ -31,6 +31,7 @@ import org.opencms.configuration.CmsDefaultUserSettings;
 import org.opencms.file.CmsObject;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.content.CmsXmlContentProperty;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Start gallery preference.<p>
@@ -38,20 +39,20 @@ import org.opencms.xml.content.CmsXmlContentProperty;
 public class CmsStartGallleryPreference extends A_CmsPreference {
 
     /** The default value. */
-    private String m_value;
+    private @RUntainted String m_value;
 
     /** Prefix used for editor preference settings. */
     public static final String GALLERY_PREFIX = "gallery.";
 
     /** The gallery type for which this preference controls the start gallery. */
-    private String m_galleryType;
+    private @RUntainted String m_galleryType;
 
     /**
      * Creates a new instance.<o>
      * @param galleryType the gallery type
      * @param value the value
      */
-    public CmsStartGallleryPreference(String galleryType, String value) {
+    public CmsStartGallleryPreference(String galleryType, @RUntainted String value) {
 
         m_galleryType = galleryType;
         m_value = value;
@@ -60,7 +61,7 @@ public class CmsStartGallleryPreference extends A_CmsPreference {
     /**
      * @see org.opencms.configuration.preferences.I_CmsPreference#getDefaultValue()
      */
-    public String getDefaultValue() {
+    public @RUntainted String getDefaultValue() {
 
         return m_value;
     }
@@ -68,7 +69,7 @@ public class CmsStartGallleryPreference extends A_CmsPreference {
     /**
      * @see org.opencms.configuration.preferences.I_CmsPreference#getName()
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return GALLERY_PREFIX + m_galleryType;
     }
@@ -107,7 +108,7 @@ public class CmsStartGallleryPreference extends A_CmsPreference {
     /**
      * @see org.opencms.configuration.preferences.I_CmsPreference#getTab()
      */
-    public String getTab() {
+    public @RUntainted String getTab() {
 
         return "hidden";
     }
@@ -123,7 +124,7 @@ public class CmsStartGallleryPreference extends A_CmsPreference {
     /**
      * @see org.opencms.configuration.preferences.I_CmsPreference#setValue(org.opencms.configuration.CmsDefaultUserSettings, java.lang.String)
      */
-    public void setValue(CmsDefaultUserSettings settings, String value) {
+    public void setValue(CmsDefaultUserSettings settings, @RUntainted String value) {
 
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(value) && value.contains("/") && !(value.endsWith("/"))) {
             value += "/";

@@ -103,6 +103,7 @@ import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.Table.RowHeaderMode;
 import com.vaadin.v7.ui.Table.TableDragMode;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generic table for displaying lists of resources.<p>
@@ -313,7 +314,7 @@ public class CmsResourceTable extends CustomComponent {
     /**
      * Extending the indexed container to make the number of un-filtered items available.<p>
      */
-    protected static class ItemContainer extends IndexedContainer {
+    protected static class ItemContainer extends @RUntainted IndexedContainer {
 
         /** The serial version id. */
         private static final long serialVersionUID = -2033722658471550506L;
@@ -358,7 +359,7 @@ public class CmsResourceTable extends CustomComponent {
     protected ItemContainer m_container = new ItemContainer();
 
     /** The table used to display the resource data. */
-    protected Table m_fileTable = new Table();
+    protected @RUntainted Table m_fileTable = new Table();
 
     /** Property provider for additional columns. */
     protected List<I_ResourcePropertyProvider> m_propertyProviders;
@@ -384,7 +385,7 @@ public class CmsResourceTable extends CustomComponent {
      * @param resource the resource
      * @param locale the locale
      */
-    public static void fillItemDefault(Item resourceItem, CmsObject cms, CmsResource resource, Locale locale) {
+    public static void fillItemDefault(Item resourceItem, CmsObject cms, CmsResource resource, @RUntainted Locale locale) {
 
         if (resource == null) {
             LOG.error("Error rendering item for 'null' resource");
@@ -700,7 +701,7 @@ public class CmsResourceTable extends CustomComponent {
      * @return the structure ids of the current folder contents
      */
     @SuppressWarnings("unchecked")
-    public List<CmsUUID> getAllIds() {
+    public List<@RUntainted CmsUUID> getAllIds() {
 
         return itemIdsToUUIDs((List<String>)m_fileTable.getContainerDataSource().getItemIds());
     }
@@ -722,7 +723,7 @@ public class CmsResourceTable extends CustomComponent {
      *
      * @return the structure id
      */
-    public CmsUUID getUUIDFromItemID(String itemId) {
+    public @RUntainted CmsUUID getUUIDFromItemID(@RUntainted String itemId) {
 
         return new CmsUUID(itemId);
     }
@@ -811,7 +812,7 @@ public class CmsResourceTable extends CustomComponent {
      * @param resource the resource
      * @param locale the workplace locale
      */
-    protected void fillItem(CmsObject cms, CmsResource resource, Locale locale) {
+    protected void fillItem(CmsObject cms, CmsResource resource, @RUntainted Locale locale) {
 
         Item resourceItem = m_container.getItem(resource.getStructureId().toString());
         if (resourceItem == null) {
@@ -830,7 +831,7 @@ public class CmsResourceTable extends CustomComponent {
      *
      * @return the UUIDs
      */
-    protected List<CmsUUID> itemIdsToUUIDs(Collection<String> itemIds) {
+    protected List<@RUntainted CmsUUID> itemIdsToUUIDs(Collection<@RUntainted String> itemIds) {
 
         List<CmsUUID> ids = new ArrayList<CmsUUID>();
         for (String itemId : itemIds) {

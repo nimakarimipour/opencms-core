@@ -84,6 +84,8 @@ import com.vaadin.ui.Window;
 import com.vaadin.v7.data.Validator;
 import com.vaadin.v7.ui.TextArea;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Dialog to edit or create resourcetypes.<p>
@@ -110,7 +112,7 @@ public class CmsNewResourceTypeDialog extends CmsBasicDialog {
          * @param i the count to add to the XPath
          * @return the argument wrapped in square brackets.
          */
-        public static String num(int i) {
+        public static @RPolyTainted String num(@RPolyTainted int i) {
 
             return "[" + i + "]";
         }
@@ -162,7 +164,7 @@ public class CmsNewResourceTypeDialog extends CmsBasicDialog {
         /**
          * @see com.vaadin.v7.data.Validator#validate(java.lang.Object)
          */
-        public void validate(Object value) throws InvalidValueException {
+        public void validate(@RUntainted Object value) throws InvalidValueException {
 
             if (((String)value).isEmpty()) {
                 throw new InvalidValueException(
@@ -189,7 +191,7 @@ public class CmsNewResourceTypeDialog extends CmsBasicDialog {
         /**
          * @see com.vaadin.v7.data.Validator#validate(java.lang.Object)
          */
-        public void validate(Object value) throws InvalidValueException {
+        public void validate(@RUntainted Object value) throws InvalidValueException {
 
             if (((String)value).isEmpty()) {
                 throw new InvalidValueException(
@@ -297,7 +299,7 @@ public class CmsNewResourceTypeDialog extends CmsBasicDialog {
     static final String ICON_BIG_DEFAULT = "oc-icon-24-default";
 
     /**CmsObject. */
-    CmsObject m_cms;
+    @RUntainted CmsObject m_cms;
 
     /** vaadin component.*/
     private Button m_cancel;
@@ -315,13 +317,13 @@ public class CmsNewResourceTypeDialog extends CmsBasicDialog {
     private TextArea m_typeDescription;
 
     /** vaadin component.*/
-    private TextField m_typeID;
+    private @RUntainted TextField m_typeID;
 
     /** vaadin component.*/
-    private TextField m_typeName;
+    private @RUntainted TextField m_typeName;
 
     /** vaadin component.*/
-    private TextField m_typeShortName;
+    private @RUntainted TextField m_typeShortName;
 
     /** vaadin component.*/
     private TextField m_typeXPathName;
@@ -392,7 +394,7 @@ public class CmsNewResourceTypeDialog extends CmsBasicDialog {
      * @param xmlPath the path of the (nested) element, for which the parents should be created
      * @param l the locale for which the XML content is edited.
      */
-    protected void createParentXmlElements(CmsXmlContent xmlContent, String xmlPath, Locale l) {
+    protected void createParentXmlElements(CmsXmlContent xmlContent, @RUntainted String xmlPath, @RUntainted Locale l) {
 
         if (CmsXmlUtils.isDeepXpath(xmlPath)) {
             String parentPath = CmsXmlUtils.removeLastXpathElement(xmlPath);
@@ -470,7 +472,7 @@ public class CmsNewResourceTypeDialog extends CmsBasicDialog {
      */
     private void addMessagesToPropertiesFile(
         Map<String, String> messages,
-        CmsFile propertiesFile,
+        @RUntainted CmsFile propertiesFile,
         boolean forcePropertyFileEncoding)
     throws CmsException, UnsupportedEncodingException {
 
@@ -499,7 +501,7 @@ public class CmsNewResourceTypeDialog extends CmsBasicDialog {
      *
      * @throws CmsException if something goes wrong writing the file
      */
-    private void addMessagesToVfsBundle(Map<String, String> messages, CmsFile vfsBundleFile) throws CmsException {
+    private void addMessagesToVfsBundle(Map<String, String> messages, @RUntainted CmsFile vfsBundleFile) throws CmsException {
 
         lockTemporary(vfsBundleFile);
         CmsObject cms = m_cms;
@@ -934,12 +936,12 @@ public class CmsNewResourceTypeDialog extends CmsBasicDialog {
      *
      * @return String name-pattern
      */
-    private String getNamePattern() {
+    private @RUntainted String getNamePattern() {
 
         String niceName = m_typeShortName.getValue();
         if (m_typeShortName.getValue().contains("-")) {
             int maxLength = 0;
-            String[] nameParts = niceName.split("-");
+            @RUntainted String[] nameParts = niceName.split("-");
             for (int i = 0; i < nameParts.length; i++) {
                 if (nameParts[i].length() > maxLength) {
                     maxLength = nameParts[i].length();
@@ -1028,7 +1030,7 @@ public class CmsNewResourceTypeDialog extends CmsBasicDialog {
      *
      * @throws CmsException if locking fails
      */
-    private void lockTemporary(CmsResource resource) throws CmsException {
+    private void lockTemporary(@RUntainted CmsResource resource) throws CmsException {
 
         CmsUser user = m_cms.getRequestContext().getCurrentUser();
         CmsLock lock = m_cms.getLock(resource);

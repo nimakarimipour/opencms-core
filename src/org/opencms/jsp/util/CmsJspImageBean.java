@@ -44,6 +44,7 @@ import java.util.TreeMap;
 
 import org.apache.commons.collections.Transformer;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean containing image information for the use in JSP (for example formatters).
@@ -59,7 +60,7 @@ public class CmsJspImageBean {
          * @see org.apache.commons.collections.Transformer#transform(java.lang.Object)
          */
         @Override
-        public Object transform(Object input) {
+        public Object transform(@RUntainted Object input) {
 
             return createHiDpiVariation(String.valueOf(input));
         }
@@ -74,7 +75,7 @@ public class CmsJspImageBean {
          * @see org.apache.commons.collections.Transformer#transform(java.lang.Object)
          */
         @Override
-        public Object transform(Object input) {
+        public Object transform(@RUntainted Object input) {
 
             return createRatioVariation(String.valueOf(input));
         }
@@ -89,7 +90,7 @@ public class CmsJspImageBean {
          * @see org.apache.commons.collections.Transformer#transform(java.lang.Object)
          */
         @Override
-        public Object transform(Object input) {
+        public Object transform(@RUntainted Object input) {
 
             return createWidthVariation(String.valueOf(input));
         }
@@ -102,7 +103,7 @@ public class CmsJspImageBean {
     static final Log LOG = CmsLog.getLog(CmsJspImageBean.class);
 
     /** Size variations for source sets. */
-    static final double[] m_sizeVariants = {1.000, 0.7500, 0.5000, 0.3750, 0.2500, 0.1250};
+    static final @RUntainted double[] m_sizeVariants = {1.000, 0.7500, 0.5000, 0.3750, 0.2500, 0.1250};
 
     /** The wrapped VFS resource for this image. */
     CmsJspResourceWrapper m_resource = null;
@@ -156,7 +157,7 @@ public class CmsJspImageBean {
      * @param imageRes the VFS resource to read the image from
      * @param scaleParams optional scaler parameters to apply to the VFS resource
      */
-    public CmsJspImageBean(CmsObject cms, CmsResource imageRes, String scaleParams) {
+    public CmsJspImageBean(CmsObject cms, CmsResource imageRes, @RUntainted String scaleParams) {
 
         init(cms, imageRes, scaleParams);
     }
@@ -169,7 +170,7 @@ public class CmsJspImageBean {
      *
      * @throws CmsException in case of problems reading the image from the VFS
      */
-    public CmsJspImageBean(CmsObject cms, String imageUri)
+    public CmsJspImageBean(CmsObject cms, @RUntainted String imageUri)
     throws CmsException {
 
         setCmsObject(cms);
@@ -178,7 +179,7 @@ public class CmsJspImageBean {
         String scaleParam = null;
         if (splitSrc.getQuery() != null) {
             // check if the original URI already has parameters, this is true if original has been cropped
-            String[] scaleStr = CmsRequestUtil.createParameterMap(splitSrc.getQuery()).get(CmsImageScaler.PARAM_SCALE);
+            @RUntainted String[] scaleStr = CmsRequestUtil.createParameterMap(splitSrc.getQuery()).get(CmsImageScaler.PARAM_SCALE);
             if (scaleStr != null) {
                 scaleParam = scaleStr[0];
             }
@@ -200,7 +201,7 @@ public class CmsJspImageBean {
      *
      * @throws CmsException in case of problems reading the image from the VFS
      */
-    public CmsJspImageBean(CmsObject cms, String imageUri, CmsImageScaler initScaler)
+    public CmsJspImageBean(CmsObject cms, @RUntainted String imageUri, CmsImageScaler initScaler)
     throws CmsException {
 
         this(cms, imageUri);
@@ -241,11 +242,11 @@ public class CmsJspImageBean {
      * @return the created variation scaler for this image
      */
     protected static CmsImageScaler createVariation(
-        int originalWidth,
-        int originalHeight,
+        @RUntainted int originalWidth,
+        @RUntainted int originalHeight,
         CmsImageScaler baseScaler,
-        int targetWidth,
-        int targetHeight,
+        @RUntainted int targetWidth,
+        @RUntainted int targetHeight,
         int quality) {
 
         CmsImageScaler result = null;
@@ -403,7 +404,7 @@ public class CmsJspImageBean {
      *
      * @return a hi-DPI scaled version of the current image
      */
-    public CmsJspImageBean createHiDpiVariation(String hiDpiStr) {
+    public CmsJspImageBean createHiDpiVariation(@RUntainted String hiDpiStr) {
 
         CmsJspImageBean result = null;
         if (hiDpiStr.matches("^[0-9]+(.[0-9]+)?x$")) {
@@ -440,7 +441,7 @@ public class CmsJspImageBean {
      *
      * @return a ratio scaled version of the current image
      */
-    public CmsJspImageBean createRatioVariation(String ratioStr) {
+    public CmsJspImageBean createRatioVariation(@RUntainted String ratioStr) {
 
         CmsJspImageBean result = null;
 
@@ -494,7 +495,7 @@ public class CmsJspImageBean {
      *
      * @return a width scaled version of the current image
      */
-    public CmsJspImageBean createWidthVariation(String widthStr) {
+    public CmsJspImageBean createWidthVariation(@RUntainted String widthStr) {
 
         CmsJspImageBean result = null;
 
@@ -545,7 +546,7 @@ public class CmsJspImageBean {
      *
      * @return the original pixel height of the image
      */
-    public int getHeight() {
+    public @RUntainted int getHeight() {
 
         return m_originalScaler.getHeight();
     }
@@ -836,7 +837,7 @@ public class CmsJspImageBean {
      *
      * @return the original (unscaled) width of the image
      */
-    public int getWidth() {
+    public @RUntainted int getWidth() {
 
         return m_originalScaler.getWidth();
     }
@@ -1031,7 +1032,7 @@ public class CmsJspImageBean {
      * @param imageRes the VFS resource to read the image from
      * @param scaleParams optional scaler parameters to apply to the VFS resource
      */
-    protected void init(CmsObject cms, CmsResource imageRes, String scaleParams) {
+    protected void init(CmsObject cms, CmsResource imageRes, @RUntainted String scaleParams) {
 
         setCmsObject(cms);
 

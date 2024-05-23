@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A search index source is a description of a list of Cms resources
@@ -58,7 +59,7 @@ public class CmsSearchIndexSource implements Comparable<CmsSearchIndexSource>, S
     private static final Log LOG = CmsLog.getLog(CmsSearchIndexSource.class);
 
     /** A list of Cms resource types to be indexed. */
-    private List<String> m_documentTypes;
+    private List<@RUntainted String> m_documentTypes;
 
     /** The map from extraction keys to document factories. */
     private transient Map<String, I_CmsDocumentFactory> m_documentFactories;
@@ -67,16 +68,16 @@ public class CmsSearchIndexSource implements Comparable<CmsSearchIndexSource>, S
     private transient I_CmsIndexer m_indexer;
 
     /** The class name of the indexer. */
-    private String m_indexerClassName;
+    private @RUntainted String m_indexerClassName;
 
     /** The logical key/name of this index. */
-    private String m_name;
+    private @RUntainted String m_name;
 
     /** A map of optional key/value parameters. */
     private Map<String, String> m_params;
 
     /** A list of Cms resources to be indexed. */
-    private List<String> m_resourcesNames;
+    private List<@RUntainted String> m_resourcesNames;
 
     /**
      * Creates a new CmsSearchIndexSource.<p>
@@ -105,7 +106,7 @@ public class CmsSearchIndexSource implements Comparable<CmsSearchIndexSource>, S
      *
      * @param key the name of a document type to add
      */
-    public void addDocumentType(String key) {
+    public void addDocumentType(@RUntainted String key) {
 
         m_documentTypes.add(key);
     }
@@ -115,7 +116,7 @@ public class CmsSearchIndexSource implements Comparable<CmsSearchIndexSource>, S
      *
      * @param resourceName the path of a Cms resource
      */
-    public void addResourceName(String resourceName) {
+    public void addResourceName(@RUntainted String resourceName) {
 
         m_resourcesNames.add(resourceName);
     }
@@ -175,7 +176,7 @@ public class CmsSearchIndexSource implements Comparable<CmsSearchIndexSource>, S
      *
      * @return the list of names (Strings) of the document types to be indexed
      */
-    public List<String> getDocumentTypes() {
+    public List<@RUntainted String> getDocumentTypes() {
 
         return m_documentTypes;
     }
@@ -195,7 +196,7 @@ public class CmsSearchIndexSource implements Comparable<CmsSearchIndexSource>, S
      *
      * @return the class name of the indexer
      */
-    public String getIndexerClassName() {
+    public @RUntainted String getIndexerClassName() {
 
         return m_indexerClassName;
     }
@@ -205,7 +206,7 @@ public class CmsSearchIndexSource implements Comparable<CmsSearchIndexSource>, S
      *
      * @return the logical key/name of this search index source
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_name;
     }
@@ -236,7 +237,7 @@ public class CmsSearchIndexSource implements Comparable<CmsSearchIndexSource>, S
      *
      * @return the list of VFS resources to be indexed
      */
-    public List<String> getResourcesNames() {
+    public List<@RUntainted String> getResourcesNames() {
 
         return m_resourcesNames;
     }
@@ -323,7 +324,7 @@ public class CmsSearchIndexSource implements Comparable<CmsSearchIndexSource>, S
      *
      * @param documentTypes the list of document type names (Strings) to be indexed
      */
-    public void setDocumentTypes(List<String> documentTypes) {
+    public void setDocumentTypes(List<@RUntainted String> documentTypes) {
 
         m_documentTypes = documentTypes;
     }
@@ -337,7 +338,7 @@ public class CmsSearchIndexSource implements Comparable<CmsSearchIndexSource>, S
      *
      * @throws CmsIllegalArgumentException if the given String is not a fully qualified classname (within this Java VM)
      */
-    public void setIndexerClassName(String indexerClassName) throws CmsIllegalArgumentException {
+    public void setIndexerClassName(@RUntainted String indexerClassName) throws CmsIllegalArgumentException {
 
         try {
             m_indexer = (I_CmsIndexer)Class.forName(indexerClassName).newInstance();
@@ -364,7 +365,7 @@ public class CmsSearchIndexSource implements Comparable<CmsSearchIndexSource>, S
      * @throws CmsIllegalArgumentException if argument name is null, an empty or whitespace-only Strings
      *         or already used for another indexsource's name.
      */
-    public void setName(String name) throws CmsIllegalArgumentException {
+    public void setName(@RUntainted String name) throws CmsIllegalArgumentException {
 
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(name)) {
             throw new CmsIllegalArgumentException(
@@ -399,7 +400,7 @@ public class CmsSearchIndexSource implements Comparable<CmsSearchIndexSource>, S
      *
      * @param resources the list of Cms resources (Strings) to be indexed
      */
-    public void setResourcesNames(List<String> resources) {
+    public void setResourcesNames(List<@RUntainted String> resources) {
 
         m_resourcesNames = resources;
     }

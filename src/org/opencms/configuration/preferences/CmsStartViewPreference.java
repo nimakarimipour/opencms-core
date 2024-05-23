@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Preference for the start site.<p>
@@ -58,7 +59,7 @@ public class CmsStartViewPreference extends CmsBuiltinPreference {
      *
      * @param name the preference name
      */
-    public CmsStartViewPreference(String name) {
+    public CmsStartViewPreference(@RUntainted String name) {
 
         super(name);
     }

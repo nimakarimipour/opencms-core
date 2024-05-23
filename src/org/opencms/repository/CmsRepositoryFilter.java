@@ -36,6 +36,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class is a filter for the repositories.<p>
@@ -53,10 +54,10 @@ public class CmsRepositoryFilter {
     private static final String TYPE_INCLUDE = "include";
 
     /** The rules to be used of the filter. */
-    private List<Pattern> m_filterRules;
+    private List<@RUntainted Pattern> m_filterRules;
 
     /** The type of the filter: include or exclude. */
-    private String m_type;
+    private @RUntainted String m_type;
 
     /**
      * Default constructor initializing member variables.
@@ -71,7 +72,7 @@ public class CmsRepositoryFilter {
      *
      * @param rule the rule (regex) to add
      */
-    public void addFilterRule(String rule) {
+    public void addFilterRule(@RUntainted String rule) {
 
         m_filterRules.add(Pattern.compile(rule));
     }
@@ -81,7 +82,7 @@ public class CmsRepositoryFilter {
      *
      * @return the filterRules
      */
-    public List<Pattern> getFilterRules() {
+    public List<@RUntainted Pattern> getFilterRules() {
 
         return m_filterRules;
     }
@@ -109,7 +110,7 @@ public class CmsRepositoryFilter {
 
         if (CmsLog.INIT.isInfoEnabled()) {
 
-            Iterator<Pattern> iter = m_filterRules.iterator();
+            Iterator<@RUntainted Pattern> iter = m_filterRules.iterator();
             while (iter.hasNext()) {
                 Pattern rule = iter.next();
 
@@ -144,7 +145,7 @@ public class CmsRepositoryFilter {
      *
      * @param filterRules the filterRules to set
      */
-    public void setFilterRules(List<Pattern> filterRules) {
+    public void setFilterRules(List<@RUntainted Pattern> filterRules) {
 
         m_filterRules = filterRules;
     }
@@ -154,7 +155,7 @@ public class CmsRepositoryFilter {
      *
      * @param type the type to set
      */
-    public void setType(String type) {
+    public void setType(@RUntainted String type) {
 
         m_type = type;
     }

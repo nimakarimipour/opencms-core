@@ -71,6 +71,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.v7.data.Property.ValueChangeEvent;
 import com.vaadin.v7.data.Property.ValueChangeListener;
 import com.vaadin.v7.ui.ComboBox;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The plain text editor.<p>
@@ -99,7 +100,7 @@ implements I_CmsEditor, I_CmsWindowCloseListener, ViewChangeListener, I_CmsHasSh
         boolean m_closeBrackets = true;
 
         /** The font size. */
-        String m_fontSize = "16px";
+        @RUntainted String m_fontSize = "16px";
 
         /** The highlighting flag. */
         boolean m_highlighting = true;
@@ -113,7 +114,7 @@ implements I_CmsEditor, I_CmsWindowCloseListener, ViewChangeListener, I_CmsHasSh
         /**
          * @see org.opencms.ui.apps.I_CmsAppSettings#getSettingsString()
          */
-        public String getSettingsString() {
+        public @RUntainted String getSettingsString() {
 
             JSONObject json = new JSONObject();
             try {
@@ -202,7 +203,7 @@ implements I_CmsEditor, I_CmsWindowCloseListener, ViewChangeListener, I_CmsHasSh
     private static final long serialVersionUID = 726920483145397926L;
 
     /** The editor back link. */
-    String m_backLink;
+    @RUntainted String m_backLink;
 
     /** The code mirror instance. */
     CmsCodeMirror m_codeMirror;
@@ -350,7 +351,7 @@ implements I_CmsEditor, I_CmsWindowCloseListener, ViewChangeListener, I_CmsHasSh
     /**
      * @see org.opencms.ui.editors.I_CmsEditor#initUI(org.opencms.ui.apps.I_CmsAppUIContext, org.opencms.file.CmsResource, java.lang.String, java.util.Map)
      */
-    public void initUI(I_CmsAppUIContext context, CmsResource resource, String backLink, Map<String, String> params) {
+    public void initUI(I_CmsAppUIContext context, CmsResource resource, @RUntainted String backLink, Map<String, String> params) {
 
         CmsObject cms = A_CmsUI.getCmsObject();
         if (OpenCms.getADEManager().isEditorRestricted(cms, resource)) {
@@ -581,7 +582,7 @@ implements I_CmsEditor, I_CmsWindowCloseListener, ViewChangeListener, I_CmsHasSh
 
             private static final long serialVersionUID = 1L;
 
-            public void valueChange(ValueChangeEvent event) {
+            public void valueChange(@RUntainted ValueChangeEvent event) {
 
                 m_codeMirror.setFontSize((String)event.getProperty().getValue());
             }

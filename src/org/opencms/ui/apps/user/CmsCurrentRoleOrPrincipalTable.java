@@ -57,6 +57,7 @@ import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.v7.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.v7.ui.Table;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the table to view and edit groups of a given user.<p>
@@ -71,7 +72,7 @@ public class CmsCurrentRoleOrPrincipalTable extends Table {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> context) {
+        public void executeAction(Set<@RUntainted String> context) {
 
             m_dialog.removeItem(context);
             m_dialog.init();

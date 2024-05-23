@@ -85,6 +85,7 @@ import com.vaadin.ui.Window;
 import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.Window.CloseListener;
 import com.vaadin.ui.themes.ValoTheme;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Main class of Log management app.<p>
@@ -92,12 +93,12 @@ import com.vaadin.ui.themes.ValoTheme;
 public class CmsLogFileApp extends A_CmsWorkplaceApp implements I_CmsCRUDApp<Logger> {
 
     /**Log folder path.*/
-    protected static final String LOG_FOLDER =
+    protected static final @RUntainted String LOG_FOLDER =
             OpenCms.getSystemInfo().getLogFileRfsFolder() == null ?
                     "" : OpenCms.getSystemInfo().getLogFileRfsFolder();
 
     /**Path to channel settings view.*/
-    protected static String PATH_LOGCHANNEL = "log-channel";
+    protected static @RUntainted String PATH_LOGCHANNEL = "log-channel";
 
     /**Logger.*/
     private static Log LOG = CmsLog.getLog(CmsLogFileApp.class);
@@ -427,7 +428,7 @@ public class CmsLogFileApp extends A_CmsWorkplaceApp implements I_CmsCRUDApp<Log
      * @throws CmsRfsException exception
      * @throws CmsRuntimeException exception
      */
-    public String getLogFilePortion(CmsRfsFileViewer logView, String currentFile)
+    public String getLogFilePortion(CmsRfsFileViewer logView, @RUntainted String currentFile)
     throws CmsRfsException, CmsRuntimeException {
 
         logView.setFilePath(currentFile);

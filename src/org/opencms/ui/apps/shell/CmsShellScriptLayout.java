@@ -46,6 +46,7 @@ import com.vaadin.ui.Window;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.TextArea;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Layout for shell script settings and input dialog.<p>
@@ -59,13 +60,13 @@ public class CmsShellScriptLayout extends VerticalLayout {
     private static final long serialVersionUID = -7284574557422737112L;
 
     /**Vaadin component. */
-    private ComboBox m_site;
+    private @RUntainted ComboBox m_site;
 
     /**Vaadin component. */
-    private ComboBox m_project;
+    private @RUntainted ComboBox m_project;
 
     /**Vaadin component. */
-    private TextArea m_script;
+    private @RUntainted TextArea m_script;
 
     /**Vaadin component. */
     private Button m_ok;
@@ -118,7 +119,7 @@ public class CmsShellScriptLayout extends VerticalLayout {
      *
      * @return String
      */
-    protected String getScript() {
+    protected @RUntainted String getScript() {
 
         return m_script.getValue();
     }

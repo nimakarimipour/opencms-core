@@ -41,6 +41,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class to generate or parse a link to a PDF thumbnail.<p>
@@ -83,7 +84,7 @@ public class CmsPdfThumbnailLink {
     private static final Log LOG = CmsLog.getLog(CmsPdfThumbnailLink.class);
 
     /** The image format. */
-    private String m_format;
+    private @RUntainted String m_format;
 
     /** The height. */
     private int m_height = -1;
@@ -98,7 +99,7 @@ public class CmsPdfThumbnailLink {
     private int m_page = 0;
 
     /** The PDF resource. */
-    private CmsResource m_pdfResource;
+    private @RUntainted CmsResource m_pdfResource;
 
     /** The width. */
     private int m_width = -1;
@@ -112,7 +113,7 @@ public class CmsPdfThumbnailLink {
      * @param height thumbnail height
      * @param format the thumbnail image format (png, gif..,)
      */
-    public CmsPdfThumbnailLink(CmsObject cms, CmsResource pdfResource, int width, int height, String format) {
+    public CmsPdfThumbnailLink(CmsObject cms, CmsResource pdfResource, int width, int height, @RUntainted String format) {
 
         m_pdfResource = pdfResource;
         m_width = width;
@@ -140,7 +141,7 @@ public class CmsPdfThumbnailLink {
      * @throws ParseException
      * @throws CmsException
      */
-    public CmsPdfThumbnailLink(CmsObject cms, String link, String options)
+    public CmsPdfThumbnailLink(CmsObject cms, @RUntainted String link, @RUntainted String options)
     throws ParseException, CmsException {
 
         m_link = link;
@@ -181,7 +182,7 @@ public class CmsPdfThumbnailLink {
      *
      * @return the image format
      */
-    public String getFormat() {
+    public @RUntainted String getFormat() {
 
         return m_format;
     }
@@ -231,7 +232,7 @@ public class CmsPdfThumbnailLink {
      *
      * @return the PDF resource
      */
-    CmsResource getPdfResource() {
+    @RUntainted CmsResource getPdfResource() {
 
         return m_pdfResource;
     }

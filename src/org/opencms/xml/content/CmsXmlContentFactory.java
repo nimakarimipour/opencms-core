@@ -50,6 +50,7 @@ import javax.servlet.ServletRequest;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.xml.sax.EntityResolver;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides factory methods to unmarshal (read) an XML content object.<p>
@@ -77,7 +78,7 @@ public final class CmsXmlContentFactory {
      *
      * @throws CmsXmlException if something goes wrong
      */
-    public static CmsXmlContent createDocument(CmsObject cms, Locale locale, CmsResourceTypeXmlContent resourceType)
+    public static CmsXmlContent createDocument(@RUntainted CmsObject cms, @RUntainted Locale locale, CmsResourceTypeXmlContent resourceType)
     throws CmsXmlException {
 
         String schema = resourceType.getSchema();
@@ -104,7 +105,7 @@ public final class CmsXmlContentFactory {
      *
      * @return the created XML content
      */
-    public static CmsXmlContent createDocument(CmsObject cms, Locale locale, String modelUri) throws CmsException {
+    public static @RUntainted CmsXmlContent createDocument(@RUntainted CmsObject cms, @RUntainted Locale locale, @RUntainted String modelUri) throws CmsException {
 
         // create the XML content
         CmsXmlContent content = new CmsXmlContent(cms, locale, modelUri);
@@ -125,11 +126,11 @@ public final class CmsXmlContentFactory {
      *
      * @return the created XML content
      */
-    public static CmsXmlContent createDocument(
-        CmsObject cms,
-        Locale locale,
-        String encoding,
-        CmsXmlContentDefinition contentDefinition) {
+    public static @RUntainted CmsXmlContent createDocument(
+        @RUntainted CmsObject cms,
+        @RUntainted Locale locale,
+        @RUntainted String encoding,
+        @RUntainted CmsXmlContentDefinition contentDefinition) {
 
         // create the XML content
         CmsXmlContent content = new CmsXmlContent(cms, locale, encoding, contentDefinition);
@@ -158,7 +159,7 @@ public final class CmsXmlContentFactory {
      *
      * @throws CmsXmlException if something goes wrong
      */
-    public static CmsXmlContent unmarshal(CmsObject cms, byte[] xmlData, String encoding, EntityResolver resolver)
+    public static @RUntainted CmsXmlContent unmarshal(@RUntainted CmsObject cms, byte[] xmlData, @RUntainted String encoding, @RUntainted EntityResolver resolver)
     throws CmsXmlException {
 
         return unmarshal(cms, CmsXmlUtils.unmarshalHelper(xmlData, resolver), encoding, resolver);
@@ -180,7 +181,7 @@ public final class CmsXmlContentFactory {
      *
      * @throws CmsXmlException if something goes wrong
      */
-    public static CmsXmlContent unmarshal(CmsObject cms, CmsFile file) throws CmsXmlException {
+    public static @RUntainted CmsXmlContent unmarshal(@RUntainted CmsObject cms, CmsFile file) throws CmsXmlException {
 
         return unmarshal(cms, file, true);
     }
@@ -207,9 +208,9 @@ public final class CmsXmlContentFactory {
      *
      * @throws CmsXmlException if something goes wrong
      */
-    public static CmsXmlContent unmarshal(CmsObject cms, CmsFile file, boolean keepEncoding) throws CmsXmlException {
+    public static @RUntainted CmsXmlContent unmarshal(@RUntainted CmsObject cms, CmsFile file, boolean keepEncoding) throws CmsXmlException {
 
-        byte[] contentBytes = file.getContents();
+        @RUntainted byte[] contentBytes = file.getContents();
         String filename = cms.getSitePath(file);
 
         String encoding = null;
@@ -281,7 +282,7 @@ public final class CmsXmlContentFactory {
      * @throws CmsLoaderException if no loader for the given <code>resource</code> type ({@link CmsResource#getTypeId()}) is available
      * @throws CmsXmlException if the given <code>resource</code> is not of type xml content
      */
-    public static CmsXmlContent unmarshal(CmsObject cms, CmsResource resource, ServletRequest req)
+    public static CmsXmlContent unmarshal(@RUntainted CmsObject cms, @RUntainted CmsResource resource, ServletRequest req)
     throws CmsXmlException, CmsLoaderException, CmsException {
 
         String rootPath = resource.getRootPath();
@@ -325,7 +326,7 @@ public final class CmsXmlContentFactory {
      *
      * @return a XML content instance unmarshalled from the String
      */
-    public static CmsXmlContent unmarshal(CmsObject cms, Document document, String encoding, EntityResolver resolver) {
+    public static @RUntainted CmsXmlContent unmarshal(@RUntainted CmsObject cms, @RUntainted Document document, @RUntainted String encoding, @RUntainted EntityResolver resolver) {
 
         CmsXmlContent content = new CmsXmlContent(cms, document, encoding, resolver);
         // call prepare for use content handler and return the result
@@ -352,7 +353,7 @@ public final class CmsXmlContentFactory {
      *
      * @throws CmsXmlException if something goes wrong
      */
-    public static CmsXmlContent unmarshal(CmsObject cms, String xmlData, String encoding, EntityResolver resolver)
+    public static @RUntainted CmsXmlContent unmarshal(@RUntainted CmsObject cms, @RUntainted String xmlData, @RUntainted String encoding, @RUntainted EntityResolver resolver)
     throws CmsXmlException {
 
         // create the XML content object from the provided String
@@ -380,7 +381,7 @@ public final class CmsXmlContentFactory {
      *
      * @throws CmsXmlException if something goes wrong
      */
-    public static CmsXmlContent unmarshal(String xmlData, String encoding, EntityResolver resolver)
+    public static CmsXmlContent unmarshal(@RUntainted String xmlData, @RUntainted String encoding, @RUntainted EntityResolver resolver)
     throws CmsXmlException {
 
         return unmarshal(null, xmlData, encoding, resolver);

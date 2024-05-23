@@ -37,6 +37,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for dealing with authorization tokens for the 'forgot password' functionality.<p>
@@ -109,7 +110,7 @@ public class CmsTokenValidator {
     public String validateToken(CmsObject cms, String token, long maxAgeMillis) throws CmsException {
 
         try {
-            List<String> tokenValues = CmsEncoder.decodeStringsFromBase64Parameter(token);
+            List<@RUntainted String> tokenValues = CmsEncoder.decodeStringsFromBase64Parameter(token);
 
             if (tokenValues.size() != 2) {
                 return "Invalid token";

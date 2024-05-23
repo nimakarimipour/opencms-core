@@ -64,6 +64,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Widget to select a type and formatter combination.<p>
@@ -76,13 +77,13 @@ public class CmsDisplayTypeSelectWidget extends CmsSelectWidget {
     class FormatterOption {
 
         /** the display type. */
-        String m_displayType;
+        @RUntainted String m_displayType;
 
         /** The option key. */
-        String m_key;
+        @RUntainted String m_key;
 
         /** The option label. */
-        String m_label;
+        @RUntainted String m_label;
 
         /** The formatter rank. */
         int m_rank;
@@ -103,7 +104,7 @@ public class CmsDisplayTypeSelectWidget extends CmsSelectWidget {
          * @param rank the formatter rank
          * @param typePos the position of the type in the sitemap config
          */
-        FormatterOption(String key, String typeName, String displayType, String label, int rank, Integer typePos) {
+        FormatterOption(@RUntainted String key, String typeName, @RUntainted String displayType, @RUntainted String label, int rank, Integer typePos) {
 
             m_key = key;
             m_typeName = typeName;
@@ -143,13 +144,13 @@ public class CmsDisplayTypeSelectWidget extends CmsSelectWidget {
     private boolean m_matchTypes;
 
     /** The configuration String. */
-    private String m_config;
+    private @RUntainted String m_config;
 
     /**
      * @see org.opencms.widgets.A_CmsSelectWidget#getConfiguration()
      */
     @Override
-    public String getConfiguration() {
+    public @RUntainted String getConfiguration() {
 
         return m_config;
     }
@@ -201,7 +202,7 @@ public class CmsDisplayTypeSelectWidget extends CmsSelectWidget {
      * @see org.opencms.widgets.CmsSelectWidget#getWidgetName()
      */
     @Override
-    public String getWidgetName() {
+    public @RUntainted String getWidgetName() {
 
         return CmsDisplayTypeSelectWidget.class.getName();
     }
@@ -219,7 +220,7 @@ public class CmsDisplayTypeSelectWidget extends CmsSelectWidget {
      * @see org.opencms.widgets.A_CmsSelectWidget#setConfiguration(java.lang.String)
      */
     @Override
-    public void setConfiguration(String configuration) {
+    public void setConfiguration(@RUntainted String configuration) {
 
         m_config = configuration;
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(configuration)) {
@@ -271,7 +272,7 @@ public class CmsDisplayTypeSelectWidget extends CmsSelectWidget {
      *
      * @return the display type
      */
-    private String getDisplayType(I_CmsFormatterBean formatter) {
+    private @RUntainted String getDisplayType(I_CmsFormatterBean formatter) {
 
         return formatter.getDisplayType();
     }

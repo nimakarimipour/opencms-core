@@ -30,6 +30,7 @@ package org.opencms.xml.content;
 import org.opencms.file.CmsObject;
 import org.opencms.util.CmsUUID;
 import org.opencms.xml.types.I_CmsXmlContentValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface representing an XML content location which corresponds to an actual content value.<p>
@@ -44,7 +45,7 @@ public interface I_CmsXmlContentValueLocation extends I_CmsXmlContentLocation {
      * @param cms the CMS context
      * @return the structure id of the content value
      */
-    CmsUUID asId(CmsObject cms);
+    @RUntainted CmsUUID asId(CmsObject cms);
 
     /**
      * Returns the string value of the content value.<p>
@@ -53,7 +54,7 @@ public interface I_CmsXmlContentValueLocation extends I_CmsXmlContentLocation {
      *
      * @return the string value of the content value
      */
-    String asString(CmsObject cms);
+    @RUntainted String asString(CmsObject cms);
 
     /**
      * Returns the content value at the given location.<p>

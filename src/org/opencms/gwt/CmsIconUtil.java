@@ -47,6 +47,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Utility class to generate the resource icon CSS.<p>
@@ -321,7 +322,7 @@ public final class CmsIconUtil implements I_CmsEventListener {
 
         if (m_extensionIconMapping == null) {
             m_extensionIconMapping = new HashMap<String, String>();
-            for (Entry<String, String> entry : OpenCms.getResourceManager().getExtensionMapping().entrySet()) {
+            for (Entry<String, @RUntainted String> entry : OpenCms.getResourceManager().getExtensionMapping().entrySet()) {
                 m_extensionIconMapping.put(
                     entry.getKey(),
                     getIconClasses(entry.getValue(), "_." + entry.getKey(), false));

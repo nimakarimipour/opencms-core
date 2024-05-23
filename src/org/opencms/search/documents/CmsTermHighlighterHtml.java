@@ -44,6 +44,7 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.highlight.Highlighter;
 import org.apache.lucene.search.highlight.InvalidTokenOffsetsException;
 import org.apache.lucene.search.highlight.QueryTermScorer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Default highlighter implementation used for generation of search excerpts.<p>
@@ -61,7 +62,7 @@ public class CmsTermHighlighterHtml implements I_CmsTermHighlighter {
     /**
      * @see org.opencms.search.documents.I_CmsTermHighlighter#getExcerpt(org.apache.lucene.document.Document, org.opencms.search.CmsSearchIndex, org.opencms.search.CmsSearchParameters, org.apache.lucene.search.Query, org.apache.lucene.analysis.Analyzer)
      */
-    public String getExcerpt(
+    public @RUntainted String getExcerpt(
         Document doc,
         CmsSearchIndex index,
         CmsSearchParameters params,

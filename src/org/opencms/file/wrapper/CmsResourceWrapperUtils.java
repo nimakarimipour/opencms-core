@@ -50,6 +50,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Helper class with several methods used by different implementations of the
@@ -105,7 +107,7 @@ public final class CmsResourceWrapperUtils {
      *
      * @return the resource name with the added file extension
      */
-    public static String addFileExtension(CmsObject cms, String resourcename, String extension) {
+    public static @RPolyTainted String addFileExtension(CmsObject cms, @RPolyTainted String resourcename, @RPolyTainted String extension) {
 
         if (!extension.startsWith(".")) {
             extension = "." + extension;
@@ -171,7 +173,7 @@ public final class CmsResourceWrapperUtils {
      *
      * @throws CmsException if something goes wrong
      */
-    public static CmsFile createPropertyFile(CmsObject cms, CmsResource res, String path) throws CmsException {
+    public static CmsFile createPropertyFile(CmsObject cms, CmsResource res, @RUntainted String path) throws CmsException {
 
         StringBuffer content = new StringBuffer();
 
@@ -185,7 +187,7 @@ public final class CmsResourceWrapperUtils {
         content.append("# ${property_name}.s :     shared property\n\n");
 
         List<CmsPropertyDefinition> propertyDef = cms.readAllPropertyDefinitions();
-        Map<String, CmsProperty> activeProperties = CmsProperty.getPropertyMap(cms.readPropertyObjects(res, false));
+        Map<@RUntainted String, CmsProperty> activeProperties = CmsProperty.getPropertyMap(cms.readPropertyObjects(res, false));
 
         String resourceType = OpenCms.getResourceManager().getResourceType(res).getTypeName();
         content.append("resourceType=");
@@ -268,7 +270,7 @@ public final class CmsResourceWrapperUtils {
      *
      * @return the resource name without the removed file extension
      */
-    public static String removeFileExtension(CmsObject cms, String resourcename, String extension) {
+    public static @RPolyTainted String removeFileExtension(CmsObject cms, @RPolyTainted String resourcename, @RPolyTainted String extension) {
 
         if (resourcename.equals("")) {
             resourcename = "/";
@@ -368,9 +370,9 @@ public final class CmsResourceWrapperUtils {
             properties.load(new ByteArrayInputStream(modContent));
 
             List<CmsProperty> propList = new ArrayList<CmsProperty>();
-            Iterator<Map.Entry<Object, Object>> it = properties.entrySet().iterator();
+            Iterator<Map.Entry<@RUntainted Object, @RUntainted Object>> it = properties.entrySet().iterator();
             while (it.hasNext()) {
-                Map.Entry<Object, Object> e = it.next();
+                Map.Entry<@RUntainted Object, @RUntainted Object> e = it.next();
                 String key = (String)e.getKey();
                 String value = (String)e.getValue();
 

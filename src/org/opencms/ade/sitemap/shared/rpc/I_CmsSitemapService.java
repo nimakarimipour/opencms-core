@@ -54,6 +54,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.user.client.rpc.RemoteService;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles all RPC services related to the sitemap.<p>
@@ -75,7 +76,7 @@ public interface I_CmsSitemapService extends RemoteService {
      * @param name the new name
      * @throws CmsRpcException if something goes wrong
      */
-    void changeCategory(String entryPoint, CmsUUID id, String title, String name) throws CmsRpcException;
+    void changeCategory(String entryPoint, CmsUUID id, @RUntainted String title, @RUntainted String name) throws CmsRpcException;
 
     /**
      * Creates a new category.<p>
@@ -87,7 +88,7 @@ public interface I_CmsSitemapService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    void createCategory(String entryPoint, CmsUUID id, String title, String name) throws CmsRpcException;
+    void createCategory(String entryPoint, CmsUUID id, @RUntainted String title, @RUntainted String name) throws CmsRpcException;
 
     /**
      * Creates a new gallery folder.<p>
@@ -100,7 +101,7 @@ public interface I_CmsSitemapService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    CmsGalleryFolderEntry createNewGalleryFolder(String parentFolder, String title, int folderTypeId)
+    CmsGalleryFolderEntry createNewGalleryFolder(@RUntainted String parentFolder, @RUntainted String title, int folderTypeId)
     throws CmsRpcException;
 
     /**
@@ -117,8 +118,8 @@ public interface I_CmsSitemapService extends RemoteService {
      */
     CmsModelPageEntry createNewModelPage(
         String entryPointUri,
-        String title,
-        String description,
+        @RUntainted String title,
+        @RUntainted String description,
         CmsUUID copyId,
         boolean isModelGroup)
     throws CmsRpcException;
@@ -143,7 +144,7 @@ public interface I_CmsSitemapService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    void disableModelPage(String baseUri, CmsUUID modelPageId, boolean disabled) throws CmsRpcException;
+    void disableModelPage(String baseUri, CmsUUID modelPageId, @RUntainted boolean disabled) throws CmsRpcException;
 
     /**
      * Loads the data for the attribute editor dialog and locks the sitemap configuration.
@@ -181,7 +182,7 @@ public interface I_CmsSitemapService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      **/
-    CmsSitemapCategoryData getCategoryData(String entryPoint) throws CmsRpcException;
+    CmsSitemapCategoryData getCategoryData(@RUntainted String entryPoint) throws CmsRpcException;
 
     /**
      * Returns the sitemap children for the given path.<p>
@@ -236,7 +237,7 @@ public interface I_CmsSitemapService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    String getResourceLink(CmsUUID baseId, String sitePath) throws CmsRpcException;
+    String getResourceLink(CmsUUID baseId, @RUntainted String sitePath) throws CmsRpcException;
 
     /**
      * Loads the data needed by the property editor in the locale comparison view.<p>
@@ -332,7 +333,7 @@ public interface I_CmsSitemapService extends RemoteService {
      * @throws CmsRpcException if something goes wrong
      */
     void savePropertiesForLocaleCompareMode(
-        CmsUUID id,
+        @RUntainted CmsUUID id,
         String newUrlName,
         List<CmsPropertyModification> propertyChanges,
         boolean editedName)
@@ -345,7 +346,7 @@ public interface I_CmsSitemapService extends RemoteService {
      * @param attributes the sitemap attributes
      * @throws CmsRpcException if something goes wrong
      */
-    void saveSitemapAttributes(CmsUUID rootId, Map<String, String> attributes) throws CmsRpcException;
+    void saveSitemapAttributes(CmsUUID rootId, Map<@RUntainted String, @RUntainted String> attributes) throws CmsRpcException;
 
     /**
      * Sets the default model page for the given sub-sitemap, returns the updated model info.<p>

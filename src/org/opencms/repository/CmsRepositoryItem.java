@@ -35,6 +35,7 @@ import org.opencms.file.wrapper.CmsObjectWrapper;
 import org.opencms.loader.CmsResourceManager;
 import org.opencms.main.CmsException;
 import org.opencms.main.OpenCms;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents a single entry in the repository. In the context of OpenCms

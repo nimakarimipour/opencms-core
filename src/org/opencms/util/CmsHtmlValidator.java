@@ -43,6 +43,7 @@ import org.htmlparser.lexer.Lexer;
 import org.htmlparser.lexer.Page;
 import org.htmlparser.util.ParserException;
 import org.htmlparser.visitors.NodeVisitor;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Validates HTML.<p>
@@ -119,7 +120,7 @@ public class CmsHtmlValidator extends NodeVisitor {
     private int m_rootElementCount;
 
     /** The stack of opened HTML tags. */
-    private Stack<String> m_stack = new Stack<String>();
+    private Stack<@RUntainted String> m_stack = new Stack<@RUntainted String>();
 
     /** The number of unbalanced closed tags. */
     private int m_unbalancedClosedTags;
@@ -193,7 +194,7 @@ public class CmsHtmlValidator extends NodeVisitor {
      * @see org.htmlparser.visitors.NodeVisitor#visitEndTag(org.htmlparser.Tag)
      */
     @Override
-    public void visitEndTag(Tag tag) {
+    public void visitEndTag(@RUntainted Tag tag) {
 
         String tagName = tag.getTagName();
         if (tagName.equals(m_stack.peek())) {
@@ -223,7 +224,7 @@ public class CmsHtmlValidator extends NodeVisitor {
      * @see org.htmlparser.visitors.NodeVisitor#visitTag(org.htmlparser.Tag)
      */
     @Override
-    public void visitTag(Tag tag) {
+    public void visitTag(@RUntainted Tag tag) {
 
         if (m_stack.isEmpty()) {
             m_rootElementCount++;

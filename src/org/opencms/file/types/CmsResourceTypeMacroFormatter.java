@@ -28,6 +28,7 @@
 package org.opencms.file.types;
 
 import org.opencms.loader.CmsMacroFormatterLoader;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The macro formatter resource type.<p>
@@ -41,7 +42,7 @@ public class CmsResourceTypeMacroFormatter extends CmsResourceTypeXmlAdeConfigur
      * @see org.opencms.file.types.CmsResourceTypeXmlContent#getCachePropertyDefault()
      */
     @Override
-    public String getCachePropertyDefault() {
+    public @RUntainted String getCachePropertyDefault() {
 
         // return null to disable caching if cache property not set
         return null;

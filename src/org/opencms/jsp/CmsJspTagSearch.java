@@ -69,6 +69,7 @@ import java.util.Set;
 import javax.servlet.jsp.JspException;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This tag is used to easily create a search form for a Solr search within a JSP.
@@ -101,7 +102,7 @@ public class CmsJspTagSearch extends CmsJspScopedVarBodyTagSuport implements I_C
     public static final int DEFAULT_CONTENTINFO_ROWS = 600;
 
     /** The CmsObject for the current user. */
-    protected transient CmsObject m_cms;
+    protected transient @RUntainted CmsObject m_cms;
 
     /** The FlexController for the current request. */
     protected CmsFlexController m_controller;
@@ -110,7 +111,7 @@ public class CmsJspTagSearch extends CmsJspScopedVarBodyTagSuport implements I_C
     private Integer m_addContentInfoForEntries;
 
     /** The "configFile" tag attribute. */
-    private Object m_configFile;
+    private @RUntainted Object m_configFile;
 
     /** The "configString" tag attribute. */
     private String m_configString;
@@ -147,7 +148,7 @@ public class CmsJspTagSearch extends CmsJspScopedVarBodyTagSuport implements I_C
         CmsSolrIndex solrOffline = OpenCms.getSearchManager().getIndexSolr(CmsSolrIndex.DEFAULT_INDEX_NAME_OFFLINE);
         Set<CmsResource> result = new HashSet<CmsResource>();
         try {
-            Map<String, String[]> searchParams = CmsRequestUtil.createParameterMap(
+            Map<String, @RUntainted String[]> searchParams = CmsRequestUtil.createParameterMap(
                 info.getCollectorParams(),
                 true,
                 null);
@@ -157,7 +158,7 @@ public class CmsJspTagSearch extends CmsJspScopedVarBodyTagSuport implements I_C
                 CmsPublishListHelper.adjustCmsObject(cms, false),
                 new CmsSolrQuery(null, searchParams),
                 true);
-            Set<String> offlineIds = new HashSet<String>(offlineResults.size());
+            Set<@RUntainted String> offlineIds = new HashSet<@RUntainted String>(offlineResults.size());
             for (CmsSearchResource offlineResult : offlineResults) {
                 offlineIds.add(offlineResult.getField(CmsSearchField.FIELD_ID));
             }
@@ -171,7 +172,7 @@ public class CmsJspTagSearch extends CmsJspScopedVarBodyTagSuport implements I_C
                 CmsPublishListHelper.adjustCmsObject(cms, true),
                 new CmsSolrQuery(null, searchParams),
                 true);
-            Set<String> deletedIds = new HashSet<String>(onlineResults.size());
+            Set<@RUntainted String> deletedIds = new HashSet<@RUntainted String>(onlineResults.size());
             for (CmsSearchResource onlineResult : onlineResults) {
                 String uuid = onlineResult.getField(CmsSearchField.FIELD_ID);
                 if (!offlineIds.contains(uuid)) {
@@ -273,7 +274,7 @@ public class CmsJspTagSearch extends CmsJspScopedVarBodyTagSuport implements I_C
     /** Setter for the configuration file.
      * @param fileName Name of the configuration file to use for the search.
      */
-    public void setConfigFile(Object fileName) {
+    public void setConfigFile(@RUntainted Object fileName) {
 
         m_configFile = fileName;
     }
@@ -417,7 +418,7 @@ public class CmsJspTagSearch extends CmsJspScopedVarBodyTagSuport implements I_C
             && (!common.getConfig().getIgnoreQueryParam() && !common.getConfig().getSearchForEmptyQueryParam())) {
             return new CmsSearchResultWrapper(m_searchController, null, null, m_cms, null);
         }
-        Map<String, String[]> queryParams = null;
+        Map<String, @RUntainted String[]> queryParams = null;
         boolean isEditMode = CmsJspTagEditable.isEditableRequest(pageContext.getRequest());
         if (isEditMode) {
             String params = "";

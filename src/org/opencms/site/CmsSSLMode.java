@@ -32,6 +32,7 @@ import org.opencms.ui.CmsVaadinUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Enumeration for different SSL Modes of sites.<p>
@@ -50,7 +51,7 @@ public enum CmsSSLMode {
     SECURE_SERVER("secure-server", Messages.GUI_SSL_MODE_SECURE_SERVER_0);
 
     /**Message key for label. */
-    private String m_message;
+    private @RUntainted String m_message;
 
     /**XML value representing mode. */
     private String m_xmlValue;
@@ -61,7 +62,7 @@ public enum CmsSSLMode {
      * @param xmlValue xmlValue
      * @param message Message
      */
-    CmsSSLMode(String xmlValue, String message) {
+    CmsSSLMode(String xmlValue, @RUntainted String message) {
 
         m_xmlValue = xmlValue;
         m_message = message;

@@ -51,6 +51,8 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.solr.uninverting.UninvertingReader.Type;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Abstract implementation for OpenCms search field configurations.<p>
@@ -92,7 +94,7 @@ public class CmsSearchFieldConfiguration extends A_CmsSearchFieldConfiguration {
      *
      * @return the locale extended name for the given lookup String
      */
-    public static final String getLocaleExtendedName(String lookup, Locale locale) {
+    public static final @RPolyTainted String getLocaleExtendedName(@RPolyTainted String lookup, Locale locale) {
 
         if (locale == null) {
             return lookup;
@@ -108,7 +110,7 @@ public class CmsSearchFieldConfiguration extends A_CmsSearchFieldConfiguration {
      *
      * @return the locale extended name for the given lookup String
      */
-    public static final String getLocaleExtendedName(String lookup, String locale) {
+    public static final @RUntainted String getLocaleExtendedName(String lookup, String locale) {
 
         StringBuffer result = new StringBuffer(32);
         result.append(lookup);
@@ -176,8 +178,8 @@ public class CmsSearchFieldConfiguration extends A_CmsSearchFieldConfiguration {
      * @throws CmsException if something goes wrong
      */
     public I_CmsSearchDocument createDocument(
-        CmsObject cms,
-        CmsResource resource,
+        @RUntainted CmsObject cms,
+        @RUntainted CmsResource resource,
         I_CmsSearchIndex index,
         I_CmsExtractionResult extraction)
     throws CmsException {
@@ -251,7 +253,7 @@ public class CmsSearchFieldConfiguration extends A_CmsSearchFieldConfiguration {
      */
     protected I_CmsSearchDocument appendAdditionalValuesToDcoument(
         I_CmsSearchDocument document,
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         CmsResource resource,
         I_CmsExtractionResult extraction,
         List<CmsProperty> properties,
@@ -399,7 +401,7 @@ public class CmsSearchFieldConfiguration extends A_CmsSearchFieldConfiguration {
      */
     protected I_CmsSearchDocument appendFieldMappings(
         I_CmsSearchDocument document,
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         CmsResource resource,
         I_CmsExtractionResult extractionResult,
         List<CmsProperty> properties,
@@ -459,7 +461,7 @@ public class CmsSearchFieldConfiguration extends A_CmsSearchFieldConfiguration {
     protected I_CmsSearchDocument appendLocales(
         I_CmsSearchDocument document,
         CmsObject cms,
-        CmsResource resource,
+        @RUntainted CmsResource resource,
         I_CmsExtractionResult extraction,
         List<CmsProperty> properties,
         List<CmsProperty> propertiesSearched) {

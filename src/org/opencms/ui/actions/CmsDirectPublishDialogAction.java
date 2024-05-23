@@ -42,6 +42,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 import com.vaadin.ui.UI;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The direct publish dialog action.<p>
@@ -64,7 +65,7 @@ public class CmsDirectPublishDialogAction extends A_CmsWorkplaceAction {
                 UI.getCurrent(),
                 new I_CmsUpdateListener<String>() {
 
-                    public void onUpdate(List<String> updatedItems) {
+                    public void onUpdate(List<@RUntainted String> updatedItems) {
 
                         List<CmsUUID> updatedIds = Lists.newArrayList();
                         for (String item : updatedItems) {
@@ -97,7 +98,7 @@ public class CmsDirectPublishDialogAction extends A_CmsWorkplaceAction {
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
      */
     @Override
-    protected String getTitleKey() {
+    protected @RUntainted String getTitleKey() {
 
         return Messages.GUI_EXPLORER_CONTEXT_PUBLISH_0;
     }

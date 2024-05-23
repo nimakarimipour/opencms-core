@@ -6,6 +6,7 @@ import java.util.ListResourceBundle;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A list based resource bundle that with increased visibility of some key methods.<p>
@@ -20,7 +21,7 @@ public class CmsListResourceBundle extends ListResourceBundle implements I_CmsRe
     protected Locale m_locale;
 
     /** The configured resource key / value pairs in a Map. */
-    private Map<String, String> m_bundleMap;
+    private @RUntainted Map<String, String> m_bundleMap;
 
     /** The configured resource key / value pairs as Objects. */
     private Object[][] m_bundleObjects;
@@ -69,7 +70,7 @@ public class CmsListResourceBundle extends ListResourceBundle implements I_CmsRe
      *
      * @return a typed clone of this resource bundle
      */
-    public CmsListResourceBundle getClone() {
+    public @RUntainted CmsListResourceBundle getClone() {
 
         return new CmsListResourceBundle(m_bundleMap, m_bundleObjects);
     }

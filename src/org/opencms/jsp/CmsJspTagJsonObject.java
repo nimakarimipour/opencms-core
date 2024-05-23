@@ -32,6 +32,7 @@ import org.opencms.json.JSONObject;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Tag for defining a JSON object.
@@ -44,7 +45,7 @@ public class CmsJspTagJsonObject extends A_CmsJspJsonTag implements I_CmsJspJson
     private static final long serialVersionUID = -3054667197099417049L;
 
     /** The JSON object being constructed. */
-    private JSONObject m_jsonObject;
+    private @RUntainted JSONObject m_jsonObject;
 
     /**
      * Default constructor explicitly resetting all variables.
@@ -57,7 +58,7 @@ public class CmsJspTagJsonObject extends A_CmsJspJsonTag implements I_CmsJspJson
     /**
      * @see org.opencms.jsp.I_CmsJspJsonContext#addValue(java.lang.String, java.lang.Object)
      */
-    public void addValue(String key, Object val) throws JspException {
+    public void addValue(@RUntainted String key, @RUntainted Object val) throws JspException {
 
         if (key == null) {
             throw new JspTagException("Can not add value to JSONObject with no key (val:" + val + ")");
@@ -83,7 +84,7 @@ public class CmsJspTagJsonObject extends A_CmsJspJsonTag implements I_CmsJspJson
      * @see org.opencms.jsp.A_CmsJspJsonTag#getJsonValue()
      */
     @Override
-    public Object getJsonValue() {
+    public @RUntainted Object getJsonValue() {
 
         return m_jsonObject;
     }

@@ -28,6 +28,7 @@
 package org.opencms.db.hsqldb;
 
 import org.opencms.db.generic.CmsSqlManager;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * HSQLDB implementation of the user driver methods.<p>
@@ -40,7 +41,7 @@ public class CmsUserDriver extends org.opencms.db.generic.CmsUserDriver {
     * @see org.opencms.db.I_CmsUserDriver#initSqlManager(String)
     */
     @Override
-    public org.opencms.db.generic.CmsSqlManager initSqlManager(String classname) {
+    public org.opencms.db.generic.CmsSqlManager initSqlManager(@RUntainted String classname) {
 
         return CmsSqlManager.getInstance(classname);
     }

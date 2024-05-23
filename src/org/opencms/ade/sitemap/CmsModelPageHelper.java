@@ -72,6 +72,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for model page operations in the sitemap editor.<p>
@@ -85,13 +86,13 @@ public class CmsModelPageHelper {
     private CmsADEConfigData m_adeConfig;
 
     /** The CMS context used. */
-    private CmsObject m_cms;
+    private @RUntainted CmsObject m_cms;
 
     /** The site map root. */
     private CmsResource m_rootResource;
 
     /** The site root. */
-    private String m_siteRoot;
+    private @RUntainted String m_siteRoot;
 
     /**
      * Creates a new instance.<p>
@@ -125,7 +126,7 @@ public class CmsModelPageHelper {
      *
      * @throws CmsException if something goes wrong
      */
-    public void addModelPageToSitemapConfiguration(CmsResource sitemapConfig, CmsResource modelPage, boolean disabled)
+    public void addModelPageToSitemapConfiguration(@RUntainted CmsResource sitemapConfig, CmsResource modelPage, @RUntainted boolean disabled)
     throws CmsException {
 
         CmsFile sitemapConfigFile = m_cms.readFile(sitemapConfig);
@@ -170,7 +171,7 @@ public class CmsModelPageHelper {
      *
      * @throws CmsException in case something goes wrong
      */
-    public CmsResource createModelGroupPage(String name, String description, CmsUUID copyId) throws CmsException {
+    public CmsResource createModelGroupPage(@RUntainted String name, @RUntainted String description, CmsUUID copyId) throws CmsException {
 
         CmsResource newPage = null;
         CmsResourceTypeConfig config = m_adeConfig.getResourceType(
@@ -205,7 +206,7 @@ public class CmsModelPageHelper {
      * @return the created resource
      * @throws CmsException if something goes wrong
      */
-    public CmsResource createPageInModelFolder(String name, String description, CmsUUID copyId) throws CmsException {
+    public CmsResource createPageInModelFolder(@RUntainted String name, @RUntainted String description, CmsUUID copyId) throws CmsException {
 
         CmsResource modelFolder = ensureModelFolder(m_rootResource);
         String pattern = "templatemodel_%(number).html";
@@ -243,7 +244,7 @@ public class CmsModelPageHelper {
      *
      * @throws CmsException if something goes wrong
      */
-    public void disableModelPage(CmsResource sitemapConfig, CmsUUID structureId, boolean disabled) throws CmsException {
+    public void disableModelPage(@RUntainted CmsResource sitemapConfig, @RUntainted CmsUUID structureId, @RUntainted boolean disabled) throws CmsException {
 
         CmsFile sitemapConfigFile = m_cms.readFile(sitemapConfig);
         CmsXmlContent content = CmsXmlContentFactory.unmarshal(m_cms, sitemapConfigFile);
@@ -322,7 +323,7 @@ public class CmsModelPageHelper {
             if (m_cms.existsResource(modelGroupFolderPath)) {
                 try {
                     Locale wpLocale = OpenCms.getWorkplaceManager().getWorkplaceLocale(m_cms);
-                    List<CmsResource> modelResources = m_cms.readResources(
+                    List<@RUntainted CmsResource> modelResources = m_cms.readResources(
                         modelGroupFolderPath,
                         CmsResourceFilter.ONLY_VISIBLE_NO_DELETED.addRequireType(
                             OpenCms.getResourceManager().getResourceType(
@@ -386,7 +387,7 @@ public class CmsModelPageHelper {
      *
      * @throws CmsException if something goes wrong
      */
-    public void removeModelPage(CmsResource sitemapConfig, CmsUUID structureId) throws CmsException {
+    public void removeModelPage(@RUntainted CmsResource sitemapConfig, CmsUUID structureId) throws CmsException {
 
         CmsFile sitemapConfigFile = m_cms.readFile(sitemapConfig);
         CmsXmlContent content = CmsXmlContentFactory.unmarshal(m_cms, sitemapConfigFile);
@@ -417,7 +418,7 @@ public class CmsModelPageHelper {
      *
      * @return the model page entry bean
      */
-    CmsModelPageEntry createModelPageEntry(CmsResource resource, boolean disabled, boolean isDefault, Locale locale) {
+    CmsModelPageEntry createModelPageEntry(CmsResource resource, boolean disabled, boolean isDefault, @RUntainted Locale locale) {
 
         try {
             CmsModelPageEntry result = new CmsModelPageEntry();
@@ -469,7 +470,7 @@ public class CmsModelPageHelper {
      *
      * @throws CmsException in case something goes wrong
      */
-    CmsModelInfo setDefaultModelPage(CmsResource configFile, CmsUUID modelId) throws CmsException {
+    CmsModelInfo setDefaultModelPage(@RUntainted CmsResource configFile, CmsUUID modelId) throws CmsException {
 
         CmsFile file = m_cms.readFile(configFile);
         CmsXmlContent content = CmsXmlContentFactory.unmarshal(m_cms, file);
@@ -555,9 +556,9 @@ public class CmsModelPageHelper {
      *
      * @return the locale from which to read the configuration data
      */
-    private Locale getLocale(CmsXmlContent content) {
+    private @RUntainted Locale getLocale(CmsXmlContent content) {
 
-        List<Locale> locales = content.getLocales();
+        List<@RUntainted Locale> locales = content.getLocales();
         if (locales.contains(Locale.ENGLISH) || locales.isEmpty()) {
             return Locale.ENGLISH;
         }
@@ -571,7 +572,7 @@ public class CmsModelPageHelper {
      * @return the type
      * @throws CmsLoaderException if something goes wrong
      */
-    private I_CmsResourceType getType(String name) throws CmsLoaderException {
+    private I_CmsResourceType getType(@RUntainted String name) throws CmsLoaderException {
 
         return OpenCms.getResourceManager().getResourceType(name);
     }
@@ -581,7 +582,7 @@ public class CmsModelPageHelper {
      *
      * @param resource the resource to unlock
      */
-    private void tryUnlock(CmsResource resource) {
+    private void tryUnlock(@RUntainted CmsResource resource) {
 
         try {
             m_cms.unlockResource(resource);
@@ -599,7 +600,7 @@ public class CmsModelPageHelper {
      * @throws CmsXmlException if an XML processing error occurs
      * @throws CmsException if something goes wrong
      */
-    private void writeSitemapConfig(CmsXmlContent content, CmsFile sitemapConfigFile)
+    private void writeSitemapConfig(CmsXmlContent content, @RUntainted CmsFile sitemapConfigFile)
     throws CmsXmlException, CmsException {
 
         content.correctXmlStructure(m_cms);

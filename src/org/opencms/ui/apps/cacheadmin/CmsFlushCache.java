@@ -58,6 +58,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Vaadin Layout with Buttons to clear the different types of cache.<p>
@@ -266,8 +267,8 @@ public class CmsFlushCache extends Panel {
      * @return button with click listener
      */
     private static Button getFlushButton(
-        String captionMessage,
-        String descriptionMessage,
+        @RUntainted String captionMessage,
+        @RUntainted String descriptionMessage,
         final I_CloseableDialog dialog,
         final Runnable okRun) {
 

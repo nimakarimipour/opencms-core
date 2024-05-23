@@ -51,6 +51,7 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.themes.ValoTheme;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The category select dialog.<p>
@@ -77,7 +78,7 @@ public class CmsCategorySelectDialog extends CmsBasicDialog {
      *
      * @param contextPath the context path to read the categories from
      */
-    public CmsCategorySelectDialog(String contextPath) {
+    public CmsCategorySelectDialog(@RUntainted String contextPath) {
         m_selectionHandlers = new ArrayList<I_CmsSelectionHandler<Collection<CmsCategory>>>();
         CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
 

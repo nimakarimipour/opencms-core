@@ -29,6 +29,7 @@ package org.opencms.widgets.dataview;
 
 import java.util.ArrayList;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents the result of a search query returned by an implementation of I_CmsDataView.
@@ -41,7 +42,7 @@ public class CmsDataViewResult {
     private List<I_CmsDataViewItem> m_resultItems;
 
     /** The total hit count. */
-    private int m_hitCount;
+    private @RUntainted int m_hitCount;
 
     /**
      * Creates a new result.<p>
@@ -49,7 +50,7 @@ public class CmsDataViewResult {
      * @param items the list of result items
      * @param hitCount the total hit count
      */
-    public CmsDataViewResult(List<I_CmsDataViewItem> items, int hitCount) {
+    public CmsDataViewResult(List<I_CmsDataViewItem> items, @RUntainted int hitCount) {
         m_resultItems = new ArrayList<I_CmsDataViewItem>(items);
         m_hitCount = hitCount;
     }
@@ -61,7 +62,7 @@ public class CmsDataViewResult {
      *
      * @return the total hit count
      */
-    public int getHitCount() {
+    public @RUntainted int getHitCount() {
 
         return m_hitCount;
     }

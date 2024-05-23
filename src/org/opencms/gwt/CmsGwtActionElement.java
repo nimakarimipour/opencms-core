@@ -48,6 +48,7 @@ import javax.servlet.jsp.PageContext;
 
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.server.rpc.RPC;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Sitemap action used to generate the sitemap editor.<p>
@@ -80,7 +81,7 @@ public class CmsGwtActionElement extends CmsJspActionElement {
      * @param req the JSP request
      * @param res the JSP response
      */
-    public CmsGwtActionElement(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsGwtActionElement(@RUntainted PageContext context, @RUntainted HttpServletRequest req, @RUntainted HttpServletResponse res) {
 
         super(context, req, res);
     }
@@ -345,7 +346,7 @@ public class CmsGwtActionElement extends CmsJspActionElement {
      *
      * @return the workplace locale
      */
-    public Locale getWorkplaceLocale() {
+    public @RUntainted Locale getWorkplaceLocale() {
 
         return OpenCms.getWorkplaceManager().getWorkplaceLocale(getCmsObject());
     }

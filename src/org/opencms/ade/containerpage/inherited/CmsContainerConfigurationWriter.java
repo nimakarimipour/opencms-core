@@ -73,6 +73,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A helper class for writing inherited container configuration back to a VFS file.<p>
@@ -182,7 +183,7 @@ public class CmsContainerConfigurationWriter {
      * @throws CmsException if something goes wrong
      */
     public Element serializeSingleConfiguration(
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         String name,
         CmsContainerConfiguration config,
         Element parentElement)
@@ -225,7 +226,7 @@ public class CmsContainerConfigurationWriter {
                 cms,
                 elementBean.getResource());
             CmsUUID structureId = elementBean.getId();
-            Map<String, String> settings = elementBean.getIndividualSettings();
+            Map<@RUntainted String, @RUntainted String> settings = elementBean.getIndividualSettings();
             Element newElementElement = root.addElement(N_NEWELEMENT);
             newElementElement.addElement(N_KEY).addCDATA(key);
             Element elementElement = newElementElement.addElement(N_ELEMENT);
@@ -288,7 +289,7 @@ public class CmsContainerConfigurationWriter {
      *
      * @throws CmsException if something goes wrong
      */
-    protected Map<String, CmsXmlContentProperty> getSettingConfiguration(CmsObject cms, CmsResource resource)
+    protected Map<String, CmsXmlContentProperty> getSettingConfiguration(@RUntainted CmsObject cms, CmsResource resource)
     throws CmsException {
 
         return OpenCms.getADEManager().getElementSettings(cms, resource);
@@ -341,9 +342,9 @@ public class CmsContainerConfigurationWriter {
      * @throws CmsException if something goes wrong
      */
     protected CmsXmlContent saveInContentObject(
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         CmsXmlContent content,
-        Locale locale,
+        @RUntainted Locale locale,
         String name,
         CmsContainerConfiguration configuration)
     throws CmsException {

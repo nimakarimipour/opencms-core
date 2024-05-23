@@ -33,6 +33,7 @@ import org.opencms.main.OpenCms;
 import java.util.Collections;
 import java.util.Locale;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract class which provides common functionality for workflow managers, like initialization of
@@ -45,14 +46,14 @@ public abstract class A_CmsWorkflowManager implements I_CmsWorkflowManager {
     protected CmsObject m_adminCms;
 
     /** The map of configuration parameters. */
-    protected Map<String, String> m_parameters;
+    protected Map<String, @RUntainted String> m_parameters;
 
     /**
      * Gets the parameters of the workflow manager.<p>
      *
      * @return the configuration parameters of the workflow manager
      */
-    public Map<String, String> getParameters() {
+    public Map<String, @RUntainted String> getParameters() {
 
         return Collections.unmodifiableMap(m_parameters);
     }
@@ -70,7 +71,7 @@ public abstract class A_CmsWorkflowManager implements I_CmsWorkflowManager {
      *
      * @param parameters the map of configuration parameters
      */
-    public void setParameters(Map<String, String> parameters) {
+    public void setParameters(Map<String, @RUntainted String> parameters) {
 
         if (m_parameters != null) {
             throw new IllegalStateException();
@@ -85,7 +86,7 @@ public abstract class A_CmsWorkflowManager implements I_CmsWorkflowManager {
      *
      * @return the locale to use
      */
-    protected Locale getLocale(CmsObject userCms) {
+    protected @RUntainted Locale getLocale(CmsObject userCms) {
 
         return OpenCms.getWorkplaceManager().getWorkplaceLocale(userCms);
     }
@@ -98,7 +99,7 @@ public abstract class A_CmsWorkflowManager implements I_CmsWorkflowManager {
      *
      * @return the configuration value
      */
-    protected String getParameter(String key, String defaultValue) {
+    protected @RUntainted String getParameter(String key, @RUntainted String defaultValue) {
 
         String result = m_parameters.get(key);
         if (result == null) {

@@ -59,6 +59,7 @@ import org.apache.commons.logging.Log;
 
 import org.dom4j.Element;
 import org.w3c.dom.NodeList;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Import / export master configuration class.<p>
@@ -337,7 +338,7 @@ public class CmsImportExportConfiguration extends A_CmsXmlConfiguration {
      * @param uri the source URI
      * @param destination the export destination
      */
-    public void addProtectedExportPoint(String uri, String destination) {
+    public void addProtectedExportPoint(@RUntainted String uri, String destination) {
 
         m_staticExportManager.addProtectedExportPoint(uri, destination);
     }
@@ -345,7 +346,7 @@ public class CmsImportExportConfiguration extends A_CmsXmlConfiguration {
     /**
      * @see org.opencms.configuration.I_CmsXmlConfiguration#addXmlDigesterRules(org.apache.commons.digester3.Digester)
      */
-    public void addXmlDigesterRules(Digester digester) {
+    public void addXmlDigesterRules(@RUntainted Digester digester) {
 
         // add finish rule
         digester.addCallMethod("*/" + N_IMPORTEXPORT, "initializeFinished");
@@ -686,7 +687,7 @@ public class CmsImportExportConfiguration extends A_CmsXmlConfiguration {
                         org.w3c.dom.Element elem = (org.w3c.dom.Element)digester.pop();
                         boolean enabled = Boolean.parseBoolean(elem.getAttribute(A_ENABLED));
                         NodeList translationElements = elem.getElementsByTagName(N_TRANSLATION);
-                        String[] translationStrings = new String[translationElements.getLength()];
+                        @RUntainted String[] translationStrings = new String[translationElements.getLength()];
                         for (int i = 0; i < translationElements.getLength(); i++) {
                             org.w3c.dom.Element translationElem = (org.w3c.dom.Element)translationElements.item(i);
                             translationStrings[i] = translationElem.getTextContent();
@@ -1134,7 +1135,7 @@ public class CmsImportExportConfiguration extends A_CmsXmlConfiguration {
                     // <filter> node
                     CmsRepositoryFilter filter = repository.getFilter();
                     if (filter != null) {
-                        List<Pattern> rules = filter.getFilterRules();
+                        List<@RUntainted Pattern> rules = filter.getFilterRules();
                         if (rules.size() > 0) {
                             Element filterElement = repositoryElement.addElement(N_FILTER);
                             filterElement.addAttribute(A_TYPE, filter.getType());
@@ -1225,7 +1226,7 @@ public class CmsImportExportConfiguration extends A_CmsXmlConfiguration {
     /**
      * @see org.opencms.configuration.I_CmsXmlConfiguration#getDtdFilename()
      */
-    public String getDtdFilename() {
+    public @RUntainted String getDtdFilename() {
 
         return CONFIGURATION_DTD_NAME;
     }

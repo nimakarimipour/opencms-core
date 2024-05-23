@@ -45,6 +45,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a standard HTML form input widget for overwriting localized values of a resource bundle, for use on a widget dialog.<p>
@@ -83,10 +84,10 @@ public class CmsLocalizationWidget extends A_CmsWidget implements I_CmsADEWidget
     private static Pattern PATTERN_MESSAGEARGUMENT = Pattern.compile(".*(\\{)(\\d*)(\\}).*");
 
     /** The bundle key (optional, if not equal to the element name). */
-    private String m_bundleKey;
+    private @RUntainted String m_bundleKey;
 
     /** The locale to get the value for. */
-    private Locale m_locale;
+    private @RUntainted Locale m_locale;
 
     /** The localized bundle to get the value from. */
     private CmsMessages m_messages;
@@ -105,7 +106,7 @@ public class CmsLocalizationWidget extends A_CmsWidget implements I_CmsADEWidget
      *
      * @param configuration the configuration to use
      */
-    public CmsLocalizationWidget(String configuration) {
+    public CmsLocalizationWidget(@RUntainted String configuration) {
 
         super(configuration);
     }
@@ -191,7 +192,7 @@ public class CmsLocalizationWidget extends A_CmsWidget implements I_CmsADEWidget
     /**
      * @see org.opencms.widgets.I_CmsADEWidget#getWidgetName()
      */
-    public String getWidgetName() {
+    public @RUntainted String getWidgetName() {
 
         return CmsLocalizationWidget.class.getName();
     }
@@ -271,8 +272,8 @@ public class CmsLocalizationWidget extends A_CmsWidget implements I_CmsADEWidget
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(getConfiguration())) {
             //initialize messages, the optional bundle key name and the optional locale from configuration String
             String bundleName = "";
-            List<String> configs = CmsStringUtil.splitAsList(getConfiguration(), '|');
-            Iterator<String> i = configs.iterator();
+            List<@RUntainted String> configs = CmsStringUtil.splitAsList(getConfiguration(), '|');
+            Iterator<@RUntainted String> i = configs.iterator();
             while (i.hasNext()) {
                 String config = i.next();
                 if (config.startsWith(OPTION_KEY)) {
@@ -314,8 +315,8 @@ public class CmsLocalizationWidget extends A_CmsWidget implements I_CmsADEWidget
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(getConfiguration())) {
             //initialize messages, the optional bundle key name and the optional locale from configuration String
             String bundleName = "";
-            List<String> configs = CmsStringUtil.splitAsList(getConfiguration(), '|');
-            Iterator<String> i = configs.iterator();
+            List<@RUntainted String> configs = CmsStringUtil.splitAsList(getConfiguration(), '|');
+            Iterator<@RUntainted String> i = configs.iterator();
             while (i.hasNext()) {
                 String config = i.next();
                 if (config.startsWith(OPTION_KEY)) {

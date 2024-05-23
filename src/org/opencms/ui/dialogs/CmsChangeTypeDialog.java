@@ -49,6 +49,7 @@ import org.apache.commons.logging.Log;
 
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog for changing the resource type.<p>

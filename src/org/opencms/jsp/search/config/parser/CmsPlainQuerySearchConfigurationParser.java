@@ -48,6 +48,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Search configuration parser reading a configuration containing a plain Solr query.
  * Only fl might be added additionally. */
@@ -60,7 +61,7 @@ public class CmsPlainQuerySearchConfigurationParser implements I_CmsSearchConfig
     private static final String DEFAULT_FL = "id,path";
 
     /** The whole query string. */
-    protected String m_queryString;
+    protected @RUntainted String m_queryString;
 
     /** The optional base configuration that should be changed by the JSON configuration. */
     private I_CmsSearchConfiguration m_baseConfig;
@@ -77,7 +78,7 @@ public class CmsPlainQuerySearchConfigurationParser implements I_CmsSearchConfig
      * @param query The query that is passed to Solr (additional Solr params).
      * @param baseConfig A base configuration that is adjusted by the JSON configuration string.
      */
-    public CmsPlainQuerySearchConfigurationParser(String query, I_CmsSearchConfiguration baseConfig) {
+    public CmsPlainQuerySearchConfigurationParser(@RUntainted String query, I_CmsSearchConfiguration baseConfig) {
 
         if ((null != query) && !(query.startsWith("fl=") || query.contains("&fl="))) {
             query = query + "&fl=" + DEFAULT_FL;
@@ -93,9 +94,9 @@ public class CmsPlainQuerySearchConfigurationParser implements I_CmsSearchConfig
     public I_CmsSearchConfigurationCommon parseCommon(CmsObject cms) {
 
         String queryString = m_queryString;
-        CmsPair<String, String> idxExtract = extractParam(queryString, "index");
-        CmsPair<String, String> coreExtract = extractParam(idxExtract.getFirst(), "core");
-        CmsPair<String, String> maxResultsExtract = extractParam(coreExtract.getFirst(), "maxresults");
+        CmsPair<@RUntainted String, @RUntainted String> idxExtract = extractParam(queryString, "index");
+        CmsPair<@RUntainted String, @RUntainted String> coreExtract = extractParam(idxExtract.getFirst(), "core");
+        CmsPair<String, @RUntainted String> maxResultsExtract = extractParam(coreExtract.getFirst(), "maxresults");
         String resString = maxResultsExtract.getSecond();
         String indexName = idxExtract.getSecond();
         if (null != indexName) {
@@ -224,7 +225,7 @@ public class CmsPlainQuerySearchConfigurationParser implements I_CmsSearchConfig
      * @param paramKey the key of the parameter to extract the value for.
      * @return a pair of "params without the extracted parameter" and the value of the extracted parameter.
      */
-    CmsPair<String, String> extractParam(String params, String paramKey) {
+    CmsPair<@RUntainted String, @RUntainted String> extractParam(@RUntainted String params, @RUntainted String paramKey) {
 
         String extract = null;
         int beginIdx = params.indexOf(paramKey + "=");

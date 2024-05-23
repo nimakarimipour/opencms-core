@@ -72,6 +72,7 @@ import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifDirectoryBase;
 import com.drew.metadata.exif.ExifIFD0Directory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor for the type "image".<p>
@@ -89,7 +90,7 @@ public class CmsResourceTypeImage extends A_CmsResourceType {
         public static final int DEFAULT_ORIENTATION = 1;
 
         /** The image byte content. */
-        private byte[] m_content;
+        private @RUntainted byte[] m_content;
 
         /** The (optional) image scaler that contains the image downscale settings. */
         private CmsImageScaler m_imageDownScaler;
@@ -98,7 +99,7 @@ public class CmsResourceTypeImage extends A_CmsResourceType {
         private List<CmsProperty> m_properties;
 
         /** The image root path. */
-        private String m_rootPath;
+        private @RUntainted String m_rootPath;
 
         /**
          * Creates a new image data container.<p>
@@ -109,8 +110,8 @@ public class CmsResourceTypeImage extends A_CmsResourceType {
          * @param downScaler the (optional) image scaler that contains the image downscale settings
          */
         public CmsImageAdjuster(
-            byte[] content,
-            String rootPath,
+            @RUntainted byte[] content,
+            @RUntainted String rootPath,
             List<CmsProperty> properties,
             CmsImageScaler downScaler) {
 
@@ -204,7 +205,7 @@ public class CmsResourceTypeImage extends A_CmsResourceType {
          *
          * @return the image content
          */
-        public byte[] getContent() {
+        public @RUntainted byte[] getContent() {
 
             return m_content;
         }
@@ -224,7 +225,7 @@ public class CmsResourceTypeImage extends A_CmsResourceType {
          *
          * @return the image VFS root path
          */
-        public String getRootPath() {
+        public @RUntainted String getRootPath() {
 
             return m_rootPath;
         }
@@ -242,7 +243,7 @@ public class CmsResourceTypeImage extends A_CmsResourceType {
          * @param exifOrientation the orientation to apply
          * @return the transformed image
          */
-        private BufferedImage createOrientedCopy(BufferedImage image, int exifOrientation) {
+        private @RUntainted BufferedImage createOrientedCopy(@RUntainted BufferedImage image, int exifOrientation) {
 
             BufferedImage target;
             boolean flipDimensions = exifOrientation > 4;
@@ -307,7 +308,7 @@ public class CmsResourceTypeImage extends A_CmsResourceType {
     private static class SvgSize {
 
         /** The numeric value of the size. */
-        private double m_size;
+        private @RUntainted double m_size;
 
         /** The unit of the size. */
         private String m_unit;
@@ -319,7 +320,7 @@ public class CmsResourceTypeImage extends A_CmsResourceType {
          *
          * @return the parsed size
          */
-        public static SvgSize parse(String s) {
+        public static SvgSize parse(@RUntainted String s) {
 
             if (CmsStringUtil.isEmptyOrWhitespaceOnly(s)) {
                 return null;
@@ -354,7 +355,7 @@ public class CmsResourceTypeImage extends A_CmsResourceType {
          *
          * @return the size
          */
-        public double getSize() {
+        public @RUntainted double getSize() {
 
             return m_size;
         }
@@ -402,7 +403,7 @@ public class CmsResourceTypeImage extends A_CmsResourceType {
     private static int m_staticLoaderId;
 
     /** The static type id of this resource type. */
-    private static int m_staticTypeId;
+    private static @RUntainted int m_staticTypeId;
 
     /** The type id of this resource type. */
     private static final int RESOURCE_TYPE_ID = 3;
@@ -436,7 +437,7 @@ public class CmsResourceTypeImage extends A_CmsResourceType {
      *
      * @return the downscaler to use, or <code>null</code> if no downscaling is required for the resource
      */
-    public static CmsImageScaler getDownScaler(CmsObject cms, String rootPath) {
+    public static CmsImageScaler getDownScaler(CmsObject cms, @RUntainted String rootPath) {
 
         if (m_downScaler == null) {
             // downscaling is not configured at all
@@ -477,7 +478,7 @@ public class CmsResourceTypeImage extends A_CmsResourceType {
      *
      * @return the static type id of this (default) resource type
      */
-    public static int getStaticTypeId() {
+    public static @RUntainted int getStaticTypeId() {
 
         return m_staticTypeId;
     }
@@ -487,7 +488,7 @@ public class CmsResourceTypeImage extends A_CmsResourceType {
      *
      * @return the static type name of this (default) resource type
      */
-    public static String getStaticTypeName() {
+    public static @RUntainted String getStaticTypeName() {
 
         return RESOURCE_TYPE_NAME;
     }
@@ -496,11 +497,11 @@ public class CmsResourceTypeImage extends A_CmsResourceType {
      * @see org.opencms.file.types.I_CmsResourceType#createResource(org.opencms.file.CmsObject, org.opencms.db.CmsSecurityManager, java.lang.String, byte[], java.util.List)
      */
     @Override
-    public CmsResource createResource(
-        CmsObject cms,
+    public @RUntainted CmsResource createResource(
+        @RUntainted CmsObject cms,
         CmsSecurityManager securityManager,
-        String resourcename,
-        byte[] content,
+        @RUntainted String resourcename,
+        @RUntainted byte[] content,
         List<CmsProperty> properties)
     throws CmsException {
 
@@ -526,7 +527,7 @@ public class CmsResourceTypeImage extends A_CmsResourceType {
      * @see org.opencms.file.types.I_CmsResourceType#getGalleryPreviewProvider()
      */
     @Override
-    public String getGalleryPreviewProvider() {
+    public @RUntainted String getGalleryPreviewProvider() {
 
         if (m_galleryPreviewProvider == null) {
             m_galleryPreviewProvider = getConfiguration().getString(
@@ -555,7 +556,7 @@ public class CmsResourceTypeImage extends A_CmsResourceType {
         I_CmsReport report,
         String resourcename,
         CmsResource resource,
-        byte[] content,
+        @RUntainted byte[] content,
         List<CmsProperty> properties)
     throws CmsException {
 
@@ -603,7 +604,7 @@ public class CmsResourceTypeImage extends A_CmsResourceType {
      * @see org.opencms.file.types.A_CmsResourceType#initConfiguration(java.lang.String, java.lang.String, String)
      */
     @Override
-    public void initConfiguration(String name, String id, String className) throws CmsConfigurationException {
+    public void initConfiguration(@RUntainted String name, @RUntainted String id, @RUntainted String className) throws CmsConfigurationException {
 
         if ((OpenCms.getRunLevel() > OpenCms.RUNLEVEL_2_INITIALIZING) && m_staticFrozen) {
             // configuration already frozen
@@ -659,9 +660,9 @@ public class CmsResourceTypeImage extends A_CmsResourceType {
     public void replaceResource(
         CmsObject cms,
         CmsSecurityManager securityManager,
-        CmsResource resource,
+        @RUntainted CmsResource resource,
         int type,
-        byte[] content,
+        @RUntainted byte[] content,
         List<CmsProperty> properties)
     throws CmsException {
 
@@ -700,7 +701,7 @@ public class CmsResourceTypeImage extends A_CmsResourceType {
      * @see org.opencms.file.types.I_CmsResourceType#writeFile(org.opencms.file.CmsObject, org.opencms.db.CmsSecurityManager, org.opencms.file.CmsFile)
      */
     @Override
-    public CmsFile writeFile(CmsObject cms, CmsSecurityManager securityManager, CmsFile resource)
+    public CmsFile writeFile(@RUntainted CmsObject cms, CmsSecurityManager securityManager, @RUntainted CmsFile resource)
     throws CmsException, CmsVfsException, CmsSecurityException {
 
         if (CmsImageLoader.isEnabled()) {
@@ -741,7 +742,7 @@ public class CmsResourceTypeImage extends A_CmsResourceType {
      *
      * @return the amended properties
      */
-    protected List<CmsProperty> tryAddImageSizeFromSvg(byte[] content, List<CmsProperty> properties) {
+    protected List<CmsProperty> tryAddImageSizeFromSvg(@RUntainted byte[] content, List<CmsProperty> properties) {
 
         if ((content == null) || (content.length == 0)) {
             return properties;
@@ -766,7 +767,7 @@ public class CmsResourceTypeImage extends A_CmsResourceType {
                     String viewboxStr = node.attributeValue("viewBox");
                     if (viewboxStr != null) {
                         viewboxStr = viewboxStr.replace(",", " ");
-                        String[] viewboxParts = viewboxStr.trim().split(" +");
+                        @RUntainted String[] viewboxParts = viewboxStr.trim().split(" +");
                         if (viewboxParts.length == 4) {
                             w = Double.parseDouble(viewboxParts[2]);
                             h = Double.parseDouble(viewboxParts[3]);

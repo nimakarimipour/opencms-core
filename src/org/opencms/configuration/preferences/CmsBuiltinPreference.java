@@ -35,6 +35,7 @@ import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Preference subclass for built-in preferences accessed with a getter/setter pair via reflection.<p>
@@ -104,7 +105,7 @@ public class CmsBuiltinPreference extends A_CmsPreference {
          *
          * @return the widget configuration string
          */
-        public String toClientSelectWidgetConfiguration() {
+        public @RUntainted String toClientSelectWidgetConfiguration() {
 
             StringBuffer resultBuffer = new StringBuffer();
             for (int i = 0; i < m_values.size(); i++) {
@@ -131,14 +132,14 @@ public class CmsBuiltinPreference extends A_CmsPreference {
     protected boolean m_hidden;
 
     /** The name of the bean property used to access this preference. */
-    private String m_propName;
+    private @RUntainted String m_propName;
 
     /**
      * Creates a new instance.<p>
      *
      * @param propName the name of the bean property used to access this preference
      */
-    public CmsBuiltinPreference(String propName) {
+    public CmsBuiltinPreference(@RUntainted String propName) {
 
         m_propName = propName;
     }
@@ -146,7 +147,7 @@ public class CmsBuiltinPreference extends A_CmsPreference {
     /**
      * @see org.opencms.configuration.preferences.I_CmsPreference#getDefaultValue()
      */
-    public String getDefaultValue() {
+    public @RUntainted String getDefaultValue() {
 
         CmsUserSettingsStringPropertyWrapper wrapper = new CmsUserSettingsStringPropertyWrapper(
             CmsDefaultUserSettings.CURRENT_DEFAULT_SETTINGS);
@@ -161,7 +162,7 @@ public class CmsBuiltinPreference extends A_CmsPreference {
     /**
      * @see org.opencms.configuration.preferences.I_CmsPreference#getName()
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_propName;
     }
@@ -191,7 +192,7 @@ public class CmsBuiltinPreference extends A_CmsPreference {
     /**
      * @see org.opencms.configuration.preferences.I_CmsPreference#getTab()
      */
-    public String getTab() {
+    public @RUntainted String getTab() {
 
         return m_hidden ? "hidden" : (m_basic ? "basic" : "extended");
     }

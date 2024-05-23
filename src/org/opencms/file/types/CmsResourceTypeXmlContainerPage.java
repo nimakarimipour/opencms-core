@@ -60,6 +60,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor for the type "containerpage".<p>
@@ -151,7 +152,7 @@ public class CmsResourceTypeXmlContainerPage extends CmsResourceTypeXmlContent {
      *
      * @return the static type name of this (default) resource type
      */
-    public static String getStaticTypeName() {
+    public static @RUntainted String getStaticTypeName() {
 
         return RESOURCE_TYPE_NAME;
     }
@@ -224,10 +225,10 @@ public class CmsResourceTypeXmlContainerPage extends CmsResourceTypeXmlContent {
      */
     @Override
     public CmsResource createResource(
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         CmsSecurityManager securityManager,
-        String resourcename,
-        byte[] content,
+        @RUntainted String resourcename,
+        @RUntainted byte[] content,
         List<CmsProperty> properties)
     throws CmsException {
 
@@ -289,7 +290,7 @@ public class CmsResourceTypeXmlContainerPage extends CmsResourceTypeXmlContent {
      * @see org.opencms.file.types.A_CmsResourceType#initConfiguration(java.lang.String, java.lang.String, String)
      */
     @Override
-    public void initConfiguration(String name, String id, String className) throws CmsConfigurationException {
+    public void initConfiguration(@RUntainted String name, @RUntainted String id, @RUntainted String className) throws CmsConfigurationException {
 
         if (!RESOURCE_TYPE_NAME.equals(name) && !MODEL_GROUP_TYPE_NAME.equals(name)) {
             // default resource type MUST have default name
@@ -340,7 +341,7 @@ public class CmsResourceTypeXmlContainerPage extends CmsResourceTypeXmlContent {
         }
 
         // iterate over all languages
-        List<Locale> locales = xmlContent.getLocales();
+        List<@RUntainted Locale> locales = xmlContent.getLocales();
         Iterator<Locale> i = locales.iterator();
         while (i.hasNext()) {
             Locale locale = i.next();
@@ -369,7 +370,7 @@ public class CmsResourceTypeXmlContainerPage extends CmsResourceTypeXmlContent {
      * @see org.opencms.file.types.CmsResourceTypeXmlContent#writeFile(org.opencms.file.CmsObject, org.opencms.db.CmsSecurityManager, org.opencms.file.CmsFile)
      */
     @Override
-    public CmsFile writeFile(CmsObject cms, CmsSecurityManager securityManager, CmsFile resource) throws CmsException {
+    public CmsFile writeFile(@RUntainted CmsObject cms, CmsSecurityManager securityManager, @RUntainted CmsFile resource) throws CmsException {
 
         // check if the user has write access and if resource is locked
         // done here so that all the XML operations are not performed if permissions not granted

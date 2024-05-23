@@ -33,6 +33,7 @@ import org.opencms.ade.publish.shared.CmsPublishResource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Publish group helper which only puts all publish resources into a single group.<p>
@@ -48,7 +49,7 @@ public class CmsSinglePublishGroupHelper extends A_CmsPublishGroupHelper<CmsPubl
      * @param locale the locale to use
      * @param title the title to use for the single group
      */
-    public CmsSinglePublishGroupHelper(Locale locale, String title) {
+    public CmsSinglePublishGroupHelper(@RUntainted Locale locale, String title) {
 
         super(locale);
         m_title = title;
@@ -82,7 +83,7 @@ public class CmsSinglePublishGroupHelper extends A_CmsPublishGroupHelper<CmsPubl
      * @see org.opencms.ade.publish.A_CmsPublishGroupHelper#getDateLastModified(java.lang.Object)
      */
     @Override
-    protected long getDateLastModified(CmsPublishResource res) {
+    protected @RUntainted long getDateLastModified(CmsPublishResource res) {
 
         return res.getDateLastModified();
     }

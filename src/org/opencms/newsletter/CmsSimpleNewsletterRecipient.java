@@ -26,6 +26,7 @@
  */
 
 package org.opencms.newsletter;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Simple implementation of interface {@link I_CmsNewsletterRecipient}, with

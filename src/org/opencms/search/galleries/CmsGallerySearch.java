@@ -40,6 +40,7 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains the functions for the gallery search.<p>
@@ -166,7 +167,7 @@ public class CmsGallerySearch {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsGallerySearchResult searchById(CmsUUID id, Locale locale) throws CmsException {
+    public CmsGallerySearchResult searchById(@RUntainted CmsUUID id, Locale locale) throws CmsException {
 
         I_CmsSearchDocument sDoc = m_index.getDocument(
             CmsSearchField.FIELD_ID,
@@ -215,7 +216,7 @@ public class CmsGallerySearch {
      *
      * @throws CmsException if the index was not found
      */
-    public void setIndex(String indexName) throws CmsException {
+    public void setIndex(@RUntainted String indexName) throws CmsException {
 
         if (CmsStringUtil.isEmpty(indexName)) {
             throw new CmsException(Messages.get().container(Messages.ERR_INDEXSOURCE_CREATE_MISSING_NAME_0));

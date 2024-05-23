@@ -93,6 +93,7 @@ import com.google.common.base.Optional;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class to generate all the data which is necessary for the resource status dialog(s).<p>
@@ -139,8 +140,8 @@ public class CmsDefaultResourceStatusProvider {
      */
     public static CmsRelationTargetListBean getContainerpageRelationTargets(
         CmsObject cms,
-        CmsUUID source,
-        List<CmsUUID> additionalIds,
+        @RUntainted CmsUUID source,
+        List<@RUntainted CmsUUID> additionalIds,
         boolean cancelIfChanged)
     throws CmsException {
 
@@ -160,7 +161,7 @@ public class CmsDefaultResourceStatusProvider {
                 }
             }
         }
-        List<CmsRelation> relations = cms.readRelations(CmsRelationFilter.relationsFromStructureId(source));
+        List<@RUntainted CmsRelation> relations = cms.readRelations(CmsRelationFilter.relationsFromStructureId(source));
         for (CmsRelation relation : relations) {
             if (relation.getType() == CmsRelationType.XSD) {
                 continue;
@@ -199,8 +200,8 @@ public class CmsDefaultResourceStatusProvider {
      */
     public static CmsRelationTargetListBean getContainerpageRelationTargetsLimited(
         CmsObject cms,
-        CmsUUID source,
-        List<CmsUUID> additionalIds,
+        @RUntainted CmsUUID source,
+        List<@RUntainted CmsUUID> additionalIds,
         boolean cancelIfChanged)
     throws CmsException, TooManyRelationsException {
 
@@ -220,7 +221,7 @@ public class CmsDefaultResourceStatusProvider {
                 }
             }
         }
-        List<CmsRelation> relations = cms.readRelations(CmsRelationFilter.relationsFromStructureId(source));
+        List<@RUntainted CmsRelation> relations = cms.readRelations(CmsRelationFilter.relationsFromStructureId(source));
         if (relations.size() > MAX_RELATIONS) {
             throw new TooManyRelationsException();
 
@@ -300,13 +301,13 @@ public class CmsDefaultResourceStatusProvider {
      */
     public CmsResourceStatusBean getResourceStatus(
         HttpServletRequest request,
-        CmsObject cms,
-        CmsUUID structureId,
-        String contentLocale,
+        @RUntainted CmsObject cms,
+        @RUntainted CmsUUID structureId,
+        @RUntainted String contentLocale,
         boolean includeTargets,
-        CmsUUID detailContentId,
+        @RUntainted CmsUUID detailContentId,
         List<CmsUUID> additionalStructureIds,
-        Map<String, String> context)
+        Map<String, @RUntainted String> context)
     throws CmsException {
 
         Locale locale = OpenCms.getWorkplaceManager().getWorkplaceLocale(cms);
@@ -385,7 +386,7 @@ public class CmsDefaultResourceStatusProvider {
         if (resType instanceof CmsResourceTypeXmlContent) {
             CmsFile file = cms.readFile(resource);
             CmsXmlContent content = CmsXmlContentFactory.unmarshal(cms, file);
-            List<Locale> locales = content.getLocales();
+            List<@RUntainted Locale> locales = content.getLocales();
             List<String> localeStrings = new ArrayList<String>();
             for (Locale l : locales) {
                 localeStrings.add(l.toString());
@@ -408,7 +409,7 @@ public class CmsDefaultResourceStatusProvider {
 
         result.setAdditionalAttributes(additionalAttributes);
 
-        List<CmsRelation> relations = cms.readRelations(
+        List<@RUntainted CmsRelation> relations = cms.readRelations(
             CmsRelationFilter.relationsToStructureId(resource.getStructureId()));
         Map<CmsUUID, CmsResource> relationSources = new HashMap<CmsUUID, CmsResource>();
 
@@ -416,7 +417,7 @@ public class CmsDefaultResourceStatusProvider {
             // People may link to the folder of a container page instead of the page itself
             try {
                 CmsResource parent = cms.readParentFolder(resource.getStructureId());
-                List<CmsRelation> parentRelations = cms.readRelations(
+                List<@RUntainted CmsRelation> parentRelations = cms.readRelations(
                     CmsRelationFilter.relationsToStructureId(parent.getStructureId()));
                 relations.addAll(parentRelations);
             } catch (CmsException e) {
@@ -617,7 +618,7 @@ public class CmsDefaultResourceStatusProvider {
      *
      * @throws CmsException if something goes wrong
      */
-    protected List<CmsResourceStatusRelationBean> getSiblings(CmsObject cms, String locale, CmsResource resource)
+    protected List<CmsResourceStatusRelationBean> getSiblings(CmsObject cms, @RUntainted String locale, CmsResource resource)
     throws CmsException {
 
         List<CmsResourceStatusRelationBean> result = new ArrayList<CmsResourceStatusRelationBean>();
@@ -660,7 +661,7 @@ public class CmsDefaultResourceStatusProvider {
      */
     protected List<CmsResourceStatusRelationBean> getTargets(
         CmsObject cms,
-        String locale,
+        @RUntainted String locale,
         CmsResource resource,
         List<CmsUUID> additionalStructureIds)
     throws CmsException, TooManyRelationsException {
@@ -707,7 +708,7 @@ public class CmsDefaultResourceStatusProvider {
      */
     CmsResourceStatusRelationBean createRelationBean(
         CmsObject cms,
-        String locale,
+        @RUntainted String locale,
         CmsResource relationResource,
         CmsPermissionInfo permissionInfo)
     throws CmsException {
@@ -756,10 +757,10 @@ public class CmsDefaultResourceStatusProvider {
      *
      */
     private Map<String, String> createContextInfos(
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         HttpServletRequest request,
         CmsResource resource,
-        Map<String, String> context) {
+        Map<String, @RUntainted String> context) {
 
         CmsADEConfigData config = OpenCms.getADEManager().lookupConfiguration(
             cms,
@@ -796,7 +797,7 @@ public class CmsDefaultResourceStatusProvider {
                 pageService.setCms(cms);
                 pageService.setRequest(request);
                 CmsContainerElementBean elementBean = pageService.getCachedElement(elementId, pageRootPath);
-                for (Map.Entry<String, String> entry : elementBean.getSettings().entrySet()) {
+                for (Map.Entry<String, @RUntainted String> entry : elementBean.getSettings().entrySet()) {
                     if (entry.getKey().contains(containr)) {
                         String formatterId = entry.getValue();
                         I_CmsFormatterBean formatter = config.findFormatter(formatterId);

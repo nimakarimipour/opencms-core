@@ -26,6 +26,7 @@
  */
 
 package org.opencms.workplace.editors.directedit;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Constants to indicate which direct edit buttons should be displayed for a direct edit resource
@@ -133,7 +134,7 @@ public final class CmsDirectEditButtonSelection {
      * @return the selected edit options as a String
      */
     @Override
-    public String toString() {
+    public @RUntainted String toString() {
 
         if (m_stringValue == null) {
             StringBuffer result = new StringBuffer(32);

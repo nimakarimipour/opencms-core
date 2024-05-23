@@ -86,6 +86,7 @@ import com.vaadin.v7.event.FieldEvents.TextChangeEvent;
 import com.vaadin.v7.event.FieldEvents.TextChangeListener;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Component that realizes a unused content finder.
@@ -136,7 +137,7 @@ public class CmsUnusedContentFinderComposite {
         private FormLayout m_formLayout;
 
         /** The site selector. */
-        private CmsSiteSelector m_siteSelector;
+        private @RUntainted CmsSiteSelector m_siteSelector;
 
         /** The folder selector. */
         private CmsFolderSelector m_folderSelector;
@@ -180,7 +181,7 @@ public class CmsUnusedContentFinderComposite {
          * Returns the selected site value.
          * @return the selected site value
          */
-        String getSiteValue() {
+        @RUntainted String getSiteValue() {
 
             return (String)m_siteSelector.getValue();
         }
@@ -388,7 +389,7 @@ public class CmsUnusedContentFinderComposite {
                     }
                     for (I_CmsResourceType resourceType : resourceTypes) {
                         CmsResourceFilter filter = CmsResourceFilter.ONLY_VISIBLE.addRequireType(resourceType);
-                        List<CmsResource> resources = cms.readResources(folderName, filter);
+                        List<@RUntainted CmsResource> resources = cms.readResources(folderName, filter);
                         for (CmsResource resource : resources) {
                             if (isExcludedByProperties(resource, false)
                                 || isUsedByOtherContents(resource, false)
@@ -826,7 +827,7 @@ public class CmsUnusedContentFinderComposite {
         }
         CmsRelationFilter filter = CmsRelationFilter.SOURCES;
         CmsObject cms = online ? getOnlineCms() : getOfflineCms();
-        List<CmsRelation> relations = cms.getRelationsForResource(resource, filter);
+        List<@RUntainted CmsRelation> relations = cms.getRelationsForResource(resource, filter);
         return !relations.isEmpty();
     }
 

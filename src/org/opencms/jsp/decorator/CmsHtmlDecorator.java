@@ -41,6 +41,7 @@ import org.apache.commons.logging.Log;
 import org.htmlparser.Tag;
 import org.htmlparser.Text;
 import org.htmlparser.util.Translate;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The CmsHtmlDecorator is the main object for processing the text decorations.<p>
@@ -53,7 +54,7 @@ import org.htmlparser.util.Translate;
 public class CmsHtmlDecorator extends CmsHtmlParser {
 
     /** Delimiters for string seperation. */
-    private static final String[] DELIMITERS = {
+    private static final @RUntainted String[] DELIMITERS = {
         " ",
         ",",
         ".",
@@ -73,7 +74,7 @@ public class CmsHtmlDecorator extends CmsHtmlParser {
         "\n"};
 
     /** Delimiters for second level string separation. */
-    private static final String[] DELIMITERS_SECOND_LEVEL = {
+    private static final @RUntainted String[] DELIMITERS_SECOND_LEVEL = {
         "-",
         "@",
         "/",
@@ -107,7 +108,7 @@ public class CmsHtmlDecorator extends CmsHtmlParser {
     private static final String[] NON_TRANSLATORS = {"&nbsp;", "&quot;"};
 
     /** The decoration configuration.<p> */
-    I_CmsDecoratorConfiguration m_config;
+    @RUntainted I_CmsDecoratorConfiguration m_config;
 
     /** Decoration bundle to be used by the decorator. */
     CmsDecorationBundle m_decorations;
@@ -124,7 +125,7 @@ public class CmsHtmlDecorator extends CmsHtmlParser {
      * @param cms the CmsObject
      * @throws CmsException if something goes wrong
      */
-    public CmsHtmlDecorator(CmsObject cms)
+    public CmsHtmlDecorator(@RUntainted CmsObject cms)
     throws CmsException {
 
         m_config = new CmsDecoratorConfiguration(cms);
@@ -142,7 +143,7 @@ public class CmsHtmlDecorator extends CmsHtmlParser {
      * @param config the configuration to be used
      *
      */
-    public CmsHtmlDecorator(CmsObject cms, I_CmsDecoratorConfiguration config) {
+    public CmsHtmlDecorator(CmsObject cms, @RUntainted I_CmsDecoratorConfiguration config) {
 
         m_config = config;
         m_decorations = config.getDecorations();
@@ -163,9 +164,9 @@ public class CmsHtmlDecorator extends CmsHtmlParser {
      *
      * @return the List of splitted Substrings
      */
-    public static List<String> splitAsList(String source, String[] delimiters, boolean trim, boolean includeDelimiters) {
+    public static List<@RUntainted String> splitAsList(@RUntainted String source, @RUntainted String[] delimiters, boolean trim, boolean includeDelimiters) {
 
-        List<String> result = new ArrayList<String>();
+        List<@RUntainted String> result = new ArrayList<@RUntainted String>();
         String delimiter = "";
         int i = 0;
         int l = source.length();
@@ -252,7 +253,7 @@ public class CmsHtmlDecorator extends CmsHtmlParser {
      * @see org.htmlparser.visitors.NodeVisitor#visitStringNode(org.htmlparser.Text)
      */
     @Override
-    public void visitStringNode(Text text) {
+    public void visitStringNode(@RUntainted Text text) {
 
         appendText(text.toPlainTextString(), DELIMITERS, true);
     }
@@ -261,7 +262,7 @@ public class CmsHtmlDecorator extends CmsHtmlParser {
      * @see org.htmlparser.visitors.NodeVisitor#visitTag(org.htmlparser.Tag)
      */
     @Override
-    public void visitTag(Tag tag) {
+    public void visitTag(@RUntainted Tag tag) {
 
         super.visitTag(tag);
         // get the tagname
@@ -290,7 +291,7 @@ public class CmsHtmlDecorator extends CmsHtmlParser {
      * @param delimiters delimiters for text seperation
      * @param recursive flag for recusrive search
      */
-    private void appendText(String text, String[] delimiters, boolean recursive) {
+    private void appendText(@RUntainted String text, @RUntainted String[] delimiters, boolean recursive) {
 
         if (LOG.isDebugEnabled()) {
             LOG.debug(Messages.get().getBundle().key(Messages.LOG_HTML_DECORATOR_APPEND_TEXT_2, m_config, text));
@@ -299,7 +300,7 @@ public class CmsHtmlDecorator extends CmsHtmlParser {
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(text) && m_decorate) {
 
             // split the input into single words
-            List<String> wordList = splitAsList(text, delimiters, false, true);
+            List<@RUntainted String> wordList = splitAsList(text, delimiters, false, true);
             int wordCount = wordList.size();
             for (int i = 0; i < wordCount; i++) {
                 String word = wordList.get(i);
@@ -480,7 +481,7 @@ public class CmsHtmlDecorator extends CmsHtmlParser {
      *
      * @return true if the word must be decoded, false otherweise
      */
-    private boolean mustDecode(String word, List<String> wordList, int count) {
+    private @RUntainted boolean mustDecode(String word, List<@RUntainted String> wordList, int count) {
 
         boolean decode = true;
         String nextWord = null;

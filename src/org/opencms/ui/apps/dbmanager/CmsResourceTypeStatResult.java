@@ -33,6 +33,7 @@ import org.opencms.site.CmsSite;
 import org.opencms.ui.CmsVaadinUtils;
 import org.opencms.ui.apps.Messages;
 import org.opencms.workplace.explorer.CmsExplorerTypeSettings;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the result of a database statistic set.<p>
@@ -40,10 +41,10 @@ import org.opencms.workplace.explorer.CmsExplorerTypeSettings;
 public class CmsResourceTypeStatResult {
 
     /**Count of resources.*/
-    private int m_count;
+    private @RUntainted int m_count;
 
     /**Site root.*/
-    private String m_siteRoot;
+    private @RUntainted String m_siteRoot;
 
     /**Time when the statistic was generated.*/
     private long m_timestamp;
@@ -58,7 +59,7 @@ public class CmsResourceTypeStatResult {
      * @param siteRoot of site
      * @param count of found resources
      */
-    public CmsResourceTypeStatResult(I_CmsResourceType type, String siteRoot, int count) {
+    public CmsResourceTypeStatResult(I_CmsResourceType type, @RUntainted String siteRoot, @RUntainted int count) {
         m_type = type;
         m_count = count;
         m_siteRoot = siteRoot;
@@ -107,7 +108,7 @@ public class CmsResourceTypeStatResult {
      *
      * @return site roor
      */
-    public String getSiteRoot() {
+    public @RUntainted String getSiteRoot() {
 
         return m_siteRoot;
     }

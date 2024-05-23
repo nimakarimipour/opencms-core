@@ -37,6 +37,7 @@ import org.opencms.util.CmsUUID;
 
 import java.util.Date;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A resource implementation that combines the Solr document together with a OpenCms VFS resource.<p>
@@ -105,23 +106,23 @@ public class CmsSearchResource extends CmsResource {
      * @param doc the search document
      */
     public CmsSearchResource(
-        CmsUUID structureId,
-        CmsUUID resourceId,
-        String path,
-        int type,
-        int flags,
-        CmsUUID projectId,
-        CmsResourceState state,
-        long dateCreated,
-        CmsUUID userCreated,
-        long dateLastModified,
-        CmsUUID userLastModified,
-        long dateReleased,
-        long dateExpired,
-        int linkCount,
-        int length,
-        long dateContent,
-        int version,
+        @RUntainted CmsUUID structureId,
+        @RUntainted CmsUUID resourceId,
+        @RUntainted String path,
+        @RUntainted int type,
+        @RUntainted int flags,
+        @RUntainted CmsUUID projectId,
+        @RUntainted CmsResourceState state,
+        @RUntainted long dateCreated,
+        @RUntainted CmsUUID userCreated,
+        @RUntainted long dateLastModified,
+        @RUntainted CmsUUID userLastModified,
+        @RUntainted long dateReleased,
+        @RUntainted long dateExpired,
+        @RUntainted int linkCount,
+        @RUntainted int length,
+        @RUntainted long dateContent,
+        @RUntainted int version,
         I_CmsSearchDocument doc) {
 
         super(
@@ -156,7 +157,7 @@ public class CmsSearchResource extends CmsResource {
      *
      * @return the value
      */
-    public Date getDateField(String fieldName) {
+    public Date getDateField(@RUntainted String fieldName) {
 
         return m_doc.getFieldValueAsDate(fieldName);
     }
@@ -180,7 +181,7 @@ public class CmsSearchResource extends CmsResource {
      *
      * @return the value
      */
-    public String getField(String fieldName) {
+    public @RUntainted String getField(@RUntainted String fieldName) {
 
         return m_doc.getFieldValueAsString(fieldName);
     }
@@ -194,7 +195,7 @@ public class CmsSearchResource extends CmsResource {
      *
      * @return the value
      */
-    public List<String> getMultivaluedField(String fieldName) {
+    public List<@RUntainted String> getMultivaluedField(@RUntainted String fieldName) {
 
         return m_doc.getMultivaluedFieldAsStringList(fieldName);
     }

@@ -35,6 +35,7 @@ import org.opencms.xml.content.CmsXmlContent;
 import org.opencms.xml.xml2json.handler.CmsJsonHandlerContext;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Renders a single-locale content tree as JSON.
@@ -66,6 +67,6 @@ public interface I_CmsJsonRendererXmlContent extends I_CmsConfigurationParameter
      *
      * @throws JSONException if something goes wrong
      */
-    Object render(CmsXmlContent content, Locale locale) throws JSONException;
+    @RUntainted Object render(CmsXmlContent content, @RUntainted Locale locale) throws JSONException;
 
 }

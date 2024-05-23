@@ -60,6 +60,7 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Default user workplace settings, used as default values for worklace settings in the
@@ -96,7 +97,7 @@ public class CmsDefaultUserSettings extends CmsUserSettings {
          *
          * @param mode string representation
          */
-        private CmsPublishRelatedResourcesMode(String mode) {
+        private CmsPublishRelatedResourcesMode(@RUntainted String mode) {
 
             super(mode);
         }
@@ -138,7 +139,7 @@ public class CmsDefaultUserSettings extends CmsUserSettings {
     }
 
     /** The current default user settings. */
-    public static CmsDefaultUserSettings CURRENT_DEFAULT_SETTINGS;
+    public static @RUntainted CmsDefaultUserSettings CURRENT_DEFAULT_SETTINGS;
 
     /** Constant for the publish related resources mode, checkbox disabled by default. */
     public static final CmsPublishRelatedResourcesMode PUBLISH_RELATED_RESOURCES_MODE_FALSE = CmsPublishRelatedResourcesMode.MODE_FALSE;
@@ -221,15 +222,15 @@ public class CmsDefaultUserSettings extends CmsUserSettings {
      * @param tab the tab to display the preference on
      */
     public void addPreference(
-        String name,
-        String value,
-        String widget,
-        String widgetConfig,
-        String niceName,
-        String description,
-        String ruleRegex,
-        String error,
-        String tab) {
+        @RUntainted String name,
+        @RUntainted String value,
+        @RUntainted String widget,
+        @RUntainted String widgetConfig,
+        @RUntainted String niceName,
+        @RUntainted String description,
+        @RUntainted String ruleRegex,
+        @RUntainted String error,
+        @RUntainted String tab) {
 
         CmsXmlContentProperty prop = new CmsXmlContentProperty(
             name,
@@ -638,7 +639,7 @@ public class CmsDefaultUserSettings extends CmsUserSettings {
         // a) Bean properties of CmsUserSettingsStringPropertyWrapper
         // b) Editor setting preferences
         // c) Gallery setting preferences
-        PropertyDescriptor[] propDescs = PropertyUtils.getPropertyDescriptors(accessorClass);
+        @RUntainted PropertyDescriptor[] propDescs = PropertyUtils.getPropertyDescriptors(accessorClass);
         for (PropertyDescriptor descriptor : propDescs) {
             String name = descriptor.getName();
             Method getter = descriptor.getReadMethod();
@@ -662,7 +663,7 @@ public class CmsDefaultUserSettings extends CmsUserSettings {
             }
         }
 
-        Map<String, String> editorValues = getEditorSettings();
+        Map<String, @RUntainted String> editorValues = getEditorSettings();
         if (wpManager.getWorkplaceEditorManager() != null) {
             for (String resType : wpManager.getWorkplaceEditorManager().getConfigurableEditors().keySet()) {
                 if (!editorValues.containsKey(resType)) {
@@ -670,20 +671,20 @@ public class CmsDefaultUserSettings extends CmsUserSettings {
                 }
             }
         }
-        for (Map.Entry<String, String> editorSettingEntry : editorValues.entrySet()) {
+        for (Map.Entry<String, @RUntainted String> editorSettingEntry : editorValues.entrySet()) {
             CmsEditorPreference pref = new CmsEditorPreference(
                 editorSettingEntry.getKey(),
                 editorSettingEntry.getValue());
             m_preferences.put(pref.getName(), pref);
         }
 
-        Map<String, String> galleryValues = new HashMap<String, String>(getStartGalleriesSettings());
+        Map<String, @RUntainted String> galleryValues = new HashMap<String, @RUntainted String>(getStartGalleriesSettings());
         for (String key : wpManager.getGalleries().keySet()) {
             if (!galleryValues.containsKey(key)) {
                 galleryValues.put(key, null);
             }
         }
-        for (Map.Entry<String, String> galleryEntry : galleryValues.entrySet()) {
+        for (Map.Entry<String, @RUntainted String> galleryEntry : galleryValues.entrySet()) {
             CmsStartGallleryPreference pref = new CmsStartGallleryPreference(
                 galleryEntry.getKey(),
                 galleryEntry.getValue());
@@ -788,7 +789,7 @@ public class CmsDefaultUserSettings extends CmsUserSettings {
      *
      * @param dialogExpandInheritedPermissions the default setting for expanding inherited permissions in the dialog
      */
-    public void setDialogExpandInheritedPermissions(String dialogExpandInheritedPermissions) {
+    public void setDialogExpandInheritedPermissions(@RUntainted String dialogExpandInheritedPermissions) {
 
         setDialogExpandInheritedPermissions(Boolean.valueOf(dialogExpandInheritedPermissions).booleanValue());
     }
@@ -798,7 +799,7 @@ public class CmsDefaultUserSettings extends CmsUserSettings {
      *
      * @param dialogExpandUserPermissions the default setting for expanding the users permissions in the dialog
      */
-    public void setDialogExpandUserPermissions(String dialogExpandUserPermissions) {
+    public void setDialogExpandUserPermissions(@RUntainted String dialogExpandUserPermissions) {
 
         setDialogExpandUserPermissions(Boolean.valueOf(dialogExpandUserPermissions).booleanValue());
     }
@@ -808,7 +809,7 @@ public class CmsDefaultUserSettings extends CmsUserSettings {
      *
      * @param dialogPermissionsInheritOnFolder the default setting for inheriting permissions on folders
      */
-    public void setDialogPermissionsInheritOnFolder(String dialogPermissionsInheritOnFolder) {
+    public void setDialogPermissionsInheritOnFolder(@RUntainted String dialogPermissionsInheritOnFolder) {
 
         setDialogPermissionsInheritOnFolder(Boolean.valueOf(dialogPermissionsInheritOnFolder).booleanValue());
     }
@@ -832,7 +833,7 @@ public class CmsDefaultUserSettings extends CmsUserSettings {
      *
      * @param buttonstyle the style of the direct edit buttons of the user
      */
-    public void setDirectEditButtonStyle(String buttonstyle) {
+    public void setDirectEditButtonStyle(@RUntainted String buttonstyle) {
 
         int buttonstyleValue = BUTTONSTYLE_TEXTIMAGE;
         try {
@@ -850,7 +851,7 @@ public class CmsDefaultUserSettings extends CmsUserSettings {
      *
      * @param buttonstyle the style of the editor buttons of the user
      */
-    public void setEditorButtonStyle(String buttonstyle) {
+    public void setEditorButtonStyle(@RUntainted String buttonstyle) {
 
         int buttonstyleValue = BUTTONSTYLE_TEXTIMAGE;
         try {
@@ -868,7 +869,7 @@ public class CmsDefaultUserSettings extends CmsUserSettings {
      *
      * @param buttonstyle the style of the explorer workplace buttons of the user
      */
-    public void setExplorerButtonStyle(String buttonstyle) {
+    public void setExplorerButtonStyle(@RUntainted String buttonstyle) {
 
         int buttonstyleValue = BUTTONSTYLE_TEXTIMAGE;
         try {
@@ -886,7 +887,7 @@ public class CmsDefaultUserSettings extends CmsUserSettings {
      *
      * @param entries the number of displayed files per page of the user
      */
-    public void setExplorerFileEntries(String entries) {
+    public void setExplorerFileEntries(@RUntainted String entries) {
 
         try {
             setExplorerFileEntries(Integer.parseInt(entries));
@@ -900,7 +901,7 @@ public class CmsDefaultUserSettings extends CmsUserSettings {
      *
      * @param listAllProjects <code>"true"</code> or <code>"false"</code>
      */
-    public void setListAllProjects(String listAllProjects) {
+    public void setListAllProjects(@RUntainted String listAllProjects) {
 
         setListAllProjects(Boolean.valueOf(listAllProjects).booleanValue());
     }
@@ -910,7 +911,7 @@ public class CmsDefaultUserSettings extends CmsUserSettings {
      *
      * @param locale the workplace language default
      */
-    public void setLocale(String locale) {
+    public void setLocale(@RUntainted String locale) {
 
         // set the language
         setLocale(CmsLocaleManager.getLocale(locale));
@@ -967,7 +968,7 @@ public class CmsDefaultUserSettings extends CmsUserSettings {
      *
      * @param restrict true if the explorer view is restricted, otherwise false
      */
-    public void setRestrictExplorerView(String restrict) {
+    public void setRestrictExplorerView(@RUntainted String restrict) {
 
         setRestrictExplorerView(Boolean.valueOf(restrict).booleanValue());
     }
@@ -1127,7 +1128,7 @@ public class CmsDefaultUserSettings extends CmsUserSettings {
      *
      * @param mode true if the lock dialog should be shown, otherwise false
      */
-    public void setShowLockDialog(String mode) {
+    public void setShowLockDialog(@RUntainted String mode) {
 
         setDialogShowLock(Boolean.valueOf(mode).booleanValue());
     }
@@ -1137,7 +1138,7 @@ public class CmsDefaultUserSettings extends CmsUserSettings {
      *
      * @param notification <code>"true"</code> or <code>"false"</code> to flag the notification
      */
-    public void setShowPublishNotification(String notification) {
+    public void setShowPublishNotification(@RUntainted String notification) {
 
         // set if the publish notification should be shown
         setShowPublishNotification(Boolean.valueOf(notification).booleanValue());
@@ -1177,7 +1178,7 @@ public class CmsDefaultUserSettings extends CmsUserSettings {
      *
      * @param buttonstyle the style of the workplace buttons of the user
      */
-    public void setWorkplaceButtonStyle(String buttonstyle) {
+    public void setWorkplaceButtonStyle(@RUntainted String buttonstyle) {
 
         int buttonstyleValue = BUTTONSTYLE_TEXTIMAGE;
         try {

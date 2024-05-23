@@ -26,6 +26,7 @@
  */
 
 package org.opencms.widgets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Filtered select widget.
@@ -45,7 +46,7 @@ public class CmsFilterSelectWidget extends CmsSelectWidget {
      *
      * @param configuration the widget configuration
      */
-    public CmsFilterSelectWidget(String configuration) {
+    public CmsFilterSelectWidget(@RUntainted String configuration) {
 
         super(configuration);
 
@@ -55,7 +56,7 @@ public class CmsFilterSelectWidget extends CmsSelectWidget {
      * @see org.opencms.widgets.CmsSelectWidget#getWidgetName()
      */
     @Override
-    public String getWidgetName() {
+    public @RUntainted String getWidgetName() {
 
         return CmsFilterSelectWidget.class.getName();
     }

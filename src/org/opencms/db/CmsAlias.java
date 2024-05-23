@@ -33,6 +33,7 @@ import org.opencms.util.CmsUUID;
 import java.util.regex.Pattern;
 
 import com.google.common.base.Objects;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class represents an alias from a virtual path to a resource in the VFS.<p>
@@ -124,7 +125,7 @@ public class CmsAlias {
      *
      * @return the structure id of the aliased resource
      */
-    public CmsUUID getStructureId() {
+    public @RUntainted CmsUUID getStructureId() {
 
         return m_structureId;
     }

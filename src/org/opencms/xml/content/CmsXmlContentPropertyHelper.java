@@ -80,6 +80,8 @@ import org.dom4j.Element;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Supplier;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Provides common methods on XML property configuration.<p>
@@ -145,10 +147,10 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
      *
      * @return the converted property map
      */
-    public static Map<String, String> convertPropertiesToClientFormat(
+    public static Map<@RUntainted String, @RUntainted String> convertPropertiesToClientFormat(
         CmsObject cms,
-        Map<String, String> props,
-        Map<String, CmsXmlContentProperty> propConfig) {
+        Map<@RUntainted String, @RUntainted String> props,
+        Map<@RUntainted String, CmsXmlContentProperty> propConfig) {
 
         return convertProperties(cms, props, propConfig, true);
     }
@@ -162,9 +164,9 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
      *
      * @return the converted property map
      */
-    public static Map<String, String> convertPropertiesToServerFormat(
+    public static Map<@RUntainted String, @RUntainted String> convertPropertiesToServerFormat(
         CmsObject cms,
-        Map<String, String> props,
+        Map<@RUntainted String, @RUntainted String> props,
         Map<String, CmsXmlContentProperty> propConfig) {
 
         return convertProperties(cms, props, propConfig, false);
@@ -199,7 +201,7 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
      *
      * @throws CmsException if something goes wrong
      */
-    public static CmsUUID getIdForUri(CmsObject cms, String uri) throws CmsException {
+    public static @RUntainted CmsUUID getIdForUri(CmsObject cms, String uri) throws CmsException {
 
         return cms.readResource(uri).getStructureId();
     }
@@ -227,7 +229,7 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
 
             @SuppressWarnings("synthetic-access")
             @Override
-            public String getMacroValue(String macro) {
+            public String getMacroValue(@RUntainted String macro) {
 
                 if (macro.startsWith(PAGE_PROPERTY_PREFIX)) {
                     String remainder = macro.substring(PAGE_PROPERTY_PREFIX.length());
@@ -282,15 +284,15 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
      *
      * @throws CmsException if something goes wrong
      */
-    public static Map<String, CmsXmlContentProperty> getPropertyInfo(
-        CmsObject cms,
+    public static Map<@RUntainted String, CmsXmlContentProperty> getPropertyInfo(
+        @RUntainted CmsObject cms,
         CmsResource page,
-        CmsResource resource)
+        @RUntainted CmsResource resource)
     throws CmsException {
 
         if (CmsResourceTypeXmlContent.isXmlContent(resource)) {
             I_CmsXmlContentHandler contentHandler = CmsXmlContentDefinition.getContentHandlerForResource(cms, resource);
-            Map<String, CmsXmlContentProperty> propertiesConf = contentHandler.getSettings(cms, resource);
+            Map<@RUntainted String, CmsXmlContentProperty> propertiesConf = contentHandler.getSettings(cms, resource);
             CmsXmlContent content = CmsXmlContentFactory.unmarshal(cms, cms.readFile(resource));
             CmsMacroResolver resolver = getMacroResolverForProperties(cms, contentHandler, content, null, page);
             return resolveMacrosInProperties(propertiesConf, resolver);
@@ -310,7 +312,7 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
      *
      * @return a converted property value depending on the given type
      */
-    public static String getPropValueIds(CmsObject cms, String type, String value) {
+    public static @RPolyTainted String getPropValueIds(CmsObject cms, String type, @RUntainted String value) {
 
         if (PropType.isVfsList(type)) {
             return convertPathsToIds(cms, value);
@@ -330,7 +332,7 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
      *
      * @return a converted property value depending on the given type
      */
-    public static String getPropValuePaths(CmsObject cms, String type, String value) {
+    public static @RUntainted String getPropValuePaths(CmsObject cms, String type, @RUntainted String value) {
 
         if (PropType.isVfsList(type)) {
             return convertIdsToPaths(cms, value);
@@ -368,17 +370,17 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
      *
      * @return the configuration JSON
      */
-    public static JSONObject getWidgetConfigurationAsJSON(String widgetConfiguration) {
+    public static JSONObject getWidgetConfigurationAsJSON(@RUntainted String widgetConfiguration) {
 
         JSONObject result = new JSONObject();
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(widgetConfiguration)) {
             return result;
         }
-        Map<String, String> confEntries = CmsStringUtil.splitAsMap(
+        Map<@RUntainted String, @RUntainted String> confEntries = CmsStringUtil.splitAsMap(
             widgetConfiguration,
             CONF_PARAM_SEPARATOR,
             CONF_KEYVALUE_SEPARATOR);
-        for (Map.Entry<String, String> entry : confEntries.entrySet()) {
+        for (Map.Entry<@RUntainted String, @RUntainted String> entry : confEntries.entrySet()) {
             try {
                 result.put(entry.getKey(), entry.getValue());
             } catch (JSONException e) {
@@ -404,19 +406,19 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
      *
      * @return a merged map of properties
      */
-    public static Map<String, String> mergeDefaults(
-        CmsObject cms,
+    public static @RUntainted Map<@RUntainted String, @RUntainted String> mergeDefaults(
+        @RUntainted CmsObject cms,
         CmsADEConfigData config,
         CmsResource resource,
-        Map<String, String> properties,
+        Map<@RUntainted String, @RUntainted String> properties,
         Locale locale,
         ServletRequest request) {
 
-        Map<String, CmsXmlContentProperty> propertyConfig = null;
+        Map<@RUntainted String, CmsXmlContentProperty> propertyConfig = null;
         if (CmsResourceTypeXmlContent.isXmlContent(resource)) {
             I_CmsFormatterBean formatter = null;
             // check formatter configuration setting
-            for (Entry<String, String> property : properties.entrySet()) {
+            for (Entry<String, @RUntainted String> property : properties.entrySet()) {
                 if (property.getKey().startsWith(CmsFormatterConfig.FORMATTER_SETTINGS_KEY)) {
                     I_CmsFormatterBean dynamicFmt = config.findFormatter(property.getValue());
                     if (dynamicFmt != null) {
@@ -461,15 +463,15 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
      *
      * @return a merged map of properties
      */
-    public static Map<String, String> mergeDefaults(
+    public static @RUntainted Map<@RUntainted String, @RUntainted String> mergeDefaults(
         CmsObject cms,
-        Map<String, CmsXmlContentProperty> propertyConfig,
-        Map<String, String> properties) {
+        Map<@RUntainted String, CmsXmlContentProperty> propertyConfig,
+        Map<@RUntainted String, @RUntainted String> properties) {
 
         Set<String> hidden = new HashSet<>();
-        Map<String, String> result = new HashMap<String, String>();
+        Map<@RUntainted String, @RUntainted String> result = new HashMap<@RUntainted String, @RUntainted String>();
         if (propertyConfig != null) {
-            for (Map.Entry<String, CmsXmlContentProperty> entry : propertyConfig.entrySet()) {
+            for (Map.Entry<@RUntainted String, CmsXmlContentProperty> entry : propertyConfig.entrySet()) {
                 CmsXmlContentProperty prop = entry.getValue();
                 String value = getPropValueIds(cms, prop.getType(), prop.getDefault());
                 if (CmsGwtConstants.HIDDEN_SETTINGS_WIDGET_NAME.equals(prop.getWidget())) {
@@ -511,9 +513,9 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
      *
      * @return the properties
      */
-    public static Map<String, String> readProperties(CmsObject cms, I_CmsXmlContentLocation baseLocation) {
+    public static @RUntainted Map<@RUntainted String, @RUntainted String> readProperties(CmsObject cms, I_CmsXmlContentLocation baseLocation) {
 
-        Map<String, String> result = new HashMap<String, String>();
+        Map<@RUntainted String, @RUntainted String> result = new HashMap<@RUntainted String, @RUntainted String>();
         String elementName = CmsXmlContentProperty.XmlNode.Properties.name();
         String nameElementName = CmsXmlContentProperty.XmlNode.Name.name();
         List<I_CmsXmlContentValueLocation> propertyLocations = baseLocation.getSubValues(elementName);
@@ -559,16 +561,16 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
      *
      * @see org.opencms.xml.containerpage.CmsXmlContainerPage.XmlNode#Elements
      */
-    public static Map<String, String> readProperties(
+    public static @RUntainted Map<@RUntainted String, @RUntainted String> readProperties(
         CmsXmlContent xmlContent,
-        Locale locale,
-        Element element,
+        @RUntainted Locale locale,
+        @RUntainted Element element,
         String elemPath,
         CmsXmlContentDefinition elemDef) {
 
-        Map<String, String> propertiesMap = new HashMap<String, String>();
+        Map<@RUntainted String, @RUntainted String> propertiesMap = new HashMap<@RUntainted String, @RUntainted String>();
         // Properties
-        for (Iterator<Element> itProps = CmsXmlGenericWrapper.elementIterator(
+        for (Iterator<@RUntainted Element> itProps = CmsXmlGenericWrapper.elementIterator(
             element,
             CmsXmlContentProperty.XmlNode.Properties.name()); itProps.hasNext();) {
             Element property = itProps.next();
@@ -629,7 +631,7 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
 
                 List<CmsUUID> idList = new ArrayList<CmsUUID>();
                 // files
-                for (Iterator<Element> itFiles = CmsXmlGenericWrapper.elementIterator(
+                for (Iterator<@RUntainted Element> itFiles = CmsXmlGenericWrapper.elementIterator(
                     valueFileList,
                     CmsXmlContentProperty.XmlNode.Uri.name()); itFiles.hasNext();) {
 
@@ -673,13 +675,13 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
      *
      * @throws CmsException if something goes wrong
      */
-    public static Map<String, CmsXmlContentProperty> resolveMacrosForPropertyInfo(
-        CmsObject cms,
+    public static Map<@RUntainted String, CmsXmlContentProperty> resolveMacrosForPropertyInfo(
+        @RUntainted CmsObject cms,
         CmsResource page,
         CmsResource resource,
         Supplier<CmsXmlContent> contentGetter,
         Function<String, String> stringtemplateSource,
-        Map<String, CmsXmlContentProperty> propertiesConf)
+        Map<@RUntainted String, CmsXmlContentProperty> propertiesConf)
     throws CmsException {
 
         if (CmsResourceTypeXmlContent.isXmlContent(resource)) {
@@ -703,12 +705,12 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
      *
      * @return a new map of properties with resolved macros
      */
-    public static Map<String, CmsXmlContentProperty> resolveMacrosInProperties(
-        Map<String, CmsXmlContentProperty> properties,
+    public static Map<@RUntainted String, CmsXmlContentProperty> resolveMacrosInProperties(
+        Map<@RUntainted String, CmsXmlContentProperty> properties,
         I_CmsMacroResolver resolver) {
 
-        Map<String, CmsXmlContentProperty> result = new LinkedHashMap<String, CmsXmlContentProperty>();
-        for (Map.Entry<String, CmsXmlContentProperty> entry : properties.entrySet()) {
+        Map<@RUntainted String, CmsXmlContentProperty> result = new LinkedHashMap<@RUntainted String, CmsXmlContentProperty>();
+        for (Map.Entry<@RUntainted String, CmsXmlContentProperty> entry : properties.entrySet()) {
             String key = entry.getKey();
             CmsXmlContentProperty prop = entry.getValue();
             result.put(key, resolveMacrosInProperty(prop, resolver));
@@ -757,7 +759,7 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
     public static void saveProperties(
         CmsObject cms,
         Element parentElement,
-        Map<String, String> properties,
+        Map<@RUntainted String, @RUntainted String> properties,
         Map<String, CmsXmlContentProperty> propertiesConf,
         boolean sort) {
 
@@ -767,7 +769,7 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
         }
 
         // use a sorted map to force a defined order
-        Map<String, String> props;
+        Map<@RUntainted String, @RUntainted String> props;
         if (sort) {
             props = new TreeMap<String, String>(properties);
         } else {
@@ -775,7 +777,7 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
         }
 
         // create new entries
-        for (Map.Entry<String, String> property : props.entrySet()) {
+        for (Map.Entry<String, @RUntainted String> property : props.entrySet()) {
             String propName = property.getKey();
             String propValue = property.getValue();
             if ((propValue == null) || (propValue.length() == 0)) {
@@ -808,7 +810,7 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
      * @param valueElement the element to which the vfslist property value should be added
      * @param propValue the property value which should be saved
      */
-    protected static void addFileListPropertyValue(CmsObject cms, Element valueElement, String propValue) {
+    protected static void addFileListPropertyValue(CmsObject cms, Element valueElement, @RUntainted String propValue) {
 
         // resource list value
         Element filelistElem = valueElement.addElement(CmsXmlContentProperty.XmlNode.FileList.name());
@@ -835,13 +837,13 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
      *
      * @return a string representation of a list of paths
      */
-    protected static String convertIdsToPaths(CmsObject cms, String value) {
+    protected static String convertIdsToPaths(CmsObject cms, @RUntainted String value) {
 
         if (value == null) {
             return null;
         }
         // represent vfslists as lists of path in JSON
-        List<String> ids = CmsStringUtil.splitAsList(value, CmsXmlContentProperty.PROP_SEPARATOR);
+        List<@RUntainted String> ids = CmsStringUtil.splitAsList(value, CmsXmlContentProperty.PROP_SEPARATOR);
         List<String> paths = new ArrayList<String>();
         for (String id : ids) {
             try {
@@ -864,13 +866,13 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
      *
      * @return a string representation of a list of ids
      */
-    protected static String convertPathsToIds(CmsObject cms, String value) {
+    protected static @RUntainted String convertPathsToIds(CmsObject cms, @RUntainted String value) {
 
         if (value == null) {
             return null;
         }
         // represent vfslists as lists of path in JSON
-        List<String> paths = CmsStringUtil.splitAsList(value, CmsXmlContentProperty.PROP_SEPARATOR);
+        List<@RUntainted String> paths = CmsStringUtil.splitAsList(value, CmsXmlContentProperty.PROP_SEPARATOR);
         List<String> ids = new ArrayList<String>();
         for (String path : paths) {
             try {
@@ -895,14 +897,14 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
      *
      * @return the converted property map
      */
-    protected static Map<String, String> convertProperties(
+    protected static Map<@RUntainted String, @RUntainted String> convertProperties(
         CmsObject cms,
-        Map<String, String> props,
+        Map<@RUntainted String, @RUntainted String> props,
         Map<String, CmsXmlContentProperty> propConfig,
         boolean toClient) {
 
-        Map<String, String> result = new HashMap<String, String>();
-        for (Map.Entry<String, String> entry : props.entrySet()) {
+        Map<@RUntainted String, @RUntainted String> result = new HashMap<@RUntainted String, @RUntainted String>();
+        for (Map.Entry<@RUntainted String, @RUntainted String> entry : props.entrySet()) {
             String propName = entry.getKey();
             String propValue = entry.getValue();
             String type = "string";
@@ -926,7 +928,7 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
      *
      * @return the converted property value
      */
-    protected static String convertStringPropertyValue(CmsObject cms, String propValue, String type, boolean toClient) {
+    protected static @RUntainted String convertStringPropertyValue(CmsObject cms, @RUntainted String propValue, String type, boolean toClient) {
 
         if (propValue == null) {
             return null;
@@ -949,7 +951,7 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
      *
      * @throws CmsException if something goes wrong
      */
-    protected static CmsVfsFileValueBean getFileValueForIdOrUri(CmsObject cms, String idOrUri) throws CmsException {
+    protected static CmsVfsFileValueBean getFileValueForIdOrUri(CmsObject cms, @RUntainted String idOrUri) throws CmsException {
 
         CmsVfsFileValueBean result;
         if (CmsUUID.isValidUUID(idOrUri)) {

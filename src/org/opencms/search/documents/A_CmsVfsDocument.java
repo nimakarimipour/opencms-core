@@ -41,6 +41,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Base document factory class for a VFS <code>{@link org.opencms.file.CmsResource}</code>,
@@ -63,7 +64,7 @@ public abstract class A_CmsVfsDocument implements I_CmsDocumentFactory {
     private static final Log LOG = CmsLog.getLog(A_CmsVfsDocument.class);
 
     /** Name of the document type. */
-    protected String m_name;
+    protected @RUntainted String m_name;
 
     /** The cache used for storing extracted documents. */
     private CmsExtractionResultCache m_cache;
@@ -73,7 +74,7 @@ public abstract class A_CmsVfsDocument implements I_CmsDocumentFactory {
      *
      * @param name name of the documenttype
      */
-    public A_CmsVfsDocument(String name) {
+    public A_CmsVfsDocument(@RUntainted String name) {
 
         m_name = name;
     }
@@ -107,7 +108,7 @@ public abstract class A_CmsVfsDocument implements I_CmsDocumentFactory {
      *
      * @see org.opencms.search.documents.I_CmsDocumentFactory#createDocument(CmsObject, CmsResource, I_CmsSearchIndex)
      */
-    public I_CmsSearchDocument createDocument(CmsObject cms, CmsResource resource, I_CmsSearchIndex index)
+    public I_CmsSearchDocument createDocument(@RUntainted CmsObject cms, @RUntainted CmsResource resource, I_CmsSearchIndex index)
     throws CmsException {
 
         // extract the content from the resource
@@ -207,7 +208,7 @@ public abstract class A_CmsVfsDocument implements I_CmsDocumentFactory {
     /**
      * @see org.opencms.search.documents.I_CmsDocumentFactory#getName()
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_name;
     }
@@ -248,7 +249,7 @@ public abstract class A_CmsVfsDocument implements I_CmsDocumentFactory {
      * @throws CmsException if the resource could not be read
      * @throws CmsIndexNoContentException if the resource has no content
      */
-    protected CmsFile readFile(CmsObject cms, CmsResource resource) throws CmsException, CmsIndexNoContentException {
+    protected CmsFile readFile(CmsObject cms, @RUntainted CmsResource resource) throws CmsException, CmsIndexNoContentException {
 
         CmsFile file = cms.readFile(resource);
         if (file.getLength() <= 0) {

@@ -31,6 +31,7 @@ import org.opencms.i18n.CmsMessages;
 import org.opencms.main.CmsIllegalArgumentException;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper class for the different types of log entries.<p>
@@ -134,7 +135,7 @@ public enum CmsLogEntryType {
     }
 
     /** Localization key for detail formatting. */
-    private String m_detailKey;
+    private @RUntainted String m_detailKey;
 
     /** Internal representation. */
     private final int m_id;
@@ -150,7 +151,7 @@ public enum CmsLogEntryType {
      * @param toPubList flag to indicate if this type generates an entry in the user's publish list
      * @param detailKey localization key for detail formatting
      */
-    private CmsLogEntryType(int id, LogLevel logLevel, boolean toPubList, String detailKey) {
+    private CmsLogEntryType(int id, LogLevel logLevel, boolean toPubList, @RUntainted String detailKey) {
 
         m_id = id;
         m_toPubList = toPubList;
@@ -167,7 +168,7 @@ public enum CmsLogEntryType {
      * @throws CmsIllegalArgumentException if the given value could not be matched against a
      *         <code>{@link CmsLogEntryType}</code> object.
      */
-    public static CmsLogEntryType valueOf(int id) throws CmsIllegalArgumentException {
+    public static CmsLogEntryType valueOf(@RUntainted int id) throws CmsIllegalArgumentException {
 
         for (CmsLogEntryType type : CmsLogEntryType.values()) {
             if (id == type.getId()) {
@@ -186,7 +187,7 @@ public enum CmsLogEntryType {
      *
      * @return localization key for detail formatting
      */
-    public String getDetailKey() {
+    public @RUntainted String getDetailKey() {
 
         return m_detailKey;
     }
@@ -221,7 +222,7 @@ public enum CmsLogEntryType {
      *
      * @return a localized name
      */
-    public String getLocalizedName(Locale locale) {
+    public String getLocalizedName(@RUntainted Locale locale) {
 
         return getLocalizedName(Messages.get().getBundle(locale));
     }

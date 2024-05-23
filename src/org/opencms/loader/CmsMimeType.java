@@ -28,6 +28,7 @@
 package org.opencms.loader;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes a MIME type configured in OpenCms.<p>
@@ -43,7 +44,7 @@ public class CmsMimeType implements Comparable<CmsMimeType> {
     private String m_extension;
 
     /** The MIME type description. */
-    private String m_type;
+    private @RUntainted String m_type;
 
     /**
      * Default constructor for MIME types.<p>
@@ -69,7 +70,7 @@ public class CmsMimeType implements Comparable<CmsMimeType> {
      * @param type the MIME type description
      * @param configured indicates if this a MIME type read from the OpenCms configuration
      */
-    public CmsMimeType(String extension, String type, boolean configured) {
+    public CmsMimeType(String extension, @RUntainted String type, boolean configured) {
 
         m_extension = String.valueOf(extension).toLowerCase(Locale.ENGLISH);
         if (!(m_extension.charAt(0) == '.')) {
@@ -128,7 +129,7 @@ public class CmsMimeType implements Comparable<CmsMimeType> {
      *
      * @return the MIME type description
      */
-    public String getType() {
+    public @RUntainted String getType() {
 
         return m_type;
     }

@@ -33,6 +33,8 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * An organizational unit in OpenCms.<p>
@@ -53,16 +55,16 @@ public class CmsOrganizationalUnit {
     public static final String SEPARATOR = "/";
 
     /** The description of this organizational unit. */
-    private String m_description;
+    private @RUntainted String m_description;
 
     /** The flags of this organizational unit. */
-    private int m_flags;
+    private @RUntainted int m_flags;
 
     /** The unique id of this organizational unit. */
     private final CmsUUID m_id;
 
     /** The fully qualified name of this organizational unit. */
-    private final String m_name;
+    private final @RUntainted String m_name;
 
     /** The id of the related default project. */
     private final CmsUUID m_projectId;
@@ -76,7 +78,7 @@ public class CmsOrganizationalUnit {
      * @param flags the flags of the organizational unit
      * @param projectId the id of the related default project
      */
-    public CmsOrganizationalUnit(CmsUUID id, String fqn, String description, int flags, CmsUUID projectId) {
+    public CmsOrganizationalUnit(CmsUUID id, @RUntainted String fqn, @RUntainted String description, @RUntainted int flags, CmsUUID projectId) {
 
         m_id = id;
         m_name = fqn;
@@ -95,7 +97,7 @@ public class CmsOrganizationalUnit {
      *
      * @return the parent fully qualified name
      */
-    public static final String getParentFqn(String fqn) {
+    public static final @RPolyTainted String getParentFqn(@RPolyTainted String fqn) {
 
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(fqn)) {
             // in case of the root ou
@@ -121,7 +123,7 @@ public class CmsOrganizationalUnit {
      *
      * @return the last name of the given fully qualified name
      */
-    public static final String getSimpleName(String fqn) {
+    public static final @RPolyTainted String getSimpleName(@RPolyTainted String fqn) {
 
         String parentFqn = getParentFqn(fqn);
         if (parentFqn != null) {
@@ -157,7 +159,7 @@ public class CmsOrganizationalUnit {
      *
      * @return the given fully qualified name without leading separator
      */
-    public static String removeLeadingSeparator(String fqn) {
+    public static @RPolyTainted String removeLeadingSeparator(@RPolyTainted String fqn) {
 
         if ((fqn != null) && fqn.startsWith(CmsOrganizationalUnit.SEPARATOR)) {
             return fqn.substring(1);
@@ -170,7 +172,7 @@ public class CmsOrganizationalUnit {
      *
      * @param flag the flag to add
      */
-    public void addFlag(int flag) {
+    public void addFlag(@RUntainted int flag) {
 
         m_flags = (m_flags ^ flag);
     }
@@ -209,7 +211,7 @@ public class CmsOrganizationalUnit {
      *
      * @return the description of this organizational unit
      */
-    public String getDescription() {
+    public @RUntainted String getDescription() {
 
         return m_description;
     }
@@ -221,7 +223,7 @@ public class CmsOrganizationalUnit {
      *
      * @return the description of this organizational unit
      */
-    public String getDescription(Locale locale) {
+    public @RUntainted String getDescription(@RUntainted Locale locale) {
 
         CmsMacroResolver macroResolver = new CmsMacroResolver();
         macroResolver.setMessages(org.opencms.db.generic.Messages.get().getBundle(locale));
@@ -235,7 +237,7 @@ public class CmsOrganizationalUnit {
      *
      * @return the display name for this organizational unit
      */
-    public String getDisplayName(Locale locale) {
+    public @RUntainted String getDisplayName(@RUntainted Locale locale) {
 
         if (getParentFqn() == null) {
             // for the root ou
@@ -256,7 +258,7 @@ public class CmsOrganizationalUnit {
      *
      * @return the flags of this organizational unit
      */
-    public int getFlags() {
+    public @RUntainted int getFlags() {
 
         return m_flags;
     }
@@ -276,7 +278,7 @@ public class CmsOrganizationalUnit {
      *
      * @return the fully qualified name of this organizational unit
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_name;
     }
@@ -288,7 +290,7 @@ public class CmsOrganizationalUnit {
      *
      * @return the full qualified name of the parent organizational unit of this organizational unit
      */
-    public String getParentFqn() {
+    public @RUntainted String getParentFqn() {
 
         return getParentFqn(m_name);
     }
@@ -362,7 +364,7 @@ public class CmsOrganizationalUnit {
      *
      * @param description the principal organizational unit to set
      */
-    public void setDescription(String description) {
+    public void setDescription(@RUntainted String description) {
 
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(description)) {
             throw new CmsIllegalArgumentException(
@@ -389,7 +391,7 @@ public class CmsOrganizationalUnit {
      *
      * @param value the value to set this organizational units flags to
      */
-    public void setFlags(int value) {
+    public void setFlags(@RUntainted int value) {
 
         m_flags = value;
     }

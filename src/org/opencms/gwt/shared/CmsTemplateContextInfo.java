@@ -34,6 +34,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Client-compatible bean with information about the current template context.<p>
@@ -59,7 +60,7 @@ public class CmsTemplateContextInfo implements IsSerializable {
     private Map<String, String> m_contextLabels = new LinkedHashMap<String, String>();
 
     /** The context provider class. */
-    private String m_contextProvider;
+    private @RUntainted String m_contextProvider;
 
     /** The custom label for the default template option. */
     private String m_defaultLabel;
@@ -128,7 +129,7 @@ public class CmsTemplateContextInfo implements IsSerializable {
      *
      * @return the name of the context provider class
      */
-    public String getContextProvider() {
+    public @RUntainted String getContextProvider() {
 
         return m_contextProvider;
     }

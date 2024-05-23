@@ -31,6 +31,7 @@ import org.opencms.acacia.shared.I_CmsSerialDateValue;
 import org.opencms.main.CmsLog;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper for the value stored by the {@link org.opencms.widgets.CmsSerialDateWidget}
@@ -156,7 +157,7 @@ public class CmsSerialDateBeanFactory {
      * @param widgetValue the value for the series as stored by the {@link org.opencms.widgets.CmsSerialDateWidget}
      * @return the serial date bean.
      */
-    public static I_CmsSerialDateBean createSerialDateBean(String widgetValue) {
+    public static I_CmsSerialDateBean createSerialDateBean(@RUntainted String widgetValue) {
 
         I_CmsSerialDateValue value;
         value = new CmsSerialDateValue(widgetValue);

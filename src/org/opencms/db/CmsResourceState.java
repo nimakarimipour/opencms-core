@@ -30,6 +30,7 @@ package org.opencms.db;
 import org.opencms.file.CmsResource;
 
 import java.io.Serializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  *  Enumeration class for the different resource states.<p>
@@ -63,7 +64,7 @@ public class CmsResourceState implements Serializable {
     private char m_abbrev;
 
     /** The integer state representation. */
-    private int m_state;
+    private @RUntainted int m_state;
 
     /**
      * Default constructor for serialization.<p>
@@ -83,7 +84,7 @@ public class CmsResourceState implements Serializable {
      * @param state an integer representing the state
      * @param abbrev an abbreviation character
      */
-    protected CmsResourceState(int state, char abbrev) {
+    protected CmsResourceState(@RUntainted int state, char abbrev) {
 
         m_state = state;
         m_abbrev = abbrev;
@@ -96,7 +97,7 @@ public class CmsResourceState implements Serializable {
      *
      * @return the resource state object
      */
-    public static CmsResourceState valueOf(int state) {
+    public static @RUntainted CmsResourceState valueOf(int state) {
 
         switch (state) {
             case 0:
@@ -137,7 +138,7 @@ public class CmsResourceState implements Serializable {
      *
      * @return the resource state integer for this resource state object
      */
-    public int getState() {
+    public @RUntainted int getState() {
 
         return m_state;
     }
@@ -205,7 +206,7 @@ public class CmsResourceState implements Serializable {
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString() {
+    public @RUntainted String toString() {
 
         return String.valueOf(getState());
     }

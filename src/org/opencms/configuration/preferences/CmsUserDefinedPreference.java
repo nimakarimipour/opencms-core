@@ -34,6 +34,7 @@ import org.opencms.file.CmsObject;
 import org.opencms.xml.content.CmsXmlContentProperty;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Subclass for user-defined preferences.<p>
@@ -51,7 +52,7 @@ public class CmsUserDefinedPreference extends A_CmsPreference {
      * @param prop the bean containing the widget configuration for the preference
      * @param tab the tab on which to display the widget
      */
-    public CmsUserDefinedPreference(String name, String value, CmsXmlContentProperty prop, String tab) {
+    public CmsUserDefinedPreference(@RUntainted String name, @RUntainted String value, CmsXmlContentProperty prop, @RUntainted String tab) {
 
         m_preferenceData = new CmsPreferenceData(name, value, prop, tab);
     }
@@ -84,7 +85,7 @@ public class CmsUserDefinedPreference extends A_CmsPreference {
     /**
      * @see org.opencms.configuration.preferences.I_CmsPreference#getDefaultValue()
      */
-    public String getDefaultValue() {
+    public @RUntainted String getDefaultValue() {
 
         return m_preferenceData.getDefaultValue();
     }
@@ -109,7 +110,7 @@ public class CmsUserDefinedPreference extends A_CmsPreference {
     /**
      * @see org.opencms.configuration.preferences.I_CmsPreference#getTab()
      */
-    public String getTab() {
+    public @RUntainted String getTab() {
 
         return m_preferenceData.getTab();
     }
@@ -125,7 +126,7 @@ public class CmsUserDefinedPreference extends A_CmsPreference {
     /**
      * @see org.opencms.configuration.preferences.I_CmsPreference#setValue(org.opencms.configuration.CmsDefaultUserSettings, java.lang.String)
      */
-    public void setValue(CmsDefaultUserSettings settings, String value) {
+    public void setValue(CmsDefaultUserSettings settings, @RUntainted String value) {
 
         settings.setAdditionalPreference(getName(), value);
     }

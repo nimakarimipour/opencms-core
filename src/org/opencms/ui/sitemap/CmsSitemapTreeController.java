@@ -90,6 +90,7 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manages the sitemap tree in the 'locale comparison' view in the sitemap editor.<p>
@@ -105,7 +106,7 @@ public class CmsSitemapTreeController {
         private CmsSitemapTreeNode m_node;
 
         /** The resource. */
-        private CmsResource m_resource;
+        private @RUntainted CmsResource m_resource;
 
         /**
          * Creates a new instance.<p>
@@ -113,7 +114,7 @@ public class CmsSitemapTreeController {
          * @param resource the resource
          * @param node the tree node
          */
-        public DialogContext(CmsResource resource, CmsSitemapTreeNode node) {
+        public DialogContext(@RUntainted CmsResource resource, CmsSitemapTreeNode node) {
             m_resource = resource;
             m_node = node;
         }
@@ -175,7 +176,7 @@ public class CmsSitemapTreeController {
         /**
          * @see org.opencms.ui.I_CmsDialogContext#getAllStructureIdsInView()
          */
-        public List<CmsUUID> getAllStructureIdsInView() {
+        public List<@RUntainted CmsUUID> getAllStructureIdsInView() {
 
             return null;
         }
@@ -191,7 +192,7 @@ public class CmsSitemapTreeController {
         /**
          * @see org.opencms.ui.I_CmsDialogContext#getCms()
          */
-        public CmsObject getCms() {
+        public @RUntainted CmsObject getCms() {
 
             return A_CmsUI.getCmsObject();
         }
@@ -207,7 +208,7 @@ public class CmsSitemapTreeController {
         /**
          * @see org.opencms.ui.I_CmsDialogContext#getResources()
          */
-        public List<CmsResource> getResources() {
+        public @RUntainted List<@RUntainted CmsResource> getResources() {
 
             return Arrays.asList(m_resource);
         }
@@ -479,7 +480,7 @@ public class CmsSitemapTreeController {
                 if (propValue == null) {
                     propValue = ""; // make getLocales not return null
                 }
-                List<Locale> currentLocales = CmsLocaleManager.getLocales(propValue);
+                List<@RUntainted Locale> currentLocales = CmsLocaleManager.getLocales(propValue);
                 if (!currentLocales.contains(m_localeContext.getComparisonLocale())) {
                     currentLocales.add(m_localeContext.getComparisonLocale());
                     String newPropValue = Joiner.on(",").join(currentLocales);
@@ -659,7 +660,7 @@ public class CmsSitemapTreeController {
                 if (propValue == null) {
                     propValue = ""; // make getLocales not return null
                 }
-                List<Locale> currentLocales = CmsLocaleManager.getLocales(propValue);
+                List<@RUntainted Locale> currentLocales = CmsLocaleManager.getLocales(propValue);
                 if (currentLocales.contains(m_localeContext.getComparisonLocale())) {
                     currentLocales.remove(m_localeContext.getComparisonLocale());
                     String newPropValue = Joiner.on(",").join(currentLocales);
@@ -920,7 +921,7 @@ public class CmsSitemapTreeController {
      * @param entry the tree node bean
      * @return the tree node widget
      */
-    public CmsSitemapTreeNode createNode(final CmsSitemapTreeNodeData entry) {
+    public CmsSitemapTreeNode createNode(final @RUntainted CmsSitemapTreeNodeData entry) {
 
         final CmsSitemapTreeNode node = new CmsSitemapTreeNode();
 
@@ -1103,7 +1104,7 @@ public class CmsSitemapTreeController {
         } else {
             if (!m_alreadyLoaded.containsKey(node)) {
                 Object nodeData = node.getData();
-                List<CmsSitemapTreeNodeData> children = m_treeDataProvider.getChildren(
+                List<@RUntainted CmsSitemapTreeNodeData> children = m_treeDataProvider.getChildren(
                     (CmsSitemapTreeNodeData)nodeData);
                 m_alreadyLoaded.put(node, null);
                 if (children.isEmpty()) {

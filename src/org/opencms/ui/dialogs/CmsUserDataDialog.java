@@ -55,6 +55,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.v7.ui.Label;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog to edit the user data.<p>
@@ -167,7 +168,7 @@ public class CmsUserDataDialog extends CmsBasicDialog implements I_CmsHasTitle {
     /**
      * @see org.opencms.ui.dialogs.I_CmsHasTitle#getTitle(java.util.Locale)
      */
-    public String getTitle(Locale locale) {
+    public String getTitle(@RUntainted Locale locale) {
 
         return org.opencms.ui.components.Messages.get().getBundle(locale).key(
             org.opencms.ui.components.Messages.GUI_USER_EDIT_0);

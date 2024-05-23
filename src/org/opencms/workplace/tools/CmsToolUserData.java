@@ -29,6 +29,7 @@ package org.opencms.workplace.tools;
 
 import java.util.HashMap;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Store for some administration view parameters,
@@ -39,13 +40,13 @@ import java.util.Map;
 public class CmsToolUserData {
 
     /** base tool for the user, root-based. */
-    private Map<String, String> m_baseTools;
+    private Map<String, @RUntainted String> m_baseTools;
 
     /** Current used tool paths, root-based. */
-    private Map<String, String> m_currentToolPaths;
+    private Map<String, @RUntainted String> m_currentToolPaths;
 
     /** root key for the user. */
-    private String m_rootKey;
+    private @RUntainted String m_rootKey;
 
     /**
      * Default Constructor.<p>
@@ -63,7 +64,7 @@ public class CmsToolUserData {
      *
      * @return the base tool
      */
-    public String getBaseTool(String rootKey) {
+    public @RUntainted String getBaseTool(String rootKey) {
 
         return m_baseTools.get(rootKey);
     }
@@ -75,7 +76,7 @@ public class CmsToolUserData {
      *
      * @return the current tool path
      */
-    public String getCurrentToolPath(String rootKey) {
+    public @RUntainted String getCurrentToolPath(String rootKey) {
 
         return m_currentToolPaths.get(rootKey);
     }
@@ -85,7 +86,7 @@ public class CmsToolUserData {
      *
      * @return the root key
      */
-    public String getRootKey() {
+    public @RUntainted String getRootKey() {
 
         return m_rootKey;
     }
@@ -96,7 +97,7 @@ public class CmsToolUserData {
      * @param rootKey the tool root
      * @param baseTool the base tool to set
      */
-    public void setBaseTool(String rootKey, String baseTool) {
+    public void setBaseTool(String rootKey, @RUntainted String baseTool) {
 
         m_baseTools.put(rootKey, baseTool);
     }
@@ -107,7 +108,7 @@ public class CmsToolUserData {
      * @param rootKey the tool root
      * @param currentToolPath the current tool path to set
      */
-    public void setCurrentToolPath(String rootKey, String currentToolPath) {
+    public void setCurrentToolPath(String rootKey, @RUntainted String currentToolPath) {
 
         m_currentToolPaths.put(rootKey, currentToolPath);
     }
@@ -117,7 +118,7 @@ public class CmsToolUserData {
      *
      * @param key the root key to set
      */
-    public void setRootKey(String key) {
+    public void setRootKey(@RUntainted String key) {
 
         m_rootKey = key;
     }

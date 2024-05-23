@@ -28,6 +28,7 @@
 package org.opencms.configuration.preferences;
 
 import org.opencms.xml.content.CmsXmlContentProperty;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the preference which controls whether invalid elements should be shown by default in the gallery result tab.
@@ -44,7 +45,7 @@ public class CmsGalleryShowInvalidDefaultPreference extends CmsBuiltinPreference
      *
      * @param propName the property name
      */
-    public CmsGalleryShowInvalidDefaultPreference(String propName) {
+    public CmsGalleryShowInvalidDefaultPreference(@RUntainted String propName) {
 
         super(propName);
         m_basic = true;

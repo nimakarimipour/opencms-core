@@ -61,6 +61,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Wrapper subclass of CmsResource with some convenience methods.<p>
@@ -129,7 +131,7 @@ public class CmsJspResourceWrapper extends CmsResource {
     private CmsJspResourceWrapper m_parentFolder;
 
     /** Properties of this resource. */
-    private Map<String, String> m_properties;
+    private Map<String, @RUntainted String> m_properties;
 
     /** Locale properties of this resource. */
     private Map<String, Map<String, String>> m_propertiesLocale;
@@ -138,10 +140,10 @@ public class CmsJspResourceWrapper extends CmsResource {
     private Map<String, Map<String, String>> m_propertiesLocaleSearch;
 
     /** Properties of this resource with search. */
-    private Map<String, String> m_propertiesSearch;
+    private Map<String, @RUntainted String> m_propertiesSearch;
 
     /** The calculated site path of the resource. */
-    private String m_sitePath;
+    private @RUntainted String m_sitePath;
 
     /** The type name of the resource. */
     private String m_typeName;
@@ -192,7 +194,7 @@ public class CmsJspResourceWrapper extends CmsResource {
      *
      * @return a new instance of a {@link CmsJspResourceWrapper}
      */
-    public static CmsJspResourceWrapper wrap(CmsObject cms, CmsResource res) {
+    public static @RPolyTainted CmsJspResourceWrapper wrap(@RPolyTainted CmsObject cms, @RPolyTainted CmsResource res) {
 
         CmsJspResourceWrapper result = null;
         if ((cms != null) && (res != null)) {
@@ -393,7 +395,7 @@ public class CmsJspResourceWrapper extends CmsResource {
         }
         try {
             CmsLocaleGroup localeGroup = m_cms.getLocaleGroupService().readLocaleGroup(this);
-            Map<Locale, CmsResource> resourcesByLocale = localeGroup.getResourcesByLocale();
+            Map<@RUntainted Locale, CmsResource> resourcesByLocale = localeGroup.getResourcesByLocale();
             Map<String, CmsJspResourceWrapper> result = new HashMap<>();
             for (Map.Entry<Locale, CmsResource> entry : resourcesByLocale.entrySet()) {
                 result.put(entry.getKey().toString(), CmsJspResourceWrapper.wrap(m_cms, entry.getValue()));
@@ -604,7 +606,7 @@ public class CmsJspResourceWrapper extends CmsResource {
      *
      * @return the direct properties of this resource in a map
      */
-    public Map<String, String> getProperty() {
+    public Map<String, @RUntainted String> getProperty() {
 
         if (m_properties == null) {
             try {
@@ -662,7 +664,7 @@ public class CmsJspResourceWrapper extends CmsResource {
      *
      * @return the direct properties of this resource in a map
      */
-    public Map<String, String> getPropertySearch() {
+    public Map<String, @RUntainted String> getPropertySearch() {
 
         if (m_propertiesSearch == null) {
             try {
@@ -773,7 +775,7 @@ public class CmsJspResourceWrapper extends CmsResource {
      *
      * @see org.opencms.file.CmsRequestContext#getSitePath(CmsResource)
      */
-    public String getSitePath() {
+    public @RUntainted String getSitePath() {
 
         if (m_sitePath == null) {
             m_sitePath = m_cms.getRequestContext().getSitePath(this);
@@ -1007,7 +1009,7 @@ public class CmsJspResourceWrapper extends CmsResource {
             CmsRelationFilter filter = out
             ? CmsRelationFilter.relationsFromStructureId(getStructureId())
             : CmsRelationFilter.relationsToStructureId(getStructureId());
-            List<CmsRelation> relations = cms.readRelations(filter);
+            List<@RUntainted CmsRelation> relations = cms.readRelations(filter);
             for (CmsRelation rel : relations) {
                 try {
                     CmsResource other = out

@@ -54,6 +54,7 @@ import org.apache.commons.collections.Transformer;
 import org.apache.commons.logging.Log;
 
 import com.google.common.base.Objects;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Bean for easy access to information of an event series. */
 public class CmsJspDateSeriesBean {
@@ -138,7 +139,7 @@ public class CmsJspDateSeriesBean {
      * @param locale the locale in which dates should be rendered. This can differ from the content locale, if e.g.
      *          on a German page a content that is only present in English is rendered.
      */
-    CmsJspDateSeriesBean(String seriesDefinition, Locale locale) {
+    CmsJspDateSeriesBean(@RUntainted String seriesDefinition, Locale locale) {
 
         m_locale = locale;
         initFromSeriesDefinition(seriesDefinition);
@@ -444,7 +445,7 @@ public class CmsJspDateSeriesBean {
      *
      * @param seriesDefinition the series definition
      */
-    private void initFromSeriesDefinition(String seriesDefinition) {
+    private void initFromSeriesDefinition(@RUntainted String seriesDefinition) {
 
         String seriesDefinitionString = seriesDefinition;
         m_seriesDefinition = new CmsSerialDateValue(seriesDefinitionString);

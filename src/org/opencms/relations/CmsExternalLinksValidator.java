@@ -48,6 +48,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class to validate pointer links.<p>
@@ -67,7 +68,7 @@ public class CmsExternalLinksValidator implements I_CmsScheduledJob {
      *
      * @return false if the url could not be accessed
      */
-    public static boolean checkUrl(CmsObject cms, String check) {
+    public static boolean checkUrl(CmsObject cms, @RUntainted String check) {
 
         // first, create an URI from the string representation
         URI uri = null;
@@ -106,7 +107,7 @@ public class CmsExternalLinksValidator implements I_CmsScheduledJob {
      * @return the String that is written to the OpenCms log
      * @throws CmsException if something goes wrong
      */
-    public String launch(CmsObject cms, Map<String, String> parameters) throws CmsException {
+    public @RUntainted String launch(CmsObject cms, Map<String, String> parameters) throws CmsException {
 
         if (Boolean.valueOf(parameters.get("writeLog")).booleanValue()) {
             m_report = new CmsLogReport(cms.getRequestContext().getLocale(), CmsExternalLinksValidator.class);
@@ -148,9 +149,9 @@ public class CmsExternalLinksValidator implements I_CmsScheduledJob {
         int pointerId = OpenCms.getResourceManager().getResourceType(
             CmsResourceTypePointer.getStaticTypeName()).getTypeId();
         CmsResourceFilter filter = CmsResourceFilter.ONLY_VISIBLE_NO_DELETED.addRequireType(pointerId);
-        List<CmsResource> links = cms.readResources("/", filter);
+        List<@RUntainted CmsResource> links = cms.readResources("/", filter);
         Iterator<CmsResource> iterator = links.iterator();
-        Map<String, String> brokenLinks = new HashMap<String, String>();
+        Map<@RUntainted String, @RUntainted String> brokenLinks = new HashMap<@RUntainted String, @RUntainted String>();
 
         for (int i = 1; iterator.hasNext(); i++) {
             CmsFile link = cms.readFile(cms.getSitePath(iterator.next()), filter);

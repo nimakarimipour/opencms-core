@@ -52,6 +52,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Example implementation of a template context provider for deciding between a desktop template and a mobile template.<p>
@@ -89,7 +90,7 @@ public class CmsDefaultTemplateContextProvider implements I_CmsTemplateContextPr
     private CmsObject m_cms;
 
     /** Map of configuration parameters for the provider instance. */
-    private Map<String, String> m_params;
+    private Map<String, @RUntainted String> m_params;
 
     /** Default constructor. */
     public CmsDefaultTemplateContextProvider() {
@@ -110,7 +111,7 @@ public class CmsDefaultTemplateContextProvider implements I_CmsTemplateContextPr
      *
      * @return the absolute VFS path where the configuration property file is stored
      */
-    public String getConfigurationPropertyPath() {
+    public @RUntainted String getConfigurationPropertyPath() {
 
         if (m_params.containsKey(PARAM_CONFIGURATION)) {
             return m_params.get(PARAM_CONFIGURATION);
@@ -122,7 +123,7 @@ public class CmsDefaultTemplateContextProvider implements I_CmsTemplateContextPr
     /**
      * @see org.opencms.loader.I_CmsTemplateContextProvider#getEditorStyleSheet(org.opencms.file.CmsObject, java.lang.String)
      */
-    public String getEditorStyleSheet(CmsObject cms, String editedResourcePath) {
+    public @RUntainted String getEditorStyleSheet(CmsObject cms, String editedResourcePath) {
 
         String templatePath = getAllContexts().get("desktop").getTemplatePath();
         String result = null;
@@ -166,7 +167,7 @@ public class CmsDefaultTemplateContextProvider implements I_CmsTemplateContextPr
     /**
      * @see org.opencms.loader.I_CmsTemplateContextProvider#initialize(org.opencms.file.CmsObject, java.lang.String)
      */
-    public void initialize(CmsObject cms, String config) {
+    public void initialize(CmsObject cms, @RUntainted String config) {
 
         m_cms = cms;
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(config)) {
@@ -181,7 +182,7 @@ public class CmsDefaultTemplateContextProvider implements I_CmsTemplateContextPr
     /**
      * @see org.opencms.loader.I_CmsTemplateContextProvider#readCommonProperty(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String readCommonProperty(CmsObject cms, String propertyName, String fallbackValue) throws CmsException {
+    public @RUntainted String readCommonProperty(CmsObject cms, @RUntainted String propertyName, @RUntainted String fallbackValue) throws CmsException {
 
         String templatePath = getAllContexts().get("desktop").getTemplatePath();
         return cms.readPropertyObject(templatePath, propertyName, false).getValue(fallbackValue);
@@ -226,7 +227,7 @@ public class CmsDefaultTemplateContextProvider implements I_CmsTemplateContextPr
         String fileContent = new String(file.getContents(), "UTF-8");
         CmsMacroResolver resolver = new CmsMacroResolver();
         resolver.setCmsObject(m_cms);
-        for (Map.Entry<String, String> param : m_params.entrySet()) {
+        for (Map.Entry<String, @RUntainted String> param : m_params.entrySet()) {
             resolver.addMacro(param.getKey(), param.getValue());
         }
         fileContent = resolver.resolveMacros(fileContent);

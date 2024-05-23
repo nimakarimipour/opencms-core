@@ -68,6 +68,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generic implementation of the user tracking and subscription driver interface.<p>
@@ -105,7 +106,7 @@ public class CmsSubscriptionDriver implements I_CmsDriver, I_CmsSubscriptionDriv
             StringBuffer queryBuf = new StringBuffer(256);
             queryBuf.append(m_sqlManager.readQuery("C_VISIT_DELETE_ENTRIES"));
 
-            CmsPair<String, List<I_CmsPreparedStatementParameter>> conditionsAndParams = prepareVisitConditions(filter);
+            CmsPair<String, @RUntainted List<I_CmsPreparedStatementParameter>> conditionsAndParams = prepareVisitConditions(filter);
             queryBuf.append(conditionsAndParams.getFirst());
             if (LOG.isDebugEnabled()) {
                 LOG.debug(queryBuf.toString());
@@ -186,7 +187,7 @@ public class CmsSubscriptionDriver implements I_CmsDriver, I_CmsSubscriptionDriv
     /**
      * @see org.opencms.db.I_CmsSubscriptionDriver#initSqlManager(java.lang.String)
      */
-    public org.opencms.db.generic.CmsSqlManager initSqlManager(String classname) {
+    public org.opencms.db.generic.CmsSqlManager initSqlManager(@RUntainted String classname) {
 
         return CmsSqlManager.getInstance(classname);
     }
@@ -389,7 +390,7 @@ public class CmsSubscriptionDriver implements I_CmsDriver, I_CmsSubscriptionDriv
         Connection conn = null;
         ResultSet res = null;
         List<I_CmsHistoryResource> resources = new ArrayList<I_CmsHistoryResource>();
-        Set<CmsUUID> historyIDs = new HashSet<CmsUUID>();
+        Set<@RUntainted CmsUUID> historyIDs = new HashSet<@RUntainted CmsUUID>();
 
         List<String> principalIds = new ArrayList<String>();
         // add user ID
@@ -455,7 +456,7 @@ public class CmsSubscriptionDriver implements I_CmsDriver, I_CmsSubscriptionDriv
         if (parent != null) {
             parentFolderPath = CmsResource.getFolderPath(parent.getRootPath());
         }
-        for (Iterator<CmsUUID> i = historyIDs.iterator(); i.hasNext();) {
+        for (Iterator<@RUntainted CmsUUID> i = historyIDs.iterator(); i.hasNext();) {
             CmsUUID id = i.next();
             int version = m_driverManager.getHistoryDriver(dbc).readLastVersion(dbc, id);
             if (version > 0) {
@@ -660,7 +661,7 @@ public class CmsSubscriptionDriver implements I_CmsDriver, I_CmsSubscriptionDriv
             // compose statement
             StringBuffer queryBuf = new StringBuffer(256);
             queryBuf.append(m_sqlManager.readQuery("C_VISIT_READ_ENTRIES"));
-            CmsPair<String, List<I_CmsPreparedStatementParameter>> conditionsAndParameters = prepareVisitConditions(
+            CmsPair<String, @RUntainted List<I_CmsPreparedStatementParameter>> conditionsAndParameters = prepareVisitConditions(
                 filter);
             List<I_CmsPreparedStatementParameter> params = conditionsAndParameters.getSecond();
             queryBuf.append(conditionsAndParameters.getFirst());
@@ -938,7 +939,7 @@ public class CmsSubscriptionDriver implements I_CmsDriver, I_CmsSubscriptionDriv
      *
      * @throws SQLException if something goes wrong
      */
-    protected CmsVisitEntry internalReadVisitEntry(ResultSet res) throws SQLException {
+    protected CmsVisitEntry internalReadVisitEntry(@RUntainted ResultSet res) throws SQLException {
 
         CmsUUID userId = new CmsUUID(res.getString(m_sqlManager.readQuery("C_VISIT_USER_ID")));
         long date = res.getLong(m_sqlManager.readQuery("C_VISIT_DATE"));
@@ -953,7 +954,7 @@ public class CmsSubscriptionDriver implements I_CmsDriver, I_CmsSubscriptionDriv
      *
      * @return a pair containing both the SQL and the parameters for it
      */
-    protected CmsPair<String, List<I_CmsPreparedStatementParameter>> prepareVisitConditions(
+    protected CmsPair<String, @RUntainted List<I_CmsPreparedStatementParameter>> prepareVisitConditions(
         CmsVisitEntryFilter filter) {
 
         List<I_CmsPreparedStatementParameter> params = new ArrayList<I_CmsPreparedStatementParameter>();

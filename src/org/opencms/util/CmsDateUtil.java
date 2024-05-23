@@ -37,6 +37,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  *
@@ -100,7 +102,7 @@ public final class CmsDateUtil {
      * @param locale the locale to use
      * @return the formatted date
      */
-    public static String getDateTime(Date date, int format, Locale locale) {
+    public static @RUntainted String getDateTime(Date date, int format, Locale locale) {
 
         DateFormat df = DateFormat.getDateInstance(format, locale);
         DateFormat tf = DateFormat.getTimeInstance(format, locale);
@@ -119,7 +121,7 @@ public final class CmsDateUtil {
      * @param time the time value to format as date
      * @return the formatted date
      */
-    public static String getDateTimeShort(long time) {
+    public static @RUntainted String getDateTimeShort(long time) {
 
         return getDateTime(new Date(time), DateFormat.SHORT, CmsLocaleManager.getDefaultLocale());
     }
@@ -131,7 +133,7 @@ public final class CmsDateUtil {
      *
      * @return the number of days passed since a specific date
      */
-    public static int getDaysPassedSince(Date dateLastModified) {
+    public static @RUntainted int getDaysPassedSince(Date dateLastModified) {
 
         GregorianCalendar now = new GregorianCalendar();
         GregorianCalendar lastModified = (GregorianCalendar)now.clone();
@@ -147,7 +149,7 @@ public final class CmsDateUtil {
      * @param time the time value to format as date
      * @return the formatted date
      */
-    synchronized public static String getHeaderDate(long time) {
+    synchronized public static @RPolyTainted String getHeaderDate(@RPolyTainted long time) {
 
         if (HEADER_DEFAULT.getTimeZone() != GMT_TIMEZONE) {
             // ensure GMT is used as time zone for the header generation
@@ -202,7 +204,7 @@ public final class CmsDateUtil {
      * @return time value as long
      * @throws ParseException if parsing fails
      */
-    synchronized public static long parseHeaderDate(String timestamp) throws ParseException {
+    synchronized public static @RPolyTainted long parseHeaderDate(@RPolyTainted String timestamp) throws ParseException {
 
         return HEADER_DEFAULT.parse(timestamp).getTime();
     }

@@ -28,6 +28,7 @@
 package org.opencms.db;
 
 import org.opencms.util.A_CmsModeIntEnumeration;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The read modes to get subscribed resources of a user or group.<p>
@@ -62,7 +63,7 @@ public final class CmsSubscriptionReadMode extends A_CmsModeIntEnumeration {
      *
      * @param mode the subscription read mode integer representation
      */
-    private CmsSubscriptionReadMode(int mode) {
+    private CmsSubscriptionReadMode(@RUntainted int mode) {
 
         super(mode);
     }

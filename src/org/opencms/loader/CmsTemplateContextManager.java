@@ -57,6 +57,8 @@ import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Manager class for template context providers.<p>
@@ -91,7 +93,7 @@ public class CmsTemplateContextManager {
     private volatile Map<String, CmsDefaultSet<String>> m_cachedContextMap = null;
 
     /** The CMS context. */
-    private CmsObject m_cms;
+    private @RUntainted CmsObject m_cms;
 
     /** A cache in which the template context provider instances are stored, with their class name as the key. */
     private Map<String, I_CmsTemplateContextProvider> m_providerInstances = new ConcurrentHashMap<String, I_CmsTemplateContextProvider>();
@@ -101,7 +103,7 @@ public class CmsTemplateContextManager {
      *
      * @param cms the CMS context to use
      */
-    public CmsTemplateContextManager(CmsObject cms) {
+    public CmsTemplateContextManager(@RUntainted CmsObject cms) {
 
         m_cms = cms;
         CmsFlexController.registerUncacheableAttribute(ATTR_TEMPLATE_RESOURCE);
@@ -146,7 +148,7 @@ public class CmsTemplateContextManager {
      *
      * @return the string with the prefix removed
      */
-    public static String removePropertyPrefix(String propertyValue) {
+    public static @RPolyTainted String removePropertyPrefix(@RPolyTainted String propertyValue) {
 
         if (propertyValue == null) {
             return null;
@@ -249,7 +251,7 @@ public class CmsTemplateContextManager {
      * @return the current template context
      */
     public CmsTemplateContext getTemplateContext(
-        String providerName,
+        @RUntainted String providerName,
         CmsObject cms,
         HttpServletRequest request,
         CmsResource resource) {
@@ -322,7 +324,7 @@ public class CmsTemplateContextManager {
      *
      * @return an instance of the provider class
      */
-    public I_CmsTemplateContextProvider getTemplateContextProvider(String providerName) {
+    public I_CmsTemplateContextProvider getTemplateContextProvider(@RUntainted String providerName) {
 
         if (providerName == null) {
             return null;
@@ -366,7 +368,7 @@ public class CmsTemplateContextManager {
      *
      * @return the property value
      */
-    public String readPropertyFromTemplate(CmsObject cms, CmsResource res, String propertyName, String fallbackValue) {
+    public @RUntainted String readPropertyFromTemplate(CmsObject cms, CmsResource res, @RUntainted String propertyName, @RUntainted String fallbackValue) {
 
         try {
             CmsProperty templateProp = cms.readPropertyObject(res, CmsPropertyDefinition.PROPERTY_TEMPLATE, true);
@@ -411,7 +413,7 @@ public class CmsTemplateContextManager {
      */
     protected CmsXmlContentProperty createTemplateContextsPropertyDefinition(
         I_CmsTemplateContextProvider contextProvider,
-        Locale locale) {
+        @RUntainted Locale locale) {
 
         if (contextProvider == null) {
             return null;

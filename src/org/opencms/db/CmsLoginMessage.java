@@ -35,6 +35,7 @@ import org.opencms.ui.components.CmsRichTextArea;
 import java.util.GregorianCalendar;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A message to display when a user logs in to the system.<p>
@@ -53,19 +54,19 @@ public class CmsLoginMessage {
     public static final long DEFAULT_TIME_START = new GregorianCalendar(2000, 0, 1).getTimeInMillis();
 
     /** Indicates if the message is enabled or not. */
-    private boolean m_enabled;
+    private @RUntainted boolean m_enabled;
 
     /** Indicates if the configuration of this message is finalized (frozen). */
     private boolean m_frozen;
 
     /** Controls if logins are forbidden while this message is active. */
-    private boolean m_loginForbidden;
+    private @RUntainted boolean m_loginForbidden;
 
     /** The message to display on a login. */
-    private String m_message;
+    private @RUntainted String m_message;
 
     /** The time when to finish displaying this message. */
-    private long m_timeEnd;
+    private @RUntainted long m_timeEnd;
 
     /** The time when to start displaying this message. */
     private long m_timeStart;
@@ -87,7 +88,7 @@ public class CmsLoginMessage {
      * @param message the message to display
      * @param loginForbidden controls if logins are forbidden while this message is active
      */
-    public CmsLoginMessage(long timeStart, long timeEnd, String message, boolean loginForbidden) {
+    public CmsLoginMessage(@RUntainted long timeStart, @RUntainted long timeEnd, @RUntainted String message, @RUntainted boolean loginForbidden) {
 
         setTimeStart(timeStart);
         setTimeEnd(timeEnd);
@@ -102,7 +103,7 @@ public class CmsLoginMessage {
      * @param message the message to display
      * @param loginForbidden controls if logins are forbidden while this message is active
      */
-    public CmsLoginMessage(String message, boolean loginForbidden) {
+    public CmsLoginMessage(@RUntainted String message, @RUntainted boolean loginForbidden) {
 
         this(DEFAULT_TIME_START, DEFAULT_TIME_END, message, loginForbidden);
     }
@@ -128,7 +129,7 @@ public class CmsLoginMessage {
      *
      * @return the message
      */
-    public String getMessage() {
+    public @RUntainted String getMessage() {
 
         return m_message;
     }
@@ -138,7 +139,7 @@ public class CmsLoginMessage {
      *
      * @return the time the message ends
      */
-    public long getTimeEnd() {
+    public @RUntainted long getTimeEnd() {
 
         return m_timeEnd;
     }
@@ -175,7 +176,7 @@ public class CmsLoginMessage {
      *
      * @return <code>true</code> if this login message is the enabled
      */
-    public boolean isEnabled() {
+    public @RUntainted boolean isEnabled() {
 
         return m_enabled;
     }
@@ -200,7 +201,7 @@ public class CmsLoginMessage {
      *
      * @return <code>true</code> if logins are forbidden while this message is active
      */
-    public boolean isLoginForbidden() {
+    public @RUntainted boolean isLoginForbidden() {
 
         return m_loginForbidden;
     }
@@ -210,7 +211,7 @@ public class CmsLoginMessage {
      *
      * @param enabled the enabled status to set
      */
-    public void setEnabled(boolean enabled) {
+    public void setEnabled(@RUntainted boolean enabled) {
 
         checkFrozen();
         m_enabled = enabled;
@@ -221,7 +222,7 @@ public class CmsLoginMessage {
      *
      * @param loginForbidden the flag to set
      */
-    public void setLoginForbidden(boolean loginForbidden) {
+    public void setLoginForbidden(@RUntainted boolean loginForbidden) {
 
         checkFrozen();
         m_loginForbidden = loginForbidden;
@@ -232,7 +233,7 @@ public class CmsLoginMessage {
      *
      * @param message the message to set
      */
-    public void setMessage(String message) {
+    public void setMessage(@RUntainted String message) {
 
         checkFrozen();
         if (isEnabled() && (message == null)) {
@@ -246,7 +247,7 @@ public class CmsLoginMessage {
      *
      * @param timeEnd the time to set
      */
-    public void setTimeEnd(long timeEnd) {
+    public void setTimeEnd(@RUntainted long timeEnd) {
 
         checkFrozen();
         if (timeEnd < 0) {
@@ -267,7 +268,7 @@ public class CmsLoginMessage {
      *
      * @param timeStart the time to set
      */
-    public void setTimeStart(long timeStart) {
+    public void setTimeStart(@RUntainted long timeStart) {
 
         checkFrozen();
         if (timeStart < 0) {

@@ -31,6 +31,7 @@ import org.opencms.i18n.CmsMessageContainer;
 
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This is the interface for the report classes which are used for the output
@@ -84,14 +85,14 @@ public interface I_CmsReport {
      *
      * @return the runtime formatted as "hh:mm:ss"
      */
-    String formatRuntime();
+    @RUntainted String formatRuntime();
 
     /**
      * Returns a list of all errors that occurred during the report.<p>
      *
      * @return an error list that occurred during the report
      */
-    List<Object> getErrors();
+    @RUntainted List<Object> getErrors();
 
     /**
      * Returns the time of last report entry.<p>
@@ -107,7 +108,7 @@ public interface I_CmsReport {
      *
      * @return the locale this report was initialized with
      */
-    Locale getLocale();
+    @RUntainted Locale getLocale();
 
     /**
      * Updates this report, this processes all new output added since
@@ -149,7 +150,7 @@ public interface I_CmsReport {
      *
      * @return a warning list that occurred during the report
      */
-    List<Object> getWarnings();
+    @RUntainted List<Object> getWarnings();
 
     /**
      * Returns if the report generated an error output.<p>
@@ -223,7 +224,7 @@ public interface I_CmsReport {
      * @param container the Message to add
      * @param param the Parameter to add
      */
-    void printMessageWithParam(CmsMessageContainer container, Object param);
+    void printMessageWithParam(CmsMessageContainer container, @RUntainted Object param);
 
     /**
      * Convenience method to print a localized message, followed by a parameter and dots to the report.<p>
@@ -236,7 +237,7 @@ public interface I_CmsReport {
      * @param param the Parameter to add
      *
      */
-    void printMessageWithParam(int m, int n, CmsMessageContainer container, Object param);
+    void printMessageWithParam(@RUntainted int m, @RUntainted int n, CmsMessageContainer container, @RUntainted Object param);
 
     /**
      * Removes the report site root prefix from the absolute path in the resource name,
@@ -252,7 +253,7 @@ public interface I_CmsReport {
      *
      * @see org.opencms.file.CmsRequestContext#removeSiteRoot(String)
      */
-    String removeSiteRoot(String resourcename);
+    @RUntainted String removeSiteRoot(String resourcename);
 
     /**
      * Resets the runtime to 0 milliseconds.<p>

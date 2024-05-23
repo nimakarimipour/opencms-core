@@ -39,6 +39,7 @@ import org.opencms.gwt.CmsRpcException;
 import java.util.HashMap;
 
 import com.google.gwt.user.client.rpc.RemoteService;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The synchronous publish list interface.<p>
@@ -68,7 +69,7 @@ public interface I_CmsPublishService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    CmsPublishData getInitData(HashMap<String, String> params) throws CmsRpcException;
+    CmsPublishData getInitData(HashMap<String, @RUntainted String> params) throws CmsRpcException;
 
     /**
      * Retrieves the publish list, subdivided into groups based on the time of their last change.<p>

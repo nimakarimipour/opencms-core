@@ -57,6 +57,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Synchronization layout class.<p>
@@ -74,7 +75,7 @@ public class CmsDbSynchronizationView extends VerticalLayout {
         /**
          * @see com.vaadin.data.Validator#validate(java.lang.Object)
          */
-        public void validate(Object value) throws InvalidValueException {
+        public void validate(@RUntainted Object value) throws InvalidValueException {
 
             String resourceName = (String)value;
             if (synchroEnabled() & (resourceName == null)) {
@@ -104,7 +105,7 @@ public class CmsDbSynchronizationView extends VerticalLayout {
         /**
          * @see com.vaadin.data.Validator#validate(java.lang.Object)
          */
-        public void validate(Object value) throws InvalidValueException {
+        public void validate(@RUntainted Object value) throws InvalidValueException {
 
             String val = (String)value;
             if (synchroEnabled() & val.isEmpty()) {
@@ -142,13 +143,13 @@ public class CmsDbSynchronizationView extends VerticalLayout {
     private FormLayout m_resources;
 
     /**Root CmsObject. */
-    protected CmsObject m_cms;
+    protected @RUntainted CmsObject m_cms;
 
     /**Vaadin component.*/
     private TextField m_target;
 
     /**Vaadin component.*/
-    private CheckBox m_enabled;
+    private @RUntainted CheckBox m_enabled;
 
     /**Instance of calling app.*/
     private CmsDbSynchronizationApp m_app;
@@ -383,12 +384,12 @@ public class CmsDbSynchronizationView extends VerticalLayout {
      *
      * @return List of resource paths
      */
-    private List<String> getResourcePaths() {
+    private List<@RUntainted String> getResourcePaths() {
 
-        List<String> res = new ArrayList<String>();
+        List<@RUntainted String> res = new ArrayList<@RUntainted String>();
         for (Component c : m_resources) {
             if (c instanceof CmsRemovableFormRow<?>) {
-                AbstractField<?> field = (AbstractField<?>)(((CmsRemovableFormRow)c).getInput());
+                AbstractField<@RUntainted ?> field = (AbstractField<?>)(((CmsRemovableFormRow)c).getInput());
                 res.add((String)(field.getValue()));
             }
         }
@@ -401,7 +402,7 @@ public class CmsDbSynchronizationView extends VerticalLayout {
      * @param cms given CmsObject
      * @return cloned CmsObject
      */
-    private CmsObject initCms(CmsObject cms) {
+    private @RUntainted CmsObject initCms(@RUntainted CmsObject cms) {
 
         try {
             cms = OpenCms.initCmsObject(cms);
@@ -421,7 +422,7 @@ public class CmsDbSynchronizationView extends VerticalLayout {
         if (m_synchronizeSettings.getDestinationPathInRfs() != null) {
             m_target.setValue(m_synchronizeSettings.getDestinationPathInRfs());
         }
-        List<String> resources = m_synchronizeSettings.getSourceListInVfs();
+        List<@RUntainted String> resources = m_synchronizeSettings.getSourceListInVfs();
         for (String resource : resources) {
             addResource(resource);
         }

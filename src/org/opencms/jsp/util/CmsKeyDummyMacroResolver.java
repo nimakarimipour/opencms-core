@@ -35,6 +35,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Macro resolver used to temporarily replace localization message macros with random UUIDs and then replace the UUIDs
@@ -94,7 +95,7 @@ public class CmsKeyDummyMacroResolver extends CmsMacroResolver {
      * @param delegate the macro resolver used to resolve macros which the key macro may be nested in
      * @return the localization key
      */
-    public static String getKey(String s, CmsMacroResolver delegate) {
+    public static String getKey(@RUntainted String s, CmsMacroResolver delegate) {
 
         if (s == null) {
             return null;
@@ -108,7 +109,7 @@ public class CmsKeyDummyMacroResolver extends CmsMacroResolver {
      * @see org.opencms.util.CmsMacroResolver#getMacroValue(java.lang.String)
      */
     @Override
-    public String getMacroValue(String macro) {
+    public String getMacroValue(@RUntainted String macro) {
 
         if (macro.startsWith(CmsMacroResolver.KEY_LOCALIZED_PREFIX)) {
             String key = macro.substring(CmsMacroResolver.KEY_LOCALIZED_PREFIX.length());
@@ -125,7 +126,7 @@ public class CmsKeyDummyMacroResolver extends CmsMacroResolver {
      * @see org.opencms.util.CmsMacroResolver#resolveMacros(java.lang.String)
      */
     @Override
-    public String resolveMacros(String input) {
+    public @RUntainted String resolveMacros(@RUntainted String input) {
 
         String processedInput = super.resolveMacros(input);
         String result = CmsStringUtil.substitute(UUID_PATTERN, processedInput, (s, matcher) -> {

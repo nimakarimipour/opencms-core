@@ -70,6 +70,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generic (ANSI-SQL) database server implementation of the history driver methods.<p>
@@ -92,7 +93,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
      */
     public CmsPropertyDefinition createPropertyDefinition(
         CmsDbContext dbc,
-        String name,
+        @RUntainted String name,
         CmsPropertyDefinition.CmsPropertyType type) throws CmsDataAccessException {
 
         Connection conn = null;
@@ -120,7 +121,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
     /**
      * @see org.opencms.db.I_CmsHistoryDriver#deleteEntries(CmsDbContext, I_CmsHistoryResource, int, long)
      */
-    public int deleteEntries(CmsDbContext dbc, I_CmsHistoryResource resource, int versionsToKeep, long time)
+    public @RUntainted int deleteEntries(CmsDbContext dbc, I_CmsHistoryResource resource, int versionsToKeep, long time)
     throws CmsDataAccessException {
 
         Connection conn = null;
@@ -321,13 +322,13 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
     /**
      * @see org.opencms.db.I_CmsHistoryDriver#getAllDeletedEntries(org.opencms.db.CmsDbContext)
      */
-    public List<I_CmsHistoryResource> getAllDeletedEntries(CmsDbContext dbc) throws CmsDataAccessException {
+    public @RUntainted List<I_CmsHistoryResource> getAllDeletedEntries(CmsDbContext dbc) throws CmsDataAccessException {
 
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet res = null;
 
-        Map<CmsUUID, Integer> tmpEntrieis = new HashMap<CmsUUID, Integer>();
+        Map<@RUntainted CmsUUID, Integer> tmpEntrieis = new HashMap<@RUntainted CmsUUID, Integer>();
         List<I_CmsHistoryResource> entries = new ArrayList<I_CmsHistoryResource>();
         try {
             conn = m_sqlManager.getConnection(dbc);
@@ -346,7 +347,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
         } finally {
             m_sqlManager.closeAll(dbc, conn, stmt, res);
         }
-        for (Map.Entry<CmsUUID, Integer> entry : tmpEntrieis.entrySet()) {
+        for (Map.Entry<@RUntainted CmsUUID, Integer> entry : tmpEntrieis.entrySet()) {
             entries.add(readResource(dbc, entry.getKey(), entry.getValue().intValue()));
         }
         return entries;
@@ -355,13 +356,13 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
     /**
      * @see org.opencms.db.I_CmsHistoryDriver#getAllNotDeletedEntries(org.opencms.db.CmsDbContext)
      */
-    public List<I_CmsHistoryResource> getAllNotDeletedEntries(CmsDbContext dbc) throws CmsDataAccessException {
+    public @RUntainted List<I_CmsHistoryResource> getAllNotDeletedEntries(CmsDbContext dbc) throws CmsDataAccessException {
 
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet res = null;
 
-        Map<CmsUUID, Integer> tmpEntrieis = new HashMap<CmsUUID, Integer>();
+        Map<@RUntainted CmsUUID, Integer> tmpEntrieis = new HashMap<@RUntainted CmsUUID, Integer>();
 
         List<I_CmsHistoryResource> entries = new ArrayList<I_CmsHistoryResource>();
         try {
@@ -383,7 +384,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
             m_sqlManager.closeAll(dbc, conn, stmt, res);
         }
 
-        for (Map.Entry<CmsUUID, Integer> entry : tmpEntrieis.entrySet()) {
+        for (Map.Entry<@RUntainted CmsUUID, Integer> entry : tmpEntrieis.entrySet()) {
             entries.add(readResource(dbc, entry.getKey(), entry.getValue().intValue()));
         }
         return entries;
@@ -446,7 +447,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
     /**
      * @see org.opencms.db.I_CmsHistoryDriver#initSqlManager(String)
      */
-    public org.opencms.db.generic.CmsSqlManager initSqlManager(String classname) {
+    public org.opencms.db.generic.CmsSqlManager initSqlManager(@RUntainted String classname) {
 
         return CmsSqlManager.getInstance(classname);
     }
@@ -846,7 +847,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
     /**
      * @see org.opencms.db.I_CmsHistoryDriver#readPrincipal(org.opencms.db.CmsDbContext, org.opencms.util.CmsUUID)
      */
-    public CmsHistoryPrincipal readPrincipal(CmsDbContext dbc, CmsUUID principalId) throws CmsDataAccessException {
+    public CmsHistoryPrincipal readPrincipal(CmsDbContext dbc, @RUntainted CmsUUID principalId) throws CmsDataAccessException {
 
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -890,7 +891,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
     /**
      * @see org.opencms.db.I_CmsHistoryDriver#readProject(org.opencms.db.CmsDbContext, CmsUUID)
      */
-    public CmsHistoryProject readProject(CmsDbContext dbc, CmsUUID projectId) throws CmsDataAccessException {
+    public CmsHistoryProject readProject(CmsDbContext dbc, @RUntainted CmsUUID projectId) throws CmsDataAccessException {
 
         PreparedStatement stmt = null;
         CmsHistoryProject project = null;
@@ -933,7 +934,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
     /**
      * @see org.opencms.db.I_CmsHistoryDriver#readProject(org.opencms.db.CmsDbContext, int)
      */
-    public CmsHistoryProject readProject(CmsDbContext dbc, int publishTag) throws CmsDataAccessException {
+    public CmsHistoryProject readProject(CmsDbContext dbc, @RUntainted int publishTag) throws CmsDataAccessException {
 
         PreparedStatement stmt = null;
         CmsHistoryProject project = null;
@@ -972,7 +973,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
     /**
      * @see org.opencms.db.I_CmsHistoryDriver#readProjectResources(org.opencms.db.CmsDbContext, int)
      */
-    public List<String> readProjectResources(CmsDbContext dbc, int publishTag) throws CmsDataAccessException {
+    public @RUntainted List<String> readProjectResources(CmsDbContext dbc, int publishTag) throws CmsDataAccessException {
 
         PreparedStatement stmt = null;
         Connection conn = null;
@@ -1118,7 +1119,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
     /**
      * @see org.opencms.db.I_CmsHistoryDriver#readPropertyDefinition(org.opencms.db.CmsDbContext, java.lang.String)
      */
-    public CmsPropertyDefinition readPropertyDefinition(CmsDbContext dbc, String name) throws CmsDataAccessException {
+    public CmsPropertyDefinition readPropertyDefinition(CmsDbContext dbc, @RUntainted String name) throws CmsDataAccessException {
 
         CmsPropertyDefinition propDef = null;
         ResultSet res = null;
@@ -1189,7 +1190,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
     /**
      * @see org.opencms.db.I_CmsHistoryDriver#readResource(CmsDbContext, CmsUUID, int)
      */
-    public I_CmsHistoryResource readResource(CmsDbContext dbc, CmsUUID structureId, int version)
+    public I_CmsHistoryResource readResource(CmsDbContext dbc, @RUntainted CmsUUID structureId, int version)
     throws CmsDataAccessException {
 
         I_CmsHistoryResource resource = null;
@@ -1292,7 +1293,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
         CmsProject currentProject = dbc.currentProject();
         CmsUser currentUser = dbc.currentUser();
 
-        List<String> projectresources = m_driverManager.getProjectDriver(dbc).readProjectResources(dbc, currentProject);
+        List<@RUntainted String> projectresources = m_driverManager.getProjectDriver(dbc).readProjectResources(dbc, currentProject);
 
         // write historical project to the database
         Connection conn = null;
@@ -1543,9 +1544,9 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
     protected void internalAddToPropMap(
         Map<String, CmsProperty> propertyMap,
         I_CmsHistoryResource resource,
-        String propertyKey,
-        String propertyValue,
-        int mappingType) throws CmsDbConsistencyException {
+        @RUntainted String propertyKey,
+        @RUntainted String propertyValue,
+        @RUntainted int mappingType) throws CmsDbConsistencyException {
 
         CmsProperty property = propertyMap.get(propertyKey);
         if (property != null) {
@@ -1608,7 +1609,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet res = null;
-        Map<CmsUUID, Integer> tmpSubResources = new HashMap<CmsUUID, Integer>();
+        Map<@RUntainted CmsUUID, Integer> tmpSubResources = new HashMap<@RUntainted CmsUUID, Integer>();
 
         // if is folder and if no versions left
         boolean isFolderAndNoVersionLeft = resource.getRootPath().endsWith("/")
@@ -1636,7 +1637,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
             }
         }
         // delete all subresource versions
-        for (Map.Entry<CmsUUID, Integer> entry : tmpSubResources.entrySet()) {
+        for (Map.Entry<@RUntainted CmsUUID, Integer> entry : tmpSubResources.entrySet()) {
             I_CmsHistoryResource histResource = readResource(dbc, entry.getKey(), entry.getValue().intValue());
             deleteEntries(dbc, histResource, 0, -1);
         }
@@ -1695,7 +1696,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
      *
      * @throws SQLException if something goes wrong
      */
-    protected CmsHistoryProject internalCreateProject(ResultSet res, List<String> resources) throws SQLException {
+    protected CmsHistoryProject internalCreateProject(@RUntainted ResultSet res, @RUntainted List<String> resources) throws SQLException {
 
         String ou = CmsOrganizationalUnit.removeLeadingSeparator(
             res.getString(m_sqlManager.readQuery("C_PROJECTS_PROJECT_OU_0")));
@@ -1725,7 +1726,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
      *
      * @throws SQLException if a requested attribute was not found in the result set
      */
-    protected I_CmsHistoryResource internalCreateResource(ResultSet res) throws SQLException {
+    protected I_CmsHistoryResource internalCreateResource(@RUntainted ResultSet res) throws SQLException {
 
         int resourceVersion = res.getInt(m_sqlManager.readQuery("C_RESOURCES_VERSION"));
         int structureVersion = res.getInt(m_sqlManager.readQuery("C_RESOURCES_STRUCTURE_VERSION"));
@@ -1809,7 +1810,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
      *
      * @throws SQLException if something goes wrong
      */
-    protected I_CmsHistoryResource internalMergeResource(I_CmsHistoryResource histRes, ResultSet res, int versionOffset)
+    protected I_CmsHistoryResource internalMergeResource(I_CmsHistoryResource histRes, @RUntainted ResultSet res, @RUntainted int versionOffset)
     throws SQLException {
 
         int resourceVersion = res.getInt(m_sqlManager.readQuery("C_RESOURCES_VERSION"));

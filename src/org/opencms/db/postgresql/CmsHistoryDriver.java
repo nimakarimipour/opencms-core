@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * PostgreSql implementation of the history driver methods.<p>
@@ -54,7 +55,7 @@ public class CmsHistoryDriver extends org.opencms.db.generic.CmsHistoryDriver {
      * @see org.opencms.db.I_CmsHistoryDriver#initSqlManager(String)
      */
     @Override
-    public org.opencms.db.generic.CmsSqlManager initSqlManager(String classname) {
+    public org.opencms.db.generic.CmsSqlManager initSqlManager(@RUntainted String classname) {
 
         return CmsSqlManager.getInstance(classname);
     }

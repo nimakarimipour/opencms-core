@@ -57,6 +57,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.codec.binary.Base64;
 
 import com.google.common.base.Joiner;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Defines default authorization methods.<p>
@@ -89,7 +90,7 @@ public class CmsDefaultAuthorizationHandler extends A_CmsAuthorizationHandler {
      * @param pathSpec a comma separated list of path prefixes, which may contain %(contextPath) macros
      * @return true if the URI path matches the path spec
      */
-    protected static boolean checkPath(String uri, String pathSpec) {
+    protected static boolean checkPath(String uri, @RUntainted String pathSpec) {
 
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(pathSpec)) {
             return false;
@@ -117,14 +118,14 @@ public class CmsDefaultAuthorizationHandler extends A_CmsAuthorizationHandler {
      * @param userSpec the user specification
      * @return true if the user matches any entry from the user specification
      */
-    protected static boolean checkUser(CmsObject cms, String userSpec) {
+    protected static boolean checkUser(CmsObject cms, @RUntainted String userSpec) {
 
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(userSpec)) {
             return false;
         }
 
         Set<String> groupsOfUser = null; // lazily initialized
-        String[] entries = userSpec.split(",");
+        @RUntainted String[] entries = userSpec.split(",");
         for (String userSpecEntry : entries) {
             userSpecEntry = userSpecEntry.trim();
             if ("*".equals(userSpecEntry)) {
@@ -169,7 +170,7 @@ public class CmsDefaultAuthorizationHandler extends A_CmsAuthorizationHandler {
     /**
      * @see org.opencms.security.I_CmsAuthorizationHandler#getLoginFormURL(java.lang.String, java.lang.String, java.lang.String)
      */
-    public String getLoginFormURL(String loginFormURL, String params, String callbackURL) {
+    public @RUntainted String getLoginFormURL(@RUntainted String loginFormURL, String params, @RUntainted String callbackURL) {
 
         if (loginFormURL != null) {
 
@@ -207,7 +208,7 @@ public class CmsDefaultAuthorizationHandler extends A_CmsAuthorizationHandler {
     /**
      * @see I_CmsAuthorizationHandler#initCmsObject(HttpServletRequest)
      */
-    public CmsObject initCmsObject(HttpServletRequest request) {
+    public @RUntainted CmsObject initCmsObject(@RUntainted HttpServletRequest request) {
 
         // check if "basic" authorization data is provided
         CmsObject cms = checkBasicAuthorization(request);
@@ -228,8 +229,8 @@ public class CmsDefaultAuthorizationHandler extends A_CmsAuthorizationHandler {
     /**
      * @see org.opencms.security.I_CmsAuthorizationHandler#initCmsObject(javax.servlet.http.HttpServletRequest, org.opencms.security.I_CmsAuthorizationHandler.I_PrivilegedLoginAction)
      */
-    public CmsObject initCmsObject(
-        HttpServletRequest request,
+    public @RUntainted CmsObject initCmsObject(
+        @RUntainted HttpServletRequest request,
         I_CmsAuthorizationHandler.I_PrivilegedLoginAction loginAction) {
 
         return initCmsObject(request);
@@ -238,7 +239,7 @@ public class CmsDefaultAuthorizationHandler extends A_CmsAuthorizationHandler {
     /**
      * @see I_CmsAuthorizationHandler#initCmsObject(HttpServletRequest, String, String)
      */
-    public CmsObject initCmsObject(HttpServletRequest request, String userName, String pwd) throws CmsException {
+    public CmsObject initCmsObject(@RUntainted HttpServletRequest request, String userName, String pwd) throws CmsException {
 
         // first, try to validate the session
         CmsObject cms = initCmsObjectFromSession(request);
@@ -264,7 +265,7 @@ public class CmsDefaultAuthorizationHandler extends A_CmsAuthorizationHandler {
      *
      * @throws IOException if something goes wrong
      */
-    public void requestAuthorization(HttpServletRequest req, HttpServletResponse res, String loginFormURL)
+    public void requestAuthorization(HttpServletRequest req, HttpServletResponse res, @RUntainted String loginFormURL)
     throws IOException {
 
         CmsHttpAuthenticationSettings httpAuthenticationSettings = OpenCms.getSystemInfo().getHttpAuthenticationSettings();
@@ -310,7 +311,7 @@ public class CmsDefaultAuthorizationHandler extends A_CmsAuthorizationHandler {
      *
      * @return the authenticated cms object, or <code>null</code> if failed
      */
-    protected CmsObject checkBasicAuthorization(HttpServletRequest req) {
+    protected @RUntainted CmsObject checkBasicAuthorization(@RUntainted HttpServletRequest req) {
 
         if (LOG.isDebugEnabled()) {
             LOG.debug("Checking for basic authorization.");

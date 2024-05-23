@@ -52,6 +52,7 @@
  */
 
 package org.opencms.json;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The XMLTokener extends the JSONTokener to provide additional methods
@@ -90,7 +91,7 @@ public class XMLTokener extends JSONTokener {
      * @return the string up to the <code>]]&gt;</code>
      * @throws JSONException if the <code>]]&gt;</code> is not found
      */
-    public String nextCDATA() throws JSONException {
+    public @RUntainted String nextCDATA() throws JSONException {
 
         char c;
         int i;
@@ -118,7 +119,7 @@ public class XMLTokener extends JSONTokener {
      * @return  a string, or a '<' Character, or null if there is no more source text
      * @throws JSONException if something goes wrong
      */
-    public Object nextContent() throws JSONException {
+    public @RUntainted Object nextContent() throws JSONException {
 
         char c;
         StringBuffer sb;
@@ -182,7 +183,7 @@ public class XMLTokener extends JSONTokener {
      * @throws JSONException if a string is not properly closed or if the XML
      *  is badly structured
      */
-    public Object nextMeta() throws JSONException {
+    public @RUntainted Object nextMeta() throws JSONException {
 
         char c;
         char q;
@@ -251,7 +252,7 @@ public class XMLTokener extends JSONTokener {
      * @return a string or a Character
      * @throws JSONException if the XML is not well formed
      */
-    public Object nextToken() throws JSONException {
+    public @RUntainted Object nextToken() throws JSONException {
 
         char c;
         char q;

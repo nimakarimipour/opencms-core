@@ -79,6 +79,7 @@ import org.apache.jackrabbit.webdav.property.DefaultDavProperty;
 import org.apache.jackrabbit.webdav.property.PropEntry;
 import org.apache.jackrabbit.webdav.property.ResourceType;
 import org.apache.jackrabbit.webdav.xml.Namespace;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents a resource in the WebDav repository (may not actually correspond to an actual OpenCms resource, since
@@ -165,17 +166,17 @@ public class CmsDavResource implements DavResource {
     /**
      * @see org.apache.jackrabbit.webdav.DavResource#alterProperties(java.util.List)
      */
-    public MultiStatusResponse alterProperties(List<? extends PropEntry> changeList) throws DavException {
+    public MultiStatusResponse alterProperties(List<? extends @RUntainted PropEntry> changeList) throws DavException {
 
         if (exists() && isLocked(this)) {
             throw new DavException(DavServletResponse.SC_LOCKED);
         }
 
         MultiStatusResponse res = new MultiStatusResponse(getHref(), null);
-        Map<CmsPropertyName, String> propMap = new HashMap<>();
+        Map<CmsPropertyName, @RUntainted String> propMap = new HashMap<>();
         for (PropEntry entry : changeList) {
             if (entry instanceof DefaultDavProperty<?>) {
-                DefaultDavProperty<String> prop = (DefaultDavProperty<String>)entry;
+                DefaultDavProperty<@RUntainted String> prop = (DefaultDavProperty<String>)entry;
                 CmsPropertyName cmsPropName = new CmsPropertyName(
                     prop.getName().getNamespace().getURI(),
                     prop.getName().getName());
@@ -556,14 +557,14 @@ public class CmsDavResource implements DavResource {
     /**
      * @see org.apache.jackrabbit.webdav.DavResource#removeProperty(org.apache.jackrabbit.webdav.property.DavPropertyName)
      */
-    public void removeProperty(DavPropertyName propertyName) throws DavException {
+    public void removeProperty(@RUntainted DavPropertyName propertyName) throws DavException {
 
         if (exists() && isLocked(this)) {
             throw new DavException(DavServletResponse.SC_LOCKED);
         }
 
         I_CmsRepositorySession session = getRepositorySession();
-        Map<CmsPropertyName, String> props = new HashMap<>();
+        Map<CmsPropertyName, @RUntainted String> props = new HashMap<>();
         CmsPropertyName key = new CmsPropertyName(propertyName.getNamespace().getURI(), propertyName.getName());
         props.put(key, "");
         try {
@@ -577,7 +578,7 @@ public class CmsDavResource implements DavResource {
     /**
      * @see org.apache.jackrabbit.webdav.DavResource#setProperty(org.apache.jackrabbit.webdav.property.DavProperty)
      */
-    public void setProperty(DavProperty<?> property) throws DavException {
+    public void setProperty(@RUntainted DavProperty<?> property) throws DavException {
 
         if (exists() && isLocked(this)) {
             throw new DavException(DavServletResponse.SC_LOCKED);
@@ -587,7 +588,7 @@ public class CmsDavResource implements DavResource {
             throw new DavException(HttpServletResponse.SC_FORBIDDEN);
         }
         I_CmsRepositorySession session = getRepositorySession();
-        Map<CmsPropertyName, String> props = new HashMap<>();
+        Map<CmsPropertyName, @RUntainted String> props = new HashMap<>();
         DavPropertyName propertyName = property.getName();
         String newValue = ((DefaultDavProperty<String>)property).getValue();
         if (newValue == null) {
@@ -634,11 +635,11 @@ public class CmsDavResource implements DavResource {
      *
      * @return the OpenCms path
      */
-    private String getCmsPath() {
+    private @RUntainted String getCmsPath() {
 
         String path = m_locator.getResourcePath();
         String workspace = m_locator.getWorkspacePath();
-        Optional<String> remainingPath = CmsStringUtil.removePrefixPath(workspace, path);
+        Optional<@RUntainted String> remainingPath = CmsStringUtil.removePrefixPath(workspace, path);
         return remainingPath.orElse(null);
 
     }

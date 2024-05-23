@@ -47,6 +47,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a widget for an extended image selection using the advanced gallery dialog.<p>
@@ -90,7 +91,7 @@ public class CmsVfsImageWidget extends CmsAdeImageGalleryWidget {
      *
      * @param configuration the configuration (possible options) for the image widget
      */
-    public CmsVfsImageWidget(String configuration) {
+    public CmsVfsImageWidget(@RUntainted String configuration) {
 
         super(configuration);
     }
@@ -346,7 +347,7 @@ public class CmsVfsImageWidget extends CmsAdeImageGalleryWidget {
      * @see org.opencms.widgets.I_CmsADEWidget#getWidgetName()
      */
     @Override
-    public String getWidgetName() {
+    public @RUntainted String getWidgetName() {
 
         return CmsVfsImageWidget.class.getName();
     }
@@ -428,14 +429,14 @@ public class CmsVfsImageWidget extends CmsAdeImageGalleryWidget {
      * @see org.opencms.widgets.A_CmsAdeGalleryWidget#getGalleryOpenParams(org.opencms.file.CmsObject, org.opencms.i18n.CmsMessages, org.opencms.widgets.I_CmsWidgetParameter, java.lang.String, long)
      */
     @Override
-    protected Map<String, String> getGalleryOpenParams(
+    protected Map<@RUntainted String, @RUntainted String> getGalleryOpenParams(
         CmsObject cms,
         CmsMessages widgetDialog,
         I_CmsWidgetParameter param,
-        String resource,
-        long hashId) {
+        @RUntainted String resource,
+        @RUntainted long hashId) {
 
-        Map<String, String> result = super.getGalleryOpenParams(cms, widgetDialog, param, resource, hashId);
+        Map<@RUntainted String, @RUntainted String> result = super.getGalleryOpenParams(cms, widgetDialog, param, resource, hashId);
         // the current element value will be read by java-script including the image input field and the scale input field
         StringBuffer currentElement = new StringBuffer("'+document.getElementById('");
         if (param != null) {

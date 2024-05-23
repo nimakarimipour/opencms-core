@@ -58,6 +58,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Lucene document factory class to extract index data from a resource
@@ -75,7 +76,7 @@ public class CmsDocumentContainerPage extends A_CmsVfsDocument {
      *
      * @param name name of the document type
      */
-    public CmsDocumentContainerPage(String name) {
+    public CmsDocumentContainerPage(@RUntainted String name) {
 
         super(name);
     }
@@ -87,7 +88,7 @@ public class CmsDocumentContainerPage extends A_CmsVfsDocument {
      * since the content of the included elements may change any time.
      */
     @Override
-    public I_CmsSearchDocument createDocument(CmsObject cms, CmsResource resource, I_CmsSearchIndex index)
+    public I_CmsSearchDocument createDocument(@RUntainted CmsObject cms, @RUntainted CmsResource resource, I_CmsSearchIndex index)
     throws CmsException {
 
         // extract the content from the resource
@@ -113,7 +114,7 @@ public class CmsDocumentContainerPage extends A_CmsVfsDocument {
      *
      * @see org.opencms.search.documents.I_CmsSearchExtractor#extractContent(CmsObject, CmsResource, I_CmsSearchIndex)
      */
-    public I_CmsExtractionResult extractContent(CmsObject cms, CmsResource resource, I_CmsSearchIndex index)
+    public I_CmsExtractionResult extractContent(@RUntainted CmsObject cms, @RUntainted CmsResource resource, I_CmsSearchIndex index)
     throws CmsException {
 
         logContentExtraction(resource, index);
@@ -124,7 +125,7 @@ public class CmsDocumentContainerPage extends A_CmsVfsDocument {
 
             // initialize return values
             StringBuffer content = new StringBuffer();
-            LinkedHashMap<String, String> items = new LinkedHashMap<String, String>();
+            LinkedHashMap<String, @RUntainted String> items = new LinkedHashMap<String, @RUntainted String>();
 
             CmsContainerPageBean containerBean = containerPage.getContainerPage(cms);
             for (Map.Entry<String, CmsContainerBean> entry : containerBean.getContainers().entrySet()) {
@@ -154,7 +155,7 @@ public class CmsDocumentContainerPage extends A_CmsVfsDocument {
                         element.initResource(cms);
                         CmsFile elementFile = readFile(cms, element.getResource());
                         A_CmsXmlDocument elementContent = CmsXmlContentFactory.unmarshal(cms, elementFile);
-                        List<String> elementNames = elementContent.getNames(locale);
+                        List<@RUntainted String> elementNames = elementContent.getNames(locale);
                         for (String xpath : elementNames) {
                             // xpath will have the form "Text[1]" or "Nested[1]/Text[1]"
                             I_CmsXmlContentValue value = elementContent.getValue(xpath, locale);

@@ -53,6 +53,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides several simplified methods for manipulating category relations.<p>
@@ -99,7 +100,7 @@ public class CmsCategoryService {
      *
      * @throws CmsException if something goes wrong
      */
-    public void addResourceToCategory(CmsObject cms, String resourceName, CmsCategory category) throws CmsException {
+    public void addResourceToCategory(CmsObject cms, @RUntainted String resourceName, CmsCategory category) throws CmsException {
 
         if (readResourceCategories(cms, cms.readResource(resourceName, CmsResourceFilter.IGNORE_EXPIRATION)).contains(
             category)) {
@@ -133,7 +134,7 @@ public class CmsCategoryService {
      *
      * @throws CmsException if something goes wrong
      */
-    public void addResourceToCategory(CmsObject cms, String resourceName, String categoryPath) throws CmsException {
+    public void addResourceToCategory(CmsObject cms, @RUntainted String resourceName, @RUntainted String categoryPath) throws CmsException {
 
         CmsCategory category = readCategory(cms, categoryPath, resourceName);
         addResourceToCategory(cms, resourceName, category);
@@ -164,7 +165,7 @@ public class CmsCategoryService {
      * @param toResourceSitePath the full site path of the resource to copy the categories to.
      * @throws CmsException thrown if copying the resources fails.
      */
-    public void copyCategories(CmsObject cms, CmsResource fromResource, String toResourceSitePath) throws CmsException {
+    public void copyCategories(CmsObject cms, CmsResource fromResource, @RUntainted String toResourceSitePath) throws CmsException {
 
         List<CmsCategory> categories = readResourceCategories(cms, fromResource);
         for (CmsCategory category : categories) {
@@ -193,10 +194,10 @@ public class CmsCategoryService {
     public CmsCategory createCategory(
         CmsObject cms,
         CmsCategory parent,
-        String name,
-        String title,
-        String description,
-        String referencePath)
+        @RUntainted String name,
+        @RUntainted String title,
+        @RUntainted String description,
+        @RUntainted String referencePath)
     throws CmsException {
 
         List<CmsProperty> properties = new ArrayList<CmsProperty>();
@@ -213,7 +214,7 @@ public class CmsCategoryService {
             if (referencePath == null) {
                 folderPath += CmsCategoryService.CENTRALIZED_REPOSITORY;
             } else {
-                List<String> repositories = getCategoryRepositories(cms, referencePath);
+                List<@RUntainted String> repositories = getCategoryRepositories(cms, referencePath);
                 // take the last one
                 folderPath = repositories.get(repositories.size() - 1);
             }
@@ -245,7 +246,7 @@ public class CmsCategoryService {
      *
      * @throws CmsException if something goes wrong
      */
-    public void deleteCategory(CmsObject cms, String categoryPath, String referencePath) throws CmsException {
+    public void deleteCategory(CmsObject cms, @RUntainted String categoryPath, @RUntainted String referencePath) throws CmsException {
 
         CmsCategory category = readCategory(cms, categoryPath, referencePath);
         String folderPath = cms.getRequestContext().removeSiteRoot(category.getRootPath());
@@ -290,7 +291,7 @@ public class CmsCategoryService {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsCategory getCategory(CmsObject cms, String categoryRootPath) throws CmsException {
+    public CmsCategory getCategory(CmsObject cms, @RUntainted String categoryRootPath) throws CmsException {
 
         CmsResource resource = cms.readResource(cms.getRequestContext().removeSiteRoot(categoryRootPath));
         return getCategory(cms, resource);
@@ -304,9 +305,9 @@ public class CmsCategoryService {
      *
      * @return a list of root paths
      */
-    public List<String> getCategoryRepositories(CmsObject cms, String referencePath) {
+    public List<@RUntainted String> getCategoryRepositories(CmsObject cms, @RUntainted String referencePath) {
 
-        List<String> ret = new ArrayList<String>();
+        List<@RUntainted String> ret = new ArrayList<@RUntainted String>();
         if (referencePath == null) {
             ret.add(CmsCategoryService.CENTRALIZED_REPOSITORY);
             return ret;
@@ -367,7 +368,7 @@ public class CmsCategoryService {
      *
      * @return the category repositories base folder name
      */
-    public String getRepositoryBaseFolderName(CmsObject cms) {
+    public @RUntainted String getRepositoryBaseFolderName(CmsObject cms) {
 
         String value = "";
         try {
@@ -406,7 +407,7 @@ public class CmsCategoryService {
      *
      * @return the list of localized categories
      */
-    public List<CmsCategory> localizeCategories(CmsObject cms, List<CmsCategory> categories, Locale locale) {
+    public List<CmsCategory> localizeCategories(CmsObject cms, List<CmsCategory> categories, @RUntainted Locale locale) {
 
         List<CmsCategory> result = Lists.newArrayList();
         for (CmsCategory category : categories) {
@@ -424,7 +425,7 @@ public class CmsCategoryService {
      *
      * @return the localized category
      */
-    public CmsCategory localizeCategory(CmsObject cms, CmsCategory category, Locale locale) {
+    public CmsCategory localizeCategory(CmsObject cms, CmsCategory category, @RUntainted Locale locale) {
 
         try {
             CmsUUID id = category.getId();
@@ -458,7 +459,7 @@ public class CmsCategoryService {
      *
      * @throws CmsException if something goes wrong
      */
-    public void moveCategory(CmsObject cms, String oldCatPath, String newCatPath, String referencePath)
+    public void moveCategory(CmsObject cms, @RUntainted String oldCatPath, @RUntainted String newCatPath, @RUntainted String referencePath)
     throws CmsException {
 
         CmsCategory category = readCategory(cms, oldCatPath, referencePath);
@@ -488,12 +489,12 @@ public class CmsCategoryService {
      */
     public List<CmsCategory> readCategories(
         CmsObject cms,
-        String parentCategoryPath,
+        @RUntainted String parentCategoryPath,
         boolean includeSubCats,
-        String referencePath)
+        @RUntainted String referencePath)
     throws CmsException {
 
-        List<String> repositories = getCategoryRepositories(cms, referencePath);
+        List<@RUntainted String> repositories = getCategoryRepositories(cms, referencePath);
         return readCategoriesForRepositories(cms, parentCategoryPath, includeSubCats, repositories, false);
     }
 
@@ -509,9 +510,9 @@ public class CmsCategoryService {
      */
     public List<CmsCategory> readCategoriesForRepositories(
         CmsObject cms,
-        String parentCategoryPath,
+        @RUntainted String parentCategoryPath,
         boolean includeSubCats,
-        List<String> repositories)
+        List<@RUntainted String> repositories)
     throws CmsException {
 
         return readCategoriesForRepositories(cms, parentCategoryPath, includeSubCats, repositories, false);
@@ -530,9 +531,9 @@ public class CmsCategoryService {
      */
     public List<CmsCategory> readCategoriesForRepositories(
         CmsObject cms,
-        String parentCategoryPath,
+        @RUntainted String parentCategoryPath,
         boolean includeSubCats,
-        List<String> repositories,
+        List<@RUntainted String> repositories,
         boolean includeRepositories)
     throws CmsException {
 
@@ -544,7 +545,7 @@ public class CmsCategoryService {
         Collection<CmsCategory> cats = includeRepositories ? new ArrayList<CmsCategory>() : new HashSet<CmsCategory>();
 
         // traverse in reverse order, to ensure the set will contain most global categories
-        Iterator<String> it = repositories.iterator();
+        Iterator<@RUntainted String> it = repositories.iterator();
         while (it.hasNext()) {
             String repository = it.next();
             try {
@@ -577,10 +578,10 @@ public class CmsCategoryService {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsCategory readCategory(CmsObject cms, String categoryPath, String referencePath) throws CmsException {
+    public CmsCategory readCategory(CmsObject cms, @RUntainted String categoryPath, @RUntainted String referencePath) throws CmsException {
 
         // iterate all possible category repositories, starting with the most global one
-        Iterator<String> it = getCategoryRepositories(cms, referencePath).iterator();
+        Iterator<@RUntainted String> it = getCategoryRepositories(cms, referencePath).iterator();
         while (it.hasNext()) {
             String repository = it.next();
             try {
@@ -610,9 +611,9 @@ public class CmsCategoryService {
      */
     public List<CmsResource> readCategoryResources(
         CmsObject cms,
-        String categoryPath,
+        @RUntainted String categoryPath,
         boolean recursive,
-        String referencePath)
+        @RUntainted String referencePath)
     throws CmsException {
 
         return readCategoryResources(cms, categoryPath, recursive, referencePath, CmsResourceFilter.DEFAULT);
@@ -633,9 +634,9 @@ public class CmsCategoryService {
      */
     public List<CmsResource> readCategoryResources(
         CmsObject cms,
-        String categoryPath,
+        @RUntainted String categoryPath,
         boolean recursive,
-        String referencePath,
+        @RUntainted String referencePath,
         CmsResourceFilter resFilter)
     throws CmsException {
 
@@ -729,7 +730,7 @@ public class CmsCategoryService {
      *
      * @throws CmsException if something goes wrong
      */
-    public void removeResourceFromCategory(CmsObject cms, String resourceName, String categoryPath)
+    public void removeResourceFromCategory(CmsObject cms, @RUntainted String resourceName, @RUntainted String categoryPath)
     throws CmsException {
 
         CmsCategory category = readCategory(cms, categoryPath, resourceName);
@@ -786,7 +787,7 @@ public class CmsCategoryService {
      *
      * @return the category root path
      */
-    private String internalCategoryRootPath(String basePath, String categoryPath) {
+    private @RUntainted String internalCategoryRootPath(@RUntainted String basePath, @RUntainted String categoryPath) {
 
         if (categoryPath.startsWith("/") && basePath.endsWith("/")) {
             // one slash too much
@@ -905,11 +906,11 @@ public class CmsCategoryService {
      *
      * @throws CmsException if something goes wrong
      */
-    private List<CmsCategory> internalReadSubCategories(CmsObject cms, String rootPath, boolean includeSubCats)
+    private List<CmsCategory> internalReadSubCategories(CmsObject cms, @RUntainted String rootPath, boolean includeSubCats)
     throws CmsException {
 
         List<CmsCategory> categories = new ArrayList<CmsCategory>();
-        List<CmsResource> resources = cms.readResources(
+        List<@RUntainted CmsResource> resources = cms.readResources(
             cms.getRequestContext().removeSiteRoot(rootPath),
             CmsResourceFilter.DEFAULT.addRequireType(CmsResourceTypeFolder.RESOURCE_TYPE_ID),
             includeSubCats);

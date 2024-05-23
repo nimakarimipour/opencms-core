@@ -31,6 +31,7 @@ import org.opencms.ui.A_CmsUI;
 
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.CssLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * UI class for Vaadin dialogs in the sitemap editor.<p>
@@ -59,7 +60,7 @@ public class CmsSitemapUI extends A_CmsUI {
      * @see org.opencms.ui.A_CmsUI#init(com.vaadin.server.VaadinRequest)
      */
     @Override
-    protected void init(VaadinRequest request) {
+    protected void init(@RUntainted VaadinRequest request) {
 
         super.init(request);
         m_sitemapExtension = new CmsSitemapExtension(this);

@@ -31,6 +31,7 @@ import org.opencms.gwt.shared.CmsListInfoBean;
 import org.opencms.gwt.shared.sort.I_CmsHasPath;
 
 import java.util.ArrayList;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents a gallery folder.<p>
@@ -49,7 +50,7 @@ public class CmsGalleryFolderBean extends CmsListInfoBean implements I_CmsHasPat
     private boolean m_editable;
 
     /** The folder site-path. */
-    private String m_path;
+    private @RUntainted String m_path;
 
     /** The name of the JavaScript method to get an upload button provider object. */
     private String m_uploadAction;
@@ -92,7 +93,7 @@ public class CmsGalleryFolderBean extends CmsListInfoBean implements I_CmsHasPat
      *
      * @return the description
      */
-    public String getPath() {
+    public @RUntainted String getPath() {
 
         return m_path;
     }
@@ -184,7 +185,7 @@ public class CmsGalleryFolderBean extends CmsListInfoBean implements I_CmsHasPat
      *
      * @param path the description to set
      */
-    public void setPath(String path) {
+    public void setPath(@RUntainted String path) {
 
         m_path = path;
     }

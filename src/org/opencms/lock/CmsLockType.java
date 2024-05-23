@@ -28,6 +28,7 @@
 package org.opencms.lock;
 
 import org.opencms.util.A_CmsModeIntEnumeration;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Indicates the different possible lock types.<p>
@@ -94,7 +95,7 @@ public final class CmsLockType extends A_CmsModeIntEnumeration {
      *
      * @param type the type id to use
      */
-    private CmsLockType(int type) {
+    private CmsLockType(@RUntainted int type) {
 
         super(type);
     }
@@ -257,7 +258,7 @@ public final class CmsLockType extends A_CmsModeIntEnumeration {
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString() {
+    public @RUntainted String toString() {
 
         switch (getMode()) {
             case 1:

@@ -28,6 +28,7 @@
 package org.opencms.widgets;
 
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a widget that allows access to the available OpenCms image galleries, for use on a widget dialog.<p>
@@ -50,7 +51,7 @@ public class CmsImageGalleryWidget extends A_CmsGalleryWidget {
      *
      * @param configuration the configuration to use
      */
-    public CmsImageGalleryWidget(String configuration) {
+    public CmsImageGalleryWidget(@RUntainted String configuration) {
 
         super(configuration);
     }
@@ -77,7 +78,7 @@ public class CmsImageGalleryWidget extends A_CmsGalleryWidget {
      * @see org.opencms.widgets.I_CmsADEWidget#getWidgetName()
      */
     @Override
-    public String getWidgetName() {
+    public @RUntainted String getWidgetName() {
 
         return CmsImageGalleryWidget.class.getName();
     }

@@ -50,6 +50,8 @@ import java.util.Map;
 
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.common.params.CommonParams;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * A Solr search query.<p>
@@ -126,7 +128,7 @@ public class CmsSolrQuery extends SolrQuery {
     private boolean m_ignoreExpiration;
 
     /** The parameters given by the 'query string'.  */
-    private Map<String, String[]> m_queryParameters = new HashMap<String, String[]>();
+    private Map<String, @RUntainted String[]> m_queryParameters = new HashMap<String, @RUntainted String[]>();
 
     /** The search words. */
     private String m_text;
@@ -148,7 +150,7 @@ public class CmsSolrQuery extends SolrQuery {
      * @param cms the current OpenCms context
      * @param queryParams the Solr query parameters
      */
-    public CmsSolrQuery(CmsObject cms, Map<String, String[]> queryParams) {
+    public CmsSolrQuery(CmsObject cms, Map<String, @RUntainted String[]> queryParams) {
 
         setQuery(DEFAULT_QUERY);
         setFields(ALL_RETURN_FIELDS);
@@ -175,7 +177,7 @@ public class CmsSolrQuery extends SolrQuery {
      *
      * @return the type or <code>null</code>
      */
-    public static String getResourceType(String[] fqs) {
+    public static @RPolyTainted String getResourceType(@RPolyTainted String[] fqs) {
 
         String ret = null;
         int count = 0;
@@ -233,7 +235,7 @@ public class CmsSolrQuery extends SolrQuery {
      * @see java.lang.Object#clone()
      */
     @Override
-    public CmsSolrQuery clone() {
+    public @RUntainted CmsSolrQuery clone() {
 
         CmsSolrQuery sq = new CmsSolrQuery(null, CmsRequestUtil.createParameterMap(toString(), true, null));
         if (m_ignoreExpiration) {
@@ -253,7 +255,7 @@ public class CmsSolrQuery extends SolrQuery {
 
         // overwrite already set values with values from query String
         if ((m_queryParameters != null) && !m_queryParameters.isEmpty()) {
-            for (Map.Entry<String, String[]> entry : m_queryParameters.entrySet()) {
+            for (Map.Entry<String, @RUntainted String[]> entry : m_queryParameters.entrySet()) {
                 if (!entry.getKey().equals(CommonParams.FQ)) {
                     // add or replace all parameters from the query String
                     setParam(entry.getKey(), entry.getValue());
@@ -670,7 +672,7 @@ public class CmsSolrQuery extends SolrQuery {
             List<String> result = new ArrayList<String>();
             for (String field : requestedReturnFields) {
                 String commasep = field.replaceAll(" ", ",");
-                List<String> list = CmsStringUtil.splitAsList(commasep, ',');
+                List<@RUntainted String> list = CmsStringUtil.splitAsList(commasep, ',');
                 if (!list.contains("*")) {
                     for (String reqField : CmsStringUtil.splitAsList(MINIMUM_FIELDS, ",")) {
                         if (!list.contains(reqField)) {

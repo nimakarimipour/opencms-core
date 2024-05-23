@@ -70,6 +70,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog which shows the list of favorites for the current user and allows them to jump to individual favorites,
@@ -241,7 +242,7 @@ public class CmsFavoriteDialog extends CmsBasicDialog implements CmsEditableGrou
     private CmsExtendedSiteSelector m_siteBox;
 
     /** Site labels. */
-    private Map<String, String> m_siteLabels;
+    private Map<@RUntainted String, String> m_siteLabels;
 
     /**
      * Creates a new dialog instance.
@@ -381,7 +382,7 @@ public class CmsFavoriteDialog extends CmsBasicDialog implements CmsEditableGrou
      *
      * @throws CmsException if something goes wrong
      */
-    private CmsFavInfo createFavInfo(CmsFavoriteEntry entry) throws CmsException {
+    private @RUntainted CmsFavInfo createFavInfo(@RUntainted CmsFavoriteEntry entry) throws CmsException {
 
         String title = "";
         String subtitle = "";

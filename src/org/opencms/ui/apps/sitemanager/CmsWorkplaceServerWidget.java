@@ -42,6 +42,7 @@ import com.vaadin.v7.data.Property.ValueChangeListener;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.ui.AbstractSelect.NewItemHandler;
 import com.vaadin.v7.ui.ComboBox;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Layout for workplace server configuration.<p>
@@ -69,7 +70,7 @@ public class CmsWorkplaceServerWidget extends FormLayout {
      * @param sites all sites
      * @param server current server
      */
-    public CmsWorkplaceServerWidget(List<CmsSite> sites, String server) {
+    public CmsWorkplaceServerWidget(List<CmsSite> sites, @RUntainted String server) {
 
         CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
         CmsSSLMode sslMode = OpenCms.getSiteManager().getSSLModeForWorkplaceServer(server);
@@ -132,7 +133,7 @@ public class CmsWorkplaceServerWidget extends FormLayout {
         List<CmsSite> allSites,
         final ComboBox combo,
         boolean nullselect,
-        String defaultValue,
+        @RUntainted String defaultValue,
         CmsSSLMode sslMode) {
 
         final List<CmsSite> modSites = new ArrayList<CmsSite>();
@@ -169,7 +170,7 @@ public class CmsWorkplaceServerWidget extends FormLayout {
 
             private static final long serialVersionUID = -4760590374697520609L;
 
-            public void addNewItem(String newItemCaption) {
+            public void addNewItem(@RUntainted String newItemCaption) {
 
                 CmsSite newItem = new CmsSite("dummy", newItemCaption);
                 newItem.setSSLMode(newItemCaption.contains("https:") ? CmsSSLMode.MANUAL : CmsSSLMode.NO);
@@ -185,7 +186,7 @@ public class CmsWorkplaceServerWidget extends FormLayout {
      *
      * @return String
      */
-    public String getServer() {
+    public @RUntainted String getServer() {
 
         if (m_server.getValue() == null) {
             return "";

@@ -28,6 +28,7 @@
 package org.opencms.search.solr.spellchecking;
 
 import org.opencms.json.JSONObject;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class that represents a spellchecking request.
@@ -35,7 +36,7 @@ import org.opencms.json.JSONObject;
 class CmsSpellcheckingRequest {
 
     /** The Id of the request sent by tinyMce. */
-    String m_id;
+    @RUntainted String m_id;
 
     /** The dictionary to use.  */
     String m_dictionaryToUse;
@@ -44,7 +45,7 @@ class CmsSpellcheckingRequest {
     String[] m_wordsToCheck;
 
     /** JSON object containing the computed suggestions for the checked words. */
-    JSONObject m_wordSuggestions;
+    @RUntainted JSONObject m_wordSuggestions;
 
     /**
      * Constructor.
@@ -71,7 +72,7 @@ class CmsSpellcheckingRequest {
      * @param dictionary the dictionary to use.
      * @param id the Id of the request sent by tinyMce.
      */
-    CmsSpellcheckingRequest(String[] q, String dictionary, String id) {
+    CmsSpellcheckingRequest(String[] q, String dictionary, @RUntainted String id) {
 
         m_wordsToCheck = q;
         m_dictionaryToUse = dictionary;

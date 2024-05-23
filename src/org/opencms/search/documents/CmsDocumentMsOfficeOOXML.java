@@ -35,6 +35,7 @@ import org.opencms.search.CmsIndexException;
 import org.opencms.search.I_CmsSearchIndex;
 import org.opencms.search.extractors.CmsExtractorMsOfficeOOXML;
 import org.opencms.search.extractors.I_CmsExtractionResult;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Lucene document factory class to extract text data from a VFS resource that is an OOXML MS Office document.<p>
@@ -53,7 +54,7 @@ public class CmsDocumentMsOfficeOOXML extends A_CmsVfsDocument {
      *
      * @param name name of the document type
      */
-    public CmsDocumentMsOfficeOOXML(String name) {
+    public CmsDocumentMsOfficeOOXML(@RUntainted String name) {
 
         super(name);
     }
@@ -63,7 +64,7 @@ public class CmsDocumentMsOfficeOOXML extends A_CmsVfsDocument {
      *
      * @see org.opencms.search.documents.I_CmsSearchExtractor#extractContent(CmsObject, CmsResource, I_CmsSearchIndex)
      */
-    public I_CmsExtractionResult extractContent(CmsObject cms, CmsResource resource, I_CmsSearchIndex index)
+    public I_CmsExtractionResult extractContent(CmsObject cms, @RUntainted CmsResource resource, I_CmsSearchIndex index)
     throws CmsIndexException, CmsException {
 
         logContentExtraction(resource, index);

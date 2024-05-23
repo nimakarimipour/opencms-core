@@ -33,6 +33,7 @@ import org.opencms.file.CmsObject;
 import org.opencms.main.CmsException;
 import org.opencms.security.CmsPrincipal;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A historical version of a file in the OpenCms VFS resource history.<p>
@@ -45,16 +46,16 @@ public class CmsHistoryFolder extends CmsFolder implements I_CmsHistoryResource 
     private static final long serialVersionUID = -374285965677032786L;
 
     /** The structure id of the parent of this historical resource. */
-    private CmsUUID m_parentId;
+    private @RUntainted CmsUUID m_parentId;
 
     /** The publish tag of this historical resource. */
-    private int m_publishTag;
+    private @RUntainted int m_publishTag;
 
     /** The version number of the resource part for this historical resource. */
-    private int m_resourceVersion;
+    private @RUntainted int m_resourceVersion;
 
     /** The version number of the structure part for this historical resource. */
-    private int m_structureVersion;
+    private @RUntainted int m_structureVersion;
 
     /**
      * Constructor from a history resource.<p>
@@ -108,23 +109,23 @@ public class CmsHistoryFolder extends CmsFolder implements I_CmsHistoryResource 
      */
     public CmsHistoryFolder(
         int publishTag,
-        CmsUUID structureId,
-        CmsUUID resourceId,
-        String path,
-        int type,
-        int flags,
+        @RUntainted CmsUUID structureId,
+        @RUntainted CmsUUID resourceId,
+        @RUntainted String path,
+        @RUntainted int type,
+        @RUntainted int flags,
         CmsUUID projectId,
-        CmsResourceState state,
-        long dateCreated,
-        CmsUUID userCreated,
-        long dateLastModified,
-        CmsUUID userLastModified,
-        long dateReleased,
-        long dateExpired,
-        int version,
-        CmsUUID parentId,
+        @RUntainted CmsResourceState state,
+        @RUntainted long dateCreated,
+        @RUntainted CmsUUID userCreated,
+        @RUntainted long dateLastModified,
+        @RUntainted CmsUUID userLastModified,
+        @RUntainted long dateReleased,
+        @RUntainted long dateExpired,
+        @RUntainted int version,
+        @RUntainted CmsUUID parentId,
         int resourceVersion,
-        int structureVersion) {
+        @RUntainted int structureVersion) {
 
         super(
             structureId,
@@ -154,7 +155,7 @@ public class CmsHistoryFolder extends CmsFolder implements I_CmsHistoryResource 
      * @return a clone of this instance
      */
     @Override
-    public Object clone() {
+    public @RUntainted Object clone() {
 
         return new CmsHistoryFolder(
             getPublishTag(),
@@ -180,7 +181,7 @@ public class CmsHistoryFolder extends CmsFolder implements I_CmsHistoryResource 
     /**
      * @see org.opencms.file.history.I_CmsHistoryResource#getParentId()
      */
-    public CmsUUID getParentId() {
+    public @RUntainted CmsUUID getParentId() {
 
         return m_parentId;
     }
@@ -188,7 +189,7 @@ public class CmsHistoryFolder extends CmsFolder implements I_CmsHistoryResource 
     /**
      * @see org.opencms.file.history.I_CmsHistoryResource#getPublishTag()
      */
-    public int getPublishTag() {
+    public @RUntainted int getPublishTag() {
 
         return m_publishTag;
     }
@@ -196,7 +197,7 @@ public class CmsHistoryFolder extends CmsFolder implements I_CmsHistoryResource 
     /**
      * @see org.opencms.file.history.I_CmsHistoryResource#getResourceVersion()
      */
-    public int getResourceVersion() {
+    public @RUntainted int getResourceVersion() {
 
         return m_resourceVersion;
     }
@@ -204,7 +205,7 @@ public class CmsHistoryFolder extends CmsFolder implements I_CmsHistoryResource 
     /**
      * @see org.opencms.file.history.I_CmsHistoryResource#getStructureVersion()
      */
-    public int getStructureVersion() {
+    public @RUntainted int getStructureVersion() {
 
         return m_structureVersion;
     }

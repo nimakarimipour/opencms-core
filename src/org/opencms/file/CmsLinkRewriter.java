@@ -72,6 +72,7 @@ import org.dom4j.Document;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A class used to rewrite links and relations in one subtree such that relations from that subtree to another given subtree
@@ -83,16 +84,16 @@ public class CmsLinkRewriter {
     private static final Log LOG = CmsLog.getLog(CmsLinkRewriter.class);
 
     /** A map from source folder structure ids to corresponding target folder resources. */
-    protected Map<CmsUUID, CmsResource> m_translationsById = new HashMap<CmsUUID, CmsResource>();
+    protected Map<CmsUUID, @RUntainted CmsResource> m_translationsById = new HashMap<CmsUUID, @RUntainted CmsResource>();
 
     /** A map from source folder root paths to the corresponding target folder resources. */
     protected Map<String, CmsResource> m_translationsByPath = new HashMap<String, CmsResource>();
 
     /** A map of resources which have been cached by structure id. */
-    private Map<CmsUUID, CmsResource> m_cachedResources = new HashMap<CmsUUID, CmsResource>();
+    private Map<CmsUUID, @RUntainted CmsResource> m_cachedResources = new HashMap<CmsUUID, @RUntainted CmsResource>();
 
     /** The CMS object used for file operations. */
-    private CmsObject m_cms;
+    private @RUntainted CmsObject m_cms;
 
     /** If true, all XML contents will be rewritten instead of just those containing links to correct. */
     private boolean m_rewriteAllXmlContents = true;
@@ -104,7 +105,7 @@ public class CmsLinkRewriter {
     private List<CmsPair<String, String>> m_sourceTargetPairs = new ArrayList<CmsPair<String, String>>();
 
     /** The target folder root path. */
-    private String m_targetPath;
+    private @RUntainted String m_targetPath;
 
     /**
      * Creates a link rewriter for use after a multi-copy operation.<p>
@@ -113,7 +114,7 @@ public class CmsLinkRewriter {
      * @param sources the list of source root paths
      * @param target the target parent folder root path
      */
-    public CmsLinkRewriter(CmsObject cms, List<String> sources, String target) {
+    public CmsLinkRewriter(@RUntainted CmsObject cms, List<String> sources, String target) {
 
         m_sourceTargetPairs = new ArrayList<CmsPair<String, String>>();
         for (String source : sources) {
@@ -132,7 +133,7 @@ public class CmsLinkRewriter {
      * @param targetPath the target root path
      * @param sourceTargetPairs the list of source-target pairs
      */
-    public CmsLinkRewriter(CmsObject cms, String targetPath, List<CmsPair<String, String>> sourceTargetPairs) {
+    public CmsLinkRewriter(@RUntainted CmsObject cms, String targetPath, List<CmsPair<String, String>> sourceTargetPairs) {
 
         m_cms = cms;
         m_targetPath = targetPath;
@@ -146,7 +147,7 @@ public class CmsLinkRewriter {
      * @param source the source folder root path
      * @param target the target folder root path
      */
-    public CmsLinkRewriter(CmsObject cms, String source, String target) {
+    public CmsLinkRewriter(@RUntainted CmsObject cms, String source, String target) {
 
         m_sourceTargetPairs = new ArrayList<CmsPair<String, String>>();
         checkNotSubPath(source, target);
@@ -230,7 +231,7 @@ public class CmsLinkRewriter {
         if (!m_rewriteAllXmlContents) {
             return;
         }
-        for (Map.Entry<CmsUUID, CmsResource> entry : m_cachedResources.entrySet()) {
+        for (Map.Entry<CmsUUID, @RUntainted CmsResource> entry : m_cachedResources.entrySet()) {
             CmsUUID key = entry.getKey();
             CmsResource resource = entry.getValue();
             if (isInTargets(resource.getRootPath()) && !m_rewrittenContent.contains(key)) {
@@ -300,7 +301,7 @@ public class CmsLinkRewriter {
     protected void copyLocaleRelations() throws CmsException {
 
         long start = System.currentTimeMillis();
-        List<CmsRelation> localeRelations = m_cms.readRelations(
+        List<@RUntainted CmsRelation> localeRelations = m_cms.readRelations(
             CmsRelationFilter.ALL.filterType(CmsRelationType.LOCALE_VARIANT));
         for (CmsRelation rel : localeRelations) {
             if (isInSources(rel.getSourcePath()) && isInSources(rel.getTargetPath())) {
@@ -332,7 +333,7 @@ public class CmsLinkRewriter {
      *
      * @return the decoded string
      */
-    protected String decode(byte[] bytes, String encoding) {
+    protected @RUntainted String decode(@RUntainted byte[] bytes, @RUntainted String encoding) {
 
         try {
             return new String(bytes, encoding);
@@ -349,7 +350,7 @@ public class CmsLinkRewriter {
      * @return a pair (content, encoding)
      * @throws CmsException if something goes wrong
      */
-    protected CmsPair<String, String> decode(CmsFile file) throws CmsException {
+    protected CmsPair<@RUntainted String, @RUntainted String> decode(CmsFile file) throws CmsException {
 
         String content = null;
         String encoding = getConfiguredEncoding(m_cms, file);
@@ -379,7 +380,7 @@ public class CmsLinkRewriter {
      */
     protected List<CmsRelation> findRelationsFromTargetToSource() throws CmsException {
 
-        List<CmsRelation> relations = m_cms.readRelations(
+        List<@RUntainted CmsRelation> relations = m_cms.readRelations(
             CmsRelationFilter.SOURCES.filterPath(m_targetPath).filterIncludeChildren());
         List<CmsRelation> result = new ArrayList<CmsRelation>();
         for (CmsRelation rel : relations) {
@@ -399,7 +400,7 @@ public class CmsLinkRewriter {
      *
      * @throws CmsException if something goes wrong
      */
-    protected String getConfiguredEncoding(CmsObject cms, CmsResource resource) throws CmsException {
+    protected @RUntainted String getConfiguredEncoding(CmsObject cms, CmsResource resource) throws CmsException {
 
         String encoding = null;
         try {
@@ -475,7 +476,7 @@ public class CmsLinkRewriter {
      *
      * @throws CmsException if the resource couldn't be read
      */
-    protected CmsResource getResource(CmsUUID structureId) throws CmsException {
+    protected @RUntainted CmsResource getResource(CmsUUID structureId) throws CmsException {
 
         if (m_cachedResources.containsKey(structureId)) {
             return m_cachedResources.get(structureId);
@@ -514,14 +515,14 @@ public class CmsLinkRewriter {
         // we want to use autocorrection when writing XML contents back
         //m_cms.getRequestContext().setAttribute(CmsXmlContent.AUTO_CORRECTION_ATTRIBUTE, Boolean.TRUE);
         m_cms.getRequestContext().setSiteRoot("");
-        List<CmsPair<CmsResource, CmsResource>> allMatchingResources = Lists.newArrayList();
+        List<CmsPair<CmsResource, @RUntainted CmsResource>> allMatchingResources = Lists.newArrayList();
         for (CmsPair<String, String> pair : m_sourceTargetPairs) {
             List<CmsPair<CmsResource, CmsResource>> matchingResources = getMatchingResources(
                 pair.getFirst(),
                 pair.getSecond());
             allMatchingResources.addAll(matchingResources);
         }
-        for (CmsPair<CmsResource, CmsResource> resPair : allMatchingResources) {
+        for (CmsPair<CmsResource, @RUntainted CmsResource> resPair : allMatchingResources) {
             CmsResource source = resPair.getFirst();
             CmsResource target = resPair.getSecond();
             m_translationsById.put(source.getStructureId(), target);
@@ -580,10 +581,10 @@ public class CmsLinkRewriter {
         CmsResource base = m_cms.readResource(rootPath);
 
         I_CmsResourceType resType = OpenCms.getResourceManager().getResourceType(base);
-        List<CmsResource> result = new ArrayList<CmsResource>();
+        List<@RUntainted CmsResource> result = new ArrayList<@RUntainted CmsResource>();
         if (resType.isFolder()) {
             rootPath = CmsStringUtil.joinPaths(rootPath, "/");
-            List<CmsResource> subResources = m_cms.readResources(rootPath, CmsResourceFilter.ALL, true);
+            List<@RUntainted CmsResource> subResources = m_cms.readResources(rootPath, CmsResourceFilter.ALL, true);
             result.add(base);
             result.addAll(subResources);
         } else {
@@ -604,10 +605,10 @@ public class CmsLinkRewriter {
      *
      * @throws CmsException if something goes wrong
      */
-    protected void rewriteContent(CmsFile file, Collection<CmsRelation> relations) throws CmsException {
+    protected void rewriteContent(@RUntainted CmsFile file, Collection<CmsRelation> relations) throws CmsException {
 
         LOG.info("Rewriting in-content links for " + file.getRootPath());
-        CmsPair<String, String> contentAndEncoding = decode(file);
+        CmsPair<@RUntainted String, @RUntainted String> contentAndEncoding = decode(file);
 
         String content = "";
 
@@ -651,12 +652,12 @@ public class CmsLinkRewriter {
      *
      * @return the content with the new structure ids
      */
-    protected String rewriteContentString(String originalContent) {
+    protected String rewriteContentString(@RUntainted String originalContent) {
 
         Pattern uuidPattern = Pattern.compile(CmsUUID.UUID_REGEX);
         I_CmsRegexSubstitution substitution = new I_CmsRegexSubstitution() {
 
-            public String substituteMatch(String text, Matcher matcher) {
+            public String substituteMatch(@RUntainted String text, @RUntainted Matcher matcher) {
 
                 String uuidString = text.substring(matcher.start(), matcher.end());
                 CmsUUID uuid = new CmsUUID(uuidString);
@@ -678,7 +679,7 @@ public class CmsLinkRewriter {
      *
      * @throws CmsException if something goes wrong
      */
-    protected void rewriteLinks(CmsResource resource, Collection<CmsRelation> relations) throws CmsException {
+    protected void rewriteLinks(@RUntainted CmsResource resource, Collection<CmsRelation> relations) throws CmsException {
 
         LOG.info("Rewriting relations for resource " + resource.getRootPath());
         I_CmsResourceType resourceType = OpenCms.getResourceManager().getResourceType(resource.getTypeId());

@@ -60,6 +60,7 @@ import com.vaadin.server.FontIcon;
 import com.vaadin.server.Resource;
 import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.v7.ui.Label;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Displays the resource icon and state and lock info.<p>

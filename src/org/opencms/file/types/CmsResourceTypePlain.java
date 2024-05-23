@@ -44,6 +44,7 @@ import org.opencms.main.OpenCms;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor for the type "plain".<p>
@@ -53,7 +54,7 @@ import java.util.Set;
 public class CmsResourceTypePlain extends A_CmsResourceType {
 
     /** Static type id. */
-    private static int m_staticTypeId;
+    private static @RUntainted int m_staticTypeId;
 
     /** The type id of this resource type. */
     @SuppressWarnings("unused")
@@ -81,7 +82,7 @@ public class CmsResourceTypePlain extends A_CmsResourceType {
      *
      * @return the static type id of this (default) resource type
      */
-    public static int getStaticTypeId() {
+    public static @RUntainted int getStaticTypeId() {
 
         return m_staticTypeId;
     }
@@ -91,7 +92,7 @@ public class CmsResourceTypePlain extends A_CmsResourceType {
      *
      * @return the static type name of this (default) resource type
      */
-    public static String getStaticTypeName() {
+    public static @RUntainted String getStaticTypeName() {
 
         return RESOURCE_TYPE_NAME;
     }
@@ -115,7 +116,7 @@ public class CmsResourceTypePlain extends A_CmsResourceType {
     public void deleteResource(
         CmsObject cms,
         CmsSecurityManager securityManager,
-        CmsResource resource,
+        @RUntainted CmsResource resource,
         CmsResourceDeleteMode siblingMode)
     throws CmsException {
 
@@ -131,7 +132,7 @@ public class CmsResourceTypePlain extends A_CmsResourceType {
      * @see org.opencms.file.types.I_CmsResourceType#getCachePropertyDefault()
      */
     @Override
-    public String getCachePropertyDefault() {
+    public @RUntainted String getCachePropertyDefault() {
 
         return "always;";
     }
@@ -149,7 +150,7 @@ public class CmsResourceTypePlain extends A_CmsResourceType {
      * @see org.opencms.file.types.A_CmsResourceType#initConfiguration(java.lang.String, java.lang.String, String)
      */
     @Override
-    public void initConfiguration(String name, String id, String className) throws CmsConfigurationException {
+    public void initConfiguration(@RUntainted String name, @RUntainted String id, @RUntainted String className) throws CmsConfigurationException {
 
         super.initConfiguration(name, id, className);
         if (name.equals(RESOURCE_TYPE_NAME)) {
@@ -161,7 +162,7 @@ public class CmsResourceTypePlain extends A_CmsResourceType {
      * @see org.opencms.file.types.A_CmsResourceType#initialize(org.opencms.file.CmsObject)
      */
     @Override
-    public void initialize(CmsObject cms) {
+    public void initialize(@RUntainted CmsObject cms) {
 
         super.initialize(cms);
         try {
@@ -179,7 +180,7 @@ public class CmsResourceTypePlain extends A_CmsResourceType {
         CmsObject cms,
         CmsSecurityManager securityManager,
         CmsResource resource,
-        String destination)
+        @RUntainted String destination)
     throws CmsException, CmsIllegalArgumentException {
 
         Set<String> references = getReferencingStrongLinks(cms, resource);
@@ -194,9 +195,9 @@ public class CmsResourceTypePlain extends A_CmsResourceType {
     public void replaceResource(
         CmsObject cms,
         CmsSecurityManager securityManager,
-        CmsResource resource,
+        @RUntainted CmsResource resource,
         int type,
-        byte[] content,
+        @RUntainted byte[] content,
         List<CmsProperty> properties)
     throws CmsException {
 
@@ -209,7 +210,7 @@ public class CmsResourceTypePlain extends A_CmsResourceType {
      * @see org.opencms.file.types.A_CmsResourceType#restoreResource(org.opencms.file.CmsObject, org.opencms.db.CmsSecurityManager, org.opencms.file.CmsResource, int)
      */
     @Override
-    public void restoreResource(CmsObject cms, CmsSecurityManager securityManager, CmsResource resource, int version)
+    public void restoreResource(CmsObject cms, CmsSecurityManager securityManager, @RUntainted CmsResource resource, @RUntainted int version)
     throws CmsException {
 
         Set<String> references = getReferencingStrongLinks(cms, resource);
@@ -222,10 +223,10 @@ public class CmsResourceTypePlain extends A_CmsResourceType {
      */
     @Override
     public void setDateExpired(
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         CmsSecurityManager securityManager,
-        CmsResource resource,
-        long dateExpired,
+        @RUntainted CmsResource resource,
+        @RUntainted long dateExpired,
         boolean recursive)
     throws CmsException {
 
@@ -241,8 +242,8 @@ public class CmsResourceTypePlain extends A_CmsResourceType {
     public void setDateLastModified(
         CmsObject cms,
         CmsSecurityManager securityManager,
-        CmsResource resource,
-        long dateLastModified,
+        @RUntainted CmsResource resource,
+        @RUntainted long dateLastModified,
         boolean recursive)
     throws CmsException {
 
@@ -256,10 +257,10 @@ public class CmsResourceTypePlain extends A_CmsResourceType {
      */
     @Override
     public void setDateReleased(
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         CmsSecurityManager securityManager,
-        CmsResource resource,
-        long dateReleased,
+        @RUntainted CmsResource resource,
+        @RUntainted long dateReleased,
         boolean recursive)
     throws CmsException {
 
@@ -275,7 +276,7 @@ public class CmsResourceTypePlain extends A_CmsResourceType {
     public void undoChanges(
         CmsObject cms,
         CmsSecurityManager securityManager,
-        CmsResource resource,
+        @RUntainted CmsResource resource,
         CmsResourceUndoMode mode)
     throws CmsException {
 
@@ -288,7 +289,7 @@ public class CmsResourceTypePlain extends A_CmsResourceType {
      * @see org.opencms.file.types.A_CmsResourceType#writeFile(org.opencms.file.CmsObject, org.opencms.db.CmsSecurityManager, org.opencms.file.CmsFile)
      */
     @Override
-    public CmsFile writeFile(CmsObject cms, CmsSecurityManager securityManager, CmsFile resource) throws CmsException {
+    public CmsFile writeFile(@RUntainted CmsObject cms, CmsSecurityManager securityManager, @RUntainted CmsFile resource) throws CmsException {
 
         Set<String> references = getReferencingStrongLinks(cms, resource);
         CmsFile file = super.writeFile(cms, securityManager, resource);

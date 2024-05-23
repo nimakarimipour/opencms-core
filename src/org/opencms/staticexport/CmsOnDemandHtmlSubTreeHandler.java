@@ -32,6 +32,7 @@ import org.opencms.util.CmsFileUtil;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Concrete OnDemandExportHandler.<p>
@@ -48,7 +49,7 @@ public class CmsOnDemandHtmlSubTreeHandler extends A_CmsOnDemandStaticExportHand
      * @see org.opencms.staticexport.A_CmsOnDemandStaticExportHandler#getRelatedFilesToPurge(java.lang.String, java.lang.String)
      */
     @Override
-    protected List<File> getRelatedFilesToPurge(String exportFileName, String vfsName) {
+    protected List<@RUntainted File> getRelatedFilesToPurge(String exportFileName, String vfsName) {
 
         FileFilter htmlFilter = new FileFilter() {
 

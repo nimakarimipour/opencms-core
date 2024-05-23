@@ -28,6 +28,7 @@
 package org.opencms.configuration.preferences;
 
 import org.opencms.xml.content.CmsXmlContentProperty;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean representing the configurable attributes for a preference.<p>
@@ -35,13 +36,13 @@ import org.opencms.xml.content.CmsXmlContentProperty;
 public class CmsPreferenceData {
 
     /** The pref name. */
-    private String m_name;
+    private @RUntainted String m_name;
 
     /** The pref default value. */
-    private String m_value;
+    private @RUntainted String m_value;
 
     /** The pref tab. */
-    private String m_tab;
+    private @RUntainted String m_tab;
 
     /** The preference widget configuration. */
     private CmsXmlContentProperty m_propDef;
@@ -54,7 +55,7 @@ public class CmsPreferenceData {
      * @param prop the preference configuration
      * @param tab the tab on which to display the preference
      */
-    public CmsPreferenceData(String name, String value, CmsXmlContentProperty prop, String tab) {
+    public CmsPreferenceData(@RUntainted String name, @RUntainted String value, CmsXmlContentProperty prop, @RUntainted String tab) {
 
         m_name = name;
         m_value = value;
@@ -67,7 +68,7 @@ public class CmsPreferenceData {
      *
      * @return the default value for the preference
      */
-    public String getDefaultValue() {
+    public @RUntainted String getDefaultValue() {
 
         return m_value;
     }
@@ -77,7 +78,7 @@ public class CmsPreferenceData {
      *
      * @return the preference name
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_name;
     }
@@ -97,7 +98,7 @@ public class CmsPreferenceData {
      *
      * @return the tab on which the preference should be displayed
      */
-    public String getTab() {
+    public @RUntainted String getTab() {
 
         return m_tab;
     }

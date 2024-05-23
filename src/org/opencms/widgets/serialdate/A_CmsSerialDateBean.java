@@ -35,6 +35,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Abstract base class for serial date beans.
  * It deals with information common for all serial dates and already provides part of the implementation
@@ -45,9 +46,9 @@ public abstract class A_CmsSerialDateBean implements I_CmsSerialDateBean {
     /** The maximal number of occurrences that is allowed. */
     public static final int MAX_OCCURRENCES = 100;
     /** The start date and time of the (potentially) first event of the series. */
-    protected Calendar m_startDate;
+    protected @RUntainted Calendar m_startDate;
     /** The end date and time of the (potentially) first event of the series. */
-    protected Calendar m_endDate;
+    protected @RUntainted Calendar m_endDate;
     /** The maximal number of occurrences of the event. */
     protected int m_occurrences;
     /** The date of the last day, the event should occur. */
@@ -57,7 +58,7 @@ public abstract class A_CmsSerialDateBean implements I_CmsSerialDateBean {
     /** The end type of the series. */
     protected EndType m_endType = null;
     /** Variable for caching the dates of the event after lazy calculation. */
-    protected SortedSet<Date> m_dates;
+    protected @RUntainted SortedSet<@RUntainted Date> m_dates;
     /** Variable for caching the dates of the event after lazy calculation. */
     protected SortedSet<Date> m_allDates;
     /** Variable for caching the dates as long. */
@@ -86,7 +87,7 @@ public abstract class A_CmsSerialDateBean implements I_CmsSerialDateBean {
         EndType endType,
         Date serialEndDate,
         int occurrences,
-        SortedSet<Date> exceptions) {
+        SortedSet<@RUntainted Date> exceptions) {
 
         m_startDate = new GregorianCalendar();
         m_endDate = new GregorianCalendar();
@@ -133,7 +134,7 @@ public abstract class A_CmsSerialDateBean implements I_CmsSerialDateBean {
      * @see org.opencms.widgets.serialdate.I_CmsSerialDateBean#getDates()
      */
     @Override
-    public SortedSet<Date> getDates() {
+    public @RUntainted SortedSet<@RUntainted Date> getDates() {
 
         if (null == m_dates) {
             m_dates = filterExceptions(calculateDates());
@@ -161,7 +162,7 @@ public abstract class A_CmsSerialDateBean implements I_CmsSerialDateBean {
      * @see org.opencms.widgets.serialdate.I_CmsSerialDateBean#getEventDuration()
      */
     @Override
-    public Long getEventDuration() {
+    public @RUntainted Long getEventDuration() {
 
         return (null != m_endDate) && (null != m_startDate)
         ? Long.valueOf(m_endDate.getTimeInMillis() - m_startDate.getTimeInMillis())
@@ -313,7 +314,7 @@ public abstract class A_CmsSerialDateBean implements I_CmsSerialDateBean {
      * @param dates the dates to filter.
      * @return the provided dates, except the ones that match some exception.
      */
-    private SortedSet<Date> filterExceptions(SortedSet<Date> dates) {
+    private @RUntainted SortedSet<Date> filterExceptions(SortedSet<Date> dates) {
 
         SortedSet<Date> result = new TreeSet<Date>();
         for (Date d : dates) {

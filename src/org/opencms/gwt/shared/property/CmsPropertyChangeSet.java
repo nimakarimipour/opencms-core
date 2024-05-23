@@ -32,6 +32,7 @@ import org.opencms.util.CmsUUID;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A bean representing a set of property changes.<p>
@@ -81,7 +82,7 @@ public class CmsPropertyChangeSet implements IsSerializable {
      *
      * @return the structure id of the target resource
      */
-    public CmsUUID getTargetStructureId() {
+    public @RUntainted CmsUUID getTargetStructureId() {
 
         return m_target;
     }

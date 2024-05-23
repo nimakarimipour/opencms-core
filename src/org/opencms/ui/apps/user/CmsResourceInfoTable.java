@@ -44,6 +44,7 @@ import java.util.Set;
 import com.vaadin.v7.data.Item;
 import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.v7.ui.Table;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Table to show resources with CmsResourceInfo elements.<p>
@@ -72,7 +73,7 @@ public class CmsResourceInfoTable extends Table {
             for (CmsUUID group : groupIDs) {
                 user.addAll(cms.getUsersOfGroup(cms.readGroup(group).getName()));
             }
-            Set<CmsUUID> principalIDs = new HashSet<CmsUUID>();
+            Set<@RUntainted CmsUUID> principalIDs = new HashSet<@RUntainted CmsUUID>();
             principalIDs.addAll(userIDs);
             principalIDs.addAll(groupIDs);
             Set<CmsResource> resources = new HashSet<CmsResource>();

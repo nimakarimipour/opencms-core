@@ -48,6 +48,7 @@ import com.vaadin.v7.data.util.HierarchicalContainer;
 import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.TreeTable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The category tree.<p>
@@ -117,7 +118,7 @@ public class CmsCategoryTree extends TreeTable {
      * @param cms the cms context
      * @param contextPath the context path
      */
-    public CmsCategoryTree(CmsObject cms, String contextPath) {
+    public CmsCategoryTree(CmsObject cms, @RUntainted String contextPath) {
         this();
         loadCategories(cms, contextPath);
     }
@@ -210,7 +211,7 @@ public class CmsCategoryTree extends TreeTable {
      * @param cms the cms context
      * @param contextPath the context path
      */
-    void loadCategories(CmsObject cms, String contextPath) {
+    void loadCategories(CmsObject cms, @RUntainted String contextPath) {
 
         m_checkboxes.clear();
         m_container.removeAllItems();

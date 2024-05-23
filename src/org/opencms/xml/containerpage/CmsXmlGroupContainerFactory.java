@@ -50,6 +50,8 @@ import javax.servlet.ServletRequest;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.xml.sax.EntityResolver;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Provides factory methods to unmarshal (read) an group container object.<p>
@@ -80,7 +82,7 @@ public final class CmsXmlGroupContainerFactory {
      *
      * @return the created group container
      */
-    public static CmsXmlGroupContainer createDocument(CmsObject cms, Locale locale, String modelUri)
+    public static CmsXmlGroupContainer createDocument(@RUntainted CmsObject cms, @RUntainted Locale locale, @RUntainted String modelUri)
     throws CmsException {
 
         // create the XML content
@@ -103,10 +105,10 @@ public final class CmsXmlGroupContainerFactory {
      * @return the created group container
      */
     public static CmsXmlGroupContainer createDocument(
-        CmsObject cms,
-        Locale locale,
-        String encoding,
-        CmsXmlContentDefinition contentDefinition) {
+        @RUntainted CmsObject cms,
+        @RUntainted Locale locale,
+        @RUntainted String encoding,
+        @RUntainted CmsXmlContentDefinition contentDefinition) {
 
         // create the XML content
         CmsXmlGroupContainer content = new CmsXmlGroupContainer(cms, locale, encoding, contentDefinition);
@@ -135,11 +137,11 @@ public final class CmsXmlGroupContainerFactory {
      *
      * @throws CmsXmlException if something goes wrong
      */
-    public static CmsXmlGroupContainer unmarshal(
-        CmsObject cms,
+    public static @RUntainted CmsXmlGroupContainer unmarshal(
+        @RUntainted CmsObject cms,
         byte[] xmlData,
-        String encoding,
-        EntityResolver resolver) throws CmsXmlException {
+        @RUntainted String encoding,
+        @RUntainted EntityResolver resolver) throws CmsXmlException {
 
         return unmarshal(cms, CmsXmlUtils.unmarshalHelper(xmlData, resolver), encoding, resolver);
     }
@@ -187,7 +189,7 @@ public final class CmsXmlGroupContainerFactory {
      *
      * @throws CmsXmlException if something goes wrong
      */
-    public static CmsXmlGroupContainer unmarshal(CmsObject cms, CmsFile file, boolean keepEncoding)
+    public static @RPolyTainted CmsXmlGroupContainer unmarshal(@RPolyTainted CmsObject cms, CmsFile file, @RUntainted boolean keepEncoding)
     throws CmsXmlException {
 
         // check the cache
@@ -197,7 +199,7 @@ public final class CmsXmlGroupContainerFactory {
         }
 
         // not found in cache, read as normally
-        byte[] contentBytes = file.getContents();
+        @RUntainted byte[] contentBytes = file.getContents();
         String filename = cms.getSitePath(file);
 
         String encoding = null;
@@ -271,7 +273,7 @@ public final class CmsXmlGroupContainerFactory {
      *
      * @throws CmsException if something goes wrong
      */
-    public static CmsXmlGroupContainer unmarshal(CmsObject cms, CmsResource resource) throws CmsException {
+    public static CmsXmlGroupContainer unmarshal(@RUntainted CmsObject cms, @RUntainted CmsResource resource) throws CmsException {
 
         // check the cache
         CmsXmlGroupContainer content = getCache(cms, resource, true);
@@ -301,7 +303,7 @@ public final class CmsXmlGroupContainerFactory {
      * @throws CmsLoaderException if no loader for the given <code>resource</code> type ({@link CmsResource#getTypeId()}) is available
      * @throws CmsXmlException if the given <code>resource</code> is not of type group container
      */
-    public static CmsXmlGroupContainer unmarshal(CmsObject cms, CmsResource resource, ServletRequest req)
+    public static CmsXmlGroupContainer unmarshal(@RUntainted CmsObject cms, @RUntainted CmsResource resource, ServletRequest req)
     throws CmsXmlException, CmsLoaderException, CmsException {
 
         String rootPath = resource.getRootPath();
@@ -338,11 +340,11 @@ public final class CmsXmlGroupContainerFactory {
      *
      * @return a group container instance unmarshalled from the String
      */
-    public static CmsXmlGroupContainer unmarshal(
-        CmsObject cms,
-        Document document,
-        String encoding,
-        EntityResolver resolver) {
+    public static @RUntainted CmsXmlGroupContainer unmarshal(
+        @RUntainted CmsObject cms,
+        @RUntainted Document document,
+        @RUntainted String encoding,
+        @RUntainted EntityResolver resolver) {
 
         CmsXmlGroupContainer content = new CmsXmlGroupContainer(cms, document, encoding, resolver);
         // call prepare for use content handler and return the result
@@ -369,11 +371,11 @@ public final class CmsXmlGroupContainerFactory {
      *
      * @throws CmsXmlException if something goes wrong
      */
-    public static CmsXmlGroupContainer unmarshal(
-        CmsObject cms,
-        String xmlData,
-        String encoding,
-        EntityResolver resolver) throws CmsXmlException {
+    public static @RUntainted CmsXmlGroupContainer unmarshal(
+        @RUntainted CmsObject cms,
+        @RUntainted String xmlData,
+        @RUntainted String encoding,
+        @RUntainted EntityResolver resolver) throws CmsXmlException {
 
         // create the XML content object from the provided String
         return unmarshal(cms, CmsXmlUtils.unmarshalHelper(xmlData, resolver), encoding, resolver);
@@ -398,7 +400,7 @@ public final class CmsXmlGroupContainerFactory {
      *
      * @return the cached group container, or <code>null</code> if not found
      */
-    private static CmsXmlGroupContainer getCache(CmsObject cms, CmsResource resource, boolean keepEncoding) {
+    private static @RUntainted CmsXmlGroupContainer getCache(CmsObject cms, CmsResource resource, @RUntainted boolean keepEncoding) {
 
         if (resource instanceof I_CmsHistoryResource) {
             return null;
@@ -415,7 +417,7 @@ public final class CmsXmlGroupContainerFactory {
      * @param xmlGroupContainer the group container to cache
      * @param keepEncoding if the encoding was kept while unmarshalling
      */
-    private static void setCache(CmsObject cms, CmsXmlGroupContainer xmlGroupContainer, boolean keepEncoding) {
+    private static void setCache(CmsObject cms, @RUntainted CmsXmlGroupContainer xmlGroupContainer, @RUntainted boolean keepEncoding) {
 
         if (xmlGroupContainer.getFile() instanceof I_CmsHistoryResource) {
             return;

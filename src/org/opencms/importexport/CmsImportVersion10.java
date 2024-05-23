@@ -104,6 +104,7 @@ import org.xml.sax.SAXException;
 import com.google.common.base.Objects;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Adds the XML handler rules for import and export of resources and accounts.<p>
@@ -132,13 +133,13 @@ public class CmsImportVersion10 implements I_CmsImport {
     public static class RelationData {
 
         /** The relation target. */
-        private String m_target;
+        private @RUntainted String m_target;
 
         /** The target structure id. */
-        private CmsUUID m_targetId;
+        private @RUntainted CmsUUID m_targetId;
 
         /** The relation type. */
-        private CmsRelationType m_type;
+        private @RUntainted CmsRelationType m_type;
 
         /**
          * Creates a new instance.<p>
@@ -147,7 +148,7 @@ public class CmsImportVersion10 implements I_CmsImport {
          * @param targetId the relation target structure id
          * @param type the relation type
          */
-        public RelationData(String target, CmsUUID targetId, CmsRelationType type) {
+        public RelationData(@RUntainted String target, @RUntainted CmsUUID targetId, CmsRelationType type) {
 
             super();
             m_target = target;
@@ -175,7 +176,7 @@ public class CmsImportVersion10 implements I_CmsImport {
          *
          * @return the relation target path
          */
-        public String getTarget() {
+        public @RUntainted String getTarget() {
 
             return m_target;
         }
@@ -185,7 +186,7 @@ public class CmsImportVersion10 implements I_CmsImport {
          *
          * @return the relation target structure id
          */
-        public CmsUUID getTargetId() {
+        public @RUntainted CmsUUID getTargetId() {
 
             return m_targetId;
         }
@@ -195,7 +196,7 @@ public class CmsImportVersion10 implements I_CmsImport {
          *
          * @return the relation type
          */
-        public CmsRelationType getType() {
+        public @RUntainted CmsRelationType getType() {
 
             return m_type;
         }
@@ -405,7 +406,7 @@ public class CmsImportVersion10 implements I_CmsImport {
     private static final AtomicLong cumulativeConfigWaitTime = new AtomicLong(0l);
 
     /** The ACE flags value. */
-    protected int m_aceFlags;
+    protected @RUntainted int m_aceFlags;
 
     /** The ACE allowed permissions value. */
     protected int m_acePermissionsAllowed;
@@ -414,7 +415,7 @@ public class CmsImportVersion10 implements I_CmsImport {
     protected int m_acePermissionsDenied;
 
     /** The ACE principal id value. */
-    protected CmsUUID m_acePrincipalId;
+    protected @RUntainted CmsUUID m_acePrincipalId;
 
     /** The list of ACEs for the current imported resource. */
     protected List<CmsAccessControlEntry> m_aces;
@@ -426,25 +427,25 @@ public class CmsImportVersion10 implements I_CmsImport {
     protected Set<CmsUUID> m_contentFiles = new HashSet<CmsUUID>();
 
     /** The destination value. */
-    protected String m_destination;
+    protected @RUntainted String m_destination;
 
     /** The current file counter. */
-    protected int m_fileCounter;
+    protected @RUntainted int m_fileCounter;
 
     /** The description of the current group to import. */
-    protected String m_groupDescription;
+    protected @RUntainted String m_groupDescription;
 
     /** The flags of the current group to import. */
-    protected int m_groupFlags;
+    protected @RUntainted int m_groupFlags;
 
     /** The name of the current group to import. */
-    protected String m_groupName;
+    protected @RUntainted String m_groupName;
 
     /** The parent of the current group to import. */
-    protected String m_groupParent;
+    protected @RUntainted String m_groupParent;
 
     /** Map of all parent groups that could not be set immediately, because of the import order. */
-    protected Map<String, List<String>> m_groupParents;
+    protected Map<String, List<@RUntainted String>> m_groupParents;
 
     /** True if a modification date has been set. */
     protected boolean m_hasDateLastModified;
@@ -459,43 +460,43 @@ public class CmsImportVersion10 implements I_CmsImport {
     protected List<String> m_ignoredProperties;
 
     /** List of immutable resources. */
-    protected List<String> m_immutables;
+    protected @RUntainted List<String> m_immutables;
 
     /** The flag to import ACEs. */
     protected boolean m_importACEs;
 
     /** The membership structure. */
-    protected Map<String, Map<String, Map<String, String>>> m_membership;
+    protected Map<String, Map<String, @RUntainted Map<@RUntainted String, @RUntainted String>>> m_membership;
 
     /** The current imported organizational unit. */
     protected CmsOrganizationalUnit m_orgUnit;
 
     /** The organizational unit description. */
-    protected String m_orgUnitDescription;
+    protected @RUntainted String m_orgUnitDescription;
 
     /** The organizational unit flags. */
-    protected int m_orgUnitFlags;
+    protected @RUntainted int m_orgUnitFlags;
 
     /** The organizational unit fqn. */
-    protected String m_orgUnitName;
+    protected @RUntainted String m_orgUnitName;
 
     /** The map of organizational unit resources, this is a global field that will be use at the end of the import. */
-    protected Map<String, List<String>> m_orgUnitResources;
+    protected Map<@RUntainted String, List<String>> m_orgUnitResources;
 
     /** The import parameters to use. */
     protected CmsImportParameters m_parameters;
 
     /** The list of resource to be parsed, this is a global list, which will be handled at the end of the import. */
-    protected List<CmsResource> m_parseables;
+    protected @RUntainted List<CmsResource> m_parseables;
 
     /** The project description. */
-    protected String m_projectDescription;
+    protected @RUntainted String m_projectDescription;
 
     /** The project managers group name. */
     protected String m_projectManagers;
 
     /** The project fqn. */
-    protected String m_projectName;
+    protected @RUntainted String m_projectName;
 
     /** The current read project resources. */
     protected List<String> m_projectResources;
@@ -507,16 +508,16 @@ public class CmsImportVersion10 implements I_CmsImport {
     protected Map<String, CmsProperty> m_properties;
 
     /** The property name value. */
-    protected String m_propertyName;
+    protected @RUntainted String m_propertyName;
 
     /** The property value value. */
-    protected String m_propertyValue;
+    protected @RUntainted String m_propertyValue;
 
     /** The relation id value. */
     protected CmsUUID m_relationId;
 
     /** The relation path value. */
-    protected String m_relationPath;
+    protected @RUntainted String m_relationPath;
 
     /** Holds the relation data for the resource to be imported. */
     protected List<RelationData> m_relationsForResource;
@@ -534,40 +535,40 @@ public class CmsImportVersion10 implements I_CmsImport {
     protected CmsResourceBuilder m_resourceBuilder;
 
     /** The source value. */
-    protected String m_source;
+    protected @RUntainted String m_source;
 
     /** Possible exception during xml parsing. */
     protected Throwable m_throwable;
 
     /** The total number of files to import. */
-    protected int m_totalFiles;
+    protected @RUntainted int m_totalFiles;
 
     /** The type name. */
-    protected String m_typeName;
+    protected @RUntainted String m_typeName;
 
     /** The current imported user. */
     protected CmsUser m_user;
 
     /** The current user date created. */
-    protected long m_userDateCreated;
+    protected @RUntainted long m_userDateCreated;
 
     /** The current user email. */
-    protected String m_userEmail;
+    protected @RUntainted String m_userEmail;
 
     /** The current user first name. */
-    protected String m_userFirstname;
+    protected @RUntainted String m_userFirstname;
 
     /** The current user flags. */
-    protected int m_userFlags;
+    protected @RUntainted int m_userFlags;
 
     /** The additional information for the current imported user. */
-    protected Map<String, Object> m_userInfos;
+    protected @RUntainted Map<String, @RUntainted Object> m_userInfos;
 
     /** The current user last name. */
-    protected String m_userLastname;
+    protected @RUntainted String m_userLastname;
 
     /** The current user name. */
-    protected String m_userName;
+    protected @RUntainted String m_userName;
 
     /** The current user password. */
     protected String m_userPassword;
@@ -580,10 +581,10 @@ public class CmsImportVersion10 implements I_CmsImport {
      * Necessary because not all entries in the manifest may have a structure id, and even for entries
      * with a structure id, there may be a pre-existing resource at the same path with a different structure id.
      */
-    private Map<Integer, CmsUUID> m_indexToStructureId;
+    private Map<Integer, @RUntainted CmsUUID> m_indexToStructureId;
 
     /** Map to keep track of relation data for resources to be imported. */
-    private Multimap<Integer, RelationData> m_relationData;
+    private @RUntainted Multimap<Integer, RelationData> m_relationData;
 
     /** True if the resource id has not been set. */
     private boolean m_resourceIdWasNull;
@@ -603,7 +604,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      * @param parseables the list of resources for which to parse the links
      * @param report the report
      */
-    public static void parseLinks(CmsObject cms, List<CmsResource> parseables, I_CmsReport report) {
+    public static void parseLinks(CmsObject cms, @RUntainted List<CmsResource> parseables, I_CmsReport report) {
 
         int i = 0;
 
@@ -755,7 +756,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      *
      * @param resourceId the resource id
      */
-    public void addContentFile(String source, String resourceId) {
+    public void addContentFile(@RUntainted String source, @RUntainted String resourceId) {
 
         if ((source != null) && (resourceId != null)) {
             try {
@@ -994,9 +995,9 @@ public class CmsImportVersion10 implements I_CmsImport {
         String site = getRequestContext().getSiteRoot();
         try {
             getRequestContext().setSiteRoot("");
-            List<String> orgUnits = new ArrayList<String>(m_orgUnitResources.keySet());
+            List<@RUntainted String> orgUnits = new ArrayList<@RUntainted String>(m_orgUnitResources.keySet());
             Collections.sort(orgUnits);
-            Iterator<String> it = orgUnits.iterator();
+            Iterator<@RUntainted String> it = orgUnits.iterator();
             while (it.hasNext()) {
                 String orgUnitName = it.next();
                 List<String> resources = m_orgUnitResources.get(orgUnitName);
@@ -1544,7 +1545,7 @@ public class CmsImportVersion10 implements I_CmsImport {
     /**
      * @see org.opencms.importexport.I_CmsImport#getVersion()
      */
-    public int getVersion() {
+    public @RUntainted int getVersion() {
 
         return IMPORT_VERSION10;
     }
@@ -1696,9 +1697,9 @@ public class CmsImportVersion10 implements I_CmsImport {
                     I_CmsReport.FORMAT_OK);
 
                 // set parents that could not be set before
-                List<String> childs = m_groupParents.remove(groupName);
+                List<@RUntainted String> childs = m_groupParents.remove(groupName);
                 if (childs != null) {
-                    Iterator<String> it = childs.iterator();
+                    Iterator<@RUntainted String> it = childs.iterator();
                     while (it.hasNext()) {
                         String childGroup = it.next();
                         getCms().setParentGroup(childGroup, groupName);
@@ -2068,7 +2069,7 @@ public class CmsImportVersion10 implements I_CmsImport {
 
                 boolean exists = getCms().existsResource(translatedName, CmsResourceFilter.ALL);
 
-                byte[] content = null;
+                @RUntainted byte[] content = null;
                 // get the file content
 
                 if (m_source != null) {
@@ -2205,9 +2206,9 @@ public class CmsImportVersion10 implements I_CmsImport {
     @Deprecated
     public void importResources(
         CmsObject cms,
-        String importPath,
+        @RUntainted String importPath,
         I_CmsReport report,
-        File importResource,
+        @RUntainted File importResource,
         ZipFile importZip,
         Document docXml) {
 
@@ -2306,7 +2307,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      *
      * @see #setMembership()
      */
-    public void importUserGroup(String groupName) {
+    public void importUserGroup(@RUntainted String groupName) {
 
         if ((m_throwable != null) || (m_user == null)) {
             return;
@@ -2324,12 +2325,12 @@ public class CmsImportVersion10 implements I_CmsImport {
                 // organizational unit does not exist
             }
             // remember the user and group for later
-            Map<String, Map<String, String>> membership = m_membership.get(ouName);
+            Map<String, @RUntainted Map<@RUntainted String, @RUntainted String>> membership = m_membership.get(ouName);
             if (membership == null) {
                 membership = new HashMap<String, Map<String, String>>();
                 m_membership.put(ouName, membership);
             }
-            Map<String, String> groups = membership.get(I_CmsPrincipal.PRINCIPAL_GROUP);
+            Map<@RUntainted String, @RUntainted String> groups = membership.get(I_CmsPrincipal.PRINCIPAL_GROUP);
             if (groups == null) {
                 groups = new HashMap<String, String>();
                 membership.put(I_CmsPrincipal.PRINCIPAL_GROUP, groups);
@@ -2352,7 +2353,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      * @param infoType the type of the additional information entry
      * @param infoValue the value of the additional information entry
      */
-    public void importUserInfo(String infoName, String infoType, String infoValue) {
+    public void importUserInfo(String infoName, String infoType, @RUntainted String infoValue) {
 
         if (m_userInfos == null) {
             m_userInfos = new HashMap<String, Object>();
@@ -2376,7 +2377,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      *
      * @see #setMembership()
      */
-    public void importUserRole(String roleName) {
+    public void importUserRole(@RUntainted String roleName) {
 
         if ((m_throwable != null) || (m_user == null)) {
             return;
@@ -2393,12 +2394,12 @@ public class CmsImportVersion10 implements I_CmsImport {
                 // organizational unit does not exist
             }
             // remember the user and role for later
-            Map<String, Map<String, String>> membership = m_membership.get(role.getOuFqn());
+            Map<String, @RUntainted Map<@RUntainted String, @RUntainted String>> membership = m_membership.get(role.getOuFqn());
             if (membership == null) {
                 membership = new HashMap<String, Map<String, String>>();
                 m_membership.put(role.getOuFqn(), membership);
             }
-            Map<String, String> roles = membership.get(I_CmsPrincipal.PRINCIPAL_USER);
+            Map<@RUntainted String, @RUntainted String> roles = membership.get(I_CmsPrincipal.PRINCIPAL_USER);
             if (roles == null) {
                 roles = new HashMap<String, String>();
                 membership.put(I_CmsPrincipal.PRINCIPAL_USER, roles);
@@ -2517,7 +2518,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      * @see #N_FLAGS
      * @see #addResourceAceRules(Digester, String)
      */
-    public void setAceFlags(String aceFlags) {
+    public void setAceFlags(@RUntainted String aceFlags) {
 
         try {
             m_aceFlags = Integer.parseInt(aceFlags);
@@ -2568,7 +2569,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      * @see #N_ACCESSCONTROL_PRINCIPAL
      * @see #addResourceAceRules(Digester, String)
      */
-    public void setAcePrincipalId(String acePrincipalId) {
+    public void setAcePrincipalId(@RUntainted String acePrincipalId) {
 
         try {
             CmsUUID principalId = null;
@@ -2609,7 +2610,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      * @see #N_DATECREATED
      * @see #addResourceAttributesRules(Digester, String)
      */
-    public void setDateCreated(String dateCreated) {
+    public void setDateCreated(@RUntainted String dateCreated) {
 
         try {
             if (dateCreated != null) {
@@ -2630,7 +2631,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      * @see #N_DATEEXPIRED
      * @see #addResourceAttributesRules(Digester, String)
      */
-    public void setDateExpired(String dateExpired) {
+    public void setDateExpired(@RUntainted String dateExpired) {
 
         try {
             if (dateExpired != null) {
@@ -2651,7 +2652,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      * @see #N_DATELASTMODIFIED
      * @see #addResourceAttributesRules(Digester, String)
      */
-    public void setDateLastModified(String dateLastModified) {
+    public void setDateLastModified(@RUntainted String dateLastModified) {
 
         m_hasDateLastModified = true;
         try {
@@ -2685,7 +2686,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      * @see #N_DATERELEASED
      * @see #addResourceAttributesRules(Digester, String)
      */
-    public void setDateReleased(String dateReleased) {
+    public void setDateReleased(@RUntainted String dateReleased) {
 
         try {
             if (dateReleased != null) {
@@ -2706,7 +2707,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      * @see #N_DESTINATION
      * @see #addResourceAttributesRules(Digester, String)
      */
-    public void setDestination(String destination) {
+    public void setDestination(@RUntainted String destination) {
 
         m_destination = destination;
     }
@@ -2719,7 +2720,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      * @see #N_FLAGS
      * @see #addResourceAttributesRules(Digester, String)
      */
-    public void setFlags(String flags) {
+    public void setFlags(@RUntainted String flags) {
 
         try {
             m_resourceBuilder.setFlags(Integer.parseInt(flags));
@@ -2733,7 +2734,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      *
      * @param groupDescription the description to set
      */
-    public void setGroupDescription(String groupDescription) {
+    public void setGroupDescription(@RUntainted String groupDescription) {
 
         m_groupDescription = groupDescription;
     }
@@ -2743,7 +2744,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      *
      * @param groupFlags the flags to set
      */
-    public void setGroupFlags(String groupFlags) {
+    public void setGroupFlags(@RUntainted String groupFlags) {
 
         try {
             m_groupFlags = Integer.parseInt(groupFlags);
@@ -2757,7 +2758,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      *
      * @param groupName the name to set
      */
-    public void setGroupName(String groupName) {
+    public void setGroupName(@RUntainted String groupName) {
 
         m_groupName = OpenCms.getImportExportManager().translateGroup(groupName);
     }
@@ -2767,7 +2768,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      *
      * @param groupParent the group Parent to set
      */
-    public void setGroupParent(String groupParent) {
+    public void setGroupParent(@RUntainted String groupParent) {
 
         m_groupParent = OpenCms.getImportExportManager().translateGroup(groupParent);
     }
@@ -2783,13 +2784,13 @@ public class CmsImportVersion10 implements I_CmsImport {
         }
 
         // get the membership data to set
-        Map<String, Map<String, String>> membership = m_membership.get(m_orgUnit.getName());
+        Map<String, @RUntainted Map<@RUntainted String, @RUntainted String>> membership = m_membership.get(m_orgUnit.getName());
         if (membership == null) {
             return;
         }
 
         // set group membership
-        Map<String, String> groups = membership.get(I_CmsPrincipal.PRINCIPAL_GROUP);
+        Map<@RUntainted String, @RUntainted String> groups = membership.get(I_CmsPrincipal.PRINCIPAL_GROUP);
         if (groups != null) {
             Iterator<Entry<String, String>> it = groups.entrySet().iterator();
             while (it.hasNext()) {
@@ -2812,11 +2813,11 @@ public class CmsImportVersion10 implements I_CmsImport {
         }
 
         // set role membership
-        Map<String, String> roles = membership.get(I_CmsPrincipal.PRINCIPAL_USER);
+        Map<@RUntainted String, @RUntainted String> roles = membership.get(I_CmsPrincipal.PRINCIPAL_USER);
         if (roles != null) {
-            Iterator<Entry<String, String>> it = roles.entrySet().iterator();
+            Iterator<Entry<@RUntainted String, @RUntainted String>> it = roles.entrySet().iterator();
             while (it.hasNext()) {
-                Entry<String, String> entry = it.next();
+                Entry<@RUntainted String, @RUntainted String> entry = it.next();
                 String userName = entry.getKey();
                 String roleName = entry.getValue();
 
@@ -2843,7 +2844,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      *
      * @param orgUnitDescription the description to set
      */
-    public void setOrgUnitDescription(String orgUnitDescription) {
+    public void setOrgUnitDescription(@RUntainted String orgUnitDescription) {
 
         m_orgUnitDescription = orgUnitDescription;
     }
@@ -2867,7 +2868,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      *
      * @param orgUnitName the name to set
      */
-    public void setOrgUnitName(String orgUnitName) {
+    public void setOrgUnitName(@RUntainted String orgUnitName) {
 
         m_orgUnitName = orgUnitName;
     }
@@ -2877,7 +2878,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      *
      * @param projectDescription the description to set
      */
-    public void setProjectDescription(String projectDescription) {
+    public void setProjectDescription(@RUntainted String projectDescription) {
 
         m_projectDescription = projectDescription;
     }
@@ -2897,7 +2898,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      *
      * @param projectName the name to set
      */
-    public void setProjectName(String projectName) {
+    public void setProjectName(@RUntainted String projectName) {
 
         m_projectName = projectName;
     }
@@ -2920,7 +2921,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      * @see #N_NAME
      * @see #addResourcePropertyRules(Digester, String)
      */
-    public void setPropertyName(String propertyName) {
+    public void setPropertyName(@RUntainted String propertyName) {
 
         m_propertyName = propertyName;
     }
@@ -2933,7 +2934,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      * @see #N_VALUE
      * @see #addResourcePropertyRules(Digester, String)
      */
-    public void setPropertyValue(String propertyValue) {
+    public void setPropertyValue(@RUntainted String propertyValue) {
 
         m_propertyValue = propertyValue;
     }
@@ -2946,7 +2947,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      * @see #N_ID
      * @see #addResourceRelationRules(Digester, String)
      */
-    public void setRelationId(String relationId) {
+    public void setRelationId(@RUntainted String relationId) {
 
         try {
             m_relationId = new CmsUUID(relationId);
@@ -2963,7 +2964,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      * @see #N_PATH
      * @see #addResourceRelationRules(Digester, String)
      */
-    public void setRelationPath(String relationPath) {
+    public void setRelationPath(@RUntainted String relationPath) {
 
         m_relationPath = relationPath;
     }
@@ -2976,7 +2977,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      * @see #N_TYPE
      * @see #addResourceRelationRules(Digester, String)
      */
-    public void setRelationType(String relationType) {
+    public void setRelationType(@RUntainted String relationType) {
 
         try {
             m_relationType = CmsRelationType.valueOf(relationType);
@@ -2993,7 +2994,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      * @see #N_UUIDRESOURCE
      * @see #addResourceAttributesRules(Digester, String)
      */
-    public void setResourceId(String resourceId) {
+    public void setResourceId(@RUntainted String resourceId) {
 
         try {
             if (!m_resourceBuilder.isFolder()) {
@@ -3014,7 +3015,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      * @see #N_SOURCE
      * @see #addResourceAttributesRules(Digester, String)
      */
-    public void setSource(String source) {
+    public void setSource(@RUntainted String source) {
 
         m_source = source;
     }
@@ -3027,7 +3028,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      * @see #N_UUIDSTRUCTURE
      * @see #addResourceAttributesRules(Digester, String)
      */
-    public void setStructureId(String structureId) {
+    public void setStructureId(@RUntainted String structureId) {
 
         try {
             m_resourceBuilder.setStructureId(new CmsUUID(structureId));
@@ -3057,7 +3058,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      * @see #N_TYPE
      * @see #addResourceAttributesRules(Digester, String)
      */
-    public void setType(String typeName) {
+    public void setType(@RUntainted String typeName) {
 
         m_typeName = typeName;
         try {
@@ -3090,7 +3091,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      *
      * @param userCreated the user Created to set
      */
-    public void setUserCreated(CmsUUID userCreated) {
+    public void setUserCreated(@RUntainted CmsUUID userCreated) {
 
         m_resourceBuilder.setUserCreated(userCreated);
     }
@@ -3103,7 +3104,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      * @see #N_USERCREATED
      * @see #addResourceAttributesRules(Digester, String)
      */
-    public void setUserCreated(String userCreated) {
+    public void setUserCreated(@RUntainted String userCreated) {
 
         try {
             String userCreatedName = OpenCms.getImportExportManager().translateUser(userCreated);
@@ -3122,7 +3123,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      *
      * @param userDateCreated the date to set
      */
-    public void setUserDateCreated(String userDateCreated) {
+    public void setUserDateCreated(@RUntainted String userDateCreated) {
 
         try {
             m_userDateCreated = convertTimestamp(userDateCreated);
@@ -3136,7 +3137,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      *
      * @param userEmail the email address to set
      */
-    public void setUserEmail(String userEmail) {
+    public void setUserEmail(@RUntainted String userEmail) {
 
         m_userEmail = userEmail;
     }
@@ -3146,7 +3147,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      *
      * @param userFirstname the first name to set
      */
-    public void setUserFirstname(String userFirstname) {
+    public void setUserFirstname(@RUntainted String userFirstname) {
 
         m_userFirstname = userFirstname;
     }
@@ -3156,7 +3157,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      *
      * @param userFlags the flags to set
      */
-    public void setUserFlags(String userFlags) {
+    public void setUserFlags(@RUntainted String userFlags) {
 
         try {
             m_userFlags = Integer.parseInt(userFlags);
@@ -3170,7 +3171,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      *
      * @param userLastModified the user Last Modified to set
      */
-    public void setUserLastModified(CmsUUID userLastModified) {
+    public void setUserLastModified(@RUntainted CmsUUID userLastModified) {
 
         m_resourceBuilder.setUserLastModified(userLastModified);
     }
@@ -3183,7 +3184,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      * @see #N_USERLASTMODIFIED
      * @see #addResourceAttributesRules(Digester, String)
      */
-    public void setUserLastModified(String userLastModified) {
+    public void setUserLastModified(@RUntainted String userLastModified) {
 
         if (null == userLastModified) { // The optional user last modified information is not provided
             m_resourceBuilder.setUserLastModified(getRequestContext().getCurrentUser().getId());
@@ -3207,7 +3208,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      *
      * @param userLastname the last name to set
      */
-    public void setUserLastname(String userLastname) {
+    public void setUserLastname(@RUntainted String userLastname) {
 
         m_userLastname = userLastname;
     }
@@ -3217,7 +3218,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      *
      * @param userName the name to set
      */
-    public void setUserName(String userName) {
+    public void setUserName(@RUntainted String userName) {
 
         m_userName = OpenCms.getImportExportManager().translateUser(userName);
     }
@@ -3399,7 +3400,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      *
      * @return <code>true</code> or <code>false</code>
      */
-    protected boolean checkImmutable(String resourceName) {
+    protected boolean checkImmutable(@RUntainted String resourceName) {
 
         boolean resourceImmutable = false;
         if (getImmutableResources().contains(resourceName)) {
@@ -3460,7 +3461,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      *
      * @return long value of the time stamp
      */
-    protected long convertTimestamp(String timestamp) {
+    protected @RUntainted long convertTimestamp(@RUntainted String timestamp) {
 
         long value = 0;
         // try to parse the time stamp string
@@ -3485,7 +3486,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      * @param size the size
      * @return the new CmsResource object
      */
-    protected CmsResource createResourceObjectFromFields(String translatedName, int size) {
+    protected CmsResource createResourceObjectFromFields(@RUntainted String translatedName, @RUntainted int size) {
 
         m_resourceBuilder.setRootPath(translatedName);
         m_resourceBuilder.setState(CmsResource.STATE_NEW);

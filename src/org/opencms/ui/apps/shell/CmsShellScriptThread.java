@@ -34,6 +34,7 @@ import org.opencms.report.A_CmsReportThread;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Thread for run shell script
@@ -44,7 +45,7 @@ public class CmsShellScriptThread extends A_CmsReportThread {
     private static final Object LOCK = new Object();
 
     /**Script to run.*/
-    private String m_script;
+    private @RUntainted String m_script;
 
     /**
      * public constructor.<p>
@@ -52,7 +53,7 @@ public class CmsShellScriptThread extends A_CmsReportThread {
      * @param cms CmsObject
      * @param script Script to run
      */
-    public CmsShellScriptThread(CmsObject cms, String script) {
+    public CmsShellScriptThread(@RUntainted CmsObject cms, @RUntainted String script) {
 
         super(cms, "shellscript");
         initHtmlReport(cms.getRequestContext().getLocale());
@@ -80,7 +81,7 @@ public class CmsShellScriptThread extends A_CmsReportThread {
             PrintStream out = new PrintStream(buffer);
             final CmsShell shell = new CmsShell(getCms(), "${user}@${project}:${siteroot}|${uri}>", null, out, out);
 
-            String[] subscripts = script.split("\n");
+            @RUntainted String[] subscripts = script.split("\n");
             int stringPos = 0;
             for (String subscript : subscripts) {
                 shell.execute(subscript);

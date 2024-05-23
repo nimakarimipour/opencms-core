@@ -40,6 +40,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This is a utility class which provides convenience methods for finding detail page names for resources which include
@@ -69,10 +70,10 @@ public final class CmsDetailPageUtil {
      *
      * @throws CmsException if something goes wrong
      */
-    public static List<String> getAllDetailPagesWithUrlName(CmsObject cms, CmsResource res) throws CmsException {
+    public static List<@RUntainted String> getAllDetailPagesWithUrlName(CmsObject cms, CmsResource res) throws CmsException {
 
-        List<String> result = new ArrayList<String>();
-        Collection<String> detailPages = OpenCms.getADEManager().getDetailPageHandler().getAllDetailPages(
+        List<@RUntainted String> result = new ArrayList<@RUntainted String>();
+        Collection<@RUntainted String> detailPages = OpenCms.getADEManager().getDetailPageHandler().getAllDetailPages(
             cms,
             res.getTypeId());
         if (detailPages.isEmpty()) {
@@ -102,7 +103,7 @@ public final class CmsDetailPageUtil {
 
         // this is currently only used for static export
         Locale locale = cms.getRequestContext().getLocale();
-        List<Locale> defaultLocales = OpenCms.getLocaleManager().getDefaultLocales();
+        List<@RUntainted Locale> defaultLocales = OpenCms.getLocaleManager().getDefaultLocales();
         String urlName = cms.readBestUrlName(id, locale, defaultLocales);
         if (urlName != null) {
             return urlName;
@@ -120,7 +121,7 @@ public final class CmsDetailPageUtil {
      *
      * @throws CmsException if something goes wrong
      */
-    public static CmsResource lookupPage(CmsObject cms, String uri) throws CmsException {
+    public static CmsResource lookupPage(CmsObject cms, @RUntainted String uri) throws CmsException {
 
         try {
             CmsResource res = cms.readResource(uri);

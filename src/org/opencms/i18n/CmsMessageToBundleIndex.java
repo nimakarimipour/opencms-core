@@ -49,6 +49,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A lookup table used to find out which VFS based message bundles (XML/property bundles) contain a given key.
@@ -67,7 +68,7 @@ public class CmsMessageToBundleIndex {
      * @param bundleNames the set of bundle names from which to read the information
      * @param locale the locale to use
      */
-    public CmsMessageToBundleIndex(Collection<String> bundleNames, Locale locale) {
+    public CmsMessageToBundleIndex(Collection<@RUntainted String> bundleNames, @RUntainted Locale locale) {
 
         for (String bundleName : bundleNames) {
             try {
@@ -109,7 +110,7 @@ public class CmsMessageToBundleIndex {
                 LOG.error(e.getLocalizedMessage(), e);
             }
         }
-        Set<String> bundleNames = resources.stream().map(
+        Set<@RUntainted String> bundleNames = resources.stream().map(
             res -> CmsVfsBundleManager.getNameAndLocale(res).getName()).collect(Collectors.toSet());
         CmsMessageToBundleIndex result = new CmsMessageToBundleIndex(bundleNames, cms.getRequestContext().getLocale());
         return result;

@@ -38,6 +38,7 @@ import org.opencms.ui.dialogs.permissions.CmsPermissionDialog;
 import org.opencms.workplace.explorer.Messages;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The permission dialog action.<p>
@@ -80,7 +81,7 @@ public class CmsPermissionDialogAction extends A_CmsWorkplaceAction {
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
      */
     @Override
-    protected String getTitleKey() {
+    protected @RUntainted String getTitleKey() {
 
         return Messages.GUI_EXPLORER_CONTEXT_ACCESS_0;
     }

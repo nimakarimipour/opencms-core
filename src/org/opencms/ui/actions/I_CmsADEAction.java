@@ -28,6 +28,7 @@
 package org.opencms.ui.actions;
 
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface for actions used within the ADE context.<p>
@@ -46,14 +47,14 @@ public interface I_CmsADEAction {
      *
      * @return the dialog JSP
      */
-    String getJspPath();
+    @RUntainted String getJspPath();
 
     /**
      * Returns the optional command parameters.<p>
      *
      * @return the command parameters
      */
-    Map<String, String> getParams();
+    Map<String, @RUntainted String> getParams();
 
     /**
      * Returns whether the ADE context is supported.<p>

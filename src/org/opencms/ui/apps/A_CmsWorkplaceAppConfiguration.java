@@ -32,6 +32,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.security.CmsRole;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract superclass for workplace apps.<p>
@@ -57,7 +58,7 @@ public abstract class A_CmsWorkplaceAppConfiguration implements I_CmsWorkplaceAp
     /**
      * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getHelpText(java.util.Locale)
      */
-    public String getHelpText(Locale locale) {
+    public String getHelpText(@RUntainted Locale locale) {
 
         return "";
     }
@@ -65,7 +66,7 @@ public abstract class A_CmsWorkplaceAppConfiguration implements I_CmsWorkplaceAp
     /**
      * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getName(java.util.Locale)
      */
-    public String getName(Locale locale) {
+    public String getName(@RUntainted Locale locale) {
 
         return getId();
     }

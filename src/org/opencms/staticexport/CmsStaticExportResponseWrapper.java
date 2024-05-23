@@ -31,6 +31,7 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Response wrapper for static export requests, required to access the status code of the response.<p>
@@ -45,7 +46,7 @@ import javax.servlet.http.HttpServletResponseWrapper;
 public class CmsStaticExportResponseWrapper extends HttpServletResponseWrapper {
 
     /** The status code. */
-    protected int m_status;
+    protected @RUntainted int m_status;
 
     /**
      * Creates a new export response wrapper.<p>
@@ -65,7 +66,7 @@ public class CmsStaticExportResponseWrapper extends HttpServletResponseWrapper {
      * @return the status code of this export response
      */
     @Override
-    public int getStatus() {
+    public @RUntainted int getStatus() {
 
         return m_status;
     }
@@ -74,7 +75,7 @@ public class CmsStaticExportResponseWrapper extends HttpServletResponseWrapper {
      * @see javax.servlet.http.HttpServletResponse#sendError(int)
      */
     @Override
-    public void sendError(int status) throws IOException {
+    public void sendError(@RUntainted int status) throws IOException {
 
         m_status = status;
         super.sendError(status);
@@ -84,7 +85,7 @@ public class CmsStaticExportResponseWrapper extends HttpServletResponseWrapper {
      * @see javax.servlet.http.HttpServletResponse#sendError(int, java.lang.String)
      */
     @Override
-    public void sendError(int status, String message) throws IOException {
+    public void sendError(@RUntainted int status, String message) throws IOException {
 
         m_status = status;
         super.sendError(status, message);
@@ -94,7 +95,7 @@ public class CmsStaticExportResponseWrapper extends HttpServletResponseWrapper {
      * @see javax.servlet.http.HttpServletResponseWrapper#setStatus(int)
      */
     @Override
-    public void setStatus(int status) {
+    public void setStatus(@RUntainted int status) {
 
         m_status = status;
         super.setStatus(status);
@@ -104,7 +105,7 @@ public class CmsStaticExportResponseWrapper extends HttpServletResponseWrapper {
      * @see javax.servlet.http.HttpServletResponseWrapper#setStatus(int, java.lang.String)
      */
     @Override
-    public void setStatus(int status, String message) {
+    public void setStatus(@RUntainted int status, String message) {
 
         m_status = status;
         super.setStatus(status, message);

@@ -33,6 +33,7 @@ import org.opencms.main.CmsLog;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The stored information about a user data request.
@@ -113,7 +114,7 @@ public class CmsUserDataRequestInfo {
      *
      * @return the authorization code
      */
-    public String getAuthCode() {
+    public @RUntainted String getAuthCode() {
 
         return m_json.optString(A_AUTH);
     }
@@ -143,7 +144,7 @@ public class CmsUserDataRequestInfo {
      *
      * @return the id
      */
-    public String getId() {
+    public @RUntainted String getId() {
 
         return m_json.optString(A_ID);
     }
@@ -179,7 +180,7 @@ public class CmsUserDataRequestInfo {
      *
      * @return the full user name
      */
-    public String getUserName() {
+    public @RUntainted String getUserName() {
 
         return m_json.optString(A_USER);
     }
@@ -199,7 +200,7 @@ public class CmsUserDataRequestInfo {
      *
      * @param auth the authorization code.
      */
-    public void setAuth(String auth) {
+    public void setAuth(@RUntainted String auth) {
 
         setString(A_AUTH, auth);
     }
@@ -209,7 +210,7 @@ public class CmsUserDataRequestInfo {
      *
      * @param email the email address
      */
-    public void setEmail(String email) {
+    public void setEmail(@RUntainted String email) {
 
         setString(A_EMAIL, email);
     }
@@ -219,7 +220,7 @@ public class CmsUserDataRequestInfo {
      *
      * @param expiration the expiration date
      */
-    public void setExpiration(long expiration) {
+    public void setExpiration(@RUntainted long expiration) {
 
         try {
             m_json.put(A_EXPIRATION, expiration);
@@ -233,7 +234,7 @@ public class CmsUserDataRequestInfo {
      *
      * @param id the id
      */
-    public void setId(String id) {
+    public void setId(@RUntainted String id) {
 
         setString(A_ID, id);
     }
@@ -243,7 +244,7 @@ public class CmsUserDataRequestInfo {
      *
      * @param infoHtml the user data HTML
      */
-    public void setInfoHtml(String infoHtml) {
+    public void setInfoHtml(@RUntainted String infoHtml) {
 
         setString(A_HTML, infoHtml);
     }
@@ -253,7 +254,7 @@ public class CmsUserDataRequestInfo {
      *
      * @param type the user data request type
      */
-    public void setType(CmsUserDataRequestType type) {
+    public void setType(@RUntainted CmsUserDataRequestType type) {
 
         setString(A_TYPE, type.toString());
     }
@@ -263,7 +264,7 @@ public class CmsUserDataRequestInfo {
      *
      * @param user the full user name
      */
-    public void setUser(String user) {
+    public void setUser(@RUntainted String user) {
 
         setString(A_USER, user);
     }
@@ -273,7 +274,7 @@ public class CmsUserDataRequestInfo {
      *
      * @return the JSON text
      */
-    public String toJson() {
+    public @RUntainted String toJson() {
 
         return m_json.toString();
     }
@@ -293,7 +294,7 @@ public class CmsUserDataRequestInfo {
      * @param key the attribute name
      * @param value the value
      */
-    private void setString(String key, String value) {
+    private void setString(@RUntainted String key, @RUntainted String value) {
 
         try {
             m_json.put(key, value);

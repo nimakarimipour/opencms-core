@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.common.base.Objects;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generic pair class.<p>
@@ -85,7 +86,7 @@ public class CmsPair<A, B> implements Serializable {
      *
      * @return the pair (a, b)
      */
-    public static <A, B> CmsPair<A, B> create(A a, B b) {
+    public static <A, B> CmsPair<A, @RUntainted B> create(A a, B b) {
 
         return new CmsPair<A, B>(a, b);
     }

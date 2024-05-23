@@ -28,6 +28,7 @@
 package org.opencms.gwt.shared.property;
 
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A bean which represents a value together with a path which indicates from where the value has been read.<p>
@@ -40,14 +41,14 @@ public class CmsPathValue {
     private final String m_path;
 
     /** The value. */
-    private final String m_value;
+    private final @RUntainted String m_value;
 
     /**
      * Creates a new instance.<p>
      * @param value the value
      * @param path the path
      */
-    public CmsPathValue(String value, String path) {
+    public CmsPathValue(@RUntainted String value, String path) {
 
         m_path = path;
         m_value = value;
@@ -68,7 +69,7 @@ public class CmsPathValue {
      *
      * @return the value
      */
-    public String getValue() {
+    public @RUntainted String getValue() {
 
         return m_value;
     }

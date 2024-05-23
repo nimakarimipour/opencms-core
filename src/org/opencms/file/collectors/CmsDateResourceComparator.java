@@ -40,6 +40,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Comparator for sorting resource objects based on dates.<p>
@@ -80,7 +81,7 @@ public class CmsDateResourceComparator implements Comparator<CmsResource> {
         "dateExpired"};
 
     /**  Possible keywords to read dates from the resource attributes in a List. */
-    public static final List<String> DATE_ATTRIBUTES_LIST = Arrays.asList(DATE_ATTRIBUTES);
+    public static final List<@RUntainted String> DATE_ATTRIBUTES_LIST = Arrays.asList(DATE_ATTRIBUTES);
 
     /** The date sort order. */
     private boolean m_asc;
@@ -92,7 +93,7 @@ public class CmsDateResourceComparator implements Comparator<CmsResource> {
     private long m_date;
 
     /** The list that describes the dates to check, in the order they should be checked. */
-    private List<String> m_dateIdentifiers;
+    private List<@RUntainted String> m_dateIdentifiers;
 
     /** The internal map of comparator keys. */
     private Map<CmsUUID, CmsDateResourceComparator> m_keys;
@@ -104,7 +105,7 @@ public class CmsDateResourceComparator implements Comparator<CmsResource> {
      * @param dateIdentifiers the names of the dates to check
      * @param asc if true, the date sort order is ascending, otherwise descending
      */
-    public CmsDateResourceComparator(CmsObject cms, List<String> dateIdentifiers, boolean asc) {
+    public CmsDateResourceComparator(CmsObject cms, List<@RUntainted String> dateIdentifiers, boolean asc) {
 
         m_cms = cms;
         m_asc = asc;
@@ -138,7 +139,7 @@ public class CmsDateResourceComparator implements Comparator<CmsResource> {
     public static long calculateDate(
         CmsObject cms,
         CmsResource resource,
-        List<String> dateIdentifiers,
+        List<@RUntainted String> dateIdentifiers,
         long defaultValue) {
 
         long result = 0;
@@ -217,7 +218,7 @@ public class CmsDateResourceComparator implements Comparator<CmsResource> {
      *
      * @return a new instance of this comparator key
      */
-    private static CmsDateResourceComparator create(CmsObject cms, CmsResource resource, List<String> dateIdentifiers) {
+    private static CmsDateResourceComparator create(CmsObject cms, CmsResource resource, List<@RUntainted String> dateIdentifiers) {
 
         CmsDateResourceComparator result = new CmsDateResourceComparator();
         result.m_date = calculateDate(cms, resource, dateIdentifiers, resource.getDateCreated());

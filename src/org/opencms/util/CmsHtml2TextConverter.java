@@ -9,6 +9,7 @@ import java.util.Map;
 import org.htmlparser.Tag;
 import org.htmlparser.Text;
 import org.htmlparser.util.Translate;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Extracts the HTML page content.<p>
@@ -19,7 +20,7 @@ public class CmsHtml2TextConverter extends CmsHtmlParser {
     private boolean m_appendBr;
 
     /** Map of stored attributes that must be written to the output when the tag closes. */
-    private Map<Tag, String> m_attributeMap;
+    private Map<Tag, @RUntainted String> m_attributeMap;
 
     /** The last appended line break count. */
     private int m_brCount;
@@ -84,7 +85,7 @@ public class CmsHtml2TextConverter extends CmsHtmlParser {
      * @see org.htmlparser.visitors.NodeVisitor#visitStringNode(org.htmlparser.Text)
      */
     @Override
-    public void visitStringNode(Text text) {
+    public void visitStringNode(@RUntainted Text text) {
 
         appendText(text.toPlainTextString());
     }
@@ -93,7 +94,7 @@ public class CmsHtml2TextConverter extends CmsHtmlParser {
      * @see org.htmlparser.visitors.NodeVisitor#visitTag(org.htmlparser.Tag)
      */
     @Override
-    public void visitTag(Tag tag) {
+    public void visitTag(@RUntainted Tag tag) {
 
         m_appendBr = true;
         appendLinebreaks(tag, true);
@@ -126,7 +127,7 @@ public class CmsHtml2TextConverter extends CmsHtmlParser {
      * @param tag the tag
      * @param text the attribute text
      */
-    private void appendAttribute(Tag tag, String text) {
+    private void appendAttribute(Tag tag, @RUntainted String text) {
 
         if (tag.getTagName().equals("IMG")) {
             appendText(text);
@@ -290,7 +291,7 @@ public class CmsHtml2TextConverter extends CmsHtmlParser {
      *
      * @param text the text
      */
-    private void appendText(String text) {
+    private void appendText(@RUntainted String text) {
 
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(text)) {
             text = Translate.decode(text);
@@ -305,7 +306,7 @@ public class CmsHtml2TextConverter extends CmsHtmlParser {
             appendIndentation();
             m_brCount = 0;
 
-            List<String> wordList = CmsStringUtil.splitAsList(text, ' ');
+            List<@RUntainted String> wordList = CmsStringUtil.splitAsList(text, ' ');
             Iterator<String> i = wordList.iterator();
             while (i.hasNext()) {
                 String word = i.next();

@@ -31,6 +31,7 @@ import org.opencms.file.CmsResource;
 import org.opencms.util.CmsUUID;
 
 import java.io.Serializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents the state of a published resource *before* it got published.<p>
@@ -61,7 +62,7 @@ public class CmsPublishedResource implements Serializable, Comparable<CmsPublish
          * @param state an integer representing the state
          * @param abbrev an abbreviation character
          */
-        protected CmsPublishedResourceState(int state, char abbrev) {
+        protected CmsPublishedResourceState(@RUntainted int state, char abbrev) {
 
             super(state, abbrev);
         }
@@ -108,10 +109,10 @@ public class CmsPublishedResource implements Serializable, Comparable<CmsPublish
     private CmsResourceState m_resourceState;
 
     /** The type of the published resource.<p> */
-    private int m_resourceType;
+    private @RUntainted int m_resourceType;
 
     /** The root path of the published resource.<p> */
-    private String m_rootPath;
+    private @RUntainted String m_rootPath;
 
     /** The count of siblings of the published resource. */
     private int m_siblingCount;
@@ -178,7 +179,7 @@ public class CmsPublishedResource implements Serializable, Comparable<CmsPublish
         CmsUUID structureId,
         CmsUUID resourceId,
         int publishTag,
-        String rootPath,
+        @RUntainted String rootPath,
         int resourceType,
         boolean isFolder,
         CmsResourceState resourceState,
@@ -276,7 +277,7 @@ public class CmsPublishedResource implements Serializable, Comparable<CmsPublish
      *
      * @return the root path of the published resource
      */
-    public String getRootPath() {
+    public @RUntainted String getRootPath() {
 
         return m_rootPath;
     }
@@ -319,7 +320,7 @@ public class CmsPublishedResource implements Serializable, Comparable<CmsPublish
      *
      * @return the resource type of the published resource
      */
-    public int getType() {
+    public @RUntainted int getType() {
 
         return m_resourceType;
     }

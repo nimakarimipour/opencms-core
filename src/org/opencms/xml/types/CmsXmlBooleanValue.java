@@ -38,6 +38,8 @@ import java.util.Locale;
 import java.util.regex.Pattern;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Describes the XML content type "OpenCmsBoolean".<p>
@@ -56,7 +58,7 @@ public class CmsXmlBooleanValue extends A_CmsXmlValueTextBase implements I_CmsJs
     private static final Pattern TYPE_PATTERN = Pattern.compile(TYPE_RULE);
 
     /** The boolean value of the element node. */
-    private boolean m_boolean;
+    private @RUntainted boolean m_boolean;
 
     /**
      * Creates a new, empty schema type descriptor of type "OpenCmsBoolean".<p>
@@ -74,7 +76,7 @@ public class CmsXmlBooleanValue extends A_CmsXmlValueTextBase implements I_CmsJs
      * @param locale the locale this value is created for
      * @param type the type instance to create the value for
      */
-    public CmsXmlBooleanValue(I_CmsXmlDocument document, Element element, Locale locale, I_CmsXmlSchemaType type) {
+    public CmsXmlBooleanValue(I_CmsXmlDocument document, @RUntainted Element element, @RUntainted Locale locale, I_CmsXmlSchemaType type) {
 
         super(document, element, locale, type);
         m_boolean = getBooleanValue(m_stringValue);
@@ -87,7 +89,7 @@ public class CmsXmlBooleanValue extends A_CmsXmlValueTextBase implements I_CmsJs
      * @param minOccurs minimum number of occurrences of this type according to the XML schema
      * @param maxOccurs maximum number of occurrences of this type according to the XML schema
      */
-    public CmsXmlBooleanValue(String name, String minOccurs, String maxOccurs) {
+    public CmsXmlBooleanValue(@RUntainted String name, String minOccurs, String maxOccurs) {
 
         super(name, minOccurs, maxOccurs);
     }
@@ -121,7 +123,7 @@ public class CmsXmlBooleanValue extends A_CmsXmlValueTextBase implements I_CmsJs
      *
      * @return the boolean value of the String according to the XML schema rules
      */
-    private static boolean getBooleanValue(String value) {
+    private static @RPolyTainted boolean getBooleanValue(@RPolyTainted String value) {
 
         if ("1".equals(value)) {
             // XML schema allows for "1" as value for "true"
@@ -133,7 +135,7 @@ public class CmsXmlBooleanValue extends A_CmsXmlValueTextBase implements I_CmsJs
     /**
      * @see org.opencms.xml.types.A_CmsXmlContentValue#createValue(I_CmsXmlDocument, org.dom4j.Element, Locale)
      */
-    public I_CmsXmlContentValue createValue(I_CmsXmlDocument document, Element element, Locale locale) {
+    public @RUntainted I_CmsXmlContentValue createValue(I_CmsXmlDocument document, @RUntainted Element element, @RUntainted Locale locale) {
 
         return new CmsXmlBooleanValue(document, element, locale, this);
     }
@@ -143,7 +145,7 @@ public class CmsXmlBooleanValue extends A_CmsXmlValueTextBase implements I_CmsJs
      *
      * @return the boolean value as a boolean type
      */
-    public boolean getBooleanValue() {
+    public @RUntainted boolean getBooleanValue() {
 
         return m_boolean;
     }
@@ -152,7 +154,7 @@ public class CmsXmlBooleanValue extends A_CmsXmlValueTextBase implements I_CmsJs
      * @see org.opencms.xml.types.A_CmsXmlContentValue#getDefault(Locale)
      */
     @Override
-    public String getDefault(Locale locale) {
+    public @RUntainted String getDefault(Locale locale) {
 
         if (m_defaultValue != null) {
             return m_defaultValue;
@@ -171,7 +173,7 @@ public class CmsXmlBooleanValue extends A_CmsXmlValueTextBase implements I_CmsJs
     /**
      * @see org.opencms.xml.types.A_CmsXmlContentValue#getTypeName()
      */
-    public String getTypeName() {
+    public @RUntainted String getTypeName() {
 
         return TYPE_NAME;
     }
@@ -189,7 +191,7 @@ public class CmsXmlBooleanValue extends A_CmsXmlValueTextBase implements I_CmsJs
     /**
      * @see org.opencms.xml.types.A_CmsXmlContentValue#newInstance(java.lang.String, java.lang.String, java.lang.String)
      */
-    public I_CmsXmlSchemaType newInstance(String name, String minOccurs, String maxOccurs) {
+    public I_CmsXmlSchemaType newInstance(@RUntainted String name, String minOccurs, String maxOccurs) {
 
         return new CmsXmlBooleanValue(name, minOccurs, maxOccurs);
     }
@@ -198,7 +200,7 @@ public class CmsXmlBooleanValue extends A_CmsXmlValueTextBase implements I_CmsJs
      * @see org.opencms.xml.types.A_CmsXmlValueTextBase#setStringValue(org.opencms.file.CmsObject, java.lang.String)
      */
     @Override
-    public void setStringValue(CmsObject cms, String value) throws CmsIllegalArgumentException {
+    public void setStringValue(CmsObject cms, @RUntainted String value) throws CmsIllegalArgumentException {
 
         m_boolean = getBooleanValue(value);
         super.setStringValue(cms, String.valueOf(m_boolean));
@@ -207,7 +209,7 @@ public class CmsXmlBooleanValue extends A_CmsXmlValueTextBase implements I_CmsJs
     /**
      * @see org.opencms.xml.xml2json.I_CmsJsonFormattableValue#toJson(org.opencms.file.CmsObject)
      */
-    public Object toJson(CmsObject cms) {
+    public @RUntainted Object toJson(CmsObject cms) {
 
         Boolean result = Boolean.valueOf(getBooleanValue());
         return result;

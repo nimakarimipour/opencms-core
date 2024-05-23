@@ -49,6 +49,7 @@ import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.common.SolrException;
 import org.apache.solr.common.SolrInputDocument;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements the index writer for the Solr server used by OpenCms.<p>
@@ -198,7 +199,7 @@ public class CmsSolrIndexWriter implements I_CmsSolrIndexWriter {
     /**
      * @see org.opencms.search.I_CmsIndexWriter#updateDocument(java.lang.String, org.opencms.search.I_CmsSearchDocument)
      */
-    public void updateDocument(String rootPath, I_CmsSearchDocument document) throws IOException {
+    public void updateDocument(@RUntainted String rootPath, I_CmsSearchDocument document) throws IOException {
 
         if ((m_server != null) && (m_index != null)) {
 
@@ -232,14 +233,14 @@ public class CmsSolrIndexWriter implements I_CmsSolrIndexWriter {
      */
     private void addDocumentInstances(I_CmsSearchDocument document) throws SolrServerException, IOException {
 
-        List<String> serialDates = document.getMultivaluedFieldAsStringList(CmsSearchField.FIELD_SERIESDATES);
+        List<@RUntainted String> serialDates = document.getMultivaluedFieldAsStringList(CmsSearchField.FIELD_SERIESDATES);
         SolrInputDocument inputDoc = (SolrInputDocument)document.getDocument();
         String id = inputDoc.getFieldValue(CmsSearchField.FIELD_ID).toString();
         if (null != serialDates) {
             // NOTE: We can assume the following two arrays have the same length as serialDates.
-            List<String> serialDatesEnd = document.getMultivaluedFieldAsStringList(
+            List<@RUntainted String> serialDatesEnd = document.getMultivaluedFieldAsStringList(
                 CmsSearchField.FIELD_SERIESDATES_END);
-            List<String> serialDatesCurrentTill = document.getMultivaluedFieldAsStringList(
+            List<@RUntainted String> serialDatesCurrentTill = document.getMultivaluedFieldAsStringList(
                 CmsSearchField.FIELD_SERIESDATES_CURRENT_TILL);
             for (int i = 0; i < serialDates.size(); i++) {
                 String date = serialDates.get(i);

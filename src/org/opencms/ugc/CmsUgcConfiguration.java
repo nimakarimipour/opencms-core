@@ -38,6 +38,7 @@ import java.util.Locale;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.google.common.base.Optional;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The configuration for 'user generated content' forms.<p>
@@ -66,7 +67,7 @@ public class CmsUgcConfiguration {
     private String m_namePattern;
 
     /** The parent folder in which contents should be created. */
-    private CmsResource m_contentParentFolder;
+    private @RUntainted CmsResource m_contentParentFolder;
 
     /** The optional parent folder in which uploaded files should be created. */
     private Optional<CmsResource> m_uploadParentFolder;
@@ -81,16 +82,16 @@ public class CmsUgcConfiguration {
     private boolean m_isAutoPublish;
 
     /** The valid file name extensions. */
-    private Optional<List<String>> m_validExtensions;
+    private Optional<List<@RUntainted String>> m_validExtensions;
 
     /** The locale in which to save the content. */
-    private Locale m_locale;
+    private @RUntainted Locale m_locale;
 
     /** The resource type for new XML contents. */
-    private String m_resourceType;
+    private @RUntainted String m_resourceType;
 
     /** The path of the configuration. */
-    private String m_path;
+    private @RUntainted String m_path;
 
     /**
      * Creates a new form configuration.<p>
@@ -115,16 +116,16 @@ public class CmsUgcConfiguration {
         Optional<CmsUser> userForGuests,
         CmsGroup projectGroup,
         String resourceType,
-        CmsResource contentParentFolder,
+        @RUntainted CmsResource contentParentFolder,
         String namePattern,
-        Locale locale,
+        @RUntainted Locale locale,
         Optional<CmsResource> uploadParent,
         Optional<Long> maxUploadSize,
         Optional<Integer> maxContents,
         Optional<Long> queueTimeout,
         Optional<Integer> maxQueueLength,
         boolean autoPublish,
-        Optional<List<String>> validExtensions) {
+        Optional<List<@RUntainted String>> validExtensions) {
 
         m_id = id;
         m_userForGuests = userForGuests;
@@ -148,7 +149,7 @@ public class CmsUgcConfiguration {
      *
      * @return the folder for XML contents
      */
-    public CmsResource getContentParentFolder() {
+    public @RUntainted CmsResource getContentParentFolder() {
 
         return m_contentParentFolder;
     }
@@ -180,7 +181,7 @@ public class CmsUgcConfiguration {
      *
      * @return the locale
      */
-    public Locale getLocale() {
+    public @RUntainted Locale getLocale() {
 
         return m_locale;
     }
@@ -230,7 +231,7 @@ public class CmsUgcConfiguration {
      *
      * @return the path of the configuration
      */
-    public String getPath() {
+    public @RUntainted String getPath() {
 
         return m_path;
     }
@@ -260,7 +261,7 @@ public class CmsUgcConfiguration {
      *
      * @return the resource type for XML contents
      */
-    public String getResourceType() {
+    public @RUntainted String getResourceType() {
 
         return m_resourceType;
     }
@@ -290,7 +291,7 @@ public class CmsUgcConfiguration {
      *
      * @return the list of valid extensions for uploads
      */
-    public Optional<List<String>> getValidExtensions() {
+    public Optional<List<@RUntainted String>> getValidExtensions() {
 
         return m_validExtensions;
     }

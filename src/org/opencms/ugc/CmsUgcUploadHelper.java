@@ -42,6 +42,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A helper class which processes and stores uploaded form data belonging to a single form edit session.<p>
@@ -52,7 +53,7 @@ public class CmsUgcUploadHelper {
     private static final Log LOG = CmsLog.getLog(CmsUgcUploadHelper.class);
 
     /** The stored form data. */
-    private ConcurrentHashMap<String, List<FileItem>> m_storedFormData = new ConcurrentHashMap<String, List<FileItem>>();
+    private ConcurrentHashMap<String, List<@RUntainted FileItem>> m_storedFormData = new ConcurrentHashMap<String, List<@RUntainted FileItem>>();
 
     /**
      * Passes the form data with the given ID to the handler object, then removes it and deletes its stored data.<p>
@@ -65,7 +66,7 @@ public class CmsUgcUploadHelper {
      */
     public void consumeFormData(String formDataId, I_CmsFormDataHandler handler) throws Exception {
 
-        List<FileItem> items = m_storedFormData.get(formDataId);
+        List<@RUntainted FileItem> items = m_storedFormData.get(formDataId);
 
         if (items != null) {
             Map<String, I_CmsFormDataItem> itemMap = Maps.newHashMap();
@@ -102,7 +103,7 @@ public class CmsUgcUploadHelper {
     void processFormSubmitRequest(HttpServletRequest request) {
 
         String formDataId = getFormDataId(request);
-        List<FileItem> items = CmsRequestUtil.readMultipartFileItems(request);
+        List<@RUntainted FileItem> items = CmsRequestUtil.readMultipartFileItems(request);
         m_storedFormData.put(formDataId, items);
     }
 

@@ -41,6 +41,7 @@ import java.util.Map;
 import org.apache.lucene.document.DateTools;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexableField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains the data of a single item in a search result.<p>
@@ -50,28 +51,28 @@ import org.apache.lucene.index.IndexableField;
 public class CmsSearchResult implements I_CmsMemoryMonitorable, Comparable<CmsSearchResult> {
 
     /** The creation date of this search result. */
-    protected Date m_dateCreated;
+    protected @RUntainted Date m_dateCreated;
 
     /** The last modification date of this search result. */
-    protected Date m_dateLastModified;
+    protected @RUntainted Date m_dateLastModified;
 
     /** The document type of the search result. */
     protected String m_documentType;
 
     /** The excerpt of this search result. */
-    protected String m_excerpt;
+    protected @RUntainted String m_excerpt;
 
     /** Holds the values of the search result fields. */
-    protected Map<String, String> m_fields;
+    protected Map<@RUntainted String, @RUntainted String> m_fields;
 
     /** The resource path of this search result. */
-    protected String m_path;
+    protected @RUntainted String m_path;
 
     /** The score of this search result. */
     protected int m_score;
 
     /** Contains the pre-calculated memory size. */
-    private int m_memorySize;
+    private @RUntainted int m_memorySize;
 
     /**
      * Creates a new search result.<p>
@@ -80,13 +81,13 @@ public class CmsSearchResult implements I_CmsMemoryMonitorable, Comparable<CmsSe
      * @param doc the Lucene document to extract fields from such as description, title, key words etc. pp.
      * @param excerpt the excerpt of the search result's content
      */
-    public CmsSearchResult(int score, Document doc, String excerpt) {
+    public CmsSearchResult(int score, @RUntainted Document doc, @RUntainted String excerpt) {
 
         m_score = score;
         m_excerpt = excerpt;
         m_fields = new HashMap<String, String>();
 
-        Iterator<IndexableField> i = doc.getFields().iterator();
+        Iterator<@RUntainted IndexableField> i = doc.getFields().iterator();
         while (i.hasNext()) {
             IndexableField field = i.next();
             // content can be displayed only if it has been stored in the field
@@ -270,7 +271,7 @@ public class CmsSearchResult implements I_CmsMemoryMonitorable, Comparable<CmsSe
     /**
      * @see org.opencms.monitor.I_CmsMemoryMonitorable#getMemorySize()
      */
-    public int getMemorySize() {
+    public @RUntainted int getMemorySize() {
 
         if (m_memorySize == 0) {
             int result = 8;
@@ -284,9 +285,9 @@ public class CmsSearchResult implements I_CmsMemoryMonitorable, Comparable<CmsSe
                 result += CmsMemoryMonitor.getMemorySize(m_path);
             }
             if (m_fields != null) {
-                Iterator<Map.Entry<String, String>> entries = m_fields.entrySet().iterator();
+                Iterator<Map.Entry<@RUntainted String, @RUntainted String>> entries = m_fields.entrySet().iterator();
                 while (entries.hasNext()) {
-                    Map.Entry<String, String> entry = entries.next();
+                    Map.Entry<@RUntainted String, @RUntainted String> entry = entries.next();
                     result += CmsMemoryMonitor.getMemorySize(entry.getKey());
                     result += CmsMemoryMonitor.getMemorySize(entry.getValue());
                 }

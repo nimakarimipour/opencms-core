@@ -53,6 +53,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 
 import au.com.bytecode.opencsv.CSVWriter;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class contains the real implementations of service methods related to aliases.<p>
@@ -151,7 +152,7 @@ public class CmsAliasHelper {
      *
      * @return null if the string is a valid alias path, else an error message
      */
-    protected String checkValidAliasPath(String path, Locale locale) {
+    protected String checkValidAliasPath(String path, @RUntainted Locale locale) {
 
         if (org.opencms.db.CmsAlias.ALIAS_PATTERN.matcher(path).matches()) {
             return null;

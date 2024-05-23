@@ -35,6 +35,7 @@ import org.opencms.xml.types.A_CmsXmlContentValue;
 
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a serial date widget, for use on a widget dialog.<p>
@@ -116,7 +117,7 @@ public class CmsSerialDateWidget extends A_CmsWidget implements I_CmsADEWidget {
      * @see org.opencms.widgets.I_CmsADEWidget#getWidgetName()
      */
     @Override
-    public String getWidgetName() {
+    public @RUntainted String getWidgetName() {
 
         return CmsSerialDateWidget.class.getName();
     }

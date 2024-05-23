@@ -37,6 +37,7 @@ import org.opencms.ui.components.OpenCmsTheme;
 import java.util.Locale;
 
 import com.vaadin.server.Resource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Configuration for Database manager app.<p>
@@ -76,7 +77,7 @@ public class CmsDbStaticExportConfiguration extends A_CmsWorkplaceAppConfigurati
      * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getHelpText(java.util.Locale)
      */
     @Override
-    public String getHelpText(Locale locale) {
+    public String getHelpText(@RUntainted Locale locale) {
 
         return Messages.get().getBundle(locale).key(Messages.GUI_DATABASEAPP_STATEXP_ADMIN_TOOL_HELP_0);
     }
@@ -101,7 +102,7 @@ public class CmsDbStaticExportConfiguration extends A_CmsWorkplaceAppConfigurati
      * @see org.opencms.ui.apps.I_CmsWorkplaceAppConfiguration#getName(java.util.Locale)
      */
     @Override
-    public String getName(Locale locale) {
+    public String getName(@RUntainted Locale locale) {
 
         return Messages.get().getBundle(locale).key(Messages.GUI_DATABASEAPP_STATEXP_ADMIN_TOOL_NAME_0);
     }

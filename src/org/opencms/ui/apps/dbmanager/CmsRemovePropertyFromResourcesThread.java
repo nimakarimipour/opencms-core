@@ -38,6 +38,7 @@ import org.opencms.ui.apps.Messages;
 import org.opencms.ui.apps.sitemanager.CmsSitesWebserverThread;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Thread which removes property from ressources and deletes property definition.<p>
@@ -48,7 +49,7 @@ public class CmsRemovePropertyFromResourcesThread extends A_CmsReportThread {
     static Log LOG = CmsLog.getLog(CmsSitesWebserverThread.class.getName());
 
     /** The file path. */
-    private String m_propName;
+    private @RUntainted String m_propName;
 
     /**
      * Public constructor.<p>
@@ -56,7 +57,7 @@ public class CmsRemovePropertyFromResourcesThread extends A_CmsReportThread {
      * @param cms CmsObejct
      * @param propName propertydefinition name
      */
-    public CmsRemovePropertyFromResourcesThread(CmsObject cms, String propName) {
+    public CmsRemovePropertyFromResourcesThread(@RUntainted CmsObject cms, @RUntainted String propName) {
 
         super(cms, "write-to-webserver");
         m_propName = propName;

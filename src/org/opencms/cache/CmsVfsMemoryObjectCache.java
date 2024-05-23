@@ -35,6 +35,7 @@ import org.opencms.monitor.CmsMemoryMonitor;
 
 import org.apache.commons.collections.Transformer;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements a memory cache, that stores objects related to VFS files,
@@ -45,13 +46,13 @@ import org.apache.commons.logging.Log;
 public class CmsVfsMemoryObjectCache extends CmsVfsCache {
 
     /** Counts the number of instances created. */
-    private static int instanceCounter;
+    private static @RUntainted int instanceCounter;
 
     /** The log object for this class. */
     private static final Log LOG = CmsLog.getLog(CmsVfsMemoryObjectCache.class);
 
     /** The id for this instance, which is used for distinguishing cache keys of different instances. */
-    private int m_id;
+    private @RUntainted int m_id;
 
     /**
      * Constructor, creates a new CmsVfsMemoryObjectCache.<p>
@@ -87,7 +88,7 @@ public class CmsVfsMemoryObjectCache extends CmsVfsCache {
      * @param rootPath the rootPath of the VFS resource to get the object for
      * @return object form cache or null
      */
-    public Object getCachedObject(CmsObject cms, String rootPath) {
+    public @RUntainted Object getCachedObject(CmsObject cms, @RUntainted String rootPath) {
 
         String key = getCacheKeyForCurrentProject(cms, rootPath);
         return OpenCms.getMemoryMonitor().getCachedVfsObject(key);
@@ -102,7 +103,7 @@ public class CmsVfsMemoryObjectCache extends CmsVfsCache {
      *
      * @return the loaded object
      */
-    public Object loadVfsObject(CmsObject cms, String rootPath, Transformer function) {
+    public @RUntainted Object loadVfsObject(CmsObject cms, @RUntainted String rootPath, @RUntainted Transformer function) {
 
         Object result = getCachedObject(cms, rootPath);
         if (result == null) {
@@ -119,7 +120,7 @@ public class CmsVfsMemoryObjectCache extends CmsVfsCache {
      * @param rootPath the rootPath of the VFS resource to store the object for
      * @param value the object to store
      */
-    public void putCachedObject(CmsObject cms, String rootPath, Object value) {
+    public void putCachedObject(CmsObject cms, @RUntainted String rootPath, @RUntainted Object value) {
 
         String key = getCacheKeyForCurrentProject(cms, rootPath);
         OpenCms.getMemoryMonitor().cacheVfsObject(key, value);
@@ -152,7 +153,7 @@ public class CmsVfsMemoryObjectCache extends CmsVfsCache {
      *
      * @return the cache key for the system id
      */
-    private String getCacheKey(String systemId, boolean online) {
+    private @RUntainted String getCacheKey(@RUntainted String systemId, boolean online) {
 
         if (online) {
             return "online_(" + m_id + ")_" + systemId;
@@ -169,7 +170,7 @@ public class CmsVfsMemoryObjectCache extends CmsVfsCache {
      *
      * @return the cache key for the system id
      */
-    private String getCacheKeyForCurrentProject(CmsObject cms, String rootPath) {
+    private String getCacheKeyForCurrentProject(CmsObject cms, @RUntainted String rootPath) {
 
         // check the project
         boolean project = (cms != null) ? cms.getRequestContext().getCurrentProject().isOnlineProject() : false;
@@ -183,7 +184,7 @@ public class CmsVfsMemoryObjectCache extends CmsVfsCache {
      *
      * @param systemId the system id (filename) to uncache
      */
-    private void uncacheSystemId(String systemId) {
+    private void uncacheSystemId(@RUntainted String systemId) {
 
         String key = getCacheKey(systemId, false);
         Object o = OpenCms.getMemoryMonitor().getCachedVfsObject(key);

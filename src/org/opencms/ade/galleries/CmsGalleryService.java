@@ -145,6 +145,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Handles all RPC services related to the gallery dialog.<p>
@@ -353,7 +355,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
     private CmsWorkplaceSettings m_workplaceSettings;
 
     /** The workplace locale from the current user's settings. */
-    private Locale m_wpLocale;
+    private @RUntainted Locale m_wpLocale;
 
     /**
      * Generates the pre-loaded contents for the VFS tab of the gallery dialog.<p>
@@ -489,7 +491,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
      *
      * @return the attribute name for the tree
      */
-    public static String getTreeOpenStateAttributeName(String treeName, String treeToken) {
+    public static @RPolyTainted String getTreeOpenStateAttributeName(@RPolyTainted String treeName, @RPolyTainted String treeToken) {
 
         return "tree_" + treeName + "_" + treeToken;
     }
@@ -548,7 +550,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
         if (resource.isFolder()) {
             cms = OpenCms.initCmsObject(cms);
             cms.getRequestContext().setSiteRoot("");
-            List<CmsResource> realChildren = cms.getResourcesInFolder(
+            List<@RUntainted CmsResource> realChildren = cms.getResourcesInFolder(
                 rootPath,
                 CmsResourceFilter.ONLY_VISIBLE_NO_DELETED);
             List<CmsResource> effectiveChildren = new ArrayList<CmsResource>();
@@ -624,7 +626,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
         List<I_CmsResourceType> resourceTypes,
         Set<String> creatableTypes,
         Set<String> deactivatedTypes,
-        final List<String> typesForTypeTab) {
+        final List<@RUntainted String> typesForTypeTab) {
 
         List<CmsResourceTypeBean> result = buildTypesList(resourceTypes, creatableTypes);
 
@@ -667,7 +669,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
     /**
      * @see org.opencms.ade.galleries.shared.rpc.I_CmsGalleryService#deleteResource(java.lang.String)
      */
-    public void deleteResource(String resourcePath) throws CmsRpcException {
+    public void deleteResource(@RUntainted String resourcePath) throws CmsRpcException {
 
         try {
             ensureLock(resourcePath);
@@ -683,7 +685,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
     public CmsGalleryConfiguration getAdeViewModeConfiguration() {
 
         CmsGalleryConfiguration result = new CmsGalleryConfiguration();
-        List<String> typeNames = new ArrayList<String>();
+        List<@RUntainted String> typeNames = new ArrayList<@RUntainted String>();
 
         for (I_CmsResourceType type : OpenCms.getResourceManager().getResourceTypes()) {
             Class<?> typeClass = type.getClass();
@@ -737,7 +739,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
     /**
      * @see org.opencms.ade.galleries.shared.rpc.I_CmsGalleryService#getInfoForResource(java.lang.String, java.lang.String)
      */
-    public CmsResultItemBean getInfoForResource(String linkPath, String locale) throws CmsRpcException {
+    public CmsResultItemBean getInfoForResource(@RUntainted String linkPath, @RUntainted String locale) throws CmsRpcException {
 
         CmsResultItemBean result = null;
         CmsObject cms = getCmsObject();
@@ -915,7 +917,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
      */
     public CmsGalleryDataBean getInitialSettingsForContainerPage(
         List<CmsResourceTypeBean> types,
-        String uri,
+        @RUntainted String uri,
         String locale) {
 
         CmsGalleryDataBean data = null;
@@ -1045,7 +1047,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
                         result.setIgnoreSearchExclude(true);
                         String gallery = data.getStartGallery();
                         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(gallery)) {
-                            List<String> galleries = new ArrayList<String>();
+                            List<@RUntainted String> galleries = new ArrayList<@RUntainted String>();
                             galleries.add(gallery);
                             result.setGalleries(galleries);
                         }
@@ -1109,7 +1111,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
     /**
      * @see org.opencms.ade.galleries.shared.rpc.I_CmsGalleryService#getSubEntries(java.lang.String, boolean, java.lang.String)
      */
-    public List<CmsSitemapEntryBean> getSubEntries(String rootPath, boolean isRoot, String filter)
+    public List<CmsSitemapEntryBean> getSubEntries(@RUntainted String rootPath, boolean isRoot, String filter)
     throws CmsRpcException {
 
         try {
@@ -1203,7 +1205,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
                     }
                 }
                 CmsResource optionRes = cms.readResource(path);
-                List<CmsResource> folders = cms.readResources(
+                List<@RUntainted CmsResource> folders = cms.readResources(
                     optionRes.getRootPath(),
                     CmsResourceFilter.ONLY_VISIBLE_NO_DELETED.addRequireFolder());
                 folders.add(optionRes);
@@ -1277,7 +1279,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
     /**
      * @see org.opencms.ade.galleries.shared.rpc.I_CmsGalleryService#saveResultViewType(java.lang.String)
      */
-    public void saveResultViewType(String resultViewType) {
+    public void saveResultViewType(@RUntainted String resultViewType) {
 
         CmsUser user = getCmsObject().getRequestContext().getCurrentUser();
         user.setAdditionalInfo(RESULT_VIEW_TYPE_ADD_INFO_KEY, resultViewType);
@@ -1291,7 +1293,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
     /**
      * @see org.opencms.ade.galleries.shared.rpc.I_CmsGalleryService#saveTreeOpenState(java.lang.String, java.lang.String, java.lang.String, java.util.Set)
      */
-    public void saveTreeOpenState(String treeName, String treeToken, String siteRoot, Set<CmsUUID> openItems)
+    public void saveTreeOpenState(@RUntainted String treeName, @RUntainted String treeToken, @RUntainted String siteRoot, @RUntainted Set<CmsUUID> openItems)
     throws CmsRpcException {
 
         try {
@@ -1375,7 +1377,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
      *
      * @throws CmsException if something goes wrong
      */
-    protected List<CmsSitemapEntryBean> getSubEntriesInternal(String rootPath, boolean isRoot, String filter)
+    protected List<CmsSitemapEntryBean> getSubEntriesInternal(@RUntainted String rootPath, boolean isRoot, String filter)
     throws CmsException {
 
         CmsObject rootCms = OpenCms.initCmsObject(getCmsObject());
@@ -1513,7 +1515,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
      *
      * @return the list of resources for the given structure id
      */
-    protected List<CmsResource> readAll(Collection<CmsUUID> structureIds, CmsResourceFilter filter) {
+    protected List<CmsResource> readAll(Collection<@RUntainted CmsUUID> structureIds, CmsResourceFilter filter) {
 
         List<CmsResource> result = new ArrayList<CmsResource>();
         for (CmsUUID id : structureIds) {
@@ -1557,7 +1559,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
      *
      * @return the workplace locale
      */
-    Locale getWorkplaceLocale() {
+    @RUntainted Locale getWorkplaceLocale() {
 
         if (m_wpLocale == null) {
             m_wpLocale = OpenCms.getWorkplaceManager().getWorkplaceLocale(getCmsObject());
@@ -1614,7 +1616,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
      * @throws CmsLoaderException if something goes wrong
      */
     @SuppressWarnings("deprecation")
-    private void addGalleriesForType(Map<String, CmsGalleryTypeInfo> galleryTypeInfos, String typeName)
+    private void addGalleriesForType(Map<String, CmsGalleryTypeInfo> galleryTypeInfos, @RUntainted String typeName)
     throws CmsLoaderException {
 
         I_CmsResourceType contentType = getResourceManager().getResourceType(typeName);
@@ -1700,7 +1702,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
 
                     String labelSuffix = cms.getRequestContext().removeSiteRoot(subsitePath);
                     try {
-                        Map<String, String> properties = CmsProperty.toMap(
+                        Map<String, @RUntainted String> properties = CmsProperty.toMap(
                             cms.readPropertyObjects(cms.getRequestContext().removeSiteRoot(subsitePath), false));
                         for (String propName : new String[] {
                             CmsPropertyDefinition.PROPERTY_TITLE,
@@ -2101,7 +2103,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
      *
      * @return the resource types
      */
-    private List<I_CmsResourceType> convertTypeNamesToTypes(List<String> resourceTypes) {
+    private List<I_CmsResourceType> convertTypeNamesToTypes(List<@RUntainted String> resourceTypes) {
 
         List<I_CmsResourceType> result = new ArrayList<I_CmsResourceType>();
         if (resourceTypes != null) {
@@ -2169,7 +2171,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
      *
      * @throws CmsException if the search fails
      */
-    private CmsGallerySearchBean findResourceInGallery(String resourceName, CmsGalleryDataBean data)
+    private CmsGallerySearchBean findResourceInGallery(@RUntainted String resourceName, CmsGalleryDataBean data)
     throws CmsException {
 
         CmsResource resource = null;
@@ -2236,7 +2238,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
         if (folders != null) {
             initialSearchObj.setFolders(folders);
         }
-        ArrayList<String> galleries = new ArrayList<String>();
+        ArrayList<@RUntainted String> galleries = new ArrayList<@RUntainted String>();
         for (CmsGalleryFolderBean gallery : data.getGalleries()) {
             String galleryPath = gallery.getPath();
             String galleryRootPath = cms.addSiteRoot(galleryPath);
@@ -2402,7 +2404,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
 
         try {
             if (!siteRoot.equals("")) {
-                List<CmsResource> systemGalleries = null;
+                List<@RUntainted CmsResource> systemGalleries = null;
                 // get the galleries in the /system/ folder
                 systemGalleries = getCmsObject().readResources(
                     CmsWorkplace.VFS_PATH_SYSTEM,
@@ -2419,7 +2421,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
         try {
             if (!OpenCms.getSiteManager().isSharedFolder(siteRoot)) {
                 String shared = OpenCms.getSiteManager().getSharedFolder();
-                List<CmsResource> sharedGalleries = getCmsObject().readResources(
+                List<@RUntainted CmsResource> sharedGalleries = getCmsObject().readResources(
                     shared,
                     CmsResourceFilter.ONLY_VISIBLE_NO_DELETED.addRequireType(galleryTypeId));
                 if (sharedGalleries != null) {
@@ -2717,8 +2719,8 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
     private List<CmsResourceTypeBean> getResourceTypeBeans(
         GalleryMode galleryMode,
         String referenceSitePath,
-        List<String> resourceTypesList,
-        final List<String> typesForTypeTab) {
+        List<@RUntainted String> resourceTypesList,
+        final List<@RUntainted String> typesForTypeTab) {
 
         List<I_CmsResourceType> resourceTypes = null;
         Set<String> creatableTypes = null;
@@ -2812,7 +2814,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
     private boolean hasNavigationProperty(CmsObject cms, CmsResource resource) throws CmsException {
 
         List<CmsProperty> props = cms.readPropertyObjects(resource, false);
-        Map<String, String> propMap = CmsProperty.toMap(props);
+        Map<String, @RUntainted String> propMap = CmsProperty.toMap(props);
         return propMap.containsKey(CmsPropertyDefinition.PROPERTY_NAVPOS)
             || propMap.containsKey(CmsPropertyDefinition.PROPERTY_NAVTEXT);
     }
@@ -3069,7 +3071,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
      *
      * @return the folder filters
      */
-    private Set<String> readFolderFilters() {
+    private @RUntainted Set<String> readFolderFilters() {
 
         JSONObject storedFilters = readUserFolderFilters();
         Set<String> result = null;
@@ -3117,7 +3119,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
      *
      * @return a map with gallery type and  the associated galleries
      */
-    private Map<String, CmsGalleryTypeInfo> readGalleryInfosByTypeNames(List<String> resourceTypes) {
+    private Map<String, CmsGalleryTypeInfo> readGalleryInfosByTypeNames(List<@RUntainted String> resourceTypes) {
 
         Map<String, CmsGalleryTypeInfo> galleryTypeInfos = new HashMap<String, CmsGalleryTypeInfo>();
         for (String typeName : resourceTypes) {
@@ -3290,7 +3292,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
      *
      * @param folders the folder filters
      */
-    private void storeFolderFilter(Set<String> folders) {
+    private void storeFolderFilter(@RUntainted Set<String> folders) {
 
         JSONObject storedFilters = readUserFolderFilters();
         try {

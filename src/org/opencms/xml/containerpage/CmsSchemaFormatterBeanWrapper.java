@@ -48,6 +48,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper class for formatter beans which delegates all methods to the wrapped formatter bean except those
@@ -59,7 +60,7 @@ public class CmsSchemaFormatterBeanWrapper implements I_CmsFormatterBean {
     private static final Log LOG = CmsLog.getLog(CmsSchemaFormatterBeanWrapper.class);
 
     /** The CMS context to use. */
-    private CmsObject m_cms;
+    private @RUntainted CmsObject m_cms;
 
     /** The content handler to use. */
     private I_CmsXmlContentHandler m_contentHandler;
@@ -79,7 +80,7 @@ public class CmsSchemaFormatterBeanWrapper implements I_CmsFormatterBean {
      * @param resource the resource which should be used to ask the content handler for additional information
      */
     public CmsSchemaFormatterBeanWrapper(
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         I_CmsFormatterBean wrappedBean,
         I_CmsXmlContentHandler contentHandler,
         CmsResource resource) {
@@ -125,7 +126,7 @@ public class CmsSchemaFormatterBeanWrapper implements I_CmsFormatterBean {
     /**
      * @see org.opencms.xml.containerpage.I_CmsFormatterBean#getCssHeadIncludes()
      */
-    public Set<String> getCssHeadIncludes() {
+    public Set<@RUntainted String> getCssHeadIncludes() {
 
         try {
             return m_contentHandler.getCSSHeadIncludes(m_cms, m_elementResource);
@@ -138,7 +139,7 @@ public class CmsSchemaFormatterBeanWrapper implements I_CmsFormatterBean {
     /**
      * @see org.opencms.xml.containerpage.I_CmsFormatterBean#getDescription(Locale)
      */
-    public String getDescription(Locale locale) {
+    public @RUntainted String getDescription(@RUntainted Locale locale) {
 
         return m_wrappedFormatter.getDescription(locale);
     }
@@ -146,7 +147,7 @@ public class CmsSchemaFormatterBeanWrapper implements I_CmsFormatterBean {
     /**
      * @see org.opencms.xml.containerpage.I_CmsFormatterBean#getDisplayType()
      */
-    public String getDisplayType() {
+    public @RUntainted String getDisplayType() {
 
         return null;
     }
@@ -154,7 +155,7 @@ public class CmsSchemaFormatterBeanWrapper implements I_CmsFormatterBean {
     /**
      * @see org.opencms.xml.containerpage.I_CmsFormatterBean#getId()
      */
-    public String getId() {
+    public @RUntainted String getId() {
 
         return m_wrappedFormatter.getId();
     }
@@ -178,7 +179,7 @@ public class CmsSchemaFormatterBeanWrapper implements I_CmsFormatterBean {
     /**
      * @see org.opencms.xml.containerpage.I_CmsFormatterBean#getJavascriptHeadIncludes()
      */
-    public List<String> getJavascriptHeadIncludes() {
+    public List<@RUntainted String> getJavascriptHeadIncludes() {
 
         try {
             return new ArrayList<String>(m_contentHandler.getJSHeadIncludes(m_cms, m_elementResource));
@@ -191,7 +192,7 @@ public class CmsSchemaFormatterBeanWrapper implements I_CmsFormatterBean {
     /**
      * @see org.opencms.xml.containerpage.I_CmsFormatterBean#getJspRootPath()
      */
-    public String getJspRootPath() {
+    public @RUntainted String getJspRootPath() {
 
         return m_wrappedFormatter.getJspRootPath();
     }
@@ -207,7 +208,7 @@ public class CmsSchemaFormatterBeanWrapper implements I_CmsFormatterBean {
     /**
      * @see org.opencms.xml.containerpage.I_CmsFormatterBean#getKey()
      */
-    public String getKey() {
+    public @RUntainted String getKey() {
 
         return null;
     }
@@ -247,7 +248,7 @@ public class CmsSchemaFormatterBeanWrapper implements I_CmsFormatterBean {
     /**
      * @see org.opencms.xml.containerpage.I_CmsFormatterBean#getNiceName(Locale)
      */
-    public String getNiceName(Locale locale) {
+    public @RUntainted String getNiceName(@RUntainted Locale locale) {
 
         return m_wrappedFormatter.getNiceName(locale);
     }
@@ -265,7 +266,7 @@ public class CmsSchemaFormatterBeanWrapper implements I_CmsFormatterBean {
      *
      * @see org.opencms.xml.containerpage.I_CmsFormatterBean#getResourceTypeNames()
      */
-    public Collection<String> getResourceTypeNames() {
+    public Collection<@RUntainted String> getResourceTypeNames() {
 
         try {
             return Collections.singleton(OpenCms.getResourceManager().getResourceType(m_elementResource).getTypeName());
@@ -278,7 +279,7 @@ public class CmsSchemaFormatterBeanWrapper implements I_CmsFormatterBean {
     /**
      * @see org.opencms.xml.containerpage.I_CmsFormatterBean#getSettings(org.opencms.ade.configuration.CmsADEConfigData)
      */
-    public Map<String, CmsXmlContentProperty> getSettings(CmsADEConfigData config) {
+    public Map<@RUntainted String, CmsXmlContentProperty> getSettings(CmsADEConfigData config) {
 
         return m_contentHandler.getSettings(m_cms, m_elementResource);
     }

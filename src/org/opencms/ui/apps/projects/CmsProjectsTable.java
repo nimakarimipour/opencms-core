@@ -73,6 +73,7 @@ import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.v7.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.Table;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The projects table.<p>
@@ -102,7 +103,7 @@ public class CmsProjectsTable extends Table {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(final Set<CmsUUID> data) {
+        public void executeAction(final Set<@RUntainted CmsUUID> data) {
 
             List<CmsResourceInfo> projectInfos = new ArrayList<CmsResourceInfo>();
             String message;
@@ -179,7 +180,7 @@ public class CmsProjectsTable extends Table {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<CmsUUID> data) {
+        public void executeAction(Set<@RUntainted CmsUUID> data) {
 
             CmsUUID id = data.iterator().next();
 
@@ -399,7 +400,7 @@ public class CmsProjectsTable extends Table {
     private static final long serialVersionUID = 1540265836332964510L;
 
     /** The data container. */
-    IndexedContainer m_container;
+    @RUntainted IndexedContainer m_container;
 
     /** The project manager instance. */
     CmsProjectManager m_manager;
@@ -478,7 +479,7 @@ public class CmsProjectsTable extends Table {
      *
      * @param item the item from which to take the project resources
      */
-    public static void showProjectResources(Item item) {
+    public static void showProjectResources(@RUntainted Item item) {
 
         VerticalLayout layout = new VerticalLayout();
         ProjectResources pr = (ProjectResources)(item.getItemProperty(PROP_RESOURCES).getValue());
@@ -633,7 +634,7 @@ public class CmsProjectsTable extends Table {
      * @param event the click event
      */
     @SuppressWarnings("unchecked")
-    void onItemClick(ItemClickEvent event) {
+    void onItemClick(@RUntainted ItemClickEvent event) {
 
         if (!event.isCtrlKey() && !event.isShiftKey()) {
             // don't interfere with multi-selection using control key

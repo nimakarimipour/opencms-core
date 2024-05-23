@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Original detail page handler implementing the detail page logic from OpenCms versions up to 11.0.
@@ -102,7 +103,7 @@ public class CmsPermissiveDetailPageHandler implements I_CmsDetailPageHandler {
     /**
      * @see org.opencms.configuration.I_CmsConfigurationParameterHandler#addConfigurationParameter(java.lang.String, java.lang.String)
      */
-    public void addConfigurationParameter(String paramName, String paramValue) {
+    public void addConfigurationParameter(String paramName, @RUntainted String paramValue) {
 
         m_config.add(paramName, paramValue);
 
@@ -111,7 +112,7 @@ public class CmsPermissiveDetailPageHandler implements I_CmsDetailPageHandler {
     /**
      * @see org.opencms.ade.detailpage.I_CmsDetailPageHandler#getAllDetailPages(org.opencms.file.CmsObject, int)
      */
-    public Collection<String> getAllDetailPages(CmsObject cms, int resType) throws CmsException {
+    public Collection<@RUntainted String> getAllDetailPages(CmsObject cms, @RUntainted int resType) throws CmsException {
 
         if (!OpenCms.getADEManager().isInitialized()) {
             return new ArrayList<String>();
@@ -132,7 +133,7 @@ public class CmsPermissiveDetailPageHandler implements I_CmsDetailPageHandler {
     /**
      * @see org.opencms.ade.detailpage.I_CmsDetailPageHandler#getDetailPage(org.opencms.file.CmsObject, java.lang.String, java.lang.String, java.lang.String)
      */
-    public String getDetailPage(CmsObject cms, String rootPath, String linkSource, String targetDetailPage) {
+    public @RUntainted String getDetailPage(CmsObject cms, String rootPath, String linkSource, String targetDetailPage) {
 
         CmsADEManager manager = OpenCms.getADEManager();
         if (!manager.isInitialized()) {

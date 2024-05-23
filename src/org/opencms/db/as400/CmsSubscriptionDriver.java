@@ -28,6 +28,7 @@
 package org.opencms.db.as400;
 
 import org.opencms.db.generic.CmsSqlManager;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * AS/400 implementation of the subscription driver.<p>
@@ -40,7 +41,7 @@ public class CmsSubscriptionDriver extends org.opencms.db.generic.CmsSubscriptio
      * @see org.opencms.db.generic.CmsSubscriptionDriver#initSqlManager(java.lang.String)
      */
     @Override
-    public org.opencms.db.generic.CmsSqlManager initSqlManager(String classname) {
+    public org.opencms.db.generic.CmsSqlManager initSqlManager(@RUntainted String classname) {
 
         return CmsSqlManager.getInstance(classname);
     }

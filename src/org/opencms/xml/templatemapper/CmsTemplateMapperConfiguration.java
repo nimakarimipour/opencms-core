@@ -46,6 +46,7 @@ import org.apache.commons.logging.Log;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.Node;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Configuration for the template mapper.<p>
@@ -82,7 +83,7 @@ public class CmsTemplateMapperConfiguration {
     private Map<CmsUUID, CmsUUID> m_formatterConfigMap = new HashMap<>();
 
     /** The formatter JSP mapping (structure id to structure id). */
-    private Map<CmsUUID, CmsUUID> m_formatterJspMap = new HashMap<>();
+    private Map<CmsUUID, @RUntainted CmsUUID> m_formatterJspMap = new HashMap<>();
 
     /** Mapping for element group types. */
     private Map<String, String> m_groupTypeMap = new HashMap<>();
@@ -173,7 +174,7 @@ public class CmsTemplateMapperConfiguration {
      * @param id the structure id of a formatter configuration as a string
      * @return the mapped formatter configuration structure id of a string
      */
-    public String getMappedFormatterConfiguration(String id) {
+    public @RUntainted String getMappedFormatterConfiguration(@RUntainted String id) {
 
         CmsUUID resultId = m_formatterConfigMap.get(new CmsUUID(id));
         if (resultId == null) {
@@ -188,7 +189,7 @@ public class CmsTemplateMapperConfiguration {
      * @param formatterId the input formatter JSP structure id
      * @return the mapped formatter JSP structure id
      */
-    public CmsUUID getMappedFormatterJspId(CmsUUID formatterId) {
+    public @RUntainted CmsUUID getMappedFormatterJspId(CmsUUID formatterId) {
 
         return m_formatterJspMap.get(formatterId);
     }

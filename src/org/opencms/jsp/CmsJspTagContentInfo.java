@@ -44,6 +44,7 @@ import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Used to access and display XML content item information from the VFS.<p>
@@ -73,7 +74,7 @@ public class CmsJspTagContentInfo extends CmsJspScopedVarBodyTagSuport implement
     private static final long serialVersionUID = -1955531050687258685L;
 
     /** The name of the content info's value that should be printed out. */
-    private String m_value;
+    private @RUntainted String m_value;
 
     /**
      * @see javax.servlet.jsp.tagext.Tag#doEndTag()
@@ -227,7 +228,7 @@ public class CmsJspTagContentInfo extends CmsJspScopedVarBodyTagSuport implement
     /**
      * @see org.opencms.util.I_CmsMacroResolver#resolveMacros(java.lang.String)
      */
-    public String resolveMacros(String input) {
+    public @RUntainted String resolveMacros(@RUntainted String input) {
 
         return CmsMacroResolver.resolveMacros(input, this);
     }
@@ -237,7 +238,7 @@ public class CmsJspTagContentInfo extends CmsJspScopedVarBodyTagSuport implement
      *
      * @param value the name of the content info's value that should be printed out
      */
-    public void setValue(String value) {
+    public void setValue(@RUntainted String value) {
 
         m_value = value;
     }

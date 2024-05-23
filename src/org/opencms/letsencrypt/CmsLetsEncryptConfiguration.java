@@ -34,6 +34,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.util.CmsStringUtil;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Configuration class containing the LetsEncrypt configuration settings OpenCms needed by OpenCms.
@@ -110,7 +111,7 @@ public class CmsLetsEncryptConfiguration implements I_CmsConfigurationParameterH
     /**
      * @see org.opencms.configuration.I_CmsConfigurationParameterHandler#addConfigurationParameter(java.lang.String, java.lang.String)
      */
-    public void addConfigurationParameter(String paramName, String paramValue) {
+    public void addConfigurationParameter(String paramName, @RUntainted String paramValue) {
 
         m_config.put(paramName, paramValue);
     }

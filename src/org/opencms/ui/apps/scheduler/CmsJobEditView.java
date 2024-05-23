@@ -76,6 +76,7 @@ import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Form used to edit a scheduled job.<p>
@@ -93,7 +94,7 @@ public class CmsJobEditView extends CmsBasicDialog {
         /**
          * @see com.vaadin.data.Validator#validate(java.lang.Object)
          */
-        public void validate(Object value) throws InvalidValueException {
+        public void validate(@RUntainted Object value) throws InvalidValueException {
 
             CmsScheduledJobInfo info = new CmsScheduledJobInfo();
             // Job name may be needed in exception
@@ -122,7 +123,7 @@ public class CmsJobEditView extends CmsBasicDialog {
         /**
          * @see com.vaadin.data.Validator#validate(java.lang.Object)
          */
-        public void validate(Object value) throws InvalidValueException {
+        public void validate(@RUntainted Object value) throws InvalidValueException {
 
             CmsScheduledJobInfo info = new CmsScheduledJobInfo();
             String stringValue = (String)value;
@@ -152,7 +153,7 @@ public class CmsJobEditView extends CmsBasicDialog {
         /**
          * @see com.vaadin.data.Validator#validate(java.lang.Object)
          */
-        public void validate(Object value) throws InvalidValueException {
+        public void validate(@RUntainted Object value) throws InvalidValueException {
 
             CmsScheduledJobInfo info = new CmsScheduledJobInfo();
             String name = (String)value;
@@ -231,7 +232,7 @@ public class CmsJobEditView extends CmsBasicDialog {
     private static final long serialVersionUID = 1L;
 
     /** Field for the job name. */
-    TextField m_fieldJobName;
+    @RUntainted TextField m_fieldJobName;
 
     /** Edited job. */
     CmsScheduledJobInfo m_job = new CmsScheduledJobInfo();
@@ -408,7 +409,7 @@ public class CmsJobEditView extends CmsBasicDialog {
 
         // all other fields already populated by field group, we still need to handle the parameters
 
-        for (Map.Entry<String, String> entry : info.getParameters().entrySet()) {
+        for (Map.Entry<String, @RUntainted String> entry : info.getParameters().entrySet()) {
             addParamLine(entry.getKey(), entry.getValue());
         }
     }
@@ -446,7 +447,7 @@ public class CmsJobEditView extends CmsBasicDialog {
      * @param field the component
      * @param property the bean property
      */
-    void bindField(AbstractField<?> field, String property) {
+    void bindField(AbstractField<?> field, @RUntainted String property) {
 
         m_group.bind(field, property);
 
@@ -459,7 +460,7 @@ public class CmsJobEditView extends CmsBasicDialog {
      *
      * @return the job parameters
      */
-    SortedMap<String, String> readParams() {
+    @RUntainted SortedMap<String, String> readParams() {
 
         SortedMap<String, String> result = new TreeMap<String, String>();
 

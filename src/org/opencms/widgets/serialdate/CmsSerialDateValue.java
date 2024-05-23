@@ -43,6 +43,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Server-side implementation of {@link org.opencms.acacia.shared.I_CmsSerialDateValue}. */
 public class CmsSerialDateValue extends A_CmsSerialDateValue {
@@ -64,7 +65,7 @@ public class CmsSerialDateValue extends A_CmsSerialDateValue {
      *
      * @param value JSON representation of the serial date as string.
      */
-    public CmsSerialDateValue(String value) {
+    public CmsSerialDateValue(@RUntainted String value) {
         if ((null != value) && !value.isEmpty()) {
             try {
                 JSONObject json = new JSONObject(value);
@@ -112,7 +113,7 @@ public class CmsSerialDateValue extends A_CmsSerialDateValue {
             }
             JSONObject pattern = patternToJson();
             result.put(JsonKey.PATTERN, pattern);
-            SortedSet<Date> exceptions = getExceptions();
+            SortedSet<@RUntainted Date> exceptions = getExceptions();
             if (!exceptions.isEmpty()) {
                 result.put(JsonKey.EXCEPTIONS, datesToJson(exceptions));
             }
@@ -144,7 +145,7 @@ public class CmsSerialDateValue extends A_CmsSerialDateValue {
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString() {
+    public @RUntainted String toString() {
 
         JSONObject json;
         json = toJson();
@@ -187,7 +188,7 @@ public class CmsSerialDateValue extends A_CmsSerialDateValue {
      * @param individualDates the list to convert.
      * @return Json array with long values of dates as string
      */
-    private JSONArray datesToJson(Collection<Date> individualDates) {
+    private @RUntainted JSONArray datesToJson(Collection<@RUntainted Date> individualDates) {
 
         if (null != individualDates) {
             JSONArray result = new JSONArray();
@@ -204,7 +205,7 @@ public class CmsSerialDateValue extends A_CmsSerialDateValue {
      * @param d the date to convert
      * @return the String representation we use in the JSON.
      */
-    private String dateToJson(Date d) {
+    private @RUntainted String dateToJson(@RUntainted Date d) {
 
         return Long.toString(d.getTime());
     }
@@ -224,7 +225,7 @@ public class CmsSerialDateValue extends A_CmsSerialDateValue {
      * @return the JSON object storing the pattern information.
      * @throws JSONException if JSON creation fails.
      */
-    private JSONObject patternToJson() throws JSONException {
+    private @RUntainted JSONObject patternToJson() throws JSONException {
 
         JSONObject pattern = new JSONObject();
         if (null != getPatternType()) {
@@ -275,10 +276,10 @@ public class CmsSerialDateValue extends A_CmsSerialDateValue {
      * @param array the JSON array where the dates are stored in.
      * @return list of the extracted dates.
      */
-    private SortedSet<Date> readDates(JSONArray array) {
+    private SortedSet<@RUntainted Date> readDates(JSONArray array) {
 
         if (null != array) {
-            SortedSet<Date> result = new TreeSet<>();
+            SortedSet<@RUntainted Date> result = new TreeSet<>();
             for (int i = 0; i < array.length(); i++) {
                 try {
                     long l = Long.valueOf(array.getString(i)).longValue();
@@ -330,7 +331,7 @@ public class CmsSerialDateValue extends A_CmsSerialDateValue {
      * @param key the key for the Long value in the provided JSON object.
      * @return the Date or null if reading the Date fails.
      */
-    private Date readOptionalDate(JSONObject json, String key) {
+    private @RUntainted Date readOptionalDate(JSONObject json, String key) {
 
         try {
             String str = json.getString(key);
@@ -347,7 +348,7 @@ public class CmsSerialDateValue extends A_CmsSerialDateValue {
      * @param key the key for the int value in the provided JSON object.
      * @return the int or 0 if reading the int fails.
      */
-    private int readOptionalInt(JSONObject json, String key) {
+    private @RUntainted int readOptionalInt(JSONObject json, String key) {
 
         try {
             String str = json.getString(key);
@@ -364,7 +365,7 @@ public class CmsSerialDateValue extends A_CmsSerialDateValue {
      * @param key the key for the month value in the provided JSON object.
      * @return the month or null if reading the month fails.
      */
-    private Month readOptionalMonth(JSONObject json, String key) {
+    private @RUntainted Month readOptionalMonth(JSONObject json, String key) {
 
         try {
             String str = json.getString(key);
@@ -382,7 +383,7 @@ public class CmsSerialDateValue extends A_CmsSerialDateValue {
      * @param defaultValue the default value, to be returned if the string can not be read from the JSON object.
      * @return the string or the default value if reading the string fails.
      */
-    private String readOptionalString(JSONObject json, String key, String defaultValue) {
+    private @RUntainted String readOptionalString(JSONObject json, String key, @RUntainted String defaultValue) {
 
         try {
             String str = json.getString(key);
@@ -438,7 +439,7 @@ public class CmsSerialDateValue extends A_CmsSerialDateValue {
      * @param val the JSON object containing the pattern type information.
      * @return the pattern type.
      */
-    private PatternType readPatternType(JSONObject val) {
+    private @RUntainted PatternType readPatternType(JSONObject val) {
 
         PatternType patterntype;
         try {
@@ -456,12 +457,12 @@ public class CmsSerialDateValue extends A_CmsSerialDateValue {
      * @param val the JSON object containing the weekday information.
      * @return the weekdays extracted, defaults to the empty list, if no information is found.
      */
-    private SortedSet<WeekDay> readWeekDays(JSONObject val) {
+    private SortedSet<@RUntainted WeekDay> readWeekDays(JSONObject val) {
 
         try {
             JSONArray array = val.getJSONArray(JsonKey.PATTERN_WEEKDAYS);
             if (null != array) {
-                SortedSet<WeekDay> result = new TreeSet<>();
+                SortedSet<@RUntainted WeekDay> result = new TreeSet<>();
                 for (int i = 0; i < array.length(); i++) {
                     try {
                         result.add(WeekDay.valueOf(array.getString(i)));
@@ -483,12 +484,12 @@ public class CmsSerialDateValue extends A_CmsSerialDateValue {
      * @param json the JSON where information is read from.
      * @return the list of weeks read, defaults to the empty list.
      */
-    private SortedSet<WeekOfMonth> readWeeksOfMonth(JSONObject json) {
+    private SortedSet<@RUntainted WeekOfMonth> readWeeksOfMonth(JSONObject json) {
 
         try {
             JSONArray array = json.getJSONArray(JsonKey.PATTERN_WEEKS_OF_MONTH);
             if (null != array) {
-                SortedSet<WeekOfMonth> result = new TreeSet<>();
+                SortedSet<@RUntainted WeekOfMonth> result = new TreeSet<>();
                 for (int i = 0; i < array.length(); i++) {
                     try {
                         WeekOfMonth week = WeekOfMonth.valueOf(array.getString(i));
@@ -510,7 +511,7 @@ public class CmsSerialDateValue extends A_CmsSerialDateValue {
      * @param collection the collection of objects.
      * @return the JSON array with the string representations.
      */
-    private JSONArray toJsonStringArray(Collection<? extends Object> collection) {
+    private @RUntainted JSONArray toJsonStringArray(Collection<? extends @RUntainted Object> collection) {
 
         if (null != collection) {
             JSONArray array = new JSONArray();
@@ -527,7 +528,7 @@ public class CmsSerialDateValue extends A_CmsSerialDateValue {
      * Check if the day of month is valid.
      * @return <code>null</code> if the day of month is valid, the key of a suitable error message otherwise.
      */
-    private String validateDayOfMonth() {
+    private @RUntainted String validateDayOfMonth() {
 
         return (isDayOfMonthValid()) ? null : Messages.ERR_SERIALDATE_INVALID_DAY_OF_MONTH_0;
     }
@@ -536,7 +537,7 @@ public class CmsSerialDateValue extends A_CmsSerialDateValue {
      * Checks if the provided duration information is valid.
      * @return <code>null</code> if the information is valid, the key of the suitable error message otherwise.
      */
-    private String validateDuration() {
+    private @RUntainted String validateDuration() {
 
         if (!isValidEndTypeForPattern()) {
             return Messages.ERR_SERIALDATE_INVALID_END_TYPE_FOR_PATTERN_0;
@@ -558,7 +559,7 @@ public class CmsSerialDateValue extends A_CmsSerialDateValue {
      * Check if the interval is valid.
      * @return <code>null</code> if the interval is valid, a suitable error message key otherwise.
      */
-    private String validateInterval() {
+    private @RUntainted String validateInterval() {
 
         return isIntervalValid() ? null : Messages.ERR_SERIALDATE_INVALID_INTERVAL_0;
     }
@@ -567,7 +568,7 @@ public class CmsSerialDateValue extends A_CmsSerialDateValue {
      * Check, if the month is set.
      * @return <code>null</code> if a month is set, a suitable error message key otherwise.
      */
-    private String validateMonthSet() {
+    private @RUntainted String validateMonthSet() {
 
         return isMonthSet() ? null : Messages.ERR_SERIALDATE_NO_MONTH_SET_0;
     }
@@ -576,7 +577,7 @@ public class CmsSerialDateValue extends A_CmsSerialDateValue {
      * Check, if all values used for calculating the series for a specific pattern are valid.
      * @return <code>null</code> if the pattern is valid, a suitable error message otherwise.
      */
-    private String validatePattern() {
+    private @RUntainted String validatePattern() {
 
         String error = null;
         switch (getPatternType()) {
@@ -612,7 +613,7 @@ public class CmsSerialDateValue extends A_CmsSerialDateValue {
      * Validate if a weekday is set, otherwise return the key for a suitable error message.
      * @return <code>null</code> if a weekday is set, the key for a suitable error message otherwise.
      */
-    private String validateWeekDaySet() {
+    private @RUntainted String validateWeekDaySet() {
 
         return isWeekDaySet() ? null : Messages.ERR_SERIALDATE_NO_WEEKDAY_SPECIFIED_0;
     }
@@ -621,7 +622,7 @@ public class CmsSerialDateValue extends A_CmsSerialDateValue {
      * Check if a week of month is set.
      * @return <code>null</code> if a week of month is set, the key for a suitable error message otherwise.
      */
-    private String validateWeekOfMonthSet() {
+    private @RUntainted String validateWeekOfMonthSet() {
 
         return isWeekOfMonthSet() ? null : Messages.ERR_SERIALDATE_NO_WEEK_OF_MONTH_SPECIFIED_0;
     }

@@ -34,6 +34,7 @@ import java.util.Date;
 import java.util.SortedSet;
 
 import org.apache.commons.lang3.ArrayUtils;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of @{link org.opencms.widgets.serialdate.I_CmsSerialDateBean}
@@ -62,7 +63,7 @@ public class CmsSerialDateBeanWorkingDays extends A_CmsSerialDateBean {
         EndType endType,
         Date serialEndDate,
         int occurrences,
-        SortedSet<Date> exceptions) {
+        SortedSet<@RUntainted Date> exceptions) {
         super(startDate, endDate, isWholeDay, endType, serialEndDate, occurrences, exceptions);
 
     }

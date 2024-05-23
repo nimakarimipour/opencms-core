@@ -33,6 +33,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Selects the dialog which should be displayed by OpenCms depending on the configuration value.<p>
@@ -67,13 +68,13 @@ public class CmsDialogSelector {
     private static final Log LOG = CmsLog.getLog(CmsDialogSelector.class);
 
     /** The dialog handler. */
-    private String m_handler;
+    private @RUntainted String m_handler;
 
     /** The JSP context. */
     private CmsJspActionElement m_jsp;
 
     /** The resource parameter. */
-    private String m_paramResource;
+    private @RUntainted String m_paramResource;
 
     /**
      * Public constructor with JSP action element.<p>
@@ -81,7 +82,7 @@ public class CmsDialogSelector {
      * @param jsp an initialized JSP action element
      * @param handler the key name of the dialog handler (use the constants in your classes!)
      */
-    public CmsDialogSelector(CmsJspActionElement jsp, String handler) {
+    public CmsDialogSelector(CmsJspActionElement jsp, @RUntainted String handler) {
 
         setJsp(jsp);
         setHandler(handler);
@@ -121,7 +122,7 @@ public class CmsDialogSelector {
      *
      * @return the key name of the dialog handler
      */
-    private String getHandler() {
+    private @RUntainted String getHandler() {
 
         return m_handler;
     }
@@ -141,7 +142,7 @@ public class CmsDialogSelector {
      *
      * @return the resource parameter String
      */
-    private String getParamResource() {
+    private @RUntainted String getParamResource() {
 
         return m_paramResource;
     }
@@ -151,7 +152,7 @@ public class CmsDialogSelector {
      *
      * @param handler the key name of the dialog handler
      */
-    private void setHandler(String handler) {
+    private void setHandler(@RUntainted String handler) {
 
         m_handler = handler;
     }
@@ -171,7 +172,7 @@ public class CmsDialogSelector {
      *
      * @param resource the resource parameter String
      */
-    private void setParamResource(String resource) {
+    private void setParamResource(@RUntainted String resource) {
 
         m_paramResource = resource;
     }

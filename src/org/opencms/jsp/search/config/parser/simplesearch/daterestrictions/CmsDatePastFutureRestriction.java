@@ -26,6 +26,7 @@
  */
 
 package org.opencms.jsp.search.config.parser.simplesearch.daterestrictions;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A restriction which selects either all entries in the past (from the current time) or all entries in the future.<p>

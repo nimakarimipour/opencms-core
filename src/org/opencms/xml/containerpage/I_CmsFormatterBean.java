@@ -38,6 +38,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface representing a configured formatter.<p>
@@ -79,7 +80,7 @@ public interface I_CmsFormatterBean {
      *
      * @return the CSS head includes
      */
-    Set<String> getCssHeadIncludes();
+    Set<@RUntainted String> getCssHeadIncludes();
 
     /**
      * Gets the formatter description.<p>
@@ -91,14 +92,14 @@ public interface I_CmsFormatterBean {
      *
      * @return the formatter description
      */
-    String getDescription(Locale locale);
+    @RUntainted String getDescription(@RUntainted Locale locale);
 
     /**
      * The display type of this formatter or <code>null</code> in case this is not a display formatter.<p>
      *
      * @return the display type
      */
-    String getDisplayType();
+    @RUntainted String getDisplayType();
 
     /**
      * Returns the id of this formatter.<p>
@@ -107,7 +108,7 @@ public interface I_CmsFormatterBean {
      *
      * @return the formatter id
      */
-    String getId();
+    @RUntainted String getId();
 
     /**
      * Gets the inline CSS snippets.<p>
@@ -128,21 +129,21 @@ public interface I_CmsFormatterBean {
      *
      * @return the head includes
      */
-    List<String> getJavascriptHeadIncludes();
+    List<@RUntainted String> getJavascriptHeadIncludes();
 
     /**
      * Returns the root path of the formatter JSP in the OpenCms VFS.<p>
      *
      * @return the root path of the formatter JSP in the OpenCms VFS.<p>
      */
-    String getJspRootPath();
+    @RUntainted String getJspRootPath();
 
     /**
      * Returns the structure id of the JSP resource for this formatter.<p>
      *
      * @return the structure id of the JSP resource for this formatter
      */
-    CmsUUID getJspStructureId();
+    @RUntainted CmsUUID getJspStructureId();
 
     /**
      * Gets the formatter key, or null if no formatter key is set.
@@ -153,14 +154,14 @@ public interface I_CmsFormatterBean {
      *
      * @return the formatter key, or null
      */
-    String getKey();
+    @RUntainted String getKey();
 
     /**
      * Helper method for getting either the key, if it exists, or the ID (as a string) if it does not.
      *
      * @return the formatter key or id
      */
-    default String getKeyOrId() {
+    default @RUntainted String getKeyOrId() {
 
         if (getKey() != null) {
             return getKey();
@@ -211,7 +212,7 @@ public interface I_CmsFormatterBean {
      *
      * @return the nice name for this formatter
      */
-    String getNiceName(Locale locale);
+    @RUntainted String getNiceName(@RUntainted Locale locale);
 
     /**
      * Gets the rank.<p>
@@ -225,7 +226,7 @@ public interface I_CmsFormatterBean {
      *
      * @return the resource type names
      */
-    Collection<String> getResourceTypeNames();
+    Collection<@RUntainted String> getResourceTypeNames();
 
     /**
      * Gets the defined settings.<p>
@@ -234,7 +235,7 @@ public interface I_CmsFormatterBean {
      *
      * @return the defined settings
      */
-    Map<String, CmsXmlContentProperty> getSettings(CmsADEConfigData sitemapConfig);
+    Map<@RUntainted String, CmsXmlContentProperty> getSettings(CmsADEConfigData sitemapConfig);
 
     /**
      * Gets the template plugins.

@@ -60,6 +60,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Special edit handler for contents that define multiple instances in a date series. */
 public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
@@ -77,7 +78,7 @@ public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
         private static final String OPTION_SERIES = "series";
 
         /** The cms object with the current context. */
-        private CmsObject m_cms;
+        private @RUntainted CmsObject m_cms;
 
         /** The content that should be edited/deleted. */
         private CmsXmlContent m_content;
@@ -89,16 +90,16 @@ public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
         private CmsContainerElementBean m_elementBean;
 
         /** The file of the content that should be edited/deleted. */
-        private CmsFile m_file;
+        private @RUntainted CmsFile m_file;
 
         /** The date of the current instance of the series. */
-        private Date m_instanceDate;
+        private @RUntainted Date m_instanceDate;
 
         /** UUID of the container page we currently act on. */
         private CmsUUID m_pageContextId;
 
         /** The current request parameters. */
-        private Map<String, String[]> m_requestParameters;
+        private Map<String, @RUntainted String[]> m_requestParameters;
 
         /** The date series as defined in the content. */
         private I_CmsSerialDateBean m_series;
@@ -114,9 +115,9 @@ public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
          * @param pageContextId the structure id of the container page where editing takes place
          */
         public InternalHandler(
-            CmsObject cms,
+            @RUntainted CmsObject cms,
             CmsContainerElementBean elementBean,
-            Map<String, String[]> requestParams,
+            Map<String, @RUntainted String[]> requestParams,
             CmsUUID pageContextId) {
 
             try {
@@ -227,7 +228,7 @@ public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
          * @param deleteOption the delete option.
          * @throws CmsException thrown if deletion fails.
          */
-        public void handleDelete(String deleteOption) throws CmsException {
+        public void handleDelete(@RUntainted String deleteOption) throws CmsException {
 
             if (Objects.equals(deleteOption, OPTION_INSTANCE)) {
                 addExceptionForInstance();
@@ -247,7 +248,7 @@ public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
          * @return the structure id of the content that should be edited.
          * @throws CmsException thrown if preparing the edit operation fails.
          */
-        public CmsUUID prepareForEdit(String editOption) throws CmsException {
+        public CmsUUID prepareForEdit(@RUntainted String editOption) throws CmsException {
 
             if (Objects.equals(OPTION_INSTANCE, editOption)) {
                 return extractDate();
@@ -376,7 +377,7 @@ public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
          * @param l the locale to show the title in.
          * @return the gallery title of the series content.
          */
-        private String getTitle(Locale l) {
+        private @RUntainted String getTitle(Locale l) {
 
             CmsGallerySearchResult result;
             try {
@@ -410,11 +411,11 @@ public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
         private void setInstanceDate() {
 
             String sl = null;
-            Map<String, String> settings = m_elementBean.getSettings();
+            Map<@RUntainted String, @RUntainted String> settings = m_elementBean.getSettings();
             if (settings.containsKey(PARAM_INSTANCEDATE)) {
                 sl = settings.get(PARAM_INSTANCEDATE);
             } else if (m_requestParameters.containsKey(PARAM_INSTANCEDATE)) {
-                String[] sls = m_requestParameters.get(PARAM_INSTANCEDATE);
+                @RUntainted String[] sls = m_requestParameters.get(PARAM_INSTANCEDATE);
                 if ((sls != null) && (sls.length > 0)) {
                     sl = sls[0];
                 }
@@ -448,10 +449,10 @@ public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
      */
     @Override
     public CmsDialogOptions getDeleteOptions(
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         CmsContainerElementBean elementBean,
         CmsUUID pageContextId,
-        Map<String, String[]> requestParams) {
+        Map<String, @RUntainted String[]> requestParams) {
 
         InternalHandler internalHandler = new InternalHandler(cms, elementBean, requestParams, pageContextId);
         return internalHandler.getDeleteOptions();
@@ -462,10 +463,10 @@ public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
      */
     @Override
     public CmsDialogOptions getEditOptions(
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         CmsContainerElementBean elementBean,
         CmsUUID pageContextId,
-        Map<String, String[]> requestParams,
+        Map<String, @RUntainted String[]> requestParams,
         boolean isListElement) {
 
         InternalHandler internalHandler = new InternalHandler(cms, elementBean, requestParams, pageContextId);
@@ -489,11 +490,11 @@ public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
      */
     @Override
     public void handleDelete(
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         CmsContainerElementBean elementBean,
-        String deleteOption,
+        @RUntainted String deleteOption,
         CmsUUID pageContextId,
-        Map<String, String[]> requestParams)
+        Map<String, @RUntainted String[]> requestParams)
     throws CmsException {
 
         InternalHandler internalHandler = new InternalHandler(cms, elementBean, requestParams, pageContextId);
@@ -525,11 +526,11 @@ public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
      */
     @Override
     public CmsUUID prepareForEdit(
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         CmsContainerElementBean elementBean,
-        String editOption,
+        @RUntainted String editOption,
         CmsUUID pageContextId,
-        Map<String, String[]> requestParams)
+        Map<String, @RUntainted String[]> requestParams)
     throws CmsException {
 
         if (Objects.equals(InternalHandler.OPTION_SERIES, editOption)) {

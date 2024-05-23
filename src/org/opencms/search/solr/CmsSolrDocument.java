@@ -51,6 +51,7 @@ import org.opencms.util.CmsUUID;
 import java.nio.ByteBuffer;
 import java.text.ParseException;
 import java.util.*;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A search document implementation for Solr indexes.<p>
@@ -63,7 +64,7 @@ public class CmsSolrDocument implements I_CmsSearchDocument {
     private static final Log LOG = CmsLog.getLog(CmsSolrDocument.class);
 
     /** The Solr document. */
-    private SolrInputDocument m_doc;
+    private @RUntainted SolrInputDocument m_doc;
 
     /** Holds the score for this document. */
     private float m_score;
@@ -84,7 +85,7 @@ public class CmsSolrDocument implements I_CmsSearchDocument {
      *
      * @param doc the Solr document
      */
-    public CmsSolrDocument(SolrInputDocument doc) {
+    public CmsSolrDocument(@RUntainted SolrInputDocument doc) {
 
         this();
         m_doc = doc;
@@ -232,7 +233,7 @@ public class CmsSolrDocument implements I_CmsSearchDocument {
     /**
      * @see org.opencms.search.I_CmsSearchDocument#addSearchField(org.opencms.search.fields.CmsSearchField, java.lang.String)
      */
-    public void addSearchField(CmsSearchField sfield, String value) {
+    public void addSearchField(CmsSearchField sfield, @RUntainted String value) {
 
         CmsSolrField field = (CmsSolrField)sfield;
         List<String> fieldsToAdd = new ArrayList<String>(Collections.singletonList(field.getName()));
@@ -242,7 +243,7 @@ public class CmsSolrDocument implements I_CmsSearchDocument {
         IndexSchema schema = OpenCms.getSearchManager().getSolrServerConfiguration().getSolrSchema();
         for (String fieldName : fieldsToAdd) {
             try {
-                List<String> splitedValues = new ArrayList<String>();
+                List<@RUntainted String> splitedValues = new ArrayList<@RUntainted String>();
                 boolean multi = false;
 
                 try {
@@ -356,9 +357,9 @@ public class CmsSolrDocument implements I_CmsSearchDocument {
     /**
      * @see org.opencms.search.I_CmsSearchDocument#getFieldValueAsString(java.lang.String)
      */
-    public String getFieldValueAsString(String fieldName) {
+    public @RUntainted String getFieldValueAsString(@RUntainted String fieldName) {
 
-        List<String> values = getMultivaluedFieldAsStringList(fieldName);
+        List<@RUntainted String> values = getMultivaluedFieldAsStringList(fieldName);
         if ((values != null) && !values.isEmpty()) {
             return CmsStringUtil.listAsString(values, "\n");
         } else {
@@ -373,10 +374,10 @@ public class CmsSolrDocument implements I_CmsSearchDocument {
     /**
      * @see org.opencms.search.I_CmsSearchDocument#getMultivaluedFieldAsStringList(java.lang.String)
      */
-    public List<String> getMultivaluedFieldAsStringList(String fieldName) {
+    public List<@RUntainted String> getMultivaluedFieldAsStringList(@RUntainted String fieldName) {
 
-        List<String> result = new ArrayList<String>();
-        Collection<Object> coll = m_doc.getFieldValues(fieldName);
+        List<@RUntainted String> result = new ArrayList<@RUntainted String>();
+        Collection<@RUntainted Object> coll = m_doc.getFieldValues(fieldName);
         if (coll != null) {
             for (Object o : coll) {
                 if (o != null) {

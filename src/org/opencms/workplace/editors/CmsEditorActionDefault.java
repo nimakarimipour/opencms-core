@@ -41,6 +41,7 @@ import org.opencms.workplace.CmsWorkplace;
 import java.io.IOException;
 
 import javax.servlet.jsp.JspException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a method to perform a user defined action when editing a page.<p>
@@ -115,7 +116,7 @@ public class CmsEditorActionDefault implements I_CmsEditorActionHandler {
     /**
      * @see org.opencms.workplace.editors.I_CmsEditorActionHandler#getButtonName()
      */
-    public String getButtonName() {
+    public @RUntainted String getButtonName() {
 
         return Messages.GUI_EXPLORER_CONTEXT_PUBLISH_0;
     }

@@ -64,6 +64,7 @@ import org.apache.commons.digester3.Rule;
 import org.dom4j.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.Attributes;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class to read and write the OpenCms site configuration.<p>
@@ -169,7 +170,7 @@ public class CmsSitesConfiguration extends A_CmsXmlConfiguration implements I_Cm
     /**
      * @see org.opencms.configuration.I_CmsXmlConfiguration#addXmlDigesterRules(org.apache.commons.digester3.Digester)
      */
-    public void addXmlDigesterRules(Digester digester) {
+    public void addXmlDigesterRules(@RUntainted Digester digester) {
 
         // add site configuration rule
         digester.addObjectCreate("*/" + N_SITES, CmsSiteManagerImpl.class);
@@ -252,7 +253,7 @@ public class CmsSitesConfiguration extends A_CmsXmlConfiguration implements I_Cm
         digester.addRule("*/" + N_SITES + "/" + N_SITE + "/" + N_ALIAS, new Rule() {
 
             @Override
-            public void begin(String namespace, String name, Attributes attributes) throws Exception {
+            public void begin(String namespace, String name, @RUntainted Attributes attributes) throws Exception {
 
                 String server = attributes.getValue(A_SERVER);
                 String redirect = attributes.getValue(A_REDIRECT);
@@ -365,7 +366,7 @@ public class CmsSitesConfiguration extends A_CmsXmlConfiguration implements I_Cm
 
             if ((site.getParameters() != null) && !site.getParameters().isEmpty()) {
                 Element parametersElem = siteElement.addElement(N_PARAMETERS);
-                for (Map.Entry<String, String> entry : site.getParameters().entrySet()) {
+                for (Map.Entry<String, @RUntainted String> entry : site.getParameters().entrySet()) {
                     Element paramElem = parametersElem.addElement(N_PARAM);
                     paramElem.addAttribute(A_NAME, entry.getKey());
                     paramElem.addText(entry.getValue());
@@ -414,7 +415,7 @@ public class CmsSitesConfiguration extends A_CmsXmlConfiguration implements I_Cm
     /**
      * @see org.opencms.configuration.I_CmsXmlConfiguration#getDtdFilename()
      */
-    public String getDtdFilename() {
+    public @RUntainted String getDtdFilename() {
 
         return CONFIGURATION_DTD_NAME;
     }

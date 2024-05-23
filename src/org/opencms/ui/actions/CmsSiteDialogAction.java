@@ -37,6 +37,7 @@ import org.opencms.ui.dialogs.CmsSiteSelectDialog;
 
 import java.util.HashMap;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The switch site dialog action.<p>
@@ -73,7 +74,7 @@ public class CmsSiteDialogAction extends A_CmsToolbarAction implements I_CmsADEA
     /**
      * @see org.opencms.ui.actions.I_CmsADEAction#getJspPath()
      */
-    public String getJspPath() {
+    public @RUntainted String getJspPath() {
 
         return null;
     }
@@ -81,9 +82,9 @@ public class CmsSiteDialogAction extends A_CmsToolbarAction implements I_CmsADEA
     /**
      * @see org.opencms.ui.actions.I_CmsADEAction#getParams()
      */
-    public Map<String, String> getParams() {
+    public Map<String, @RUntainted String> getParams() {
 
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, @RUntainted String> params = new HashMap<String, @RUntainted String>();
         params.put(CmsGwtConstants.ACTION_PARAM_DIALOG_ID, this.getClass().getName());
         return params;
     }
@@ -112,7 +113,7 @@ public class CmsSiteDialogAction extends A_CmsToolbarAction implements I_CmsADEA
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
      */
     @Override
-    protected String getTitleKey() {
+    protected @RUntainted String getTitleKey() {
 
         return Messages.GUI_ACTION_SWITCH_PROJECT_AND_SITE_0;
     }

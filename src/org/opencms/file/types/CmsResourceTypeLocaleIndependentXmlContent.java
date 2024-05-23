@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Special resource type for locale independent XML contents.<p>
@@ -68,7 +69,7 @@ public class CmsResourceTypeLocaleIndependentXmlContent extends CmsResourceTypeX
      * @see org.opencms.file.types.CmsResourceTypeXmlContent#getLocaleForNewContent(org.opencms.file.CmsObject, org.opencms.db.CmsSecurityManager, java.lang.String, java.util.List)
      */
     @Override
-    protected Locale getLocaleForNewContent(
+    protected @RUntainted Locale getLocaleForNewContent(
         CmsObject cms,
         CmsSecurityManager securityManager,
         String resourcename,

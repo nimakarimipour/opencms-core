@@ -36,6 +36,8 @@ import org.opencms.main.OpenCms;
 import org.opencms.util.CmsUUID;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * A folder resource in the OpenCms VFS.<p>
@@ -94,20 +96,20 @@ public class CmsFolder extends CmsResource {
      * @param version the version number of this resource
      */
     public CmsFolder(
-        CmsUUID structureId,
-        CmsUUID resourceId,
-        String path,
-        int type,
-        int flags,
-        CmsUUID projectId,
-        CmsResourceState state,
-        long dateCreated,
-        CmsUUID userCreated,
-        long dateLastModified,
-        CmsUUID userLastModified,
-        long dateReleased,
-        long dateExpired,
-        int version) {
+        @RUntainted CmsUUID structureId,
+        @RUntainted CmsUUID resourceId,
+        @RUntainted String path,
+        @RUntainted int type,
+        @RUntainted int flags,
+        @RUntainted CmsUUID projectId,
+        @RUntainted CmsResourceState state,
+        @RUntainted long dateCreated,
+        @RUntainted CmsUUID userCreated,
+        @RUntainted long dateLastModified,
+        @RUntainted CmsUUID userLastModified,
+        @RUntainted long dateReleased,
+        @RUntainted long dateExpired,
+        @RUntainted int version) {
 
         super(
             structureId,
@@ -139,7 +141,7 @@ public class CmsFolder extends CmsResource {
      *
      * @return true if the given resource size describes a folder type or false if it is no folder
      */
-    public static final boolean isFolderSize(long size) {
+    public static final @RPolyTainted boolean isFolderSize(@RPolyTainted long size) {
 
         return (size < 0);
     }
@@ -151,7 +153,7 @@ public class CmsFolder extends CmsResource {
      *
      * @return true if the given resource type id describes a folder type or false if it is no folder or an unknown type.
      */
-    public static final boolean isFolderType(int typeId) {
+    public static final @RUntainted boolean isFolderType(@RUntainted int typeId) {
 
         try {
             return OpenCms.getResourceManager().getResourceType(typeId).isFolder();
@@ -170,7 +172,7 @@ public class CmsFolder extends CmsResource {
      *
      * @return true if the given resource type name describes a folder type
      */
-    public static final boolean isFolderType(String typeName) {
+    public static final boolean isFolderType(@RUntainted String typeName) {
 
         try {
             return OpenCms.getResourceManager().getResourceType(typeName).isFolder();
@@ -187,7 +189,7 @@ public class CmsFolder extends CmsResource {
      * @return a clone of this instance
      */
     @Override
-    public Object clone() {
+    public @RUntainted Object clone() {
 
         CmsResource clone = new CmsFolder(
             getStructureId(),
@@ -218,7 +220,7 @@ public class CmsFolder extends CmsResource {
      * @see org.opencms.file.CmsResource#getDateContent()
      */
     @Override
-    public long getDateContent() {
+    public @RUntainted long getDateContent() {
 
         return -1;
     }
@@ -229,7 +231,7 @@ public class CmsFolder extends CmsResource {
      * @see org.opencms.file.CmsResource#getLength()
      */
     @Override
-    public int getLength() {
+    public @RUntainted int getLength() {
 
         return -1;
     }
@@ -251,7 +253,7 @@ public class CmsFolder extends CmsResource {
      * @see org.opencms.file.CmsResource#isFolder()
      */
     @Override
-    public boolean isFolder() {
+    public @RUntainted boolean isFolder() {
 
         return true;
     }

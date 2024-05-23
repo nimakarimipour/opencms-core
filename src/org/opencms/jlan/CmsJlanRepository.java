@@ -63,6 +63,7 @@ import org.alfresco.jlan.server.filesys.DiskSharedDevice;
 import org.alfresco.jlan.server.filesys.TreeConnection;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Repository class for configuring repositories for Alfresco JLAN.<p>
@@ -109,22 +110,22 @@ public class CmsJlanRepository implements I_CmsRepository {
     private DiskInterface m_diskInterface;
 
     /** Flag which controls whether write errors should be ignored. */
-    private boolean m_ignoreWriteErrors;
+    private @RUntainted boolean m_ignoreWriteErrors;
 
     /** The name of the repository. */
-    private String m_name;
+    private @RUntainted String m_name;
 
     /** The disk interface. */
     private CmsJlanDiskInterface m_originalDiskInterface;
 
     /** The configured project. */
-    private CmsProject m_project;
+    private @RUntainted CmsProject m_project;
 
     /** The name of the configured project. */
-    private String m_projectName;
+    private @RUntainted String m_projectName;
 
     /** The root VFS directory of the repository. */
-    private String m_root;
+    private @RUntainted String m_root;
 
     /** The list of wrappers configured for this repository. */
     private List<I_CmsResourceWrapper> m_wrappers = Lists.newArrayList();
@@ -191,7 +192,7 @@ public class CmsJlanRepository implements I_CmsRepository {
     /**
      * @see org.opencms.configuration.I_CmsConfigurationParameterHandler#addConfigurationParameter(java.lang.String, java.lang.String)
      */
-    public void addConfigurationParameter(String paramName, String paramValue) {
+    public void addConfigurationParameter(String paramName, @RUntainted String paramValue) {
 
         m_configuration.add(paramName, paramValue);
 
@@ -224,7 +225,7 @@ public class CmsJlanRepository implements I_CmsRepository {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsObjectWrapper getCms(SrvSession session, TreeConnection connection) throws CmsException {
+    public CmsObjectWrapper getCms(@RUntainted SrvSession session, TreeConnection connection) throws CmsException {
 
         String userName = session.getClientInformation().getUserName();
         userName = CmsJlanUsers.translateUser(userName);
@@ -279,7 +280,7 @@ public class CmsJlanRepository implements I_CmsRepository {
     /**
      * @see org.opencms.repository.I_CmsRepository#getName()
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_name;
     }
@@ -289,7 +290,7 @@ public class CmsJlanRepository implements I_CmsRepository {
      *
      * @return the configured project
      */
-    public CmsProject getProject() {
+    public @RUntainted CmsProject getProject() {
 
         return m_project;
     }
@@ -299,7 +300,7 @@ public class CmsJlanRepository implements I_CmsRepository {
      *
      * @return the root directory
      */
-    public String getRoot() {
+    public @RUntainted String getRoot() {
 
         return m_root;
     }
@@ -382,7 +383,7 @@ public class CmsJlanRepository implements I_CmsRepository {
     /**
      * @see org.opencms.repository.I_CmsRepository#setName(java.lang.String)
      */
-    public void setName(String name) {
+    public void setName(@RUntainted String name) {
 
         // case sensitive share names don't work
         m_name = name.toUpperCase();

@@ -115,6 +115,7 @@ import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The workplace app manager.<p>
@@ -146,7 +147,7 @@ public class CmsWorkplaceAppManager {
         public static final String PARAM_SEPARATOR = "/";
 
         /** The state parameters. */
-        private String m_params = "";
+        private @RUntainted String m_params = "";
 
         /** The view/app name. */
         private String m_viewName = "";
@@ -156,7 +157,7 @@ public class CmsWorkplaceAppManager {
          *
          * @param stateString the state string to parse
          */
-        public NavigationState(String stateString) {
+        public NavigationState(@RUntainted String stateString) {
 
             if (stateString.startsWith("!")) {
                 stateString = stateString.substring(1);
@@ -178,7 +179,7 @@ public class CmsWorkplaceAppManager {
          *
          * @return the parameters
          */
-        String getParams() {
+        @RUntainted String getParams() {
 
             return m_params;
         }

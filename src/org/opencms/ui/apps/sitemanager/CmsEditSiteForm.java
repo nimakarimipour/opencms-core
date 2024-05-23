@@ -120,6 +120,7 @@ import com.vaadin.v7.ui.Upload.Receiver;
 import com.vaadin.v7.ui.Upload.SucceededEvent;
 import com.vaadin.v7.ui.Upload.SucceededListener;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the Form to edit or add a site.<p>
@@ -181,7 +182,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
         /**
          * @see com.vaadin.v7.data.Validator#validate(java.lang.Object)
          */
-        public void validate(Object value) throws InvalidValueException {
+        public void validate(@RUntainted Object value) throws InvalidValueException {
 
             String enteredServer = (String)value;
             if (enteredServer == null) {
@@ -261,7 +262,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
         /**
          * @see com.vaadin.data.Validator#validate(java.lang.Object)
          */
-        public void validate(Object value) throws InvalidValueException {
+        public void validate(@RUntainted Object value) throws InvalidValueException {
 
             String enteredName = (String)value;
             if (FORBIDDEN_FOLDER_NAMES.contains(enteredName)) {
@@ -336,7 +337,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
         /**
          * @see com.vaadin.data.Validator#validate(java.lang.Object)
          */
-        public void validate(Object value) throws InvalidValueException {
+        public void validate(@RUntainted Object value) throws InvalidValueException {
 
             String OU = (String)value;
             if (OU.equals("/")) {
@@ -386,7 +387,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
         /**
          * @see com.vaadin.v7.data.Validator#validate(java.lang.Object)
          */
-        public void validate(Object value) throws InvalidValueException {
+        public void validate(@RUntainted Object value) throws InvalidValueException {
 
             String parentOU = (String)value;
             if (parentOU.equals("/")) {
@@ -432,7 +433,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
         /**
          * @see com.vaadin.data.Validator#validate(java.lang.Object)
          */
-        public void validate(Object value) throws InvalidValueException {
+        public void validate(@RUntainted Object value) throws InvalidValueException {
 
             String enteredServer = (String)value;
             if (enteredServer.isEmpty()) {
@@ -457,7 +458,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
          * @see com.vaadin.v7.data.Validator#validate(java.lang.Object)
          */
         @Deprecated
-        public void validate(Object value) throws InvalidValueException {
+        public void validate(@RUntainted Object value) throws InvalidValueException {
 
             CmsSite parentSite = m_manager.getElement(CmsFileUtil.removeTrailingSeparator((String)value));
             if (parentSite != null) {
@@ -574,7 +575,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
 
     protected FormLayout m_altSiteRootPathContainer;
 
-    protected TextField m_altSiteRootSuffix;
+    protected @RUntainted TextField m_altSiteRootSuffix;
 
     /**Flag to block change events. */
     protected boolean m_blockChange;
@@ -588,13 +589,13 @@ public class CmsEditSiteForm extends CmsBasicDialog {
     Set<CmsSiteMatcher> m_alreadyUsedURL = new HashSet<CmsSiteMatcher>();
 
     /**cloned cms obejct.*/
-    CmsObject m_clonedCms;
+    @RUntainted CmsObject m_clonedCms;
 
     /**vaadin component.*/
-    ComboBox m_fieldSelectOU;
+    @RUntainted ComboBox m_fieldSelectOU;
 
     /**vaadin coponent.*/
-    ComboBox m_fieldSelectParentOU;
+    @RUntainted ComboBox m_fieldSelectParentOU;
 
     /**vaadin component. */
     Upload m_fieldUploadFavIcon;
@@ -662,7 +663,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
     private ComboBox m_fieldPosition;
 
     /**vaadin component.*/
-    private TextField m_fieldSecureServer;
+    private @RUntainted TextField m_fieldSecureServer;
 
     /**vaadin component.*/
     private CheckBox m_fieldWebServer;
@@ -689,27 +690,27 @@ public class CmsEditSiteForm extends CmsBasicDialog {
     private ComboBox m_simpleFieldEncryption;
 
     /**vaadin component.*/
-    private TextField m_simpleFieldFolderName;
+    private @RUntainted TextField m_simpleFieldFolderName;
 
     /**vaadin component.*/
     private CmsPathSelectField m_simpleFieldParentFolderName;
 
     /**vaadin component.*/
-    private TextField m_simpleFieldServer;
+    private @RUntainted TextField m_simpleFieldServer;
 
     /**vaadin component.*/
     private CmsPathSelectField m_simpleFieldSiteRoot;
 
     /**vaadin component.*/
-    private ComboBox m_simpleFieldTemplate;
+    private @RUntainted ComboBox m_simpleFieldTemplate;
 
     /**vaadin component.*/
-    private TextField m_simpleFieldTitle;
+    private @RUntainted TextField m_simpleFieldTitle;
 
     private ComboBox m_subsiteSelectionEnabled;
 
     /**List of templates. */
-    private List<CmsResource> m_templates;
+    private List<@RUntainted CmsResource> m_templates;
 
     /**Layout for the report widget. */
     private FormLayout m_threadReport;
@@ -721,7 +722,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
      * @param manager the site manager instance
      * @param cms the CmsObject
      */
-    public CmsEditSiteForm(CmsObject cms, CmsSiteManager manager) {
+    public CmsEditSiteForm(@RUntainted CmsObject cms, CmsSiteManager manager) {
 
         m_isFolderNameTouched = false;
         m_blockChange = true;
@@ -958,7 +959,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
      * @param siteRoot of site to edit
      * @param cms the CmsObject
      */
-    public CmsEditSiteForm(CmsObject cms, CmsSiteManager manager, String siteRoot) {
+    public CmsEditSiteForm(@RUntainted CmsObject cms, CmsSiteManager manager, @RUntainted String siteRoot) {
 
         this(cms, manager);
         m_site = manager.getElement(siteRoot);
@@ -1066,7 +1067,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
      * @param red redirect
      * @return component
      */
-    protected FormLayout createAliasComponent(String alias, CmsSiteMatcher.RedirectMode redirectMode) {
+    protected @RUntainted FormLayout createAliasComponent(String alias, CmsSiteMatcher.RedirectMode redirectMode) {
 
         FormLayout layout = new FormLayout();
         TextField field = new TextField(CmsVaadinUtils.getMessageText(Messages.GUI_SITE_ALIAS_0));
@@ -1105,7 +1106,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
      *
      * @return server as string
      */
-    protected String getFieldServer() {
+    protected @RUntainted String getFieldServer() {
 
         return m_simpleFieldServer.getValue();
     }
@@ -1178,7 +1179,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
      * @return the validated folder name
      * @throws CmsIllegalArgumentException if the folder name is empty or <code>null</code>
      */
-    String ensureFoldername(String resourcename) {
+    @RUntainted String ensureFoldername(@RUntainted String resourcename) {
 
         if (CmsStringUtil.isEmpty(resourcename)) {
             return "";
@@ -1197,7 +1198,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
      *
      * @return String of folder path.
      */
-    String getFieldFolder() {
+    @RUntainted String getFieldFolder() {
 
         return m_simpleFieldFolderName.getValue();
     }
@@ -1207,7 +1208,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
      *
      * @return title as string.
      */
-    String getFieldTitle() {
+    @RUntainted String getFieldTitle() {
 
         return m_simpleFieldTitle.getValue();
     }
@@ -1217,7 +1218,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
      *
      * @return parent folder as string
      */
-    String getParentFolder() {
+    @RUntainted String getParentFolder() {
 
         return m_simpleFieldParentFolderName.getValue();
     }
@@ -1227,7 +1228,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
      *
      * @return string root path
      */
-    String getSiteTemplatePath() {
+    @RUntainted String getSiteTemplatePath() {
 
         return m_fieldLoadSiteTemplate.getValue();
     }
@@ -1238,7 +1239,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
      * @param aliasName to check
      * @return true if it was defined double
      */
-    boolean isDoubleAlias(String aliasName) {
+    boolean isDoubleAlias(@RUntainted String aliasName) {
 
         CmsSiteMatcher testAlias = new CmsSiteMatcher(aliasName);
         int count = 0;
@@ -1729,7 +1730,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
      * @param baseName of the resource
      * @return localized name of resource
      */
-    private String getAvailableLocalVariant(String path, String baseName) {
+    private String getAvailableLocalVariant(String path, @RUntainted String baseName) {
 
         //First look for a bundle with the locale of the folder..
         try {
@@ -1745,7 +1746,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
 
         //If no bundle was found with the locale of the folder, or the property was not set, search for other locales
         A_CmsUI.get();
-        List<String> localVariations = CmsLocaleManager.getLocaleVariants(
+        List<@RUntainted String> localVariations = CmsLocaleManager.getLocaleVariants(
             baseName,
             UI.getCurrent().getLocale(),
             false,
@@ -1784,7 +1785,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
      *
      * @return string of chosen template path.
      */
-    private String getFieldTemplate() {
+    private @RUntainted String getFieldTemplate() {
 
         if (m_fieldKeepTemplate.getValue().booleanValue()) {
             return ""; //No template property will be changed
@@ -1827,12 +1828,12 @@ public class CmsEditSiteForm extends CmsBasicDialog {
      *
      * @return a Map with Parameter information.
      */
-    private Map<String, String> getParameter() {
+    private Map<String, @RUntainted String> getParameter() {
 
-        Map<String, String> ret = new TreeMap<String, String>();
+        Map<String, @RUntainted String> ret = new TreeMap<String, @RUntainted String>();
         for (Component c : m_parameter) {
             if (c instanceof CmsRemovableFormRow<?>) {
-                String[] parameterStringArray = ((String)((CmsRemovableFormRow<? extends AbstractField<?>>)c).getInput().getValue()).split(
+                @RUntainted String[] parameterStringArray = ((String)((CmsRemovableFormRow<? extends AbstractField<?>>)c).getInput().getValue()).split(
                     "=");
                 ret.put(parameterStringArray[0], parameterStringArray[1]);
             }
@@ -1846,7 +1847,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
      * @param parameter Entry holding parameter info.
      * @return the parameter formatted as string
      */
-    private String getParameterString(Entry<String, String> parameter) {
+    private String getParameterString(Entry<String, @RUntainted String> parameter) {
 
         return parameter.getKey() + "=" + parameter.getValue();
     }
@@ -1914,7 +1915,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
         try {
             m_clonedCms.getRequestContext().setSiteRoot("");
             CmsResource resource = m_clonedCms.readResource(m_site.getSiteRoot());
-            List<CmsRelation> relations = m_clonedCms.getRelationsForResource(resource, CmsRelationFilter.SOURCES);
+            List<@RUntainted CmsRelation> relations = m_clonedCms.getRelationsForResource(resource, CmsRelationFilter.SOURCES);
             for (CmsRelation relation : relations) {
                 if (relation.getSourcePath().startsWith("/system/orgunits/")) {
                     return (relation.getSourcePath().substring("/system/orgunits/".length()));
@@ -1932,7 +1933,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
      *
      * @return site root string
      */
-    private String getSiteRoot() {
+    private @RUntainted String getSiteRoot() {
 
         String res;
 
@@ -2059,8 +2060,8 @@ public class CmsEditSiteForm extends CmsBasicDialog {
         m_fieldExclusiveError.setValue(Boolean.valueOf(m_site.isExclusiveError()));
         m_fieldExclusiveError.setEnabled(enableAll);
 
-        Map<String, String> siteParameters = m_site.getParameters();
-        for (Entry<String, String> parameter : siteParameters.entrySet()) {
+        Map<String, @RUntainted String> siteParameters = m_site.getParameters();
+        for (Entry<String, @RUntainted String> parameter : siteParameters.entrySet()) {
             addParameter(getParameterString(parameter));
         }
 

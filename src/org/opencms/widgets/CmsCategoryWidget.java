@@ -59,6 +59,7 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.text.StringEscapeUtils;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a widget for a category based dependent select boxes.<p>
@@ -95,7 +96,7 @@ public class CmsCategoryWidget extends A_CmsWidget implements I_CmsADEWidget {
     private static final Log LOG = CmsLog.getLog(CmsCategoryWidget.class);
 
     /** The displayed category. */
-    private String m_category;
+    private @RUntainted String m_category;
 
     /** The 'only leaf' flag. */
     private boolean m_onlyLeafs;
@@ -104,7 +105,7 @@ public class CmsCategoryWidget extends A_CmsWidget implements I_CmsADEWidget {
     private boolean m_parentSelection;
 
     /** The property to read the starting category from. */
-    private String m_property;
+    private @RUntainted String m_property;
 
     /** The selection type parsed from configuration string. */
     private String m_selectiontype = "multi";
@@ -123,7 +124,7 @@ public class CmsCategoryWidget extends A_CmsWidget implements I_CmsADEWidget {
      *
      * @param configuration the configuration for the widget
      */
-    public CmsCategoryWidget(String configuration) {
+    public CmsCategoryWidget(@RUntainted String configuration) {
 
         super(configuration);
     }
@@ -132,7 +133,7 @@ public class CmsCategoryWidget extends A_CmsWidget implements I_CmsADEWidget {
      * @see org.opencms.widgets.A_CmsWidget#getConfiguration()
      */
     @Override
-    public String getConfiguration() {
+    public @RUntainted String getConfiguration() {
 
         Map<String, String> result = generateCommonConfigPart();
 
@@ -381,7 +382,7 @@ public class CmsCategoryWidget extends A_CmsWidget implements I_CmsADEWidget {
      *
      * @return the starting category
      */
-    public String getStartingCategory(CmsObject cms, String referencePath) {
+    public @RUntainted String getStartingCategory(CmsObject cms, String referencePath) {
 
         String ret = "";
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(m_category) && CmsStringUtil.isEmptyOrWhitespaceOnly(m_property)) {
@@ -413,7 +414,7 @@ public class CmsCategoryWidget extends A_CmsWidget implements I_CmsADEWidget {
     /**
      * @see org.opencms.widgets.I_CmsADEWidget#getWidgetName()
      */
-    public String getWidgetName() {
+    public @RUntainted String getWidgetName() {
 
         return CmsCategoryWidget.class.getName();
     }
@@ -457,9 +458,9 @@ public class CmsCategoryWidget extends A_CmsWidget implements I_CmsADEWidget {
      * @see org.opencms.widgets.A_CmsWidget#setConfiguration(java.lang.String)
      */
     @Override
-    public void setConfiguration(String configuration) {
+    public void setConfiguration(@RUntainted String configuration) {
 
-        Map<String, String> configOptions = CmsWidgetUtil.parsePipeSeparatedConfigString(configuration);
+        Map<String, @RUntainted String> configOptions = CmsWidgetUtil.parsePipeSeparatedConfigString(configuration);
         // we have to validate later, since we do not have any cms object here
         m_category = "";
         if (!configOptions.isEmpty()) {
@@ -484,7 +485,7 @@ public class CmsCategoryWidget extends A_CmsWidget implements I_CmsADEWidget {
     @Override
     public void setEditorValue(
         CmsObject cms,
-        Map<String, String[]> formParameters,
+        @RUntainted Map<String, @RUntainted String[]> formParameters,
         I_CmsWidgetDialog widgetDialog,
         I_CmsWidgetParameter param) {
 
@@ -578,11 +579,11 @@ public class CmsCategoryWidget extends A_CmsWidget implements I_CmsADEWidget {
      *
      * @return the default locale of the resource
      */
-    protected Locale getDefaultLocale(CmsObject cms, String resource) {
+    protected Locale getDefaultLocale(CmsObject cms, @RUntainted String resource) {
 
         Locale locale = OpenCms.getLocaleManager().getDefaultLocale(cms, resource);
         if (locale == null) {
-            List<Locale> locales = OpenCms.getLocaleManager().getAvailableLocales();
+            List<@RUntainted Locale> locales = OpenCms.getLocaleManager().getAvailableLocales();
             if (locales.size() > 0) {
                 locale = locales.get(0);
             } else {

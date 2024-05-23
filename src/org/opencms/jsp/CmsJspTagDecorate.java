@@ -44,6 +44,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements the <code>&lt;cms:decorate&gt;&lt;/cms:decorate&gt;</code>
@@ -72,10 +73,10 @@ public class CmsJspTagDecorate extends BodyTagSupport {
     private String m_file;
 
     /** The decoration locale. */
-    private String m_locale;
+    private @RUntainted String m_locale;
 
     /** List of upper case tag name strings of tags that should not be auto-corrected if closing divs are missing. */
-    private List<String> m_noAutoCloseTags;
+    private List<@RUntainted String> m_noAutoCloseTags;
 
     /**
      * Internal action method.<p>
@@ -89,7 +90,7 @@ public class CmsJspTagDecorate extends BodyTagSupport {
      *
      * @return the decorated content
      */
-    public String decorateTagAction(String content, String configFile, String locale, ServletRequest req) {
+    public String decorateTagAction(String content, String configFile, @RUntainted String locale, ServletRequest req) {
 
         try {
             Locale loc = null;
@@ -185,7 +186,7 @@ public class CmsJspTagDecorate extends BodyTagSupport {
      *
      * @return the locale name
      */
-    public String getLocale() {
+    public @RUntainted String getLocale() {
 
         return m_locale;
     }
@@ -251,7 +252,7 @@ public class CmsJspTagDecorate extends BodyTagSupport {
      *
      * @param locale the locale name
      */
-    public void setLocale(String locale) {
+    public void setLocale(@RUntainted String locale) {
 
         m_locale = locale;
     }
@@ -265,7 +266,7 @@ public class CmsJspTagDecorate extends BodyTagSupport {
      * @param noAutoCloseTagList a <code>String</code> that consists of the comma-separated upper case tag names for which this
      *      tag should not correct missing closing tags.
      */
-    public void setNoAutoCloseTags(String noAutoCloseTagList) {
+    public void setNoAutoCloseTags(@RUntainted String noAutoCloseTagList) {
 
         m_noAutoCloseTags = CmsStringUtil.splitAsList(noAutoCloseTagList, ',');
 

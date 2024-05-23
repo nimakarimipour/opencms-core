@@ -33,6 +33,7 @@ import org.opencms.file.CmsResource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Allows JSP access to the results of a &lt;cms:contentload ... &gt; operation using the JSTL and EL.<p>
@@ -51,7 +52,7 @@ public class CmsJspContentLoadBean {
     protected List<CmsJspContentAccessBean> m_content;
 
     /** The selected locale for accessing entries from the XML content. */
-    protected Locale m_locale;
+    protected @RUntainted Locale m_locale;
 
     /**
      * No argument constructor, required for a JavaBean.<p>
@@ -116,8 +117,8 @@ public class CmsJspContentLoadBean {
      * @return a list of {@link CmsJspContentAccessBean} objects created from the given {@link CmsResource} objects
      */
     public static List<CmsJspContentAccessBean> convertResourceList(
-        CmsObject cms,
-        Locale locale,
+        @RUntainted CmsObject cms,
+        @RUntainted Locale locale,
         List<CmsResource> resources) {
 
         List<CmsJspContentAccessBean> result = new ArrayList<CmsJspContentAccessBean>(resources.size());
@@ -167,7 +168,7 @@ public class CmsJspContentLoadBean {
      * @param locale the Locale to use when accessing the content
      * @param content the content to access, must contain Object of type {@link CmsResource}
      */
-    public void init(CmsObject cms, Locale locale, List<CmsResource> content) {
+    public void init(CmsObject cms, @RUntainted Locale locale, List<CmsResource> content) {
 
         m_cms = cms;
         m_locale = locale;

@@ -26,6 +26,7 @@
  */
  
 package org.opencms.jsp.search.config.parser.simplesearch;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 /**
  * Bean representing a Geo filter.
  */

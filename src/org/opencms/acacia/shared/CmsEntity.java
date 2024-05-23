@@ -45,6 +45,7 @@ import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Serializable entity implementation.<p>
@@ -73,10 +74,10 @@ public class CmsEntity implements HasValueChangeHandlers<CmsEntity>, Serializabl
     private Map<String, List<CmsEntity>> m_entityAttributes;
 
     /** The entity id. */
-    private String m_id;
+    private @RUntainted String m_id;
 
     /** The simple attribute values. */
-    private Map<String, List<String>> m_simpleAttributes;
+    private Map<String, List<@RUntainted String>> m_simpleAttributes;
 
     /** The type name. */
     private String m_typeName;
@@ -96,7 +97,7 @@ public class CmsEntity implements HasValueChangeHandlers<CmsEntity>, Serializabl
      * @param id the entity id/URI
      * @param typeName the entity type name
      */
-    public CmsEntity(String id, String typeName) {
+    public CmsEntity(@RUntainted String id, String typeName) {
 
         this();
         m_id = id;
@@ -121,7 +122,7 @@ public class CmsEntity implements HasValueChangeHandlers<CmsEntity>, Serializabl
      *
      * @return the value
      */
-    public static String getValueForPath(CmsEntity entity, String[] pathElements) {
+    public static @RUntainted String getValueForPath(CmsEntity entity, String[] pathElements) {
 
         String result = null;
         if ((pathElements != null) && (pathElements.length >= 1)) {
@@ -143,7 +144,7 @@ public class CmsEntity implements HasValueChangeHandlers<CmsEntity>, Serializabl
                     for (int i = 1; i < pathElements.length; i++) {
                         childPathElements[i - 1] = pathElements[i];
                     }
-                    List<CmsEntity> values = attribute.getComplexValues();
+                    List<@RUntainted CmsEntity> values = attribute.getComplexValues();
                     result = getValueForPath(values.get(index), childPathElements);
                 }
             }
@@ -249,7 +250,7 @@ public class CmsEntity implements HasValueChangeHandlers<CmsEntity>, Serializabl
      * @param attributeName the attribute name
      * @param value the attribute value
      */
-    public void addAttributeValue(String attributeName, String value) {
+    public void addAttributeValue(String attributeName, @RUntainted String value) {
 
         if (m_entityAttributes.containsKey(attributeName)) {
             throw new RuntimeException("Attribute already exists with a entity type value.");
@@ -257,7 +258,7 @@ public class CmsEntity implements HasValueChangeHandlers<CmsEntity>, Serializabl
         if (m_simpleAttributes.containsKey(attributeName)) {
             m_simpleAttributes.get(attributeName).add(value);
         } else {
-            List<String> values = new ArrayList<String>();
+            List<@RUntainted String> values = new ArrayList<@RUntainted String>();
             values.add(value);
             m_simpleAttributes.put(attributeName, values);
         }
@@ -287,7 +288,7 @@ public class CmsEntity implements HasValueChangeHandlers<CmsEntity>, Serializabl
                     clone.addAttributeValue(attribute.getAttributeName(), value);
                 }
             } else {
-                List<CmsEntity> values = attribute.getComplexValues();
+                List<@RUntainted CmsEntity> values = attribute.getComplexValues();
                 for (CmsEntity value : values) {
                     clone.addAttributeValue(attribute.getAttributeName(), value.cloneEntity());
                 }
@@ -303,7 +304,7 @@ public class CmsEntity implements HasValueChangeHandlers<CmsEntity>, Serializabl
      *
      * @return the entity copy
      */
-    public CmsEntity createDeepCopy(String entityId) {
+    public CmsEntity createDeepCopy(@RUntainted String entityId) {
 
         CmsEntity result = new CmsEntity(entityId, getTypeName());
         for (CmsEntityAttribute attribute : getAttributes()) {
@@ -313,7 +314,7 @@ public class CmsEntity implements HasValueChangeHandlers<CmsEntity>, Serializabl
                     result.addAttributeValue(attribute.getAttributeName(), value);
                 }
             } else {
-                List<CmsEntity> values = attribute.getComplexValues();
+                List<@RUntainted CmsEntity> values = attribute.getComplexValues();
                 for (CmsEntity value : values) {
                     result.addAttributeValue(attribute.getAttributeName(), value.createDeepCopy(null));
                 }
@@ -449,7 +450,7 @@ public class CmsEntity implements HasValueChangeHandlers<CmsEntity>, Serializabl
      *
      * @return the id
      */
-    public String getId() {
+    public @RUntainted String getId() {
 
         return m_id;
     }
@@ -510,7 +511,7 @@ public class CmsEntity implements HasValueChangeHandlers<CmsEntity>, Serializabl
      * @param value the attribute value
      * @param index the value index
      */
-    public void insertAttributeValue(String attributeName, String value, int index) {
+    public void insertAttributeValue(String attributeName, @RUntainted String value, int index) {
 
         if (m_simpleAttributes.containsKey(attributeName)) {
             m_simpleAttributes.get(attributeName).add(index, value);
@@ -560,7 +561,7 @@ public class CmsEntity implements HasValueChangeHandlers<CmsEntity>, Serializabl
     public void removeAttributeValue(String attributeName, int index) {
 
         if (m_simpleAttributes.containsKey(attributeName)) {
-            List<String> values = m_simpleAttributes.get(attributeName);
+            List<@RUntainted String> values = m_simpleAttributes.get(attributeName);
             if ((values.size() == 1) && (index == 0)) {
                 removeAttributeSilent(attributeName);
             } else {
@@ -625,10 +626,10 @@ public class CmsEntity implements HasValueChangeHandlers<CmsEntity>, Serializabl
      * @param attributeName the attribute name
      * @param value the attribute value
      */
-    public void setAttributeValue(String attributeName, String value) {
+    public void setAttributeValue(String attributeName, @RUntainted String value) {
 
         m_entityAttributes.remove(attributeName);
-        List<String> values = new ArrayList<String>();
+        List<@RUntainted String> values = new ArrayList<@RUntainted String>();
         values.add(value);
         m_simpleAttributes.put(attributeName, values);
         fireChange(ChangeType.change);
@@ -641,7 +642,7 @@ public class CmsEntity implements HasValueChangeHandlers<CmsEntity>, Serializabl
      * @param value the attribute value
      * @param index the value index
      */
-    public void setAttributeValue(String attributeName, String value, int index) {
+    public void setAttributeValue(String attributeName, @RUntainted String value, int index) {
 
         if (m_entityAttributes.containsKey(attributeName)) {
             throw new RuntimeException("Attribute already exists with a simple type value.");
@@ -670,7 +671,7 @@ public class CmsEntity implements HasValueChangeHandlers<CmsEntity>, Serializabl
 
         StringBuffer result = new StringBuffer();
         result.append("{\n");
-        for (Entry<String, List<String>> simpleEntry : m_simpleAttributes.entrySet()) {
+        for (Entry<String, List<@RUntainted String>> simpleEntry : m_simpleAttributes.entrySet()) {
             result.append("\"").append(simpleEntry.getKey()).append("\"").append(": [\n");
             boolean firstValue = true;
             for (String value : simpleEntry.getValue()) {

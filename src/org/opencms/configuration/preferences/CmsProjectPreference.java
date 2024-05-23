@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Preference subclass for selecting the start project.<p>
@@ -60,7 +61,7 @@ public class CmsProjectPreference extends CmsBuiltinPreference {
      *
      * @param name the name of the project
      */
-    public CmsProjectPreference(String name) {
+    public CmsProjectPreference(@RUntainted String name) {
 
         super(name);
         m_basic = false;
@@ -119,9 +120,9 @@ public class CmsProjectPreference extends CmsBuiltinPreference {
      *
      * @return the options for the project selector
      */
-    private String getProjectSelectOptions(CmsObject cms, Locale locale) {
+    private @RUntainted String getProjectSelectOptions(CmsObject cms, @RUntainted Locale locale) {
 
-        List<CmsProject> allProjects;
+        List<@RUntainted CmsProject> allProjects;
         try {
             String ouFqn = "";
             CmsUserSettings settings = new CmsUserSettings(cms);

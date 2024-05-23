@@ -41,6 +41,7 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 import com.vaadin.ui.Component;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the database import app.<p>
@@ -92,7 +93,7 @@ public class CmsDbImportApp extends A_CmsAttributeAwareApp implements I_CmsRepor
     /**
      * @see org.opencms.ui.apps.dbmanager.I_CmsReportApp#openReport(java.lang.String, org.opencms.report.A_CmsReportThread, java.lang.String)
      */
-    public void openReport(String path, A_CmsReportThread thread, String title) {
+    public void openReport(@RUntainted String path, A_CmsReportThread thread, String title) {
 
         m_reports.put(path, thread);
         m_labels.put(thread, title);

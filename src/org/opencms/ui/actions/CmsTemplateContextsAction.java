@@ -44,6 +44,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Template context selection action.
@@ -99,7 +100,7 @@ public class CmsTemplateContextsAction extends A_CmsWorkplaceAction implements I
     /**
      * @see org.opencms.ui.actions.I_CmsADEAction#getJspPath()
      */
-    public String getJspPath() {
+    public @RUntainted String getJspPath() {
 
         return null;
     }
@@ -107,7 +108,7 @@ public class CmsTemplateContextsAction extends A_CmsWorkplaceAction implements I
     /**
      * @see org.opencms.ui.actions.I_CmsADEAction#getParams()
      */
-    public Map<String, String> getParams() {
+    public Map<String, @RUntainted String> getParams() {
 
         return null;
     }
@@ -129,7 +130,7 @@ public class CmsTemplateContextsAction extends A_CmsWorkplaceAction implements I
         if (!AdeContext.pageeditor.name().equals(context.getAppId())) {
             return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
         }
-        List<CmsResource> resources = context.getResources();
+        List<@RUntainted CmsResource> resources = context.getResources();
         if (resources.size() != 1) {
             return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
         }
@@ -176,7 +177,7 @@ public class CmsTemplateContextsAction extends A_CmsWorkplaceAction implements I
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
      */
     @Override
-    protected String getTitleKey() {
+    protected @RUntainted String getTitleKey() {
 
         return "TEMPLATECONTEXTS";
     }

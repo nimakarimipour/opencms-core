@@ -30,6 +30,7 @@ package org.opencms.ade.configuration;
 import org.opencms.xml.content.CmsXmlContentProperty;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class represents the property configuration for a sitemap region.<p>
@@ -123,7 +124,7 @@ public class CmsPropertyConfig implements I_CmsConfigurationObject<CmsPropertyCo
      *
      * @return the name of the property
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_propData.getName();
     }

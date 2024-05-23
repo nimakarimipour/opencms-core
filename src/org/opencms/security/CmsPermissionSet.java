@@ -32,6 +32,7 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * An immutable permission set that contains both allowed and denied permissions as bitsets.<p>
@@ -89,7 +90,7 @@ public class CmsPermissionSet implements Serializable {
     public static final int PERMISSION_WRITE = 2;
 
     /** HashMap of all available permissions. */
-    private static Map<String, Integer> m_permissions;
+    private static Map<@RUntainted String, Integer> m_permissions;
 
     /** The serial version id. */
     private static final long serialVersionUID = -8374511370934922020L;
@@ -136,7 +137,7 @@ public class CmsPermissionSet implements Serializable {
      *
      * @return Enumeration of message keys
      */
-    public static Set<String> getPermissionKeys() {
+    public static Set<@RUntainted String> getPermissionKeys() {
 
         return permissions().keySet();
     }
@@ -157,7 +158,7 @@ public class CmsPermissionSet implements Serializable {
      *
      * @return a linked hash map with permission keys and values
      */
-    private static Map<String, Integer> permissions() {
+    private static Map<@RUntainted String, Integer> permissions() {
 
         if (m_permissions == null) {
             LinkedHashMap<String, Integer> permissions = new LinkedHashMap<String, Integer>();
@@ -225,7 +226,7 @@ public class CmsPermissionSet implements Serializable {
      *
      * @return string of the format {{+|-}{r|w|v|c|d}}*
      */
-    public String getPermissionString() {
+    public @RUntainted String getPermissionString() {
 
         StringBuffer p = new StringBuffer("");
 
@@ -327,7 +328,7 @@ public class CmsPermissionSet implements Serializable {
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString() {
+    public @RUntainted String toString() {
 
         return "[PermissionSet:] " + getPermissionString();
     }

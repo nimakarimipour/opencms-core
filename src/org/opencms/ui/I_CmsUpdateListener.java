@@ -28,6 +28,7 @@
 package org.opencms.ui;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles updates to items of a given type.<p>
@@ -41,5 +42,5 @@ public interface I_CmsUpdateListener<T> {
      *
      * @param updatedItems the updated items
      */
-    public void onUpdate(List<T> updatedItems);
+    public void onUpdate(@RUntainted List<@RUntainted T> updatedItems);
 }

@@ -43,6 +43,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides context information to JSON handlers.<p>
@@ -123,7 +124,7 @@ public class CmsJsonHandlerContext {
     private CmsJsonAccessPolicy m_accessPolicy;
 
     /** The CMS context with the original site root. */
-    private CmsObject m_cms;
+    private @RUntainted CmsObject m_cms;
 
     /** The XML content (initially null). */
     private CmsXmlContent m_content;
@@ -135,13 +136,13 @@ public class CmsJsonHandlerContext {
     private CmsParameterConfiguration m_handlerConfig;
 
     /** The request parameters from the resource init handler call. */
-    private Map<String, String> m_parameters;
+    private Map<@RUntainted String, @RUntainted String> m_parameters;
 
     /** The path below the JSON handler prefix. */
     private String m_path;
 
     /** The resource for the path. */
-    private CmsResource m_resource;
+    private @RUntainted CmsResource m_resource;
 
     /** The CMS context initialized with the root site. */
     private CmsObject m_rootCms;
@@ -161,11 +162,11 @@ public class CmsJsonHandlerContext {
      * @param policy the access policy
      */
     public CmsJsonHandlerContext(
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         CmsObject rootCms,
         String path,
         CmsResource resource,
-        Map<String, String> params,
+        Map<@RUntainted String, @RUntainted String> params,
         CmsParameterConfiguration handlerConfig,
         CmsJsonAccessPolicy policy) {
 
@@ -199,7 +200,7 @@ public class CmsJsonHandlerContext {
      *
      * @return the CMS context
      */
-    public CmsObject getCms() {
+    public @RUntainted CmsObject getCms() {
 
         return m_cms;
     }
@@ -263,7 +264,7 @@ public class CmsJsonHandlerContext {
      *
      * @return the request parameters
      */
-    public Map<String, String> getParameters() {
+    public Map<@RUntainted String, @RUntainted String> getParameters() {
 
         return Collections.unmodifiableMap(m_parameters);
     }
@@ -283,7 +284,7 @@ public class CmsJsonHandlerContext {
      *
      * @return the resource
      */
-    public CmsResource getResource() {
+    public @RUntainted CmsResource getResource() {
 
         return m_resource;
     }

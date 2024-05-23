@@ -64,6 +64,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * ADE publishing features.<p>
@@ -143,7 +144,7 @@ public class CmsPublish {
     protected final CmsPublishOptions m_options;
 
     /** The current user workplace locale. */
-    protected final Locale m_workplaceLocale;
+    protected final @RUntainted Locale m_workplaceLocale;
 
     /** The relation validator instance. */
     private CmsRelationPublishValidator m_relationValidator;
@@ -177,7 +178,7 @@ public class CmsPublish {
      * @param cms the current cms context
      * @param params the additional publish parameters
      */
-    public CmsPublish(CmsObject cms, Map<String, String> params) {
+    public CmsPublish(CmsObject cms, Map<String, @RUntainted String> params) {
 
         this(cms, new CmsPublishOptions(params));
     }
@@ -206,7 +207,7 @@ public class CmsPublish {
      *
      * @return a list of resources that would produce broken links when published
      */
-    public List<CmsPublishResource> getBrokenResources(List<CmsResource> pubResources) {
+    public List<CmsPublishResource> getBrokenResources(List<@RUntainted CmsResource> pubResources) {
 
         List<CmsPublishResource> resources = new ArrayList<CmsPublishResource>();
         CmsPublishManager publishManager = OpenCms.getPublishManager();
@@ -305,7 +306,7 @@ public class CmsPublish {
      *
      * @throws CmsException if something goes wrong
      */
-    public void publishResources(List<CmsResource> resources) throws CmsException {
+    public void publishResources(List<@RUntainted CmsResource> resources) throws CmsException {
 
         CmsObject cms = m_cms;
         I_CmsReport report = new CmsWorkplaceReport(
@@ -351,7 +352,7 @@ public class CmsPublish {
      *
      * @throws CmsException if something goes wrong
      */
-    public void removeResourcesFromPublishList(Collection<CmsUUID> idsToRemove) throws CmsException {
+    public void removeResourcesFromPublishList(@RUntainted Collection<CmsUUID> idsToRemove) throws CmsException {
 
         OpenCms.getPublishManager().removeResourceFromUsersPubList(m_cms, idsToRemove);
     }

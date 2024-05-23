@@ -40,6 +40,7 @@ import java.util.List;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog to show list of resources.<p>
@@ -57,7 +58,7 @@ public class CmsResourceListDialog extends CmsBasicDialog {
      *
      * @param resources List of resources
      */
-    public CmsResourceListDialog(List<CmsResource> resources) {
+    public CmsResourceListDialog(@RUntainted List<CmsResource> resources) {
 
         CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
         if (resources.size() < 50) {

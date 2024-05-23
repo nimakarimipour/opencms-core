@@ -33,6 +33,7 @@ import org.opencms.ui.apps.publishqueue.CmsPublishQueueConfiguration;
 
 import java.util.HashMap;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The publish queue dialog action.<p>
@@ -66,7 +67,7 @@ public class CmsPublishQueueDialogAction extends A_CmsToolbarAction implements I
     /**
      * @see org.opencms.ui.actions.I_CmsADEAction#getJspPath()
      */
-    public String getJspPath() {
+    public @RUntainted String getJspPath() {
 
         return null;
     }
@@ -74,9 +75,9 @@ public class CmsPublishQueueDialogAction extends A_CmsToolbarAction implements I
     /**
      * @see org.opencms.ui.actions.I_CmsADEAction#getParams()
      */
-    public Map<String, String> getParams() {
+    public Map<String, @RUntainted String> getParams() {
 
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, @RUntainted String> params = new HashMap<String, @RUntainted String>();
         params.put(CmsGwtConstants.ACTION_PARAM_DIALOG_ID, this.getClass().getName());
         return params;
     }
@@ -93,7 +94,7 @@ public class CmsPublishQueueDialogAction extends A_CmsToolbarAction implements I
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
      */
     @Override
-    protected String getTitleKey() {
+    protected @RUntainted String getTitleKey() {
 
         return org.opencms.ui.Messages.GUI_EXPLORER_CONTEXT_PUBLISH_QUEUE_0;
     }

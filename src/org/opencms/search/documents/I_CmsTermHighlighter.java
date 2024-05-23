@@ -36,6 +36,7 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.highlight.InvalidTokenOffsetsException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Highlights arbitrary terms, used for generation of search excerpts.<p>
@@ -58,6 +59,6 @@ public interface I_CmsTermHighlighter {
      * @throws IOException if something goes wrong
      * @throws InvalidTokenOffsetsException in case of problems with the Lucene tokenizer
      */
-    String getExcerpt(Document doc, CmsSearchIndex index, CmsSearchParameters params, Query query, Analyzer analyzer)
+    @RUntainted String getExcerpt(Document doc, CmsSearchIndex index, CmsSearchParameters params, Query query, Analyzer analyzer)
     throws IOException, InvalidTokenOffsetsException;
 }

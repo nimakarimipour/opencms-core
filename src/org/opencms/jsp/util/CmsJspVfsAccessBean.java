@@ -56,6 +56,7 @@ import java.util.Map;
 
 import org.apache.commons.collections.Transformer;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides utility methods that allow convenient access to the OpenCms VFS,
@@ -78,7 +79,7 @@ public final class CmsJspVfsAccessBean {
          */
         public Object transform(Object input) {
 
-            List<Locale> result;
+            List<@RUntainted Locale> result;
             // read the available locales
             result = OpenCms.getLocaleManager().getAvailableLocales(getCmsObject(), String.valueOf(input));
             return result;
@@ -171,7 +172,7 @@ public final class CmsJspVfsAccessBean {
         /**
          * @see org.apache.commons.collections.Transformer#transform(java.lang.Object)
          */
-        public Object transform(Object input) {
+        public Object transform(@RUntainted Object input) {
 
             String result;
             try {
@@ -194,7 +195,7 @@ public final class CmsJspVfsAccessBean {
         /**
          * @see org.apache.commons.collections.Transformer#transform(java.lang.Object)
          */
-        public Object transform(Object input) {
+        public Object transform(@RUntainted Object input) {
 
             CmsJspResourceWrapper result;
             try {
@@ -292,7 +293,7 @@ public final class CmsJspVfsAccessBean {
         /**
          * @see org.apache.commons.collections.Transformer#transform(java.lang.Object)
          */
-        public Object transform(Object input) {
+        public Object transform(@RUntainted Object input) {
 
             return A_CmsJspValueWrapper.substituteLink(getCmsObject(), String.valueOf(input));
         }
@@ -327,7 +328,7 @@ public final class CmsJspVfsAccessBean {
     private static final Log LOG = CmsLog.getLog(CmsJspVfsAccessBean.class);
 
     /** The OpenCms context of the current user. */
-    protected CmsObject m_cms;
+    protected @RUntainted CmsObject m_cms;
 
     /** Contains booleans that indicate if a resource exists in the VFS. */
     private Map<String, Boolean> m_existsResource;
@@ -367,7 +368,7 @@ public final class CmsJspVfsAccessBean {
      *
      * @param cms the OpenCms context of the current user
      */
-    private CmsJspVfsAccessBean(CmsObject cms) {
+    private CmsJspVfsAccessBean(@RUntainted CmsObject cms) {
 
         m_cms = cms;
     }
@@ -382,7 +383,7 @@ public final class CmsJspVfsAccessBean {
      *
      * @return a new instance of the JSP VFS access utility bean
      */
-    public static CmsJspVfsAccessBean create(CmsObject cms) {
+    public static CmsJspVfsAccessBean create(@RUntainted CmsObject cms) {
 
         CmsJspVfsAccessBean result;
         Object attribute = cms.getRequestContext().getAttribute(ATTRIBUTE_VFS_ACCESS_BEAN);
@@ -414,7 +415,7 @@ public final class CmsJspVfsAccessBean {
      *
      * @return the OpenCms user context this bean was initialized with
      */
-    public CmsObject getCmsObject() {
+    public @RUntainted CmsObject getCmsObject() {
 
         return m_cms;
     }
@@ -1115,11 +1116,11 @@ public final class CmsJspVfsAccessBean {
      *
      * @throws CmsException in case reading the resources fails
      */
-    public List<CmsJspResourceWrapper> readFilesInFolder(String resourcePath, String filterString) throws CmsException {
+    public List<CmsJspResourceWrapper> readFilesInFolder(String resourcePath, @RUntainted String filterString) throws CmsException {
 
         CmsResourceFilter filter = CmsResourceFilter.DEFAULT;
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(filterString)) {
-            String[] types = filterString.split(",");
+            @RUntainted String[] types = filterString.split(",");
             for (String type : types) {
                 if (OpenCms.getResourceManager().hasResourceType(type)) {
                     filter.addRequireType(OpenCms.getResourceManager().getResourceType(type));

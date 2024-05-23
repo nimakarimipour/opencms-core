@@ -60,6 +60,7 @@ import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog for delete multiple principal.<p>
@@ -91,7 +92,7 @@ public class CmsDeleteMultiplePrincipalDialog extends CmsBasicDialog {
     Button m_cancelButton;
 
     /**The ids to delete. */
-    private Set<String> m_ids;
+    private Set<@RUntainted String> m_ids;
 
     /**Ids of the user to delete. */
     private Set<CmsUUID> m_userIDs;
@@ -122,7 +123,7 @@ public class CmsDeleteMultiplePrincipalDialog extends CmsBasicDialog {
      * @param window window
      * @param app
      */
-    public CmsDeleteMultiplePrincipalDialog(CmsObject cms, Set<String> context, Window window, CmsAccountsApp app) {
+    public CmsDeleteMultiplePrincipalDialog(CmsObject cms, Set<@RUntainted String> context, Window window, CmsAccountsApp app) {
 
         init(cms, window, app);
         boolean defaultUser = false;

@@ -50,6 +50,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A collector that returns visited or subscribed resources depending on the current user and parameters.<p>
@@ -114,10 +115,10 @@ public class CmsSubscriptionCollector extends A_CmsResourceCollector {
     public static final String PARAM_KEY_USER = "user";
 
     /** Static array of the collectors implemented by this class. */
-    private static final String[] COLLECTORS = {"allVisited", "allSubscribed", "allSubscribedDeleted"};
+    private static final @RUntainted String[] COLLECTORS = {"allVisited", "allSubscribed", "allSubscribedDeleted"};
 
     /** Array list for fast collector name lookup. */
-    private static final List<String> COLLECTORS_LIST = Collections.unmodifiableList(Arrays.asList(COLLECTORS));
+    private static final List<@RUntainted String> COLLECTORS_LIST = Collections.unmodifiableList(Arrays.asList(COLLECTORS));
 
     /** The log object for this class. */
     private static final Log LOG = CmsLog.getLog(CmsSubscriptionCollector.class);
@@ -125,7 +126,7 @@ public class CmsSubscriptionCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getCollectorNames()
      */
-    public List<String> getCollectorNames() {
+    public List<@RUntainted String> getCollectorNames() {
 
         return COLLECTORS_LIST;
     }
@@ -133,7 +134,7 @@ public class CmsSubscriptionCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getCreateLink(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String getCreateLink(CmsObject cms, String collectorName, String param) {
+    public @RUntainted String getCreateLink(CmsObject cms, String collectorName, String param) {
 
         // this collector does not support creation of new resources
         return null;
@@ -142,7 +143,7 @@ public class CmsSubscriptionCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getCreateParam(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String getCreateParam(CmsObject cms, String collectorName, String param) {
+    public @RUntainted String getCreateParam(CmsObject cms, String collectorName, String param) {
 
         // this collector does not support creation of new resources
         return null;
@@ -151,7 +152,7 @@ public class CmsSubscriptionCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getResults(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public List<CmsResource> getResults(CmsObject cms, String collectorName, String param)
+    public List<CmsResource> getResults(CmsObject cms, @RUntainted String collectorName, @RUntainted String param)
     throws CmsDataAccessException, CmsException {
 
         return getResults(cms, collectorName, param, -1);
@@ -161,7 +162,7 @@ public class CmsSubscriptionCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getResults(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public List<CmsResource> getResults(CmsObject cms, String collectorName, String param, int numResults)
+    public List<CmsResource> getResults(CmsObject cms, @RUntainted String collectorName, @RUntainted String param, int numResults)
     throws CmsDataAccessException, CmsException {
 
         // if action is not set use default
@@ -196,10 +197,10 @@ public class CmsSubscriptionCollector extends A_CmsResourceCollector {
      *
      * @throws CmsException if something goes wrong
      */
-    protected List<CmsResource> getSubscribedDeletedResources(CmsObject cms, String param, int numResults)
+    protected List<CmsResource> getSubscribedDeletedResources(CmsObject cms, @RUntainted String param, int numResults)
     throws CmsException {
 
-        Map<String, String> params = getParameters(param);
+        Map<String, @RUntainted String> params = getParameters(param);
         CmsSubscriptionFilter filter = getSubscriptionFilter(cms, params);
         String parentPath = filter.getParentPath();
         if (CmsStringUtil.isNotEmpty(parentPath)) {
@@ -237,7 +238,7 @@ public class CmsSubscriptionCollector extends A_CmsResourceCollector {
      *
      * @throws CmsException if something goes wrong
      */
-    protected List<CmsResource> getSubscribedResources(CmsObject cms, String param, int numResults)
+    protected List<CmsResource> getSubscribedResources(CmsObject cms, @RUntainted String param, int numResults)
     throws CmsException {
 
         List<CmsResource> result = OpenCms.getSubscriptionManager().readSubscribedResources(
@@ -260,7 +261,7 @@ public class CmsSubscriptionCollector extends A_CmsResourceCollector {
      *
      * @throws CmsException if something goes wrong
      */
-    protected CmsSubscriptionFilter getSubscriptionFilter(CmsObject cms, Map<String, String> params)
+    protected CmsSubscriptionFilter getSubscriptionFilter(CmsObject cms, Map<String, @RUntainted String> params)
     throws CmsException {
 
         CmsSubscriptionFilter filter = new CmsSubscriptionFilter();
@@ -278,8 +279,8 @@ public class CmsSubscriptionCollector extends A_CmsResourceCollector {
 
         // determine the groups to set in the filter
         if (params.containsKey(PARAM_KEY_GROUPS)) {
-            List<String> groupNames = CmsStringUtil.splitAsList(params.get(PARAM_KEY_GROUPS), ',', true);
-            for (Iterator<String> i = groupNames.iterator(); i.hasNext();) {
+            List<@RUntainted String> groupNames = CmsStringUtil.splitAsList(params.get(PARAM_KEY_GROUPS), ',', true);
+            for (Iterator<@RUntainted String> i = groupNames.iterator(); i.hasNext();) {
                 String groupName = i.next();
                 try {
                     CmsGroup group = cms.readGroup(groupName);
@@ -319,7 +320,7 @@ public class CmsSubscriptionCollector extends A_CmsResourceCollector {
      *
      * @throws CmsException if something goes wrong
      */
-    protected CmsSubscriptionFilter getSubscriptionFilter(CmsObject cms, String param) throws CmsException {
+    protected CmsSubscriptionFilter getSubscriptionFilter(CmsObject cms, @RUntainted String param) throws CmsException {
 
         return getSubscriptionFilter(cms, getParameters(param));
     }
@@ -334,10 +335,10 @@ public class CmsSubscriptionCollector extends A_CmsResourceCollector {
      *
      * @throws CmsException if something goes wrong
      */
-    protected CmsVisitedByFilter getVisitedByFilter(CmsObject cms, String param) throws CmsException {
+    protected CmsVisitedByFilter getVisitedByFilter(CmsObject cms, @RUntainted String param) throws CmsException {
 
         CmsVisitedByFilter filter = new CmsVisitedByFilter();
-        Map<String, String> params = getParameters(param);
+        Map<String, @RUntainted String> params = getParameters(param);
 
         // initialize the filter
         initVisitedByFilter(filter, cms, params, true);
@@ -356,7 +357,7 @@ public class CmsSubscriptionCollector extends A_CmsResourceCollector {
      *
      * @throws CmsException if something goes wrong
      */
-    protected List<CmsResource> getVisitedResources(CmsObject cms, String param, int numResults) throws CmsException {
+    protected List<CmsResource> getVisitedResources(CmsObject cms, @RUntainted String param, int numResults) throws CmsException {
 
         List<CmsResource> result = OpenCms.getSubscriptionManager().readResourcesVisitedBy(
             cms,
@@ -378,7 +379,7 @@ public class CmsSubscriptionCollector extends A_CmsResourceCollector {
      *
      * @return the calculated time
      */
-    private long getCalculatedTime(long baseTime, String deltaDays, String key, long defaultTime) {
+    private long getCalculatedTime(long baseTime, @RUntainted String deltaDays, @RUntainted String key, long defaultTime) {
 
         try {
             long days = Long.parseLong(deltaDays);
@@ -401,7 +402,7 @@ public class CmsSubscriptionCollector extends A_CmsResourceCollector {
      *
      * @return the collector parameters
      */
-    private Map<String, String> getParameters(String param) {
+    private Map<String, @RUntainted String> getParameters(@RUntainted String param) {
 
         if (CmsStringUtil.isNotEmpty(param)) {
             return CmsStringUtil.splitAsMap(param, "|", "=");
@@ -423,7 +424,7 @@ public class CmsSubscriptionCollector extends A_CmsResourceCollector {
     private void initVisitedByFilter(
         CmsVisitedByFilter filter,
         CmsObject cms,
-        Map<String, String> params,
+        Map<String, @RUntainted String> params,
         boolean forceSetUser) throws CmsException {
 
         // determine the user to set in the filter

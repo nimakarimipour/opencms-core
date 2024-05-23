@@ -71,6 +71,7 @@ import org.apache.chemistry.opencmis.commons.impl.dataobjects.AllowableActionsIm
 import org.apache.chemistry.opencmis.commons.impl.dataobjects.ObjectDataImpl;
 import org.apache.chemistry.opencmis.commons.impl.dataobjects.PropertiesImpl;
 import org.apache.chemistry.opencmis.commons.impl.server.ObjectInfoImpl;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for CMIS CRUD operations on relation objects.<p>
@@ -125,7 +126,7 @@ public class CmsCmisRelationHelper implements I_CmsCmisObjectHelper {
 
             try {
                 m_source = cms.readResource(m_sourceId);
-                List<CmsRelation> relations = cms.getRelationsForResource(
+                List<@RUntainted CmsRelation> relations = cms.getRelationsForResource(
                     m_source,
                     CmsRelationFilter.TARGETS.filterStructureId(m_targetId).filterType(getRelationType(m_relType)));
                 if (relations.isEmpty()) {
@@ -281,7 +282,7 @@ public class CmsCmisRelationHelper implements I_CmsCmisObjectHelper {
     /**
      * @see org.opencms.cmis.I_CmsCmisObjectHelper#deleteObject(org.opencms.cmis.CmsCmisCallContext, java.lang.String, boolean)
      */
-    public void deleteObject(CmsCmisCallContext context, String objectId, boolean allVersions) {
+    public void deleteObject(CmsCmisCallContext context, @RUntainted String objectId, boolean allVersions) {
 
         try {
 
@@ -307,7 +308,7 @@ public class CmsCmisRelationHelper implements I_CmsCmisObjectHelper {
     /**
      * @see org.opencms.cmis.I_CmsCmisObjectHelper#getAcl(org.opencms.cmis.CmsCmisCallContext, java.lang.String, boolean)
      */
-    public Acl getAcl(CmsCmisCallContext context, String objectId, boolean onlyBasicPermissions) {
+    public Acl getAcl(CmsCmisCallContext context, @RUntainted String objectId, boolean onlyBasicPermissions) {
 
         CmsObject cms = m_repository.getCmsObject(context);
         RelationKey rk = parseRelationKey(objectId);
@@ -318,7 +319,7 @@ public class CmsCmisRelationHelper implements I_CmsCmisObjectHelper {
     /**
      * @see org.opencms.cmis.I_CmsCmisObjectHelper#getAllowableActions(org.opencms.cmis.CmsCmisCallContext, java.lang.String)
      */
-    public AllowableActions getAllowableActions(CmsCmisCallContext context, String objectId) {
+    public AllowableActions getAllowableActions(CmsCmisCallContext context, @RUntainted String objectId) {
 
         CmsObject cms = m_repository.getCmsObject(context);
         RelationKey rk = parseRelationKey(objectId);
@@ -331,7 +332,7 @@ public class CmsCmisRelationHelper implements I_CmsCmisObjectHelper {
      */
     public ObjectData getObject(
         CmsCmisCallContext context,
-        String objectId,
+        @RUntainted String objectId,
         String filter,
         boolean includeAllowableActions,
         IncludeRelationships includeRelationships,
@@ -580,7 +581,7 @@ public class CmsCmisRelationHelper implements I_CmsCmisObjectHelper {
      *
      * @return the relation key object
      */
-    protected RelationKey parseRelationKey(String id) {
+    protected RelationKey parseRelationKey(@RUntainted String id) {
 
         Matcher matcher = RELATION_PATTERN.matcher(id);
         matcher.find();

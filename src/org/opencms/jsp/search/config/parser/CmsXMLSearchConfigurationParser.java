@@ -68,6 +68,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Search configuration parser reading XML. */
 public class CmsXMLSearchConfigurationParser implements I_CmsSearchConfigurationParser {
@@ -375,8 +376,8 @@ public class CmsXMLSearchConfigurationParser implements I_CmsSearchConfiguration
             final List<I_CmsFacetQueryItem> queries = parseFacetQueryItems(pathPrefix + XML_ELEMENT_QUERY_FACET_QUERY);
             final String label = parseOptionalStringValue(pathPrefix + XML_ELEMENT_FACET_LABEL);
             final Boolean isAndFacet = parseOptionalBooleanValue(pathPrefix + XML_ELEMENT_FACET_ISANDFACET);
-            final List<String> preselection = parseOptionalStringValues(pathPrefix + XML_ELEMENT_FACET_PRESELECTION);
-            final List<String> excludeTags = parseOptionalStringValues(pathPrefix + XML_ELEMENT_FACET_EXCLUDETAG);
+            final List<@RUntainted String> preselection = parseOptionalStringValues(pathPrefix + XML_ELEMENT_FACET_PRESELECTION);
+            final List<@RUntainted String> excludeTags = parseOptionalStringValues(pathPrefix + XML_ELEMENT_FACET_EXCLUDETAG);
             final Boolean ignoreAllFacetFilters = parseOptionalBooleanValue(
                 pathPrefix + XML_ELEMENT_FACET_IGNOREALLFACETFILTERS);
             return new CmsSearchConfigurationFacetQuery(
@@ -444,7 +445,7 @@ public class CmsXMLSearchConfigurationParser implements I_CmsSearchConfiguration
      * @param indexName the name of the index to search in.
      * @return The number of maximally returned results, or <code>null</code> if the indexes default should be used.
      */
-    protected int getMaxReturnedResults(String indexName) {
+    protected @RUntainted int getMaxReturnedResults(String indexName) {
 
         Integer maxReturnedResults = parseOptionalIntValue(XML_ELEMENT_MAX_RETURNED_RESULTS);
         if (null != maxReturnedResults) {
@@ -470,7 +471,7 @@ public class CmsXMLSearchConfigurationParser implements I_CmsSearchConfiguration
      * @return The String list stored in the XML, or <code>null</code> if the value could not be read.
      * @throws Exception thrown if the list of String values can not be read.
      */
-    protected List<I_CmsFacetQueryItem> parseFacetQueryItems(final String path) throws Exception {
+    protected List<I_CmsFacetQueryItem> parseFacetQueryItems(final @RUntainted String path) throws Exception {
 
         final List<I_CmsXmlContentValue> values = m_xml.getValues(path, m_locale);
         if (values == null) {
@@ -493,7 +494,7 @@ public class CmsXMLSearchConfigurationParser implements I_CmsSearchConfiguration
      * @param pathPrefix The XML Path that leads to the field facet configuration, or <code>null</code> if the XML was not correctly structured.
      * @return The read configuration, or <code>null</code> if the XML was not correctly structured.
      */
-    protected I_CmsSearchConfigurationFacetField parseFieldFacet(final String pathPrefix) {
+    protected I_CmsSearchConfigurationFacetField parseFieldFacet(final @RUntainted String pathPrefix) {
 
         try {
             final String field = parseMandatoryStringValue(pathPrefix + XML_ELEMENT_FACET_FIELD);
@@ -512,10 +513,10 @@ public class CmsXMLSearchConfigurationParser implements I_CmsSearchConfiguration
             final String filterQueryModifier = parseOptionalStringValue(
                 pathPrefix + XML_ELEMENT_FACET_FILTERQUERYMODIFIER);
             final Boolean isAndFacet = parseOptionalBooleanValue(pathPrefix + XML_ELEMENT_FACET_ISANDFACET);
-            final List<String> preselection = parseOptionalStringValues(pathPrefix + XML_ELEMENT_FACET_PRESELECTION);
+            final List<@RUntainted String> preselection = parseOptionalStringValues(pathPrefix + XML_ELEMENT_FACET_PRESELECTION);
             final Boolean ignoreAllFacetFilters = parseOptionalBooleanValue(
                 pathPrefix + XML_ELEMENT_FACET_IGNOREALLFACETFILTERS);
-            final List<String> excludeTags = parseOptionalStringValues(pathPrefix + XML_ELEMENT_FACET_EXCLUDETAG);
+            final List<@RUntainted String> excludeTags = parseOptionalStringValues(pathPrefix + XML_ELEMENT_FACET_EXCLUDETAG);
             return new CmsSearchConfigurationFacetField(
                 field,
                 name,
@@ -543,7 +544,7 @@ public class CmsXMLSearchConfigurationParser implements I_CmsSearchConfiguration
      * @param path The XML path of the element to read.
      * @return The Boolean value stored in the XML, or <code>null</code> if the value could not be read.
      */
-    protected Boolean parseOptionalBooleanValue(final String path) {
+    protected Boolean parseOptionalBooleanValue(final @RUntainted String path) {
 
         final I_CmsXmlContentValue value = m_xml.getValue(path, m_locale);
         if (value == null) {
@@ -564,7 +565,7 @@ public class CmsXMLSearchConfigurationParser implements I_CmsSearchConfiguration
      * @param path The XML path of the element to read.
      * @return The Integer value stored in the XML, or <code>null</code> if the value could not be read.
      */
-    protected Integer parseOptionalIntValue(final String path) {
+    protected @RUntainted Integer parseOptionalIntValue(final @RUntainted String path) {
 
         final I_CmsXmlContentValue value = m_xml.getValue(path, m_locale);
         if (value == null) {
@@ -585,7 +586,7 @@ public class CmsXMLSearchConfigurationParser implements I_CmsSearchConfiguration
      * @param path The XML path of the element to read.
      * @return The String value stored in the XML, or <code>null</code> if the value could not be read.
      */
-    protected String parseOptionalStringValue(final String path) {
+    protected @RUntainted String parseOptionalStringValue(final @RUntainted String path) {
 
         final I_CmsXmlContentValue value = m_xml.getValue(path, m_locale);
         if (value == null) {
@@ -599,13 +600,13 @@ public class CmsXMLSearchConfigurationParser implements I_CmsSearchConfiguration
      * @param path The XML path of the element to read.
      * @return The String list stored in the XML, or <code>null</code> if the value could not be read.
      */
-    protected List<String> parseOptionalStringValues(final String path) {
+    protected List<@RUntainted String> parseOptionalStringValues(final @RUntainted String path) {
 
         final List<I_CmsXmlContentValue> values = m_xml.getValues(path, m_locale);
         if (values == null) {
             return null;
         } else {
-            List<String> stringValues = new ArrayList<String>(values.size());
+            List<@RUntainted String> stringValues = new ArrayList<@RUntainted String>(values.size());
             for (I_CmsXmlContentValue value : values) {
                 stringValues.add(value.getStringValue(null));
             }
@@ -617,7 +618,7 @@ public class CmsXMLSearchConfigurationParser implements I_CmsSearchConfiguration
      * @param pathPrefix The XML Path that leads to the range facet configuration, or <code>null</code> if the XML was not correctly structured.
      * @return The read configuration, or <code>null</code> if the XML was not correctly structured.
      */
-    protected I_CmsSearchConfigurationFacetRange parseRangeFacet(String pathPrefix) {
+    protected I_CmsSearchConfigurationFacetRange parseRangeFacet(@RUntainted String pathPrefix) {
 
         try {
             final String range = parseMandatoryStringValue(pathPrefix + XML_ELEMENT_RANGE_FACET_RANGE);
@@ -630,7 +631,7 @@ public class CmsXMLSearchConfigurationParser implements I_CmsSearchConfiguration
             final String sother = parseOptionalStringValue(pathPrefix + XML_ELEMENT_RANGE_FACET_OTHER);
             List<I_CmsSearchConfigurationFacetRange.Other> other = null;
             if (sother != null) {
-                final List<String> sothers = Arrays.asList(sother.split(","));
+                final List<@RUntainted String> sothers = Arrays.asList(sother.split(","));
                 other = new ArrayList<I_CmsSearchConfigurationFacetRange.Other>(sothers.size());
                 for (String so : sothers) {
                     try {
@@ -644,10 +645,10 @@ public class CmsXMLSearchConfigurationParser implements I_CmsSearchConfiguration
             }
             final Boolean hardEnd = parseOptionalBooleanValue(pathPrefix + XML_ELEMENT_RANGE_FACET_HARDEND);
             final Boolean isAndFacet = parseOptionalBooleanValue(pathPrefix + XML_ELEMENT_FACET_ISANDFACET);
-            final List<String> preselection = parseOptionalStringValues(pathPrefix + XML_ELEMENT_FACET_PRESELECTION);
+            final List<@RUntainted String> preselection = parseOptionalStringValues(pathPrefix + XML_ELEMENT_FACET_PRESELECTION);
             final Boolean ignoreAllFacetFilters = parseOptionalBooleanValue(
                 pathPrefix + XML_ELEMENT_FACET_IGNOREALLFACETFILTERS);
-            final List<String> excludeTags = parseOptionalStringValues(pathPrefix + XML_ELEMENT_FACET_EXCLUDETAG);
+            final List<@RUntainted String> excludeTags = parseOptionalStringValues(pathPrefix + XML_ELEMENT_FACET_EXCLUDETAG);
             return new CmsSearchConfigurationFacetRange(
                 range,
                 start,
@@ -891,7 +892,7 @@ public class CmsXMLSearchConfigurationParser implements I_CmsSearchConfiguration
      * @param prefix path to the query facet item (with trailing '/').
      * @return the query facet item.
      */
-    private I_CmsFacetQueryItem parseFacetQueryItem(final String prefix) {
+    private I_CmsFacetQueryItem parseFacetQueryItem(final @RUntainted String prefix) {
 
         I_CmsXmlContentValue query = m_xml.getValue(prefix + XML_ELEMENT_QUERY_FACET_QUERY_QUERY, m_locale);
         if (null != query) {

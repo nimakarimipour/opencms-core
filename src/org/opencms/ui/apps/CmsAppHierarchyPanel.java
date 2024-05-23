@@ -38,6 +38,7 @@ import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
 import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Widget used to displays a nested hierarchy of app categories and apps.<p>
@@ -88,7 +89,7 @@ public class CmsAppHierarchyPanel extends VerticalLayout {
      * @param rootNode the rootNode to render in this panel
      * @param locale the locale to use
      */
-    public void fill(CmsAppCategoryNode rootNode, Locale locale) {
+    public void fill(CmsAppCategoryNode rootNode, @RUntainted Locale locale) {
 
         List<I_CmsHasOrder> configurations = new ArrayList<I_CmsHasOrder>();
         configurations.addAll(rootNode.getAppConfigurations());

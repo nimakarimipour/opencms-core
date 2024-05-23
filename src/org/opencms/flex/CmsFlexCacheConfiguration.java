@@ -32,6 +32,7 @@ import org.opencms.jsp.util.I_CmsJspDeviceSelector;
 import org.opencms.main.CmsLog;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Flex Cache configuration class.<p>
@@ -44,19 +45,19 @@ public class CmsFlexCacheConfiguration {
     private static final Log LOG = CmsLog.getLog(CmsFlexCacheConfiguration.class);
 
     /** The average cache bytes. */
-    private long m_avgCacheBytes;
+    private @RUntainted long m_avgCacheBytes;
 
     /** Indicates if the cache is enabled or not. */
-    private boolean m_cacheEnabled;
+    private @RUntainted boolean m_cacheEnabled;
 
     /** Indicates if offline resources should be cached or not. */
-    private boolean m_cacheOffline;
+    private @RUntainted boolean m_cacheOffline;
 
     /** The device selector. */
     private I_CmsJspDeviceSelector m_deviceSelector;
 
     /** The device selector configuration. */
-    private String m_deviceSelectorConfiguration;
+    private @RUntainted String m_deviceSelectorConfiguration;
 
     /**
      * Sizing parameters for the cached "entries" (ie. pages) in the FlexCache.<p>
@@ -66,13 +67,13 @@ public class CmsFlexCacheConfiguration {
      * The default is 2mb memory for the cached pages _or_ a maximum of 4000
      * cached page variations in total.
      */
-    private long m_maxCacheBytes;
+    private @RUntainted long m_maxCacheBytes;
 
     /** The maximum entry bytes. */
-    private int m_maxEntryBytes;
+    private @RUntainted int m_maxEntryBytes;
 
     /** The maximum key. */
-    private int m_maxKeys;
+    private @RUntainted int m_maxKeys;
 
     /**
      * Empty public constructor for the digester.
@@ -87,7 +88,7 @@ public class CmsFlexCacheConfiguration {
      *
      * @return the average cache bytes
      */
-    public long getAvgCacheBytes() {
+    public @RUntainted long getAvgCacheBytes() {
 
         return m_avgCacheBytes;
     }
@@ -120,7 +121,7 @@ public class CmsFlexCacheConfiguration {
      *
      * @return the maxCacheBytes
      */
-    public long getMaxCacheBytes() {
+    public @RUntainted long getMaxCacheBytes() {
 
         return m_maxCacheBytes;
     }
@@ -130,7 +131,7 @@ public class CmsFlexCacheConfiguration {
      *
      * @return the maxEntryBytes
      */
-    public int getMaxEntryBytes() {
+    public @RUntainted int getMaxEntryBytes() {
 
         return m_maxEntryBytes;
     }
@@ -140,7 +141,7 @@ public class CmsFlexCacheConfiguration {
      *
      * @return the maxKeys
      */
-    public int getMaxKeys() {
+    public @RUntainted int getMaxKeys() {
 
         return m_maxKeys;
     }
@@ -156,12 +157,12 @@ public class CmsFlexCacheConfiguration {
      * @param maxKeys the max keys
      */
     public void initialize(
-        String enabled,
-        String offline,
-        String maxCacheBytes,
-        String avgCacheBytes,
-        String maxEntryBytes,
-        String maxKeys) {
+        @RUntainted String enabled,
+        @RUntainted String offline,
+        @RUntainted String maxCacheBytes,
+        @RUntainted String avgCacheBytes,
+        @RUntainted String maxEntryBytes,
+        @RUntainted String maxKeys) {
 
         setCacheEnabled(Boolean.valueOf(enabled).booleanValue());
         setCacheOffline(Boolean.valueOf(offline).booleanValue());
@@ -176,7 +177,7 @@ public class CmsFlexCacheConfiguration {
      *
      * @return true if flexcache is enabled; otherwise false
      */
-    public boolean isCacheEnabled() {
+    public @RUntainted boolean isCacheEnabled() {
 
         return m_cacheEnabled;
     }
@@ -186,7 +187,7 @@ public class CmsFlexCacheConfiguration {
      *
      * @return true if cacheoffline is set to true; otherwise false
      */
-    public boolean isCacheOffline() {
+    public @RUntainted boolean isCacheOffline() {
 
         return m_cacheOffline;
     }
@@ -196,7 +197,7 @@ public class CmsFlexCacheConfiguration {
      *
      * @param avgCacheBytes the avgCacheBytes to set
      */
-    public void setAvgCacheBytes(long avgCacheBytes) {
+    public void setAvgCacheBytes(@RUntainted long avgCacheBytes) {
 
         m_avgCacheBytes = avgCacheBytes;
     }
@@ -206,7 +207,7 @@ public class CmsFlexCacheConfiguration {
      *
      * @param enabled the enabled to set
      */
-    public void setCacheEnabled(boolean enabled) {
+    public void setCacheEnabled(@RUntainted boolean enabled) {
 
         m_cacheEnabled = enabled;
     }
@@ -216,7 +217,7 @@ public class CmsFlexCacheConfiguration {
      *
      * @param cacheOffline the cacheOffline to set
      */
-    public void setCacheOffline(boolean cacheOffline) {
+    public void setCacheOffline(@RUntainted boolean cacheOffline) {
 
         m_cacheOffline = cacheOffline;
     }
@@ -226,7 +227,7 @@ public class CmsFlexCacheConfiguration {
      *
      * @param deviceSelector the device selector to set
      */
-    public void setDeviceSelectorConfiguration(String deviceSelector) {
+    public void setDeviceSelectorConfiguration(@RUntainted String deviceSelector) {
 
         m_deviceSelectorConfiguration = deviceSelector;
 
@@ -263,7 +264,7 @@ public class CmsFlexCacheConfiguration {
      *
      * @param maxCacheBytes the maxCacheBytes to set
      */
-    public void setMaxCacheBytes(long maxCacheBytes) {
+    public void setMaxCacheBytes(@RUntainted long maxCacheBytes) {
 
         m_maxCacheBytes = maxCacheBytes;
     }
@@ -273,7 +274,7 @@ public class CmsFlexCacheConfiguration {
      *
      * @param maxEntryBytes the maxEntryBytes to set
      */
-    public void setMaxEntryBytes(int maxEntryBytes) {
+    public void setMaxEntryBytes(@RUntainted int maxEntryBytes) {
 
         m_maxEntryBytes = maxEntryBytes;
     }
@@ -283,7 +284,7 @@ public class CmsFlexCacheConfiguration {
      *
      * @param maxKeys the maxKeys to set
      */
-    public void setMaxKeys(int maxKeys) {
+    public void setMaxKeys(@RUntainted int maxKeys) {
 
         m_maxKeys = maxKeys;
     }

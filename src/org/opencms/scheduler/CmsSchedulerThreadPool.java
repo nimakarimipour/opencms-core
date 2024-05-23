@@ -60,6 +60,7 @@ import org.apache.commons.logging.Log;
 
 import org.quartz.SchedulerConfigException;
 import org.quartz.spi.ThreadPool;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Simple thread pool used for the Quartz scheduler in OpenCms.<p>
@@ -99,7 +100,7 @@ public class CmsSchedulerThreadPool implements ThreadPool {
     private Object m_nextRunnableLock;
 
     /** The thread group. */
-    private ThreadGroup m_threadGroup;
+    private @RUntainted ThreadGroup m_threadGroup;
 
     /** The thread name prefix. */
     private String m_threadNamePrefix;

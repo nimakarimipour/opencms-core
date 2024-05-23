@@ -30,6 +30,7 @@ package org.opencms.gwt.shared;
 import org.opencms.util.CmsUUID;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean holding model resource information to be displayed in the model select dialog.<p>
@@ -56,7 +57,7 @@ public class CmsModelResourceInfo extends CmsListInfoBean {
      * @param subtitle the subtitle
      * @param additionalInfo the additional info
      */
-    public CmsModelResourceInfo(String title, String subtitle, List<CmsAdditionalInfoBean> additionalInfo) {
+    public CmsModelResourceInfo(@RUntainted String title, String subtitle, List<CmsAdditionalInfoBean> additionalInfo) {
 
         super(title, subtitle, additionalInfo);
     }

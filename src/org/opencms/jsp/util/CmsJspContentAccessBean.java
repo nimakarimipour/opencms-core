@@ -61,6 +61,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.collections.Transformer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Allows access to the individual elements of an XML content, usually used inside a loop of a
@@ -84,7 +85,7 @@ public class CmsJspContentAccessBean {
         /**
          * @see org.apache.commons.collections.Transformer#transform(java.lang.Object)
          */
-        public Object transform(Object input) {
+        public Object transform(@RUntainted Object input) {
 
             return Boolean.valueOf(getRawContent().hasLocale(CmsJspElFunctions.convertLocale(input)));
         }
@@ -99,7 +100,7 @@ public class CmsJspContentAccessBean {
         /**
          * @see org.apache.commons.collections.Transformer#transform(java.lang.Object)
          */
-        public Object transform(Object input) {
+        public Object transform(@RUntainted Object input) {
 
             Locale locale = CmsJspElFunctions.convertLocale(input);
             Map<String, Boolean> result;
@@ -181,7 +182,7 @@ public class CmsJspContentAccessBean {
         /**
          * @see org.apache.commons.collections.Transformer#transform(java.lang.Object)
          */
-        public Object transform(Object input) {
+        public Object transform(@RUntainted Object input) {
 
             Locale locale = CmsLocaleManager.getLocale(String.valueOf(input));
 
@@ -198,7 +199,7 @@ public class CmsJspContentAccessBean {
         /**
          * @see org.apache.commons.collections.Transformer#transform(java.lang.Object)
          */
-        public Object transform(Object input) {
+        public Object transform(@RUntainted Object input) {
 
             Locale locale = CmsLocaleManager.getLocale(String.valueOf(input));
             Map<String, String> result;
@@ -221,7 +222,7 @@ public class CmsJspContentAccessBean {
         /**
          * @see org.apache.commons.collections.Transformer#transform(java.lang.Object)
          */
-        public Object transform(Object input) {
+        public Object transform(@RUntainted Object input) {
 
             Locale locale = CmsJspElFunctions.convertLocale(input);
             Map<String, List<CmsJspContentAccessValueWrapper>> result;
@@ -243,7 +244,7 @@ public class CmsJspContentAccessBean {
         /**
          * @see org.apache.commons.collections.Transformer#transform(java.lang.Object)
          */
-        public Object transform(Object input) {
+        public Object transform(@RUntainted Object input) {
 
             Locale locale = CmsJspElFunctions.convertLocale(input);
             Map<String, List<CmsJspContentAccessValueWrapper>> result;
@@ -265,7 +266,7 @@ public class CmsJspContentAccessBean {
         /**
          * @see org.apache.commons.collections.Transformer#transform(java.lang.Object)
          */
-        public Object transform(Object input) {
+        public Object transform(@RUntainted Object input) {
 
             Locale locale = CmsLocaleManager.getLocale(String.valueOf(input));
             Map<String, CmsJspContentAccessValueWrapper> result;
@@ -300,7 +301,7 @@ public class CmsJspContentAccessBean {
         /**
          * @see org.apache.commons.collections.Transformer#transform(java.lang.Object)
          */
-        public Object transform(Object input) {
+        public Object transform(@RUntainted Object input) {
 
             if (CmsJspContentAccessValueWrapper.isDirectEditEnabled(getCmsObject())) {
                 return CmsContentService.getRdfaAttributes(getRawContent(), m_selectedLocale, String.valueOf(input));
@@ -334,9 +335,9 @@ public class CmsJspContentAccessBean {
          */
         public Object transform(Object input) {
 
-            List<I_CmsXmlContentValue> values = getRawContent().getSubValues(String.valueOf(input), m_selectedLocale);
+            List<@RUntainted I_CmsXmlContentValue> values = getRawContent().getSubValues(String.valueOf(input), m_selectedLocale);
             List<CmsJspContentAccessValueWrapper> result = new ArrayList<CmsJspContentAccessValueWrapper>();
-            Iterator<I_CmsXmlContentValue> i = values.iterator();
+            Iterator<@RUntainted I_CmsXmlContentValue> i = values.iterator();
             while (i.hasNext()) {
                 // XML content API offers List of values only as Objects, must iterate them and create Strings
                 I_CmsXmlContentValue value = i.next();
@@ -370,9 +371,9 @@ public class CmsJspContentAccessBean {
          */
         public Object transform(Object input) {
 
-            List<I_CmsXmlContentValue> values = getRawContent().getValues(String.valueOf(input), m_selectedLocale);
+            List<@RUntainted I_CmsXmlContentValue> values = getRawContent().getValues(String.valueOf(input), m_selectedLocale);
             List<CmsJspContentAccessValueWrapper> result = new ArrayList<CmsJspContentAccessValueWrapper>();
-            Iterator<I_CmsXmlContentValue> i = values.iterator();
+            Iterator<@RUntainted I_CmsXmlContentValue> i = values.iterator();
             while (i.hasNext()) {
                 // XML content API offers List of values only as Objects, must iterate them and create Strings
                 I_CmsXmlContentValue value = i.next();
@@ -424,7 +425,7 @@ public class CmsJspContentAccessBean {
     private CmsJspCategoryAccessBean m_categories;
 
     /** The OpenCms context of the current user. */
-    private CmsObject m_cms;
+    private @RUntainted CmsObject m_cms;
 
     /** The XML content to access. */
     private I_CmsXmlDocument m_content;
@@ -460,10 +461,10 @@ public class CmsJspContentAccessBean {
     private Map<String, Map<String, List<CmsJspContentAccessValueWrapper>>> m_localeValueList;
 
     /** The original locale requested for accessing entries from the XML content. */
-    private Locale m_requestedLocale;
+    private @RUntainted Locale m_requestedLocale;
 
     /** Resource the XML content is created from. */
-    private CmsResource m_resource;
+    private @RUntainted CmsResource m_resource;
 
     /** JSP EL access wrapped version of the resource the XML content is created from. */
     private CmsJspResourceWrapper m_resourceWrapper;
@@ -487,7 +488,7 @@ public class CmsJspContentAccessBean {
      * @param cms the OpenCms context of the current user
      * @param resource the resource to create the content from
      */
-    public CmsJspContentAccessBean(CmsObject cms, CmsResource resource) {
+    public CmsJspContentAccessBean(@RUntainted CmsObject cms, CmsResource resource) {
 
         this(cms, cms.getRequestContext().getLocale(), resource);
     }
@@ -499,7 +500,7 @@ public class CmsJspContentAccessBean {
      * @param locale the Locale to use when accessing the content
      * @param resource the resource to create the content from
      */
-    public CmsJspContentAccessBean(CmsObject cms, Locale locale, CmsResource resource) {
+    public CmsJspContentAccessBean(@RUntainted CmsObject cms, @RUntainted Locale locale, CmsResource resource) {
 
         init(cms, locale, null, resource);
     }
@@ -511,7 +512,7 @@ public class CmsJspContentAccessBean {
      * @param locale the Locale to use when accessing the content
      * @param content the content to access
      */
-    public CmsJspContentAccessBean(CmsObject cms, Locale locale, I_CmsXmlDocument content) {
+    public CmsJspContentAccessBean(@RUntainted CmsObject cms, @RUntainted Locale locale, I_CmsXmlDocument content) {
 
         init(cms, locale, content, content.getFile());
     }
@@ -772,7 +773,7 @@ public class CmsJspContentAccessBean {
                 // we are in the online project, which means we must first switch to an offline project
                 // otherwise write permission checks will always return false
                 cms = OpenCms.initCmsObject(m_cms);
-                List<CmsProject> projects = OpenCms.getOrgUnitManager().getAllAccessibleProjects(
+                List<@RUntainted CmsProject> projects = OpenCms.getOrgUnitManager().getAllAccessibleProjects(
                     cms,
                     cms.getRequestContext().getOuFqn(),
                     false);
@@ -1230,7 +1231,7 @@ public class CmsJspContentAccessBean {
      * @param content the XML content to access
      * @param resource the resource to create the content from
      */
-    public void init(CmsObject cms, Locale locale, I_CmsXmlDocument content, CmsResource resource) {
+    public void init(@RUntainted CmsObject cms, @RUntainted Locale locale, I_CmsXmlDocument content, @RUntainted CmsResource resource) {
 
         m_cms = cms;
         m_requestedLocale = locale;

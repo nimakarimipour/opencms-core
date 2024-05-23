@@ -38,6 +38,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides methods to write export points to the "real" file system.<p>
@@ -50,7 +51,7 @@ public class CmsExportPointDriver implements I_CmsExportPointDriver {
     private static final Log LOG = CmsLog.getLog(CmsExportPointDriver.class);
 
     /** The export points resolved to a lookup map. */
-    protected Map<String, String> m_exportpointLookupMap;
+    protected Map<@RUntainted String, String> m_exportpointLookupMap;
 
     /** The configured export points. */
     protected Set<CmsExportPoint> m_exportpoints;
@@ -145,7 +146,7 @@ public class CmsExportPointDriver implements I_CmsExportPointDriver {
      *
      * @return the set of all VFS paths that are exported as an export point
      */
-    public Set<String> getExportPointPaths() {
+    public Set<@RUntainted String> getExportPointPaths() {
 
         return m_exportpointLookupMap.keySet();
     }
@@ -171,7 +172,7 @@ public class CmsExportPointDriver implements I_CmsExportPointDriver {
      * @param exportpoint the name of the export point
      * @return the File for the given export point resource
      */
-    protected File getExportPointFile(String rootPath, String exportpoint) {
+    protected @RUntainted File getExportPointFile(String rootPath, String exportpoint) {
 
         StringBuffer exportpath = new StringBuffer(128);
         exportpath.append(m_exportpointLookupMap.get(exportpoint));
@@ -185,7 +186,7 @@ public class CmsExportPointDriver implements I_CmsExportPointDriver {
      * @param file the RFS file location
      * @param content the file content
      */
-    protected void writeResource(File file, byte[] content) {
+    protected void writeResource(@RUntainted File file, byte[] content) {
 
         try {
             File folder;

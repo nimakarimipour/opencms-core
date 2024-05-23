@@ -28,6 +28,7 @@
 package org.opencms.db;
 
 import org.opencms.file.CmsRequestContext;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This interface defines a factory to create runtime info objects.<p>
@@ -50,7 +51,7 @@ public interface I_CmsDbContextFactory {
      *
      * @return a new database context based on the given user request context
      */
-    CmsDbContext getDbContext(CmsRequestContext context);
+    @RUntainted CmsDbContext getDbContext(@RUntainted CmsRequestContext context);
 
     /**
      * Returns a new database context.<p>

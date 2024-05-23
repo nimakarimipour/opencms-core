@@ -33,6 +33,7 @@ import org.opencms.main.CmsLog;
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Validates the user passwords in with advanced password requirements.<p>
@@ -46,7 +47,7 @@ public class CmsAdvancedPasswordHandler extends CmsDefaultPasswordHandler {
      * @see org.opencms.security.I_CmsPasswordSecurityEvaluator#evaluatePasswordSecurity(java.lang.String)
      */
     @Override
-    public SecurityLevel evaluatePasswordSecurity(String password) {
+    public SecurityLevel evaluatePasswordSecurity(@RUntainted String password) {
 
         try {
             validatePassword(password);
@@ -72,7 +73,7 @@ public class CmsAdvancedPasswordHandler extends CmsDefaultPasswordHandler {
      * @see org.opencms.security.I_CmsPasswordSecurityEvaluator#getPasswordSecurityHint(java.util.Locale)
      */
     @Override
-    public String getPasswordSecurityHint(Locale locale) {
+    public String getPasswordSecurityHint(@RUntainted Locale locale) {
 
         // return the hint
         return Messages.get().container(Messages.GUI_PWD_HINT_0).key(locale);
@@ -82,7 +83,7 @@ public class CmsAdvancedPasswordHandler extends CmsDefaultPasswordHandler {
      * @see org.opencms.security.I_CmsPasswordHandler#validatePassword(java.lang.String)
      */
     @Override
-    public void validatePassword(String password) throws CmsSecurityException {
+    public void validatePassword(@RUntainted String password) throws CmsSecurityException {
 
         // is null?
         if (password == null) {
@@ -112,7 +113,7 @@ public class CmsAdvancedPasswordHandler extends CmsDefaultPasswordHandler {
         }
 
         // for the rest we need the char array
-        char[] pw = password.toCharArray();
+        @RUntainted char[] pw = password.toCharArray();
         int letters = 0;
         int specialCharacter = 0;
         for (int i = 0; i < pw.length; i++) {
@@ -160,7 +161,7 @@ public class CmsAdvancedPasswordHandler extends CmsDefaultPasswordHandler {
                 equals = 0;
             }
             if ((descending > 1) || (ascending > 1) || (equals > 1)) {
-                Object[] msgArgs = new Object[] {
+                @RUntainted Object[] msgArgs = new Object[] {
                     Character.valueOf(last),
                     Character.valueOf(current),
                     Integer.valueOf(descending),

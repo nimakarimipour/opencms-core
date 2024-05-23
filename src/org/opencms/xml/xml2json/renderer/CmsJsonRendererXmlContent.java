@@ -48,6 +48,7 @@ import org.opencms.xml.xml2json.handler.CmsJsonHandlerContext;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Converts an XML content to JSON by creating a CmsXmlContentTree and then recursively processing its nodes.
@@ -95,7 +96,7 @@ public class CmsJsonRendererXmlContent implements I_CmsJsonRendererXmlContent {
      * @return the link-and-path object
      * @throws JSONException if something goes wrong
      */
-    public static JSONObject linkAndPath(String link, String path, CmsObject cms) throws JSONException {
+    public static @RUntainted JSONObject linkAndPath(@RUntainted String link, @RUntainted String path, CmsObject cms) throws JSONException {
 
         JSONObject result = new JSONObject();
         result.put("link", link);
@@ -118,10 +119,10 @@ public class CmsJsonRendererXmlContent implements I_CmsJsonRendererXmlContent {
      * @return the result JSON
      * @throws JSONException if something goes wrong
      */
-    public static JSONObject renderAllLocales(CmsXmlContent content, I_CmsJsonRendererXmlContent renderer)
+    public static @RUntainted JSONObject renderAllLocales(CmsXmlContent content, I_CmsJsonRendererXmlContent renderer)
     throws JSONException {
 
-        List<Locale> locales = content.getLocales();
+        List<@RUntainted Locale> locales = content.getLocales();
         JSONObject result = new JSONObject(true);
         for (Locale locale : locales) {
             Object jsonForLocale = renderer.render(content, locale);
@@ -190,7 +191,7 @@ public class CmsJsonRendererXmlContent implements I_CmsJsonRendererXmlContent {
      * @see org.opencms.xml.xml2json.renderer.I_CmsJsonRendererXmlContent#render(org.opencms.xml.content.CmsXmlContent, java.util.Locale)
      */
     @Override
-    public Object render(CmsXmlContent content, Locale locale) throws JSONException {
+    public @RUntainted Object render(CmsXmlContent content, @RUntainted Locale locale) throws JSONException {
 
         CmsXmlContentTree tree = new CmsXmlContentTree(content, locale);
         m_cms.getRequestContext().setLocale(locale);
@@ -208,7 +209,7 @@ public class CmsJsonRendererXmlContent implements I_CmsJsonRendererXmlContent {
      *
      * @throws JSONException if something goes wrong
      */
-    public Object renderNode(Node node) throws JSONException {
+    public @RUntainted Object renderNode(Node node) throws JSONException {
 
         switch (node.getType()) {
             case sequence:
@@ -225,7 +226,7 @@ public class CmsJsonRendererXmlContent implements I_CmsJsonRendererXmlContent {
                 JSONArray array = new JSONArray();
                 for (Field field : node.getFields()) {
 
-                    SimpleEntry<String, Object> keyAndValue = renderField(field);
+                    SimpleEntry<@RUntainted String, @RUntainted Object> keyAndValue = renderField(field);
                     if (keyAndValue != null) {
                         JSONObject choiceObj = new JSONObject(true);
                         choiceObj.put(keyAndValue.getKey(), keyAndValue.getValue());
@@ -252,7 +253,7 @@ public class CmsJsonRendererXmlContent implements I_CmsJsonRendererXmlContent {
      *
      * @throws JSONException if something goes wrong
      */
-    protected SimpleEntry<String, Object> renderField(Field field) throws JSONException {
+    protected SimpleEntry<@RUntainted String, @RUntainted Object> renderField(Field field) throws JSONException {
 
         String name = field.getName();
         if (field.isMultivalue()) {
@@ -299,7 +300,7 @@ public class CmsJsonRendererXmlContent implements I_CmsJsonRendererXmlContent {
      * @return the JSON representation for the value
      * @throws JSONException if something goes wrong
      */
-    protected Object renderSimpleValue(Node node) throws JSONException {
+    protected @RUntainted Object renderSimpleValue(Node node) throws JSONException {
 
         I_CmsXmlContentValue value = node.getValue();
         if (value instanceof I_CmsJsonFormattableValue) {

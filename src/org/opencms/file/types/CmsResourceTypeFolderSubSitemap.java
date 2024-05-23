@@ -32,6 +32,7 @@ import org.opencms.file.CmsResource;
 
 import java.util.ArrayList;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor for sub site map folder types.<p>
@@ -46,7 +47,7 @@ public class CmsResourceTypeFolderSubSitemap extends CmsResourceTypeFolderExtend
     public static final String TYPE_SUBSITEMAP = "subsitemap";
 
     /** The registered sub site map resource type id's.    */
-    private static List<Integer> m_subSitemapResourceTypeIds = new ArrayList<Integer>();
+    private static List<@RUntainted Integer> m_subSitemapResourceTypeIds = new ArrayList<@RUntainted Integer>();
 
     /** The serial version id. */
     private static final long serialVersionUID = 3152961195421254155L;
@@ -56,7 +57,7 @@ public class CmsResourceTypeFolderSubSitemap extends CmsResourceTypeFolderExtend
      *
      * @return the resource type id's
      */
-    public static List<Integer> getSubSitemapResourceTypeIds() {
+    public static List<@RUntainted Integer> getSubSitemapResourceTypeIds() {
 
         return m_subSitemapResourceTypeIds;
     }
@@ -97,7 +98,7 @@ public class CmsResourceTypeFolderSubSitemap extends CmsResourceTypeFolderExtend
      * @see org.opencms.file.types.A_CmsResourceType#initConfiguration(java.lang.String, java.lang.String, String)
      */
     @Override
-    public void initConfiguration(String name, String id, String className) throws CmsConfigurationException {
+    public void initConfiguration(@RUntainted String name, @RUntainted String id, @RUntainted String className) throws CmsConfigurationException {
 
         super.initConfiguration(name, id, className);
         // set static members with values from the configuration

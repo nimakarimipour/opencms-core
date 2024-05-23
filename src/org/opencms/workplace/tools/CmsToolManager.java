@@ -49,6 +49,7 @@ import java.util.Map;
 import javax.servlet.ServletException;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manages the registered tools, actualizing its state every time the workplace is reinitialize.<p>
@@ -111,7 +112,7 @@ public class CmsToolManager {
      *
      * @return the OpenCms link for the given tool path which requires parameters
      */
-    public static String linkForToolPath(CmsJspActionElement jsp, String toolPath) {
+    public static @RUntainted String linkForToolPath(CmsJspActionElement jsp, String toolPath) {
 
         StringBuffer result = new StringBuffer();
         result.append(jsp.link(VIEW_JSPPAGE_LOCATION));
@@ -135,7 +136,7 @@ public class CmsToolManager {
      *
      * @return the OpenCms link for the given tool path which requires parameters
      */
-    public static String linkForToolPath(CmsJspActionElement jsp, String toolPath, Map<String, String[]> params) {
+    public static @RUntainted String linkForToolPath(CmsJspActionElement jsp, String toolPath, Map<String, String[]> params) {
 
         if (params == null) {
             // no parameters - take the shortcut
@@ -215,7 +216,7 @@ public class CmsToolManager {
      *
      * @return the html code
      */
-    public String generateNavBar(String toolPath, CmsWorkplace wp) {
+    public String generateNavBar(@RUntainted String toolPath, CmsWorkplace wp) {
 
         if (toolPath.equals(getBaseToolPath(wp))) {
             return "<div class='pathbar'>&nbsp;</div>\n";
@@ -265,7 +266,7 @@ public class CmsToolManager {
      *
      * @return the base tool path for the active user
      */
-    public String getBaseToolPath(CmsWorkplace wp) {
+    public @RUntainted String getBaseToolPath(CmsWorkplace wp) {
 
         CmsToolUserData userData = getUserData(wp);
         String path = TOOLPATH_SEPARATOR;
@@ -318,7 +319,7 @@ public class CmsToolManager {
      *
      * @return the current tool path
      */
-    public String getCurrentToolPath(CmsWorkplace wp) {
+    public @RUntainted String getCurrentToolPath(CmsWorkplace wp) {
 
         CmsToolUserData userData = getUserData(wp);
         String path = getBaseToolPath(wp);
@@ -338,7 +339,7 @@ public class CmsToolManager {
      *
      * @return his parent
      */
-    public String getParent(CmsWorkplace wp, String toolPath) {
+    public @RUntainted String getParent(CmsWorkplace wp, @RUntainted String toolPath) {
 
         if (toolPath.equals(getBaseToolPath(wp))) {
             return toolPath;
@@ -472,7 +473,7 @@ public class CmsToolManager {
      * @throws IOException in case of errors during forwarding
      * @throws ServletException in case of errors during forwarding
      */
-    public void jspForwardPage(CmsWorkplace wp, String pagePath, Map<String, String[]> params)
+    public void jspForwardPage(CmsWorkplace wp, @RUntainted String pagePath, Map<String, String[]> params)
     throws IOException, ServletException {
 
         Map<String, String[]> newParams = createToolParams(wp, pagePath, params);
@@ -532,7 +533,7 @@ public class CmsToolManager {
      * @param wp the workplace object
      * @param baseToolPath the base tool path to set
      */
-    public void setBaseToolPath(CmsWorkplace wp, String baseToolPath) {
+    public void setBaseToolPath(CmsWorkplace wp, @RUntainted String baseToolPath) {
 
         // use last used base if param empty
         if (CmsStringUtil.isEmpty(baseToolPath) || baseToolPath.trim().equals("null")) {
@@ -550,7 +551,7 @@ public class CmsToolManager {
      * @param wp the workplace context
      * @param key the current user's root key to set
      */
-    public void setCurrentRoot(CmsWorkplace wp, String key) {
+    public void setCurrentRoot(CmsWorkplace wp, @RUntainted String key) {
 
         // use last used root if param empty
         if (CmsStringUtil.isEmpty(key) || key.trim().equals("null")) {
@@ -567,7 +568,7 @@ public class CmsToolManager {
      * @param wp the workplace object
      * @param currentToolPath the current tool path to set
      */
-    public void setCurrentToolPath(CmsWorkplace wp, String currentToolPath) {
+    public void setCurrentToolPath(CmsWorkplace wp, @RUntainted String currentToolPath) {
 
         // use last used path if param empty
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(currentToolPath) || currentToolPath.trim().equals("null")) {
@@ -659,7 +660,7 @@ public class CmsToolManager {
      *
      * @return the new parameter map
      */
-    private Map<String, String[]> createToolParams(CmsWorkplace wp, String url, Map<String, String[]> params) {
+    private Map<String, String[]> createToolParams(CmsWorkplace wp, @RUntainted String url, Map<String, String[]> params) {
 
         Map<String, String[]> newParams = new HashMap<String, String[]>();
         // add query parameters to the parameter map if required
@@ -789,7 +790,7 @@ public class CmsToolManager {
      *
      * @return a valid and visible tool path
      */
-    private String repairPath(CmsWorkplace wp, String path) {
+    private @RUntainted String repairPath(CmsWorkplace wp, @RUntainted String path) {
 
         String rootKey = getCurrentRoot(wp).getKey();
         // navigate until to reach a valid path
@@ -830,7 +831,7 @@ public class CmsToolManager {
      *
      * @return if valid or not
      */
-    private boolean validatePath(String rootKey, String toolPath, boolean full) {
+    private boolean validatePath(String rootKey, @RUntainted String toolPath, boolean full) {
 
         if (toolPath.equals(TOOLPATH_SEPARATOR)) {
             return true;
@@ -838,7 +839,7 @@ public class CmsToolManager {
         if (!toolPath.startsWith(TOOLPATH_SEPARATOR)) {
             return false;
         }
-        List<String> groups = CmsStringUtil.splitAsList(toolPath, TOOLPATH_SEPARATOR);
+        List<@RUntainted String> groups = CmsStringUtil.splitAsList(toolPath, TOOLPATH_SEPARATOR);
         Iterator<String> itGroups = groups.iterator();
         String subpath = "";
         while (itGroups.hasNext()) {

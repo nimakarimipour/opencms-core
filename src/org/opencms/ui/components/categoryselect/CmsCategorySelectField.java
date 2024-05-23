@@ -50,6 +50,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.v7.ui.CustomField;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.ui.Window;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The category select field.<p>
@@ -149,7 +150,7 @@ implements I_CmsSelectionHandler<Collection<CmsCategory>> {
      * @see com.vaadin.ui.AbstractField#setInternalValue(java.lang.Object)
      */
     @Override
-    protected void setInternalValue(String newValue) {
+    protected void setInternalValue(@RUntainted String newValue) {
 
         if (m_tree != null) {
             List<CmsCategory> categories = new ArrayList<CmsCategory>();

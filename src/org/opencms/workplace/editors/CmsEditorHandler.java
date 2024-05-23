@@ -39,6 +39,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.util.CmsRequestUtil;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This editor handler class returns the editor URI depending on various factors.<p>
@@ -64,7 +65,7 @@ public class CmsEditorHandler implements I_CmsEditorHandler {
     /**
      * @see org.opencms.workplace.editors.I_CmsEditorHandler#getEditorUri(org.opencms.file.CmsObject, java.lang.String, java.lang.String, boolean)
      */
-    public String getEditorUri(CmsObject cms, String resourceType, String userAgent, boolean loadDefault) {
+    public String getEditorUri(@RUntainted CmsObject cms, String resourceType, @RUntainted String userAgent, boolean loadDefault) {
 
         // get the editor URI from the editor manager
         String editorUri = null;

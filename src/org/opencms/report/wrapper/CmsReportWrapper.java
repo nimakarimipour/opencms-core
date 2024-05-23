@@ -32,6 +32,7 @@ import org.opencms.report.I_CmsReport;
 
 import java.util.Arrays;
 import java.util.Collection;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper for writing reports.
@@ -92,7 +93,7 @@ public class CmsReportWrapper {
      * @param message the message
      * @param params the parameters
      */
-    public void reportDefault(String message, Object... params) {
+    public void reportDefault(@RUntainted String message, @RUntainted Object... params) {
 
         for (I_CmsReport r : m_reports) {
             r.println(m_messages.container(message, params));
@@ -105,7 +106,7 @@ public class CmsReportWrapper {
      * @param message the message
      * @param params the parameters
      */
-    public void reportDefaultNoBreak(String message, Object... params) {
+    public void reportDefaultNoBreak(@RUntainted String message, @RUntainted Object... params) {
 
         for (I_CmsReport r : m_reports) {
             r.print(m_messages.container(message, params));
@@ -132,7 +133,7 @@ public class CmsReportWrapper {
      * @param message the message to print
      * @param params parameters of the message
      */
-    public void reportFailed(String message, Object... params) {
+    public void reportFailed(@RUntainted String message, @RUntainted Object... params) {
 
         for (I_CmsReport r : m_reports) {
             if (null != message) {
@@ -149,7 +150,7 @@ public class CmsReportWrapper {
      * @param message the message
      * @param params the parameters
      */
-    public void reportHeadline(String message, Object... params) {
+    public void reportHeadline(@RUntainted String message, @RUntainted Object... params) {
 
         for (I_CmsReport r : m_reports) {
             r.println(m_messages.container(message, params), I_CmsReport.FORMAT_HEADLINE);
@@ -161,7 +162,7 @@ public class CmsReportWrapper {
      * @param message the message
      * @param params the parameters
      */
-    public void reportHeadlineNoBreak(String message, Object... params) {
+    public void reportHeadlineNoBreak(@RUntainted String message, @RUntainted Object... params) {
 
         for (I_CmsReport r : m_reports) {
             r.print(m_messages.container(message, params), I_CmsReport.FORMAT_HEADLINE);
@@ -183,7 +184,7 @@ public class CmsReportWrapper {
      * @param message the message
      * @param params the parameters
      */
-    public void reportNote(String message, Object... params) {
+    public void reportNote(@RUntainted String message, @RUntainted Object... params) {
 
         for (I_CmsReport r : m_reports) {
             r.println(m_messages.container(message, params), I_CmsReport.FORMAT_NOTE);
@@ -196,7 +197,7 @@ public class CmsReportWrapper {
      * @param message the message
      * @param params the parameters
      */
-    public void reportNoteNoBreak(String message, Object... params) {
+    public void reportNoteNoBreak(@RUntainted String message, @RUntainted Object... params) {
 
         for (I_CmsReport r : m_reports) {
             r.print(m_messages.container(message, params), I_CmsReport.FORMAT_NOTE);
@@ -223,7 +224,7 @@ public class CmsReportWrapper {
      * @param message the message to print
      * @param params parameters of the message
      */
-    public void reportOk(String message, Object... params) {
+    public void reportOk(@RUntainted String message, @RUntainted Object... params) {
 
         for (I_CmsReport r : m_reports) {
             if (null != message) {
@@ -252,7 +253,7 @@ public class CmsReportWrapper {
      * @param message the message to print
      * @param params parameters of the message
      */
-    public void reportSkipped(String message, Object... params) {
+    public void reportSkipped(@RUntainted String message, @RUntainted Object... params) {
 
         for (I_CmsReport r : m_reports) {
             if (null != message) {
@@ -270,7 +271,7 @@ public class CmsReportWrapper {
      * @param message the message
      * @param params the parameters
      */
-    public void reportWarning(String message, Object... params) {
+    public void reportWarning(@RUntainted String message, @RUntainted Object... params) {
 
         for (I_CmsReport r : m_reports) {
             r.println(m_messages.container(message, params), I_CmsReport.FORMAT_WARNING);
@@ -282,7 +283,7 @@ public class CmsReportWrapper {
      * @param message the message
      * @param params the parameters
      */
-    public void reportWarningNoBreak(String message, Object... params) {
+    public void reportWarningNoBreak(@RUntainted String message, @RUntainted Object... params) {
 
         for (I_CmsReport r : m_reports) {
             r.println(m_messages.container(message, params), I_CmsReport.FORMAT_WARNING);

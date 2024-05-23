@@ -60,6 +60,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for manipulating locale groups.<p>
@@ -123,7 +124,7 @@ public class CmsLocaleGroupService {
         List<Locale> secondaryLocales = Lists.newArrayList();
         Locale mainLocale = null;
         if (site != null) {
-            List<Locale> siteLocales = site.getSecondaryTranslationLocales();
+            List<@RUntainted Locale> siteLocales = site.getSecondaryTranslationLocales();
             mainLocale = site.getMainTranslationLocale(null);
             if ((siteLocales == null) || siteLocales.isEmpty()) {
                 siteLocales = OpenCms.getLocaleManager().getAvailableLocales();
@@ -142,7 +143,7 @@ public class CmsLocaleGroupService {
             String propValue = secondaryLocaleProp.getValue();
             if (!CmsStringUtil.isEmptyOrWhitespaceOnly(propValue)) {
                 List<Locale> restrictionLocales = Lists.newArrayList();
-                String[] tokens = propValue.trim().split(" *, *"); //$NON-NLS-1$
+                @RUntainted String[] tokens = propValue.trim().split(" *, *"); //$NON-NLS-1$
                 for (String token : tokens) {
                     OpenCms.getLocaleManager();
                     Locale localeForToken = CmsLocaleManager.getLocale(token);
@@ -174,7 +175,7 @@ public class CmsLocaleGroupService {
      * @param primaryPage the primary resource of the locale group which the resource should be added to
      * @throws CmsException if something goes wrong
      */
-    public void attachLocaleGroup(CmsResource secondaryPage, CmsResource primaryPage) throws CmsException {
+    public void attachLocaleGroup(@RUntainted CmsResource secondaryPage, CmsResource primaryPage) throws CmsException {
 
         if (secondaryPage.getStructureId().equals(primaryPage.getStructureId())) {
             throw new IllegalArgumentException(
@@ -342,7 +343,7 @@ public class CmsLocaleGroupService {
      * @param secondPage the second resource
      * @throws CmsException if something goes wrong
      */
-    public void detachLocaleGroup(CmsResource firstPage, CmsResource secondPage) throws CmsException {
+    public void detachLocaleGroup(@RUntainted CmsResource firstPage, @RUntainted CmsResource secondPage) throws CmsException {
 
         CmsRelationFilter typeFilter = CmsRelationFilter.ALL.filterType(CmsRelationType.LOCALE_VARIANT);
         firstPage = getDefaultFileOrSelf(firstPage);
@@ -351,7 +352,7 @@ public class CmsLocaleGroupService {
             return;
         }
 
-        List<CmsRelation> relations = m_cms.readRelations(typeFilter.filterStructureId(secondPage.getStructureId()));
+        List<@RUntainted CmsRelation> relations = m_cms.readRelations(typeFilter.filterStructureId(secondPage.getStructureId()));
         CmsUUID firstId = firstPage.getStructureId();
         CmsUUID secondId = secondPage.getStructureId();
         for (CmsRelation relation : relations) {
@@ -496,7 +497,7 @@ public class CmsLocaleGroupService {
             }
         }
 
-        List<CmsRelation> relations = m_cms.readRelations(
+        List<@RUntainted CmsRelation> relations = m_cms.readRelations(
             CmsRelationFilter.ALL.filterType(CmsRelationType.LOCALE_VARIANT).filterStructureId(
                 resource.getStructureId()));
         List<CmsRelation> out = Lists.newArrayList();
@@ -525,7 +526,7 @@ public class CmsLocaleGroupService {
             primaryResource = target;
             CmsRelationFilter filter = CmsRelationFilter.TARGETS.filterType(
                 CmsRelationType.LOCALE_VARIANT).filterStructureId(target.getStructureId());
-            List<CmsRelation> relationsToTarget = m_cms.readRelations(filter);
+            List<@RUntainted CmsRelation> relationsToTarget = m_cms.readRelations(filter);
             for (CmsRelation targetRelation : relationsToTarget) {
                 CmsResource secondaryResource = targetRelation.getSource(m_cms, CmsResourceFilter.ALL);
                 secondaryResources.add(secondaryResource);
@@ -549,7 +550,7 @@ public class CmsLocaleGroupService {
      * @param res the resource whose default file to read
      * @return the default file
      */
-    protected CmsResource getDefaultFileOrSelf(CmsResource res) {
+    protected @RUntainted CmsResource getDefaultFileOrSelf(CmsResource res) {
 
         CmsResource defaultfile = null;
         if (res.isFolder()) {

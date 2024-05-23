@@ -37,6 +37,7 @@ import org.opencms.search.extractors.CmsExtractorPdf;
 import org.opencms.search.extractors.I_CmsExtractionResult;
 
 import org.apache.pdfbox.pdmodel.encryption.InvalidPasswordException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Lucene document factory class to extract index data from a cms resource
@@ -51,7 +52,7 @@ public class CmsDocumentPdf extends A_CmsVfsDocument {
      *
      * @param name name of the documenttype
      */
-    public CmsDocumentPdf(String name) {
+    public CmsDocumentPdf(@RUntainted String name) {
 
         super(name);
     }
@@ -61,7 +62,7 @@ public class CmsDocumentPdf extends A_CmsVfsDocument {
      *
      * @see org.opencms.search.documents.I_CmsSearchExtractor#extractContent(CmsObject, CmsResource, I_CmsSearchIndex)
      */
-    public I_CmsExtractionResult extractContent(CmsObject cms, CmsResource resource, I_CmsSearchIndex index)
+    public I_CmsExtractionResult extractContent(CmsObject cms, @RUntainted CmsResource resource, I_CmsSearchIndex index)
     throws CmsIndexException, CmsException {
 
         logContentExtraction(resource, index);

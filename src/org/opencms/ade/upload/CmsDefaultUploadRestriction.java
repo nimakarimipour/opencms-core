@@ -37,6 +37,7 @@ import org.opencms.security.CmsRole;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Default implementation for upload restrictions uses restriction entries from opencms-workplace.xml.
@@ -66,7 +67,7 @@ public class CmsDefaultUploadRestriction implements I_CmsUploadRestriction {
     /**
      * @see org.opencms.configuration.I_CmsConfigurationParameterHandler#addConfigurationParameter(java.lang.String, java.lang.String)
      */
-    public void addConfigurationParameter(String paramName, String paramValue) {
+    public void addConfigurationParameter(String paramName, @RUntainted String paramValue) {
 
         m_config.add(paramName, paramValue);
     }
@@ -86,7 +87,7 @@ public class CmsDefaultUploadRestriction implements I_CmsUploadRestriction {
 
         if ((m_cms != null) && !OpenCms.getRoleManager().hasRole(cms, CmsRole.ROOT_ADMIN)) { // root admins may have to upload arbitrary files for things like updates / administration stuff
             CmsUploadRestrictionInfo.Builder builder = new CmsUploadRestrictionInfo.Builder();
-            for (Map.Entry<String, String> entry : m_config.entrySet()) {
+            for (Map.Entry<String, @RUntainted String> entry : m_config.entrySet()) {
                 String key = entry.getKey();
                 String value = entry.getValue();
                 if (key.startsWith("/")) {

@@ -53,6 +53,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Window;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The scheduled jobs manager app.<p>
@@ -111,7 +112,7 @@ public class CmsJobManagerApp extends A_CmsWorkplaceApp implements I_CmsCRUDApp<
     /**
      * @see org.opencms.ui.apps.I_CmsCRUDApp#deleteElements(java.util.List)
      */
-    public void deleteElements(List<String> jobIds) {
+    public void deleteElements(List<@RUntainted String> jobIds) {
 
         try {
             for (String jobId : jobIds) {

@@ -48,6 +48,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the <code>{@link javax.servlet.RequestDispatcher}</code> interface to allow JSPs to be loaded
@@ -69,13 +70,13 @@ public class CmsFlexRequestDispatcher implements RequestDispatcher {
     private static final Log LOG = CmsLog.getLog(CmsFlexRequestDispatcher.class);
 
     /** The external target that will be included by the RequestDispatcher, needed if this is not a dispatcher to a cms resource. */
-    private String m_extTarget;
+    private @RUntainted String m_extTarget;
 
     /** The "real" RequestDispatcher, used when a true include (to the file system) is needed. */
     private RequestDispatcher m_rd;
 
     /** The OpenCms VFS target that will be included by the RequestDispatcher. */
-    private String m_vfsTarget;
+    private @RUntainted String m_vfsTarget;
 
     /**
      * Creates a new instance of CmsFlexRequestDispatcher.<p>
@@ -84,7 +85,7 @@ public class CmsFlexRequestDispatcher implements RequestDispatcher {
      * @param vfs_target the cms resource that represents the external target
      * @param ext_target the external target that the request will be dispatched to
      */
-    public CmsFlexRequestDispatcher(RequestDispatcher rd, String vfs_target, String ext_target) {
+    public CmsFlexRequestDispatcher(RequestDispatcher rd, @RUntainted String vfs_target, @RUntainted String ext_target) {
 
         m_rd = rd;
         m_vfsTarget = vfs_target;
@@ -133,7 +134,7 @@ public class CmsFlexRequestDispatcher implements RequestDispatcher {
      * @throws ServletException in case something goes wrong
      * @throws IOException in case something goes wrong
      */
-    public void include(ServletRequest req, ServletResponse res) throws ServletException, IOException {
+    public void include(@RUntainted ServletRequest req, @RUntainted ServletResponse res) throws ServletException, IOException {
 
         if (LOG.isDebugEnabled()) {
             LOG.debug(
@@ -204,7 +205,7 @@ public class CmsFlexRequestDispatcher implements RequestDispatcher {
      * @throws IOException in case something goes wrong
      */
     private void includeInternalNoCache(
-        ServletRequest req,
+        @RUntainted ServletRequest req,
         ServletResponse res,
         CmsFlexController controller,
         CmsObject cms,
@@ -261,9 +262,9 @@ public class CmsFlexRequestDispatcher implements RequestDispatcher {
      * @throws IOException in case something goes wrong
      */
     private void includeInternalWithCache(
-        ServletRequest req,
-        ServletResponse res,
-        CmsFlexController controller,
+        @RUntainted ServletRequest req,
+        @RUntainted ServletResponse res,
+        @RUntainted CmsFlexController controller,
         CmsObject cms,
         CmsResource resource)
     throws ServletException, IOException {
@@ -477,8 +478,8 @@ public class CmsFlexRequestDispatcher implements RequestDispatcher {
 
             if (f_res.hasIncludeList()) {
                 // special case: this indicates that the output was not yet displayed
-                Map<String, List<String>> headers = w_res.getHeaders();
-                byte[] result = w_res.getWriterBytes();
+                Map<@RUntainted String, List<String>> headers = w_res.getHeaders();
+                @RUntainted byte[] result = w_res.getWriterBytes();
                 if (LOG.isDebugEnabled()) {
                     LOG.debug(
                         Messages.get().getBundle().key(

@@ -39,6 +39,8 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Report class used for the publish operations.<p>
@@ -64,7 +66,7 @@ public class CmsPublishReport extends CmsPrintStreamReport {
      * @param locale the locale to use for the output language
      *
      */
-    protected CmsPublishReport(Locale locale) {
+    protected CmsPublishReport(@RUntainted Locale locale) {
 
         this(new ByteArrayOutputStream(), locale);
     }
@@ -76,7 +78,7 @@ public class CmsPublishReport extends CmsPrintStreamReport {
      * @param locale the locale to use for the output language
      *
      */
-    private CmsPublishReport(ByteArrayOutputStream outputStream, Locale locale) {
+    private CmsPublishReport(ByteArrayOutputStream outputStream, @RUntainted Locale locale) {
 
         super(new PrintStream(outputStream), locale, true);
         init(locale, null);
@@ -111,7 +113,7 @@ public class CmsPublishReport extends CmsPrintStreamReport {
      *
      * @return the publish report
      */
-    protected static CmsPrintStreamReport decorate(final I_CmsReport report) {
+    protected static @RPolyTainted CmsPrintStreamReport decorate(final @RPolyTainted I_CmsReport report) {
 
         return new CmsPublishReport(report);
     }
@@ -158,7 +160,7 @@ public class CmsPublishReport extends CmsPrintStreamReport {
      * @see org.opencms.report.A_CmsReport#getErrors()
      */
     @Override
-    public List<Object> getErrors() {
+    public @RUntainted List<Object> getErrors() {
 
         if (m_report != null) {
             return m_report.getErrors();
@@ -194,7 +196,7 @@ public class CmsPublishReport extends CmsPrintStreamReport {
      * @see org.opencms.report.A_CmsReport#getWarnings()
      */
     @Override
-    public List<Object> getWarnings() {
+    public @RUntainted List<Object> getWarnings() {
 
         if (m_report != null) {
             return m_report.getWarnings();
@@ -290,7 +292,7 @@ public class CmsPublishReport extends CmsPrintStreamReport {
      * @see org.opencms.report.A_CmsReport#printMessageWithParam(org.opencms.i18n.CmsMessageContainer, java.lang.Object)
      */
     @Override
-    public void printMessageWithParam(CmsMessageContainer container, Object param) {
+    public void printMessageWithParam(CmsMessageContainer container, @RUntainted Object param) {
 
         if (!m_busy && (m_report != null)) {
             m_report.printMessageWithParam(container, param);
@@ -304,7 +306,7 @@ public class CmsPublishReport extends CmsPrintStreamReport {
      * @see org.opencms.report.A_CmsReport#printMessageWithParam(int, int, org.opencms.i18n.CmsMessageContainer, java.lang.Object)
      */
     @Override
-    public void printMessageWithParam(int m, int n, CmsMessageContainer container, Object param) {
+    public void printMessageWithParam(@RUntainted int m, @RUntainted int n, CmsMessageContainer container, @RUntainted Object param) {
 
         if (!m_busy && (m_report != null)) {
             m_report.printMessageWithParam(m, n, container, param);

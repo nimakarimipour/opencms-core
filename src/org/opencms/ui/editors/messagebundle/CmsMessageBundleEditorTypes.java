@@ -79,6 +79,7 @@ import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.Table.CellStyleGenerator;
 import com.vaadin.v7.ui.TextArea;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Types and helper classes used by the message bundle editor. */
 public final class CmsMessageBundleEditorTypes {
@@ -119,7 +120,7 @@ public final class CmsMessageBundleEditorTypes {
          * @see java.lang.Enum#toString()
          */
         @Override
-        public String toString() {
+        public @RUntainted String toString() {
 
             switch (this) {
                 case PROPERTY:
@@ -291,7 +292,7 @@ public final class CmsMessageBundleEditorTypes {
         /** The value before it was edited. */
         private String m_oldValue;
         /** The value after it was edited. */
-        private String m_newValue;
+        private @RUntainted String m_newValue;
 
         /** Default constructor.
          * @param source the field via which the entry was edited.
@@ -305,7 +306,7 @@ public final class CmsMessageBundleEditorTypes {
             Object itemId,
             Object propertyId,
             String oldKey,
-            String newKey) {
+            @RUntainted String newKey) {
 
             m_source = source;
             m_itemId = itemId;
@@ -327,7 +328,7 @@ public final class CmsMessageBundleEditorTypes {
          * Returns the value after it was edited.
          * @return the value after it was edited.
          */
-        public String getNewValue() {
+        public @RUntainted String getNewValue() {
 
             return m_newValue;
         }
@@ -395,7 +396,7 @@ public final class CmsMessageBundleEditorTypes {
          * Handles a language change.
          * @param language the newly selected language.
          */
-        void handleLanguageChange(Locale language);
+        void handleLanguageChange(@RUntainted Locale language);
 
         /**
          * Handles the change of the edit mode.
@@ -892,7 +893,7 @@ public final class CmsMessageBundleEditorTypes {
                     });
                     tf.addBlurListener(new BlurListener() {
 
-                        public void blur(BlurEvent event) {
+                        public void blur(@RUntainted BlurEvent event) {
 
                             AbstractTextField field = (AbstractTextField)event.getComponent();
                             ComponentData data = (ComponentData)field.getData();
@@ -973,7 +974,7 @@ public final class CmsMessageBundleEditorTypes {
      * @param basename the bundle base name, for which the descriptor is searched.
      * @return the bundle descriptor, or <code>null</code> if it does not exist or searching fails.
      */
-    public static CmsResource getDescriptor(CmsObject cms, String basename) {
+    public static @RUntainted CmsResource getDescriptor(CmsObject cms, String basename) {
 
         CmsSolrQuery query = new CmsSolrQuery();
         query.setResourceTypes(CmsMessageBundleEditorTypes.BundleType.DESCRIPTOR.toString());

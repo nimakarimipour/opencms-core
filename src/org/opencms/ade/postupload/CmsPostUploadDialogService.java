@@ -70,6 +70,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Iterables;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The service implementation for the org.opencms.ade.postupload module.<p>
@@ -147,13 +148,13 @@ public class CmsPostUploadDialogService extends CmsGwtService implements I_CmsPo
 
             CmsExplorerTypeSettings settings = OpenCms.getWorkplaceManager().getExplorerTypeSetting(typeName);
 
-            List<String> defaultProperties = settings.getProperties();
+            List<@RUntainted String> defaultProperties = settings.getProperties();
             while (properties.isEmpty() && !CmsStringUtil.isEmptyOrWhitespaceOnly(settings.getReference())) {
                 settings = OpenCms.getWorkplaceManager().getExplorerTypeSetting(settings.getReference());
                 defaultProperties = settings.getProperties();
             }
 
-            Map<String, CmsXmlContentProperty> propertyDefinitions = new LinkedHashMap<String, CmsXmlContentProperty>();
+            Map<@RUntainted String, CmsXmlContentProperty> propertyDefinitions = new LinkedHashMap<@RUntainted String, CmsXmlContentProperty>();
             Map<String, CmsClientProperty> clientProperties = new LinkedHashMap<String, CmsClientProperty>();
 
             // add the file name to the list of properties to allow renaming the uploaded file
@@ -178,9 +179,9 @@ public class CmsPostUploadDialogService extends CmsGwtService implements I_CmsPo
             CmsADEConfigData configData = OpenCms.getADEManager().lookupConfiguration(
                 getCmsObject(),
                 res.getRootPath());
-            Map<String, CmsXmlContentProperty> propertyConfiguration = configData.getPropertyConfigurationAsMap();
+            Map<@RUntainted String, CmsXmlContentProperty> propertyConfiguration = configData.getPropertyConfigurationAsMap();
 
-            Set<String> propertiesToShow = new LinkedHashSet<String>();
+            Set<@RUntainted String> propertiesToShow = new LinkedHashSet<@RUntainted String>();
             propertiesToShow.addAll(defaultProperties);
             if (addBasicProperties) {
                 propertiesToShow.addAll(propertyConfiguration.keySet());
@@ -253,7 +254,7 @@ public class CmsPostUploadDialogService extends CmsGwtService implements I_CmsPo
                 // if the request parameter resources exists and contains a list of UUIDs
                 // this dialog is used as upload hook
                 String resourcesParam = getRequest().getParameter(I_CmsDialogConstants.PARAM_RESOURCES);
-                List<String> resourceUUIDs = CmsStringUtil.splitAsList(resourcesParam, ",");
+                List<@RUntainted String> resourceUUIDs = CmsStringUtil.splitAsList(resourcesParam, ",");
                 for (String uuidAsString : resourceUUIDs) {
                     CmsUUID uuid = new CmsUUID(uuidAsString);
                     CmsResource res = getCmsObject().readResource(uuid);

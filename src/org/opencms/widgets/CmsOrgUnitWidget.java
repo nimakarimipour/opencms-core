@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a OpenCms orgaizational unit selection widget, for use on a widget dialog.<p>
@@ -82,7 +83,7 @@ public class CmsOrgUnitWidget extends A_CmsSelectWidget implements I_CmsADEWidge
      *
      * @param configuration the configuration to use
      */
-    public CmsOrgUnitWidget(String configuration) {
+    public CmsOrgUnitWidget(@RUntainted String configuration) {
 
         super(configuration);
 
@@ -92,7 +93,7 @@ public class CmsOrgUnitWidget extends A_CmsSelectWidget implements I_CmsADEWidge
      * @see org.opencms.widgets.A_CmsWidget#getConfiguration()
      */
     @Override
-    public String getConfiguration() {
+    public @RUntainted String getConfiguration() {
 
         StringBuffer result = new StringBuffer(8);
 
@@ -191,7 +192,7 @@ public class CmsOrgUnitWidget extends A_CmsSelectWidget implements I_CmsADEWidge
      * @see org.opencms.widgets.I_CmsADEWidget#getWidgetName()
      */
     @Override
-    public String getWidgetName() {
+    public @RUntainted String getWidgetName() {
 
         return CmsComboWidget.class.getName();
     }
@@ -208,7 +209,7 @@ public class CmsOrgUnitWidget extends A_CmsSelectWidget implements I_CmsADEWidge
      * @see org.opencms.widgets.A_CmsWidget#setConfiguration(java.lang.String)
      */
     @Override
-    public void setConfiguration(String configuration) {
+    public void setConfiguration(@RUntainted String configuration) {
 
         m_role = null;
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(configuration)) {

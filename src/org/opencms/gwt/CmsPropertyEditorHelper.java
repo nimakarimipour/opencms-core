@@ -73,6 +73,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class responsible for loading / saving properties when using the property dialog.<p>
@@ -89,7 +90,7 @@ public class CmsPropertyEditorHelper {
     private boolean m_updateIndex;
 
     /** Structure id which should be used instead of the structure id in a property change set (can be null). */
-    private CmsUUID m_overrideStructureId;
+    private @RUntainted CmsUUID m_overrideStructureId;
 
     /**
      * Creates a new instance.<p>
@@ -110,11 +111,11 @@ public class CmsPropertyEditorHelper {
      * @param resource the current resource (may be null)
      */
     public static void updateWysiwygConfig(
-        Map<String, CmsXmlContentProperty> propertyConfig,
+        Map<@RUntainted String, CmsXmlContentProperty> propertyConfig,
         CmsObject cms,
         CmsResource resource) {
 
-        Map<String, CmsXmlContentProperty> wysiwygUpdates = Maps.newHashMap();
+        Map<@RUntainted String, CmsXmlContentProperty> wysiwygUpdates = Maps.newHashMap();
         String wysiwygConfig = null;
         for (Map.Entry<String, CmsXmlContentProperty> entry : propertyConfig.entrySet()) {
             CmsXmlContentProperty prop = entry.getValue();
@@ -178,7 +179,7 @@ public class CmsPropertyEditorHelper {
      */
     public Map<CmsUUID, Map<String, CmsXmlContentProperty>> getDefaultProperties(
 
-        List<CmsUUID> structureIds)
+        List<@RUntainted CmsUUID> structureIds)
     throws CmsException {
 
         CmsObject cms = m_cms;
@@ -201,7 +202,7 @@ public class CmsPropertyEditorHelper {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsPropertiesBean loadPropertyData(CmsUUID id) throws CmsException {
+    public CmsPropertiesBean loadPropertyData(@RUntainted CmsUUID id) throws CmsException {
 
         CmsObject cms = m_cms;
         String originalSiteRoot = cms.getRequestContext().getSiteRoot();
@@ -217,8 +218,8 @@ public class CmsPropertyEditorHelper {
 
             Collections.singletonList(resource.getStructureId())).get(resource.getStructureId());
 
-        Map<String, CmsXmlContentProperty> mergedConfig = config.getPropertyConfiguration(defaultProperties);
-        Map<String, CmsXmlContentProperty> propertyConfig = mergedConfig;
+        Map<@RUntainted String, CmsXmlContentProperty> mergedConfig = config.getPropertyConfiguration(defaultProperties);
+        Map<@RUntainted String, CmsXmlContentProperty> propertyConfig = mergedConfig;
 
         // Resolve macros in the property configuration
         propertyConfig = CmsXmlContentPropertyHelper.resolveMacrosInProperties(
@@ -403,7 +404,7 @@ public class CmsPropertyEditorHelper {
         Map<String, CmsXmlContentProperty> propertyConfig = new LinkedHashMap<String, CmsXmlContentProperty>();
         CmsExplorerTypeSettings explorerType = OpenCms.getWorkplaceManager().getExplorerTypeSetting(typeName);
         if (explorerType != null) {
-            List<String> defaultProps = explorerType.getProperties();
+            List<@RUntainted String> defaultProps = explorerType.getProperties();
             for (String propName : defaultProps) {
                 CmsXmlContentProperty property = new CmsXmlContentProperty(
                     propName,

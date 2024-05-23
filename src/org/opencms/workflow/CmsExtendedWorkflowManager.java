@@ -62,6 +62,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The default workflow manager implementation, which supports 2 basic actions, Release and Publish.
@@ -158,7 +159,7 @@ public class CmsExtendedWorkflowManager extends CmsDefaultWorkflowManager {
      *
      * @return a group name
      */
-    public String getWorkflowProjectManagerGroup() {
+    public @RUntainted String getWorkflowProjectManagerGroup() {
 
         return getParameter(PARAM_WORKFLOW_PROJECT_MANAGER_GROUP, OpenCms.getDefaultUsers().getGroupAdministrators());
     }
@@ -315,7 +316,7 @@ public class CmsExtendedWorkflowManager extends CmsDefaultWorkflowManager {
      *
      * @throws CmsException if something goes wrong
      */
-    protected CmsWorkflowResponse actionRelease(CmsObject userCms, List<CmsResource> resources) throws CmsException {
+    protected CmsWorkflowResponse actionRelease(CmsObject userCms, List<@RUntainted CmsResource> resources) throws CmsException {
 
         checkNewParentsInList(userCms, resources);
         String projectName = generateProjectName(userCms);
@@ -434,7 +435,7 @@ public class CmsExtendedWorkflowManager extends CmsDefaultWorkflowManager {
      *
      * @throws CmsException if something goes wrong
      */
-    protected void clearLocks(CmsProject project, List<CmsResource> resources) throws CmsException {
+    protected void clearLocks(@RUntainted CmsProject project, List<CmsResource> resources) throws CmsException {
 
         CmsObject rootCms = OpenCms.initCmsObject(m_adminCms);
         rootCms.getRequestContext().setCurrentProject(project);
@@ -461,7 +462,7 @@ public class CmsExtendedWorkflowManager extends CmsDefaultWorkflowManager {
      *
      * @return true if the project exists
      */
-    protected boolean existsProject(String projectName) {
+    protected boolean existsProject(@RUntainted String projectName) {
 
         try {
             m_adminCms.readProject(projectName);
@@ -478,7 +479,7 @@ public class CmsExtendedWorkflowManager extends CmsDefaultWorkflowManager {
      *
      * @return the workflow project description
      */
-    protected String generateProjectDescription(CmsObject userCms) {
+    protected @RUntainted String generateProjectDescription(CmsObject userCms) {
 
         CmsUser user = userCms.getRequestContext().getCurrentUser();
         OpenCms.getLocaleManager();
@@ -501,7 +502,7 @@ public class CmsExtendedWorkflowManager extends CmsDefaultWorkflowManager {
      *
      * @return the workflow project name
      */
-    protected String generateProjectName(CmsObject userCms) {
+    protected @RUntainted String generateProjectName(CmsObject userCms) {
 
         String projectName = generateProjectName(userCms, true);
         if (existsProject(projectName)) {
@@ -518,7 +519,7 @@ public class CmsExtendedWorkflowManager extends CmsDefaultWorkflowManager {
      *
      * @return the workflow project name
      */
-    protected String generateProjectName(CmsObject userCms, boolean shortTime) {
+    protected @RUntainted String generateProjectName(CmsObject userCms, boolean shortTime) {
 
         CmsUser user = userCms.getRequestContext().getCurrentUser();
         long time = System.currentTimeMillis();
@@ -540,12 +541,12 @@ public class CmsExtendedWorkflowManager extends CmsDefaultWorkflowManager {
      *
      * @return the list of users which should be notified when resources are released
      */
-    protected List<CmsUser> getNotificationMailRecipients() {
+    protected List<@RUntainted CmsUser> getNotificationMailRecipients() {
 
         String group = getWorkflowProjectManagerGroup();
         CmsObject cms = m_adminCms;
         try {
-            List<CmsUser> users = cms.getUsersOfGroup(group);
+            List<@RUntainted CmsUser> users = cms.getUsersOfGroup(group);
             return users;
         } catch (CmsException e) {
             LOG.error(e.getLocalizedMessage(), e);
@@ -673,7 +674,7 @@ public class CmsExtendedWorkflowManager extends CmsDefaultWorkflowManager {
      * @param resources the resources which have been affected by a workflow action
      */
     protected void sendNotification(
-        CmsObject userCms,
+        @RUntainted CmsObject userCms,
         CmsUser recipient,
         CmsProject workflowProject,
         List<CmsResource> resources) {

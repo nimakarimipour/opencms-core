@@ -56,6 +56,7 @@ import com.vaadin.server.AbstractErrorMessage.ContentMode;
 import com.vaadin.server.UserError;
 import com.vaadin.v7.event.FieldEvents.TextChangeEvent;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles inline editing within the file table.<p>
@@ -72,10 +73,10 @@ public class CmsContextMenuEditHandler implements I_CmsFilePropertyEditHandler {
     private I_CmsDialogContext m_context;
 
     /** The edited content structure id. */
-    private CmsUUID m_editId;
+    private @RUntainted CmsUUID m_editId;
 
     /** The edited property. */
-    private CmsResourceTableProperty m_editProperty;
+    private @RUntainted CmsResourceTableProperty m_editProperty;
 
     /** The file table. */
     private CmsFileTable m_fileTable;
@@ -93,7 +94,7 @@ public class CmsContextMenuEditHandler implements I_CmsFilePropertyEditHandler {
      */
     public CmsContextMenuEditHandler(
         CmsUUID editId,
-        CmsResourceTableProperty editProperty,
+        @RUntainted CmsResourceTableProperty editProperty,
         CmsFileTable fileTable,
         I_CmsDialogContext context) {
 
@@ -125,7 +126,7 @@ public class CmsContextMenuEditHandler implements I_CmsFilePropertyEditHandler {
     /**
      * @see org.opencms.ui.components.I_CmsFilePropertyEditHandler#save(java.lang.String)
      */
-    public void save(String value) {
+    public void save(@RUntainted String value) {
 
         try {
             CmsObject cms = A_CmsUI.getCmsObject();
@@ -181,7 +182,7 @@ public class CmsContextMenuEditHandler implements I_CmsFilePropertyEditHandler {
     /**
      * @see com.vaadin.event.FieldEvents.TextChangeListener#textChange(com.vaadin.event.FieldEvents.TextChangeEvent)
      */
-    public void textChange(TextChangeEvent event) {
+    public void textChange(@RUntainted TextChangeEvent event) {
 
         TextField tf = (TextField)event.getSource();
         try {
@@ -195,7 +196,7 @@ public class CmsContextMenuEditHandler implements I_CmsFilePropertyEditHandler {
     /**
      * @see com.vaadin.data.Validator#validate(java.lang.Object)
      */
-    public void validate(Object value) throws InvalidValueException {
+    public void validate(@RUntainted Object value) throws InvalidValueException {
 
         if ((m_editProperty == CmsResourceTableProperty.PROPERTY_RESOURCE_NAME) && (value instanceof String)) {
             try {

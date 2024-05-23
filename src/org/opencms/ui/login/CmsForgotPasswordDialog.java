@@ -58,6 +58,7 @@ import com.vaadin.v7.data.validator.EmailValidator;
 import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog to request a password reset link if you forgot your passsword.<p>
@@ -175,7 +176,7 @@ public class CmsForgotPasswordDialog extends VerticalLayout implements I_CmsHasB
      * @param email the email address entered by the user
      * @return true if the mail could be sent
      */
-    public static boolean sendPasswordResetLink(CmsObject cms, String fullUserName, String email) {
+    public static boolean sendPasswordResetLink(@RUntainted CmsObject cms, @RUntainted String fullUserName, String email) {
 
         LOG.info("Trying to find user for email " + email);
         email = email.trim();

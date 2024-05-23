@@ -35,6 +35,7 @@ import org.opencms.pdftools.CmsPdfThumbnailLink;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.jsp.tagext.TagSupport;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * JSP tag to generate a link to a PDF produced from a given XML content.<p>
@@ -48,7 +49,7 @@ public class CmsJspTagPdfThumbnail extends TagSupport {
     private String m_file;
 
     /** The image format. */
-    private String m_format = "png";
+    private @RUntainted String m_format = "png";
 
     /** The image height. */
     private int m_height = -1;
@@ -69,7 +70,7 @@ public class CmsJspTagPdfThumbnail extends TagSupport {
      *
      * @return the link to the PDF thumbnail
      */
-    public static String pdfTagAction(ServletRequest request, String file, int width, int height, String format)
+    public static String pdfTagAction(ServletRequest request, String file, int width, int height, @RUntainted String format)
     throws CmsException {
 
         CmsFlexController controller = CmsFlexController.getController(request);
@@ -108,7 +109,7 @@ public class CmsJspTagPdfThumbnail extends TagSupport {
      *
      * @param format the format path
      */
-    public void setFormat(String format) {
+    public void setFormat(@RUntainted String format) {
 
         m_format = format;
     }

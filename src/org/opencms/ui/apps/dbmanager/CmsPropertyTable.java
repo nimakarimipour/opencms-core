@@ -63,6 +63,7 @@ import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.v7.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.v7.ui.Table;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the table containing all property definitions in the system.<p>
@@ -81,7 +82,7 @@ public class CmsPropertyTable extends Table {
         private Object m_defaultValue;
 
         /**Header Message key.*/
-        private String m_headerMessage;
+        private @RUntainted String m_headerMessage;
 
         /**Type of column property.*/
         private Class<?> m_type;
@@ -93,7 +94,7 @@ public class CmsPropertyTable extends Table {
          * @param type to property
          * @param defaultValue of column
          */
-        TableColumn(String headerMessage, Class<?> type, Object defaultValue) {
+        TableColumn(@RUntainted String headerMessage, Class<?> type, Object defaultValue) {
 
             m_headerMessage = headerMessage;
             m_type = type;
@@ -160,7 +161,7 @@ public class CmsPropertyTable extends Table {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> data) {
+        public void executeAction(Set<@RUntainted String> data) {
 
             Window window = CmsBasicDialog.prepareWindow(DialogWidth.wide);
             window.setCaption(CmsVaadinUtils.getMessageText(Messages.GUI_DATABASEAPP_PROPERTY_DELETE_0));
@@ -342,7 +343,7 @@ public class CmsPropertyTable extends Table {
      *
      * @param propertyName to search resources for
      */
-    protected void showResources(String propertyName) {
+    protected void showResources(@RUntainted String propertyName) {
 
         CmsSearchReplaceSettings settings = new CmsSearchReplaceSettings();
         settings.setPaths(Collections.singletonList("/"));

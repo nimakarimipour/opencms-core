@@ -29,6 +29,7 @@ package org.opencms.ui.components.editablegroup;
 
 import com.vaadin.ui.Component;
 import com.vaadin.v7.ui.HorizontalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Default implementation for row for multivalue field lists.<p>
@@ -41,7 +42,7 @@ public class CmsEditableGroupRow extends HorizontalLayout implements I_CmsEditab
     private static final long serialVersionUID = 1L;
 
     /** The text input field. */
-    private Component m_component;
+    private @RUntainted Component m_component;
 
     /** Group of rows for a multivalue field list. */
     private CmsEditableGroup m_group;
@@ -55,7 +56,7 @@ public class CmsEditableGroupRow extends HorizontalLayout implements I_CmsEditab
      * @param group the multivalue widget group
      * @param component the wrapped input widget
      */
-    public CmsEditableGroupRow(CmsEditableGroup group, Component component) {
+    public CmsEditableGroupRow(CmsEditableGroup group, @RUntainted Component component) {
 
         m_component = component;
         m_group = group;
@@ -84,7 +85,7 @@ public class CmsEditableGroupRow extends HorizontalLayout implements I_CmsEditab
      *
      * @return the input field
      */
-    public Component getComponent() {
+    public @RUntainted Component getComponent() {
 
         return m_component;
     }

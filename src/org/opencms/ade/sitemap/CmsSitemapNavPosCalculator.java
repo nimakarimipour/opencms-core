@@ -38,6 +38,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for recalculating navigation positions when a user has changed the order of navigation entries in the sitemap
@@ -58,7 +59,7 @@ public class CmsSitemapNavPosCalculator {
         private boolean m_exists;
 
         /** The navigation position as a float. */
-        private float m_navPos;
+        private @RUntainted float m_navPos;
 
         /**
          * Creates a new position info bean.<p>
@@ -67,7 +68,7 @@ public class CmsSitemapNavPosCalculator {
          *
          * @param navPos the navigation position
          */
-        public PositionInfo(boolean exists, float navPos) {
+        public PositionInfo(boolean exists, @RUntainted float navPos) {
 
             m_exists = exists;
             m_navPos = navPos;
@@ -78,7 +79,7 @@ public class CmsSitemapNavPosCalculator {
          *
          * @return the navigation position
          */
-        public float getNavPos() {
+        public @RUntainted float getNavPos() {
 
             return m_navPos;
         }
@@ -134,7 +135,7 @@ public class CmsSitemapNavPosCalculator {
      * @param movedElement the resource which should be inserted
      * @param insertPosition the insertion position in the list
      */
-    public CmsSitemapNavPosCalculator(List<CmsJspNavElement> navigation, CmsResource movedElement, int insertPosition) {
+    public CmsSitemapNavPosCalculator(List<CmsJspNavElement> navigation, @RUntainted CmsResource movedElement, @RUntainted int insertPosition) {
 
         List<CmsJspNavElement> workList = new ArrayList<CmsJspNavElement>(navigation);
         CmsJspNavElement dummyNavElement = new CmsJspNavElement(
@@ -214,7 +215,7 @@ public class CmsSitemapNavPosCalculator {
 
         // now calculate the new navigation positions for the elements in the block (
 
-        List<Float> newNavPositions = interpolatePositions(beforeBlock, afterBlock, blockEnd - blockStart);
+        List<@RUntainted Float> newNavPositions = interpolatePositions(beforeBlock, afterBlock, blockEnd - blockStart);
         for (int i = 0; i < (blockEnd - blockStart); i++) {
             workList.get(i + blockStart).setNavPosition(newNavPositions.get(i).floatValue());
         }
@@ -284,10 +285,10 @@ public class CmsSitemapNavPosCalculator {
      *
      * @return the generated floats
      */
-    private List<Float> interpolateBetween(float min, float max, int steps) {
+    private List<@RUntainted Float> interpolateBetween(@RUntainted float min, @RUntainted float max, @RUntainted int steps) {
 
         float delta = (max - min) / (steps + 1);
-        List<Float> result = new ArrayList<Float>();
+        List<@RUntainted Float> result = new ArrayList<@RUntainted Float>();
         float num = min;
 
         for (int i = 0; i < steps; i++) {
@@ -305,9 +306,9 @@ public class CmsSitemapNavPosCalculator {
      *
      * @return the generated floats
      */
-    private List<Float> interpolateDownwards(float max, int steps) {
+    private List<@RUntainted Float> interpolateDownwards(@RUntainted float max, int steps) {
 
-        List<Float> result = new ArrayList<Float>();
+        List<@RUntainted Float> result = new ArrayList<@RUntainted Float>();
         if (max > 0) {
             // We try to generate a "nice" descending list of non-negative floats
             // where the step size is bigger for bigger "max" values.
@@ -340,9 +341,9 @@ public class CmsSitemapNavPosCalculator {
      *
      * @return the generated floats
      */
-    private List<Float> interpolateEmpty(int steps) {
+    private List<@RUntainted Float> interpolateEmpty(int steps) {
 
-        List<Float> result = new ArrayList<Float>();
+        List<@RUntainted Float> result = new ArrayList<@RUntainted Float>();
         for (int i = 0; i < steps; i++) {
             result.add(Float.valueOf(1 + i));
         }
@@ -358,7 +359,7 @@ public class CmsSitemapNavPosCalculator {
      *
      * @return the list of new navigation positions
      */
-    private List<Float> interpolatePositions(PositionInfo left, PositionInfo right, int steps) {
+    private List<@RUntainted Float> interpolatePositions(PositionInfo left, PositionInfo right, @RUntainted int steps) {
 
         if (left.isOutOfBounds()) {
             if (right.isNormal()) {
@@ -394,9 +395,9 @@ public class CmsSitemapNavPosCalculator {
      *
      * @return the generated floats
      */
-    private List<Float> interpolateUpwards(float min, int steps) {
+    private List<@RUntainted Float> interpolateUpwards(@RUntainted float min, int steps) {
 
-        List<Float> result = new ArrayList<Float>();
+        List<@RUntainted Float> result = new ArrayList<@RUntainted Float>();
         for (int i = 0; i < steps; i++) {
             result.add(Float.valueOf(min + 1 + i));
         }
@@ -410,7 +411,7 @@ public class CmsSitemapNavPosCalculator {
      *
      * @return the new (smaller) step size
      */
-    private float reduceStepSize(float oldStepSize) {
+    private @RUntainted float reduceStepSize(@RUntainted float oldStepSize) {
 
         if (oldStepSize > 1) {
             // try to reduce unnecessary digits after the decimal point

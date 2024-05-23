@@ -53,6 +53,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.ImmutableList;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A bean containing formatter configuration data as strings.<p>
@@ -83,10 +84,10 @@ public class CmsFormatterBean implements I_CmsFormatterBean, Cloneable {
     protected Set<String> m_containerTypes;
 
     /** CSS Head includes. */
-    protected Set<String> m_cssHeadIncludes = new LinkedHashSet<String>();
+    protected Set<@RUntainted String> m_cssHeadIncludes = new LinkedHashSet<@RUntainted String>();
 
     /** The description text for the formatter. */
-    protected String m_description;
+    protected @RUntainted String m_description;
 
     /** Set of alias keys. */
     protected Set<String> m_aliasKeys = new HashSet<>();
@@ -95,10 +96,10 @@ public class CmsFormatterBean implements I_CmsFormatterBean, Cloneable {
     private Set<String> m_allKeys = new HashSet<>();
 
     /** Provides the display type. If empty if this formatter should not be used by the display tag. */
-    protected String m_displayType;
+    protected @RUntainted String m_displayType;
 
     /** The id for this formatter. */
-    protected String m_id;
+    protected @RUntainted String m_id;
 
     /** Inline CSS snippets. */
     protected String m_inlineCss;
@@ -119,16 +120,16 @@ public class CmsFormatterBean implements I_CmsFormatterBean, Cloneable {
     protected boolean m_isPreviewFormatter;
 
     /** JavaScript head includes. */
-    protected List<String> m_javascriptHeadIncludes = new ArrayList<String>();
+    protected List<@RUntainted String> m_javascriptHeadIncludes = new ArrayList<@RUntainted String>();
 
     /** The formatter JSP. */
-    protected String m_jspRootPath;
+    protected @RUntainted String m_jspRootPath;
 
     /** The UUID of the JSP resource for this formatter. */
     protected CmsUUID m_jspStructureId;
 
     /** The formatter key. */
-    protected String m_key;
+    protected @RUntainted String m_key;
 
     /** The location this formatter was configured in. */
     protected String m_location;
@@ -149,7 +150,7 @@ public class CmsFormatterBean implements I_CmsFormatterBean, Cloneable {
     protected boolean m_nestedFormatterSettings;
 
     /** The nice name. */
-    protected String m_niceName;
+    protected @RUntainted String m_niceName;
 
     /** The referenced plugins. */
     protected List<CmsTemplatePlugin> m_plugins = Collections.emptyList();
@@ -158,7 +159,7 @@ public class CmsFormatterBean implements I_CmsFormatterBean, Cloneable {
     protected int m_rank;
 
     /** The resource type name. */
-    protected Collection<String> m_resourceTypeNames;
+    protected Collection<@RUntainted String> m_resourceTypeNames;
 
     /** Indicates if the content should be searchable in the online index when this formatter is used. */
     protected boolean m_search;
@@ -215,30 +216,30 @@ public class CmsFormatterBean implements I_CmsFormatterBean, Cloneable {
      */
     public CmsFormatterBean(
         Set<String> containerTypes,
-        String jspRootPath,
+        @RUntainted String jspRootPath,
         CmsUUID jspStructureId,
-        String key,
+        @RUntainted String key,
         Set<String> aliasKeys,
         int minWidth,
         int maxWidth,
         boolean preview,
         boolean searchContent,
         String location,
-        List<String> cssHeadIncludes,
+        List<@RUntainted String> cssHeadIncludes,
         String inlineCss,
-        List<String> javascriptHeadIncludes,
+        List<@RUntainted String> javascriptHeadIncludes,
         String inlineJavascript,
         List<CmsTemplatePlugin> plugins,
-        String niceName,
-        String description,
-        Collection<String> resourceTypeNames,
+        @RUntainted String niceName,
+        @RUntainted String description,
+        Collection<@RUntainted String> resourceTypeNames,
         int rank,
-        String id,
+        @RUntainted String id,
         CmsSettingConfiguration settingConfig,
         boolean isFromConfigFile,
         boolean isAutoEnabled,
         boolean isDetail,
-        String displayType,
+        @RUntainted String displayType,
         boolean isAllowsSettingsInEditor,
         boolean strictContainers,
         boolean nestedFormatterSettings,
@@ -303,7 +304,7 @@ public class CmsFormatterBean implements I_CmsFormatterBean, Cloneable {
      */
     public CmsFormatterBean(
         String containerType,
-        String rootPath,
+        @RUntainted String rootPath,
         CmsUUID structureId,
         int minWidth,
         int maxWidth,
@@ -359,7 +360,7 @@ public class CmsFormatterBean implements I_CmsFormatterBean, Cloneable {
      */
     public CmsFormatterBean(
         String containerType,
-        String jspRootPath,
+        @RUntainted String jspRootPath,
         String minWidthStr,
         String maxWidthStr,
         String preview,
@@ -408,7 +409,7 @@ public class CmsFormatterBean implements I_CmsFormatterBean, Cloneable {
      * @param location the formatter location
      * @param preview the preview formatter flag
      */
-    CmsFormatterBean(String jspRootPath, CmsUUID jspStructureId, String location, boolean preview) {
+    CmsFormatterBean(@RUntainted String jspRootPath, CmsUUID jspStructureId, String location, boolean preview) {
 
         this(
             Collections.<String> emptySet(),
@@ -508,7 +509,7 @@ public class CmsFormatterBean implements I_CmsFormatterBean, Cloneable {
      * @see org.opencms.xml.containerpage.I_CmsFormatterBean#getCssHeadIncludes()
      */
     @Override
-    public Set<String> getCssHeadIncludes() {
+    public Set<@RUntainted String> getCssHeadIncludes() {
 
         return Collections.unmodifiableSet(m_cssHeadIncludes);
     }
@@ -516,7 +517,7 @@ public class CmsFormatterBean implements I_CmsFormatterBean, Cloneable {
     /**
      * @see org.opencms.xml.containerpage.I_CmsFormatterBean#getDescription(Locale)
      */
-    public String getDescription(Locale locale) {
+    public @RUntainted String getDescription(@RUntainted Locale locale) {
 
         if (locale == null) {
             return m_description;
@@ -524,7 +525,7 @@ public class CmsFormatterBean implements I_CmsFormatterBean, Cloneable {
         CmsMacroResolver resolver = new CmsMacroResolver() {
 
             @Override
-            public String getMacroValue(String macro) {
+            public String getMacroValue(@RUntainted String macro) {
 
                 if (macro.startsWith(CmsMacroResolver.KEY_LOCALIZED_PREFIX)) {
                     String keyName = macro.substring(CmsMacroResolver.KEY_LOCALIZED_PREFIX.length());
@@ -535,7 +536,7 @@ public class CmsFormatterBean implements I_CmsFormatterBean, Cloneable {
             }
 
             @Override
-            public String resolveMacros(String input) {
+            public @RUntainted String resolveMacros(@RUntainted String input) {
 
                 return StringUtils.trimToNull(super.resolveMacros(input));
             }
@@ -548,7 +549,7 @@ public class CmsFormatterBean implements I_CmsFormatterBean, Cloneable {
     /**
      * @see org.opencms.xml.containerpage.I_CmsFormatterBean#getDisplayType()
      */
-    public String getDisplayType() {
+    public @RUntainted String getDisplayType() {
 
         return m_displayType;
     }
@@ -557,7 +558,7 @@ public class CmsFormatterBean implements I_CmsFormatterBean, Cloneable {
      * @see org.opencms.xml.containerpage.I_CmsFormatterBean#getId()
      */
     @Override
-    public String getId() {
+    public @RUntainted String getId() {
 
         return m_id;
     }
@@ -584,7 +585,7 @@ public class CmsFormatterBean implements I_CmsFormatterBean, Cloneable {
      * @see org.opencms.xml.containerpage.I_CmsFormatterBean#getJavascriptHeadIncludes()
      */
     @Override
-    public List<String> getJavascriptHeadIncludes() {
+    public List<@RUntainted String> getJavascriptHeadIncludes() {
 
         return Collections.unmodifiableList(m_javascriptHeadIncludes);
     }
@@ -593,7 +594,7 @@ public class CmsFormatterBean implements I_CmsFormatterBean, Cloneable {
      * @see org.opencms.xml.containerpage.I_CmsFormatterBean#getJspRootPath()
      */
     @Override
-    public String getJspRootPath() {
+    public @RUntainted String getJspRootPath() {
 
         return m_jspRootPath;
     }
@@ -610,7 +611,7 @@ public class CmsFormatterBean implements I_CmsFormatterBean, Cloneable {
     /**
      * @see org.opencms.xml.containerpage.I_CmsFormatterBean#getKey()
      */
-    public String getKey() {
+    public @RUntainted String getKey() {
 
         return m_key;
     }
@@ -654,7 +655,7 @@ public class CmsFormatterBean implements I_CmsFormatterBean, Cloneable {
      * @see org.opencms.xml.containerpage.I_CmsFormatterBean#getNiceName(Locale)
      */
     @Override
-    public String getNiceName(Locale locale) {
+    public @RUntainted String getNiceName(@RUntainted Locale locale) {
 
         if (locale == null) {
             return m_niceName;
@@ -677,7 +678,7 @@ public class CmsFormatterBean implements I_CmsFormatterBean, Cloneable {
      * @see org.opencms.xml.containerpage.I_CmsFormatterBean#getResourceTypeNames()
      */
     @Override
-    public Collection<String> getResourceTypeNames() {
+    public Collection<@RUntainted String> getResourceTypeNames() {
 
         return m_resourceTypeNames;
     }
@@ -686,7 +687,7 @@ public class CmsFormatterBean implements I_CmsFormatterBean, Cloneable {
      * @see org.opencms.xml.containerpage.I_CmsFormatterBean#getSettings(org.opencms.ade.configuration.CmsADEConfigData)
      */
     @Override
-    public Map<String, CmsXmlContentProperty> getSettings(CmsADEConfigData config) {
+    public Map<@RUntainted String, CmsXmlContentProperty> getSettings(CmsADEConfigData config) {
 
         ImmutableList<CmsUUID> sharedSettingOverrides = config.getSharedSettingOverrides();
         return m_settingConfig.getSettings(sharedSettingOverrides);

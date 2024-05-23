@@ -45,6 +45,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Client application used to connect locally to the CmsShell server.<p>
@@ -79,7 +80,7 @@ public class CmsRemoteShellClient {
     private boolean m_hasError;
 
     /** The input stream to read the commands from. */
-    private InputStream m_input;
+    private @RUntainted InputStream m_input;
 
     /** Controls whether shell is interactive. */
     private boolean m_interactive;
@@ -108,7 +109,7 @@ public class CmsRemoteShellClient {
     public CmsRemoteShellClient(String[] args)
     throws IOException {
 
-        Map<String, String> params = parseArgs(args);
+        Map<String, @RUntainted String> params = parseArgs(args);
         String script = params.get(PARAM_SCRIPT);
         if (script == null) {
             m_interactive = true;
@@ -152,9 +153,9 @@ public class CmsRemoteShellClient {
      * @param args the command line arguments
      * @return the map of parsed arguments
      */
-    public Map<String, String> parseArgs(String[] args) {
+    public Map<String, @RUntainted String> parseArgs(String[] args) {
 
-        Map<String, String> result = new HashMap<String, String>();
+        Map<String, @RUntainted String> result = new HashMap<String, @RUntainted String>();
         Set<String> allowedKeys = new HashSet<String>(
             Arrays.asList(PARAM_ADDITIONAL, PARAM_SCRIPT, PARAM_REGISTRY_PORT, PARAM_REGISTRY_HOST));
         for (String arg : args) {
@@ -212,7 +213,7 @@ public class CmsRemoteShellClient {
                 st.eolIsSignificant(true);
                 st.wordChars('*', '*');
                 // put all tokens into a List
-                List<String> parameters = new ArrayList<String>();
+                List<@RUntainted String> parameters = new ArrayList<@RUntainted String>();
                 while (st.nextToken() != StreamTokenizer.TT_EOF) {
                     if (st.ttype == StreamTokenizer.TT_NUMBER) {
                         parameters.add(Integer.toString(Double.valueOf(st.nval).intValue()));
@@ -232,7 +233,7 @@ public class CmsRemoteShellClient {
 
                 // extract command and arguments
                 String command = parameters.get(0);
-                List<String> arguments = new ArrayList<String>(parameters.subList(1, parameters.size()));
+                List<@RUntainted String> arguments = new ArrayList<@RUntainted String>(parameters.subList(1, parameters.size()));
 
                 // execute the command with the given arguments
                 executeCommand(command, arguments);
@@ -253,7 +254,7 @@ public class CmsRemoteShellClient {
      * @param command the command
      * @param arguments the arguments
      */
-    private void executeCommand(String command, List<String> arguments) {
+    private void executeCommand(@RUntainted String command, List<@RUntainted String> arguments) {
 
         try {
             CmsShellCommandResult result = m_remoteShell.executeCommand(command, arguments);

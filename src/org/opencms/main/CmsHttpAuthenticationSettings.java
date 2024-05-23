@@ -28,6 +28,7 @@
 package org.opencms.main;
 
 import org.opencms.workplace.CmsWorkplace;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains the settings to handle HTTP basic authentication.<p>
@@ -55,10 +56,10 @@ public class CmsHttpAuthenticationSettings {
         + "action/authenticate.html";
 
     /** The mechanism used in browser-based HTTP authentication. */
-    private String m_browserBasedAuthenticationMechanism;
+    private @RUntainted String m_browserBasedAuthenticationMechanism;
 
     /** The URI of the system wide login form if browser-based HTTP basic authentication is disabled. */
-    private String m_formBasedHttpAuthenticationUri;
+    private @RUntainted String m_formBasedHttpAuthenticationUri;
 
     /** Boolean flag to enable or disable browser-based HTTP basic authentication. */
     private boolean m_useBrowserBasedHttpAuthentication;
@@ -79,7 +80,7 @@ public class CmsHttpAuthenticationSettings {
      *
      * @return "BASIC" in case of browser based basic authentication, "FORM" in case of form based authentication or the alternative mechanism or <code>null</code> if unused.
      */
-    public String getBrowserBasedAuthenticationMechanism() {
+    public @RUntainted String getBrowserBasedAuthenticationMechanism() {
 
         if (m_useBrowserBasedHttpAuthentication) {
             return AUTHENTICATION_BASIC;
@@ -113,7 +114,7 @@ public class CmsHttpAuthenticationSettings {
      *
      * @return the URI of the system wide login form if browser-based HTTP basic authentication is disabled
      */
-    public String getFormBasedHttpAuthenticationUri() {
+    public @RUntainted String getFormBasedHttpAuthenticationUri() {
 
         return m_formBasedHttpAuthenticationUri;
     }
@@ -123,7 +124,7 @@ public class CmsHttpAuthenticationSettings {
      *
      * @param uri the URI of the system wide login form if browser-based HTTP basic authentication is disabled to set
      */
-    public void setFormBasedHttpAuthenticationUri(String uri) {
+    public void setFormBasedHttpAuthenticationUri(@RUntainted String uri) {
 
         m_formBasedHttpAuthenticationUri = uri;
     }
@@ -145,7 +146,7 @@ public class CmsHttpAuthenticationSettings {
      * @param value a string {<code>"true"</code>|<code>"false"</code>} to specify if browser-based HTTP basic authentication should be enabled;
      *        if another string is provided, the flag for browser based basic authentication is disabled and the value is stored as authentication mechanism.
      */
-    public void setUseBrowserBasedHttpAuthentication(String value) {
+    public void setUseBrowserBasedHttpAuthentication(@RUntainted String value) {
 
         m_useBrowserBasedHttpAuthentication = Boolean.valueOf(value).booleanValue();
         if (!m_useBrowserBasedHttpAuthentication && !value.equalsIgnoreCase(Boolean.FALSE.toString())) {

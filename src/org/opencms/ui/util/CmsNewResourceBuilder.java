@@ -59,6 +59,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for creating a new resource using the New dialog.<p>
@@ -129,9 +130,9 @@ public class CmsNewResourceBuilder {
                 5,
                 m_explorerNameGeneration);
             String rootPath = m_cms.getRequestContext().addSiteRoot(sitePath);
-            Map<String, CmsXmlContentProperty> propertyConfig;
+            Map<@RUntainted String, CmsXmlContentProperty> propertyConfig;
             Map<String, CmsXmlContentProperty> defaultProperties = getDefaultPropertiesForType(m_type);
-            Map<String, CmsXmlContentProperty> mergedConfig = OpenCms.getADEManager().lookupConfiguration(
+            Map<@RUntainted String, CmsXmlContentProperty> mergedConfig = OpenCms.getADEManager().lookupConfiguration(
                 cms,
                 rootPath).getPropertyConfiguration(defaultProperties);
             propertyConfig = mergedConfig;
@@ -174,7 +175,7 @@ public class CmsNewResourceBuilder {
          * @param sitePath the site path
          * @return the page info bean
          */
-        private CmsListInfoBean getPageInfo(String sitePath) {
+        private CmsListInfoBean getPageInfo(@RUntainted String sitePath) {
 
             CmsListInfoBean listInfo = new CmsListInfoBean();
             listInfo.setResourceState(CmsResource.STATE_NEW);
@@ -201,7 +202,7 @@ public class CmsNewResourceBuilder {
     CmsObject m_cms;
 
     /** The resource type name. */
-    String m_type;
+    @RUntainted String m_type;
 
     /** The list of registered callbacks. */
     private List<I_Callback> m_callbacks = Lists.newArrayList();
@@ -216,7 +217,7 @@ public class CmsNewResourceBuilder {
     private CmsResource m_modelResource;
 
     /** The path with name pattern at which the resource should be created. */
-    private String m_pathWithPattern;
+    private @RUntainted String m_pathWithPattern;
 
     /** The property changes to save (may be null). */
     private CmsPropertyChangeSet m_propChanges;
@@ -348,7 +349,7 @@ public class CmsNewResourceBuilder {
      *
      * @param locale the locale
      */
-    public void setLocale(Locale locale) {
+    public void setLocale(@RUntainted Locale locale) {
 
         m_cms.getRequestContext().setLocale(locale);
 
@@ -369,7 +370,7 @@ public class CmsNewResourceBuilder {
      *
      * @param destination the creation path
      */
-    public void setPatternPath(String destination) {
+    public void setPatternPath(@RUntainted String destination) {
 
         m_pathWithPattern = destination;
     }
@@ -389,7 +390,7 @@ public class CmsNewResourceBuilder {
      *
      * @param siteRoot the site root
      */
-    public void setSiteRoot(String siteRoot) {
+    public void setSiteRoot(@RUntainted String siteRoot) {
 
         m_cms.getRequestContext().setSiteRoot(siteRoot);
     }
@@ -399,7 +400,7 @@ public class CmsNewResourceBuilder {
      *
      * @param type the resource type name
      */
-    public void setType(String type) {
+    public void setType(@RUntainted String type) {
 
         m_type = type;
     }

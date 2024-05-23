@@ -28,6 +28,7 @@
 package org.opencms.i18n;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bundle of i18n setting to be used to setup a new request context.<p>
@@ -37,10 +38,10 @@ import java.util.Locale;
 public class CmsI18nInfo {
 
     /** The locale to use. */
-    private String m_encoding;
+    private @RUntainted String m_encoding;
 
     /** The encoding to use. */
-    private Locale m_locale;
+    private @RUntainted Locale m_locale;
 
     /**
      * Generates a new i18n info object.<p>
@@ -48,7 +49,7 @@ public class CmsI18nInfo {
      * @param locale the locale to use
      * @param encoding the encoding to use
      */
-    public CmsI18nInfo(Locale locale, String encoding) {
+    public CmsI18nInfo(@RUntainted Locale locale, @RUntainted String encoding) {
 
         m_encoding = encoding;
         m_locale = locale;
@@ -59,7 +60,7 @@ public class CmsI18nInfo {
      *
      * @return the encoding to use
      */
-    public String getEncoding() {
+    public @RUntainted String getEncoding() {
 
         return m_encoding;
     }
@@ -69,7 +70,7 @@ public class CmsI18nInfo {
      *
      * @return the locale to use
      */
-    public Locale getLocale() {
+    public @RUntainted Locale getLocale() {
 
         return m_locale;
     }

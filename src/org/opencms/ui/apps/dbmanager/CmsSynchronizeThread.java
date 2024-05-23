@@ -34,6 +34,7 @@ import org.opencms.report.I_CmsReport;
 import org.opencms.synchronize.CmsSynchronize;
 import org.opencms.synchronize.CmsSynchronizeSettings;
 import org.opencms.ui.apps.Messages;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Synchronizes a VFS folder with a folder form the "real" file system.<p>
@@ -53,7 +54,7 @@ public class CmsSynchronizeThread extends A_CmsReportThread {
      *
      * @param cms the current OpenCms context object
      */
-    public CmsSynchronizeThread(CmsObject cms) {
+    public CmsSynchronizeThread(@RUntainted CmsObject cms) {
 
         super(
             cms,

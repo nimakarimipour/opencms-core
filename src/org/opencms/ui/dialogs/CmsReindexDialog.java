@@ -53,6 +53,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.Label;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog used to change resource modification times.<p>
@@ -78,7 +79,7 @@ public class CmsReindexDialog extends CmsBasicDialog {
     private Label m_infoText;
 
     /** The checkbox, telling if related should be reindexed as well. */
-    private CheckBox m_reindexRelated;
+    private @RUntainted CheckBox m_reindexRelated;
 
     /** Flag, indicating if we are in the online project. */
     private boolean m_isOnline;
@@ -152,7 +153,7 @@ public class CmsReindexDialog extends CmsBasicDialog {
     protected void reindex() {
 
         CmsObject cms = A_CmsUI.getCmsObject();
-        Map<String, Object> eventData = new HashMap<>(3);
+        Map<@RUntainted String, @RUntainted Object> eventData = new HashMap<>(3);
         if (!m_isOnline) {
             eventData.put(I_CmsEventListener.KEY_PROJECTID, cms.getRequestContext().getCurrentProject().getId());
         }

@@ -44,6 +44,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Lucene document factory class to extract index data from a cms resource
@@ -58,7 +59,7 @@ public class CmsDocumentXmlPage extends A_CmsVfsDocument {
      *
      * @param name name of the documenttype
      */
-    public CmsDocumentXmlPage(String name) {
+    public CmsDocumentXmlPage(@RUntainted String name) {
 
         super(name);
     }
@@ -68,7 +69,7 @@ public class CmsDocumentXmlPage extends A_CmsVfsDocument {
      *
      * @see org.opencms.search.documents.I_CmsSearchExtractor#extractContent(CmsObject, CmsResource, I_CmsSearchIndex)
      */
-    public I_CmsExtractionResult extractContent(CmsObject cms, CmsResource resource, I_CmsSearchIndex index)
+    public I_CmsExtractionResult extractContent(CmsObject cms, @RUntainted CmsResource resource, I_CmsSearchIndex index)
     throws CmsException {
 
         logContentExtraction(resource, index);
@@ -77,10 +78,10 @@ public class CmsDocumentXmlPage extends A_CmsVfsDocument {
             CmsXmlPage page = CmsXmlPageFactory.unmarshal(cms, file);
             Locale locale = index.getLocaleForResource(cms, resource, page.getLocales());
 
-            List<String> elements = page.getNames(locale);
+            List<@RUntainted String> elements = page.getNames(locale);
             StringBuffer content = new StringBuffer();
-            LinkedHashMap<String, String> items = new LinkedHashMap<String, String>();
-            for (Iterator<String> i = elements.iterator(); i.hasNext();) {
+            LinkedHashMap<String, @RUntainted String> items = new LinkedHashMap<String, @RUntainted String>();
+            for (Iterator<@RUntainted String> i = elements.iterator(); i.hasNext();) {
                 String elementName = i.next();
                 String value = page.getStringValue(cms, elementName, locale);
                 String extracted = CmsHtmlExtractor.extractText(value, page.getEncoding());

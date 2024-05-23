@@ -32,6 +32,7 @@ import org.opencms.i18n.CmsMessageContainer;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Report proxy that multiplexes to all contained <code>{@link I_CmsReport}</code> instances.<p>
@@ -77,7 +78,7 @@ public class CmsMultiplexReport extends A_CmsReport {
      * @see org.opencms.report.A_CmsReport#getLocale()
      */
     @Override
-    public Locale getLocale() {
+    public @RUntainted Locale getLocale() {
 
         if (m_delegates.size() > 0) {
             return m_delegates.get(0).getLocale();
@@ -172,7 +173,7 @@ public class CmsMultiplexReport extends A_CmsReport {
      * @see I_CmsReport#printMessageWithParam(CmsMessageContainer, Object)
      */
     @Override
-    public void printMessageWithParam(final CmsMessageContainer container, final Object param) {
+    public void printMessageWithParam(final CmsMessageContainer container, final @RUntainted Object param) {
 
         for (I_CmsReport report : m_delegates) {
             report.printMessageWithParam(container, param);
@@ -184,8 +185,8 @@ public class CmsMultiplexReport extends A_CmsReport {
      */
     @Override
     public void printMessageWithParam(
-        final int m,
-        final int n,
+        final @RUntainted int m,
+        final @RUntainted int n,
         final CmsMessageContainer container,
         final Object param) {
 

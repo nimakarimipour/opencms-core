@@ -51,6 +51,8 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Ordering;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Represents a element view for the container page editor.<p>
@@ -105,7 +107,7 @@ public class CmsElementView {
     private CmsExplorerTypeSettings m_explorerType;
 
     /** Synthetic id for non-resource views. */
-    private CmsUUID m_id;
+    private @RUntainted CmsUUID m_id;
 
     /** The order. */
     private int m_order;
@@ -114,10 +116,10 @@ public class CmsElementView {
     private CmsUUID m_parentViewId;
 
     /** The view resource. */
-    private CmsResource m_resource;
+    private @RUntainted CmsResource m_resource;
 
     /** The title localization key. */
-    private String m_titleKey;
+    private @RUntainted String m_titleKey;
 
     /**
      * Creates a new element view based on the given explorer type.<p>
@@ -140,7 +142,7 @@ public class CmsElementView {
      *
      * @throws Exception  if parsing the resource fails
      */
-    public CmsElementView(CmsObject cms, CmsResource resource)
+    public CmsElementView(@RUntainted CmsObject cms, @RUntainted CmsResource resource)
     throws Exception {
 
         m_resource = resource;
@@ -152,7 +154,7 @@ public class CmsElementView {
      *
      * @param id the id
      */
-    public CmsElementView(CmsUUID id) {
+    public CmsElementView(@RUntainted CmsUUID id) {
 
         m_id = id;
     }
@@ -174,7 +176,7 @@ public class CmsElementView {
      * @param typeName the explorer type name
      * @return the element view id computed from the type name
      */
-    public static CmsUUID getExplorerTypeViewId(String typeName) {
+    public static @RUntainted CmsUUID getExplorerTypeViewId(@RUntainted String typeName) {
 
         return CmsUUID.getConstantUUID("elementview-" + typeName);
 
@@ -196,7 +198,7 @@ public class CmsElementView {
      *
      * @return the group id
      */
-    public CmsUUID getId() {
+    public @RUntainted CmsUUID getId() {
 
         if (m_id != null) {
             return m_id;
@@ -246,7 +248,7 @@ public class CmsElementView {
      *
      * @return the title
      */
-    public String getTitle(CmsObject cms, Locale locale) {
+    public String getTitle(CmsObject cms, @RUntainted Locale locale) {
 
         if (m_titleKey == null) {
             return m_title;
@@ -305,7 +307,7 @@ public class CmsElementView {
      * @throws Exception if parsing the resource fails
      */
     @SuppressWarnings("null")
-    private void init(CmsObject cms) throws Exception {
+    private void init(@RUntainted CmsObject cms) throws Exception {
 
         CmsFile configFile = cms.readFile(m_resource);
         CmsXmlContent content = CmsXmlContentFactory.unmarshal(cms, configFile);

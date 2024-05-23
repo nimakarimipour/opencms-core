@@ -28,6 +28,7 @@
 package org.opencms.ui.apps;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface for apps which perform CRUD operations on any kind of element like CmsSites or CmsScheduledJobs.
@@ -47,14 +48,14 @@ public interface I_CmsCRUDApp<T> {
      *
      * @param elementId id of element
      */
-    void defaultAction(String elementId);
+    void defaultAction(@RUntainted String elementId);
 
     /**
      * Delete the given List of elements.<p>
      *
      * @param elementId of elements to be deleted
      */
-    void deleteElements(List<String> elementId);
+    void deleteElements(@RUntainted List<@RUntainted String> elementId);
 
     /**
      * Get all Elements.<p>
@@ -69,7 +70,7 @@ public interface I_CmsCRUDApp<T> {
      * @param elementId of the object
      * @return the object of type T
      */
-    T getElement(String elementId);
+    T getElement(@RUntainted String elementId);
 
     /**
      * Writes a changed element to the system which already exists.<p>

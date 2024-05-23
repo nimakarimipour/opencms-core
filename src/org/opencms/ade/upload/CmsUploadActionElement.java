@@ -38,6 +38,7 @@ import org.opencms.workplace.CmsWorkplace;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Upload action element, used to generate the upload dialog.<p>
@@ -85,7 +86,7 @@ public class CmsUploadActionElement extends CmsGwtActionElement {
      * @param req the JSP request
      * @param res the JSP response
      */
-    public CmsUploadActionElement(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsUploadActionElement(@RUntainted PageContext context, @RUntainted HttpServletRequest req, @RUntainted HttpServletResponse res) {
 
         super(context, req, res);
     }

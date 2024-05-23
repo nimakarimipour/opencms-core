@@ -32,6 +32,7 @@ import org.opencms.file.CmsResource;
 import org.opencms.ui.I_CmsDialogContext;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface used to check menu item visibility for context menus.<p>
@@ -46,7 +47,7 @@ public interface I_CmsHasMenuItemVisibility {
      *
      * @return the visibility
      */
-    CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources);
+    CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<@RUntainted CmsResource> resources);
 
     /**
      * Gets the visibility for the current dialog context.<p>

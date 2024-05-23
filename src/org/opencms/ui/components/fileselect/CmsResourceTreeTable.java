@@ -64,6 +64,7 @@ import com.vaadin.v7.ui.Tree.CollapseListener;
 import com.vaadin.v7.ui.Tree.ExpandEvent;
 import com.vaadin.v7.ui.Tree.ExpandListener;
 import com.vaadin.v7.ui.TreeTable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Tree subclass used to display VFS resource trees.<p>
@@ -254,7 +255,7 @@ public class CmsResourceTreeTable extends TreeTable {
 
             private static final long serialVersionUID = 1L;
 
-            public void nodeExpand(ExpandEvent event) {
+            public void nodeExpand(@RUntainted ExpandEvent event) {
 
                 getTreeContainer().readTreeLevel(m_cms, (CmsUUID)event.getItemId());
                 getTreeContainer().updateSort();

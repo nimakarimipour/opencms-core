@@ -42,6 +42,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.logging.Log;
 import org.apache.solr.client.solrj.util.ClientUtils;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Wraps the preconfigured restrictions. */
 public class CmsRestrictionsBean {
@@ -112,7 +113,7 @@ public class CmsRestrictionsBean {
      * @param ruleString the rule for the restriction.
      * @param values the values for the restriction.
      */
-    public void addRestriction(String ruleString, Collection<String> values) {
+    public void addRestriction(@RUntainted String ruleString, Collection<String> values) {
 
         // Filter out empty values.
         Collection<String> realValues = values.stream().map(

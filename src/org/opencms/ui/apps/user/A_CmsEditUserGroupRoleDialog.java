@@ -59,6 +59,7 @@ import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract class for dialogs to change role or groups of a given user.<p>
@@ -126,7 +127,7 @@ public abstract class A_CmsEditUserGroupRoleDialog extends CmsBasicDialog {
      *
      * @param data data containing information about item to add (see getStringSetValue())
      */
-    public abstract void addItem(Set<String> data);
+    public abstract void addItem(Set<@RUntainted String> data);
 
     /**
      * Caption for the add action.<p>
@@ -178,7 +179,7 @@ public abstract class A_CmsEditUserGroupRoleDialog extends CmsBasicDialog {
      *
      * @return String
      */
-    public abstract String getEmptyMessage();
+    public abstract @RUntainted String getEmptyMessage();
 
     /**
      * Further ID for a column.
@@ -241,21 +242,21 @@ public abstract class A_CmsEditUserGroupRoleDialog extends CmsBasicDialog {
      * @param value set of items to create string set from
      * @return set of strings
      */
-    public abstract Set<String> getStringSetValue(Set<Object> value);
+    public abstract Set<@RUntainted String> getStringSetValue(Set<Object> value);
 
     /**
      * Gets the window caption message key.<p>
      *
      * @return message key
      */
-    public abstract String getWindowCaptionMessageKey();
+    public abstract @RUntainted String getWindowCaptionMessageKey();
 
     /**
      * Remove items represented as strings (see getStringSetValue()).<p>
      *
      * @param items to be removed
      */
-    public abstract void removeItem(Set<String> items);
+    public abstract void removeItem(Set<@RUntainted String> items);
 
     /**
      * Init method.<p>

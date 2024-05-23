@@ -36,6 +36,7 @@ import org.opencms.report.A_CmsReportThread;
 import org.opencms.report.I_CmsReport;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Report thread for importing a module.<p>
@@ -52,7 +53,7 @@ public class CmsModuleImportThread extends A_CmsReportThread {
     private CmsModule m_module;
 
     /** The module file path. */
-    private String m_path;
+    private @RUntainted String m_path;
 
     /**
      * Creates a new instance.<p>
@@ -61,7 +62,7 @@ public class CmsModuleImportThread extends A_CmsReportThread {
      * @param module the module
      * @param path the module file path
      */
-    public CmsModuleImportThread(CmsObject cms, CmsModule module, String path) {
+    public CmsModuleImportThread(@RUntainted CmsObject cms, CmsModule module, @RUntainted String path) {
 
         super(cms, "Import of " + path);
         m_module = module;

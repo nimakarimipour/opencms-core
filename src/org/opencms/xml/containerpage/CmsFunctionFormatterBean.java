@@ -39,6 +39,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A bean containing formatter configuration data as strings.<p>
@@ -52,7 +53,7 @@ public class CmsFunctionFormatterBean extends CmsFormatterBean {
     private Map<String, String[]> m_parameters = new HashMap<>();
 
     /** The real path of the configured jsp. */
-    private String m_realJspRootPath;
+    private @RUntainted String m_realJspRootPath;
 
     /**
      * Constructor for creating a new formatter configuration with resource structure id.<p>
@@ -81,22 +82,22 @@ public class CmsFunctionFormatterBean extends CmsFormatterBean {
      */
     public CmsFunctionFormatterBean(
         Set<String> containerTypes,
-        String jspRootPath,
+        @RUntainted String jspRootPath,
         CmsUUID jspStructureId,
-        String key,
+        @RUntainted String key,
         Set<String> aliasKeys,
         CmsUUID functionFormatterId,
         int minWidth,
         int maxWidth,
         String location,
-        List<String> cssHeadIncludes,
+        List<@RUntainted String> cssHeadIncludes,
         String inlineCss,
-        List<String> javascriptHeadIncludes,
+        List<@RUntainted String> javascriptHeadIncludes,
         String inlineJavascript,
         List<CmsTemplatePlugin> plugins,
-        String niceName,
-        String description,
-        String id,
+        @RUntainted String niceName,
+        @RUntainted String description,
+        @RUntainted String id,
         CmsSettingConfiguration settingConfig,
         boolean isAllowsSettingsInEditor,
         boolean isStrictContainers,
@@ -147,7 +148,7 @@ public class CmsFunctionFormatterBean extends CmsFormatterBean {
      * This is not the configured JSP, but the formatter JSP for the function_config type itself.
      */
     @Override
-    public String getJspRootPath() {
+    public @RUntainted String getJspRootPath() {
 
         return CmsResourceTypeFunctionConfig.FORMATTER_PATH;
     }
@@ -168,7 +169,7 @@ public class CmsFunctionFormatterBean extends CmsFormatterBean {
      *
      * @return the map of parameters to add for the included JSP
      */
-    public Map<String, String[]> getParameters() {
+    public @RUntainted Map<String, @RUntainted String[]> getParameters() {
 
         return Collections.unmodifiableMap(m_parameters);
     }
@@ -197,7 +198,7 @@ public class CmsFunctionFormatterBean extends CmsFormatterBean {
      *
      * @return the root path of the configured JSP
      */
-    public String getRealJspRootPath() {
+    public @RUntainted String getRealJspRootPath() {
 
         return m_realJspRootPath;
     }
@@ -206,7 +207,7 @@ public class CmsFunctionFormatterBean extends CmsFormatterBean {
      * @see org.opencms.xml.containerpage.I_CmsFormatterBean#getResourceTypeNames()
      */
     @Override
-    public Collection<String> getResourceTypeNames() {
+    public Collection<@RUntainted String> getResourceTypeNames() {
 
         return Collections.singletonList(CmsResourceTypeFunctionConfig.TYPE_NAME);
     }

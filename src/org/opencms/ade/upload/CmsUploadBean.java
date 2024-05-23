@@ -78,6 +78,8 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Bean to be used in JSP scriptlet code that provides
@@ -106,13 +108,13 @@ public class CmsUploadBean extends CmsJspBean {
     private boolean m_called;
 
     /** A list of the file items to upload. */
-    private List<FileItem> m_multiPartFileItems;
+    private List<@RUntainted FileItem> m_multiPartFileItems;
 
     /** The map of parameters read from the current request. */
-    private Map<String, String[]> m_parameterMap;
+    private Map<String, @RUntainted String[]> m_parameterMap;
 
     /** The names by id of the resources that have been created successfully. */
-    private HashMap<CmsUUID, String> m_resourcesCreated = new HashMap<CmsUUID, String>();
+    private @RUntainted HashMap<@RUntainted CmsUUID, String> m_resourcesCreated = new HashMap<@RUntainted CmsUUID, String>();
 
     /** A CMS context for the root site. */
     private CmsObject m_rootCms;
@@ -121,7 +123,7 @@ public class CmsUploadBean extends CmsJspBean {
     private int m_uploadDelay;
 
     /** The upload hook URI. */
-    private String m_uploadHook;
+    private @RUntainted String m_uploadHook;
 
     private CmsUploadRestrictionInfo m_uploadRestrictionInfo;
 
@@ -134,7 +136,7 @@ public class CmsUploadBean extends CmsJspBean {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsUploadBean(PageContext context, HttpServletRequest req, HttpServletResponse res)
+    public CmsUploadBean(@RUntainted PageContext context, @RUntainted HttpServletRequest req, @RUntainted HttpServletResponse res)
     throws CmsException {
 
         super();
@@ -168,7 +170,7 @@ public class CmsUploadBean extends CmsJspBean {
      *
      * @return the VFS path for the given filename and folder
      */
-    public static String getNewResourceName(CmsObject cms, String fileName, String folder, boolean keepFileNames) {
+    public static @RUntainted String getNewResourceName(CmsObject cms, @RUntainted String fileName, @RUntainted String folder, boolean keepFileNames) {
 
         String newResname = CmsResource.getName(fileName.replace('\\', '/'));
         if (!keepFileNames) {
@@ -268,7 +270,7 @@ public class CmsUploadBean extends CmsJspBean {
         for (FileItem fileItem : m_multiPartFileItems) {
             if ((fileItem != null) && (!fileItem.isFormField())) {
                 // read the content of the file
-                byte[] content = fileItem.get();
+                @RUntainted byte[] content = fileItem.get();
                 fileItem.delete();
 
                 // determine the new resource name
@@ -305,12 +307,12 @@ public class CmsUploadBean extends CmsJspBean {
         String postCreateHandlerStr = getPostCreateHandler();
         if (postCreateHandlerStr != null) {
             try {
-                CmsPair<String, String> classAndConfig = I_CmsCollectorPostCreateHandler.splitClassAndConfig(
+                CmsPair<String, @RUntainted String> classAndConfig = I_CmsCollectorPostCreateHandler.splitClassAndConfig(
                     postCreateHandlerStr);
                 String className = classAndConfig.getFirst();
                 String config = classAndConfig.getSecond();
                 I_CmsCollectorPostCreateHandler handler = A_CmsResourceCollector.getPostCreateHandler(className);
-                for (Map.Entry<CmsUUID, String> resourceEntry : m_resourcesCreated.entrySet()) {
+                for (Map.Entry<@RUntainted CmsUUID, String> resourceEntry : m_resourcesCreated.entrySet()) {
                     try {
                         CmsUUID structureId = resourceEntry.getKey();
                         CmsResource resource = cms.readResource(structureId, CmsResourceFilter.IGNORE_EXPIRATION);
@@ -343,7 +345,7 @@ public class CmsUploadBean extends CmsJspBean {
      * @throws CmsDbSqlException if something goes wrong
      */
     @SuppressWarnings("deprecation")
-    private CmsResource createSingleResource(CmsObject cms, String fileName, String targetFolder, byte[] content)
+    private CmsResource createSingleResource(CmsObject cms, @RUntainted String fileName, @RUntainted String targetFolder, @RUntainted byte[] content)
     throws CmsException, CmsLoaderException, CmsDbSqlException {
 
         String folderRootPath = cms.getRequestContext().addSiteRoot(targetFolder);
@@ -457,9 +459,9 @@ public class CmsUploadBean extends CmsJspBean {
      * @return the new folder
      * @throws CmsException if something goes wrong
      */
-    private CmsResource createTargetFolder(CmsObject cms, String targetFolder) throws CmsException {
+    private CmsResource createTargetFolder(CmsObject cms, @RUntainted String targetFolder) throws CmsException {
 
-        List<String> parentFolders = new ArrayList<>();
+        List<@RUntainted String> parentFolders = new ArrayList<>();
         String currentFolder = targetFolder;
         while ((currentFolder != null) && !cms.existsResource(currentFolder, CmsResourceFilter.IGNORE_EXPIRATION)) {
             parentFolders.add(currentFolder);
@@ -490,7 +492,7 @@ public class CmsUploadBean extends CmsJspBean {
      *
      * @return the stacktrace as String
      */
-    private String formatStackTrace(Throwable e) {
+    private @RUntainted String formatStackTrace(Throwable e) {
 
         return StringUtils.join(CmsLog.render(e), '\n');
     }
@@ -504,7 +506,7 @@ public class CmsUploadBean extends CmsJspBean {
      *
      * @return the the response String
      */
-    private String generateResponse(Boolean success, String message, String stacktrace) {
+    private String generateResponse(@RUntainted Boolean success, @RUntainted String message, @RUntainted String stacktrace) {
 
         JSONObject result = new JSONObject();
         try {
@@ -531,7 +533,7 @@ public class CmsUploadBean extends CmsJspBean {
      *
      * @return the error message
      */
-    private String getCreationErrorMessage() {
+    private @RUntainted String getCreationErrorMessage() {
 
         String message = new String();
         if (!m_resourcesCreated.isEmpty()) {
@@ -576,9 +578,9 @@ public class CmsUploadBean extends CmsJspBean {
      *
      * @return the post-create handler
      */
-    private String getPostCreateHandler() {
+    private @RUntainted String getPostCreateHandler() {
 
-        String[] values = m_parameterMap.get(I_CmsUploadConstants.POST_CREATE_HANDLER);
+        @RUntainted String[] values = m_parameterMap.get(I_CmsUploadConstants.POST_CREATE_HANDLER);
         return ((values != null) && (values.length > 0)) ? values[0] : null;
     }
 
@@ -593,7 +595,7 @@ public class CmsUploadBean extends CmsJspBean {
      *
      * @throws CmsException if something goes wrong
      */
-    private String getTargetFolder(CmsObject cms) throws CmsException {
+    private @RUntainted String getTargetFolder(CmsObject cms) throws CmsException {
 
         // get the target folder on the vfs
         CmsResource target = cms.readResource("/", CmsResourceFilter.IGNORE_EXPIRATION);
@@ -679,7 +681,7 @@ public class CmsUploadBean extends CmsJspBean {
      *
      * @throws Exception if anything goes wrong
      */
-    private List<FileItem> readMultipartFileItems(CmsUploadListener listener) throws Exception {
+    private List<@RUntainted FileItem> readMultipartFileItems(CmsUploadListener listener) throws Exception {
 
         DiskFileItemFactory factory = new DiskFileItemFactory();
         // maximum size that will be stored in memory

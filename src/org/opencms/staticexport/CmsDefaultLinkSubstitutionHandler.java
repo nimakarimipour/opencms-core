@@ -55,6 +55,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Default link substitution behavior.<p>
@@ -114,7 +115,7 @@ public class CmsDefaultLinkSubstitutionHandler implements I_CmsLinkSubstitutionH
      *
      * @see org.opencms.staticexport.I_CmsLinkSubstitutionHandler#getLink(org.opencms.file.CmsObject, java.lang.String, java.lang.String, boolean)
      */
-    public String getLink(CmsObject cms, String link, String siteRoot, boolean forceSecure) {
+    public @RUntainted String getLink(CmsObject cms, @RUntainted String link, @RUntainted String siteRoot, boolean forceSecure) {
 
         return getLink(cms, link, siteRoot, null, forceSecure);
     }
@@ -122,7 +123,7 @@ public class CmsDefaultLinkSubstitutionHandler implements I_CmsLinkSubstitutionH
     /**
      * @see org.opencms.staticexport.I_CmsLinkSubstitutionHandler#getLink(org.opencms.file.CmsObject, java.lang.String, java.lang.String, java.lang.String, boolean)
      */
-    public String getLink(CmsObject cms, String link, String siteRoot, String targetDetailPage, boolean forceSecure) {
+    public @RUntainted String getLink(CmsObject cms, @RUntainted String link, @RUntainted String siteRoot, String targetDetailPage, boolean forceSecure) {
 
         if (CmsStringUtil.isEmpty(link)) {
             // not a valid link parameter, return an empty String
@@ -198,7 +199,7 @@ public class CmsDefaultLinkSubstitutionHandler implements I_CmsLinkSubstitutionH
                     CmsResource element = cms.readResource(rootVfsName, CmsResourceFilter.IGNORE_EXPIRATION);
                     detailContent = element;
                     Locale locale = cms.getRequestContext().getLocale();
-                    List<Locale> defaultLocales = OpenCms.getLocaleManager().getDefaultLocales();
+                    List<@RUntainted Locale> defaultLocales = OpenCms.getLocaleManager().getDefaultLocales();
                     vfsName = CmsStringUtil.joinPaths(
                         detailPage,
                         cms.getDetailName(element, locale, defaultLocales),
@@ -373,7 +374,7 @@ public class CmsDefaultLinkSubstitutionHandler implements I_CmsLinkSubstitutionH
             // offline project, no export or secure handling required
             if (OpenCms.getRunLevel() >= OpenCms.RUNLEVEL_3_SHELL_ACCESS) {
                 // in unit test this code would fail otherwise
-                CmsPair<String, String> uriParamPair = addVfsPrefix(cms, vfsName, targetSite, parameters);
+                CmsPair<@RUntainted String, @RUntainted String> uriParamPair = addVfsPrefix(cms, vfsName, targetSite, parameters);
                 resultLink = uriParamPair.getFirst();
                 parameters = uriParamPair.getSecond();
             }
@@ -397,7 +398,7 @@ public class CmsDefaultLinkSubstitutionHandler implements I_CmsLinkSubstitutionH
     /**
      * @see org.opencms.staticexport.I_CmsLinkSubstitutionHandler#getRootPath(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String getRootPath(CmsObject cms, String targetUri, String basePath) {
+    public @RUntainted String getRootPath(CmsObject cms, @RUntainted String targetUri, String basePath) {
 
         String result = getSimpleRootPath(cms, targetUri, basePath);
         String detailRootPath = getDetailRootPath(cms, result);
@@ -419,11 +420,11 @@ public class CmsDefaultLinkSubstitutionHandler implements I_CmsLinkSubstitutionH
      *
      * @return the path and the (adjusted) request parameters.
      */
-    protected CmsPair<String, String> addVfsPrefix(
+    protected CmsPair<@RUntainted String, @RUntainted String> addVfsPrefix(
         CmsObject cms,
         String vfsName,
         CmsSite targetSite,
-        String parameters) {
+        @RUntainted String parameters) {
 
         return new CmsPair<String, String>(OpenCms.getStaticExportManager().getVfsPrefix().concat(vfsName), parameters);
     }
@@ -463,7 +464,7 @@ public class CmsDefaultLinkSubstitutionHandler implements I_CmsLinkSubstitutionH
      *
      * @return the root path
      */
-    protected String getRootPathForSite(CmsObject cms, String path, String siteRoot, boolean isRootPath) {
+    protected @RUntainted String getRootPathForSite(CmsObject cms, @RUntainted String path, @RUntainted String siteRoot, boolean isRootPath) {
 
         if (isRootPath || (siteRoot == null)) {
             return CmsStringUtil.joinPaths("/", path);
@@ -486,7 +487,7 @@ public class CmsDefaultLinkSubstitutionHandler implements I_CmsLinkSubstitutionH
      * @param basePath - see the getRootPath() method
      * @return - see the getRootPath() method
      */
-    protected String getSimpleRootPath(CmsObject cms, String targetUri, String basePath) {
+    protected @RUntainted String getSimpleRootPath(CmsObject cms, @RUntainted String targetUri, String basePath) {
 
         if (cms == null) {
             // required by unit test cases
@@ -667,7 +668,7 @@ public class CmsDefaultLinkSubstitutionHandler implements I_CmsLinkSubstitutionH
      */
     protected boolean isDetailPageLinkSecure(
         CmsObject cms,
-        String detailPage,
+        @RUntainted String detailPage,
         CmsResource detailContent,
         CmsSite targetSite,
         boolean secureRequest) {
@@ -714,7 +715,7 @@ public class CmsDefaultLinkSubstitutionHandler implements I_CmsLinkSubstitutionH
      *
      * @return the root path
      */
-    protected String prepareExportParameters(CmsObject cms, String vfsName, String parameters) {
+    protected @RUntainted String prepareExportParameters(CmsObject cms, String vfsName, @RUntainted String parameters) {
 
         return parameters;
     }
@@ -725,7 +726,7 @@ public class CmsDefaultLinkSubstitutionHandler implements I_CmsLinkSubstitutionH
      * @param uri the URI
      * @return the suffix of the URI
      */
-    String getSuffix(URI uri) {
+    @RUntainted String getSuffix(@RUntainted URI uri) {
 
         String fragment = uri.getFragment();
         if (fragment != null) {
@@ -753,7 +754,7 @@ public class CmsDefaultLinkSubstitutionHandler implements I_CmsLinkSubstitutionH
      *
      * @return the detail content root path
      */
-    private String getDetailRootPath(CmsObject cms, String result) {
+    private @RUntainted String getDetailRootPath(CmsObject cms, @RUntainted String result) {
 
         if (result == null) {
             return null;
@@ -810,7 +811,7 @@ public class CmsDefaultLinkSubstitutionHandler implements I_CmsLinkSubstitutionH
      *
      * @return the target site
      */
-    private String getTargetSiteRoot(CmsObject cms, String path, String basePath) {
+    private @RUntainted String getTargetSiteRoot(CmsObject cms, String path, String basePath) {
 
         if (OpenCms.getSiteManager().startsWithShared(path) || path.startsWith(CmsWorkplace.VFS_PATH_SYSTEM)) {
             return null;

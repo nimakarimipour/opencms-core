@@ -49,6 +49,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manages message bundles loaded from the VFS.<p>
@@ -61,10 +62,10 @@ public class CmsVfsBundleManager implements I_CmsEventListener {
     public static class NameAndLocale {
 
         /** The locale. */
-        private Locale m_locale;
+        private @RUntainted Locale m_locale;
 
         /** The base name. */
-        private String m_name;
+        private @RUntainted String m_name;
 
         /**
          * Creates a new instance.<p>
@@ -72,7 +73,7 @@ public class CmsVfsBundleManager implements I_CmsEventListener {
          * @param name the base name
          * @param locale the locale
          */
-        public NameAndLocale(String name, Locale locale) {
+        public NameAndLocale(@RUntainted String name, @RUntainted Locale locale) {
 
             m_name = name;
             m_locale = locale;
@@ -83,7 +84,7 @@ public class CmsVfsBundleManager implements I_CmsEventListener {
          *
          * @return the locale
          */
-        public Locale getLocale() {
+        public @RUntainted Locale getLocale() {
 
             return m_locale;
         }
@@ -93,7 +94,7 @@ public class CmsVfsBundleManager implements I_CmsEventListener {
          *
          * @return the base name
          */
-        public String getName() {
+        public @RUntainted String getName() {
 
             return m_name;
         }
@@ -167,9 +168,9 @@ public class CmsVfsBundleManager implements I_CmsEventListener {
      *
      * @return the collection of all locales
      */
-    private static Collection<Locale> getAllLocales() {
+    private static Collection<@RUntainted Locale> getAllLocales() {
 
-        Set<Locale> result = new HashSet<Locale>();
+        Set<@RUntainted Locale> result = new HashSet<@RUntainted Locale>();
         result.addAll(OpenCms.getWorkplaceManager().getLocales());
         result.addAll(OpenCms.getLocaleManager().getAvailableLocales());
         return result;
@@ -207,8 +208,8 @@ public class CmsVfsBundleManager implements I_CmsEventListener {
 
         if ((OpenCms.getRunLevel() > OpenCms.RUNLEVEL_1_CORE_OBJECT)
             && OpenCms.getResourceManager().hasResourceType(TYPE_XML_BUNDLE)) {
-            List<CmsResource> xmlBundles = Lists.newArrayList();
-            List<CmsResource> propertyBundles = Lists.newArrayList();
+            List<@RUntainted CmsResource> xmlBundles = Lists.newArrayList();
+            List<@RUntainted CmsResource> propertyBundles = Lists.newArrayList();
             try {
                 I_CmsResourceType xmlType = OpenCms.getResourceManager().getResourceType(TYPE_XML_BUNDLE);
                 xmlBundles = m_cms.readResources("/", CmsResourceFilter.ALL.addRequireType(xmlType), true);
@@ -371,7 +372,7 @@ public class CmsVfsBundleManager implements I_CmsEventListener {
                     try {
                         List<CmsPublishedResource> publishedResources = m_cms.readPublishedResources(publishId);
                         if (!publishedResources.isEmpty()) {
-                            String[] typesToMatch = new String[] {TYPE_PROPERTIES_BUNDLE, TYPE_XML_BUNDLE};
+                            @RUntainted String[] typesToMatch = new String[] {TYPE_PROPERTIES_BUNDLE, TYPE_XML_BUNDLE};
                             boolean reload = false;
                             for (CmsPublishedResource res : publishedResources) {
                                 for (String typeName : typesToMatch) {

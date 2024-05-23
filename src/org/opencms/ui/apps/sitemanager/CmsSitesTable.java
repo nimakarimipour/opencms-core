@@ -79,12 +79,13 @@ import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  *  Class to create Vaadin Table object with all available sites.<p>
  */
 @SuppressWarnings("deprecation")
-public class CmsSitesTable extends Table implements I_CmsFilterableTable {
+public class CmsSitesTable extends Table implements @RUntainted I_CmsFilterableTable {
 
     /**
      * The edit project context menu entry.<p>
@@ -95,7 +96,7 @@ public class CmsSitesTable extends Table implements I_CmsFilterableTable {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> data) {
+        public void executeAction(Set<@RUntainted String> data) {
 
             String siteRoot = data.iterator().next();
             m_manager.openEditDialog(siteRoot);
@@ -120,7 +121,7 @@ public class CmsSitesTable extends Table implements I_CmsFilterableTable {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#getVisibility(java.lang.Object)
          */
-        public CmsMenuItemVisibilityMode getVisibility(Set<String> data) {
+        public CmsMenuItemVisibilityMode getVisibility(Set<@RUntainted String> data) {
 
             if ((data == null) || (data.size() != 1) || (m_manager.getElement(data.iterator().next()) == null)) {
                 return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
@@ -145,7 +146,7 @@ public class CmsSitesTable extends Table implements I_CmsFilterableTable {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> context) {
+        public void executeAction(Set<@RUntainted String> context) {
 
             CmsExportSiteForm form = new CmsExportSiteForm(
                 A_CmsUI.getCmsObject(),
@@ -157,7 +158,7 @@ public class CmsSitesTable extends Table implements I_CmsFilterableTable {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#getTitle(java.util.Locale)
          */
-        public String getTitle(Locale locale) {
+        public String getTitle(@RUntainted Locale locale) {
 
             return Messages.get().getBundle(locale).key(Messages.GUI_SITE_EXPORT_0);
         }
@@ -211,7 +212,7 @@ public class CmsSitesTable extends Table implements I_CmsFilterableTable {
         private Object m_defaultValue;
 
         /**Header Message key.*/
-        private String m_headerMessage;
+        private @RUntainted String m_headerMessage;
 
         /**Type of column property.*/
         private Class<?> m_type;
@@ -223,7 +224,7 @@ public class CmsSitesTable extends Table implements I_CmsFilterableTable {
          * @param type type
          * @param defaultValue value
          */
-        TableProperty(String name, Class<?> type, Object defaultValue) {
+        TableProperty(@RUntainted String name, Class<?> type, Object defaultValue) {
 
             m_headerMessage = name;
             m_type = type;
@@ -273,7 +274,7 @@ public class CmsSitesTable extends Table implements I_CmsFilterableTable {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(final Set<String> data) {
+        public void executeAction(final Set<@RUntainted String> data) {
 
             m_manager.openDeleteDialog(data);
         }
@@ -289,7 +290,7 @@ public class CmsSitesTable extends Table implements I_CmsFilterableTable {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#getVisibility(java.lang.Object)
          */
-        public CmsMenuItemVisibilityMode getVisibility(Set<String> data) {
+        public CmsMenuItemVisibilityMode getVisibility(Set<@RUntainted String> data) {
 
             if (m_manager.getElement(data.iterator().next()) == null) {
                 return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
@@ -306,7 +307,7 @@ public class CmsSitesTable extends Table implements I_CmsFilterableTable {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> data) {
+        public void executeAction(Set<@RUntainted String> data) {
 
             String siteRoot = data.iterator().next();
             A_CmsUI.getCmsObject().getRequestContext().setSiteRoot(siteRoot);
@@ -321,7 +322,7 @@ public class CmsSitesTable extends Table implements I_CmsFilterableTable {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#getTitle(java.util.Locale)
          */
-        public String getTitle(Locale locale) {
+        public String getTitle(@RUntainted Locale locale) {
 
             return Messages.get().getBundle(locale).key(Messages.GUI_EXPLORER_TITLE_0);
         }
@@ -378,7 +379,7 @@ public class CmsSitesTable extends Table implements I_CmsFilterableTable {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> data) {
+        public void executeAction(Set<@RUntainted String> data) {
 
             String siteRoot = data.iterator().next();
             A_CmsUI.get().changeSite(siteRoot);
@@ -399,7 +400,7 @@ public class CmsSitesTable extends Table implements I_CmsFilterableTable {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#getVisibility(java.lang.Object)
          */
-        public CmsMenuItemVisibilityMode getVisibility(Set<String> data) {
+        public CmsMenuItemVisibilityMode getVisibility(Set<@RUntainted String> data) {
 
             if (data == null) {
                 return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
@@ -429,7 +430,7 @@ public class CmsSitesTable extends Table implements I_CmsFilterableTable {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> data) {
+        public void executeAction(Set<@RUntainted String> data) {
 
             String siteRoot = data.iterator().next();
             A_CmsUI.get().changeSite(siteRoot);
@@ -449,7 +450,7 @@ public class CmsSitesTable extends Table implements I_CmsFilterableTable {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#getVisibility(java.lang.Object)
          */
-        public CmsMenuItemVisibilityMode getVisibility(Set<String> data) {
+        public CmsMenuItemVisibilityMode getVisibility(Set<@RUntainted String> data) {
 
             if ((data == null) || (data.size() != 1)) {
                 return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
@@ -805,7 +806,7 @@ public class CmsSitesTable extends Table implements I_CmsFilterableTable {
      * @param propertyId column id
      */
     @SuppressWarnings("unchecked")
-    void onItemClick(MouseEvents.ClickEvent event, Object itemId, Object propertyId) {
+    void onItemClick(MouseEvents.ClickEvent event, @RUntainted Object itemId, Object propertyId) {
 
         if (!event.isCtrlKey() && !event.isShiftKey()) {
 

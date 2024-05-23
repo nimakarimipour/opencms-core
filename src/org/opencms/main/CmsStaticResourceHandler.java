@@ -41,6 +41,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles the requests for static resources located in the classpath.<p>
@@ -60,7 +61,7 @@ public class CmsStaticResourceHandler implements I_CmsRequestHandler {
     private static final int DEFAULT_CACHE_TIME = 3600;
 
     /** The handler names. */
-    private static final String[] HANDLER_NAMES = new String[] {HANDLER_NAME};
+    private static final @RUntainted String[] HANDLER_NAMES = new String[] {HANDLER_NAME};
 
     /** The log object for this class. */
     private static final Log LOG = CmsLog.getLog(CmsStaticResourceHandler.class);
@@ -176,7 +177,7 @@ public class CmsStaticResourceHandler implements I_CmsRequestHandler {
     /**
      * @see org.opencms.main.I_CmsRequestHandler#getHandlerNames()
      */
-    public String[] getHandlerNames() {
+    public @RUntainted String[] getHandlerNames() {
 
         return HANDLER_NAMES;
     }
@@ -337,7 +338,7 @@ public class CmsStaticResourceHandler implements I_CmsRequestHandler {
     protected void writeStaticResourceResponse(
         HttpServletRequest request,
         HttpServletResponse response,
-        URL resourceUrl)
+        @RUntainted URL resourceUrl)
     throws IOException {
 
         URLConnection connection = null;

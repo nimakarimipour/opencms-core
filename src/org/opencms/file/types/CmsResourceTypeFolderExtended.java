@@ -29,6 +29,7 @@ package org.opencms.file.types;
 
 import org.opencms.configuration.CmsParameterConfiguration;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor for extended folder types (like for example the workplace galleries).<p>
@@ -50,16 +51,16 @@ public class CmsResourceTypeFolderExtended extends A_CmsResourceTypeFolderBase {
     private static final long serialVersionUID = -3354434293847996599L;
 
     /** The configured folder class name for this folder type. */
-    private String m_folderClassName;
+    private @RUntainted String m_folderClassName;
 
     /** The configured folder parameters for this folder type. */
-    private String m_folderClassParams;
+    private @RUntainted String m_folderClassParams;
 
     /**
      * @see org.opencms.file.types.A_CmsResourceType#addConfigurationParameter(java.lang.String, java.lang.String)
      */
     @Override
-    public void addConfigurationParameter(String paramName, String paramValue) {
+    public void addConfigurationParameter(String paramName, @RUntainted String paramValue) {
 
         super.addConfigurationParameter(paramName, paramValue);
         if (CmsStringUtil.isNotEmpty(paramName) && CmsStringUtil.isNotEmpty(paramValue)) {
@@ -97,7 +98,7 @@ public class CmsResourceTypeFolderExtended extends A_CmsResourceTypeFolderBase {
      *
      * @return the (optional) configured folder class name for this folder
      */
-    public String getFolderClassName() {
+    public @RUntainted String getFolderClassName() {
 
         return m_folderClassName;
     }
@@ -107,7 +108,7 @@ public class CmsResourceTypeFolderExtended extends A_CmsResourceTypeFolderBase {
      *
      * @return the (optional) configured folder class parameters for this folder
      */
-    public String getFolderClassParams() {
+    public @RUntainted String getFolderClassParams() {
 
         return m_folderClassParams;
     }

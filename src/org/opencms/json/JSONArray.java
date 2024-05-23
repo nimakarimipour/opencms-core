@@ -60,6 +60,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A JSONArray is an ordered sequence of values. Its external text form is a
@@ -114,7 +115,7 @@ public class JSONArray {
     /**
      * The arrayList where the JSONArray's properties are kept.
      */
-    private ArrayList<Object> m_myArrayList;
+    private ArrayList<@RUntainted Object> m_myArrayList;
 
     /**
      * Construct an empty JSONArray.<p>
@@ -143,11 +144,11 @@ public class JSONArray {
      * @param includeSuperClass tell whether to include the super class properties
      */
 
-    public JSONArray(Collection<Object> collection, boolean includeSuperClass) {
+    public JSONArray(Collection<@RUntainted Object> collection, @RUntainted boolean includeSuperClass) {
 
         m_myArrayList = new ArrayList<Object>();
         if (collection != null) {
-            for (Iterator<Object> iter = collection.iterator(); iter.hasNext();) {
+            for (Iterator<@RUntainted Object> iter = collection.iterator(); iter.hasNext();) {
                 m_myArrayList.add(new JSONObject(iter.next(), includeSuperClass));
             }
         }
@@ -211,7 +212,7 @@ public class JSONArray {
      * @param array an array
      * @throws JSONException if not an array
      */
-    public JSONArray(Object array)
+    public JSONArray(@RUntainted Object array)
     throws JSONException {
 
         this();
@@ -234,7 +235,7 @@ public class JSONArray {
      * @param includeSuperClass tell whether to include the super class properties
      * @throws JSONException if not an array
      */
-    public JSONArray(Object array, boolean includeSuperClass)
+    public JSONArray(@RUntainted Object array, @RUntainted boolean includeSuperClass)
     throws JSONException {
 
         this();
@@ -293,7 +294,7 @@ public class JSONArray {
      * @return an object value
      * @throws JSONException if there is no value for the index
      */
-    public Object get(int index) throws JSONException {
+    public @RUntainted Object get(int index) throws JSONException {
 
         Object o = opt(index);
         if (o == null) {
@@ -404,7 +405,7 @@ public class JSONArray {
      * @return a string value
      * @throws JSONException if there is no value for the index
      */
-    public String getString(int index) throws JSONException {
+    public @RUntainted String getString(int index) throws JSONException {
 
         return get(index).toString();
     }
@@ -431,7 +432,7 @@ public class JSONArray {
      * @return a string
      * @throws JSONException if the array contains an invalid number
      */
-    public String join(String separator) throws JSONException {
+    public @RUntainted String join(String separator) throws JSONException {
 
         int len = length();
         StringBuffer sb = new StringBuffer();
@@ -461,7 +462,7 @@ public class JSONArray {
      * @param index the index must be between 0 and length() - 1
      * @return      an object value, or null if there is no object at that index
      */
-    public Object opt(int index) {
+    public @RUntainted Object opt(int index) {
 
         return ((index < 0) || (index >= length())) ? null : m_myArrayList.get(index);
     }
@@ -673,7 +674,7 @@ public class JSONArray {
      * @param value a Collection value
      * @return this
      */
-    public JSONArray put(Collection<Object> value) {
+    public JSONArray put(@RUntainted Collection<Object> value) {
 
         put(new JSONArray(value));
         return this;
@@ -686,7 +687,7 @@ public class JSONArray {
      * @throws JSONException if the value is not finite
      * @return this
      */
-    public JSONArray put(double value) throws JSONException {
+    public JSONArray put(@RUntainted double value) throws JSONException {
 
         Double d = Double.valueOf(value);
         JSONObject.testValidity(d);
@@ -700,7 +701,7 @@ public class JSONArray {
      * @param value an int value
      * @return this
      */
-    public JSONArray put(int value) {
+    public JSONArray put(@RUntainted int value) {
 
         put(Integer.valueOf(value));
         return this;
@@ -732,7 +733,7 @@ public class JSONArray {
      * @throws JSONException if the index is negative or if the value is
      * not finite
      */
-    public JSONArray put(int index, Collection<Object> value) throws JSONException {
+    public JSONArray put(int index, @RUntainted Collection<Object> value) throws JSONException {
 
         put(index, new JSONArray(value));
         return this;
@@ -749,7 +750,7 @@ public class JSONArray {
      * @throws JSONException if the index is negative or if the value is
      * not finite
      */
-    public JSONArray put(int index, double value) throws JSONException {
+    public JSONArray put(int index, @RUntainted double value) throws JSONException {
 
         put(index, Double.valueOf(value));
         return this;
@@ -765,7 +766,7 @@ public class JSONArray {
      * @return this
      * @throws JSONException if the index is negative
      */
-    public JSONArray put(int index, int value) throws JSONException {
+    public JSONArray put(int index, @RUntainted int value) throws JSONException {
 
         put(index, Integer.valueOf(value));
         return this;
@@ -781,7 +782,7 @@ public class JSONArray {
      * @return this
      * @throws JSONException if the index is negative
      */
-    public JSONArray put(int index, long value) throws JSONException {
+    public JSONArray put(int index, @RUntainted long value) throws JSONException {
 
         put(index, Long.valueOf(value));
         return this;
@@ -797,7 +798,7 @@ public class JSONArray {
      * @throws JSONException if the index is negative or if the the value is
      *  an invalid number
      */
-    public JSONArray put(int index, Map<?, ?> value) throws JSONException {
+    public JSONArray put(int index, @RUntainted Map<?, ?> value) throws JSONException {
 
         put(index, new JSONObject(value));
         return this;
@@ -816,7 +817,7 @@ public class JSONArray {
      * @throws JSONException if the index is negative or if the the value is
      *  an invalid number
      */
-    public JSONArray put(int index, Object value) throws JSONException {
+    public JSONArray put(int index, @RUntainted Object value) throws JSONException {
 
         JSONObject.testValidity(value);
         if (index < 0) {
@@ -839,7 +840,7 @@ public class JSONArray {
      * @param value a long value
      * @return this
      */
-    public JSONArray put(long value) {
+    public JSONArray put(@RUntainted long value) {
 
         put(Long.valueOf(value));
         return this;
@@ -852,7 +853,7 @@ public class JSONArray {
      * @param value a Map value
      * @return      this
      */
-    public JSONArray put(Map<?, ?> value) {
+    public JSONArray put(@RUntainted Map<?, ?> value) {
 
         put(new JSONObject(value));
         return this;
@@ -866,7 +867,7 @@ public class JSONArray {
      *  JSONObject.NULL object
      * @return this
      */
-    public JSONArray put(Object value) {
+    public @RUntainted JSONArray put(@RUntainted Object value) {
 
         m_myArrayList.add(value);
         return this;
@@ -882,7 +883,7 @@ public class JSONArray {
      * has no values
      * @throws JSONException if any of the names are null
      */
-    public JSONObject toJSONObject(JSONArray names) throws JSONException {
+    public @RUntainted JSONObject toJSONObject(JSONArray names) throws JSONException {
 
         if ((names == null) || (names.length() == 0) || (length() == 0)) {
             return null;
@@ -906,7 +907,7 @@ public class JSONArray {
      * @return a printable, displayable, transmittable representation of the array
      */
     @Override
-    public String toString() {
+    public @RUntainted String toString() {
 
         try {
             return '[' + join(",") + ']';
@@ -985,7 +986,7 @@ public class JSONArray {
      *  representation of the array
      * @throws JSONException if something goes wrong
      */
-    String toString(int indentFactor, int indent) throws JSONException {
+    @RUntainted String toString(int indentFactor, int indent) throws JSONException {
 
         int len = length();
         if (len == 0) {

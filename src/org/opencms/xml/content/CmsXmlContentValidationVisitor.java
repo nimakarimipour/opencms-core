@@ -32,6 +32,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.xml.types.I_CmsXmlContentValue;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Visitor implementation that provides validation for all visited values.<p>

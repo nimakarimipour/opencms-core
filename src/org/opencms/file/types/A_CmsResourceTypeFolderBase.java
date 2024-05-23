@@ -42,6 +42,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor for the type "folder".<p>
@@ -68,7 +69,7 @@ public abstract class A_CmsResourceTypeFolderBase extends A_CmsResourceType {
      * @see org.opencms.file.types.I_CmsResourceType#chtype(org.opencms.file.CmsObject, CmsSecurityManager, CmsResource, int)
      */
     @Override
-    public void chtype(CmsObject cms, CmsSecurityManager securityManager, CmsResource filename, int newType)
+    public void chtype(CmsObject cms, CmsSecurityManager securityManager, CmsResource filename, @RUntainted int newType)
     throws CmsException, CmsDataNotImplementedException {
 
         if (!OpenCms.getResourceManager().getResourceType(newType).isFolder()) {
@@ -87,7 +88,7 @@ public abstract class A_CmsResourceTypeFolderBase extends A_CmsResourceType {
         CmsObject cms,
         CmsSecurityManager securityManager,
         CmsResource source,
-        String destination,
+        @RUntainted String destination,
         CmsResource.CmsResourceCopyMode siblingMode)
     throws CmsIllegalArgumentException, CmsException {
 
@@ -121,11 +122,11 @@ public abstract class A_CmsResourceTypeFolderBase extends A_CmsResourceType {
      * @see org.opencms.file.types.I_CmsResourceType#createResource(org.opencms.file.CmsObject, CmsSecurityManager, java.lang.String, byte[], List)
      */
     @Override
-    public CmsResource createResource(
-        CmsObject cms,
+    public @RUntainted CmsResource createResource(
+        @RUntainted CmsObject cms,
         CmsSecurityManager securityManager,
-        String resourcename,
-        byte[] content,
+        @RUntainted String resourcename,
+        @RUntainted byte[] content,
         List<CmsProperty> properties)
     throws CmsException {
 
@@ -147,7 +148,7 @@ public abstract class A_CmsResourceTypeFolderBase extends A_CmsResourceType {
      * @see org.opencms.file.types.A_CmsResourceType#isFolder()
      */
     @Override
-    public boolean isFolder() {
+    public @RUntainted boolean isFolder() {
 
         return true;
     }
@@ -160,7 +161,7 @@ public abstract class A_CmsResourceTypeFolderBase extends A_CmsResourceType {
         CmsObject cms,
         CmsSecurityManager securityManager,
         CmsResource resource,
-        String destination)
+        @RUntainted String destination)
     throws CmsException, CmsIllegalArgumentException {
 
         String dest = cms.getRequestContext().addSiteRoot(destination);
@@ -209,7 +210,7 @@ public abstract class A_CmsResourceTypeFolderBase extends A_CmsResourceType {
     public void replaceResource(
         CmsObject cms,
         CmsSecurityManager securityManager,
-        CmsResource resource,
+        @RUntainted CmsResource resource,
         int type,
         byte[] content,
         List<CmsProperty> properties)
@@ -229,10 +230,10 @@ public abstract class A_CmsResourceTypeFolderBase extends A_CmsResourceType {
      */
     @Override
     public void setDateExpired(
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         CmsSecurityManager securityManager,
-        CmsResource resource,
-        long dateLastModified,
+        @RUntainted CmsResource resource,
+        @RUntainted long dateLastModified,
         boolean recursive)
     throws CmsException {
 
@@ -241,7 +242,7 @@ public abstract class A_CmsResourceTypeFolderBase extends A_CmsResourceType {
 
         if (recursive) {
             // collect all resources in the folder (but exclude deleted ones)
-            List<CmsResource> resources = securityManager.readChildResources(
+            List<@RUntainted CmsResource> resources = securityManager.readChildResources(
                 cms.getRequestContext(),
                 resource,
                 CmsResourceFilter.IGNORE_EXPIRATION,
@@ -265,8 +266,8 @@ public abstract class A_CmsResourceTypeFolderBase extends A_CmsResourceType {
     public void setDateLastModified(
         CmsObject cms,
         CmsSecurityManager securityManager,
-        CmsResource resource,
-        long dateLastModified,
+        @RUntainted CmsResource resource,
+        @RUntainted long dateLastModified,
         boolean recursive)
     throws CmsException {
 
@@ -275,7 +276,7 @@ public abstract class A_CmsResourceTypeFolderBase extends A_CmsResourceType {
 
         if (recursive) {
             // collect all resources in the folder (but exclude deleted ones)
-            List<CmsResource> resources = securityManager.readChildResources(
+            List<@RUntainted CmsResource> resources = securityManager.readChildResources(
                 cms.getRequestContext(),
                 resource,
                 CmsResourceFilter.IGNORE_EXPIRATION,
@@ -301,10 +302,10 @@ public abstract class A_CmsResourceTypeFolderBase extends A_CmsResourceType {
      */
     @Override
     public void setDateReleased(
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         CmsSecurityManager securityManager,
-        CmsResource resource,
-        long dateLastModified,
+        @RUntainted CmsResource resource,
+        @RUntainted long dateLastModified,
         boolean recursive)
     throws CmsException {
 
@@ -313,7 +314,7 @@ public abstract class A_CmsResourceTypeFolderBase extends A_CmsResourceType {
 
         if (recursive) {
             // collect all resources in the folder (but exclude deleted ones)
-            List<CmsResource> resources = securityManager.readChildResources(
+            List<@RUntainted CmsResource> resources = securityManager.readChildResources(
                 cms.getRequestContext(),
                 resource,
                 CmsResourceFilter.IGNORE_EXPIRATION,
@@ -334,7 +335,7 @@ public abstract class A_CmsResourceTypeFolderBase extends A_CmsResourceType {
      * @see org.opencms.file.types.A_CmsResourceType#undelete(org.opencms.file.CmsObject, org.opencms.db.CmsSecurityManager, org.opencms.file.CmsResource, boolean)
      */
     @Override
-    public void undelete(CmsObject cms, CmsSecurityManager securityManager, CmsResource resource, boolean recursive)
+    public void undelete(CmsObject cms, CmsSecurityManager securityManager, @RUntainted CmsResource resource, boolean recursive)
     throws CmsException {
 
         // handle the folder itself
@@ -342,7 +343,7 @@ public abstract class A_CmsResourceTypeFolderBase extends A_CmsResourceType {
 
         if (recursive) {
             // collect all resources in the folder (but exclude deleted ones)
-            List<CmsResource> resources = securityManager.readChildResources(
+            List<@RUntainted CmsResource> resources = securityManager.readChildResources(
                 cms.getRequestContext(),
                 resource,
                 CmsResourceFilter.ALL,
@@ -363,9 +364,9 @@ public abstract class A_CmsResourceTypeFolderBase extends A_CmsResourceType {
      */
     @Override
     public void undoChanges(
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         CmsSecurityManager securityManager,
-        CmsResource resource,
+        @RUntainted CmsResource resource,
         CmsResource.CmsResourceUndoMode mode)
     throws CmsException {
 
@@ -379,7 +380,7 @@ public abstract class A_CmsResourceTypeFolderBase extends A_CmsResourceType {
             }
         }
 
-        List<CmsResource> resources = null;
+        List<@RUntainted CmsResource> resources = null;
         if (recursive) { // recursive?
             // collect all resources in the folder (including deleted ones)
             resources = securityManager.readChildResources(
@@ -458,7 +459,7 @@ public abstract class A_CmsResourceTypeFolderBase extends A_CmsResourceType {
      *
      * @throws CmsIllegalArgumentException if the folder name is empty or <code>null</code>
      */
-    private String validateFoldername(String resourcename) throws CmsIllegalArgumentException {
+    private @RUntainted String validateFoldername(@RUntainted String resourcename) throws CmsIllegalArgumentException {
 
         if (CmsStringUtil.isEmpty(resourcename)) {
             throw new CmsIllegalArgumentException(

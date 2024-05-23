@@ -39,6 +39,7 @@ import org.opencms.ui.apps.Messages;
 import java.util.Locale;
 
 import com.vaadin.server.Resource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * App configuration for the module maanger app.<p>
@@ -94,7 +95,7 @@ public class CmsModuleAppConfiguration extends A_CmsWorkplaceAppConfiguration {
      * @see org.opencms.ui.apps.A_CmsWorkplaceAppConfiguration#getName(java.util.Locale)
      */
     @Override
-    public String getName(Locale locale) {
+    public String getName(@RUntainted Locale locale) {
 
         return org.opencms.ui.apps.Messages.get().getBundle(locale).key(Messages.GUI_MODULES_APP_NAME_0);
     }

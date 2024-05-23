@@ -36,6 +36,7 @@ import java.util.List;
 import com.vaadin.ui.Button;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Widget used to display a list of locked resources.<p<

@@ -60,6 +60,7 @@ import org.apache.commons.logging.Log;
 
 import org.dom4j.Document;
 import org.dom4j.io.SAXReader;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Responsible for mapping formatters, containers and settings to different formatters, containers and settings according to
@@ -75,7 +76,7 @@ public final class CmsTemplateMapper {
     protected boolean m_enabled;
 
     /** The path to the mapper configuration. */
-    protected String m_configPath;
+    protected @RUntainted String m_configPath;
 
     /** Flag to enable mode for saving. */
     private boolean m_forSave;
@@ -85,7 +86,7 @@ public final class CmsTemplateMapper {
      *
      * @param configPath the template mapper configuration VFS path
      */
-    public CmsTemplateMapper(String configPath) {
+    public CmsTemplateMapper(@RUntainted String configPath) {
 
         if (configPath != null) {
             m_enabled = true;
@@ -131,7 +132,7 @@ public final class CmsTemplateMapper {
      * @param request the current request
      * @return true if the selected template context is "templatemapper"
      */
-    public static String getTemplateMapperConfig(ServletRequest request) {
+    public static @RUntainted String getTemplateMapperConfig(ServletRequest request) {
 
         String result = null;
         CmsTemplateContext templateContext = (CmsTemplateContext)request.getAttribute(
@@ -274,12 +275,12 @@ public final class CmsTemplateMapper {
                 return null;
             }
         }
-        Map<String, String> settings = element.getIndividualSettings();
+        Map<@RUntainted String, @RUntainted String> settings = element.getIndividualSettings();
         if (settings == null) {
             settings = new HashMap<>();
         }
-        Map<String, String> newSettings = new HashMap<>();
-        for (Map.Entry<String, String> entry : settings.entrySet()) {
+        Map<@RUntainted String, @RUntainted String> newSettings = new HashMap<>();
+        for (Map.Entry<String, @RUntainted String> entry : settings.entrySet()) {
             String key = entry.getKey();
             if (CmsTemplateContextInfo.SETTING.equals(key)) {
                 continue;

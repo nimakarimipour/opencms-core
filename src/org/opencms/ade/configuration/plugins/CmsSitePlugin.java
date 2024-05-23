@@ -42,6 +42,7 @@ import java.util.Locale;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Immutable collection of template plugins, normally read from a file of type site-plugin.
@@ -103,7 +104,7 @@ public class CmsSitePlugin {
      * @return the site plugin read from the file
      * @throws CmsException if something goes wrong
      */
-    public static CmsSitePlugin read(CmsObject cms, CmsResource res) throws CmsException {
+    public static CmsSitePlugin read(@RUntainted CmsObject cms, @RUntainted CmsResource res) throws CmsException {
 
         CmsXmlContent content = CmsXmlContentFactory.unmarshal(cms, cms.readFile(res));
         return readSitePlugin(cms, content);

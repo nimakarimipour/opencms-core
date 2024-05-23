@@ -65,6 +65,7 @@ import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.v7.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.v7.ui.Table;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Table showong content of flex cache.<p>
@@ -80,7 +81,7 @@ public class CmsFlexCacheTable extends Table {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> data) {
+        public void executeAction(Set<@RUntainted String> data) {
 
             String resource = data.iterator().next();
             showVariationsWindow(resource);
@@ -279,7 +280,7 @@ public class CmsFlexCacheTable extends Table {
      *
      * @param resource to show variations for
      */
-    void showVariationsWindow(String resource) {
+    void showVariationsWindow(@RUntainted String resource) {
 
         final Window window = CmsBasicDialog.prepareWindow(DialogWidth.max);
         CmsVariationsDialog variationsDialog = new CmsVariationsDialog(resource, new Runnable() {

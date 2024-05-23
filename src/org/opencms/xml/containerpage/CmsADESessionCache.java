@@ -52,6 +52,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * ADE's session cache.<p>
@@ -134,7 +135,7 @@ public final class CmsADESessionCache {
     private Map<String, CmsContainerElementBean> m_containerElements;
 
     /** The current values of dynamically loaded attributes in the Acacia editor. */
-    private Map<String, String> m_dynamicValues;
+    private Map<String, @RUntainted String> m_dynamicValues;
 
     /** The current element view id. */
     private CmsUUID m_elementView;
@@ -149,7 +150,7 @@ public final class CmsADESessionCache {
     private CmsGallerySearchBean m_lastPageEditorGallerySearch;
 
     /** The recently used formatters by resource type. */
-    private Map<String, List<String>> m_recentFormatters = new ConcurrentHashMap<String, List<String>>();
+    private Map<String, List<@RUntainted String>> m_recentFormatters = new ConcurrentHashMap<String, List<@RUntainted String>>();
 
     /** The sitemap editor mode. */
     private EditorMode m_sitemapEditorMode;
@@ -209,7 +210,7 @@ public final class CmsADESessionCache {
      *
      * @return the ADE session cache for the current session
      */
-    public static CmsADESessionCache getCache(HttpServletRequest request, CmsObject cms) {
+    public static CmsADESessionCache getCache(@RUntainted HttpServletRequest request, @RUntainted CmsObject cms) {
 
         CmsADESessionCache cache = (CmsADESessionCache)request.getSession().getAttribute(
             CmsADESessionCache.SESSION_ATTR_ADE_CACHE);
@@ -226,9 +227,9 @@ public final class CmsADESessionCache {
      * @param resType the resource type
      * @param keyOrId the formatter id
      */
-    public void addRecentFormatter(String resType, String keyOrId) {
+    public void addRecentFormatter(String resType, @RUntainted String keyOrId) {
 
-        List<String> formatterIds = m_recentFormatters.get(resType);
+        List<@RUntainted String> formatterIds = m_recentFormatters.get(resType);
         if (formatterIds == null) {
             formatterIds = new ArrayList<String>();
             m_recentFormatters.put(resType, formatterIds);
@@ -286,7 +287,7 @@ public final class CmsADESessionCache {
      * @param attribute the attribute to load the value to
      * @return the cached value
      */
-    public String getDynamicValue(String attribute) {
+    public @RUntainted String getDynamicValue(String attribute) {
 
         return null == m_dynamicValues ? null : m_dynamicValues.get(attribute);
     }
@@ -333,7 +334,7 @@ public final class CmsADESessionCache {
     public I_CmsFormatterBean getRecentFormatter(String resType, CmsContainer container, CmsADEConfigData config) {
 
         I_CmsFormatterBean result = null;
-        List<String> formatterKeys = m_recentFormatters.get(resType);
+        List<@RUntainted String> formatterKeys = m_recentFormatters.get(resType);
         if (formatterKeys != null) {
             Set<String> types = new HashSet<String>(Arrays.asList(container.getType().trim().split(" *, *")));
             for (String key : formatterKeys) {
@@ -429,7 +430,7 @@ public final class CmsADESessionCache {
      * @param attribute the attribute for which the value should be cached
      * @param value the value to cache
      */
-    public void setDynamicValue(String attribute, String value) {
+    public void setDynamicValue(String attribute, @RUntainted String value) {
 
         if (null == m_dynamicValues) {
             m_dynamicValues = new ConcurrentHashMap<String, String>();

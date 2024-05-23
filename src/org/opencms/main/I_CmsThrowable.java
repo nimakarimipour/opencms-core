@@ -30,6 +30,7 @@ package org.opencms.main;
 import org.opencms.i18n.CmsMessageContainer;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides localized Exception handling based on the OpenCms default locale.<p>
@@ -55,7 +56,7 @@ public interface I_CmsThrowable {
      *
      * @return a localized exception message based on the given Locale
      */
-    String getLocalizedMessage(Locale locale);
+    String getLocalizedMessage(@RUntainted Locale locale);
 
     /**
      * Returns a localized exception message based on the OpenCms default locale.<p>

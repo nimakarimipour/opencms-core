@@ -47,6 +47,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Lucene document factory class to extract index data from an OpenCms VFS resource
@@ -66,7 +67,7 @@ public class CmsDocumentXmlContent extends A_CmsVfsDocument {
      *
      * @param name name of the document type
      */
-    public CmsDocumentXmlContent(String name) {
+    public CmsDocumentXmlContent(@RUntainted String name) {
 
         super(name);
     }
@@ -76,7 +77,7 @@ public class CmsDocumentXmlContent extends A_CmsVfsDocument {
      * @see org.opencms.search.documents.A_CmsVfsDocument#createDocument(org.opencms.file.CmsObject, org.opencms.file.CmsResource, org.opencms.search.I_CmsSearchIndex)
      */
     @Override
-    public I_CmsSearchDocument createDocument(CmsObject cms, CmsResource resource, I_CmsSearchIndex index)
+    public I_CmsSearchDocument createDocument(@RUntainted CmsObject cms, @RUntainted CmsResource resource, I_CmsSearchIndex index)
     throws CmsException {
 
         CmsXmlContentDefinition def = CmsXmlContentDefinition.getContentDefinitionForResource(cms, resource);
@@ -96,7 +97,7 @@ public class CmsDocumentXmlContent extends A_CmsVfsDocument {
      *
      * @see org.opencms.search.documents.I_CmsSearchExtractor#extractContent(CmsObject, CmsResource, I_CmsSearchIndex)
      */
-    public I_CmsExtractionResult extractContent(CmsObject cms, CmsResource resource, I_CmsSearchIndex index)
+    public I_CmsExtractionResult extractContent(@RUntainted CmsObject cms, @RUntainted CmsResource resource, I_CmsSearchIndex index)
     throws CmsException {
 
         logContentExtraction(resource, index);
@@ -105,10 +106,10 @@ public class CmsDocumentXmlContent extends A_CmsVfsDocument {
             A_CmsXmlDocument xmlContent = CmsXmlContentFactory.unmarshal(cms, file);
             I_CmsXmlContentHandler handler = xmlContent.getHandler();
             Locale locale = index.getLocaleForResource(cms, resource, xmlContent.getLocales());
-            List<String> elements = xmlContent.getNames(locale);
+            List<@RUntainted String> elements = xmlContent.getNames(locale);
             StringBuffer content = new StringBuffer();
-            LinkedHashMap<String, String> items = new LinkedHashMap<String, String>();
-            for (Iterator<String> i = elements.iterator(); i.hasNext();) {
+            LinkedHashMap<String, @RUntainted String> items = new LinkedHashMap<String, @RUntainted String>();
+            for (Iterator<@RUntainted String> i = elements.iterator(); i.hasNext();) {
                 String xpath = i.next();
                 // xpath will have the form "Text[1]" or "Nested[1]/Text[1]"
                 I_CmsXmlContentValue value = xmlContent.getValue(xpath, locale);

@@ -56,6 +56,7 @@ import java.util.Map;
 import java.util.TimeZone;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The E-Mail to be written to responsibles of resources.<p>
@@ -93,7 +94,7 @@ public class CmsContentNotification extends A_CmsNotification {
      * @param responsible the user that will be notified
      * @param cms the cms object to use
      */
-    CmsContentNotification(CmsUser responsible, CmsObject cms) {
+    CmsContentNotification(CmsUser responsible, @RUntainted CmsObject cms) {
 
         super(cms, responsible);
         m_responsible = responsible;

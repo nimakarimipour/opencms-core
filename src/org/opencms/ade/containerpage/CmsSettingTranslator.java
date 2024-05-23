@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for transforming a map of element settings based on the aliases/replacement rules in the setting definitions for a given formatter.
@@ -70,7 +71,7 @@ public class CmsSettingTranslator {
     private HashMap<String, Map<String, CmsXmlContentProperty>> m_settingsCache = new HashMap<>();
 
     /** A cache map whose keys are textual representations of setting value translations, and the values are the corresponding maps mapping old values to new values.*/
-    private Map<String, Map<String, String>> m_translationMapCache = new HashMap<>();
+    private Map<String, Map<String, @RUntainted String>> m_translationMapCache = new HashMap<>();
 
     /**
      * Creates a new instance.
@@ -91,13 +92,13 @@ public class CmsSettingTranslator {
      * @param translation the setting value translation
      * @return the setting translation map, with the old values as keys and the corresponding new values as values
      */
-    public static Map<String, String> parseSettingTranslationMap(String translation) {
+    public static Map<String, @RUntainted String> parseSettingTranslationMap(@RUntainted String translation) {
 
         if (translation == null) {
             return null;
         }
-        Map<String, String> result = new HashMap<>();
-        String[] parts = translation.split("\\|");
+        Map<String, @RUntainted String> result = new HashMap<>();
+        @RUntainted String[] parts = translation.split("\\|");
         for (String part : parts) {
             int colonPos = part.indexOf(":");
             if (colonPos != -1) {
@@ -118,11 +119,11 @@ public class CmsSettingTranslator {
      * @param settings the settings to translate
      * @return the map of translated settings
      */
-    public Map<String, String> translateSettings(I_CmsFormatterBean formatter, Map<String, String> settings) {
+    public @RUntainted Map<@RUntainted String, @RUntainted String> translateSettings(I_CmsFormatterBean formatter, Map<@RUntainted String, @RUntainted String> settings) {
 
-        Map<String, String> result = new HashMap<>();
+        Map<@RUntainted String, @RUntainted String> result = new HashMap<>();
         Map<String, CmsXmlContentProperty> settingDefsWithAliases = getSettingsForFormatter(formatter.getKeyOrId());
-        for (Map.Entry<String, String> entry : settings.entrySet()) {
+        for (Map.Entry<@RUntainted String, @RUntainted String> entry : settings.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
             String targetKey = key;
@@ -159,7 +160,7 @@ public class CmsSettingTranslator {
             I_CmsFormatterBean formatter = m_config.findFormatter(k, /*noWarn=*/true);
             if (formatter != null) {
                 // build map for lookup via name or alias
-                Map<String, CmsXmlContentProperty> settings = formatter.getSettings(m_config);
+                Map<@RUntainted String, CmsXmlContentProperty> settings = formatter.getSettings(m_config);
                 Map<String, CmsXmlContentProperty> result = new HashMap<>();
                 for (CmsXmlContentProperty settingDef : settings.values()) {
                     List<String> mapKeys = new ArrayList<>();
@@ -193,12 +194,12 @@ public class CmsSettingTranslator {
      * @param value the value to translate
      * @return the translated value
      */
-    private String translateValue(CmsXmlContentProperty settingDef, String value) {
+    private @RUntainted String translateValue(CmsXmlContentProperty settingDef, @RUntainted String value) {
 
         if (settingDef.getTranslationStr() == null) {
             return value;
         }
-        Map<String, String> translationMap = m_translationMapCache.computeIfAbsent(
+        Map<String, @RUntainted String> translationMap = m_translationMapCache.computeIfAbsent(
             settingDef.getTranslationStr(),
             translationStr -> parseSettingTranslationMap(translationStr));
         String mappedValue = translationMap.get(value);

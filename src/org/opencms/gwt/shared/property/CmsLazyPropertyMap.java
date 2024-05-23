@@ -29,6 +29,7 @@ package org.opencms.gwt.shared.property;
 
 import java.util.HashMap;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A lazy initialized map of properties. Will return a property object for any key.<p>
@@ -56,7 +57,7 @@ public class CmsLazyPropertyMap extends HashMap<String, CmsClientProperty> {
      * @return the property
      */
     @Override
-    public CmsClientProperty get(Object key) {
+    public CmsClientProperty get(@RUntainted Object key) {
 
         CmsClientProperty result = super.get(key);
         if (result == null) {

@@ -56,6 +56,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This manager provide access to the publish engine runtime information.<p>
@@ -102,7 +103,7 @@ public class CmsPublishManager {
     private CmsPublishEngine m_publishEngine;
 
     /** The maximum size of the publish history. */
-    private int m_publishHistorySize;
+    private @RUntainted int m_publishHistorySize;
 
     /** The publish list remove mode. */
     private CmsPublishManager.PublishListRemoveMode m_publishListRemoveMode;
@@ -135,7 +136,7 @@ public class CmsPublishManager {
      * @param queuePersistance indicates if the queue is re-initialized on startup
      * @param queueShutdowntime the amount of time to wait for a publish job during shutdown
      */
-    public CmsPublishManager(int historySize, boolean queuePersistance, int queueShutdowntime) {
+    public CmsPublishManager(@RUntainted int historySize, boolean queuePersistance, int queueShutdowntime) {
 
         m_publishEngine = null;
         m_publishHistorySize = historySize;
@@ -214,7 +215,7 @@ public class CmsPublishManager {
      * @return the number of cleaned up rows
      * @throws CmsException if something goes wrong
      */
-    public int cleanupPublishHistory(CmsObject cms) throws CmsException {
+    public @RUntainted int cleanupPublishHistory(CmsObject cms) throws CmsException {
 
         List<CmsUUID> exceptions = new ArrayList<>();
         for (Supplier<List<CmsUUID>> provider : m_specialHistoryIdProviders) {
@@ -334,7 +335,7 @@ public class CmsPublishManager {
      *
      * @return the publish History Size
      */
-    public int getPublishHistorySize() {
+    public @RUntainted int getPublishHistorySize() {
 
         return m_publishHistorySize;
     }
@@ -349,7 +350,7 @@ public class CmsPublishManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsPublishList getPublishList(CmsObject cms) throws CmsException {
+    public @RUntainted CmsPublishList getPublishList(CmsObject cms) throws CmsException {
 
         return m_securityManager.fillPublishList(
             cms.getRequestContext(),
@@ -369,9 +370,9 @@ public class CmsPublishManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsPublishList getPublishList(
+    public @RUntainted CmsPublishList getPublishList(
         CmsObject cms,
-        CmsResource directPublishResource,
+        @RUntainted CmsResource directPublishResource,
         boolean directPublishSiblings)
     throws CmsException {
 
@@ -395,7 +396,7 @@ public class CmsPublishManager {
      */
     public CmsPublishList getPublishList(
         CmsObject cms,
-        List<CmsResource> directPublishResources,
+        List<@RUntainted CmsResource> directPublishResources,
         boolean directPublishSiblings)
     throws CmsException {
 
@@ -418,7 +419,7 @@ public class CmsPublishManager {
      */
     public CmsPublishList getPublishList(
         CmsObject cms,
-        List<CmsResource> directPublishResources,
+        List<@RUntainted CmsResource> directPublishResources,
         boolean directPublishSiblings,
         boolean publishSubResources)
     throws CmsException {
@@ -441,9 +442,9 @@ public class CmsPublishManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsPublishList getPublishListAll(
+    public @RUntainted CmsPublishList getPublishListAll(
         CmsObject cms,
-        List<CmsResource> directPublishResources,
+        List<@RUntainted CmsResource> directPublishResources,
         boolean directPublishSiblings,
         boolean isUserPublishList)
     throws CmsException {
@@ -536,7 +537,7 @@ public class CmsPublishManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public List<CmsResource> getUsersPubList(CmsObject cms) throws CmsException {
+    public @RUntainted List<CmsResource> getUsersPubList(CmsObject cms) throws CmsException {
 
         return m_securityManager.getUsersPubList(cms.getRequestContext());
     }
@@ -641,7 +642,7 @@ public class CmsPublishManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsUUID publishProject(CmsObject cms, I_CmsReport report) throws CmsException {
+    public CmsUUID publishProject(CmsObject cms, @RUntainted I_CmsReport report) throws CmsException {
 
         return publishProject(cms, report, getPublishList(cms));
     }
@@ -661,7 +662,7 @@ public class CmsPublishManager {
      * @see #getPublishList(CmsObject, CmsResource, boolean)
      * @see #getPublishList(CmsObject, List, boolean)
      */
-    public CmsUUID publishProject(CmsObject cms, I_CmsReport report, CmsPublishList publishList) throws CmsException {
+    public CmsUUID publishProject(CmsObject cms, @RUntainted I_CmsReport report, @RUntainted CmsPublishList publishList) throws CmsException {
 
         return m_securityManager.publishProject(cms, publishList, report);
     }
@@ -683,8 +684,8 @@ public class CmsPublishManager {
      */
     public CmsUUID publishProject(
         CmsObject cms,
-        I_CmsReport report,
-        CmsResource directPublishResource,
+        @RUntainted I_CmsReport report,
+        @RUntainted CmsResource directPublishResource,
         boolean directPublishSiblings)
     throws CmsException {
 
@@ -722,7 +723,7 @@ public class CmsPublishManager {
      *
      * @throws Exception if something goes wrong
      */
-    public CmsUUID publishResource(CmsObject cms, String resourcename, boolean publishSiblings, I_CmsReport report)
+    public CmsUUID publishResource(CmsObject cms, String resourcename, boolean publishSiblings, @RUntainted I_CmsReport report)
     throws Exception {
 
         CmsResource resource = cms.readResource(resourcename, CmsResourceFilter.ALL);
@@ -747,7 +748,7 @@ public class CmsPublishManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public void removeResourceFromUsersPubList(CmsObject cms, Collection<CmsUUID> structureIds) throws CmsException {
+    public void removeResourceFromUsersPubList(CmsObject cms, @RUntainted Collection<CmsUUID> structureIds) throws CmsException {
 
         m_securityManager.removeResourceFromUsersPubList(cms.getRequestContext(), structureIds);
     }
@@ -784,7 +785,7 @@ public class CmsPublishManager {
      *
      * @param publishHistorySize the publish History Size to set
      */
-    public void setPublishHistorySize(String publishHistorySize) {
+    public void setPublishHistorySize(@RUntainted String publishHistorySize) {
 
         if (m_frozen) {
             throw new CmsRuntimeException(Messages.get().container(Messages.ERR_CONFIG_FROZEN_0));
@@ -875,7 +876,7 @@ public class CmsPublishManager {
      *
      * @throws Exception if something goes wrong
      */
-    public Map<String, List<CmsRelation>> validateRelations(
+    public Map<@RUntainted String, List<CmsRelation>> validateRelations(
         CmsObject cms,
         CmsPublishList publishList,
         I_CmsReport report)

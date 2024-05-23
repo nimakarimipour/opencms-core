@@ -30,6 +30,7 @@ package org.opencms.ui.dialogs.history.diff;
 import org.opencms.gwt.shared.CmsHistoryResourceBean;
 import org.opencms.ui.dialogs.history.CmsHistoryRow;
 import org.opencms.util.CmsMacroResolver;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 public class CmsVersionMacroResolver extends CmsMacroResolver {
 

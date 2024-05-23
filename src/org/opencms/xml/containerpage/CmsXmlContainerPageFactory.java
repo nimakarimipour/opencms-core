@@ -51,6 +51,8 @@ import javax.servlet.ServletRequest;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.xml.sax.EntityResolver;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Provides factory methods to unmarshal (read) an container page object.<p>
@@ -81,7 +83,7 @@ public final class CmsXmlContainerPageFactory {
      *
      * @return the created container page
      */
-    public static CmsXmlContainerPage createDocument(CmsObject cms, Locale locale, String modelUri)
+    public static @RUntainted CmsXmlContainerPage createDocument(@RUntainted CmsObject cms, @RUntainted Locale locale, @RUntainted String modelUri)
     throws CmsException {
 
         // create the XML content
@@ -103,11 +105,11 @@ public final class CmsXmlContainerPageFactory {
      *
      * @return the created container page
      */
-    public static CmsXmlContainerPage createDocument(
-        CmsObject cms,
-        Locale locale,
-        String encoding,
-        CmsXmlContentDefinition contentDefinition) {
+    public static @RUntainted CmsXmlContainerPage createDocument(
+        @RUntainted CmsObject cms,
+        @RUntainted Locale locale,
+        @RUntainted String encoding,
+        @RUntainted CmsXmlContentDefinition contentDefinition) {
 
         // create the XML content
         CmsXmlContainerPage content = new CmsXmlContainerPage(cms, locale, encoding, contentDefinition);
@@ -136,7 +138,7 @@ public final class CmsXmlContainerPageFactory {
      *
      * @throws CmsXmlException if something goes wrong
      */
-    public static CmsXmlContainerPage unmarshal(CmsObject cms, byte[] xmlData, String encoding, EntityResolver resolver)
+    public static @RUntainted CmsXmlContainerPage unmarshal(@RUntainted CmsObject cms, byte[] xmlData, @RUntainted String encoding, @RUntainted EntityResolver resolver)
     throws CmsXmlException {
 
         return unmarshal(cms, CmsXmlUtils.unmarshalHelper(xmlData, resolver), encoding, resolver);
@@ -185,7 +187,7 @@ public final class CmsXmlContainerPageFactory {
      *
      * @throws CmsXmlException if something goes wrong
      */
-    public static CmsXmlContainerPage unmarshal(CmsObject cms, CmsFile file, boolean keepEncoding)
+    public static CmsXmlContainerPage unmarshal(CmsObject cms, CmsFile file, @RUntainted boolean keepEncoding)
     throws CmsXmlException {
 
         return unmarshal(cms, file, keepEncoding, false);
@@ -214,7 +216,7 @@ public final class CmsXmlContainerPageFactory {
      *
      * @throws CmsXmlException if something goes wrong
      */
-    public static CmsXmlContainerPage unmarshal(CmsObject cms, CmsFile file, boolean keepEncoding, boolean noCache)
+    public static @RPolyTainted CmsXmlContainerPage unmarshal(@RPolyTainted CmsObject cms, CmsFile file, @RUntainted boolean keepEncoding, boolean noCache)
     throws CmsXmlException {
 
         // check the cache
@@ -227,7 +229,7 @@ public final class CmsXmlContainerPageFactory {
         }
 
         // not found in cache, read as normally
-        byte[] contentBytes = file.getContents();
+        @RUntainted byte[] contentBytes = file.getContents();
         String filename = cms.getSitePath(file);
 
         String encoding = null;
@@ -307,7 +309,7 @@ public final class CmsXmlContainerPageFactory {
      *
      * @throws CmsException if something goes wrong
      */
-    public static CmsXmlContainerPage unmarshal(CmsObject cms, CmsResource resource) throws CmsException {
+    public static @RUntainted CmsXmlContainerPage unmarshal(@RUntainted CmsObject cms, @RUntainted CmsResource resource) throws CmsException {
 
         // check the cache
         CmsXmlContainerPage content = getCache(cms, resource, true);
@@ -337,7 +339,7 @@ public final class CmsXmlContainerPageFactory {
      * @throws CmsLoaderException if no loader for the given <code>resource</code> type ({@link CmsResource#getTypeId()}) is available
      * @throws CmsXmlException if the given <code>resource</code> is not of type container page
      */
-    public static CmsXmlContainerPage unmarshal(CmsObject cms, CmsResource resource, ServletRequest req)
+    public static CmsXmlContainerPage unmarshal(@RUntainted CmsObject cms, @RUntainted CmsResource resource, ServletRequest req)
     throws CmsXmlException, CmsLoaderException, CmsException {
 
         String rootPath = resource.getRootPath();
@@ -380,11 +382,11 @@ public final class CmsXmlContainerPageFactory {
      *
      * @return a container page instance unmarshalled from the String
      */
-    public static CmsXmlContainerPage unmarshal(
-        CmsObject cms,
-        Document document,
-        String encoding,
-        EntityResolver resolver) {
+    public static @RUntainted CmsXmlContainerPage unmarshal(
+        @RUntainted CmsObject cms,
+        @RUntainted Document document,
+        @RUntainted String encoding,
+        @RUntainted EntityResolver resolver) {
 
         CmsXmlContainerPage content = new CmsXmlContainerPage(cms, document, encoding, resolver);
         // call prepare for use content handler and return the result
@@ -411,7 +413,7 @@ public final class CmsXmlContainerPageFactory {
      *
      * @throws CmsXmlException if something goes wrong
      */
-    public static CmsXmlContainerPage unmarshal(CmsObject cms, String xmlData, String encoding, EntityResolver resolver)
+    public static @RUntainted CmsXmlContainerPage unmarshal(@RUntainted CmsObject cms, @RUntainted String xmlData, @RUntainted String encoding, @RUntainted EntityResolver resolver)
     throws CmsXmlException {
 
         // create the XML content object from the provided String
@@ -437,7 +439,7 @@ public final class CmsXmlContainerPageFactory {
      *
      * @return the cached container page, or <code>null</code> if not found
      */
-    private static CmsXmlContainerPage getCache(CmsObject cms, CmsResource resource, boolean keepEncoding) {
+    private static @RUntainted CmsXmlContainerPage getCache(CmsObject cms, CmsResource resource, @RUntainted boolean keepEncoding) {
 
         if (resource instanceof I_CmsHistoryResource) {
             return null;
@@ -454,7 +456,7 @@ public final class CmsXmlContainerPageFactory {
      * @param xmlCntPage the container page to cache
      * @param keepEncoding if the encoding was kept while unmarshalling
      */
-    private static void setCache(CmsObject cms, CmsXmlContainerPage xmlCntPage, boolean keepEncoding) {
+    private static void setCache(CmsObject cms, @RUntainted CmsXmlContainerPage xmlCntPage, @RUntainted boolean keepEncoding) {
 
         if (xmlCntPage.getFile() instanceof I_CmsHistoryResource) {
             return;

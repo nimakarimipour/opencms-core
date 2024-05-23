@@ -41,6 +41,7 @@ import java.util.List;
 
 import org.dom4j.Document;
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Import/export handler implementation for VFS data.<p>
@@ -129,7 +130,7 @@ public class CmsVfsImportExportHandler implements I_CmsImportExportHandler {
      * @deprecated use {@link #setExportParams(CmsExportParameters)} instead
      */
     @Deprecated
-    public long getContentAge() {
+    public @RUntainted long getContentAge() {
 
         return m_contentAge;
     }
@@ -173,7 +174,7 @@ public class CmsVfsImportExportHandler implements I_CmsImportExportHandler {
      * @deprecated use {@link #setExportParams(CmsExportParameters)} instead
      */
     @Deprecated
-    public String getFileName() {
+    public @RUntainted String getFileName() {
 
         return m_fileName;
     }
@@ -208,7 +209,7 @@ public class CmsVfsImportExportHandler implements I_CmsImportExportHandler {
      * @deprecated use {@link #importData(CmsObject, I_CmsReport)} instead
      */
     @Deprecated
-    public void importData(CmsObject cms, String importFile, String importPath, I_CmsReport report)
+    public void importData(CmsObject cms, @RUntainted String importFile, @RUntainted String importPath, I_CmsReport report)
     throws CmsXmlException, CmsImportExportException, CmsRoleViolationException, CmsException {
 
         CmsImportParameters parameters = new CmsImportParameters(importFile, importPath, true);
@@ -306,7 +307,7 @@ public class CmsVfsImportExportHandler implements I_CmsImportExportHandler {
      * @deprecated use {@link #setExportParams(CmsExportParameters)} instead
      */
     @Deprecated
-    public void setContentAge(long contentAge) {
+    public void setContentAge(@RUntainted long contentAge) {
 
         if (contentAge < 0) {
             String ageString = Long.toString(contentAge);
@@ -367,7 +368,7 @@ public class CmsVfsImportExportHandler implements I_CmsImportExportHandler {
      * @deprecated use {@link #setExportParams(CmsExportParameters)} instead
      */
     @Deprecated
-    public void setFileName(String fileName) {
+    public void setFileName(@RUntainted String fileName) {
 
         if (CmsStringUtil.isEmpty(fileName) || !fileName.trim().equals(fileName)) {
             throw new CmsIllegalArgumentException(Messages.get().container(Messages.ERR_BAD_FILE_NAME_1, fileName));

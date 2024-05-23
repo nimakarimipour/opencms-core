@@ -35,6 +35,7 @@ import org.opencms.scheduler.I_CmsScheduledJob;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A scheduled job which removes entries older than a given amount of time from the CMS_LOG table, to improve
@@ -60,7 +61,7 @@ public class CmsRemoveOldDbLogEntriesJob implements I_CmsScheduledJob {
     /**
      * @see org.opencms.scheduler.I_CmsScheduledJob#launch(org.opencms.file.CmsObject, java.util.Map)
      */
-    public String launch(CmsObject cms, Map<String, String> parameters) throws Exception {
+    public @RUntainted String launch(CmsObject cms, Map<String, @RUntainted String> parameters) throws Exception {
 
         String maxAgeStr = parameters.get(PARAM_MAX_AGE);
         long maxAgeHours = parseMaxAge(maxAgeStr);

@@ -28,6 +28,7 @@
 package org.opencms.workplace;
 
 import java.util.Collection;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implement this interface to provide message bundle names to added to the CmsWorkplaceMessages bundle.<p>
@@ -39,5 +40,5 @@ public interface I_CmsWorkplaceMessageBundleProvider {
      *
      * @return the bundle names
      */
-    Collection<String> getMessageBundleNames();
+    Collection<@RUntainted String> getMessageBundleNames();
 }

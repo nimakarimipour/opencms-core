@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Scheduled job for updating the XML sitemap cache.<p>
@@ -51,7 +52,7 @@ public class CmsUpdateXmlSitemapCacheJob implements I_CmsScheduledJob {
     /**
      * @see org.opencms.scheduler.I_CmsScheduledJob#launch(org.opencms.file.CmsObject, java.util.Map)
      */
-    public String launch(CmsObject cms, Map<String, String> parameters) throws Exception {
+    public @RUntainted String launch(@RUntainted CmsObject cms, Map<String, String> parameters) throws Exception {
 
         long start = System.currentTimeMillis();
         LOG.info("Starting job " + getClass().getName());
@@ -61,7 +62,7 @@ public class CmsUpdateXmlSitemapCacheJob implements I_CmsScheduledJob {
             parentFolder = "/";
         }
         I_CmsResourceType type = OpenCms.getResourceManager().getResourceType(CmsXmlSeoConfiguration.SEO_FILE_TYPE);
-        List<CmsResource> resources = cms.readResources(
+        List<@RUntainted CmsResource> resources = cms.readResources(
             parentFolder,
             CmsResourceFilter.DEFAULT_FILES.addRequireType(type));
         LOG.info("Starting to process individual XML sitemap files...");

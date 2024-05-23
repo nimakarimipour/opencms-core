@@ -42,6 +42,7 @@ import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Widget used to edit a module dependency.<p>
@@ -92,7 +93,7 @@ public class CmsModuleDependencyWidget extends FormLayout {
      * @param dep the module dependency
      * @return the new widget
      */
-    public static CmsModuleDependencyWidget create(CmsModuleDependency dep) {
+    public static @RUntainted CmsModuleDependencyWidget create(CmsModuleDependency dep) {
 
         CmsModuleDependencyWidget result = new CmsModuleDependencyWidget();
         if (dep != null) {
@@ -117,7 +118,7 @@ public class CmsModuleDependencyWidget extends FormLayout {
      *
      * @return the module version
      */
-    public String getModuleVersion() {
+    public @RUntainted String getModuleVersion() {
 
         return m_version.getValue();
     }

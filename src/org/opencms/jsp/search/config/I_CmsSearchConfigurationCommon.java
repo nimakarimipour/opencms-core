@@ -28,6 +28,7 @@
 package org.opencms.jsp.search.config;
 
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Interface the common search configuration must implement. */
 public interface I_CmsSearchConfigurationCommon {
@@ -35,7 +36,7 @@ public interface I_CmsSearchConfigurationCommon {
     /** Returns a map from request parameter names to Solr query parts (where the parameter's values are typically inserted).
      * @return A map from request parameter names to Solr query parts (where the parameter's values are typically inserted).
      */
-    Map<String, String> getAdditionalParameters();
+    Map<String, @RUntainted String> getAdditionalParameters();
 
     /** Returns a flag, indicating if special query characters (e.g., ":", "(", "[" ...) should be escaped in the query string.
      * @return A flag, indicating if special query characters (e.g., ":", "(", "[" ...) should be escaped in the query string.
@@ -45,7 +46,7 @@ public interface I_CmsSearchConfigurationCommon {
     /** Returns the extra params given to Solr.
      * @return The extra params given to Solr - in format "p1=v1&p2=v2".
      */
-    String getExtraSolrParams();
+    @RUntainted String getExtraSolrParams();
 
     /**Flag, indicating if also resources that are expired.<p>
      * NOTE: if you are not in the edit mode, the flag is ignored and expired resources are never returned.
@@ -79,7 +80,7 @@ public interface I_CmsSearchConfigurationCommon {
      *
      * @return number of maximally returned results,.
      */
-    int getMaxReturnedResults();
+    @RUntainted int getMaxReturnedResults();
 
     /** Modifies the query string according to the specified query modifier.
      * @param queryString the query to modify.

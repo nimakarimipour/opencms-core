@@ -59,6 +59,7 @@ import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.v7.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.v7.ui.Table;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for table to display and edit Log channels.<p>
@@ -108,7 +109,7 @@ public class CmsLogChannelTable extends Table {
         private Object m_defaultValue;
 
         /**Header Message key.*/
-        private String m_headerMessage;
+        private @RUntainted String m_headerMessage;
 
         /**Type of column property.*/
         private Class<?> m_type;
@@ -120,7 +121,7 @@ public class CmsLogChannelTable extends Table {
          * @param type to property
          * @param defaultValue of column
          */
-        TableColumn(String headerMessage, Class<?> type, Object defaultValue) {
+        TableColumn(@RUntainted String headerMessage, Class<?> type, Object defaultValue) {
 
             m_headerMessage = headerMessage;
             m_type = type;
@@ -486,7 +487,7 @@ public class CmsLogChannelTable extends Table {
      *
      * @param loggerSet Set of logger to open context menu for
      */
-    private void fillContextMenu(final Set<Logger> loggerSet) {
+    private void fillContextMenu(final @RUntainted Set<Logger> loggerSet) {
 
         for (LoggerLevel level : LoggerLevel.values()) {
             final LoggerLevel currentLevel = level;

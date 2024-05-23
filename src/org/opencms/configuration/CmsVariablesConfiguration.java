@@ -34,6 +34,7 @@ import org.opencms.main.OpenCms;
 import org.apache.commons.digester3.Digester;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class to read and write the OpenCms site configuration.<p>
@@ -145,7 +146,7 @@ public class CmsVariablesConfiguration extends A_CmsXmlConfiguration {
     /**
      * @see org.opencms.configuration.I_CmsXmlConfiguration#getDtdFilename()
      */
-    public String getDtdFilename() {
+    public @RUntainted String getDtdFilename() {
 
         return CONFIGURATION_DTD_NAME;
     }

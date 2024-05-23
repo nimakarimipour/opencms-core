@@ -41,6 +41,7 @@ import org.opencms.report.I_CmsReport;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Subclass which doesn't actually import anything, but just reads the module data into a

@@ -28,6 +28,7 @@
 package org.opencms.ade.galleries.shared;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean class which represents an option for the site selector in the gallery dialog.<p>
@@ -50,7 +51,7 @@ public class CmsSiteSelectorOption implements IsSerializable {
     private String m_message;
 
     /** The site root of this site. */
-    private String m_siteRoot;
+    private @RUntainted String m_siteRoot;
 
     /** The type of site. */
     private Type m_type;
@@ -71,7 +72,7 @@ public class CmsSiteSelectorOption implements IsSerializable {
      * @param isCurrentSite true if this is the current site
      * @param message the message to display for this site
      */
-    public CmsSiteSelectorOption(Type type, String siteRoot, boolean isCurrentSite, String message) {
+    public CmsSiteSelectorOption(Type type, @RUntainted String siteRoot, boolean isCurrentSite, String message) {
 
         m_type = type;
         m_siteRoot = siteRoot;
@@ -94,7 +95,7 @@ public class CmsSiteSelectorOption implements IsSerializable {
      *
      * @return the site root
      */
-    public String getSiteRoot() {
+    public @RUntainted String getSiteRoot() {
 
         return m_siteRoot;
     }

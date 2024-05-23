@@ -35,6 +35,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper class for the different types of diff modes.<p>
@@ -98,7 +99,7 @@ public final class CmsDiffViewMode implements Serializable {
      * @throws CmsIllegalArgumentException if the given value could not be matched against an
      *             element of this type.
      */
-    public static CmsDiffViewMode valueOf(String value) throws CmsIllegalArgumentException {
+    public static CmsDiffViewMode valueOf(@RUntainted String value) throws CmsIllegalArgumentException {
 
         if (value == null) {
             return null;

@@ -38,6 +38,7 @@ import org.opencms.util.CmsRequestUtil;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Authorization handler which uses a special cookie sent by the user's browser for authorization.<p>
@@ -59,7 +60,7 @@ public class CmsPersistentLoginAuthorizationHandler extends CmsDefaultAuthorizat
      * @see org.opencms.security.CmsDefaultAuthorizationHandler#initCmsObject(javax.servlet.http.HttpServletRequest, org.opencms.security.I_CmsAuthorizationHandler.I_PrivilegedLoginAction)
      */
     @Override
-    public CmsObject initCmsObject(HttpServletRequest request, I_PrivilegedLoginAction loginAction) {
+    public @RUntainted CmsObject initCmsObject(@RUntainted HttpServletRequest request, I_PrivilegedLoginAction loginAction) {
 
         CmsObject cms = initCmsObjectFromToken(request, loginAction);
         if (cms == null) {
@@ -76,7 +77,7 @@ public class CmsPersistentLoginAuthorizationHandler extends CmsDefaultAuthorizat
      *
      * @return the initialized CmsObject, or null if the user couldn't be authenticated using the login token cookie
      */
-    public CmsObject initCmsObjectFromToken(HttpServletRequest request, I_PrivilegedLoginAction loginAction) {
+    public @RUntainted CmsObject initCmsObjectFromToken(@RUntainted HttpServletRequest request, I_PrivilegedLoginAction loginAction) {
 
         CmsObject cms = null;
         CmsPersistentLoginTokenHandler tokenHandler = new CmsPersistentLoginTokenHandler();

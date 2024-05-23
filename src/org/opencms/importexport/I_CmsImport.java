@@ -35,6 +35,7 @@ import java.io.File;
 import java.util.zip.ZipFile;
 
 import org.dom4j.Document;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This interface describes a import class which is used to import resources into the VFS.<p>
@@ -61,7 +62,7 @@ public interface I_CmsImport {
      *
      * @return the version of the import implementation
      */
-    int getVersion();
+    @RUntainted int getVersion();
 
     /**
      * Imports the data.<p>
@@ -93,10 +94,10 @@ public interface I_CmsImport {
     @Deprecated
     void importResources(
         CmsObject cms,
-        String importPath,
+        @RUntainted String importPath,
         I_CmsReport report,
-        File importResource,
-        ZipFile importZip,
+        @RUntainted File importResource,
+        @RUntainted ZipFile importZip,
         Document docXml) throws CmsImportExportException;
 
     /**

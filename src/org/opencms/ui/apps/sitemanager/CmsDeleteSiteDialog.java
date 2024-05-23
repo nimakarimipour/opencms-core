@@ -51,6 +51,7 @@ import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog for deleting Sites.<p>
@@ -84,7 +85,7 @@ public class CmsDeleteSiteDialog extends CmsBasicDialog {
      * @param manager the site manager instance
      * @param data with values for siteroots to delete.
      */
-    public CmsDeleteSiteDialog(CmsSiteManager manager, Set<String> data) {
+    public CmsDeleteSiteDialog(CmsSiteManager manager, Set<@RUntainted String> data) {
 
         m_manager = manager;
 
@@ -167,7 +168,7 @@ public class CmsDeleteSiteDialog extends CmsBasicDialog {
      */
     protected void submit() {
 
-        List<String> siteRootsToDelete = new ArrayList<String>();
+        List<@RUntainted String> siteRootsToDelete = new ArrayList<@RUntainted String>();
         for (CmsSite site : m_sitesToDelete) {
 
             String currentSite = A_CmsUI.getCmsObject().getRequestContext().getSiteRoot();

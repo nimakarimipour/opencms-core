@@ -30,6 +30,7 @@ package org.opencms.xml.content;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Geo-coordinate mapping configuration for an XML content schema.
@@ -47,7 +48,7 @@ public class CmsGeoMappingConfiguration {
         private EntryType m_type;
 
         /** The parameter value. */
-        private String m_value;
+        private @RUntainted String m_value;
 
         /**
          * Creates a new entry.
@@ -83,7 +84,7 @@ public class CmsGeoMappingConfiguration {
          * @return the mapping parameter value
          *
          */
-        public String getValue() {
+        public @RUntainted String getValue() {
 
             return m_value;
         }

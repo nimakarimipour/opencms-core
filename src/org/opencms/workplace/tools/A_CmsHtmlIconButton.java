@@ -33,6 +33,7 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.CmsWorkplace;
 
 import java.io.File;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Default skeleton for an html icon button.<p>
@@ -109,7 +110,7 @@ public abstract class A_CmsHtmlIconButton implements I_CmsHtmlIconButton {
      *
      * @return html code
      */
-    public static String defaultButtonHtml(
+    public static @RUntainted String defaultButtonHtml(
         CmsHtmlIconButtonStyleEnum style,
         String id,
         String name,
@@ -150,7 +151,7 @@ public abstract class A_CmsHtmlIconButton implements I_CmsHtmlIconButton {
      *
      * @return html code
      */
-    public static String defaultButtonHtml(
+    public static @RUntainted String defaultButtonHtml(
         CmsHtmlIconButtonStyleEnum style,
         String id,
         String helpId,

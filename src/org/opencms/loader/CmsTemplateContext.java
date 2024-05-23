@@ -35,6 +35,7 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A template context is basically a named path to a template JSP, which
@@ -138,7 +139,7 @@ public class CmsTemplateContext {
      *
      * @return the localized name
      */
-    public String getLocalizedName(Locale locale) {
+    public String getLocalizedName(@RUntainted Locale locale) {
 
         if (m_messageContainer != null) {
             return m_messageContainer.key(locale);

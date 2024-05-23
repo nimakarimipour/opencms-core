@@ -43,6 +43,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Used to select various template elements form a JSP template that
@@ -68,7 +69,7 @@ public class CmsJspTagTemplate extends BodyTagSupport {
     private String m_element;
 
     /** List of elements for element check. */
-    private String m_elementlist;
+    private @RUntainted String m_elementlist;
 
     /**
      * Internal action method.<p>
@@ -83,7 +84,7 @@ public class CmsJspTagTemplate extends BodyTagSupport {
      */
     public static boolean templateTagAction(
         String element,
-        String elementlist,
+        @RUntainted String elementlist,
         boolean checkall,
         boolean checknone,
         ServletRequest req) {
@@ -107,7 +108,7 @@ public class CmsJspTagTemplate extends BodyTagSupport {
                 boolean found = false;
                 for (int i = 0; i < elements.length; i++) {
                     String el = elements[i].trim();
-                    List<Locale> locales = content.getLocales(el);
+                    List<@RUntainted Locale> locales = content.getLocales(el);
                     Locale locale = null;
                     if ((locales != null) && (locales.size() != 0)) {
                         locale = OpenCms.getLocaleManager().getBestMatchingLocale(
@@ -235,7 +236,7 @@ public class CmsJspTagTemplate extends BodyTagSupport {
      *
      * @param elements the list of elements
      */
-    public void setIfexists(String elements) {
+    public void setIfexists(@RUntainted String elements) {
 
         if (elements != null) {
             m_elementlist = elements;
@@ -249,7 +250,7 @@ public class CmsJspTagTemplate extends BodyTagSupport {
      *
      * @param elements the list of elements
      */
-    public void setIfexistsall(String elements) {
+    public void setIfexistsall(@RUntainted String elements) {
 
         if (elements != null) {
             m_elementlist = elements;
@@ -263,7 +264,7 @@ public class CmsJspTagTemplate extends BodyTagSupport {
      *
      * @param elements the list of elements
      */
-    public void setIfexistsnone(String elements) {
+    public void setIfexistsnone(@RUntainted String elements) {
 
         if (elements != null) {
             m_elementlist = elements;
@@ -277,7 +278,7 @@ public class CmsJspTagTemplate extends BodyTagSupport {
      *
      * @param elements the list of elements
      */
-    public void setIfexistsone(String elements) {
+    public void setIfexistsone(@RUntainted String elements) {
 
         if (elements != null) {
             m_elementlist = elements;

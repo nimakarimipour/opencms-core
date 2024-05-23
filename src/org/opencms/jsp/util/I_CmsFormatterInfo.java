@@ -28,6 +28,7 @@
 package org.opencms.jsp.util;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Common interface for accessing formatter / resource type infos in JSPs.
@@ -40,7 +41,7 @@ public interface I_CmsFormatterInfo {
      * @param l the locale to use
      * @return the description
      */
-    String description(Locale l);
+    String description(@RUntainted Locale l);
 
     /**
      * Gets the description in the current locale.
@@ -125,6 +126,6 @@ public interface I_CmsFormatterInfo {
      * @param l the locale to use
      * @return the nice name for the locale
      */
-    String niceName(Locale l);
+    String niceName(@RUntainted Locale l);
 
 }

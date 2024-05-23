@@ -83,6 +83,7 @@ import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.v7.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.v7.ui.Table;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Table for resource types on the system.<p>
@@ -97,11 +98,11 @@ public class CmsResourceTypesTable extends Table {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(final Set<String> data) {
+        public void executeAction(final Set<@RUntainted String> data) {
 
             try {
                 final Window window = CmsBasicDialog.prepareWindow();
-                Iterator<String> it = data.iterator();
+                Iterator<@RUntainted String> it = data.iterator();
                 boolean existResources = false;
                 while (it.hasNext()) {
                     I_CmsResourceType type = OpenCms.getResourceManager().getResourceType(it.next());
@@ -133,7 +134,7 @@ public class CmsResourceTypesTable extends Table {
                             public void run() {
 
                                 try {
-                                    Iterator<String> it = data.iterator();
+                                    Iterator<@RUntainted String> it = data.iterator();
                                     Map<String, CmsModule> modulesToBeUpdated = new HashMap<String, CmsModule>();
                                     while (it.hasNext()) {
                                         I_CmsResourceType type = OpenCms.getResourceManager().getResourceType(
@@ -208,10 +209,10 @@ public class CmsResourceTypesTable extends Table {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#getVisibility(java.lang.Object)
          */
-        public CmsMenuItemVisibilityMode getVisibility(Set<String> data) {
+        public CmsMenuItemVisibilityMode getVisibility(Set<@RUntainted String> data) {
 
             try {
-                Iterator<String> it = data.iterator();
+                Iterator<@RUntainted String> it = data.iterator();
                 while (it.hasNext()) {
                     I_CmsResourceType type = OpenCms.getResourceManager().getResourceType(it.next());
                     if (CmsStringUtil.isEmptyOrWhitespaceOnly(type.getModuleName())) {
@@ -235,7 +236,7 @@ public class CmsResourceTypesTable extends Table {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(final Set<String> data) {
+        public void executeAction(final Set<@RUntainted String> data) {
 
             openEditDialog(data.iterator().next());
         }
@@ -256,7 +257,7 @@ public class CmsResourceTypesTable extends Table {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#getVisibility(java.lang.Object)
          */
-        public CmsMenuItemVisibilityMode getVisibility(Set<String> data) {
+        public CmsMenuItemVisibilityMode getVisibility(Set<@RUntainted String> data) {
 
             if (data.size() > 1) {
                 return CmsMenuItemVisibilityMode.VISIBILITY_INACTIVE.addMessageKey(
@@ -284,7 +285,7 @@ public class CmsResourceTypesTable extends Table {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(final Set<String> data) {
+        public void executeAction(final Set<@RUntainted String> data) {
 
             try {
                 Window window = CmsBasicDialog.prepareWindow(DialogWidth.max);
@@ -310,14 +311,14 @@ public class CmsResourceTypesTable extends Table {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#getVisibility(java.lang.Object)
          */
-        public CmsMenuItemVisibilityMode getVisibility(Set<String> data) {
+        public CmsMenuItemVisibilityMode getVisibility(Set<@RUntainted String> data) {
 
             if (data.size() > 1) {
                 return CmsMenuItemVisibilityMode.VISIBILITY_INACTIVE.addMessageKey(
                     Messages.GUI_RESOURCETYPE_APP_TABLE_NO_AVAILABLE_MULTIPLE_0);
             }
             try {
-                Iterator<String> it = data.iterator();
+                Iterator<@RUntainted String> it = data.iterator();
                 while (it.hasNext()) {
                     I_CmsResourceType type = OpenCms.getResourceManager().getResourceType(it.next());
                     if (CmsStringUtil.isEmptyOrWhitespaceOnly(type.getModuleName())) {
@@ -341,7 +342,7 @@ public class CmsResourceTypesTable extends Table {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> data) {
+        public void executeAction(Set<@RUntainted String> data) {
 
             try {
                 I_CmsResourceType type = OpenCms.getResourceManager().getResourceType(data.iterator().next());
@@ -377,7 +378,7 @@ public class CmsResourceTypesTable extends Table {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#getVisibility(java.lang.Object)
          */
-        public CmsMenuItemVisibilityMode getVisibility(Set<String> data) {
+        public CmsMenuItemVisibilityMode getVisibility(Set<@RUntainted String> data) {
 
             if (data.size() > 1) {
                 return CmsMenuItemVisibilityMode.VISIBILITY_INACTIVE.addMessageKey(
@@ -412,7 +413,7 @@ public class CmsResourceTypesTable extends Table {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> data) {
+        public void executeAction(Set<@RUntainted String> data) {
 
             CmsSearchReplaceSettings settings = new CmsSearchReplaceSettings();
             settings.setPaths(Collections.singletonList("/"));
@@ -437,7 +438,7 @@ public class CmsResourceTypesTable extends Table {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#getVisibility(java.lang.Object)
          */
-        public CmsMenuItemVisibilityMode getVisibility(Set<String> data) {
+        public CmsMenuItemVisibilityMode getVisibility(Set<@RUntainted String> data) {
 
             if (data.size() > 1) {
                 return CmsMenuItemVisibilityMode.VISIBILITY_INACTIVE.addMessageKey(
@@ -483,7 +484,7 @@ public class CmsResourceTypesTable extends Table {
         private Object m_defaultValue;
 
         /**Header Message key.*/
-        private String m_headerMessage;
+        private @RUntainted String m_headerMessage;
 
         /**Type of column property.*/
         private Class<?> m_type;
@@ -496,7 +497,7 @@ public class CmsResourceTypesTable extends Table {
          * @param defaultValue of column
          * @param collapsable should this column be collapsable?
          */
-        TableProperty(String headerMessage, Class<?> type, Object defaultValue, boolean collapsable) {
+        TableProperty(@RUntainted String headerMessage, Class<?> type, Object defaultValue, boolean collapsable) {
 
             m_headerMessage = headerMessage;
             m_type = type;
@@ -572,7 +573,7 @@ public class CmsResourceTypesTable extends Table {
     static final Log LOG = CmsLog.getLog(CmsResourceTypesTable.class);
 
     /** CmsObject.*/
-    CmsObject m_cms;
+    @RUntainted CmsObject m_cms;
 
     /** The context menu. */
     private CmsContextMenu m_menu;
@@ -700,7 +701,7 @@ public class CmsResourceTypesTable extends Table {
      * @param propertyId column id
      */
     @SuppressWarnings("unchecked")
-    void onItemClick(MouseEvents.ClickEvent event, Object itemId, Object propertyId) {
+    void onItemClick(MouseEvents.ClickEvent event, @RUntainted Object itemId, Object propertyId) {
 
         if (!event.isCtrlKey() && !event.isShiftKey()) {
             changeValueIfNotMultiSelect(itemId);
@@ -720,7 +721,7 @@ public class CmsResourceTypesTable extends Table {
      *
      * @param typeName type to be edited.
      */
-    void openEditDialog(String typeName) {
+    void openEditDialog(@RUntainted String typeName) {
 
         try {
             Window window = CmsBasicDialog.prepareWindow(DialogWidth.max);

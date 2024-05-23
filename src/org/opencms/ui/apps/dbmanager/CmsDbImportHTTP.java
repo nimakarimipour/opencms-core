@@ -37,6 +37,7 @@ import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.Upload;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * HTTP import class.<p>
@@ -53,7 +54,7 @@ public class CmsDbImportHTTP extends A_CmsHTTPImportForm {
     private Button m_ok;
 
     /**The site select combo box.*/
-    private ComboBox m_siteSelect;
+    private @RUntainted ComboBox m_siteSelect;
 
     /**vaadin component.*/
     private ComboBox m_projectSelect;
@@ -102,7 +103,7 @@ public class CmsDbImportHTTP extends A_CmsHTTPImportForm {
      * @see org.opencms.ui.apps.dbmanager.A_CmsImportForm#getReportPath()
      */
     @Override
-    protected String getReportPath() {
+    protected @RUntainted String getReportPath() {
 
         return CmsDbImportApp.PATH_REPORT_HTTP;
     }
@@ -111,7 +112,7 @@ public class CmsDbImportHTTP extends A_CmsHTTPImportForm {
      * @see org.opencms.ui.apps.dbmanager.A_CmsImportForm#getSiteSelector()
      */
     @Override
-    protected ComboBox getSiteSelector() {
+    protected @RUntainted ComboBox getSiteSelector() {
 
         return m_siteSelect;
     }

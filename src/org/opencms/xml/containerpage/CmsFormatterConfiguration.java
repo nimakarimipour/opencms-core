@@ -58,6 +58,7 @@ import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents a formatter configuration.<p>
@@ -176,7 +177,7 @@ public final class CmsFormatterConfiguration {
     private static CmsObject m_adminCms;
 
     /** All formatters that have been added to this configuration. */
-    private List<I_CmsFormatterBean> m_allFormatters;
+    private List<@RUntainted I_CmsFormatterBean> m_allFormatters;
 
     /** The available display formatters. */
     private List<I_CmsFormatterBean> m_displayFormatters;
@@ -190,7 +191,7 @@ public final class CmsFormatterConfiguration {
      * @param cms the current users OpenCms context
      * @param formatters the list of configured formatters
      */
-    private CmsFormatterConfiguration(CmsObject cms, List<I_CmsFormatterBean> formatters) {
+    private CmsFormatterConfiguration(CmsObject cms, List<@RUntainted I_CmsFormatterBean> formatters) {
 
         if (formatters == null) {
             // this is needed for the empty configuration
@@ -209,7 +210,7 @@ public final class CmsFormatterConfiguration {
      *
      * @return the formatter configuration for the current project based on the given list of formatters
      */
-    public static CmsFormatterConfiguration create(CmsObject cms, List<I_CmsFormatterBean> formatters) {
+    public static CmsFormatterConfiguration create(CmsObject cms, List<@RUntainted I_CmsFormatterBean> formatters) {
 
         if ((formatters != null) && (formatters.size() > 0) && (cms != null)) {
             return new CmsFormatterConfiguration(cms, formatters);
@@ -278,7 +279,7 @@ public final class CmsFormatterConfiguration {
      *
      * @return the list of all formatters
      */
-    public List<I_CmsFormatterBean> getAllFormatters() {
+    public List<@RUntainted I_CmsFormatterBean> getAllFormatters() {
 
         return new ArrayList<I_CmsFormatterBean>(m_allFormatters);
     }
@@ -291,7 +292,7 @@ public final class CmsFormatterConfiguration {
      *
      * @return the list of available formatters
      */
-    public List<I_CmsFormatterBean> getAllMatchingFormatters(String containerTypes, int containerWidth) {
+    public List<@RUntainted I_CmsFormatterBean> getAllMatchingFormatters(String containerTypes, int containerWidth) {
 
         return new ArrayList<I_CmsFormatterBean>(
             Collections2.filter(m_allFormatters, new MatchesTypeOrWidth(containerTypes, containerWidth)));
@@ -309,9 +310,9 @@ public final class CmsFormatterConfiguration {
      *
      * @return the matching formatter, or <code>null</code> if none was found
      */
-    public I_CmsFormatterBean getDefaultFormatter(final String containerTypes, final int containerWidth) {
+    public @RUntainted I_CmsFormatterBean getDefaultFormatter(final String containerTypes, final int containerWidth) {
 
-        Optional<I_CmsFormatterBean> result = Iterables.tryFind(
+        Optional<@RUntainted I_CmsFormatterBean> result = Iterables.tryFind(
             m_allFormatters,
             new MatchesTypeOrWidth(containerTypes, containerWidth));
         return result.orNull();
@@ -347,7 +348,7 @@ public final class CmsFormatterConfiguration {
         Predicate<I_CmsFormatterBean> checkValidDetailFormatter = Predicates.and(
             new MatchesTypeOrWidth(types, containerWidth),
             new IsDetail());
-        Optional<I_CmsFormatterBean> result = Iterables.tryFind(m_allFormatters, checkValidDetailFormatter);
+        Optional<@RUntainted I_CmsFormatterBean> result = Iterables.tryFind(m_allFormatters, checkValidDetailFormatter);
         return result.orNull();
     }
 
@@ -451,12 +452,12 @@ public final class CmsFormatterConfiguration {
      * @param key a formatter key or id
      * @return the list of formatters for the given key
      */
-    public List<I_CmsFormatterBean> getFormattersForKey(String key) {
+    public List<@RUntainted I_CmsFormatterBean> getFormattersForKey(@RUntainted String key) {
 
         if (key == null) {
             return new ArrayList<>();
         }
-        List<I_CmsFormatterBean> result = new ArrayList<>();
+        List<@RUntainted I_CmsFormatterBean> result = new ArrayList<>();
 
         if (key.startsWith(CmsFormatterConfig.SCHEMA_FORMATTER_ID)) {
             String idStr = key.substring(CmsFormatterConfig.SCHEMA_FORMATTER_ID.length());
@@ -490,7 +491,7 @@ public final class CmsFormatterConfiguration {
      */
     public I_CmsFormatterBean getPreviewFormatter() {
 
-        Optional<I_CmsFormatterBean> result;
+        Optional<@RUntainted I_CmsFormatterBean> result;
         result = Iterables.tryFind(m_allFormatters, new Predicate<I_CmsFormatterBean>() {
 
             public boolean apply(I_CmsFormatterBean formatter) {

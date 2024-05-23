@@ -56,6 +56,7 @@ import org.apache.commons.collections.Transformer;
 
 import org.dom4j.Element;
 import org.dom4j.Node;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Allows direct access to XML content values, with possible iteration of sub-nodes.<p>
@@ -97,7 +98,7 @@ public final class CmsJspContentAccessValueWrapper extends A_CmsJspValueWrapper 
          * @see org.apache.commons.collections.Transformer#transform(java.lang.Object)
          */
         @Override
-        public Object transform(Object input) {
+        public Object transform(@RUntainted Object input) {
 
             if (isDirectEditEnabled(obtainCmsObject())) {
                 return CmsContentService.getRdfaAttributes(getContentValue(), String.valueOf(input));
@@ -119,11 +120,11 @@ public final class CmsJspContentAccessValueWrapper extends A_CmsJspValueWrapper 
         @Override
         public Object transform(Object input) {
 
-            List<I_CmsXmlContentValue> values = getContentValue().getDocument().getSubValues(
+            List<@RUntainted I_CmsXmlContentValue> values = getContentValue().getDocument().getSubValues(
                 createPath(input),
                 getContentValue().getLocale());
             List<CmsJspContentAccessValueWrapper> result = new ArrayList<CmsJspContentAccessValueWrapper>();
-            Iterator<I_CmsXmlContentValue> i = values.iterator();
+            Iterator<@RUntainted I_CmsXmlContentValue> i = values.iterator();
             while (i.hasNext()) {
                 // must iterate values from XML content and create wrapper for each
                 I_CmsXmlContentValue value = i.next();
@@ -145,11 +146,11 @@ public final class CmsJspContentAccessValueWrapper extends A_CmsJspValueWrapper 
         @Override
         public Object transform(Object input) {
 
-            List<I_CmsXmlContentValue> values = getContentValue().getDocument().getValues(
+            List<@RUntainted I_CmsXmlContentValue> values = getContentValue().getDocument().getValues(
                 createPath(input),
                 getContentValue().getLocale());
             List<CmsJspContentAccessValueWrapper> result = new ArrayList<CmsJspContentAccessValueWrapper>();
-            Iterator<I_CmsXmlContentValue> i = values.iterator();
+            Iterator<@RUntainted I_CmsXmlContentValue> i = values.iterator();
             while (i.hasNext()) {
                 // must iterate values from XML content and create wrapper for each
                 I_CmsXmlContentValue value = i.next();
@@ -275,7 +276,7 @@ public final class CmsJspContentAccessValueWrapper extends A_CmsJspValueWrapper 
          *
          * @return the value name
          */
-        public String getValueName() {
+        public @RUntainted String getValueName() {
 
             return m_valueName;
         }
@@ -289,7 +290,7 @@ public final class CmsJspContentAccessValueWrapper extends A_CmsJspValueWrapper 
     public static final String TEMP_XML2JSON_TREE = "xml2json.tree";
 
     /** The wrapped XML content value. */
-    private I_CmsXmlContentValue m_contentValue;
+    private @RUntainted I_CmsXmlContentValue m_contentValue;
 
     /** Date series information generated from the wrapped data. */
     private CmsJspDateSeriesBean m_dateSeries;
@@ -367,7 +368,7 @@ public final class CmsJspContentAccessValueWrapper extends A_CmsJspValueWrapper 
      *
      * @see #createWrapper(CmsObject, I_CmsXmlContentValue,I_CmsXmlContentValue,String)
      */
-    private CmsJspContentAccessValueWrapper(CmsObject cms, I_CmsXmlContentValue value) {
+    private CmsJspContentAccessValueWrapper(CmsObject cms, @RUntainted I_CmsXmlContentValue value) {
 
         // a null value is used for constant generation
         m_cms = cms;
@@ -395,7 +396,7 @@ public final class CmsJspContentAccessValueWrapper extends A_CmsJspValueWrapper 
      */
     public static CmsJspContentAccessValueWrapper createWrapper(
         CmsObject cms,
-        I_CmsXmlContentValue value,
+        @RUntainted I_CmsXmlContentValue value,
         I_CmsXmlContentValue parentValue,
         String valueName) {
 
@@ -427,7 +428,7 @@ public final class CmsJspContentAccessValueWrapper extends A_CmsJspValueWrapper 
      */
     public static CmsJspContentAccessValueWrapper createWrapper(
         CmsObject cms,
-        I_CmsXmlContentValue value,
+        @RUntainted I_CmsXmlContentValue value,
         I_CmsXmlDocument content,
         String valueName,
         Locale locale) {
@@ -678,7 +679,7 @@ public final class CmsJspContentAccessValueWrapper extends A_CmsJspValueWrapper 
      *
      * @return the locale of the current XML content value
      */
-    public Locale getLocale() {
+    public @RUntainted Locale getLocale() {
 
         if (m_contentValue == null) {
             return CmsLocaleManager.getDefaultLocale();
@@ -732,7 +733,7 @@ public final class CmsJspContentAccessValueWrapper extends A_CmsJspValueWrapper 
      * @see org.opencms.jsp.util.A_CmsJspValueWrapper#getObjectValue()
      */
     @Override
-    public Object getObjectValue() {
+    public @RUntainted Object getObjectValue() {
 
         return m_contentValue;
     }
@@ -1091,7 +1092,7 @@ public final class CmsJspContentAccessValueWrapper extends A_CmsJspValueWrapper 
      * @see #getToString()
      */
     @Override
-    public String toString() {
+    public @RUntainted String toString() {
 
         if (m_contentValue == null) {
             // this is the case for non existing values

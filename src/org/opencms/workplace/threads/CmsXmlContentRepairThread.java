@@ -45,6 +45,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Repairs XML content resources according to their XSD using the corresponding settings object.<p>
@@ -64,7 +65,7 @@ public class CmsXmlContentRepairThread extends A_CmsReportThread {
      * @param cms the current cms context
      * @param settings the settings needed to perform the repair operation
      */
-    public CmsXmlContentRepairThread(CmsObject cms, CmsXmlContentRepairSettings settings) {
+    public CmsXmlContentRepairThread(@RUntainted CmsObject cms, CmsXmlContentRepairSettings settings) {
 
         super(cms, Messages.get().getBundle().key(Messages.GUI_XMLCONTENTREPAIR_THREAD_NAME_0));
         initHtmlReport(cms.getRequestContext().getLocale());
@@ -125,7 +126,7 @@ public class CmsXmlContentRepairThread extends A_CmsReportThread {
         CmsResourceFilter filter = CmsResourceFilter.IGNORE_EXPIRATION.addRequireType(m_settings.getResourceTypeId());
         String path = CmsResource.getFolderPath(m_settings.getVfsFolder());
         // get the list of resources to check
-        List<CmsResource> resources = getCms().readResources(path, filter, m_settings.isIncludeSubFolders());
+        List<@RUntainted CmsResource> resources = getCms().readResources(path, filter, m_settings.isIncludeSubFolders());
 
         // set the report counters
         int count = 0;
@@ -135,7 +136,7 @@ public class CmsXmlContentRepairThread extends A_CmsReportThread {
         CmsXmlEntityResolver resolver = new CmsXmlEntityResolver(getCms());
 
         // iterate the resources
-        Iterator<CmsResource> i = resources.iterator();
+        Iterator<@RUntainted CmsResource> i = resources.iterator();
         while (i.hasNext()) {
 
             count++;

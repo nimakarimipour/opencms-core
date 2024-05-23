@@ -38,6 +38,7 @@ import org.opencms.report.A_CmsReportThread;
 import org.opencms.workplace.threads.Messages;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Thread for extern link validation. <p>
@@ -60,7 +61,7 @@ public class CmsExternalLinksValidatorThread extends A_CmsReportThread {
      *
      * @param cms the current CmsObject
      */
-    public CmsExternalLinksValidatorThread(CmsObject cms) {
+    public CmsExternalLinksValidatorThread(@RUntainted CmsObject cms) {
 
         super(cms, Messages.get().getBundle().key(Messages.GUI_POINTER_VALIDATION_THREAD_NAME_0));
         initHtmlReport(cms.getRequestContext().getLocale());

@@ -32,6 +32,7 @@ import org.opencms.main.CmsLog;
 import java.rmi.RemoteException;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Remote object responsible for creating new remote shell instances.<p>

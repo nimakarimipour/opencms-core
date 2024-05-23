@@ -33,6 +33,7 @@ import org.opencms.util.CmsMacroResolver;
 
 import java.util.Arrays;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Content type class for subsitemap content folders.
@@ -74,7 +75,7 @@ public class CmsResourceTypeSubsitemapContentFolder extends CmsResourceTypeFolde
      * @see org.opencms.file.types.A_CmsResourceType#getCopyResources(org.opencms.file.CmsObject, java.lang.String, org.opencms.util.CmsMacroResolver)
      */
     @Override
-    protected List<CmsConfigurationCopyResource> getCopyResources(
+    protected List<@RUntainted CmsConfigurationCopyResource> getCopyResources(
         CmsObject cms,
         String resourcename,
         CmsMacroResolver resolver) {

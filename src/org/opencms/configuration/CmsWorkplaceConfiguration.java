@@ -70,6 +70,7 @@ import org.xml.sax.Attributes;
 import com.google.common.base.Function;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Import/Export master configuration class.<p>
@@ -1064,7 +1065,7 @@ public class CmsWorkplaceConfiguration extends A_CmsXmlConfiguration {
         digester.addRule("*/" + N_WORKPLACE + "/" + N_SITEMAP_CONFIG_EDIT_ROLE, new Rule() {
 
             @Override
-            public void body(String namespace, String name, String text) throws Exception {
+            public void body(String namespace, String name, @RUntainted String text) throws Exception {
 
                 CmsWorkplaceManager wpManager = (CmsWorkplaceManager)(digester.peek());
                 wpManager.setSitemapConfigEditRole(text);
@@ -1309,7 +1310,7 @@ public class CmsWorkplaceConfiguration extends A_CmsXmlConfiguration {
             }
         }
 
-        List<CmsAccountInfo> accountInfos = m_workplaceManager.getConfiguredAccountInfos();
+        List<@RUntainted CmsAccountInfo> accountInfos = m_workplaceManager.getConfiguredAccountInfos();
         if (accountInfos != null) {
             Element infosElement = workplaceElement.addElement(N_ACCOUNTINFOS);
             for (CmsAccountInfo info : accountInfos) {
@@ -1408,7 +1409,7 @@ public class CmsWorkplaceConfiguration extends A_CmsXmlConfiguration {
     /**
      * @see org.opencms.configuration.I_CmsXmlConfiguration#getDtdFilename()
      */
-    public String getDtdFilename() {
+    public @RUntainted String getDtdFilename() {
 
         return CONFIGURATION_DTD_NAME;
     }

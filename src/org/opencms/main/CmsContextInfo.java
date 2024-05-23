@@ -38,6 +38,7 @@ import org.opencms.site.CmsSiteMatcher;
 
 import java.io.Serializable;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains user information for automated creation of a
@@ -63,52 +64,52 @@ public class CmsContextInfo implements Serializable {
     private CmsResource m_detailResource;
 
     /** The encoding to create the context with. */
-    private String m_encoding;
+    private @RUntainted String m_encoding;
 
     /** Indicates if the configuration if this context info can still be changed or not. */
     private boolean m_frozen;
 
     /** Flag indicating whether links to the current site should be generated with a server prefix. */
-    private boolean m_isForceAbsoluteLinks;
+    private @RUntainted boolean m_isForceAbsoluteLinks;
 
     /** True if this was determined to be a request to a secure site. */
-    private boolean m_isSecureRequest;
+    private @RUntainted boolean m_isSecureRequest;
 
     /** The locale to create the context with. */
-    private Locale m_locale;
+    private @RUntainted Locale m_locale;
 
     /** The locale name to create the context with. */
     private String m_localeName;
 
     /** The organizational unit to create the context with. */
-    private String m_ouFqn;
+    private @RUntainted String m_ouFqn;
 
     /** The project to create the context with. */
-    private CmsProject m_project;
+    private @RUntainted CmsProject m_project;
 
     /** The user name to create the context with. */
-    private String m_projectName;
+    private @RUntainted String m_projectName;
 
     /** The remote ip address to create the context with. */
-    private String m_remoteAddr;
+    private @RUntainted String m_remoteAddr;
 
     /** The request URI to create the context with. */
-    private String m_requestedUri;
+    private @RUntainted String m_requestedUri;
 
     /** the matcher for the current request, that is the host part of the URI from the original http request. */
-    private CmsSiteMatcher m_requestMatcher;
+    private @RUntainted CmsSiteMatcher m_requestMatcher;
 
     /** The time for the request, used for resource publication and expiration dates. */
-    private long m_requestTime;
+    private @RUntainted long m_requestTime;
 
     /** The site root to create the context with. */
-    private String m_siteRoot;
+    private @RUntainted String m_siteRoot;
 
     /** The user to create the context with. */
-    private CmsUser m_user;
+    private @RUntainted CmsUser m_user;
 
     /** The user name to create the context with. */
-    private String m_userName;
+    private @RUntainted String m_userName;
 
     /**
      * Creates a new instance, initializing the variables with some reasonable default values.<p>
@@ -180,18 +181,18 @@ public class CmsContextInfo implements Serializable {
      * @param isForceAbsoluteLinks a flag indicating whether links to the current site should be generated with a server prefix
      */
     public CmsContextInfo(
-        CmsUser user,
-        CmsProject project,
-        String requestedUri,
-        CmsSiteMatcher requestMatcher,
-        String siteRoot,
-        boolean isSecureRequest,
-        Locale locale,
-        String encoding,
-        String remoteAddr,
-        long requestTime,
-        String ouFqn,
-        boolean isForceAbsoluteLinks) {
+        @RUntainted CmsUser user,
+        @RUntainted CmsProject project,
+        @RUntainted String requestedUri,
+        @RUntainted CmsSiteMatcher requestMatcher,
+        @RUntainted String siteRoot,
+        @RUntainted boolean isSecureRequest,
+        @RUntainted Locale locale,
+        @RUntainted String encoding,
+        @RUntainted String remoteAddr,
+        @RUntainted long requestTime,
+        @RUntainted String ouFqn,
+        @RUntainted boolean isForceAbsoluteLinks) {
 
         m_user = user;
         setUserName(m_user.getName());
@@ -217,7 +218,7 @@ public class CmsContextInfo implements Serializable {
      *
      * @see #CmsContextInfo()
      */
-    public CmsContextInfo(String userName) {
+    public CmsContextInfo(@RUntainted String userName) {
 
         this();
         setUserName(userName);
@@ -278,7 +279,7 @@ public class CmsContextInfo implements Serializable {
      *
      * @see CmsRequestContext#getEncoding()
      */
-    public String getEncoding() {
+    public @RUntainted String getEncoding() {
 
         return m_encoding;
     }
@@ -290,7 +291,7 @@ public class CmsContextInfo implements Serializable {
      *
      * @see CmsRequestContext#getLocale()
      */
-    public Locale getLocale() {
+    public @RUntainted Locale getLocale() {
 
         return m_locale;
     }
@@ -312,7 +313,7 @@ public class CmsContextInfo implements Serializable {
      *
      * @return the fully qualified name of the organizational unit
      */
-    public String getOuFqn() {
+    public @RUntainted String getOuFqn() {
 
         return m_ouFqn;
     }
@@ -329,7 +330,7 @@ public class CmsContextInfo implements Serializable {
      * @see #getProjectName()
      * @see CmsRequestContext#getCurrentProject()
      */
-    public CmsProject getProject() {
+    public @RUntainted CmsProject getProject() {
 
         return m_project;
     }
@@ -342,7 +343,7 @@ public class CmsContextInfo implements Serializable {
      * @see #getProject()
      * @see CmsRequestContext#getCurrentProject()
      */
-    public String getProjectName() {
+    public @RUntainted String getProjectName() {
 
         return m_projectName;
     }
@@ -354,7 +355,7 @@ public class CmsContextInfo implements Serializable {
      *
      * @see CmsRequestContext#getRemoteAddress()
      */
-    public String getRemoteAddr() {
+    public @RUntainted String getRemoteAddr() {
 
         return m_remoteAddr;
     }
@@ -366,7 +367,7 @@ public class CmsContextInfo implements Serializable {
      *
      * @see CmsRequestContext#getUri()
      */
-    public String getRequestedUri() {
+    public @RUntainted String getRequestedUri() {
 
         return m_requestedUri;
     }
@@ -376,7 +377,7 @@ public class CmsContextInfo implements Serializable {
      *
      * @return the matcher for the current request, that is the host part of the URI from the original http request
      */
-    public CmsSiteMatcher getRequestMatcher() {
+    public @RUntainted CmsSiteMatcher getRequestMatcher() {
 
         return m_requestMatcher;
     }
@@ -388,7 +389,7 @@ public class CmsContextInfo implements Serializable {
      *
      * @see CmsRequestContext#getRequestTime()
      */
-    public long getRequestTime() {
+    public @RUntainted long getRequestTime() {
 
         return m_requestTime;
     }
@@ -400,7 +401,7 @@ public class CmsContextInfo implements Serializable {
      *
      * @see CmsRequestContext#getSiteRoot()
      */
-    public String getSiteRoot() {
+    public @RUntainted String getSiteRoot() {
 
         return m_siteRoot;
     }
@@ -417,7 +418,7 @@ public class CmsContextInfo implements Serializable {
      * @see #getUserName()
      * @see CmsRequestContext#getCurrentUser()
      */
-    public CmsUser getUser() {
+    public @RUntainted CmsUser getUser() {
 
         return m_user;
     }
@@ -430,7 +431,7 @@ public class CmsContextInfo implements Serializable {
      * @see #getUser()
      * @see CmsRequestContext#getCurrentUser()
      */
-    public String getUserName() {
+    public @RUntainted String getUserName() {
 
         return m_userName;
     }
@@ -440,7 +441,7 @@ public class CmsContextInfo implements Serializable {
      *
      * @return true if links to current site should be absolute
      */
-    public boolean isForceAbsoluteLinks() {
+    public @RUntainted boolean isForceAbsoluteLinks() {
 
         return m_isForceAbsoluteLinks;
     }
@@ -450,7 +451,7 @@ public class CmsContextInfo implements Serializable {
      *
      * @return true if this is a secure request
      */
-    public boolean isSecureRequest() {
+    public @RUntainted boolean isSecureRequest() {
 
         return m_isSecureRequest;
     }
@@ -472,7 +473,7 @@ public class CmsContextInfo implements Serializable {
      *
      * @see CmsRequestContext#setEncoding(String)
      */
-    public void setEncoding(String encoding) {
+    public void setEncoding(@RUntainted String encoding) {
 
         checkFrozen();
         m_encoding = CmsEncoder.lookupEncoding(encoding, OpenCms.getSystemInfo().getDefaultEncoding());
@@ -483,7 +484,7 @@ public class CmsContextInfo implements Serializable {
      *
      * @param isForceAbsoluteLinks true if links to the current site should be generated with a server prefix
      */
-    public void setForceAbsoluteLinks(boolean isForceAbsoluteLinks) {
+    public void setForceAbsoluteLinks(@RUntainted boolean isForceAbsoluteLinks) {
 
         m_isForceAbsoluteLinks = isForceAbsoluteLinks;
     }
@@ -493,7 +494,7 @@ public class CmsContextInfo implements Serializable {
      *
      * @param isSecureRequest  true if this a secure request
      */
-    public void setIsSecureRequest(boolean isSecureRequest) {
+    public void setIsSecureRequest(@RUntainted boolean isSecureRequest) {
 
         m_isSecureRequest = isSecureRequest;
     }
@@ -509,7 +510,7 @@ public class CmsContextInfo implements Serializable {
      * @see #setLocaleName(String)
      * @see CmsRequestContext#getLocale()
      */
-    public void setLocale(Locale locale) {
+    public void setLocale(@RUntainted Locale locale) {
 
         checkFrozen();
         m_locale = locale;
@@ -527,7 +528,7 @@ public class CmsContextInfo implements Serializable {
      * @see #setLocale(Locale)
      * @see CmsRequestContext#getLocale()
      */
-    public void setLocaleName(String localeName) {
+    public void setLocaleName(@RUntainted String localeName) {
 
         checkFrozen();
         m_localeName = localeName;
@@ -539,7 +540,7 @@ public class CmsContextInfo implements Serializable {
      *
      * @param ouFqn the fully qualified name of the organizational unit to set
      */
-    public void setOuFqn(String ouFqn) {
+    public void setOuFqn(@RUntainted String ouFqn) {
 
         checkFrozen();
         m_ouFqn = ouFqn;
@@ -565,7 +566,7 @@ public class CmsContextInfo implements Serializable {
      *
      * @see CmsRequestContext#getRemoteAddress()
      */
-    public void setRemoteAddr(String remoteAddr) {
+    public void setRemoteAddr(@RUntainted String remoteAddr) {
 
         checkFrozen();
         m_remoteAddr = remoteAddr;
@@ -578,7 +579,7 @@ public class CmsContextInfo implements Serializable {
      *
      * @see CmsRequestContext#setUri(String)
      */
-    public void setRequestedUri(String requestedUri) {
+    public void setRequestedUri(@RUntainted String requestedUri) {
 
         checkFrozen();
         m_requestedUri = requestedUri;
@@ -589,7 +590,7 @@ public class CmsContextInfo implements Serializable {
      *
      * @param requestMatcher the matcher for the current request
      */
-    public void setRequestMatcher(CmsSiteMatcher requestMatcher) {
+    public void setRequestMatcher(@RUntainted CmsSiteMatcher requestMatcher) {
 
         m_requestMatcher = requestMatcher;
     }
@@ -601,7 +602,7 @@ public class CmsContextInfo implements Serializable {
      *
      * @see CmsRequestContext#getRequestTime()
      */
-    public void setRequestTime(long requestTime) {
+    public void setRequestTime(@RUntainted long requestTime) {
 
         checkFrozen();
         if (requestTime == CURRENT_TIME) {
@@ -618,7 +619,7 @@ public class CmsContextInfo implements Serializable {
      *
      * @see CmsRequestContext#setSiteRoot(String)
      */
-    public void setSiteRoot(String siteRoot) {
+    public void setSiteRoot(@RUntainted String siteRoot) {
 
         checkFrozen();
         m_siteRoot = siteRoot;
@@ -631,7 +632,7 @@ public class CmsContextInfo implements Serializable {
      *
      * @see CmsRequestContext#getCurrentUser()
      */
-    public void setUserName(String userName) {
+    public void setUserName(@RUntainted String userName) {
 
         checkFrozen();
         m_userName = userName;

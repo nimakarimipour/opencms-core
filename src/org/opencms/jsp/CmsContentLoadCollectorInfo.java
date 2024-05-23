@@ -28,6 +28,7 @@
 package org.opencms.jsp;
 
 import org.opencms.gwt.shared.I_CmsContentLoadCollectorInfo;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean containing the data needed to call a collector.<p>
@@ -41,7 +42,7 @@ public class CmsContentLoadCollectorInfo implements I_CmsContentLoadCollectorInf
     private String m_collectorClass;
 
     /** The collector parameters. */
-    private String m_collectorParams;
+    private @RUntainted String m_collectorParams;
 
     /** The contentload id. */
     private String m_id;
@@ -75,7 +76,7 @@ public class CmsContentLoadCollectorInfo implements I_CmsContentLoadCollectorInf
      * @see org.opencms.gwt.shared.I_CmsContentLoadCollectorInfo#getCollectorParams()
      */
     @Override
-    public String getCollectorParams() {
+    public @RUntainted String getCollectorParams() {
 
         return m_collectorParams;
     }
@@ -112,7 +113,7 @@ public class CmsContentLoadCollectorInfo implements I_CmsContentLoadCollectorInf
      * @see org.opencms.gwt.shared.I_CmsContentLoadCollectorInfo#setCollectorParams(java.lang.String)
      */
     @Override
-    public void setCollectorParams(String collectorParams) {
+    public void setCollectorParams(@RUntainted String collectorParams) {
 
         m_collectorParams = collectorParams;
     }

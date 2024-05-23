@@ -42,6 +42,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Window;
 import com.vaadin.v7.ui.Label;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Only export dialog.<p>
@@ -89,10 +90,10 @@ public class CmsUserCsvExportDialog extends A_CmsImportExportUserDialog {
      * @param window window
      */
     CmsUserCsvExportDialog(
-        List<CmsUser> userToExport,
-        String ou,
+        @RUntainted List<CmsUser> userToExport,
+        @RUntainted String ou,
         I_CmsOuTreeType type,
-        String elementName,
+        @RUntainted String elementName,
         boolean extendedData,
         Window window,
         boolean includeTechnicalFields) {

@@ -32,6 +32,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /** Helper with methods commonly used in editor widgets. */
 public class CmsWidgetUtil {
@@ -42,7 +44,7 @@ public class CmsWidgetUtil {
      * @param options the map with the config options.
      * @return the options as pipe separated string.
      */
-    public static String generatePipeSeparatedConfigString(Map<String, String> options) {
+    public static @RUntainted String generatePipeSeparatedConfigString(Map<String, String> options) {
 
         StringBuffer result = new StringBuffer();
         for (Entry<String, String> option : options.entrySet()) {
@@ -61,7 +63,7 @@ public class CmsWidgetUtil {
      * @param optionKey the boolean option to check.
      * @return a flag, indicating if a boolean option is set
      */
-    public static boolean getBooleanOption(Map<String, String> configOptions, String optionKey) {
+    public static boolean getBooleanOption(Map<String, @RUntainted String> configOptions, String optionKey) {
 
         if (configOptions.containsKey(optionKey)) {
             String value = configOptions.get(optionKey);
@@ -79,7 +81,7 @@ public class CmsWidgetUtil {
      * @param defaultValue the default value to return if the option is not set.
      * @return the value of an option, or the default if the value is null or the key is not part of the map.
      */
-    public static String getStringOption(Map<String, String> configOptions, String optionKey, String defaultValue) {
+    public static @RPolyTainted String getStringOption(Map<String, @RPolyTainted String> configOptions, String optionKey, @RPolyTainted String defaultValue) {
 
         String result = configOptions.get(optionKey);
         return null != result ? result : defaultValue;

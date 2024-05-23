@@ -46,6 +46,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a display only widget, for use on a widget dialog.<p>
@@ -83,7 +84,7 @@ public class CmsLocationPickerWidget extends A_CmsWidget implements I_CmsADEWidg
      *
      * @param configuration the configuration to use
      */
-    public CmsLocationPickerWidget(String configuration) {
+    public CmsLocationPickerWidget(@RUntainted String configuration) {
 
         super(configuration);
     }
@@ -307,7 +308,7 @@ public class CmsLocationPickerWidget extends A_CmsWidget implements I_CmsADEWidg
     /**
      * @see org.opencms.widgets.I_CmsADEWidget#getWidgetName()
      */
-    public String getWidgetName() {
+    public @RUntainted String getWidgetName() {
 
         return CmsLocationPickerWidget.class.getName();
     }
@@ -335,7 +336,7 @@ public class CmsLocationPickerWidget extends A_CmsWidget implements I_CmsADEWidg
      *
      * @return the localized help key for the provided widget parameter
      */
-    private String getDisabledHelpKey(I_CmsWidgetParameter param) {
+    private @RUntainted String getDisabledHelpKey(I_CmsWidgetParameter param) {
 
         StringBuffer result = new StringBuffer(64);
         result.append(LABEL_PREFIX);

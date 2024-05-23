@@ -31,6 +31,7 @@ import org.opencms.configuration.CmsConfigurationException;
 import org.opencms.configuration.CmsParameterConfiguration;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor for the type "folder".<p>
@@ -52,13 +53,13 @@ public class CmsResourceTypeFolder extends A_CmsResourceTypeFolderBase {
     private static boolean m_staticFrozen;
 
     /** The static type id of this resource type. */
-    private static int m_staticTypeId;
+    private static @RUntainted int m_staticTypeId;
 
     /** The serial version id. */
     private static final long serialVersionUID = -6627448037959709694L;
 
     /** The configured list of resource types to show as available index page types. */
-    private String m_indexPageTypes;
+    private @RUntainted String m_indexPageTypes;
 
     /**
      * Default constructor, used to initialize member variables.<p>
@@ -75,7 +76,7 @@ public class CmsResourceTypeFolder extends A_CmsResourceTypeFolderBase {
      *
      * @return the static type id of this (default) resource type
      */
-    public static int getStaticTypeId() {
+    public static @RUntainted int getStaticTypeId() {
 
         return m_staticTypeId;
     }
@@ -85,7 +86,7 @@ public class CmsResourceTypeFolder extends A_CmsResourceTypeFolderBase {
      *
      * @return the static type name of this (default) resource type
      */
-    public static String getStaticTypeName() {
+    public static @RUntainted String getStaticTypeName() {
 
         return RESOURCE_TYPE_NAME;
     }
@@ -94,7 +95,7 @@ public class CmsResourceTypeFolder extends A_CmsResourceTypeFolderBase {
      * @see org.opencms.file.types.A_CmsResourceType#addConfigurationParameter(java.lang.String, java.lang.String)
      */
     @Override
-    public void addConfigurationParameter(String paramName, String paramValue) {
+    public void addConfigurationParameter(String paramName, @RUntainted String paramValue) {
 
         super.addConfigurationParameter(paramName, paramValue);
         if (CmsStringUtil.isNotEmpty(paramName) && CmsStringUtil.isNotEmpty(paramValue)) {
@@ -126,7 +127,7 @@ public class CmsResourceTypeFolder extends A_CmsResourceTypeFolderBase {
      *
      * @return the indexPageTypes
      */
-    public String getIndexPageTypes() {
+    public @RUntainted String getIndexPageTypes() {
 
         return m_indexPageTypes;
     }
@@ -135,7 +136,7 @@ public class CmsResourceTypeFolder extends A_CmsResourceTypeFolderBase {
      * @see org.opencms.file.types.A_CmsResourceType#initConfiguration(java.lang.String, java.lang.String, String)
      */
     @Override
-    public void initConfiguration(String name, String id, String className) throws CmsConfigurationException {
+    public void initConfiguration(@RUntainted String name, @RUntainted String id, @RUntainted String className) throws CmsConfigurationException {
 
         if ((OpenCms.getRunLevel() > OpenCms.RUNLEVEL_2_INITIALIZING) && m_staticFrozen) {
             // configuration already frozen

@@ -26,6 +26,7 @@
  */
 
 package org.opencms.configuration.preferences;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Explorer element view preference.<p>
@@ -37,7 +38,7 @@ public class CmsExplorerElementViewPreference extends CmsElementViewPreference {
      *
      * @param name the preference name
      */
-    public CmsExplorerElementViewPreference(String name) {
+    public CmsExplorerElementViewPreference(@RUntainted String name) {
         super(name);
     }
 
@@ -45,7 +46,7 @@ public class CmsExplorerElementViewPreference extends CmsElementViewPreference {
      * @see org.opencms.configuration.preferences.CmsElementViewPreference#getNiceName()
      */
     @Override
-    public String getNiceName() {
+    public @RUntainted String getNiceName() {
 
         return "%(key." + org.opencms.workplace.commons.Messages.GUI_PREF_EXPLORER_ELEMENT_VIEW_0 + ")";
     }
