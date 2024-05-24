@@ -29,6 +29,7 @@ package org.opencms.gwt.shared;
 
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * AutoBean interface for the data needed to open an embedded Vaadin dialog from GWT.

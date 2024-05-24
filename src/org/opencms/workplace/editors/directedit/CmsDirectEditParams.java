@@ -28,6 +28,7 @@
 package org.opencms.workplace.editors.directedit;
 
 import org.opencms.xml.containerpage.CmsContainerElementBean;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A parameter set to start a direct edit element, for internal use only.<p>

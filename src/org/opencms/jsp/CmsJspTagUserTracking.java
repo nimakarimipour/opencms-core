@@ -53,6 +53,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the <code>&lt;cms:usertracking/&gt;</code> tag.<p>
@@ -232,7 +233,7 @@ public class CmsJspTagUserTracking extends TagSupport {
      *
      * @return a unique session key
      */
-    protected static String generateSessionKey(
+    protected static @RUntainted String generateSessionKey(
         String prefix,
         String fileName,
         boolean subFolder,

@@ -96,6 +96,7 @@ import java.util.concurrent.locks.Lock;
 import org.apache.commons.logging.Log;
 
 import com.google.common.util.concurrent.Striped;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generic (ANSI-SQL) database server implementation of the user driver methods.<p>

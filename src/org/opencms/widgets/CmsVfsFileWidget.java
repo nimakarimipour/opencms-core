@@ -59,6 +59,7 @@ import org.apache.commons.collections.Factory;
 import org.apache.commons.logging.Log;
 
 import com.google.common.base.Objects;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a OpenCms VFS file selection widget, for use on a widget dialog.<p>

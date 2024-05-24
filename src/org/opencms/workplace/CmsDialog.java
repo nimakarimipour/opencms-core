@@ -56,6 +56,7 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides methods for building the dialog windows of OpenCms.<p>
@@ -1163,7 +1164,7 @@ public class CmsDialog extends CmsToolDialog {
      *
      * @return the value of the close link parameter
      */
-    public String getParamCloseLink() {
+    public @RUntainted String getParamCloseLink() {
 
         if ((m_paramCloseLink == null) || "null".equals(m_paramCloseLink)) {
             return null;
@@ -1933,7 +1934,7 @@ public class CmsDialog extends CmsToolDialog {
      *
      * @throws IOException in case writing to the JSP output stream fails
      */
-    protected void openWorkplaceLink(String workplaceLink) throws IOException {
+    protected void openWorkplaceLink(@RUntainted String workplaceLink) throws IOException {
 
         // in case the close link points to the new workplace, make sure to set the new location on the top frame
         JspWriter out = getJsp().getJspContext().getOut();

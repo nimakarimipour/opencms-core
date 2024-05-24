@@ -26,6 +26,7 @@
  */
 
 package org.opencms.importexport;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Import parameters.<p>
@@ -41,7 +42,7 @@ public class CmsImportParameters {
     private boolean m_keepPermissions;
 
     /** The file path, could be a folder or a zip file. */
-    private String m_path;
+    private @RUntainted String m_path;
 
     /** If set, the manifest.xml file will be validated during the import. */
     private boolean m_xmlValidation;
@@ -75,7 +76,7 @@ public class CmsImportParameters {
      *
      * @return the file path
      */
-    public String getPath() {
+    public @RUntainted String getPath() {
 
         return m_path;
     }

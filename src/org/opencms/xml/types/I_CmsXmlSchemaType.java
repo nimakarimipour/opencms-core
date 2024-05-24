@@ -36,6 +36,7 @@ import java.util.Locale;
 import org.dom4j.Element;
 import org.dom4j.Namespace;
 import org.dom4j.QName;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes a type in an OpenCms XML schema based content definition.<p>

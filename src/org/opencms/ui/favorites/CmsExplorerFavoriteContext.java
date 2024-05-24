@@ -46,6 +46,7 @@ import java.util.Optional;
 import org.apache.commons.logging.Log;
 
 import com.vaadin.ui.Component;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Context for the favorite dialog opened from the workplace.

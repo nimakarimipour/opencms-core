@@ -39,6 +39,8 @@ import org.opencms.util.CmsUUID;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Base class for all OpenCms VFS resources like <code>{@link CmsFile}</code> or <code>{@link CmsFolder}</code>.<p>
@@ -622,7 +624,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      * @param resource the name of a resource
      * @return the folder of the given resource
      */
-    public static String getFolderPath(String resource) {
+    public static @RPolyTainted String getFolderPath(@RPolyTainted String resource) {
 
         return resource.substring(0, resource.lastIndexOf('/') + 1);
     }
@@ -993,7 +995,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      * @see CmsRequestContext#getSitePath(CmsResource)
      * @see CmsRequestContext#removeSiteRoot(String)
      */
-    public String getRootPath() {
+    public @RUntainted String getRootPath() {
 
         return m_rootPath;
     }
@@ -1030,7 +1032,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      *
      * @return the id of the database structure record of this resource
      */
-    public CmsUUID getStructureId() {
+    public @RUntainted CmsUUID getStructureId() {
 
         return m_structureId;
     }

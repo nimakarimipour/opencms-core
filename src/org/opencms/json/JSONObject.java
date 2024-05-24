@@ -64,6 +64,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * A JSONObject is an unordered collection of name/value pairs. Its
@@ -542,7 +544,7 @@ public class JSONObject {
      * @param string a String
      * @return  a String correctly formatted for insertion in a JSON text
      */
-    public static String quote(String string) {
+    public static @RPolyTainted String quote(@RPolyTainted String string) {
 
         if ((string == null) || (string.length() == 0)) {
             return "\"\"";
@@ -950,7 +952,7 @@ public class JSONObject {
      *
      * @return an iterator of the keys
      */
-    public Iterator<String> keys() {
+    public Iterator<@RUntainted String> keys() {
 
         return m_map.keySet().iterator();
     }
@@ -1476,7 +1478,7 @@ public class JSONObject {
 
         try {
             boolean b = false;
-            Iterator<String> keys = keys();
+            Iterator<@RUntainted String> keys = keys();
             writer.write('{');
 
             while (keys.hasNext()) {

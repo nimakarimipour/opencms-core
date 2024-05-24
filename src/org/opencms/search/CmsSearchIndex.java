@@ -93,6 +93,7 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.IOContext;
 import org.apache.solr.uninverting.UninvertingReader;
 import org.apache.solr.uninverting.UninvertingReader.Type;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract search index implementation.<p>
@@ -685,7 +686,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
      * @return the path where this index stores it's data in the "real" file system
      */
     @Override
-    public String getPath() {
+    public @RUntainted String getPath() {
 
         if (super.getPath() == null) {
             setPath(generateIndexDirectory());
@@ -1427,7 +1428,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
      *
      * @return the path to the backup folder, or <code>null</code> in case no backup was created
      */
-    protected String createIndexBackup() {
+    protected @RUntainted String createIndexBackup() {
 
         if (!isBackupReindexing()) {
             // if no backup is generated we don't need to do anything
@@ -1760,7 +1761,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
      *
      * @param path the path to the index directory
      */
-    protected synchronized void indexSearcherOpen(String path) {
+    protected synchronized void indexSearcherOpen(@RUntainted String path) {
 
         IndexSearcher oldSearcher = null;
         Directory indexDirectory = null;
@@ -1936,7 +1937,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
      *
      * @param path the backup folder to remove
      */
-    protected void removeIndexBackup(String path) {
+    protected void removeIndexBackup(@RUntainted String path) {
 
         if (!isBackupReindexing()) {
             // if no backup is generated we don't need to do anything

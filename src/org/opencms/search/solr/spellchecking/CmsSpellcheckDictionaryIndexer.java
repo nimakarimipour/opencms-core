@@ -56,6 +56,7 @@ import org.apache.commons.logging.Log;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.common.SolrInputDocument;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helping class for manipulating the Solr spellchecker indices.
@@ -393,7 +394,7 @@ public final class CmsSpellcheckDictionaryIndexer {
      * Returns the path in the RFS where the Solr spellcheck files reside.
      * @return String representation of Solrs spellcheck RFS path.
      */
-    private static String getSolrSpellcheckRfsPath() {
+    private static @RUntainted String getSolrSpellcheckRfsPath() {
 
         String sPath = OpenCms.getSystemInfo().getWebInfRfsPath();
 

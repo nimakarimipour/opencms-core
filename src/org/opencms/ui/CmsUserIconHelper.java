@@ -55,6 +55,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generates user ident-icons.<p>
@@ -106,7 +107,7 @@ public class CmsUserIconHelper {
          *
          * @return string
          */
-        public String getSuffix() {
+        public @RUntainted String getSuffix() {
 
             return m_suffix;
         }
@@ -457,7 +458,7 @@ public class CmsUserIconHelper {
      *
      * @return the path
      */
-    private String toRfsName(String name, IconSize size) {
+    private @RUntainted String toRfsName(String name, IconSize size) {
 
         return CmsStringUtil.joinPaths(m_cache.getRepositoryPath(), "" + name.hashCode()) + size.getSuffix();
     }

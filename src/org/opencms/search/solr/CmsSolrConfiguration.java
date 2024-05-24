@@ -49,6 +49,7 @@ import org.apache.solr.core.SolrConfig;
 import org.apache.solr.core.SolrResourceLoader;
 import org.apache.solr.schema.IndexSchema;
 import org.apache.solr.schema.IndexSchemaFactory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The Solr configuration class.<p>
@@ -118,7 +119,7 @@ public class CmsSolrConfiguration {
     private File m_solrFile;
 
     /** The file name of the Solr configuration. */
-    private String m_solrFileName;
+    private @RUntainted String m_solrFileName;
 
     /** The maximal number of results to be processed in a search request to a Solr index. */
     private int m_maxProcessedResults = DEFAULT_MAX_PROCESSED_RESULTS;
@@ -136,7 +137,7 @@ public class CmsSolrConfiguration {
      *
      * @return the home directory of Solr as String
      */
-    public String getHome() {
+    public @RUntainted String getHome() {
 
         if (m_homeFolderPath == null) {
             if (CmsStringUtil.isNotEmpty(System.getProperty(SOLR_HOME_PROPERTY))) {

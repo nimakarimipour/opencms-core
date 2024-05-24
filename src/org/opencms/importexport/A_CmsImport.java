@@ -72,6 +72,7 @@ import org.dom4j.Attribute;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.Node;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Collection of common used methods for implementing OpenCms Import classes.<p>
@@ -278,7 +279,7 @@ public abstract class A_CmsImport implements I_CmsImport {
     protected String m_importPath;
 
     /** The import-resource (folder) to load resources from. */
-    protected File m_importResource;
+    protected @RUntainted File m_importResource;
 
     /** The import-resource (zip) to load resources from. */
     protected ZipFile m_importZip;

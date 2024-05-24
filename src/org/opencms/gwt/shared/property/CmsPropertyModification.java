@@ -32,6 +32,7 @@ import org.opencms.util.CmsUUID;
 import java.util.Map;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A class which represents a property modification.<p>

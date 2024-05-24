@@ -52,6 +52,7 @@
  */
 
 package org.opencms.json;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The <code>I_JSONString</code> interface allows a <code>toJSONString()</code>

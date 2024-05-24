@@ -57,6 +57,7 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the <code>&lt;enable-ade/&gt;</code> tag.<p>
@@ -173,7 +174,7 @@ public class CmsJspTagEnableAde extends BodyTagSupport {
      *
      * @param request the request
      */
-    public static void updateDirectEditFlagInSession(ServletRequest request) {
+    public static void updateDirectEditFlagInSession(@RUntainted ServletRequest request) {
 
         String disabledParam = request.getParameter(CmsGwtConstants.PARAM_DISABLE_DIRECT_EDIT);
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(disabledParam)) {

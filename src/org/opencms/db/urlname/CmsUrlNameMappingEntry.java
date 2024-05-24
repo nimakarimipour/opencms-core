@@ -30,6 +30,7 @@ package org.opencms.db.urlname;
 import org.opencms.util.CmsUUID;
 
 import java.util.Comparator;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * An URL name mapping entry.<p>

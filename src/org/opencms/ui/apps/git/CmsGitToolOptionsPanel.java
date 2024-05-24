@@ -75,6 +75,7 @@ import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Main widget for the Git check-in tool.<p>
@@ -146,7 +147,7 @@ public class CmsGitToolOptionsPanel extends VerticalLayout {
     private Component m_checkoutTab;
 
     /** Field for 'Commit message' setting. */
-    private TextArea m_commitMessage;
+    private @RUntainted TextArea m_commitMessage;
 
     /** Panel for the configuration selection. */
     private Panel m_configurationSelectionPanel;
@@ -167,7 +168,7 @@ public class CmsGitToolOptionsPanel extends VerticalLayout {
     private DialogTab m_dialogTab = DialogTab.checkIn;
 
     /** The field for the email address. */
-    private TextField m_emailField;
+    private @RUntainted TextField m_emailField;
 
     /** Field for 'Exclude lib' setting. */
     private CheckBox m_excludeLib;
@@ -218,7 +219,7 @@ public class CmsGitToolOptionsPanel extends VerticalLayout {
     private CmsUser m_user;
 
     /** The field for the git user name. */
-    private TextField m_userField;
+    private @RUntainted TextField m_userField;
 
     /**
      * Creates a new instance.<p>

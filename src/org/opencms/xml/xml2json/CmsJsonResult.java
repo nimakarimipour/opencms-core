@@ -30,6 +30,7 @@ package org.opencms.xml.xml2json;
 import org.opencms.file.CmsResource;
 
 import javax.servlet.http.HttpServletResponse;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Result of rendering JSON.

@@ -32,6 +32,8 @@ import org.opencms.json.JSONException;
 import org.opencms.json.JSONObject;
 
 import java.util.function.Function;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Utility class for JSON-related functions.

@@ -74,6 +74,7 @@ import org.dom4j.io.XMLWriter;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Configuration manager for digesting the OpenCms XML configuration.<p>
@@ -125,7 +126,7 @@ public class CmsConfigurationManager implements I_CmsXmlConfiguration {
     private File m_backupFolder;
 
     /** The base folder where the configuration files are located. */
-    private File m_baseFolder;
+    private @RUntainted File m_baseFolder;
 
     /** The initialized configuration classes. */
     private List<I_CmsXmlConfiguration> m_configurations;
@@ -144,7 +145,7 @@ public class CmsConfigurationManager implements I_CmsXmlConfiguration {
      *
      * @param baseFolder base folder where XML configurations to load are located
      */
-    public CmsConfigurationManager(String baseFolder) {
+    public CmsConfigurationManager(@RUntainted String baseFolder) {
 
         m_baseFolder = new File(baseFolder);
         if (!m_baseFolder.exists()) {
@@ -471,7 +472,7 @@ public class CmsConfigurationManager implements I_CmsXmlConfiguration {
      *
      * @return the path to the XSLT transformation
      */
-    String getTransformationPath() {
+    @RUntainted String getTransformationPath() {
 
         String path = System.getProperty("opencms.config.transform");
         if (path == null) {

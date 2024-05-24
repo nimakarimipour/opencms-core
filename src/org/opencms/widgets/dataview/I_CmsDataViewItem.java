@@ -26,6 +26,7 @@
  */
 
 package org.opencms.widgets.dataview;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface describing a data item retrieved by an implementation of I_CmsDataView.<p>

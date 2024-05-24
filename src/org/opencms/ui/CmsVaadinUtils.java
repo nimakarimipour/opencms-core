@@ -121,6 +121,8 @@ import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Vaadin utility functions.<p>
@@ -968,7 +970,7 @@ public final class CmsVaadinUtils {
      *
      * @return the link to the workplace
      */
-    public static String getWorkplaceLink() {
+    public static @RUntainted String getWorkplaceLink() {
 
         return OpenCms.getSystemInfo().getWorkplaceContext();
     }
@@ -980,7 +982,7 @@ public final class CmsVaadinUtils {
      *
      * @return the workplace link
      */
-    public static String getWorkplaceLink(String appId) {
+    public static @RPolyTainted String getWorkplaceLink(@RPolyTainted String appId) {
 
         return getWorkplaceLink() + CmsAppWorkplaceUi.WORKPLACE_APP_ID_SEPARATOR + appId;
     }

@@ -42,6 +42,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Creates and validates persisten login tokens for users.<p>
@@ -225,7 +226,7 @@ public class CmsPersistentLoginTokenHandler {
      *
      * @throws CmsException if something goes wrong
      */
-    public String createToken(CmsObject cms) throws CmsException {
+    public @RUntainted String createToken(CmsObject cms) throws CmsException {
 
         CmsUser user = cms.getRequestContext().getCurrentUser();
         String key = RandomStringUtils.randomAlphanumeric(16);

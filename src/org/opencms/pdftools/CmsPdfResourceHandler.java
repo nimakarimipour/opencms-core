@@ -51,6 +51,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This resource handler handles URLs of the form /pdflink/{locale}/{formatter-id}/{detailname} and format
@@ -66,7 +67,7 @@ public class CmsPdfResourceHandler implements I_CmsResourceInit {
     public static final String IMAGE_MIMETYPECONFIG = "png:image/png|gif:image/gif|jpg:image/jpeg";
 
     /** Map of mime types for different file extensions. */
-    public static final Map<String, String> IMAGE_MIMETYPES = Collections.unmodifiableMap(
+    public static final Map<String, @RUntainted String> IMAGE_MIMETYPES = Collections.unmodifiableMap(
         CmsStringUtil.splitAsMap(IMAGE_MIMETYPECONFIG, "|", ":"));
 
     /** The logger instance for this class. */

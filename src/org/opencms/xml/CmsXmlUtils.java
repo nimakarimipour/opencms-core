@@ -66,6 +66,8 @@ import org.xml.sax.SAXNotRecognizedException;
 import org.xml.sax.SAXNotSupportedException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Provides some basic XML handling utilities.<p>
@@ -138,7 +140,7 @@ public final class CmsXmlUtils {
      *
      * @return the concatenated Xpath build from prefix and suffix
      */
-    public static String concatXpath(String prefix, String suffix) {
+    public static @RPolyTainted String concatXpath(String prefix, @RPolyTainted String suffix) {
 
         if (suffix == null) {
             // ensure suffix is not null
@@ -931,7 +933,7 @@ public final class CmsXmlUtils {
      *
      * @throws CmsXmlException if the validation fails
      */
-    public static void validateXmlStructure(InputStream xmlStream, EntityResolver resolver) throws CmsXmlException {
+    public static void validateXmlStructure(@RUntainted InputStream xmlStream, EntityResolver resolver) throws CmsXmlException {
 
         XMLReader reader;
         try {

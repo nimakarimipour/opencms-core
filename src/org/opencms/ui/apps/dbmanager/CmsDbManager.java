@@ -39,6 +39,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import com.vaadin.ui.Component;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for database manager app.<p>A_CmsAttributeAwareApp
@@ -66,7 +67,7 @@ public class CmsDbManager extends A_CmsAttributeAwareApp {
         File folder = new File(exportpath);
 
         // get a list of all files of the packages folder
-        String[] files = folder.list();
+        @RUntainted String[] files = folder.list();
         if (files != null) {
             for (int i = 0; i < files.length; i++) {
                 File diskFile = new File(exportpath, files[i]);

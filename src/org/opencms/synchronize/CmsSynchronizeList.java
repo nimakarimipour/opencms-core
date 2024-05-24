@@ -30,6 +30,7 @@ package org.opencms.synchronize;
 import org.opencms.util.CmsDateUtil;
 
 import java.io.Serializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Defines the CmsSynchronizeList object, used to store synchronisation data

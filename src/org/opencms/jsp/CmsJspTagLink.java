@@ -48,6 +48,7 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements the <code>&lt;cms:link&gt;[filename]&lt;/cms:link&gt;</code>
@@ -372,7 +373,7 @@ public class CmsJspTagLink extends BodyTagSupport {
      *
      * @since 8.0.3
      */
-    public static String linkTagAction(String target, ServletRequest req, String baseUri) {
+    public static @RUntainted String linkTagAction(String target, ServletRequest req, String baseUri) {
 
         return linkTagAction(target, req, baseUri, null);
     }

@@ -5,6 +5,7 @@ import org.opencms.loader.CmsImageScaler;
 import org.opencms.util.CmsStringUtil;
 
 import javax.servlet.jsp.tagext.BodyTagSupport;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract parent for all JSP tags dealing with image scaling, defines some common image scaler

@@ -113,6 +113,7 @@ import org.apache.solr.client.solrj.impl.HttpSolrClient.Builder;
 import org.apache.solr.core.CoreContainer;
 import org.apache.solr.core.CoreDescriptor;
 import org.apache.solr.core.SolrCore;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements the general management and configuration of the search and
@@ -757,7 +758,7 @@ public class CmsSearchManager implements I_CmsScheduledJob, I_CmsEventListener {
     private long m_maxIndexWaitTime;
 
     /** Path to index files below WEB-INF/. */
-    private String m_path;
+    private @RUntainted String m_path;
 
     /** The Solr configuration. */
     private CmsSolrConfiguration m_solrConfig;
@@ -1216,7 +1217,7 @@ public class CmsSearchManager implements I_CmsScheduledJob, I_CmsEventListener {
      *
      * @return the name of the directory below WEB-INF/ where the search indexes are stored
      */
-    public String getDirectory() {
+    public @RUntainted String getDirectory() {
 
         return m_path;
     }
@@ -1610,7 +1611,7 @@ public class CmsSearchManager implements I_CmsScheduledJob, I_CmsEventListener {
      *
      * @return the update frequency of the offline indexer in milliseconds
      */
-    public long getOfflineUpdateFrequency() {
+    public @RUntainted long getOfflineUpdateFrequency() {
 
         return m_offlineUpdateFrequency;
     }

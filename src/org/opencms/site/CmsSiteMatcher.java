@@ -34,6 +34,7 @@ import java.io.Serializable;
 import java.net.URI;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A matcher object to compare request data against the configured sites.<p>
@@ -338,7 +339,7 @@ public final class CmsSiteMatcher implements Cloneable, Serializable {
      *
      * @return the time Offset
      */
-    public long getTimeOffset() {
+    public @RUntainted long getTimeOffset() {
 
         return m_timeOffset;
     }

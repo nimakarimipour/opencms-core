@@ -69,6 +69,7 @@ import org.apache.commons.logging.Log;
 import com.google.common.collect.Maps;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Resource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides {@link CmsResource} utility functions.<p>

@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Appends benchmark samples to a file.
@@ -44,13 +45,13 @@ public class CmsFileBenchmarkReceiver implements CmsBenchmarkTable.Receiver {
     private static final Log LOG = CmsLog.getLog(CmsFileBenchmarkReceiver.class);
 
     /** The target file path. */
-    private String m_path;
+    private @RUntainted String m_path;
 
     /** The benchmark group. */
-    private String m_group;
+    private @RUntainted String m_group;
 
     /** The benchmark name. */
-    private String m_benchmark;
+    private @RUntainted String m_benchmark;
 
     /**
      * Creates a new instance and configures it via the Java system properties.<p>
@@ -78,7 +79,7 @@ public class CmsFileBenchmarkReceiver implements CmsBenchmarkTable.Receiver {
      * @param benchmark the benchmark name
      * @param group the benchmark group
      */
-    public CmsFileBenchmarkReceiver(String path, String benchmark, String group) {
+    public CmsFileBenchmarkReceiver(String path, @RUntainted String benchmark, @RUntainted String group) {
 
         m_path = path;
         m_group = group;
@@ -88,7 +89,7 @@ public class CmsFileBenchmarkReceiver implements CmsBenchmarkTable.Receiver {
     /**
      * @see org.opencms.util.benchmark.CmsBenchmarkTable.Receiver#receiveSample(java.lang.String, long)
      */
-    public synchronized void receiveSample(String sampleName, long sampleTime) {
+    public synchronized void receiveSample(@RUntainted String sampleName, @RUntainted long sampleTime) {
 
         try (FileWriter fw = new FileWriter(m_path, true)) {
             String line = System.currentTimeMillis()

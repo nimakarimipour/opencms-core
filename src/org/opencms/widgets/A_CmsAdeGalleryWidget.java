@@ -49,6 +49,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Base class for all ADE gallery widget implementations.<p>

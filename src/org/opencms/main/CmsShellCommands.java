@@ -106,6 +106,7 @@ import java.util.Set;
 import java.util.StringTokenizer;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides additional commands for the CmsShell.<p>
@@ -676,7 +677,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      *
      * @throws Exception if something goes wrong
      */
-    public void exportModule(String moduleName) throws Exception {
+    public void exportModule(@RUntainted String moduleName) throws Exception {
 
         CmsModule module = OpenCms.getModuleManager().getModule(moduleName);
 
@@ -1010,7 +1011,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      *
      * @see org.opencms.importexport.CmsImportExportManager#importData(CmsObject, I_CmsReport, CmsImportParameters)
      */
-    public void importModuleFromDefault(String importFile) throws Exception {
+    public void importModuleFromDefault(@RUntainted String importFile) throws Exception {
 
         String exportPath = OpenCms.getSystemInfo().getPackagesRfsPath();
         String fileName = OpenCms.getSystemInfo().getAbsoluteRfsPathRelativeToWebInf(
@@ -1040,7 +1041,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      *
      * @throws Exception if something goes wrong
      */
-    public void importResources(String importFile, String importPath) throws Exception {
+    public void importResources(@RUntainted String importFile, String importPath) throws Exception {
 
         CmsImportParameters params = new CmsImportParameters(
             OpenCms.getSystemInfo().getAbsoluteRfsPathRelativeToWebInf(importFile),
@@ -1062,7 +1063,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      *
      * @throws Exception if something goes wrong
      */
-    public void importResources(String importFile, String importPath, boolean keepPermissions) throws Exception {
+    public void importResources(@RUntainted String importFile, String importPath, boolean keepPermissions) throws Exception {
 
         CmsImportParameters params = new CmsImportParameters(
             OpenCms.getSystemInfo().getAbsoluteRfsPathRelativeToWebInf(importFile),
@@ -1575,7 +1576,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      *
      * @throws Exception if something goes wrong
      */
-    public void replaceModule(String moduleName, String importFile) throws Exception {
+    public void replaceModule(String moduleName, @RUntainted String importFile) throws Exception {
 
         CmsModule module = CmsModuleImportExportHandler.readModuleFromImport(importFile);
         if (moduleName.equals(module.getName())) {
@@ -1598,7 +1599,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      * @param importFile the name of the import file
      * @throws Exception if something goes wrong
      */
-    public void replaceModuleFromDefault(String importFile) throws Exception {
+    public void replaceModuleFromDefault(@RUntainted String importFile) throws Exception {
         String exportPath = OpenCms.getSystemInfo().getPackagesRfsPath();
         String fileName = OpenCms.getSystemInfo().getAbsoluteRfsPathRelativeToWebInf(
             exportPath + CmsSystemInfo.FOLDER_MODULES + importFile);
@@ -1615,7 +1616,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      * @param importFile the name of the import file
      * @throws Exception if something goes wrong
      */
-    public void replaceModuleFromDefault(String moduleName, String importFile) throws Exception {
+    public void replaceModuleFromDefault(String moduleName, @RUntainted String importFile) throws Exception {
 
         if (OpenCms.getModuleManager().getModule(moduleName) != null) {
             OpenCms.getModuleManager().deleteModule(
@@ -1797,7 +1798,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      *
      * @throws NumberFormatException if the sleepMillis parameter is not a valid number
      */
-    public void sleep(String sleepMillis) throws NumberFormatException {
+    public void sleep(@RUntainted String sleepMillis) throws NumberFormatException {
 
         try {
             Thread.sleep(Long.parseLong(sleepMillis));
@@ -1898,7 +1899,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      * @param transform the RFS path to the XSL transformation
      * @throws Exception if something goes wrong
      */
-    public void transformXmlContents(String path, String typeName, String transform) throws Exception {
+    public void transformXmlContents(@RUntainted String path, String typeName, @RUntainted String transform) throws Exception {
 
         String timestamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date(System.currentTimeMillis()));
         String additionalLogName = "xml_transform_" + timestamp + ".log";
@@ -1938,7 +1939,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      *
      * @throws Exception if something goes wrong
      */
-    public void updateModule(String importFile) throws Exception {
+    public void updateModule(@RUntainted String importFile) throws Exception {
 
         CmsModule module = CmsModuleImportExportHandler.readModuleFromImport(importFile);
         String moduleName = module.getName();
@@ -1967,7 +1968,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      *
      * @throws Exception if something goes wrong
      */
-    public void updateModuleFromDefault(String importFile) throws Exception {
+    public void updateModuleFromDefault(@RUntainted String importFile) throws Exception {
 
         String exportPath = OpenCms.getSystemInfo().getPackagesRfsPath();
         String fileName = OpenCms.getSystemInfo().getAbsoluteRfsPathRelativeToWebInf(
@@ -1996,7 +1997,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      *         <code>folder</code> and <code>localfile</code> is of length 0
      *
      */
-    public CmsResource uploadFile(String localfile, String folder, String filename, String type)
+    public CmsResource uploadFile(@RUntainted String localfile, String folder, String filename, String type)
     throws Exception, CmsIllegalArgumentException {
 
         I_CmsResourceType t = OpenCms.getResourceManager().getResourceType(type);

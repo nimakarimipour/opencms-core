@@ -30,6 +30,7 @@ package org.opencms.ade.galleries.shared;
 import org.opencms.gwt.shared.CmsListInfoBean;
 
 import java.util.ArrayList;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean representing resource type information.<p>

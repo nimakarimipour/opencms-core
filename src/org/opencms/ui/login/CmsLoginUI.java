@@ -81,6 +81,7 @@ import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.Window.CloseListener;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The UI class for the Vaadin-based login dialog.<p>
@@ -370,7 +371,7 @@ public class CmsLoginUI extends A_CmsUI {
      *
      * @return the settings
      */
-    private static CmsWorkplaceSettings getWorkplaceSettings(CmsObject cms, HttpSession session) {
+    private static CmsWorkplaceSettings getWorkplaceSettings(CmsObject cms, @RUntainted HttpSession session) {
 
         CmsWorkplaceSettings settings = (CmsWorkplaceSettings)session.getAttribute(
             CmsWorkplaceManager.SESSION_WORKPLACE_SETTINGS);

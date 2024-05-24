@@ -50,6 +50,8 @@ import java.util.StringTokenizer;
 import java.util.TreeMap;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Provides convenient access to configuration parameters.<p>

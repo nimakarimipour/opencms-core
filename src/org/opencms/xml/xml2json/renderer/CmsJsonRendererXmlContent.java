@@ -48,6 +48,7 @@ import org.opencms.xml.xml2json.handler.CmsJsonHandlerContext;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Converts an XML content to JSON by creating a CmsXmlContentTree and then recursively processing its nodes.

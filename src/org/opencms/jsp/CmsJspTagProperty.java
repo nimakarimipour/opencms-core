@@ -45,6 +45,8 @@ import javax.servlet.jsp.tagext.TagSupport;
 
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Provides access to the properties of a resource in the OpenCms VFS .<p>

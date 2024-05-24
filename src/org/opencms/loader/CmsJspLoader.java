@@ -92,6 +92,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 
 import com.google.common.base.Splitter;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The JSP loader which enables the execution of JSP in OpenCms.<p>
@@ -354,7 +355,7 @@ public class CmsJspLoader implements I_CmsResourceLoader, I_CmsFlexCacheEnabledL
      *
      * @return The full path to the JSP repository
      */
-    public String getJspRepository() {
+    public @RUntainted String getJspRepository() {
 
         return m_jspRepository;
     }
@@ -834,7 +835,7 @@ public class CmsJspLoader implements I_CmsResourceLoader, I_CmsFlexCacheEnabledL
                     // check again if updating is still necessary as this might have happened while waiting for the write lock
                     if (!jspFile.exists() || (jspModificationDate == jspFile.lastModified())) {
                         updatedFiles.add(jspTargetName);
-                        byte[] contents;
+                        @RUntainted byte[] contents;
                         String encoding;
                         try {
                             CmsObject cms = controller.getCmsObject();
@@ -1198,7 +1199,7 @@ public class CmsJspLoader implements I_CmsResourceLoader, I_CmsFlexCacheEnabledL
      *
      * @return the modified JSP content
      */
-    protected byte[] parseJsp(
+    protected @RUntainted byte[] parseJsp(
         byte[] byteContent,
         String encoding,
         CmsFlexController controller,
@@ -1785,7 +1786,7 @@ public class CmsJspLoader implements I_CmsResourceLoader, I_CmsFlexCacheEnabledL
      *
      * @throws CmsLoaderException if accessing the resource loader fails
      */
-    private String getJspRfsPath(CmsResource resource, boolean online) throws CmsLoaderException {
+    private @RUntainted String getJspRfsPath(CmsResource resource, boolean online) throws CmsLoaderException {
 
         String jspVfsName = resource.getRootPath();
         String extension;

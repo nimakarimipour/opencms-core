@@ -31,6 +31,7 @@ import org.opencms.db.CmsResourceState;
 import org.opencms.util.CmsUUID;
 
 import java.util.Comparator;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Common ancestor interface for {@link CmsFile} and {@link CmsFolder}

@@ -29,6 +29,7 @@ package org.opencms.file;
 
 import org.opencms.db.CmsResourceState;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A file resource in the OpenCms VFS.<p>
@@ -190,7 +191,7 @@ public class CmsFile extends CmsResource {
      *
      * @return the content of this file
      */
-    public byte[] getContents() {
+    public @RUntainted byte[] getContents() {
 
         return m_fileContent;
     }

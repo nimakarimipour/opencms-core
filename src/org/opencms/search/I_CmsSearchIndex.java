@@ -39,6 +39,7 @@ import org.opencms.search.fields.I_CmsSearchFieldConfiguration;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface for search indizes that should be handled by the {@link org.opencms.search.CmsSearchManager}.

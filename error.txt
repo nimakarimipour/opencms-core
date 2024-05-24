@@ -1,0 +1,1518 @@
+Configuration: Annotated Packages: [org.opencms], Unannotated Code Handling: true, Poly: true, Type Argument: true, Validation: false, Side Effect: false
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/security/CmsPersistentLoginTokenHandler.java:242: error: [return] incompatible types in return.
+        return token;
+               ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 1
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/file/CmsResource.java:1000: error: [return] incompatible types in return.
+        return m_rootPath;
+               ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 2
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/file/CmsResource.java:1037: error: [return] incompatible types in return.
+        return m_structureId;
+               ^
+  type of expression: @RTainted CmsUUID
+  method return type: @RUntainted CmsUUID, index: 3
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/file/CmsObject.java:1440: error: [return] incompatible types in return.
+        return urlName;
+               ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 4
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/file/CmsUser.java:373: error: [return] incompatible types in return.
+        return m_additionalInfo.get(key);
+                                   ^
+  type of expression: @RTainted Object
+  method return type: @RUntainted Object, index: 5
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/util/CmsUUID.java:262: error: [return] incompatible types in return.
+        return new CmsUUID((UUID)m_uuid.clone());
+               ^
+  type of expression: @RTainted CmsUUID
+  method return type: @RUntainted Object, index: 6
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/file/CmsRequestContext.java:486: error: [return] incompatible types in return.
+        return m_uri;
+               ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 7
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/file/CmsFile.java:196: error: [return] incompatible types in return.
+        return m_fileContent;
+               ^
+  type of expression: @RTainted byte @RUntainted []
+  method return type: @RUntainted byte @RUntainted [], index: 8
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/monitor/CmsMemoryMonitor.java:359: warning: [cast.unsafe] cast from "@RTainted Object" to "@RTainted byte @RUntainted []" cannot be statically verified
+            return 8 + (int)(Math.ceil(((byte[])obj).length / 16.0) * 16.0);
+                                        ^
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/db/CmsDriverManager.java:11422: warning: [cast.unsafe] cast from "@RTainted Object" to "@RTainted boolean @RUntainted []" cannot be statically verified
+                boolean[] nocache = (boolean[])dbc.getAttribute(ATTR_PERMISSION_NOCACHE);
+                                    ^
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/db/CmsDbPoolV11.java:170: error: [argument] incompatible argument for parameter arg0 of Thread.sleep.
+                Thread.sleep(connectionsWait);
+                             ^
+  found   : @RTainted int
+  required: @RUntainted long, index: 9
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/publish/CmsPublishEngine.java:583: error: [assignment] incompatible types in assignment.
+        m_publishQueueShutdowntime = publishQueueShutdowntime;
+                                     ^
+  found   : @RTainted int
+  required: @RUntainted int, index: 10
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/configuration/CmsConfigurationManager.java:331: error: [override.return] Incompatible return type.
+    public String getXmlFileName() {
+           ^
+  found   : @RTainted String
+  required: @RUntainted String
+  Consequence: method in @RTainted CmsConfigurationManager
+    @RTainted String getXmlFileName(@RTainted CmsConfigurationManager this)
+  cannot override method in @RTainted I_CmsXmlConfiguration
+    @RUntainted String getXmlFileName(@RTainted I_CmsXmlConfiguration this), index: 11
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/configuration/CmsConfigurationManager.java:588: error: [argument] incompatible argument for parameter toFile of CmsFileUtil.copy.
+            CmsFileUtil.copy(fromName, toName);
+                                       ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 12
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/loader/CmsJspLoader.java:360: error: [return] incompatible types in return.
+        return m_jspRepository;
+               ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 13
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/loader/CmsJspLoader.java:1241: error: [return] incompatible types in return.
+            return content.getBytes(encoding);
+                                   ^
+  type of expression: @RTainted byte @RUntainted []
+  method return type: @RUntainted byte @RUntainted [], index: 14
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/loader/CmsJspLoader.java:1244: error: [return] incompatible types in return.
+            return content.getBytes();
+                                   ^
+  type of expression: @RTainted byte @RUntainted []
+  method return type: @RUntainted byte @RUntainted [], index: 15
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/flex/CmsFlexController.java:665: error: [assignment] incompatible types in assignment.
+            m_throwable = throwable;
+                          ^
+  found   : @RTainted Throwable
+  required: @RUntainted Throwable, index: 16
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/CmsSystemInfo.java:379: error: [return] incompatible types in return.
+        return m_servletContainerSettings.getContextPath();
+                                                        ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 17
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/CmsSystemInfo.java:393: error: [return] incompatible types in return.
+        return m_defaultEncoding;
+               ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 18
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/CmsSystemInfo.java:462: error: [return] incompatible types in return.
+        return CmsLog.getLogFileRfsPath();
+                                       ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 19
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/CmsSystemInfo.java:704: error: [return] incompatible types in return.
+        return m_servletContainerSettings.getWebInfRfsPath();
+                                                          ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 20
+error: Error in AnnotatedTypeMirror.fromExpression(ReturnsReceiverAnnotatedTypeFactory, Arrays.asList(new String[]{ATTRIBUTE_DATERELEASED, ATTRIBUTE_DATEEXPIRED})): Cannot invoke "com.sun.source.util.TreePath.getParentPath()" because "treePath" is null
+  ; The Checker Framework crashed.  Please report the crash.  Version: Checker Framework 3.42.0. 
+  Compilation unit: /home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/xml/content/I_CmsXmlContentHandler.java
+  Last visited tree at line 69 column 1:
+  public interface I_CmsXmlContentHandler {
+  Exception: java.lang.NullPointerException: Cannot invoke "com.sun.source.util.TreePath.getParentPath()" because "treePath" is null; java.lang.NullPointerException: Cannot invoke "com.sun.source.util.TreePath.getParentPath()" because "treePath" is null
+  	at org.checkerframework.javacutil.TreePathUtil.getAssignmentContext(TreePathUtil.java:275)
+  	at org.checkerframework.framework.util.typeinference.TypeArgInferenceUtil.assignedTo(TypeArgInferenceUtil.java:147)
+  	at org.checkerframework.framework.util.typeinference.DefaultTypeArgumentInference.inferTypeArgs(DefaultTypeArgumentInference.java:124)
+  	at org.checkerframework.framework.util.AnnotatedTypes.findTypeArguments(AnnotatedTypes.java:752)
+  	at org.checkerframework.framework.type.AnnotatedTypeFactory.methodFromUse(AnnotatedTypeFactory.java:2392)
+  	at org.checkerframework.framework.type.AnnotatedTypeFactory.methodFromUse(AnnotatedTypeFactory.java:2338)
+  	at org.checkerframework.framework.type.GenericAnnotatedTypeFactory.methodFromUse(GenericAnnotatedTypeFactory.java:2187)
+  	at org.checkerframework.framework.type.TypeFromExpressionVisitor.visitMethodInvocation(TypeFromExpressionVisitor.java:390)
+  	at org.checkerframework.framework.type.TypeFromExpressionVisitor.visitMethodInvocation(TypeFromExpressionVisitor.java:77)
+  	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCMethodInvocation.accept(JCTree.java:1813)
+  	at jdk.compiler/com.sun.source.util.SimpleTreeVisitor.visit(SimpleTreeVisitor.java:81)
+  	at org.checkerframework.framework.type.TypeFromTree.fromExpression(TypeFromTree.java:40)
+  	at org.checkerframework.framework.type.AnnotatedTypeFactory.fromExpression(AnnotatedTypeFactory.java:1700)
+  	at org.checkerframework.framework.type.AnnotatedTypeFactory.getAnnotatedType(AnnotatedTypeFactory.java:1370)
+  	at org.checkerframework.framework.flow.CFAbstractTransfer.getValueFromFactory(CFAbstractTransfer.java:211)
+  	at org.checkerframework.framework.flow.CFAbstractTransfer.visitMethodInvocation(CFAbstractTransfer.java:957)
+  	at org.checkerframework.framework.flow.CFAbstractTransfer.visitMethodInvocation(CFAbstractTransfer.java:98)
+  	at org.checkerframework.dataflow.cfg.node.MethodInvocationNode.accept(MethodInvocationNode.java:122)
+  	at org.checkerframework.dataflow.analysis.AbstractAnalysis.callTransferFunction(AbstractAnalysis.java:349)
+  	at org.checkerframework.dataflow.analysis.ForwardAnalysisImpl.callTransferFunction(ForwardAnalysisImpl.java:377)
+  	at org.checkerframework.dataflow.analysis.ForwardAnalysisImpl.performAnalysisBlock(ForwardAnalysisImpl.java:151)
+  	at org.checkerframework.dataflow.analysis.ForwardAnalysisImpl.performAnalysis(ForwardAnalysisImpl.java:105)
+  	at org.checkerframework.framework.flow.CFAbstractAnalysis.performAnalysis(CFAbstractAnalysis.java:147)
+  	at org.checkerframework.framework.type.GenericAnnotatedTypeFactory.analyze(GenericAnnotatedTypeFactory.java:1592)
+  	at org.checkerframework.framework.type.GenericAnnotatedTypeFactory.performFlowAnalysis(GenericAnnotatedTypeFactory.java:1444)
+  	at org.checkerframework.framework.type.GenericAnnotatedTypeFactory.checkAndPerformFlowAnalysis(GenericAnnotatedTypeFactory.java:1991)
+  	at org.checkerframework.framework.type.GenericAnnotatedTypeFactory.preProcessClassTree(GenericAnnotatedTypeFactory.java:426)
+  	at org.checkerframework.common.basetype.BaseTypeVisitor.visitClass(BaseTypeVisitor.java:553)
+  	at org.checkerframework.common.basetype.BaseTypeVisitor.visitClass(BaseTypeVisitor.java:187)
+  	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCClassDecl.accept(JCTree.java:860)
+  	at jdk.compiler/com.sun.source.util.TreePathScanner.scan(TreePathScanner.java:60)
+  	at org.checkerframework.framework.source.SourceVisitor.visit(SourceVisitor.java:86)
+  	at org.checkerframework.framework.source.SourceChecker.typeProcess(SourceChecker.java:1050)
+  	at org.checkerframework.common.basetype.BaseTypeChecker.typeProcess(BaseTypeChecker.java:558)
+  	at org.checkerframework.common.basetype.BaseTypeChecker.typeProcess(BaseTypeChecker.java:551)
+  	at org.checkerframework.javacutil.AbstractTypeProcessor$AttributionTaskListener.finished(AbstractTypeProcessor.java:188)
+  	at jdk.compiler/com.sun.tools.javac.api.ClientCodeWrapper$WrappedTaskListener.finished(ClientCodeWrapper.java:854)
+  	at jdk.compiler/com.sun.tools.javac.api.MultiTaskListener.finished(MultiTaskListener.java:132)
+  	at jdk.compiler/com.sun.tools.javac.main.JavaCompiler.flow(JavaCompiler.java:1394)
+  	at jdk.compiler/com.sun.tools.javac.main.JavaCompiler.flow(JavaCompiler.java:1341)
+  	at jdk.compiler/com.sun.tools.javac.main.JavaCompiler.compile(JavaCompiler.java:933)
+  	at jdk.compiler/com.sun.tools.javac.api.JavacTaskImpl.lambda$doCall$0(JavacTaskImpl.java:104)
+  	at jdk.compiler/com.sun.tools.javac.api.JavacTaskImpl.invocationHelper(JavacTaskImpl.java:152)
+  	at jdk.compiler/com.sun.tools.javac.api.JavacTaskImpl.doCall(JavacTaskImpl.java:100)
+  	at jdk.compiler/com.sun.tools.javac.api.JavacTaskImpl.call(JavacTaskImpl.java:94)
+  	at org.gradle.internal.compiler.java.IncrementalCompileTask.call(IncrementalCompileTask.java:92)
+  	at org.gradle.api.internal.tasks.compile.AnnotationProcessingCompileTask.call(AnnotationProcessingCompileTask.java:94)
+  	at org.gradle.api.internal.tasks.compile.ResourceCleaningCompilationTask.call(ResourceCleaningCompilationTask.java:57)
+  	at org.gradle.api.internal.tasks.compile.JdkJavaCompiler.execute(JdkJavaCompiler.java:55)
+  	at org.gradle.api.internal.tasks.compile.JdkJavaCompiler.execute(JdkJavaCompiler.java:39)
+  	at org.gradle.api.internal.tasks.compile.daemon.AbstractIsolatedCompilerWorkerExecutor$CompilerWorkAction.execute(AbstractIsolatedCompilerWorkerExecutor.java:78)
+  	at org.gradle.workers.internal.DefaultWorkerServer.execute(DefaultWorkerServer.java:63)
+  	at org.gradle.workers.internal.AbstractClassLoaderWorker$1.create(AbstractClassLoaderWorker.java:54)
+  	at org.gradle.workers.internal.AbstractClassLoaderWorker$1.create(AbstractClassLoaderWorker.java:48)
+  	at org.gradle.internal.classloader.ClassLoaderUtils.executeInClassloader(ClassLoaderUtils.java:100)
+  	at org.gradle.workers.internal.AbstractClassLoaderWorker.executeInClassLoader(AbstractClassLoaderWorker.java:48)
+  	at org.gradle.workers.internal.FlatClassLoaderWorker.run(FlatClassLoaderWorker.java:32)
+  	at org.gradle.workers.internal.FlatClassLoaderWorker.run(FlatClassLoaderWorker.java:22)
+  	at org.gradle.workers.internal.WorkerDaemonServer.run(WorkerDaemonServer.java:96)
+  	at org.gradle.workers.internal.WorkerDaemonServer.run(WorkerDaemonServer.java:65)
+  	at org.gradle.process.internal.worker.request.WorkerAction$1.call(WorkerAction.java:138)
+  	at org.gradle.process.internal.worker.child.WorkerLogEventListener.withWorkerLoggingProtocol(WorkerLogEventListener.java:41)
+  	at org.gradle.process.internal.worker.request.WorkerAction.lambda$run$0(WorkerAction.java:135)
+  	at org.gradle.internal.operations.CurrentBuildOperationRef.with(CurrentBuildOperationRef.java:80)
+  	at org.gradle.process.internal.worker.request.WorkerAction.run(WorkerAction.java:127)
+  	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+  	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+  	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+  	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+  	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)
+  	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+  	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:182)
+  	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:164)
+  	at org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:414)
+  	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+  	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+  	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+  	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+  	at java.base/java.lang.Thread.run(Thread.java:840)
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/CmsServletContainerSettings.java:217: error: [argument] incompatible argument for parameter startFolder of CmsFileUtil.searchWebInfFolder.
+                webInfRfsPath = CmsFileUtil.searchWebInfFolder(context.getRealPath("/"));
+                                                                                  ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 21
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/CmsServletContainerSettings.java:418: error: [return] incompatible types in return.
+        return m_webApplicationRfsPath;
+               ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 22
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/CmsServletContainerSettings.java:527: error: [assignment] incompatible types in assignment.
+        m_webInfRfsPath = CmsFileUtil.normalizePath(webInfRfsPath);
+                                                   ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 23
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/site/CmsSiteMatcher.java:344: error: [return] incompatible types in return.
+        return m_timeOffset;
+               ^
+  type of expression: @RTainted long
+  method return type: @RUntainted long, index: 24
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/flex/CmsFlexResponse.java:336: error: [assignment] incompatible types in assignment.
+                List<@RUntainted String> l = entry.getValue();
+                                                           ^
+  found   : @RTainted List<@RTainted String>
+  required: @RTainted List<@RUntainted String>, index: 25
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/flex/CmsFlexResponse.java:340: error: [argument] incompatible argument for parameter arg0 of HttpServletResponse.setHeader.
+                        res.setHeader(key, s.substring(SET_HEADER.length()));
+                                      ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 26
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/flex/CmsFlexResponse.java:342: error: [argument] incompatible argument for parameter arg0 of HttpServletResponse.addHeader.
+                        res.addHeader(key, l.get(j));
+                                      ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 27
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/flex/CmsFlexResponse.java:1222: warning: [cast.unsafe] cast from "@RTainted Object" to "@RTainted byte @RUntainted []" cannot be statically verified
+                    res.getOutputStream().write((byte[])o);
+                                                ^
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/flex/CmsFlexCacheEntry.java:421: warning: [cast.unsafe] cast from "@RTainted Object" to "@RTainted byte @RUntainted []" cannot be statically verified
+                        res.writeToOutputStream((byte[])o, hasNoSubElements);
+                                                ^
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/flex/CmsFlexCacheEntry.java:591: warning: [cast.unsafe] cast from "@RTainted Object" to "@RTainted byte @RUntainted []" cannot be statically verified
+                    str += "" + count + " - <![CDATA[" + new String((byte[])o) + "]]>\n";
+                                                                    ^
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/configuration/A_CmsXmlConfiguration.java:97: error: [override.return] Incompatible return type.
+    public String getXmlFileName() {
+           ^
+  found   : @RTainted String
+  required: @RUntainted String
+  Consequence: method in @RTainted A_CmsXmlConfiguration
+    @RTainted String getXmlFileName(@RTainted A_CmsXmlConfiguration this)
+  cannot override method in @RTainted I_CmsXmlConfiguration
+    @RUntainted String getXmlFileName(@RTainted I_CmsXmlConfiguration this), index: 28
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/i18n/CmsLocaleManager.java:384: error: [return] incompatible types in return.
+        return encoding;
+               ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 29
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/db/CmsSubscriptionManager.java:222: error: [return] incompatible types in return.
+        return m_securityManager.readResourcesVisitedBy(cms.getRequestContext(), getPoolName(), filter);
+                                                       ^
+  type of expression: @RTainted List<@RTainted CmsResource>
+  method return type: @RUntainted List<@RTainted CmsResource>, index: 30
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/db/CmsSubscriptionManager.java:281: error: [return] incompatible types in return.
+        return m_securityManager.readSubscribedResources(cms.getRequestContext(), getPoolName(), filter);
+                                                        ^
+  type of expression: @RTainted List<@RTainted CmsResource>
+  method return type: @RUntainted List<@RTainted CmsResource>, index: 31
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/userdata/CmsUserDataRequestManager.java:595: error: [argument] incompatible argument for parameter addresslist of InternetAddress.parse.
+        mail.setTo(Arrays.asList(InternetAddress.parse(email)));
+                                                       ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 32
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/userdata/CmsUserDataRequestInfo.java:149: error: [return] incompatible types in return.
+        return m_json.optString(A_ID);
+                               ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 33
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/userdata/CmsUserDataRequestInfo.java:279: error: [return] incompatible types in return.
+        return m_json.toString();
+                              ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 34
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/json/JSONObject.java:957: error: [return] incompatible types in return.
+        return m_map.keySet().iterator();
+                                      ^
+  type of expression: @RTainted Iterator<@RTainted String>
+  method return type: @RTainted Iterator<@RUntainted String>, index: 35
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/json/JSONObject.java:1497: error: [argument] incompatible argument for parameter str of Writer.write.
+                    writer.write(valueToString(v));
+                                              ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 36
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/json/JSONArray.java:966: error: [argument] incompatible argument for parameter str of Writer.write.
+                    writer.write(JSONObject.valueToString(v));
+                                                         ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 37
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/security/CmsDefaultAuthorizationHandler.java:302: error: [argument] incompatible argument for parameter arg0 of HttpServletResponse.sendRedirect.
+        res.sendRedirect(loginFormURL);
+                         ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 38
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/security/CmsDefaultPermissionHandler.java:226: warning: [cast.unsafe] cast from "@RTainted Object" to "@RTainted boolean @RUntainted []" cannot be statically verified
+            boolean[] nocacheArray = (boolean[])dbc.getAttribute(CmsDriverManager.ATTR_PERMISSION_NOCACHE);
+                                     ^
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/OpenCmsServlet.java:541: error: [argument] incompatible argument for parameter arg1 of HttpServletResponse.sendError.
+                res.sendError(errorCode, e.getLocalizedMessage());
+                                                              ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 39
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/CmsJspActionElement.java:503: warning: [cast.unsafe] cast from "@RTainted Object" to "@RTainted String @RUntainted []" cannot be statically verified
+                        modParameterMap.put(key, (String[])value);
+                                                 ^
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/CmsJspBean.java:276: error: [return] incompatible types in return.
+        return result;
+               ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 40
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/CmsJspTagLink.java:378: error: [return] incompatible types in return.
+        return linkTagAction(target, req, baseUri, null);
+                            ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 41
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/xml/containerpage/CmsADESessionCache.java:219: error: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+            request.getSession().setAttribute(CmsADESessionCache.SESSION_ATTR_ADE_CACHE, cache);
+                                                                                         ^
+  found   : @RTainted CmsADESessionCache
+  required: @RUntainted Object, index: 42
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/search/solr/CmsSolrIndex.java:1447: error: [override.return] Incompatible return type.
+    protected String createIndexBackup() {
+              ^
+  found   : @RTainted String
+  required: @RUntainted String
+  Consequence: method in @RTainted CmsSolrIndex
+    @RTainted String createIndexBackup(@RTainted CmsSolrIndex this)
+  cannot override method in @RTainted CmsSearchIndex
+    @RUntainted String createIndexBackup(@RTainted CmsSearchIndex this), index: 43
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/search/solr/CmsSolrIndex.java:1671: error: [argument] incompatible argument for parameter arg0 of ServletResponse.setContentType.
+                    response.setContentType(ct);
+                                            ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 44
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/search/CmsSearchIndex.java:694: error: [return] incompatible types in return.
+        return super.getPath();
+                            ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 45
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/search/A_CmsSearchIndex.java:691: error: [assignment] incompatible types in assignment.
+        m_name = name;
+                 ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 46
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/search/solr/CmsSolrResultList.java:325: warning: [cast.unsafe] cast from "@RTainted Object" to "@RTainted String @RUntainted []" cannot be statically verified
+                        String[] li = (String[])entry;
+                                      ^
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/search/solr/CmsSolrDocument.java:313: warning: [cast.unsafe] cast from "@RTainted Object" to "@RTainted byte @RUntainted []" cannot be statically verified
+                return (byte[])o;
+                       ^
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/search/documents/CmsExtractionResultCache.java:80: error: [assignment] incompatible types in assignment.
+        m_rfsRepository = CmsFileUtil.normalizePath(basepath + foldername + File.separatorChar);
+                                                   ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 47
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/userdata/CmsJspUserDataRequestBean.java:386: error: [argument] incompatible argument for parameter arg1 of Map.put.
+                m_params.put(entry.getKey(), val);
+                                             ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 48
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/jsonpart/CmsJspTagJsonPart.java:134: error: [return] incompatible types in return.
+        return m_element;
+               ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 49
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/util/CmsJspElFunctions.java:417: warning: [cast.unsafe] cast from "@RTainted Object" to "@RTainted byte @RUntainted []" cannot be statically verified
+            uuid = new CmsUUID((byte[])input);
+                               ^
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/CmsJspTagEnableAde.java:102: error: [argument] incompatible argument for parameter request of CmsJspTagEnableAde.updateDirectEditFlagInSession.
+        updateDirectEditFlagInSession(req);
+                                      ^
+  found   : @RTainted ServletRequest
+  required: @RUntainted ServletRequest, index: 50
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/CmsJspLoginPersistingBean.java:83: error: [return] incompatible types in return.
+        return result;
+               ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 51
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/CmsAliasResourceHandler.java:183: error: [compound.assignment] expression type incompatible with left-hand side in compound assignment.
+                link += "?" + query;
+                     ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 52
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/OpenCmsCore.java:1491: error: [argument] incompatible argument for parameter baseFolder of CmsConfigurationManager constructor.
+        m_configurationManager = new CmsConfigurationManager(getSystemInfo().getConfigFolder());
+                                                                                            ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 53
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/OpenCmsCore.java:2167: error: [argument] incompatible argument for parameter request of CmsGwtService.service.
+            rpcService.service(req, res);
+                               ^
+  found   : @RTainted HttpServletRequest
+  required: @RUntainted ServletRequest, index: 54
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/OpenCmsCore.java:2176: error: [argument] incompatible argument for parameter arg1 of HttpServletResponse.sendError.
+                res.sendError(status, rv.toString());
+                                                 ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 55
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/OpenCmsCore.java:2187: error: [argument] incompatible argument for parameter arg1 of HttpServletResponse.sendError.
+                res.sendError(status, t.toString());
+                                                ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 56
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/OpenCmsCore.java:2257: error: [argument] incompatible argument for parameter arg0 of HttpServletResponse.sendRedirect.
+                                m_siteManager.getCurrentSite(cms).getUrl() + req.getContextPath() + req.getPathInfo());
+                                                                                                  ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 57
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/OpenCmsCore.java:2303: error: [argument] incompatible argument for parameter t of OpenCmsCore.errorHandling.
+            errorHandling(cms, req, res, t);
+                                         ^
+  found   : @RTainted Throwable
+  required: @RUntainted Throwable, index: 58
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/OpenCmsCore.java:3096: error: [argument] incompatible argument for parameter arg0 of HttpServletResponse.sendRedirect.
+                                res.sendRedirect(target);
+                                                 ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 59
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/db/CmsExportPoint.java:74: error: [assignment] incompatible types in assignment.
+        m_configuredDestination = destination;
+                                  ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 60
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/db/CmsExportPoint.java:165: error: [assignment] incompatible types in assignment.
+        m_configuredDestination = value;
+                                  ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 61
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/gwt/CmsGwtServiceContext.java:187: error: [assignment] incompatible types in assignment.
+            m_serializationPolicyPath = getSerializationPolicyPath(moduleBaseURL, strongName);
+                                                                  ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 62
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/gwt/CmsGwtServiceContext.java:187: error: [argument] incompatible argument for parameter moduleBaseURL of CmsGwtServiceContext.getSerializationPolicyPath.
+            m_serializationPolicyPath = getSerializationPolicyPath(moduleBaseURL, strongName);
+                                                                   ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 63
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsLinkManager.java:124: error: [argument] incompatible argument for parameter spec of URL constructor.
+            URL url = new URL(new URL(m_baseUrl, baseUri), relativeUri);
+                                                 ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 64
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsLinkManager.java:124: error: [argument] incompatible argument for parameter spec of URL constructor.
+            URL url = new URL(new URL(m_baseUrl, baseUri), relativeUri);
+                                                           ^
+  found   : @RPolyTainted String
+  required: @RUntainted String, index: 65
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsLinkManager.java:367: error: [return] incompatible types in return.
+        return getOnlineLink(cms, resourceName, false);
+                            ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 66
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsLinkManager.java:814: error: [return] incompatible types in return.
+        return substituteLink(cms, link, siteRoot, null, forceSecure);
+                             ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 67
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsLinkManager.java:954: error: [return] incompatible types in return.
+        return substituteLinkForUnknownTarget(cms, link, null, forceSecure);
+                                             ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 68
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/module/CmsModuleManager.java:307: error: [argument] incompatible argument for parameter rfsAbsPath of CmsModuleManager.buildDepsForModulelist.
+        Map<String, List<String>> moduleDependencies = buildDepsForModulelist(moduleNames, rfsAbsPath, true);
+                                                                                           ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 69
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/module/CmsModuleManager.java:467: error: [argument] incompatible argument for parameter rfsAbsPath of CmsModuleManager.buildDepsForAllModules.
+        Map<String, List<String>> moduleDependencies = buildDepsForAllModules(rfsAbsPath, forDeletion);
+                                                                              ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 70
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/loader/CmsResourceManager.java:793: error: [return] incompatible types in return.
+        return getMimeType(filename, encoding, MIMETYPE_HTML);
+                          ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 71
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/search/CmsSearchManager.java:1616: error: [return] incompatible types in return.
+        return m_offlineUpdateFrequency;
+               ^
+  type of expression: @RTainted long
+  method return type: @RUntainted long, index: 72
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/search/CmsSearchManager.java:2333: error: [assignment] incompatible types in assignment.
+        m_path = value;
+                 ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 73
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/search/CmsSearchManager.java:3505: error: [argument] incompatible argument for parameter pathname of File constructor.
+                CmsFileUtil.addTrailingSeparator(CmsFileUtil.addTrailingSeparator(dataDir) + "index") + "write.lock"));
+                                                                                                      ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 74
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/search/CmsSearchManager.java:3509: error: [argument] incompatible argument for parameter pathname of File constructor.
+                    + "write.lock"));
+                    ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 75
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/CmsSessionManager.java:1025: error: [return] incompatible types in return.
+        return String.valueOf(ip.hashCode());
+                             ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 76
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsStaticExportManager.java:1334: error: [argument] incompatible argument for parameter vfsName of CmsStaticExportManager.getRfsName.
+        return getRfsName(cms, vfsName, null, null);
+                               ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 77
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsStaticExportManager.java:1439: error: [return] incompatible types in return.
+            return getRfsPrefix(cms.getRequestContext().addSiteRoot(vfsName)).concat(rfsName);
+                                                                                    ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 78
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsStaticExportManager.java:1447: error: [return] incompatible types in return.
+                    return rule.getRfsPrefix().concat(rfsName);
+                                                     ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 79
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsStaticExportManager.java:1451: error: [return] incompatible types in return.
+            return getRfsPrefix(cms.getRequestContext().getSiteRoot() + "/").concat(rfsName);
+                                                                                   ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 80
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsStaticExportManager.java:1702: error: [assignment] incompatible types in assignment.
+        m_staticExportPath = normalizeExportPath(m_staticExportPathConfigured);
+                                                ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 81
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsStaticExportManager.java:1703: error: [assignment] incompatible types in assignment.
+        m_staticExportWorkPath = normalizeExportPath(getExportWorkPathForConfiguration());
+                                                    ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 82
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsStaticExportManager.java:1708: error: [assignment] incompatible types in assignment.
+        m_rfsPrefix = normalizeRfsPrefix(m_rfsPrefixConfigured);
+                                        ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 83
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsStaticExportManager.java:2349: error: [assignment] incompatible types in assignment.
+        m_testResource = testResource;
+                         ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 84
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsStaticExportManager.java:2438: error: [argument] incompatible argument for parameter pathname of File constructor.
+                File staticExportBackupOld = new File(backupFolderName + Integer.valueOf(i).toString());
+                                                                       ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 85
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsStaticExportManager.java:2445: error: [argument] incompatible argument for parameter pathname of File constructor.
+                        staticExportBackupOld.renameTo(new File(backupFolderName + Integer.valueOf(i + 1).toString()));
+                                                                                 ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 86
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsStaticExportManager.java:2671: error: [return] incompatible types in return.
+        return rfsName;
+               ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 87
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsStaticExportManager.java:2718: error: [return] incompatible types in return.
+        return resolver.resolveMacros(path);
+                                     ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 88
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsStaticExportManager.java:2964: error: [argument] incompatible argument for parameter b of FileOutputStream.write.
+            exportStream.write(content);
+                               ^
+  found   : @RTainted byte @RUntainted []
+  required: @RUntainted byte @RUntainted [], index: 89
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/CmsUIServlet.java:362: error: [argument] incompatible argument for parameter arg1 of HttpServletResponse.sendError.
+                response.sendError(status, rv.toString());
+                                                      ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 90
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/CmsUIServlet.java:374: error: [argument] incompatible argument for parameter arg1 of HttpServletResponse.sendError.
+                response.sendError(status, io.toString());
+                                                      ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 91
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/CmsUIServlet.java:383: error: [argument] incompatible argument for parameter arg1 of HttpServletResponse.sendError.
+                response.sendError(status, t.toString());
+                                                     ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 92
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/db/CmsUserSettings.java:882: error: [return] incompatible types in return.
+        return m_timeWarp;
+               ^
+  type of expression: @RTainted long
+  method return type: @RUntainted long, index: 93
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/util/CmsRfsFileViewer.java:237: error: [return] incompatible types in return.
+        return m_windowSize;
+               ^
+  type of expression: @RTainted int
+  method return type: @RUntainted int, index: 94
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/workplace/CmsDialog.java:1172: error: [return] incompatible types in return.
+        return m_paramCloseLink;
+               ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 95
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/workplace/CmsWorkplace.java:1017: error: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+        session.setAttribute(CmsWorkplaceManager.SESSION_WORKPLACE_SETTINGS, settings);
+                                                                             ^
+  found   : @RTainted CmsWorkplaceSettings
+  required: @RUntainted Object, index: 96
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/workplace/CmsWorkplace.java:2125: error: [argument] incompatible argument for parameter arg0 of HttpServletResponse.sendRedirect.
+        getJsp().getResponse().sendRedirect(OpenCms.getSystemInfo().getOpenCmsContext() + location);
+                                                                                        ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 97
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/configuration/CmsAdditionalLogFolderConfig.java:80: error: [return] incompatible types in return.
+        return m_params.getList(N_LOG_FOLDER);
+                               ^
+  type of expression: @RTainted List<@RTainted String>
+  method return type: @RTainted List<@RUntainted String>, index: 98
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/module/CmsModule.java:284: error: [assignment] incompatible types in assignment.
+        m_name = name;
+                 ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 99
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/module/CmsModule.java:1552: error: [assignment] incompatible types in assignment.
+        m_name = value;
+                 ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 100
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/module/CmsModuleVersion.java:135: error: [return] incompatible types in return.
+        return m_version;
+               ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 101
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/workplace/editors/CmsEditor.java:1041: error: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+            session.setAttribute(info.getEditorSessionInfoKey(), info);
+                                                                 ^
+  found   : @RTainted CmsEditorSessionInfo
+  required: @RUntainted Object, index: 102
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/workplace/editors/CmsEditorSessionInfo.java:107: error: [return] incompatible types in return.
+        return PREFIX_EDITOR_SESSION_INFO + m_editedStructureId.getStringValue();
+                                          ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 103
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/CmsUserIconHelper.java:112: error: [return] incompatible types in return.
+            return m_suffix;
+                   ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 104
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/cache/CmsVfsNameBasedDiskCache.java:74: error: [assignment] incompatible types in assignment.
+        m_rfsRepository = CmsFileUtil.normalizePath(basepath + foldername + File.separatorChar);
+                                                   ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 105
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsStaticExportData.java:66: error: [assignment] incompatible types in assignment.
+        m_rfsName = rfsName;
+                    ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 106
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsStaticExportData.java:168: error: [assignment] incompatible types in assignment.
+        m_rfsName = rfsName;
+                    ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 107
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsStaticExportRfsRule.java:192: error: [return] incompatible types in return.
+        return m_exportPath;
+               ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 108
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsStaticExportRfsRule.java:212: error: [return] incompatible types in return.
+        return m_exportWorkPath;
+               ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 109
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsStaticExportRfsRule.java:248: error: [return] incompatible types in return.
+        return locRfsName;
+               ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 110
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsStaticExportRfsRule.java:278: error: [return] incompatible types in return.
+        return m_rfsPrefix;
+               ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 111
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/search/solr/CmsSolrConfiguration.java:154: error: [return] incompatible types in return.
+        return m_home;
+               ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 112
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/search/solr/CmsSolrConfiguration.java:402: error: [assignment] incompatible types in assignment.
+        m_solrFileName = name;
+                         ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 113
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/module/CmsModuleLog.java:119: error: [argument] incompatible argument for parameter moduleName of CmsModuleLog.log.
+        log(moduleName, message);
+            ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 114
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/importexport/CmsImportParameters.java:133: error: [assignment] incompatible types in assignment.
+        m_path = path;
+                 ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 115
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/CmsStaticResourceHandler.java:194: error: [argument] incompatible argument for parameter resourceUrl of CmsStaticResourceHandler.writeStaticResourceResponse.
+            writeStaticResourceResponse(request, response, resourceURL);
+                                                           ^
+  found   : @RTainted URL
+  required: @RUntainted URL, index: 116
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/CmsShellCommands.java:1566: error: [argument] incompatible argument for parameter importFile of CmsModuleManager.replaceModule.
+            importFile,
+            ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 117
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/CmsShellCommands.java:1827: error: [argument] incompatible argument for parameter name of CmsBenchmarkTable.stop.
+        m_shell.getBenchmarkTable().stop(name);
+                                         ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 118
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/letsencrypt/CmsLetsEncryptUpdater.java:62: error: [override.param] Incompatible parameter type for certConfig.
+    public boolean update(@RUntainted String certConfig) {
+                                             ^
+  found   : @RUntainted String
+  required: @RTainted String
+  Consequence: method in @RTainted CmsLetsEncryptUpdater
+    @RTainted boolean update(@RTainted CmsLetsEncryptUpdater this, @RUntainted String p0)
+  cannot override method in @RTainted I_CmsLetsEncryptUpdater
+    @RTainted boolean update(@RTainted I_CmsLetsEncryptUpdater this, @RTainted String p0), index: 119
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/sitemanager/CmsSitesTable.java:154: error: [argument] incompatible argument for parameter siteRoot of CmsExportSiteForm constructor.
+                context.iterator().next());
+                                       ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 120
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/sitemanager/CmsSitesWebserverThread.java:121: error: [assignment] incompatible types in assignment.
+            m_targetPath = targetPath.endsWith(File.separator) ? targetPath : targetPath + File.separator;
+                                                               ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 121
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/sitemanager/CmsSitesWebserverThread.java:123: error: [assignment] incompatible types in assignment.
+        m_templatePath = templatePath;
+                         ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 122
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/sitemanager/CmsSitesWebserverThread.java:124: error: [assignment] incompatible types in assignment.
+        m_scriptPath = scriptPath;
+                       ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 123
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/sitemanager/CmsSitesWebserverThread.java:125: error: [assignment] incompatible types in assignment.
+        m_filePrefix = filePrefix;
+                       ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 124
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/sitemanager/CmsSitesWebserverThread.java:127: error: [assignment] incompatible types in assignment.
+        m_secureTemplate = secureTemplate;
+                           ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 125
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/sitemanager/CmsSitesWebserverThread.java:253: error: [return] incompatible types in return.
+        return config.toString();
+                              ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 126
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/sitemanager/CmsSitesWebserverThread.java:325: error: [return] incompatible types in return.
+        return serverName + portPart;
+                          ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 127
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/logfile/CmsLogFileApp.java:97: error: [assignment] incompatible types in assignment.
+            OpenCms.getSystemInfo().getLogFileRfsFolder() == null ?
+                                                                  ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 128
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/logfile/CmsLogFileView.java:174: error: [return] incompatible types in return.
+        return (String)m_logfile.getValue();
+               ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 129
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/util/CmsFileUtil.java:133: error: [return] incompatible types in return.
+            return m_files;
+                   ^
+  type of expression: @RTainted List<@RTainted File>
+  method return type: @RTainted List<@RUntainted File>, index: 130
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/util/CmsFileUtil.java:403: error: [argument] incompatible argument for parameter name of CmsFileUtil.getFiles.
+                ret.addAll(getFiles(f.getAbsolutePath(), filter, true));
+                                                     ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 131
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/util/CmsFileUtil.java:920: error: [argument] incompatible argument for parameter startFolder of CmsFileUtil.searchWebInfFolder.
+                webInfFolder = searchWebInfFolder(file.getAbsolutePath());
+                                                                      ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 132
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/git/CmsGitCheckin.java:535: error: [argument] incompatible argument for parameter configFile of CmsGitConfiguration constructor.
+                config = new CmsGitConfiguration(configFile);
+                                                 ^
+  found   : @RTainted File
+  required: @RUntainted File, index: 133
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/git/CmsGitCheckin.java:762: error: [argument] incompatible argument for parameter importFile of CmsModuleManager.replaceModule.
+        OpenCms.getModuleManager().replaceModule(m_cms, file.getAbsolutePath(), report);
+                                                                            ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 134
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/git/CmsGitConfiguration.java:313: error: [return] incompatible types in return.
+        return value;
+               ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 135
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/CmsFileExplorer.java:2058: error: [assignment] incompatible types in assignment.
+        m_uploadAction = uploadAction;
+                         ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 136
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/modules/CmsModuleImportFile.java:57: error: [assignment] incompatible types in assignment.
+        m_path = path;
+                 ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 137
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/modules/CmsModuleImportThread.java:94: error: [argument] incompatible argument for parameter importFile of CmsModuleManager.replaceModule.
+            manager.replaceModule(cms, m_path, report);
+                                       ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 138
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/cacheadmin/CmsImageCacheHolder.java:106: error: [argument] incompatible argument for parameter root of CmsImageCacheHolder.readAllImagesAndVariations.
+                readAllImagesAndVariations(root.substring(1).replace("*", ""));
+                                                                    ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 139
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/dbmanager/CmsImportFile.java:57: error: [assignment] incompatible types in assignment.
+        m_path = path;
+                 ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 140
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/db/generic/CmsSqlManager.java:296: error: [argument] incompatible argument for parameter arg0 of Connection.prepareStatement.
+        return con.prepareStatement(query);
+                                    ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 141
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/dialogs/CmsEmbeddedDialogsUI.java:170: error: [argument] incompatible argument for parameter dialogId of CmsEmbeddedDialogsUI.getAction.
+                    I_CmsWorkplaceAction action = getAction(info.getDialogId());
+                                                                            ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 142
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/editors/messagebundle/CmsMessageBundleEditorModel.java:389: error: [return] incompatible types in return.
+            return outBuffer.toString();
+                                     ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 143
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/components/extensions/CmsPropertyDialogExtension.java:144: error: [override.param] Incompatible parameter type for delayMillis.
+    public void onClose(@RUntainted long delayMillis) {
+                                         ^
+  found   : @RUntainted long
+  required: @RTainted long
+  Consequence: method in @RTainted CmsPropertyDialogExtension
+    void onClose(@RTainted CmsPropertyDialogExtension this, @RUntainted long p0)
+  cannot override method in @RTainted I_CmsPropertyServerRpc
+    void onClose(@RTainted I_CmsPropertyServerRpc this, @RTainted long p0), index: 144
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/components/extensions/CmsGwtDialogExtension.java:135: error: [override.param] Incompatible parameter type for delayMillis.
+    public void onClose(List<String> changedStructureIds, @RUntainted long delayMillis) {
+                                                                           ^
+  found   : @RUntainted long
+  required: @RTainted long
+  Consequence: method in @RTainted CmsGwtDialogExtension
+    void onClose(@RTainted CmsGwtDialogExtension this, @RTainted List<@RTainted String> p0, @RUntainted long p1)
+  cannot override method in @RTainted I_CmsGwtDialogServerRpc
+    void onClose(@RTainted I_CmsGwtDialogServerRpc this, @RTainted List<@RTainted String> p0, @RTainted long p1), index: 145
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/error/CmsErrorUI.java:146: error: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+        request.getSession().setAttribute(PATH, errorUri);
+                                                ^
+  found   : @RTainted String
+  required: @RUntainted Object, index: 146
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/login/CmsLoginHelper.java:539: error: [return] incompatible types in return.
+        return workplaceSettings;
+               ^
+  type of expression: @RTainted CmsWorkplaceSettings
+  method return type: @RUntainted CmsWorkplaceSettings, index: 147
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/login/CmsLoginHelper.java:627: error: [return] incompatible types in return.
+                return cookies[i];
+                              ^
+  type of expression: @RTainted Cookie
+  method return type: @RPolyTainted Cookie, index: 148
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/login/CmsLoginController.java:663: error: [argument] incompatible argument for parameter pcType of CmsLoginHelper.setCookieData.
+                    pcType,
+                    ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 149
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/login/CmsLoginController.java:664: error: [argument] incompatible argument for parameter username of CmsLoginHelper.setCookieData.
+                    user,
+                    ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 150
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/login/CmsLoginController.java:665: error: [argument] incompatible argument for parameter oufqn of CmsLoginHelper.setCookieData.
+                    ou,
+                    ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 151
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/login/CmsLoginUI.java:253: error: [argument] incompatible argument for parameter session of CmsLoginUI.getWorkplaceSettings.
+                target = CmsLoginController.getLoginTarget(cms, getWorkplaceSettings(cms, request.getSession()), null);
+                                                                                                            ^
+  found   : @RTainted HttpSession
+  required: @RUntainted HttpSession, index: 152
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/login/CmsLoginUI.java:262: error: [argument] incompatible argument for parameter arg0 of HttpServletResponse.sendRedirect.
+            response.sendRedirect(target);
+                                  ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 153
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/login/CmsLoginUI.java:266: error: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+        request.getSession().setAttribute(CmsLoginUI.INIT_DATA_SESSION_ATTR, params);
+                                                                             ^
+  found   : @RTainted LoginParameters
+  required: @RUntainted Object, index: 154
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/i18n/CmsResourceBundleLoader.java:437: error: [argument] incompatible argument for parameter localizedName of CmsResourceBundleLoader.tryBundle.
+            I_CmsResourceBundle foundBundle = tryBundle(bundleName);
+                                                        ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 155
+Error in computing required fixes: CmsStringUtil.splitAsArray(header, ':') assignment, exception:java.lang.UnsupportedOperationException: Did not expect type match of found:DECLARED:@RTainted List<@RTainted String> with required:ARRAY:@RUntainted String @RUntainted []
+At path: /home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/loader/CmsDumpLoader.java
+Last visited tree: @RUntainted
+String[] parts = CmsStringUtil.splitAsArray(header, ':')
+java.lang.UnsupportedOperationException: Did not expect type match of found:DECLARED:@RTainted List<@RTainted String> with required:ARRAY:@RUntainted String @RUntainted []
+	at edu.ucr.cs.riple.taint.ucrtainting.serialization.visitors.TypeMatchVisitor.defaultAction(TypeMatchVisitor.java:74)
+	at edu.ucr.cs.riple.taint.ucrtainting.serialization.visitors.TypeMatchVisitor.defaultAction(TypeMatchVisitor.java:40)
+	at org.checkerframework.framework.type.visitor.AbstractAtmComboVisitor.visitDeclared_Array(AbstractAtmComboVisitor.java:99)
+	at org.checkerframework.framework.util.AtmCombo.accept(AtmCombo.java:308)
+	at org.checkerframework.framework.type.visitor.AbstractAtmComboVisitor.visit(AbstractAtmComboVisitor.java:34)
+	at edu.ucr.cs.riple.taint.ucrtainting.serialization.visitors.SpecializedFixComputer.buildFixForElement(SpecializedFixComputer.java:80)
+	at edu.ucr.cs.riple.taint.ucrtainting.serialization.visitors.DefaultTypeChangeVisitor.visitMethodInvocation(DefaultTypeChangeVisitor.java:203)
+	at edu.ucr.cs.riple.taint.ucrtainting.serialization.visitors.DefaultTypeChangeVisitor.visitMethodInvocation(DefaultTypeChangeVisitor.java:50)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCMethodInvocation.accept(JCTree.java:1813)
+	at edu.ucr.cs.riple.taint.ucrtainting.serialization.visitors.FixComputer.defaultAction(FixComputer.java:82)
+	at edu.ucr.cs.riple.taint.ucrtainting.serialization.visitors.FixComputer.visitMethodInvocation(FixComputer.java:176)
+	at edu.ucr.cs.riple.taint.ucrtainting.serialization.visitors.FixComputer.visitMethodInvocation(FixComputer.java:55)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCMethodInvocation.accept(JCTree.java:1813)
+	at edu.ucr.cs.riple.taint.ucrtainting.serialization.scanners.AssignmentScanner.visitVariable(AssignmentScanner.java:87)
+	at edu.ucr.cs.riple.taint.ucrtainting.serialization.scanners.AssignmentScanner.visitVariable(AssignmentScanner.java:44)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCVariableDecl.accept(JCTree.java:1045)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scan(TreeScanner.java:92)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scan(TreeScanner.java:111)
+	at jdk.compiler/com.sun.source.util.TreeScanner.visitBlock(TreeScanner.java:272)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCBlock.accept(JCTree.java:1103)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scan(TreeScanner.java:92)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scanAndReduce(TreeScanner.java:96)
+	at jdk.compiler/com.sun.source.util.TreeScanner.visitMethod(TreeScanner.java:224)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCMethodDecl.accept(JCTree.java:953)
+	at edu.ucr.cs.riple.taint.ucrtainting.serialization.visitors.MethodReturnVisitor.visitMethod(MethodReturnVisitor.java:128)
+	at edu.ucr.cs.riple.taint.ucrtainting.serialization.visitors.MethodReturnVisitor.visitMethod(MethodReturnVisitor.java:55)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCMethodDecl.accept(JCTree.java:953)
+	at edu.ucr.cs.riple.taint.ucrtainting.serialization.visitors.DefaultTypeChangeVisitor.visitMethodInvocation(DefaultTypeChangeVisitor.java:226)
+	at edu.ucr.cs.riple.taint.ucrtainting.serialization.visitors.DefaultTypeChangeVisitor.visitMethodInvocation(DefaultTypeChangeVisitor.java:50)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCMethodInvocation.accept(JCTree.java:1813)
+	at edu.ucr.cs.riple.taint.ucrtainting.serialization.visitors.FixComputer.defaultAction(FixComputer.java:82)
+	at edu.ucr.cs.riple.taint.ucrtainting.serialization.visitors.FixComputer.visitMethodInvocation(FixComputer.java:176)
+	at edu.ucr.cs.riple.taint.ucrtainting.serialization.visitors.FixComputer.visitMethodInvocation(FixComputer.java:55)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCMethodInvocation.accept(JCTree.java:1813)
+	at edu.ucr.cs.riple.taint.ucrtainting.serialization.SerializationService.generateFixesForError(SerializationService.java:167)
+	at edu.ucr.cs.riple.taint.ucrtainting.serialization.SerializationService.serializeError(SerializationService.java:118)
+	at edu.ucr.cs.riple.taint.ucrtainting.UCRTaintingChecker.detailedReportError(UCRTaintingChecker.java:111)
+	at edu.ucr.cs.riple.taint.ucrtainting.UCRTaintingVisitor.commonAssignmentCheck(UCRTaintingVisitor.java:76)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.commonAssignmentCheck(BaseTypeVisitor.java:3037)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.commonAssignmentCheck(BaseTypeVisitor.java:2956)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.visitVariable(BaseTypeVisitor.java:1571)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.visitVariable(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCVariableDecl.accept(JCTree.java:1045)
+	at jdk.compiler/com.sun.source.util.TreePathScanner.scan(TreePathScanner.java:86)
+	at org.checkerframework.framework.source.SourceVisitor.scan(SourceVisitor.java:92)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:410)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scanAndReduce(TreeScanner.java:96)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scan(TreeScanner.java:111)
+	at jdk.compiler/com.sun.source.util.TreeScanner.visitBlock(TreeScanner.java:272)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCBlock.accept(JCTree.java:1103)
+	at jdk.compiler/com.sun.source.util.TreePathScanner.scan(TreePathScanner.java:86)
+	at org.checkerframework.framework.source.SourceVisitor.scan(SourceVisitor.java:92)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:410)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scanAndReduce(TreeScanner.java:96)
+	at jdk.compiler/com.sun.source.util.TreeScanner.visitForLoop(TreeScanner.java:321)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCForLoop.accept(JCTree.java:1209)
+	at jdk.compiler/com.sun.source.util.TreePathScanner.scan(TreePathScanner.java:86)
+	at org.checkerframework.framework.source.SourceVisitor.scan(SourceVisitor.java:92)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:410)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scan(TreeScanner.java:111)
+	at jdk.compiler/com.sun.source.util.TreeScanner.visitBlock(TreeScanner.java:272)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCBlock.accept(JCTree.java:1103)
+	at jdk.compiler/com.sun.source.util.TreePathScanner.scan(TreePathScanner.java:86)
+	at org.checkerframework.framework.source.SourceVisitor.scan(SourceVisitor.java:92)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:410)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scanAndReduce(TreeScanner.java:96)
+	at jdk.compiler/com.sun.source.util.TreeScanner.visitIf(TreeScanner.java:486)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCIf.accept(JCTree.java:1565)
+	at jdk.compiler/com.sun.source.util.TreePathScanner.scan(TreePathScanner.java:86)
+	at org.checkerframework.framework.source.SourceVisitor.scan(SourceVisitor.java:92)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:410)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scanAndReduce(TreeScanner.java:96)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scan(TreeScanner.java:111)
+	at jdk.compiler/com.sun.source.util.TreeScanner.visitBlock(TreeScanner.java:272)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCBlock.accept(JCTree.java:1103)
+	at jdk.compiler/com.sun.source.util.TreePathScanner.scan(TreePathScanner.java:86)
+	at org.checkerframework.framework.source.SourceVisitor.scan(SourceVisitor.java:92)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:410)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scanAndReduce(TreeScanner.java:96)
+	at jdk.compiler/com.sun.source.util.TreeScanner.visitMethod(TreeScanner.java:224)
+	at org.checkerframework.framework.source.SourceVisitor.visitMethod(SourceVisitor.java:110)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.visitMethod(BaseTypeVisitor.java:1048)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.visitMethod(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCMethodDecl.accept(JCTree.java:953)
+	at jdk.compiler/com.sun.source.util.TreePathScanner.scan(TreePathScanner.java:86)
+	at org.checkerframework.framework.source.SourceVisitor.scan(SourceVisitor.java:92)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:410)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scanAndReduce(TreeScanner.java:96)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scan(TreeScanner.java:111)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scanAndReduce(TreeScanner.java:119)
+	at jdk.compiler/com.sun.source.util.TreeScanner.visitClass(TreeScanner.java:203)
+	at org.checkerframework.framework.source.SourceVisitor.visitClass(SourceVisitor.java:98)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.processClassTree(BaseTypeVisitor.java:617)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.visitClass(BaseTypeVisitor.java:563)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.visitClass(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCClassDecl.accept(JCTree.java:860)
+	at jdk.compiler/com.sun.source.util.TreePathScanner.scan(TreePathScanner.java:60)
+	at org.checkerframework.framework.source.SourceVisitor.visit(SourceVisitor.java:86)
+	at org.checkerframework.framework.source.SourceChecker.typeProcess(SourceChecker.java:1050)
+	at org.checkerframework.common.basetype.BaseTypeChecker.typeProcess(BaseTypeChecker.java:558)
+	at org.checkerframework.javacutil.AbstractTypeProcessor$AttributionTaskListener.finished(AbstractTypeProcessor.java:188)
+	at jdk.compiler/com.sun.tools.javac.api.ClientCodeWrapper$WrappedTaskListener.finished(ClientCodeWrapper.java:854)
+	at jdk.compiler/com.sun.tools.javac.api.MultiTaskListener.finished(MultiTaskListener.java:132)
+	at jdk.compiler/com.sun.tools.javac.main.JavaCompiler.flow(JavaCompiler.java:1394)
+	at jdk.compiler/com.sun.tools.javac.main.JavaCompiler.flow(JavaCompiler.java:1341)
+	at jdk.compiler/com.sun.tools.javac.main.JavaCompiler.compile(JavaCompiler.java:933)
+	at jdk.compiler/com.sun.tools.javac.api.JavacTaskImpl.lambda$doCall$0(JavacTaskImpl.java:104)
+	at jdk.compiler/com.sun.tools.javac.api.JavacTaskImpl.invocationHelper(JavacTaskImpl.java:152)
+	at jdk.compiler/com.sun.tools.javac.api.JavacTaskImpl.doCall(JavacTaskImpl.java:100)
+	at jdk.compiler/com.sun.tools.javac.api.JavacTaskImpl.call(JavacTaskImpl.java:94)
+	at org.gradle.internal.compiler.java.IncrementalCompileTask.call(IncrementalCompileTask.java:92)
+	at org.gradle.api.internal.tasks.compile.AnnotationProcessingCompileTask.call(AnnotationProcessingCompileTask.java:94)
+	at org.gradle.api.internal.tasks.compile.ResourceCleaningCompilationTask.call(ResourceCleaningCompilationTask.java:57)
+	at org.gradle.api.internal.tasks.compile.JdkJavaCompiler.execute(JdkJavaCompiler.java:55)
+	at org.gradle.api.internal.tasks.compile.JdkJavaCompiler.execute(JdkJavaCompiler.java:39)
+	at org.gradle.api.internal.tasks.compile.daemon.AbstractIsolatedCompilerWorkerExecutor$CompilerWorkAction.execute(AbstractIsolatedCompilerWorkerExecutor.java:78)
+	at org.gradle.workers.internal.DefaultWorkerServer.execute(DefaultWorkerServer.java:63)
+	at org.gradle.workers.internal.AbstractClassLoaderWorker$1.create(AbstractClassLoaderWorker.java:54)
+	at org.gradle.workers.internal.AbstractClassLoaderWorker$1.create(AbstractClassLoaderWorker.java:48)
+	at org.gradle.internal.classloader.ClassLoaderUtils.executeInClassloader(ClassLoaderUtils.java:100)
+	at org.gradle.workers.internal.AbstractClassLoaderWorker.executeInClassLoader(AbstractClassLoaderWorker.java:48)
+	at org.gradle.workers.internal.FlatClassLoaderWorker.run(FlatClassLoaderWorker.java:32)
+	at org.gradle.workers.internal.FlatClassLoaderWorker.run(FlatClassLoaderWorker.java:22)
+	at org.gradle.workers.internal.WorkerDaemonServer.run(WorkerDaemonServer.java:96)
+	at org.gradle.workers.internal.WorkerDaemonServer.run(WorkerDaemonServer.java:65)
+	at org.gradle.process.internal.worker.request.WorkerAction$1.call(WorkerAction.java:138)
+	at org.gradle.process.internal.worker.child.WorkerLogEventListener.withWorkerLoggingProtocol(WorkerLogEventListener.java:41)
+	at org.gradle.process.internal.worker.request.WorkerAction.lambda$run$0(WorkerAction.java:135)
+	at org.gradle.internal.operations.CurrentBuildOperationRef.with(CurrentBuildOperationRef.java:80)
+	at org.gradle.process.internal.worker.request.WorkerAction.run(WorkerAction.java:127)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:182)
+	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:164)
+	at org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:414)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/loader/CmsDumpLoader.java:125: error: [assignment] incompatible types in assignment.
+                @RUntainted String[] parts = CmsStringUtil.splitAsArray(header, ':');
+                                                                       ^
+  found   : @RTainted String @RUntainted []
+  required: @RUntainted String @RUntainted [], index: 156
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/loader/CmsImageLoader.java:127: error: [return] incompatible types in return.
+        return m_vfsDiskCache.getRepositoryPath();
+                                               ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 157
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/xml/xml2json/CmsJsonResourceHandler.java:367: error: [argument] incompatible argument for parameter s of PrintWriter.write.
+            writer.write(output);
+                         ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 158
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/xml/CmsXmlUtils.java:903: error: [argument] incompatible argument for parameter xmlStream of CmsXmlUtils.validateXmlStructure.
+        validateXmlStructure(new ByteArrayInputStream(xmlData), resolver);
+                             ^
+  found   : @RTainted ByteArrayInputStream
+  required: @RUntainted InputStream, index: 159
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/xml/CmsXmlFileTransformer.java:213: error: [argument] incompatible argument for parameter xml1 of CmsXmlFileTransformer.sameXml.
+        if (sameXml(oldContent, content)) {
+                    ^
+  found   : @RTainted byte @RUntainted []
+  required: @RUntainted byte @RUntainted [], index: 160
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/xml/CmsXmlFileTransformer.java:213: error: [argument] incompatible argument for parameter xml2 of CmsXmlFileTransformer.sameXml.
+        if (sameXml(oldContent, content)) {
+                                ^
+  found   : @RTainted byte @RUntainted []
+  required: @RUntainted byte @RUntainted [], index: 161
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/synchronize/CmsSynchronize.java:132: error: [assignment] incompatible types in assignment.
+            m_destinationPathInRfs = settings.getDestinationPathInRfs();
+                                                                     ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 162
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/synchronize/CmsSynchronize.java:208: error: [argument] incompatible argument for parameter res of CmsSynchronize.getFileInRfs.
+        File fsFile = getFileInRfs(folder);
+                                   ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 163
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/synchronize/CmsSynchronize.java:398: error: [argument] incompatible argument for parameter res of CmsSynchronize.getFileInRfs.
+        fsFile = getFileInRfs(resourcename);
+                              ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 164
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/synchronize/CmsSynchronize.java:425: error: [argument] incompatible argument for parameter newFile of CmsSynchronize.createNewLocalFile.
+                        createNewLocalFile(fsFile);
+                                           ^
+  found   : @RTainted File
+  required: @RUntainted File, index: 165
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/synchronize/CmsSynchronize.java:860: error: [argument] incompatible argument for parameter res of CmsSynchronize.getFileInRfs.
+            fsFile = getFileInRfs(sync.getResName());
+                                                 ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 166
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/synchronize/CmsSynchronize.java:949: error: [argument] incompatible argument for parameter res of CmsSynchronize.getFileInRfs.
+        File fsFile = getFileInRfs(sync.getResName());
+                                                  ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 167
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/module/CmsResourceImportData.java:110: error: [argument] incompatible argument for parameter content of CmsResourceImportData.createTempFile.
+            m_contentFile = createTempFile(content);
+                                           ^
+  found   : @RTainted byte @RUntainted []
+  required: @RUntainted byte @RUntainted [], index: 168
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/importexport/CmsImportHelper.java:277: error: [return] incompatible types in return.
+        return m_folder;
+               ^
+  type of expression: @RTainted File
+  method return type: @RUntainted File, index: 169
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/module/CmsModuleUpdater.java:157: error: [argument] incompatible argument for parameter importFile of CmsModuleUpdater.readModuleData.
+        CmsModuleImportData moduleData = readModuleData(cms, importFile, report);
+                                                             ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 170
+Error in computing required fixes: Optional.of(mapping) assignment, exception:java.lang.IndexOutOfBoundsException: Index: 0
+At path: /home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/configuration/CmsSitesConfiguration.java
+Last visited tree: getDigester().peekParams()[14] = Optional.of(mapping)
+java.lang.IndexOutOfBoundsException: Index: 0
+	at java.base/java.util.Collections$EmptyList.get(Collections.java:4586)
+	at edu.ucr.cs.riple.taint.ucrtainting.serialization.visitors.GenericMethodFixVisitor.typeVarCanImpactFoundRequiredPair(GenericMethodFixVisitor.java:170)
+	at edu.ucr.cs.riple.taint.ucrtainting.serialization.visitors.GenericMethodFixVisitor.checkMethodTypeVarImpact(GenericMethodFixVisitor.java:129)
+	at edu.ucr.cs.riple.taint.ucrtainting.serialization.visitors.GenericMethodFixVisitor.visitMethodInvocation(GenericMethodFixVisitor.java:67)
+	at edu.ucr.cs.riple.taint.ucrtainting.serialization.visitors.GenericMethodFixVisitor.visitMethodInvocation(GenericMethodFixVisitor.java:52)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCMethodInvocation.accept(JCTree.java:1813)
+	at edu.ucr.cs.riple.taint.ucrtainting.serialization.visitors.FixComputer.visitMethodInvocation(FixComputer.java:154)
+	at edu.ucr.cs.riple.taint.ucrtainting.serialization.visitors.FixComputer.visitMethodInvocation(FixComputer.java:55)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCMethodInvocation.accept(JCTree.java:1813)
+	at edu.ucr.cs.riple.taint.ucrtainting.serialization.SerializationService.generateFixesForError(SerializationService.java:167)
+	at edu.ucr.cs.riple.taint.ucrtainting.serialization.SerializationService.serializeError(SerializationService.java:118)
+	at edu.ucr.cs.riple.taint.ucrtainting.UCRTaintingChecker.detailedReportError(UCRTaintingChecker.java:111)
+	at edu.ucr.cs.riple.taint.ucrtainting.UCRTaintingVisitor.commonAssignmentCheck(UCRTaintingVisitor.java:76)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.commonAssignmentCheck(BaseTypeVisitor.java:3037)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.commonAssignmentCheck(BaseTypeVisitor.java:2956)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.visitAssignment(BaseTypeVisitor.java:1735)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.visitAssignment(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCAssign.accept(JCTree.java:2051)
+	at jdk.compiler/com.sun.source.util.TreePathScanner.scan(TreePathScanner.java:86)
+	at org.checkerframework.framework.source.SourceVisitor.scan(SourceVisitor.java:92)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:410)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.source.util.TreeScanner.visitExpressionStatement(TreeScanner.java:502)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCExpressionStatement.accept(JCTree.java:1592)
+	at jdk.compiler/com.sun.source.util.TreePathScanner.scan(TreePathScanner.java:86)
+	at org.checkerframework.framework.source.SourceVisitor.scan(SourceVisitor.java:92)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:410)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scanAndReduce(TreeScanner.java:96)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scan(TreeScanner.java:111)
+	at jdk.compiler/com.sun.source.util.TreeScanner.visitBlock(TreeScanner.java:272)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCBlock.accept(JCTree.java:1103)
+	at jdk.compiler/com.sun.source.util.TreePathScanner.scan(TreePathScanner.java:86)
+	at org.checkerframework.framework.source.SourceVisitor.scan(SourceVisitor.java:92)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:410)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scanAndReduce(TreeScanner.java:96)
+	at jdk.compiler/com.sun.source.util.TreeScanner.visitMethod(TreeScanner.java:224)
+	at org.checkerframework.framework.source.SourceVisitor.visitMethod(SourceVisitor.java:110)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.visitMethod(BaseTypeVisitor.java:1048)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.visitMethod(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCMethodDecl.accept(JCTree.java:953)
+	at jdk.compiler/com.sun.source.util.TreePathScanner.scan(TreePathScanner.java:86)
+	at org.checkerframework.framework.source.SourceVisitor.scan(SourceVisitor.java:92)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:410)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scanAndReduce(TreeScanner.java:96)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scan(TreeScanner.java:111)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scanAndReduce(TreeScanner.java:119)
+	at jdk.compiler/com.sun.source.util.TreeScanner.visitClass(TreeScanner.java:203)
+	at org.checkerframework.framework.source.SourceVisitor.visitClass(SourceVisitor.java:98)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.processClassTree(BaseTypeVisitor.java:617)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.visitClass(BaseTypeVisitor.java:563)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.visitClass(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCClassDecl.accept(JCTree.java:860)
+	at jdk.compiler/com.sun.source.util.TreePathScanner.scan(TreePathScanner.java:86)
+	at org.checkerframework.framework.source.SourceVisitor.scan(SourceVisitor.java:92)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:410)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.visitNewClass(BaseTypeVisitor.java:2143)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.visitNewClass(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCNewClass.accept(JCTree.java:1874)
+	at jdk.compiler/com.sun.source.util.TreePathScanner.scan(TreePathScanner.java:86)
+	at org.checkerframework.framework.source.SourceVisitor.scan(SourceVisitor.java:92)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:410)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.checkArguments(BaseTypeVisitor.java:3612)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.visitMethodInvocation(BaseTypeVisitor.java:1811)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.visitMethodInvocation(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCMethodInvocation.accept(JCTree.java:1813)
+	at jdk.compiler/com.sun.source.util.TreePathScanner.scan(TreePathScanner.java:86)
+	at org.checkerframework.framework.source.SourceVisitor.scan(SourceVisitor.java:92)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:410)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.source.util.TreeScanner.visitExpressionStatement(TreeScanner.java:502)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCExpressionStatement.accept(JCTree.java:1592)
+	at jdk.compiler/com.sun.source.util.TreePathScanner.scan(TreePathScanner.java:86)
+	at org.checkerframework.framework.source.SourceVisitor.scan(SourceVisitor.java:92)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:410)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scan(TreeScanner.java:111)
+	at jdk.compiler/com.sun.source.util.TreeScanner.visitBlock(TreeScanner.java:272)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCBlock.accept(JCTree.java:1103)
+	at jdk.compiler/com.sun.source.util.TreePathScanner.scan(TreePathScanner.java:86)
+	at org.checkerframework.framework.source.SourceVisitor.scan(SourceVisitor.java:92)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:410)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scanAndReduce(TreeScanner.java:96)
+	at jdk.compiler/com.sun.source.util.TreeScanner.visitTry(TreeScanner.java:435)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCTry.accept(JCTree.java:1460)
+	at jdk.compiler/com.sun.source.util.TreePathScanner.scan(TreePathScanner.java:86)
+	at org.checkerframework.framework.source.SourceVisitor.scan(SourceVisitor.java:92)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:410)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scanAndReduce(TreeScanner.java:96)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scan(TreeScanner.java:111)
+	at jdk.compiler/com.sun.source.util.TreeScanner.visitBlock(TreeScanner.java:272)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCBlock.accept(JCTree.java:1103)
+	at jdk.compiler/com.sun.source.util.TreePathScanner.scan(TreePathScanner.java:86)
+	at org.checkerframework.framework.source.SourceVisitor.scan(SourceVisitor.java:92)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:410)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scanAndReduce(TreeScanner.java:96)
+	at jdk.compiler/com.sun.source.util.TreeScanner.visitMethod(TreeScanner.java:224)
+	at org.checkerframework.framework.source.SourceVisitor.visitMethod(SourceVisitor.java:110)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.visitMethod(BaseTypeVisitor.java:1048)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.visitMethod(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCMethodDecl.accept(JCTree.java:953)
+	at jdk.compiler/com.sun.source.util.TreePathScanner.scan(TreePathScanner.java:86)
+	at org.checkerframework.framework.source.SourceVisitor.scan(SourceVisitor.java:92)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:410)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scanAndReduce(TreeScanner.java:96)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scan(TreeScanner.java:111)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scanAndReduce(TreeScanner.java:119)
+	at jdk.compiler/com.sun.source.util.TreeScanner.visitClass(TreeScanner.java:203)
+	at org.checkerframework.framework.source.SourceVisitor.visitClass(SourceVisitor.java:98)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.processClassTree(BaseTypeVisitor.java:617)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.visitClass(BaseTypeVisitor.java:563)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.visitClass(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCClassDecl.accept(JCTree.java:860)
+	at jdk.compiler/com.sun.source.util.TreePathScanner.scan(TreePathScanner.java:60)
+	at org.checkerframework.framework.source.SourceVisitor.visit(SourceVisitor.java:86)
+	at org.checkerframework.framework.source.SourceChecker.typeProcess(SourceChecker.java:1050)
+	at org.checkerframework.common.basetype.BaseTypeChecker.typeProcess(BaseTypeChecker.java:558)
+	at org.checkerframework.javacutil.AbstractTypeProcessor$AttributionTaskListener.finished(AbstractTypeProcessor.java:188)
+	at jdk.compiler/com.sun.tools.javac.api.ClientCodeWrapper$WrappedTaskListener.finished(ClientCodeWrapper.java:854)
+	at jdk.compiler/com.sun.tools.javac.api.MultiTaskListener.finished(MultiTaskListener.java:132)
+	at jdk.compiler/com.sun.tools.javac.main.JavaCompiler.flow(JavaCompiler.java:1394)
+	at jdk.compiler/com.sun.tools.javac.main.JavaCompiler.flow(JavaCompiler.java:1341)
+	at jdk.compiler/com.sun.tools.javac.main.JavaCompiler.compile(JavaCompiler.java:933)
+	at jdk.compiler/com.sun.tools.javac.api.JavacTaskImpl.lambda$doCall$0(JavacTaskImpl.java:104)
+	at jdk.compiler/com.sun.tools.javac.api.JavacTaskImpl.invocationHelper(JavacTaskImpl.java:152)
+	at jdk.compiler/com.sun.tools.javac.api.JavacTaskImpl.doCall(JavacTaskImpl.java:100)
+	at jdk.compiler/com.sun.tools.javac.api.JavacTaskImpl.call(JavacTaskImpl.java:94)
+	at org.gradle.internal.compiler.java.IncrementalCompileTask.call(IncrementalCompileTask.java:92)
+	at org.gradle.api.internal.tasks.compile.AnnotationProcessingCompileTask.call(AnnotationProcessingCompileTask.java:94)
+	at org.gradle.api.internal.tasks.compile.ResourceCleaningCompilationTask.call(ResourceCleaningCompilationTask.java:57)
+	at org.gradle.api.internal.tasks.compile.JdkJavaCompiler.execute(JdkJavaCompiler.java:55)
+	at org.gradle.api.internal.tasks.compile.JdkJavaCompiler.execute(JdkJavaCompiler.java:39)
+	at org.gradle.api.internal.tasks.compile.daemon.AbstractIsolatedCompilerWorkerExecutor$CompilerWorkAction.execute(AbstractIsolatedCompilerWorkerExecutor.java:78)
+	at org.gradle.workers.internal.DefaultWorkerServer.execute(DefaultWorkerServer.java:63)
+	at org.gradle.workers.internal.AbstractClassLoaderWorker$1.create(AbstractClassLoaderWorker.java:54)
+	at org.gradle.workers.internal.AbstractClassLoaderWorker$1.create(AbstractClassLoaderWorker.java:48)
+	at org.gradle.internal.classloader.ClassLoaderUtils.executeInClassloader(ClassLoaderUtils.java:100)
+	at org.gradle.workers.internal.AbstractClassLoaderWorker.executeInClassLoader(AbstractClassLoaderWorker.java:48)
+	at org.gradle.workers.internal.FlatClassLoaderWorker.run(FlatClassLoaderWorker.java:32)
+	at org.gradle.workers.internal.FlatClassLoaderWorker.run(FlatClassLoaderWorker.java:22)
+	at org.gradle.workers.internal.WorkerDaemonServer.run(WorkerDaemonServer.java:96)
+	at org.gradle.workers.internal.WorkerDaemonServer.run(WorkerDaemonServer.java:65)
+	at org.gradle.process.internal.worker.request.WorkerAction$1.call(WorkerAction.java:138)
+	at org.gradle.process.internal.worker.child.WorkerLogEventListener.withWorkerLoggingProtocol(WorkerLogEventListener.java:41)
+	at org.gradle.process.internal.worker.request.WorkerAction.lambda$run$0(WorkerAction.java:135)
+	at org.gradle.internal.operations.CurrentBuildOperationRef.with(CurrentBuildOperationRef.java:80)
+	at org.gradle.process.internal.worker.request.WorkerAction.run(WorkerAction.java:127)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:182)
+	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:164)
+	at org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:414)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/configuration/CmsSitesConfiguration.java:289: error: [assignment] incompatible types in assignment.
+                        getDigester().peekParams()[14] = Optional.of(mapping);
+                                                                    ^
+  found   : @RTainted Optional<@RTainted CmsAlternativeSiteRootMapping>
+  required: @RUntainted Object, index: 171
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/util/benchmark/CmsFileBenchmarkReceiver.java:84: error: [assignment] incompatible types in assignment.
+        m_path = path;
+                 ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 172
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/util/CmsRequestUtil.java:334: warning: [cast.unsafe] cast from "@RTainted Object" to "@RTainted String @RUntainted []" cannot be statically verified
+                result.put(key, (String[])values);
+                                ^
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/pdftools/CmsPdfResourceHandler.java:70: error: [assignment] incompatible types in assignment.
+    public static final Map<String, @RUntainted String> IMAGE_MIMETYPES = Collections.unmodifiableMap(
+                                                                                                     ^
+  found   : @RTainted Map<@RTainted String, @RTainted String>
+  required: @RTainted Map<@RTainted String, @RUntainted String>, index: 173
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/pdftools/CmsPdfConverter.java:85: error: [argument] incompatible argument for parameter xhtmlData of CmsPdfConverter.readDocument.
+        Document doc = readDocument(xhtmlData);
+                                    ^
+  found   : @RTainted byte @RUntainted []
+  required: @RUntainted byte @RUntainted [], index: 174
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/db/CmsImportFolder.java:150: error: [assignment] incompatible types in assignment.
+            m_importFolderName = importFolderName;
+                                 ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 175
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ade/upload/CmsUploadListener.java:140: error: [return] incompatible types in return.
+        return m_id;
+               ^
+  type of expression: @RTainted CmsUUID
+  method return type: @RUntainted CmsUUID, index: 176
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ade/upload/CmsUploadListener.java:217: error: [assignment] incompatible types in assignment.
+        m_delay = delay;
+                  ^
+  found   : @RTainted int
+  required: @RUntainted int, index: 177
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ade/publish/CmsPublishService.java:397: error: [argument] incompatible argument for parameter options of CmsPublishService.setCachedOptions.
+            setCachedOptions(options);
+                             ^
+  found   : @RTainted CmsPublishOptions
+  required: @RUntainted CmsPublishOptions, index: 178
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ade/containerpage/CmsContainerpageService.java:1886: error: [override.param] Incompatible parameter type for tabIndex.
+    public void saveClipboardTab(@RUntainted int tabIndex) {
+                                                 ^
+  found   : @RUntainted int
+  required: @RTainted int
+  Consequence: method in @RTainted CmsContainerpageService
+    void saveClipboardTab(@RTainted CmsContainerpageService this, @RUntainted int p0)
+  cannot override method in @RTainted I_CmsContainerpageService
+    void saveClipboardTab(@RTainted I_CmsContainerpageService this, @RTainted int p0), index: 179
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/json/JSONWriter.java:313: error: [argument] incompatible argument for parameter str of Writer.write.
+                m_writer.write(s);
+                               ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 180
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/cache/CmsVfsDiskCache.java:83: error: [argument] incompatible argument for parameter b of FileOutputStream.write.
+        fs.write(content);
+                 ^
+  found   : @RTainted byte @RUntainted []
+  required: @RUntainted byte @RUntainted [], index: 181
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsDefaultLinkSubstitutionHandler.java:275: error: [argument] incompatible argument for parameter vfsName of CmsStaticExportManager.getRfsName.
+                        resultLink = exportManager.getRfsName(cms, vfsName, parameters, targetDetailPage);
+                                                                   ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 182
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsOnDemandStaticExportHandler.java:49: error: [override.return] Incompatible return type.
+    protected List<File> getRelatedFilesToPurge(String exportFileName, String vfsName) {
+                  ^
+  found   : @RTainted List<@RTainted File>
+  required: @RTainted List<@RUntainted File>
+  Consequence: method in @RTainted CmsOnDemandStaticExportHandler
+    @RTainted List<@RTainted File> getRelatedFilesToPurge(@RTainted CmsOnDemandStaticExportHandler this, @RTainted String p0, @RTainted String p1)
+  cannot override method in @RTainted A_CmsStaticExportHandler
+    @RTainted List<@RUntainted File> getRelatedFilesToPurge(@RTainted A_CmsStaticExportHandler this, @RTainted String p0, @RTainted String p1), index: 183
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/A_CmsStaticExportHandler.java:570: error: [return] incompatible types in return.
+            return purgePages;
+                   ^
+  type of expression: @RUntainted List<@RTainted File>
+  method return type: @RTainted List<@RUntainted File>, index: 184
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/A_CmsStaticExportHandler.java:593: error: [return] incompatible types in return.
+                return files;
+                       ^
+  type of expression: @RUntainted List<@RTainted File>
+  method return type: @RTainted List<@RUntainted File>, index: 185
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/A_CmsStaticExportHandler.java:617: error: [return] incompatible types in return.
+        return files;
+               ^
+  type of expression: @RUntainted List<@RTainted File>
+  method return type: @RTainted List<@RUntainted File>, index: 186
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsOnDemandHtmlSubTreeHandler.java:51: error: [override.return] Incompatible return type.
+    protected List<File> getRelatedFilesToPurge(String exportFileName, String vfsName) {
+                  ^
+  found   : @RTainted List<@RTainted File>
+  required: @RTainted List<@RUntainted File>
+  Consequence: method in @RTainted CmsOnDemandHtmlSubTreeHandler
+    @RTainted List<@RTainted File> getRelatedFilesToPurge(@RTainted CmsOnDemandHtmlSubTreeHandler this, @RTainted String p0, @RTainted String p1)
+  cannot override method in @RTainted A_CmsStaticExportHandler
+    @RTainted List<@RUntainted File> getRelatedFilesToPurge(@RTainted A_CmsStaticExportHandler this, @RTainted String p0, @RTainted String p1), index: 187
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsOnDemandHtmlSubTreeHandler.java:65: error: [argument] incompatible argument for parameter name of CmsFileUtil.getFiles.
+        return CmsFileUtil.getFiles(exportFileName, htmlFilter, true);
+                                    ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 188
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsAfterPublishStaticExportHandler.java:728: error: [override.return] Incompatible return type.
+    protected List<File> getRelatedFilesToPurge(String exportFileName, String vfsName) {
+                  ^
+  found   : @RTainted List<@RTainted File>
+  required: @RTainted List<@RUntainted File>
+  Consequence: method in @RTainted CmsAfterPublishStaticExportHandler
+    @RTainted List<@RTainted File> getRelatedFilesToPurge(@RTainted CmsAfterPublishStaticExportHandler this, @RTainted String p0, @RTainted String p1)
+  cannot override method in @RTainted A_CmsStaticExportHandler
+    @RTainted List<@RUntainted File> getRelatedFilesToPurge(@RTainted A_CmsStaticExportHandler this, @RTainted String p0, @RTainted String p1), index: 189
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsAfterPublishMultiLanguageStaticExportHandler.java:57: error: [override.return] Incompatible return type.
+    protected List<File> getRelatedFilesToPurge(String exportFileName, String vfsName) {
+                  ^
+  found   : @RTainted List<@RTainted File>
+  required: @RTainted List<@RUntainted File>
+  Consequence: method in @RTainted CmsAfterPublishMultiLanguageStaticExportHandler
+    @RTainted List<@RTainted File> getRelatedFilesToPurge(@RTainted CmsAfterPublishMultiLanguageStaticExportHandler this, @RTainted String p0, @RTainted String p1)
+  cannot override method in @RTainted A_CmsStaticExportHandler
+    @RTainted List<@RUntainted File> getRelatedFilesToPurge(@RTainted A_CmsStaticExportHandler this, @RTainted String p0, @RTainted String p1), index: 190
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ugc/CmsUgcSessionFactory.java:192: error: [return] incompatible types in return.
+                return new CmsUgcSession(m_adminCms, cms, config);
+                       ^
+  type of expression: @RTainted CmsUgcSession
+  method return type: @RUntainted CmsUgcSession, index: 191
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ugc/CmsUgcSession.java:385: error: [return] incompatible types in return.
+        return getProject().getUuid();
+                                   ^
+  type of expression: @RTainted CmsUUID
+  method return type: @RUntainted CmsUUID, index: 192
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/importexport/A_CmsImport.java:576: error: [argument] incompatible argument for parameter child of File constructor.
+                File file = new File(m_importResource, filename);
+                                                       ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 193
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/importexport/CmsExportHelper.java:89: error: [assignment] incompatible types in assignment.
+        m_exportPath = exportPath;
+                       ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 194
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/importexport/CmsExportHelper.java:92: error: [argument] incompatible argument for parameter exportPath of CmsExportHelper.removeOldExport.
+        removeOldExport(exportPath);
+                        ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 195
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/importexport/CmsExportHelper.java:199: error: [return] incompatible types in return.
+        return m_exportPath + name;
+                            ^
+  type of expression: @RTainted String
+  method return type: @RUntainted String, index: 196
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/file/wrapper/CmsResourceWrapperModulesNonLazy.java:135: error: [override.param] Incompatible parameter type for content.
+        @RUntainted byte[] content,
+                           ^
+  found   : @RUntainted byte @RUntainted []
+  required: @RTainted byte @RUntainted []
+  Consequence: method in @RTainted CmsResourceWrapperModulesNonLazy
+    @RTainted CmsResource createResource(@RTainted CmsResourceWrapperModulesNonLazy this, @RTainted CmsObject p0, @RTainted String p1, @RTainted int p2, @RUntainted byte @RUntainted [] p3, @RTainted List<@RTainted CmsProperty> p4) throws @RTainted CmsException@RTainted CmsIllegalArgumentException
+  cannot override method in @RTainted A_CmsResourceWrapper
+    @RTainted CmsResource createResource(@RTainted A_CmsResourceWrapper this, @RTainted CmsObject p0, @RTainted String p1, @RTainted int p2, @RTainted byte @RUntainted [] p3, @RTainted List<@RTainted CmsProperty> p4) throws @RTainted CmsException@RTainted CmsIllegalArgumentException, index: 197
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/file/wrapper/CmsResourceWrapperModulesNonLazy.java:256: error: [argument] incompatible argument for parameter moduleName of CmsModuleLog.readLog.
+                        moduleName);
+                        ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 198
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/file/wrapper/CmsResourceWrapperModules.java:136: error: [override.param] Incompatible parameter type for content.
+        @RUntainted byte[] content,
+                           ^
+  found   : @RUntainted byte @RUntainted []
+  required: @RTainted byte @RUntainted []
+  Consequence: method in @RTainted CmsResourceWrapperModules
+    @RTainted CmsResource createResource(@RTainted CmsResourceWrapperModules this, @RTainted CmsObject p0, @RTainted String p1, @RTainted int p2, @RUntainted byte @RUntainted [] p3, @RTainted List<@RTainted CmsProperty> p4) throws @RTainted CmsException@RTainted CmsIllegalArgumentException
+  cannot override method in @RTainted A_CmsResourceWrapper
+    @RTainted CmsResource createResource(@RTainted A_CmsResourceWrapper this, @RTainted CmsObject p0, @RTainted String p1, @RTainted int p2, @RTainted byte @RUntainted [] p3, @RTainted List<@RTainted CmsProperty> p4) throws @RTainted CmsException@RTainted CmsIllegalArgumentException, index: 199
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/file/wrapper/CmsResourceWrapperModules.java:261: error: [argument] incompatible argument for parameter moduleName of CmsModuleLog.readLog.
+                        moduleName);
+                        ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 200
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: /home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/i18n/CmsResourceBundleLoader.java uses or overrides a deprecated API that is marked for removal.
+Note: Recompile with -Xlint:removal for details.
+Note: Some input files use unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+201 errors
+11 warnings
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler error output for details.
+
+* Try:
+> Run with --info option to get more log output.
+> Run with --scan to get full insights.
+
+BUILD FAILED in 3m 34s

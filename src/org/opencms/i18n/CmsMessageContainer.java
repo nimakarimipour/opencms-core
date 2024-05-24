@@ -29,6 +29,7 @@ package org.opencms.i18n;
 
 import java.io.Serializable;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains a localized message key, it's arguments and a <code>{@link I_CmsMessageBundle}</code>.<p>

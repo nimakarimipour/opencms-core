@@ -85,6 +85,7 @@ import java.util.function.Consumer;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Special document text extraction factory for Solr index.<p>

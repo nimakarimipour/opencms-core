@@ -61,6 +61,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource wrapper used to import/export modules by copying them to/from virtual folders.<p>
@@ -132,7 +133,7 @@ public class CmsResourceWrapperModules extends A_CmsResourceWrapper {
         CmsObject cms,
         String resourcename,
         int type,
-        byte[] content,
+        @RUntainted byte[] content,
         List<CmsProperty> properties)
     throws CmsException, CmsIllegalArgumentException {
 

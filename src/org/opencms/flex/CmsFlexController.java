@@ -44,6 +44,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Controller for getting access to the CmsObject, should be used as a
@@ -93,7 +94,7 @@ public class CmsFlexController {
     private boolean m_streaming;
 
     /** Exception that was caught during inclusion of sub elements. */
-    private Throwable m_throwable;
+    private @RUntainted Throwable m_throwable;
 
     /** URI of a VFS resource that caused the exception. */
     private String m_throwableResourceUri;
@@ -196,7 +197,7 @@ public class CmsFlexController {
      *
      * @see #getThrowable()
      */
-    public static Throwable getThrowable(ServletRequest req) {
+    public static @RUntainted Throwable getThrowable(ServletRequest req) {
 
         CmsFlexController controller = (CmsFlexController)req.getAttribute(ATTRIBUTE_NAME);
         if (controller != null) {
@@ -505,7 +506,7 @@ public class CmsFlexController {
      *
      * @return an exception (Throwable) that was caught during inclusion of sub elements
      */
-    public Throwable getThrowable() {
+    public @RUntainted Throwable getThrowable() {
 
         return m_throwable;
     }

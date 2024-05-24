@@ -41,6 +41,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Base document factory class for a VFS <code>{@link org.opencms.file.CmsResource}</code>,

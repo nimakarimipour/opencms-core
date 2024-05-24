@@ -54,6 +54,7 @@ import javax.mail.internet.AddressException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.mail.EmailException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean used by the dynamic function JSP for user data requests.<p>
@@ -131,7 +132,7 @@ public class CmsJspUserDataRequestBean {
     private String m_infoHtml;
 
     /** The request parameters (duplicate parameters are removed). */
-    private Map<String, String> m_params;
+    private Map<String, @RUntainted String> m_params;
 
     /** Lazy map to access messages. */
     private Map<String, String> m_texts;

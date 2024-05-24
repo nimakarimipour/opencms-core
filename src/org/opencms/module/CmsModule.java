@@ -54,6 +54,7 @@ import java.util.TreeMap;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes an OpenCms module.<p>
@@ -191,7 +192,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
     private String m_importScript;
 
     /** The name of this module, must be a valid Java package name. */
-    private String m_name;
+    private @RUntainted String m_name;
 
     /** The "nice" display name of this module. */
     private String m_niceName;
@@ -888,7 +889,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
      *
      * @return the name of this module
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_name;
     }

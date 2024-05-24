@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains the settings for the synchronization.<p>
@@ -149,7 +150,7 @@ public class CmsSynchronizeSettings implements Serializable {
      *
      * @param destinationPathInRfs the destination path of the synchronization in the "real" file system to set
      */
-    public void setDestinationPathInRfs(String destinationPathInRfs) {
+    public void setDestinationPathInRfs(@RUntainted String destinationPathInRfs) {
 
         String destination;
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(destinationPathInRfs)) {

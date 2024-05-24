@@ -49,6 +49,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.jsp.JspException;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Creates HTML code for &lt;img src&gt; tags that use the OpenCms image scaling capabilities.<p>

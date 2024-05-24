@@ -32,6 +32,7 @@ import org.opencms.file.CmsProject;
 import org.opencms.file.CmsUser;
 
 import javax.servlet.http.HttpServletRequest;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A locale handler returns the locale name to use for the given request context.<p>

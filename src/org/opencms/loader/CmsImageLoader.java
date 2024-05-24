@@ -48,6 +48,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Loader for images from the OpenCms VSF with integrated image scaling and processing capabilities.<p>
@@ -121,7 +122,7 @@ public class CmsImageLoader extends CmsDumpLoader implements I_CmsEventListener 
      *
      * @return the path of the image cache repository folder in the RFS
      */
-    public static String getImageRepositoryPath() {
+    public static @RUntainted String getImageRepositoryPath() {
 
         return m_vfsDiskCache.getRepositoryPath();
     }

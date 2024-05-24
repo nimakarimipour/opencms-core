@@ -56,6 +56,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 
 import org.antlr.stringtemplate.StringTemplate;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Executes a script file.<p>
@@ -74,25 +75,25 @@ public class CmsSitesWebserverThread extends A_CmsReportThread {
     private static final int PORT_HTTPS = 443;
 
     /** The file path. */
-    private String m_filePrefix;
+    private @RUntainted String m_filePrefix;
 
     /** The logging directory. */
     private String m_loggingDir;
 
     /** The script path. */
-    private String m_scriptPath;
+    private @RUntainted String m_scriptPath;
 
     /** The template to be used for secure site configurations. */
-    private String m_secureTemplate;
+    private @RUntainted String m_secureTemplate;
 
     /** The target path. */
-    private String m_targetPath;
+    private @RUntainted String m_targetPath;
 
     /** The template path. */
-    private String m_templatePath;
+    private @RUntainted String m_templatePath;
 
     /** The files that have been written. */
-    private List<String> m_writtenFiles = new ArrayList<String>();
+    private List<@RUntainted String> m_writtenFiles = new ArrayList<@RUntainted String>();
 
     /**
      * Public constructor.<p>
@@ -204,7 +205,7 @@ public class CmsSitesWebserverThread extends A_CmsReportThread {
      *
      * @return the file content for the configuration as String
      */
-    private String createConfigForSite(CmsSite site, String templateContent) {
+    private @RUntainted String createConfigForSite(CmsSite site, String templateContent) {
 
         StringTemplate config = new StringTemplate(templateContent);
 
@@ -290,7 +291,7 @@ public class CmsSitesWebserverThread extends A_CmsReportThread {
     private void executeScript() throws IOException, InterruptedException {
 
         File script = new File(m_scriptPath);
-        List<String> params = new LinkedList<String>();
+        List<@RUntainted String> params = new LinkedList<@RUntainted String>();
         params.add(script.getAbsolutePath());
         params.addAll(m_writtenFiles);
         ProcessBuilder pb = new ProcessBuilder(params.toArray(new String[params.size()]));
@@ -316,7 +317,7 @@ public class CmsSitesWebserverThread extends A_CmsReportThread {
      *
      * @return the web server configuration filename
      */
-    private String generateWebserverConfigName(CmsSiteMatcher macther, String separator) {
+    private @RUntainted String generateWebserverConfigName(CmsSiteMatcher macther, String separator) {
 
         int port = macther.getServerPort();
         String serverName = macther.getServerName();

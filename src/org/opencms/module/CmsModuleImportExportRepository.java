@@ -66,6 +66,7 @@ import com.google.common.base.Objects;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class which manages import/export of modules from repositories configured in opencms-importexport.xml.<p>
@@ -285,7 +286,7 @@ public class CmsModuleImportExportRepository {
      * @param content the module ZIP file data
      * @throws CmsException if something goes wrong
      */
-    public synchronized void importModule(String name, byte[] content) throws CmsException {
+    public synchronized void importModule(String name, @RUntainted byte[] content) throws CmsException {
 
         String moduleName = null;
         boolean ok = true;
@@ -402,7 +403,7 @@ public class CmsModuleImportExportRepository {
      *
      * @return the generated path
      */
-    private String createImportZipPath(String name) {
+    private @RUntainted String createImportZipPath(String name) {
 
         String path = "";
         do {

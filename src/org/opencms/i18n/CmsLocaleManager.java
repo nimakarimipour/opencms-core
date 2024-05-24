@@ -57,6 +57,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 
 import com.cybozu.labs.langdetect.DetectorFactory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Manages the locales configured for this OpenCms installation.<p>
@@ -362,7 +364,7 @@ public class CmsLocaleManager implements I_CmsEventListener {
      *
      * @return the content encoding set for the given resource
      */
-    public static final String getResourceEncoding(CmsObject cms, CmsResource res) {
+    public static final @RUntainted String getResourceEncoding(CmsObject cms, CmsResource res) {
 
         String encoding = null;
         // get the encoding

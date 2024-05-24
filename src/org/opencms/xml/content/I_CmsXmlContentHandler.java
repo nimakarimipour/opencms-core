@@ -59,6 +59,7 @@ import java.util.Set;
 import javax.servlet.ServletRequest;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles special XML content livetime events, and also provides XML content editor rendering hints.<p>

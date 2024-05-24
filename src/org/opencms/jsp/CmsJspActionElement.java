@@ -54,6 +54,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean to be used in JSP scriptlet code that provides direct
@@ -724,7 +725,7 @@ public class CmsJspActionElement extends CmsJspBean {
      * @see org.opencms.jsp.CmsJspTagLink
      * @see #link(String, String)
      */
-    public String link(String target) {
+    public @RUntainted String link(String target) {
 
         return link(target, null);
     }
@@ -749,7 +750,7 @@ public class CmsJspActionElement extends CmsJspBean {
      * @see org.opencms.jsp.CmsJspTagLink
      * @see #link(String)
      */
-    public String link(String target, String baseUri) {
+    public @RUntainted String link(String target, String baseUri) {
 
         if (isNotInitialized()) {
             return getMessage(NOT_INITIALIZED);

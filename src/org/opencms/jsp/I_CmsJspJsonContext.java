@@ -28,6 +28,7 @@
 package org.opencms.jsp;
 
 import javax.servlet.jsp.JspException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface implemented by JSON tags.

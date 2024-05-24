@@ -57,6 +57,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class is responsible for the publish process.<p>
@@ -93,7 +94,7 @@ public final class CmsPublishEngine {
     private final CmsPublishQueue m_publishQueue;
 
     /** The amount of time the system will wait for a running publish job during shutdown. */
-    private int m_publishQueueShutdowntime;
+    private @RUntainted int m_publishQueueShutdowntime;
 
     /** Is set during shutdown. */
     private boolean m_shuttingDown;
