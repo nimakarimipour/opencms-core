@@ -75,9 +75,9 @@ public abstract class A_CmsServerImportForm extends A_CmsImportForm {
 
             private static final long serialVersionUID = -8550460711407604364L;
 
-            public void valueChange(ValueChangeEvent event) {
+            public void valueChange(@RUntainted ValueChangeEvent event) {
 
-                String path = (String)(event.getProperty().getValue());
+                @RUntainted String path = (String)(event.getProperty().getValue());
                 m_importFile = new CmsImportFile(path);
                 if (validate) {
                     getOkButton().setEnabled(false);

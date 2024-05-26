@@ -94,7 +94,7 @@ public class CmsDataViewWidget implements I_CmsComplexWidget {
             JSONObject json = new JSONObject(m_config);
             String icon = json.optString(CmsDataViewConstants.CONFIG_ICON);
             if (icon != null) {
-                String iconLink = OpenCms.getLinkManager().substituteLinkForUnknownTarget(cms, icon);
+                @RUntainted String iconLink = OpenCms.getLinkManager().substituteLinkForUnknownTarget(cms, icon);
                 json.put(CmsDataViewConstants.CONFIG_ICON, iconLink);
                 configToUse = json.toString();
             }

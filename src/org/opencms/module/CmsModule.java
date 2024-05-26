@@ -259,7 +259,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
      * @param parameters the parameters for this module
      */
     public CmsModule(
-        String name,
+        @RUntainted String name,
         String niceName,
         String group,
         String actionClass,
@@ -1543,7 +1543,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
      *
      * @param value the module name to set
      */
-    public void setName(String value) {
+    public void setName(@RUntainted String value) {
 
         checkFrozen();
         if (!CmsStringUtil.isValidJavaClassName(value)) {

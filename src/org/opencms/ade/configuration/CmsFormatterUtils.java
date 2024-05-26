@@ -68,7 +68,7 @@ public class CmsFormatterUtils {
      *
      * @return the formatter key
      */
-    public static String getFormatterKey(String containerName, CmsContainerElementBean element) {
+    public static @RUntainted String getFormatterKey(String containerName, CmsContainerElementBean element) {
 
         Map<String, String> settings = element.getSettings();
         return getFormatterKey(containerName, settings);

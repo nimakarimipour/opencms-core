@@ -123,7 +123,7 @@ public class CmsConfigurationManager implements I_CmsXmlConfiguration {
     private static final long MAX_BACKUP_DAYS = 15;
 
     /** The folder where to store the backup files of the configuration. */
-    private File m_backupFolder;
+    private @RUntainted File m_backupFolder;
 
     /** The base folder where the configuration files are located. */
     private @RUntainted File m_baseFolder;
@@ -328,7 +328,7 @@ public class CmsConfigurationManager implements I_CmsXmlConfiguration {
     /**
      * @see org.opencms.configuration.I_CmsXmlConfiguration#getXmlFileName()
      */
-    public String getXmlFileName() {
+    public @RUntainted String getXmlFileName() {
 
         return DEFAULT_XML_FILE_NAME;
     }
@@ -575,7 +575,7 @@ public class CmsConfigurationManager implements I_CmsXmlConfiguration {
 
         String fromName = m_baseFolder.getAbsolutePath() + File.separatorChar + configuration.getXmlFileName();
         String toDatePrefix = BACKUP_DATE_FORMAT.format(new Date());
-        String toName = m_backupFolder.getAbsolutePath()
+        @RUntainted String toName = m_backupFolder.getAbsolutePath()
             + File.separatorChar
             + toDatePrefix
             + configuration.getXmlFileName();

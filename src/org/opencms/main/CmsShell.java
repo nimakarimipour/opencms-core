@@ -61,6 +61,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A command line interface to access OpenCms functions which
@@ -481,8 +482,8 @@ public class CmsShell {
      * @param additionalShellCommands optional object for additional shell commands, or null
      */
     public CmsShell(
-        String webInfPath,
-        String servletMapping,
+        @RUntainted String webInfPath,
+        @RUntainted String servletMapping,
         String defaultWebAppName,
         String prompt,
         I_CmsShellCommands additionalShellCommands) {
@@ -511,8 +512,8 @@ public class CmsShell {
      * @param interactive if <code>true</code> this is an interactive session with a user sitting on a console
      */
     public CmsShell(
-        String webInfPath,
-        String servletMapping,
+        @RUntainted String webInfPath,
+        @RUntainted String servletMapping,
         String defaultWebAppName,
         String prompt,
         I_CmsShellCommands additionalShellCommands,
@@ -612,7 +613,7 @@ public class CmsShell {
 
         JLAN_DISABLED = true;
         boolean wrongUsage = false;
-        String webInfPath = null;
+        @RUntainted String webInfPath = null;
         String script = null;
         String servletMapping = null;
         String defaultWebApp = null;
@@ -622,7 +623,7 @@ public class CmsShell {
             wrongUsage = true;
         } else {
             for (int i = 0; i < args.length; i++) {
-                String arg = args[i];
+                @RUntainted String arg = args[i];
                 if (arg.startsWith(SHELL_PARAM_BASE)) {
                     webInfPath = arg.substring(SHELL_PARAM_BASE.length());
                 } else if (arg.startsWith(SHELL_PARAM_SCRIPT)) {

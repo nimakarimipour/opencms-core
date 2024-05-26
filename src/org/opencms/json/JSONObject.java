@@ -184,7 +184,7 @@ public class JSONObject {
     /**
      * The map where the JSONObject's properties are kept.
      */
-    private Map<String, Object> m_map;
+    private Map<String, @RUntainted Object> m_map;
 
     /**
      * Construct an empty JSONObject.<p>
@@ -307,7 +307,7 @@ public class JSONObject {
      *
      * @param map a map object that can be used to initialize the contents of the JSONObject
      */
-    public JSONObject(Map<String, Object> map) {
+    public JSONObject(@RUntainted Map<String, Object> map) {
 
         m_map = (map == null) ? new HashMap<String, Object>() : map;
     }
@@ -320,12 +320,12 @@ public class JSONObject {
      * @param map a map with Key-Bean data
      * @param includeSuperClass tell whether to include the super class properties.
      */
-    public JSONObject(Map<String, Object> map, boolean includeSuperClass) {
+    public JSONObject(Map<String, Object> map, @RUntainted boolean includeSuperClass) {
 
         m_map = new HashMap<String, Object>();
         if (map != null) {
-            for (Iterator<Map.Entry<String, Object>> i = map.entrySet().iterator(); i.hasNext();) {
-                Map.Entry<String, Object> e = i.next();
+            for (Iterator<Map.Entry<String, @RUntainted Object>> i = map.entrySet().iterator(); i.hasNext();) {
+                Map.Entry<String, @RUntainted Object> e = i.next();
                 m_map.put(e.getKey(), new JSONObject(e.getValue(), includeSuperClass));
             }
         }
@@ -349,7 +349,7 @@ public class JSONObject {
      *
      * @param bean an object that has getter methods that should be used to make a JSONObject
      */
-    public JSONObject(Object bean) {
+    public JSONObject(@RUntainted Object bean) {
 
         this();
         populateInternalMap(bean, false);
@@ -365,7 +365,7 @@ public class JSONObject {
      * @param bean an object that has getter methods that should be used to make a JSONObject
      * @param includeSuperClass tell whether to include the super class properties.
      */
-    public JSONObject(Object bean, boolean includeSuperClass) {
+    public JSONObject(@RUntainted Object bean, @RUntainted boolean includeSuperClass) {
 
         this();
         populateInternalMap(bean, includeSuperClass);
@@ -383,15 +383,15 @@ public class JSONObject {
     * @param object an object that has fields that should be used to make a JSONObject
     * @param names an array of strings, the names of the fields to be obtained from the object
     */
-    public JSONObject(Object object, String[] names) {
+    public JSONObject(@RUntainted Object object, @RUntainted String[] names) {
 
         this();
-        Class<?> c = object.getClass();
+        @RUntainted Class<?> c = object.getClass();
         for (int i = 0; i < names.length; i += 1) {
-            String name = names[i];
+            @RUntainted String name = names[i];
             try {
-                Field field = c.getField(name);
-                Object value = field.get(object);
+                @RUntainted Field field = c.getField(name);
+                @RUntainted Object value = field.get(object);
                 this.put(name, value);
             } catch (Exception e) {
                 /* forget about it */
@@ -512,7 +512,7 @@ public class JSONObject {
      * @return a String
      * @throws JSONException if n is a non-finite number
      */
-    public static String numberToString(Number n) throws JSONException {
+    public static @RPolyTainted String numberToString(@RPolyTainted Number n) throws JSONException {
 
         if (n == null) {
             throw new JSONException("Null pointer");
@@ -544,7 +544,7 @@ public class JSONObject {
      * @param string a String
      * @return  a String correctly formatted for insertion in a JSON text
      */
-    public static @RPolyTainted String quote(@RPolyTainted String string) {
+    public static @RPolyTainted @RUntainted String quote(@RPolyTainted String string) {
 
         if ((string == null) || (string.length() == 0)) {
             return "\"\"";
@@ -627,7 +627,7 @@ public class JSONObject {
      * @throws JSONException if the value is or contains an invalid number
      */
     @SuppressWarnings("unchecked")
-    public static String valueToString(Object value) throws JSONException {
+    public static @RPolyTainted String valueToString(@RPolyTainted Object value) throws JSONException {
 
         if ((value == null) || value.equals(null)) {
             return "null";
@@ -678,7 +678,7 @@ public class JSONObject {
      * @throws JSONException if the object contains an invalid number
      */
     @SuppressWarnings("unchecked")
-    public static String valueToString(Object value, int indentFactor, int indent) throws JSONException {
+    public static @RPolyTainted String valueToString(@RPolyTainted Object value, int indentFactor, int indent) throws JSONException {
 
         if ((value == null) || value.equals(null)) {
             return "null";
@@ -752,7 +752,7 @@ public class JSONObject {
      * @return this
      * @throws JSONException if the value is an invalid number or if the key is null
      */
-    public JSONObject accumulate(String key, Object value) throws JSONException {
+    public JSONObject accumulate(String key, @RUntainted Object value) throws JSONException {
 
         testValidity(value);
         Object o = opt(key);
@@ -801,7 +801,7 @@ public class JSONObject {
      * @return      the object associated with the key
      * @throws   JSONException if the key is not found
      */
-    public Object get(String key) throws JSONException {
+    public @RUntainted Object get(String key) throws JSONException {
 
         Object o = opt(key);
         if (o == null) {
@@ -919,7 +919,7 @@ public class JSONObject {
      * @return      a string which is the value
      * @throws   JSONException if the key is not found
      */
-    public String getString(String key) throws JSONException {
+    public @RUntainted String getString(String key) throws JSONException {
 
         return get(key).toString();
     }
@@ -1029,7 +1029,7 @@ public class JSONObject {
      * @param key   a key string
      * @return      an object which is the value, or null if there is no value
      */
-    public Object opt(String key) {
+    public @RUntainted Object opt(String key) {
 
         return key == null ? null : m_map.get(key);
     }
@@ -1212,7 +1212,7 @@ public class JSONObject {
      * @param key   a key string
      * @return      a string which is the value
      */
-    public String optString(String key) {
+    public @RUntainted String optString(String key) {
 
         return optString(key, "");
     }
@@ -1225,9 +1225,9 @@ public class JSONObject {
      * @param defaultValue     the default
      * @return      a string which is the value
      */
-    public String optString(String key, String defaultValue) {
+    public @RUntainted String optString(String key, @RUntainted String defaultValue) {
 
-        Object o = opt(key);
+        @RUntainted Object o = opt(key);
         return o != null ? o.toString() : defaultValue;
     }
 
@@ -1254,7 +1254,7 @@ public class JSONObject {
      * @return      this
      * @throws JSONException if something goes wrong
      */
-    public JSONObject put(String key, Collection<Object> value) throws JSONException {
+    public JSONObject put(String key, @RUntainted Collection<Object> value) throws JSONException {
 
         put(key, new JSONArray(value));
         return this;
@@ -1268,7 +1268,7 @@ public class JSONObject {
      * @return this
      * @throws JSONException if the key is null or if the number is invalid.
      */
-    public JSONObject put(String key, double value) throws JSONException {
+    public JSONObject put(String key, @RUntainted double value) throws JSONException {
 
         put(key, Double.valueOf(value));
         return this;
@@ -1282,7 +1282,7 @@ public class JSONObject {
      * @return this
      * @throws JSONException if the key is null
      */
-    public JSONObject put(String key, int value) throws JSONException {
+    public JSONObject put(String key, @RUntainted int value) throws JSONException {
 
         put(key, Integer.valueOf(value));
         return this;
@@ -1296,7 +1296,7 @@ public class JSONObject {
      * @return this
      * @throws JSONException If the key is null
      */
-    public JSONObject put(String key, long value) throws JSONException {
+    public JSONObject put(String key, @RUntainted long value) throws JSONException {
 
         put(key, Long.valueOf(value));
         return this;
@@ -1311,7 +1311,7 @@ public class JSONObject {
      * @return      this
      * @throws JSONException if something goes wrong
      */
-    public JSONObject put(String key, Map<String, Object> value) throws JSONException {
+    public JSONObject put(String key, @RUntainted Map<String, Object> value) throws JSONException {
 
         put(key, new JSONObject(value));
         return this;
@@ -1331,7 +1331,7 @@ public class JSONObject {
      * @throws JSONException if the value is non-finite number
      *  or if the key is null.
      */
-    public JSONObject put(String key, Object value) throws JSONException {
+    public JSONObject put(String key, @RUntainted Object value) throws JSONException {
 
         if (key == null) {
             throw new JSONException("Null key.");
@@ -1356,7 +1356,7 @@ public class JSONObject {
      * @return this
      * @throws JSONException if the value is a non-finite number.
      */
-    public JSONObject putOpt(String key, Object value) throws JSONException {
+    public JSONObject putOpt(String key, @RUntainted Object value) throws JSONException {
 
         if ((key != null) && (value != null)) {
             put(key, value);
@@ -1424,7 +1424,7 @@ public class JSONObject {
      *  with <code>}</code>&nbsp;<small>(right brace)</small>.
      */
     @Override
-    public String toString() {
+    public @RUntainted String toString() {
 
         try {
             Iterator<String> keys = keys();
@@ -1488,7 +1488,7 @@ public class JSONObject {
                 String k = keys.next();
                 writer.write(quote(k.toString()));
                 writer.write(':');
-                Object v = m_map.get(k);
+                @RUntainted Object v = m_map.get(k);
                 if (v instanceof JSONObject) {
                     ((JSONObject)v).write(writer);
                 } else if (v instanceof JSONArray) {
@@ -1519,7 +1519,7 @@ public class JSONObject {
      *  with <code>}</code>&nbsp;<small>(right brace)</small>
      * @throws JSONException if the object contains an invalid number
      */
-    String toString(int indentFactor, int indent) throws JSONException {
+    @RUntainted String toString(int indentFactor, int indent) throws JSONException {
 
         int j;
         int n = length();
@@ -1589,7 +1589,7 @@ public class JSONObject {
      * @param includeSuperClass flag indicating if super class properties should be included
      */
     @SuppressWarnings("unchecked")
-    private void populateInternalMap(Object bean, boolean includeSuperClass) {
+    private void populateInternalMap(@RUntainted Object bean, @RUntainted boolean includeSuperClass) {
 
         Class<?> klass = bean.getClass();
 
@@ -1599,10 +1599,10 @@ public class JSONObject {
             includeSuperClass = false;
         }
 
-        Method[] methods = (includeSuperClass) ? klass.getMethods() : klass.getDeclaredMethods();
+        @RUntainted Method[] methods = (includeSuperClass) ? klass.getMethods() : klass.getDeclaredMethods();
         for (int i = 0; i < methods.length; i += 1) {
             try {
-                Method method = methods[i];
+                @RUntainted Method method = methods[i];
                 String name = method.getName();
                 String key = "";
                 if (name.startsWith("get")) {
@@ -1619,7 +1619,7 @@ public class JSONObject {
                         key = key.substring(0, 1).toLowerCase() + key.substring(1);
                     }
 
-                    Object result = method.invoke(bean, (Object[])null);
+                    @RUntainted Object result = method.invoke(bean, (Object[])null);
                     if (result == null) {
                         m_map.put(key, NULL);
                     } else if (result.getClass().isArray()) {

@@ -684,7 +684,7 @@ public class CmsHtmlWidgetOption {
      *
      * @return the calculated button bar items
      */
-    public List<String> getButtonBarShownItems() {
+    public @RUntainted List<String> getButtonBarShownItems() {
 
         if (m_buttonBar == null) {
             // first get individual button bar configuration
@@ -883,7 +883,7 @@ public class CmsHtmlWidgetOption {
      *
      * @return the link default protocol to use when inserting/editing links via the link dialog
      */
-    public String getLinkDefaultProtocol() {
+    public @RUntainted String getLinkDefaultProtocol() {
 
         return m_linkDefaultProtocol;
     }

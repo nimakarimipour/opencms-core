@@ -90,18 +90,18 @@ public abstract class A_CmsClientMessageBundle implements I_CmsClientMessageBund
     /**
      * @see org.opencms.gwt.I_CmsClientMessageBundle#export(java.util.Locale, boolean)
      */
-    public String export(Locale locale, boolean wrapScript) {
+    public String export(@RUntainted Locale locale, boolean wrapScript) {
 
         JSONObject keys = new JSONObject();
         try {
-            ResourceBundle resourceBundle = CmsResourceBundleLoader.getBundle(getBundleName(), locale);
-            Enumeration<String> bundleKeys = resourceBundle.getKeys();
+            @RUntainted ResourceBundle resourceBundle = CmsResourceBundleLoader.getBundle(getBundleName(), locale);
+            Enumeration<@RUntainted String> bundleKeys = resourceBundle.getKeys();
             while (bundleKeys.hasMoreElements()) {
-                String bundleKey = bundleKeys.nextElement();
-                String value = resourceBundle.getString(bundleKey);
+                @RUntainted String bundleKey = bundleKeys.nextElement();
+                @RUntainted String value = resourceBundle.getString(bundleKey);
                 if (value.startsWith(IMPORT_PREFIX)) {
                     String importKey = value.replace(IMPORT_PREFIX, "");
-                    String importedValue = importMessage(importKey, locale);
+                    @RUntainted String importedValue = importMessage(importKey, locale);
                     if (importedValue != null) {
                         value = importedValue;
                     }
@@ -137,7 +137,7 @@ public abstract class A_CmsClientMessageBundle implements I_CmsClientMessageBund
     /**
      * @see org.opencms.gwt.I_CmsClientMessageBundle#getBundleName()
      */
-    public String getBundleName() {
+    public @RUntainted String getBundleName() {
 
         return getClass().getPackage().getName() + ".clientmessages";
     }
@@ -158,7 +158,7 @@ public abstract class A_CmsClientMessageBundle implements I_CmsClientMessageBund
      *
      * @return the imported message string
      */
-    public String importMessage(String key, Locale locale) {
+    public @RUntainted String importMessage(String key, Locale locale) {
 
         key = key.trim();
         String[] tokens = key.split("#");

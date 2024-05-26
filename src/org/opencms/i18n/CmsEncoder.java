@@ -108,7 +108,7 @@ public final class CmsEncoder {
     private static final Log LOG = CmsLog.getLog(CmsEncoder.class);
 
     /** A cache for encoding name lookup. */
-    private static Map<String, String> m_encodingCache = new HashMap<String, String>(16);
+    private static Map<String, @RUntainted String> m_encodingCache = new HashMap<String, @RUntainted String>(16);
 
     private static Random m_random = new Random();
 
@@ -398,7 +398,7 @@ public final class CmsEncoder {
      *
      * @return String the encoded source String
      */
-    public static String encode(String source) {
+    public static @RPolyTainted String encode(@RPolyTainted String source) {
 
         return encode(source, ENCODING_UTF_8);
     }
@@ -417,7 +417,7 @@ public final class CmsEncoder {
      *
      * @return the encoded source String
      */
-    public static String encode(String source, String encoding) {
+    public static @RPolyTainted String encode(@RPolyTainted String source, String encoding) {
 
         if (source == null) {
             return null;
@@ -840,7 +840,7 @@ public final class CmsEncoder {
      *
      * @return the resolved encoding name, or the fallback value
      */
-    public static String lookupEncoding(String encoding, String fallback) {
+    public static @RPolyTainted String lookupEncoding(@RPolyTainted String encoding, @RPolyTainted String fallback) {
 
         String result = m_encodingCache.get(encoding);
         if (result != null) {

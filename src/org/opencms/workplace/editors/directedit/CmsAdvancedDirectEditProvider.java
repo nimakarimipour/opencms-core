@@ -149,7 +149,7 @@ public class CmsAdvancedDirectEditProvider extends A_CmsDirectEditProvider {
          *
          * @return true if favoriting is allowed
          */
-        public boolean canFavorite() {
+        public @RUntainted boolean canFavorite() {
 
             return m_favorite;
         }
@@ -408,9 +408,9 @@ public class CmsAdvancedDirectEditProvider extends A_CmsDirectEditProvider {
     public String startDirectEditEnabled(CmsDirectEditParams params, CmsDirectEditResourceInfo resourceInfo)
     throws JSONException {
 
-        String editLocale = m_cms.getRequestContext().getLocale().toString();
-        String editId = getNextDirectEditId();
-        String editNewLink = CmsEncoder.encode(params.getLinkForNew());
+        @RUntainted String editLocale = m_cms.getRequestContext().getLocale().toString();
+        @RUntainted String editId = getNextDirectEditId();
+        @RUntainted String editNewLink = CmsEncoder.encode(params.getLinkForNew());
         // putting together all needed data
         JSONObject editableData = new JSONObject();
         CmsResource resource = resourceInfo.getResource();
@@ -449,7 +449,7 @@ public class CmsAdvancedDirectEditProvider extends A_CmsDirectEditProvider {
             editableData.put(CmsEditorConstants.ATTR_CONTEXT_ID, params.getId().toString());
         }
         editableData.put(CmsEditorConstants.ATTR_POST_CREATE_HANDLER, params.getPostCreateHandler());
-        CmsUUID viewId = CmsUUID.getNullUUID();
+        @RUntainted CmsUUID viewId = CmsUUID.getNullUUID();
         boolean hasEditHandler = false;
         String typeName = null;
         if ((resourceInfo.getResource() != null) && resourceInfo.getResource().isFile()) {
@@ -485,11 +485,11 @@ public class CmsAdvancedDirectEditProvider extends A_CmsDirectEditProvider {
 
         editableData.put(CmsEditorConstants.ATTR_ELEMENT_VIEW, viewId);
         editableData.put("hasEditHandler", hasEditHandler);
-        boolean favorites = sitemapConfigPermissions.canFavorite();
+        @RUntainted boolean favorites = sitemapConfigPermissions.canFavorite();
         Locale locale = OpenCms.getWorkplaceManager().getWorkplaceLocale(m_cms);
         CmsMessages messages = Messages.get().getBundle(locale);
         if ((m_lastPermissionMode == 1) || !writable || (!sitemapConfigPermissions.canEdit())) {
-            String noEditReason = null;
+            @RUntainted String noEditReason = null;
             if (sitemapConfigPermissions.canCreate()) {
                 noEditReason = messages.key(Messages.GUI_DIRECTEDIT_CAN_ONLY_BE_CREATED_0);// "Can only be created but not edited";
             } else {
@@ -500,7 +500,7 @@ public class CmsAdvancedDirectEditProvider extends A_CmsDirectEditProvider {
             }
         }
         editableData.put(CmsGwtConstants.ATTR_FAVORITE, Boolean.valueOf(favorites));
-        AutoBean<I_CmsEditableDataExtensions> extensions = m_editableDataExtensionsFactory.createExtensions();
+        @RUntainted AutoBean<I_CmsEditableDataExtensions> extensions = m_editableDataExtensionsFactory.createExtensions();
         boolean isUploadType = false;
         List<String> uploadTypes = Arrays.asList(
             CmsResourceTypeBinary.getStaticTypeName(),

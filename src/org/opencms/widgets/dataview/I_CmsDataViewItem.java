@@ -52,14 +52,14 @@ public interface I_CmsDataViewItem {
      *
      * @return the additional data to be stored
      */
-    String getData();
+    @RUntainted String getData();
 
     /**
      * Returns the description to be stored by OpenCms.<p>
      *
      * @return the description
      */
-    String getDescription();
+    @RUntainted String getDescription();
 
     /**
      * Gets the ID of the data item.<p>
@@ -68,7 +68,7 @@ public interface I_CmsDataViewItem {
      *
      * @return the ID of the data item
      */
-    String getId();
+    @RUntainted String getId();
 
     /**
      * Gets the URL of the image to be displayed for this data item.<p>
@@ -82,6 +82,6 @@ public interface I_CmsDataViewItem {
      *
      * @return the title
      */
-    String getTitle();
+    @RUntainted String getTitle();
 
 }

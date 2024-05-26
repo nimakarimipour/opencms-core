@@ -62,7 +62,7 @@ public interface I_CmsAutoBeanFactory extends AutoBeanFactory {
      *
      * @return the new instance
      */
-    AutoBean<I_CmsEditableDataExtensions> createExtensions();
+    @RUntainted AutoBean<I_CmsEditableDataExtensions> createExtensions();
 
     /**
      * Creates an I_CmsListAddMetadat AutoBean.

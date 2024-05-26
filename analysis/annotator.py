@@ -25,7 +25,7 @@ def run_annotator():
     commands += ['-n', 'edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted']
     commands += ['-cn', 'UCRTaint']
     commands += ["--depth", "5"]
-    commands += ['-dol']
+    # commands += ['-dol']
     commands += ['-ch']
     # Uncomment to see build output
     # commands += ['-rboserr']

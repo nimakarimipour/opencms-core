@@ -651,7 +651,7 @@ public class CmsResourceTableProperty implements Serializable {
      *
      * @return the id
      */
-    public String getId() {
+    public @RUntainted String getId() {
 
         return m_id;
     }

@@ -249,7 +249,7 @@ public class CmsWorkplaceEditorManager {
      *
      * @return the editor parameter value
      */
-    public String getEditorParameter(CmsObject cms, String editor, String param) {
+    public @RUntainted String getEditorParameter(CmsObject cms, String editor, String param) {
 
         String path = OpenCms.getSystemInfo().getConfigFilePath(cms, "editors/" + editor + ".properties");
         CmsVfsMemoryObjectCache cache = CmsVfsMemoryObjectCache.getVfsMemoryObjectCache();

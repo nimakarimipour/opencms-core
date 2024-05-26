@@ -30,6 +30,7 @@ package org.opencms.db;
 import org.opencms.file.CmsResource;
 
 import java.io.Serializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  *  Enumeration class for the different resource states.<p>

@@ -505,7 +505,7 @@ public class CmsParameterConfiguration extends AbstractMap<String, String> imple
      * @return the String associated with the given parameter
      */
     @Override
-    public String get(Object key) {
+    public @RUntainted String get(Object key) {
 
         return m_configurationStrings.get(key);
     }
@@ -685,7 +685,7 @@ public class CmsParameterConfiguration extends AbstractMap<String, String> imple
      * @return the String associated with the given parameter,
      *      or the given default value in case there is no value for this parameter.<p>
      */
-    public String getString(String key, String defaultValue) {
+    public @RUntainted String getString(String key, @RUntainted String defaultValue) {
 
         String result = get(key);
         return result == null ? defaultValue : result;

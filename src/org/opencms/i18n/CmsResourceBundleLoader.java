@@ -152,7 +152,7 @@ public final class CmsResourceBundleLoader {
     }
 
     /**  The resource bundle cache. */
-    private static Map<BundleKey, ResourceBundle> m_bundleCache;
+    private static Map<BundleKey, @RUntainted ResourceBundle> m_bundleCache;
 
     /** The last default Locale we saw, if this ever changes then we have to reset our caches. */
     private static Locale m_lastDefaultLocale;
@@ -304,7 +304,7 @@ public final class CmsResourceBundleLoader {
      */
     // This method is synchronized so that the cache is properly
     // handled.
-    public static ResourceBundle getBundle(String baseName, Locale locale) {
+    public static @RPolyTainted ResourceBundle getBundle(@RPolyTainted String baseName, @RPolyTainted Locale locale) {
 
         // If the default locale changed since the last time we were called,
         // all cache entries are invalidated.
@@ -423,7 +423,7 @@ public final class CmsResourceBundleLoader {
      *        (with no locale information attached) should be returned.
      * @return the resource bundle if it was loaded, otherwise the backup
      */
-    private static ResourceBundle tryBundle(String baseName, Locale locale, boolean wantBase) {
+    private static @RUntainted ResourceBundle tryBundle(String baseName, Locale locale, boolean wantBase) {
 
         I_CmsResourceBundle first = null; // The most specialized bundle.
         I_CmsResourceBundle last = null; // The least specialized bundle.

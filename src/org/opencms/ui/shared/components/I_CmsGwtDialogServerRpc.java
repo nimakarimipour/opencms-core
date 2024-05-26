@@ -30,6 +30,7 @@ package org.opencms.ui.shared.components;
 import java.util.List;
 
 import com.vaadin.shared.communication.ServerRpc;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Client-to-server rpc interface for the GWT dialog extension.<p>
@@ -49,5 +50,5 @@ public interface I_CmsGwtDialogServerRpc extends ServerRpc {
      * @param changedStructureIds the structure ids of changed resources, as strings
      * @param delayMillis time to delay the RPC (for allowing short background operations to finish)
      */
-    void onClose(List<String> changedStructureIds, long delayMillis);
+    void onClose(List<String> changedStructureIds, @RUntainted long delayMillis);
 }

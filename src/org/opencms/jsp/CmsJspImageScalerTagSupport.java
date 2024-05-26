@@ -44,7 +44,7 @@ public abstract class CmsJspImageScalerTagSupport extends BodyTagSupport {
     protected transient CmsImageScaler m_scaler;
 
     /** The image source. */
-    protected String m_src;
+    protected @RUntainted String m_src;
 
     /**
      * Initializes a CmsImageScaler to be used by derived classes. The CmsImageScaler is recreated
@@ -285,7 +285,7 @@ public abstract class CmsJspImageScalerTagSupport extends BodyTagSupport {
      *
      * @param value the image source to set
      */
-    public void setSrc(String value) {
+    public void setSrc(@RUntainted String value) {
 
         m_src = value;
     }

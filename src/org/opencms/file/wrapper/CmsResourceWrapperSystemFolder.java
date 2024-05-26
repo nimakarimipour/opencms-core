@@ -36,6 +36,7 @@ import org.opencms.workplace.CmsWorkplace;
 
 import java.util.ArrayList;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Adds the system folder to every root folder of target sites.<p>

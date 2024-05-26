@@ -34,6 +34,7 @@ import org.opencms.gwt.CmsRpcException;
 import java.util.Map;
 
 import com.google.gwt.user.client.rpc.RemoteService;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles the common RPC services related to the gallery preview dialog.<p>

@@ -58,7 +58,7 @@ public class CmsJspTagJsonObject extends A_CmsJspJsonTag implements I_CmsJspJson
     /**
      * @see org.opencms.jsp.I_CmsJspJsonContext#addValue(java.lang.String, java.lang.Object)
      */
-    public void addValue(String key, Object val) throws JspException {
+    public void addValue(String key, @RUntainted Object val) throws JspException {
 
         if (key == null) {
             throw new JspTagException("Can not add value to JSONObject with no key (val:" + val + ")");

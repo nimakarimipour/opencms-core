@@ -63,7 +63,7 @@ public class CmsPersistentLoginTokenHandler {
         public static final String SEPARATOR = "|";
 
         /** The key. */
-        private String m_key;
+        private @RUntainted String m_key;
 
         /** The name. */
         private String m_name;
@@ -76,7 +76,7 @@ public class CmsPersistentLoginTokenHandler {
         public Token(String token) {
 
             if (token != null) {
-                List<String> parts = CmsStringUtil.splitAsList(token, SEPARATOR);
+                List<@RUntainted String> parts = CmsStringUtil.splitAsList(token, SEPARATOR);
                 if (parts.size() == 2) {
                     m_name = decodeName(parts.get(0));
                     m_key = parts.get(1);
@@ -90,7 +90,7 @@ public class CmsPersistentLoginTokenHandler {
          * @param name the name
          * @param key the key
          */
-        public Token(String name, String key) {
+        public Token(String name, @RUntainted String key) {
 
             m_name = name;
             m_key = key;
@@ -102,7 +102,7 @@ public class CmsPersistentLoginTokenHandler {
          *
          * @return the token string
          */
-        public String encode() {
+        public @RUntainted String encode() {
 
             return encodeName(m_name) + SEPARATOR + m_key;
         }
@@ -172,7 +172,7 @@ public class CmsPersistentLoginTokenHandler {
          *
          * @return the encoded name
          */
-        private String encodeName(String name) {
+        private @RUntainted String encodeName(String name) {
 
             try {
                 return Hex.encodeHexString(name.getBytes("UTF-8"));
@@ -231,7 +231,7 @@ public class CmsPersistentLoginTokenHandler {
         CmsUser user = cms.getRequestContext().getCurrentUser();
         String key = RandomStringUtils.randomAlphanumeric(16);
         Token tokenObj = new Token(user.getName(), key);
-        String token = tokenObj.encode();
+        @RUntainted String token = tokenObj.encode();
         String addInfoKey = tokenObj.getAdditionalInfoKey();
         String value = "" + (System.currentTimeMillis() + m_lifetime);
         user.getAdditionalInfo().put(addInfoKey, value);

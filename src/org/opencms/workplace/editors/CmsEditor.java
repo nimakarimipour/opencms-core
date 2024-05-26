@@ -1021,9 +1021,9 @@ public abstract class CmsEditor extends CmsEditorBase {
             // ignore
         }
 
-        CmsEditorSessionInfo info = null;
+        @RUntainted CmsEditorSessionInfo info = null;
         if (editedResource != null) {
-            HttpSession session = getSession();
+            @RUntainted HttpSession session = getSession();
             info = (CmsEditorSessionInfo)session.getAttribute(
                 CmsEditorSessionInfo.getEditorSessionInfoKey(editedResource));
             if (info == null) {

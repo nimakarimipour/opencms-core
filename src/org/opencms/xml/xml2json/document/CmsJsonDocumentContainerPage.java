@@ -80,7 +80,7 @@ public class CmsJsonDocumentContainerPage extends CmsJsonDocumentXmlContent {
      * @see org.opencms.xml.xml2json.document.CmsJsonDocumentResource#getJson()
      */
     @Override
-    public Object getJson()
+    public @RUntainted Object getJson()
     throws JSONException, CmsException, CmsJsonHandlerException, PathNotFoundException, Exception {
 
         insertJsonContainerPage();

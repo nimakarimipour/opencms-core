@@ -97,7 +97,7 @@ public class CmsFlexController {
     private @RUntainted Throwable m_throwable;
 
     /** URI of a VFS resource that caused the exception. */
-    private String m_throwableResourceUri;
+    private @RUntainted String m_throwableResourceUri;
 
     /** Indicates if the request is the top request. */
     private boolean m_top;
@@ -216,7 +216,7 @@ public class CmsFlexController {
      *
      * @see #getThrowableResourceUri()
      */
-    public static String getThrowableResourceUri(ServletRequest req) {
+    public static @RUntainted String getThrowableResourceUri(ServletRequest req) {
 
         CmsFlexController controller = (CmsFlexController)req.getAttribute(ATTRIBUTE_NAME);
         if (controller != null) {
@@ -517,7 +517,7 @@ public class CmsFlexController {
      *
      * @return the URI of a VFS resource that caused the exception that was caught during inclusion of sub elements
      */
-    public String getThrowableResourceUri() {
+    public @RUntainted String getThrowableResourceUri() {
 
         return m_throwableResourceUri;
     }

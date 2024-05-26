@@ -103,7 +103,7 @@ public class CmsJsonDocumentResource extends A_CmsJsonDocument implements I_CmsJ
      */
     protected void insertJsonResourceFile() throws JSONException {
 
-        boolean isContent = !m_resource.isFolder() && CmsResourceTypeXmlContent.isXmlContent(m_resource);
+        @RUntainted boolean isContent = !m_resource.isFolder() && CmsResourceTypeXmlContent.isXmlContent(m_resource);
         m_json.put("isFolder", m_resource.isFolder());
         m_json.put("isXmlContent", Boolean.valueOf(isContent));
     }

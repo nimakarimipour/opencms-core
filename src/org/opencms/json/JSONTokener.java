@@ -413,7 +413,7 @@ public class JSONTokener {
      * @return an object
      * @throws JSONException if something goes wrong
      */
-    public Object nextValue() throws JSONException {
+    public @RUntainted Object nextValue() throws JSONException {
 
         char c = nextClean();
         String s;

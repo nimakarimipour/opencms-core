@@ -1531,7 +1531,7 @@ public class CmsADEManager {
                 data.put(FavListProp.FORMATTER.name().toLowerCase(), element.getFormatterId().toString());
             }
             JSONObject properties = new JSONObject();
-            for (Map.Entry<String, String> entry : element.getIndividualSettings().entrySet()) {
+            for (Map.Entry<String, @RUntainted String> entry : element.getIndividualSettings().entrySet()) {
                 String settingKey = entry.getKey();
                 if (!excludeSettings.contains(settingKey)) {
                     properties.put(entry.getKey(), entry.getValue());

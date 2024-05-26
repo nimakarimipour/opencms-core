@@ -321,14 +321,14 @@ public class CmsMessageBundleEditorModel {
          * @param escapeUnicode flag, indicating if unicode signs should be escaped
          * @return the converted string
          */
-        private @RUntainted String saveConvert(String theString, boolean escapeSpace, boolean escapeUnicode) {
+        private @RUntainted String saveConvert(@RUntainted String theString, boolean escapeSpace, boolean escapeUnicode) {
 
-            int len = theString.length();
-            int bufLen = len * 2;
+            @RUntainted int len = theString.length();
+            @RUntainted int bufLen = len * 2;
             if (bufLen < 0) {
                 bufLen = Integer.MAX_VALUE;
             }
-            StringBuffer outBuffer = new StringBuffer(bufLen);
+            @RUntainted StringBuffer outBuffer = new StringBuffer(bufLen);
 
             for (int x = 0; x < len; x++) {
                 char aChar = theString.charAt(x);

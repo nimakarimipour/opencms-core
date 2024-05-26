@@ -93,7 +93,7 @@ public class CmsFavoriteEntry {
          *
          * @return the JSON id
          */
-        public String getJsonId() {
+        public @RUntainted String getJsonId() {
 
             return m_jsonId;
         }
@@ -118,19 +118,19 @@ public class CmsFavoriteEntry {
     public static final String JSON_TYPE = "t";
 
     /** The custom title. */
-    private String m_customTitle;
+    private @RUntainted String m_customTitle;
 
     /** The detail id. */
-    private CmsUUID m_detailId;
+    private @RUntainted CmsUUID m_detailId;
 
     /** The project id. */
-    private CmsUUID m_projectId;
+    private @RUntainted CmsUUID m_projectId;
 
     /** The site root. */
-    private String m_siteRoot;
+    private @RUntainted String m_siteRoot;
 
     /** The structure id. */
-    private CmsUUID m_structureId;
+    private @RUntainted CmsUUID m_structureId;
 
     /** The type. */
     private Type m_type;

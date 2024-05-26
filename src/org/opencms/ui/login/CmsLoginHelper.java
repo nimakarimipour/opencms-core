@@ -510,7 +510,7 @@ public class CmsLoginHelper extends CmsJspLoginBean {
      */
     public static @RUntainted CmsWorkplaceSettings initSiteAndProject(CmsObject cms) {
 
-        CmsWorkplaceSettings workplaceSettings = CmsWorkplace.initWorkplaceSettings(cms, null, false);
+        @RUntainted CmsWorkplaceSettings workplaceSettings = CmsWorkplace.initWorkplaceSettings(cms, null, false);
         String startSite = CmsWorkplace.getStartSiteRoot(cms, workplaceSettings);
         // switch to the preferred site
         workplaceSettings.setSite(startSite);

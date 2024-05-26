@@ -95,9 +95,9 @@ public class CmsStaticResourceHandler implements I_CmsRequestHandler {
      *
      * @return the resource URL
      */
-    public static URL getStaticResourceURL(String resourcePath) {
+    public static @RUntainted URL getStaticResourceURL(String resourcePath) {
 
-        URL resourceURL = null;
+        @RUntainted URL resourceURL = null;
         if (isStaticResourceUri(resourcePath)) {
             String path = removeStaticResourcePrefix(resourcePath);
             path = CmsStringUtil.joinPaths(OPENCMS_PATH_PREFIX, path);
@@ -188,7 +188,7 @@ public class CmsStaticResourceHandler implements I_CmsRequestHandler {
     public void handle(HttpServletRequest request, HttpServletResponse response, String name) throws IOException {
 
         String path = OpenCmsCore.getInstance().getPathInfo(request);
-        URL resourceURL = getStaticResourceURL(path);
+        @RUntainted URL resourceURL = getStaticResourceURL(path);
         if (resourceURL != null) {
             setResponseHeaders(request, response, path, resourceURL);
             writeStaticResourceResponse(request, response, resourceURL);

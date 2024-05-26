@@ -138,7 +138,7 @@ public class CmsGalleryWidgetConfiguration {
      *
      * @return the required information for the initial item list to load
      */
-    public String getStartup() {
+    public @RUntainted String getStartup() {
 
         return m_startup;
     }
@@ -148,7 +148,7 @@ public class CmsGalleryWidgetConfiguration {
      *
      * @return the type of the initial image list to load
      */
-    public String getType() {
+    public @RUntainted String getType() {
 
         return m_type;
     }

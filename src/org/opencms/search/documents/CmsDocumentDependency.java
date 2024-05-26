@@ -130,7 +130,7 @@ public final class CmsDocumentDependency {
     private String m_documentSuffix;
 
     /** The locale of this document container. */
-    private Locale m_locale;
+    private @RUntainted Locale m_locale;
 
     /** Signals whether this document exists with different locale file name extensions.  */
     private boolean m_localeFileName;
@@ -924,7 +924,7 @@ public final class CmsDocumentDependency {
             } else if (isAttachment()) {
                 CmsDocumentDependency main = getMainDocument();
                 if (main != null) {
-                    JSONObject jsonMain = main.toJSON(cms, true);
+                    @RUntainted JSONObject jsonMain = main.toJSON(cms, true);
                     // iterate through all attachments of the main document
                     List<CmsDocumentDependency> attachments = main.getAttachments();
                     if (attachments != null) {
@@ -955,14 +955,14 @@ public final class CmsDocumentDependency {
      *
      * @return a JSON object describing this dependency document
      */
-    public JSONObject toJSON(CmsObject cms, boolean includeLang) {
+    public @RUntainted JSONObject toJSON(CmsObject cms, boolean includeLang) {
 
         try {
             CmsObject clone = OpenCms.initCmsObject(cms);
             clone.getRequestContext().setSiteRoot("");
             JSONObject jsonAttachment = new JSONObject();
             CmsResource res = clone.readResource(m_rootPath, CmsResourceFilter.IGNORE_EXPIRATION);
-            Map<String, String> props = CmsProperty.toMap(clone.readPropertyObjects(res, false));
+            Map<String, @RUntainted String> props = CmsProperty.toMap(clone.readPropertyObjects(res, false));
             // id and path
             jsonAttachment.put(JSON_UUID, res.getStructureId());
             jsonAttachment.put(JSON_PATH, res.getRootPath());

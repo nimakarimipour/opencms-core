@@ -405,7 +405,7 @@ public final class CmsStringUtil {
      *
      * @return the escaped String
      */
-    public static String escapeJavaScript(String source) {
+    public static @RPolyTainted String escapeJavaScript(@RPolyTainted String source) {
 
         source = CmsStringUtil.substitute(source, "\\", "\\\\");
         source = CmsStringUtil.substitute(source, "\"", "\\\"");
@@ -777,7 +777,7 @@ public final class CmsStringUtil {
      *
      * @return the Ethernet-Address
      */
-    public static String getEthernetAddress() {
+    public static @RUntainted String getEthernetAddress() {
 
         try {
             InetAddress ip = InetAddress.getLocalHost();
@@ -1310,7 +1310,7 @@ public final class CmsStringUtil {
     public static String mapAsJson(Map<String, String> map) {
 
         JSONObject obj = new JSONObject();
-        for (Map.Entry<String, String> entry : map.entrySet()) {
+        for (Map.Entry<String, @RUntainted String> entry : map.entrySet()) {
             try {
                 obj.put(entry.getKey(), entry.getValue());
             } catch (JSONException e) {

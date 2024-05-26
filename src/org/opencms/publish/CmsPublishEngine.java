@@ -572,7 +572,7 @@ public final class CmsPublishEngine {
      *
      * @throws CmsException if something goes wrong
      */
-    protected void initialize(CmsObject adminCms, boolean publishQueuePersistance, int publishQueueShutdowntime)
+    protected void initialize(CmsObject adminCms, boolean publishQueuePersistance, @RUntainted int publishQueueShutdowntime)
     throws CmsException {
 
         // check the driver manager

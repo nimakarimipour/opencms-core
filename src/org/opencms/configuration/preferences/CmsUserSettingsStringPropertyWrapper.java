@@ -1126,9 +1126,9 @@ public class CmsUserSettingsStringPropertyWrapper {
      *
      * @param l the new time warp
      */
-    public void setTimeWarp(String l) {
+    public void setTimeWarp(@RUntainted String l) {
 
-        long warp = CmsContextInfo.CURRENT_TIME;
+        @RUntainted long warp = CmsContextInfo.CURRENT_TIME;
         try {
             warp = Long.parseLong(l);
         } catch (NumberFormatException e) {

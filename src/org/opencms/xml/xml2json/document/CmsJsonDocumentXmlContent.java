@@ -116,7 +116,7 @@ public class CmsJsonDocumentXmlContent extends CmsJsonDocumentResource {
      * @see org.opencms.xml.xml2json.document.CmsJsonDocumentResource#getJson()
      */
     @Override
-    public Object getJson()
+    public @RUntainted Object getJson()
     throws JSONException, CmsException, CmsJsonHandlerException, PathNotFoundException, Exception {
 
         insertJsonContent();
@@ -140,7 +140,7 @@ public class CmsJsonDocumentXmlContent extends CmsJsonDocumentResource {
         try {
             CmsFile file = m_context.getCms().readFile(resource);
             CmsXmlContent xmlContent = CmsXmlContentFactory.unmarshal(m_context.getCms(), file);
-            Object value = null;
+            @RUntainted Object value = null;
             if (CmsResourceTypeXmlContainerPage.isContainerPage(resource) && m_embedLinkedModelgroup) {
                 CmsJsonDocumentContainerPage document = new CmsJsonDocumentContainerPage(
                     m_jsonRequest,
@@ -294,7 +294,7 @@ public class CmsJsonDocumentXmlContent extends CmsJsonDocumentResource {
             m_renderer = new CmsJsonRendererXmlContent();
         } else {
             m_renderer = (I_CmsJsonRendererXmlContent)Class.forName(settings.getClassName()).newInstance();
-            for (Map.Entry<String, String> entry : settings.getParameters().entrySet()) {
+            for (Map.Entry<String, @RUntainted String> entry : settings.getParameters().entrySet()) {
                 m_renderer.addConfigurationParameter(entry.getKey(), entry.getValue());
             }
             m_renderer.initConfiguration();
@@ -351,11 +351,11 @@ public class CmsJsonDocumentXmlContent extends CmsJsonDocumentResource {
         if ((selectedLocale == null) || !m_xmlContent.hasLocale(selectedLocale)) {
             localeExists = false;
         }
-        JSONObject jsonObject = new JSONObject(true);
+        @RUntainted JSONObject jsonObject = new JSONObject(true);
         if (localeExists) {
             jsonObject = (JSONObject)m_renderer.render(m_xmlContent, selectedLocale);
         } else if (isShowFallbackLocaleRequest()) {
-            List<Locale> localeList = m_xmlContent.getLocales();
+            List<@RUntainted Locale> localeList = m_xmlContent.getLocales();
             if (!localeList.isEmpty()) {
                 jsonObject = (JSONObject)m_renderer.render(m_xmlContent, localeList.get(0));
                 m_json.put("localeFallback", localeList.get(0).toString());

@@ -135,7 +135,7 @@ public class CmsVfsImageWidgetConfiguration extends CmsGalleryWidgetConfiguratio
      *
      * @return the list of image format values matching the options for the format select box
      */
-    public List<String> getFormatValues() {
+    public @RUntainted List<String> getFormatValues() {
 
         return m_formatValues;
     }
@@ -167,7 +167,7 @@ public class CmsVfsImageWidgetConfiguration extends CmsGalleryWidgetConfiguratio
      *
      * @return the select options for the format select box
      */
-    public String getSelectFormatString() {
+    public @RUntainted String getSelectFormatString() {
 
         return m_selectFormatString;
     }

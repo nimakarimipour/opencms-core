@@ -74,7 +74,7 @@ public class CmsSiteConfigToLetsEncryptConfigConverter {
     public static class DomainGrouping {
 
         /** The list of domain sets. */
-        private List<Set<String>> m_domainGroups = Lists.newArrayList();
+        private List<@RUntainted Set<String>> m_domainGroups = Lists.newArrayList();
 
         /**
          * Adds a domain group.<p>
@@ -93,11 +93,11 @@ public class CmsSiteConfigToLetsEncryptConfigConverter {
          *
          * @return the JSON configuration corresponding to the domain grouping
          */
-        public String generateCertJson() {
+        public @RUntainted String generateCertJson() {
 
             try {
                 JSONObject result = new JSONObject();
-                for (Set<String> domainGroup : m_domainGroups) {
+                for (@RUntainted Set<String> domainGroup : m_domainGroups) {
                     String key = computeName(domainGroup);
                     if (key != null) {
                         result.put(key, new JSONArray(domainGroup));
@@ -504,7 +504,7 @@ public class CmsSiteConfigToLetsEncryptConfigConverter {
                         org.opencms.ui.apps.Messages.RPT_LETSENCRYPT_NO_DOMAINS_0));
                 return false;
             }
-            String certConfig = domainGrouping.generateCertJson();
+            @RUntainted String certConfig = domainGrouping.generateCertJson();
             if (!m_configUpdater.update(certConfig)) {
                 report.println(
                     org.opencms.ui.apps.Messages.get().container(

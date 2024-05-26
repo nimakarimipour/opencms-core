@@ -181,7 +181,7 @@ public class CmsGwtServiceContext implements I_CmsEventListener {
      *
      * @return the serialization policy for the given service
      */
-    protected SerializationPolicy getSerializationPolicy(CmsObject cms, String moduleBaseURL, String strongName) {
+    protected SerializationPolicy getSerializationPolicy(CmsObject cms, @RUntainted String moduleBaseURL, @RUntainted String strongName) {
 
         if (m_serializationPolicyPath == null) {
             m_serializationPolicyPath = getSerializationPolicyPath(moduleBaseURL, strongName);
@@ -197,7 +197,7 @@ public class CmsGwtServiceContext implements I_CmsEventListener {
      *
      * @return the serialization policy path
      */
-    protected String getSerializationPolicyPath(@RUntainted String moduleBaseURL, String strongName) {
+    protected @RUntainted String getSerializationPolicyPath(@RUntainted String moduleBaseURL, @RUntainted String strongName) {
 
         // locate the serialization policy file in OpenCms
         String modulePath = null;

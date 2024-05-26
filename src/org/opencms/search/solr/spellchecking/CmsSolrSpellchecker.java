@@ -248,14 +248,14 @@ public final class CmsSolrSpellchecker {
      * @param response The SpellCheckResponse object containing the spellcheck results.
      * @return The spellcheck suggestions as JSON object or null if something goes wrong.
      */
-    private JSONObject getConvertedResponseAsJson(SpellCheckResponse response) {
+    private JSONObject getConvertedResponseAsJson(@RUntainted SpellCheckResponse response) {
 
         if (null == response) {
             return null;
         }
 
         final JSONObject suggestions = new JSONObject();
-        final Map<String, Suggestion> solrSuggestions = response.getSuggestionMap();
+        final Map<String, @RUntainted Suggestion> solrSuggestions = response.getSuggestionMap();
 
         // Add suggestions to the response
         for (final String key : solrSuggestions.keySet()) {
@@ -275,7 +275,7 @@ public final class CmsSolrSpellchecker {
             if (!ignoreWord) {
                 try {
                     // Get suggestions as List
-                    final List<String> l = solrSuggestions.get(key).getAlternatives();
+                    final @RUntainted List<String> l = solrSuggestions.get(key).getAlternatives();
                     suggestions.put(key, l);
                 } catch (JSONException e) {
                     LOG.debug("Exception while converting Solr spellcheckresponse to JSON. ", e);

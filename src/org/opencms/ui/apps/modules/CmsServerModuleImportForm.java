@@ -97,9 +97,9 @@ public class CmsServerModuleImportForm extends A_CmsModuleImportForm {
         }
         m_moduleSelect.addValueChangeListener(new ValueChangeListener() {
 
-            public void valueChange(ValueChangeEvent event) {
+            public void valueChange(@RUntainted ValueChangeEvent event) {
 
-                String path = (String)(event.getProperty().getValue());
+                @RUntainted String path = (String)(event.getProperty().getValue());
                 m_importFile = new CmsModuleImportFile(path);
                 m_ok.setEnabled(false);
                 validateModuleFile();

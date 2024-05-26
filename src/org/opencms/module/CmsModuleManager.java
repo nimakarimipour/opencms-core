@@ -299,7 +299,7 @@ public class CmsModuleManager {
      *
      * @throws CmsConfigurationException if something goes wrong
      */
-    public static List<String> topologicalSort(List<String> moduleNames, String rfsAbsPath)
+    public static List<String> topologicalSort(List<String> moduleNames, @RUntainted String rfsAbsPath)
     throws CmsConfigurationException {
 
         List<String> modules = new ArrayList<String>(moduleNames);
@@ -461,7 +461,7 @@ public class CmsModuleManager {
      * @throws CmsIllegalArgumentException if the module list is not consistent
      * @throws CmsConfigurationException if something goes wrong
      */
-    public void checkModuleSelectionList(List<String> moduleNames, String rfsAbsPath, boolean forDeletion)
+    public void checkModuleSelectionList(List<String> moduleNames, @RUntainted String rfsAbsPath, boolean forDeletion)
     throws CmsIllegalArgumentException, CmsConfigurationException {
 
         Map<String, List<String>> moduleDependencies = buildDepsForAllModules(rfsAbsPath, forDeletion);

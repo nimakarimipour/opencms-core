@@ -87,7 +87,7 @@ public class CmsPathSelectField extends A_CmsFileSelectField<String> {
      * @return the value
      */
     @Override
-    public String getValue() {
+    public @RUntainted String getValue() {
 
         return m_textField.getValue();
     }

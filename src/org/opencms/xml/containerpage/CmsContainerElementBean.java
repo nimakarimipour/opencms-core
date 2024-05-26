@@ -406,7 +406,7 @@ public class CmsContainerElementBean implements Cloneable {
      *
      * @return the ADE client editor has value
      */
-    public String editorHash() {
+    public @RUntainted String editorHash() {
 
         if (m_editorHash == null) {
             m_editorHash = m_elementId.toString() + getSettingsHash();

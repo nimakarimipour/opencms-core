@@ -316,7 +316,7 @@ public interface I_CmsSearchIndex extends I_CmsConfigurationParameterHandler, Se
      *
      * @throws CmsIllegalArgumentException if the given name is null, empty or already taken by another search index
      */
-    void setName(String name) throws CmsIllegalArgumentException;
+    void setName(@RUntainted String name) throws CmsIllegalArgumentException;
 
     /**
      * Sets the name of the project used to index resources.<p>

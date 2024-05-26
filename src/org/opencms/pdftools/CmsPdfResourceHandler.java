@@ -183,7 +183,7 @@ public class CmsPdfResourceHandler implements I_CmsResourceInit {
         }
         if (result == null) {
             cmsForJspExecution.getRequestContext().setUri(content.getRootPath());
-            byte[] xhtmlData = CmsPdfFormatterUtils.executeJsp(
+            @RUntainted byte[] xhtmlData = CmsPdfFormatterUtils.executeJsp(
                 cmsForJspExecution,
                 request,
                 response,

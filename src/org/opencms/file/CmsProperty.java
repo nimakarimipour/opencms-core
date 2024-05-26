@@ -774,7 +774,7 @@ public class CmsProperty implements Serializable, Cloneable, Comparable<CmsPrope
      *
      * @return the compound value of this property
      */
-    public String getValue() {
+    public @RUntainted String getValue() {
 
         return (m_structureValue != null) ? m_structureValue : m_resourceValue;
     }
@@ -790,7 +790,7 @@ public class CmsProperty implements Serializable, Cloneable, Comparable<CmsPrope
      *
      * @return the compound value of this property, or the default value
      */
-    public String getValue(String defaultValue) {
+    public @RUntainted String getValue(String defaultValue) {
 
         if (this == CmsProperty.NULL_PROPERTY) {
             // return the default value if this property is the null property

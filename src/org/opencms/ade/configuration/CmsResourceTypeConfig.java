@@ -497,7 +497,7 @@ public class CmsResourceTypeConfig implements I_CmsConfigurationObject<CmsResour
      *
      * @return the element view id
      */
-    public CmsUUID getElementView() {
+    public @RUntainted CmsUUID getElementView() {
 
         return m_elementView == null ? CmsElementView.DEFAULT_ELEMENT_VIEW.getId() : m_elementView;
     }

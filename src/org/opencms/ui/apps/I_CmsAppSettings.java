@@ -26,6 +26,7 @@
  */
 
 package org.opencms.ui.apps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Used to write app settings to the user. Can be restored for the next user session.<p>

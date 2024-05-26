@@ -496,7 +496,7 @@ public interface I_CmsResourceType extends I_CmsConfigurationParameterHandler, S
      *
      * @return the name of this resource type
      */
-    String getTypeName();
+    @RUntainted String getTypeName();
 
     /**
      * Imports a resource to the OpenCms VFS.<p>

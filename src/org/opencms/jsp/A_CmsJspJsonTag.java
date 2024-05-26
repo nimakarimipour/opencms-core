@@ -232,7 +232,7 @@ public abstract class A_CmsJspJsonTag extends BodyTagSupport {
      *
      * @throws JspException in case the value could not be added to the target
      */
-    protected void addToTarget(Object target, Object val, String key) throws JspException {
+    protected void addToTarget(Object target, @RUntainted Object val, String key) throws JspException {
 
         if (target instanceof JSONObject) {
             if (key == null) {

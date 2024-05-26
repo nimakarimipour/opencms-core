@@ -56,7 +56,7 @@ public abstract class A_CmsNativeComplexWidget implements I_CmsComplexWidget {
     protected String m_configuration;
 
     /** The configuration map created from the configuration string. */
-    protected Map<String, String> m_configurationMap;
+    protected @RUntainted Map<String, String> m_configurationMap;
 
     /** The configuration map in JSON format. */
     protected JSONObject m_jsonConfig;

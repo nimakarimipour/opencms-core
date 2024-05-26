@@ -112,7 +112,7 @@ public class CmsLocationPickerWidgetValue {
          *
          * @return the mode
          */
-        public String getMode() {
+        public @RUntainted String getMode() {
 
             return m_modeValue;
         }
@@ -332,7 +332,7 @@ public class CmsLocationPickerWidgetValue {
      *
      * @return the type
      */
-    public MapType getType() {
+    public @RUntainted MapType getType() {
 
         return m_type;
     }

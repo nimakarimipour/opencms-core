@@ -2046,7 +2046,7 @@ I_CmsContextProvider, CmsFileTable.I_FolderSelectHandler {
      */
     private void updateUploadButton(CmsResource folder) {
 
-        String uploadAction = null;
+        @RUntainted String uploadAction = null;
         m_uploadFolder = folder;
         try {
             uploadAction = OpenCms.getResourceManager().getResourceType(folder).getConfiguration().get(

@@ -171,7 +171,7 @@ public class CmsDirectEditParams {
      *
      * @return the selected element in the target content
      */
-    public String getElement() {
+    public @RUntainted String getElement() {
 
         return m_element;
     }
@@ -181,7 +181,7 @@ public class CmsDirectEditParams {
      *
      * @return the id
      */
-    public String getId() {
+    public @RUntainted String getId() {
 
         return m_id;
     }
@@ -221,7 +221,7 @@ public class CmsDirectEditParams {
      *
      * @return the link to create a new VFS resource of the edited type
      */
-    public String getLinkForNew() {
+    public @RUntainted String getLinkForNew() {
 
         return m_linkForNew;
     }
@@ -241,7 +241,7 @@ public class CmsDirectEditParams {
      *
      * @return the post-create handler class name
      */
-    public String getPostCreateHandler() {
+    public @RUntainted String getPostCreateHandler() {
 
         return m_postCreateHandler;
     }
@@ -251,7 +251,7 @@ public class CmsDirectEditParams {
      *
      * @return the edit target VFS resource name
      */
-    public String getResourceName() {
+    public @RUntainted String getResourceName() {
 
         return m_resourceName;
     }

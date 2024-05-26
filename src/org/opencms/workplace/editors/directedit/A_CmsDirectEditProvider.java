@@ -267,7 +267,7 @@ public abstract class A_CmsDirectEditProvider implements I_CmsDirectEditProvider
      *
      * @return the next random edit id
      */
-    protected String getNextDirectEditId() {
+    protected @RUntainted String getNextDirectEditId() {
 
         return "ocms_".concat(String.valueOf(m_rnd.nextInt(1000000)));
     }

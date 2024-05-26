@@ -103,7 +103,7 @@ public class CmsAdeDownloadGalleryWidget extends A_CmsAdeGalleryWidget {
 
         JSONObject result = new JSONObject();
         result.put(I_CmsGalleryProviderConstants.CONFIG_TAB_CONFIG, "selectDoc");
-        String uploadFolder = OpenCms.getWorkplaceManager().getRepositoryFolderHandler().getRepositoryFolder(
+        @RUntainted String uploadFolder = OpenCms.getWorkplaceManager().getRepositoryFolderHandler().getRepositoryFolder(
             cms,
             resource,
             GALLERY_NAME + "gallery");

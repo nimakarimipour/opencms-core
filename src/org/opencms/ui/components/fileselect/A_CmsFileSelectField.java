@@ -79,7 +79,7 @@ public abstract class A_CmsFileSelectField<T> extends CustomField<T> implements 
     protected boolean m_startWithSitemapView;
 
     /** The text field containing the selected path. */
-    protected TextField m_textField;
+    protected @RUntainted TextField m_textField;
 
     /**Button for open file select dialog. */
     Button m_fileSelectButton;

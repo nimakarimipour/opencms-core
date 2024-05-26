@@ -302,9 +302,9 @@ public class CmsGitConfiguration {
      * @param propValue the property value
      * @return the value of the variable set at this line.
      */
-    private @RUntainted String getValueFromProp(final String propValue) {
+    private @RUntainted String getValueFromProp(final @RUntainted String propValue) {
 
-        String value = propValue;
+        @RUntainted String value = propValue;
         // remove quotes
         value = value.trim();
         if ((value.startsWith("\"") && value.endsWith("\"")) || (value.startsWith("'") && value.endsWith("'"))) {
@@ -322,9 +322,9 @@ public class CmsGitConfiguration {
                 Properties props = new Properties();
                 try (FileInputStream input = new FileInputStream(m_configFile)) {
                     props.load(input);
-                    for (Entry<Object, Object> entry : props.entrySet()) {
+                    for (Entry<Object, @RUntainted Object> entry : props.entrySet()) {
                         String key = (String)entry.getKey();
-                        String propValue = (String)entry.getValue();
+                        @RUntainted String propValue = (String)entry.getValue();
                         if (key.equals(DEFAULT_MODULES_TO_EXPORT)) {
                             String value = getValueFromProp(propValue).trim();
                             if (value.contains(",")) {

@@ -28,6 +28,7 @@
 package org.opencms.ui.shared.rpc;
 
 import com.vaadin.shared.communication.ServerRpc;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Rpc -interface for handling results from JSP displayed on an extended BrowserFrame.<p>

@@ -115,7 +115,7 @@ public class JSONArray {
     /**
      * The arrayList where the JSONArray's properties are kept.
      */
-    private ArrayList<Object> m_myArrayList;
+    private ArrayList<@RUntainted Object> m_myArrayList;
 
     /**
      * Construct an empty JSONArray.<p>
@@ -144,11 +144,11 @@ public class JSONArray {
      * @param includeSuperClass tell whether to include the super class properties
      */
 
-    public JSONArray(Collection<Object> collection, boolean includeSuperClass) {
+    public JSONArray(Collection<Object> collection, @RUntainted boolean includeSuperClass) {
 
         m_myArrayList = new ArrayList<Object>();
         if (collection != null) {
-            for (Iterator<Object> iter = collection.iterator(); iter.hasNext();) {
+            for (Iterator<@RUntainted Object> iter = collection.iterator(); iter.hasNext();) {
                 m_myArrayList.add(new JSONObject(iter.next(), includeSuperClass));
             }
         }
@@ -432,7 +432,7 @@ public class JSONArray {
      * @return a string
      * @throws JSONException if the array contains an invalid number
      */
-    public String join(String separator) throws JSONException {
+    public @RUntainted String join(String separator) throws JSONException {
 
         int len = length();
         StringBuffer sb = new StringBuffer();
@@ -462,7 +462,7 @@ public class JSONArray {
      * @param index the index must be between 0 and length() - 1
      * @return      an object value, or null if there is no object at that index
      */
-    public Object opt(int index) {
+    public @RUntainted Object opt(int index) {
 
         return ((index < 0) || (index >= length())) ? null : m_myArrayList.get(index);
     }
@@ -817,7 +817,7 @@ public class JSONArray {
      * @throws JSONException if the index is negative or if the the value is
      *  an invalid number
      */
-    public JSONArray put(int index, Object value) throws JSONException {
+    public JSONArray put(int index, @RUntainted Object value) throws JSONException {
 
         JSONObject.testValidity(value);
         if (index < 0) {
@@ -867,7 +867,7 @@ public class JSONArray {
      *  JSONObject.NULL object
      * @return this
      */
-    public JSONArray put(Object value) {
+    public @RUntainted JSONArray put(@RUntainted Object value) {
 
         m_myArrayList.add(value);
         return this;
@@ -907,7 +907,7 @@ public class JSONArray {
      * @return a printable, displayable, transmittable representation of the array
      */
     @Override
-    public String toString() {
+    public @RUntainted String toString() {
 
         try {
             return '[' + join(",") + ']';
@@ -957,7 +957,7 @@ public class JSONArray {
                 if (b) {
                     writer.write(',');
                 }
-                Object v = m_myArrayList.get(i);
+                @RUntainted Object v = m_myArrayList.get(i);
                 if (v instanceof JSONObject) {
                     ((JSONObject)v).write(writer);
                 } else if (v instanceof JSONArray) {
@@ -986,7 +986,7 @@ public class JSONArray {
      *  representation of the array
      * @throws JSONException if something goes wrong
      */
-    String toString(int indentFactor, int indent) throws JSONException {
+    @RUntainted String toString(int indentFactor, int indent) throws JSONException {
 
         int len = length();
         if (len == 0) {

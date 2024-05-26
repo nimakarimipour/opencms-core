@@ -80,7 +80,7 @@ public class CmsPdfConverter {
      *
      * @throws Exception if something goes wrong
      */
-    public byte[] convertXhtmlToPdf(CmsObject cms, byte[] xhtmlData, String uri) throws Exception {
+    public byte[] convertXhtmlToPdf(CmsObject cms, @RUntainted byte[] xhtmlData, String uri) throws Exception {
 
         Document doc = readDocument(xhtmlData);
         ITextRenderer renderer = new ITextRenderer();

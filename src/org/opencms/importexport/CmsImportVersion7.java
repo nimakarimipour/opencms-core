@@ -1955,7 +1955,7 @@ public class CmsImportVersion7 implements I_CmsImport {
         CmsObject cms,
         String importPath,
         I_CmsReport report,
-        File importResource,
+        @RUntainted File importResource,
         ZipFile importZip,
         Document docXml) {
 

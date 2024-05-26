@@ -329,9 +329,9 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
     public static void processHeaders(Map<String, List<String>> headers, HttpServletResponse res) {
 
         if (headers != null) {
-            Iterator<Map.Entry<String, List<String>>> i = headers.entrySet().iterator();
+            Iterator<Map.Entry<String, List<@RUntainted String>>> i = headers.entrySet().iterator();
             while (i.hasNext()) {
-                Map.Entry<String, List<String>> entry = i.next();
+                Map.Entry<String, List<@RUntainted String>> entry = i.next();
                 String key = entry.getKey();
                 List<@RUntainted String> l = entry.getValue();
                 for (int j = 0; j < l.size(); j++) {

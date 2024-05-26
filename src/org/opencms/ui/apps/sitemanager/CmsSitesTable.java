@@ -146,7 +146,7 @@ public class CmsSitesTable extends Table implements I_CmsFilterableTable {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> context) {
+        public void executeAction(Set<@RUntainted String> context) {
 
             CmsExportSiteForm form = new CmsExportSiteForm(
                 A_CmsUI.getCmsObject(),

@@ -77,7 +77,7 @@ public class CmsImageCacheHolder {
      * public constructor.<p>
      * @param search
      */
-    public CmsImageCacheHolder(final String search) {
+    public CmsImageCacheHolder(final @RUntainted String search) {
 
         try {
             m_clonedCms = getClonedCmsObject(A_CmsUI.getCmsObject());
@@ -101,7 +101,7 @@ public class CmsImageCacheHolder {
             }
         };
         if (!search.startsWith("*") & search.startsWith("/")) {
-            String root = getRootFromPattern(search);
+            @RUntainted String root = getRootFromPattern(search);
             if (root.length() > 1) {
                 readAllImagesAndVariations(root.substring(1).replace("*", ""));
             } else {
@@ -224,9 +224,9 @@ public class CmsImageCacheHolder {
         return clonedCms;
     }
 
-    private String getRootFromPattern(String pattern) {
+    private @RUntainted String getRootFromPattern(@RUntainted String pattern) {
 
-        String res = pattern.substring(0, pattern.lastIndexOf("/"));
+        @RUntainted String res = pattern.substring(0, pattern.lastIndexOf("/"));
 
         return res;
     }

@@ -399,7 +399,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
     private CmsUUID m_resourceId;
 
     /** The name of a resource with it's full path from the root folder including the current site root. */
-    private String m_rootPath;
+    private @RUntainted String m_rootPath;
 
     /** The number of links that point to this resource. */
     private int m_siblingCount;
@@ -408,7 +408,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
     private CmsResourceState m_state;
 
     /** The id of the structure database record. */
-    private CmsUUID m_structureId;
+    private @RUntainted CmsUUID m_structureId;
 
     /** The resource type id of this resource. */
     private int m_typeId;
@@ -641,7 +641,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      * @param resource the resource to get the name for
      * @return the name of a resource without the path information
      */
-    public static String getName(String resource) {
+    public static @RPolyTainted String getName(@RPolyTainted String resource) {
 
         if ("/".equals(resource)) {
             return "/";
@@ -664,7 +664,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      * @param resource the resource to find the parent folder for
      * @return the calculated parent absolute folder path, or <code>null</code> for the root folder
      */
-    public static String getParentFolder(String resource) {
+    public static @RPolyTainted String getParentFolder(@RPolyTainted String resource) {
 
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(resource) || "/".equals(resource)) {
             return null;
@@ -902,7 +902,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      *
      * @return the date of the last modification of this resource
      */
-    public long getDateLastModified() {
+    public @RUntainted long getDateLastModified() {
 
         return m_dateLastModified;
     }
@@ -940,7 +940,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      *
      * @return the content length of the content
      */
-    public int getLength() {
+    public @RUntainted int getLength() {
 
         // make sure folders always have a -1 size
         return m_isFolder ? -1 : m_length;
@@ -951,9 +951,9 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      *
      * @return the file name of this resource without parent folders
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
-        String name = getName(m_rootPath);
+        @RUntainted String name = getName(m_rootPath);
         if (name.charAt(name.length() - 1) == '/') {
             return name.substring(0, name.length() - 1);
         } else {
@@ -1022,7 +1022,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      *
      * @return the state of this resource
      */
-    public CmsResourceState getState() {
+    public @RUntainted CmsResourceState getState() {
 
         return m_state;
     }
@@ -1124,7 +1124,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      *
      * @return true if this resource is a folder, false otherwise
      */
-    public boolean isFolder() {
+    public @RUntainted boolean isFolder() {
 
         return m_isFolder;
     }

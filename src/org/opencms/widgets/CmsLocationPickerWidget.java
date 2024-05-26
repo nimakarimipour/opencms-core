@@ -110,8 +110,8 @@ public class CmsLocationPickerWidget extends A_CmsWidget implements I_CmsADEWidg
         try {
             // make sure the configuration is a parsable JSON string
             JSONObject conf = new JSONObject(config);
-            String keyMessage = Messages.get().getBundle().key(Messages.LOG_API_KEY_FROM_CONFIG_0);
-            String apiKey = conf.has(CONFIG_API_KEY) ? conf.getString(CONFIG_API_KEY) : "";
+            @RUntainted String keyMessage = Messages.get().getBundle().key(Messages.LOG_API_KEY_FROM_CONFIG_0);
+            @RUntainted String apiKey = conf.has(CONFIG_API_KEY) ? conf.getString(CONFIG_API_KEY) : "";
             String sitePath = null;
             if (CmsStringUtil.isEmptyOrWhitespaceOnly(apiKey)) {
                 if (resource.getStructureId().isNullUUID()) {

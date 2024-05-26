@@ -2761,8 +2761,8 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
     throws CmsDataAccessException {
 
         Connection conn = null;
-        ResultSet resultSet = null;
-        PreparedStatement stmt = null;
+        @RUntainted ResultSet resultSet = null;
+        @RUntainted PreparedStatement stmt = null;
         List<CmsUrlNameMappingEntry> result = new ArrayList<CmsUrlNameMappingEntry>();
         try {
             conn = m_sqlManager.getConnection(dbc);
@@ -3739,9 +3739,9 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
      *
      * @throws SQLException if something goes wrong
      */
-    protected CmsUrlNameMappingEntry internalCreateUrlNameMappingEntry(ResultSet resultSet) throws SQLException {
+    protected CmsUrlNameMappingEntry internalCreateUrlNameMappingEntry(@RUntainted ResultSet resultSet) throws SQLException {
 
-        String name = resultSet.getString(1);
+        @RUntainted String name = resultSet.getString(1);
         CmsUUID structureId = new CmsUUID(resultSet.getString(2));
         int state = resultSet.getInt(3);
         long dateChanged = resultSet.getLong(4);
@@ -4742,7 +4742,7 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
      *
      * @throws SQLException if something goes wrong
      */
-    PreparedStatement getPreparedStatementForFilter(Connection conn, String baseQuery, CmsUrlNameMappingFilter filter)
+    @RUntainted PreparedStatement getPreparedStatementForFilter(Connection conn, String baseQuery, CmsUrlNameMappingFilter filter)
     throws SQLException {
 
         CmsPair<String, List<I_CmsPreparedStatementParameter>> conditionData = prepareUrlNameMappingConditions(filter);
@@ -4751,7 +4751,7 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
             whereClause = " WHERE " + conditionData.getFirst();
         }
         String query = baseQuery + whereClause;
-        PreparedStatement stmt = m_sqlManager.getPreparedStatementForSql(conn, query);
+        @RUntainted PreparedStatement stmt = m_sqlManager.getPreparedStatementForSql(conn, query);
         int counter = 1;
         for (I_CmsPreparedStatementParameter param : conditionData.getSecond()) {
             param.insertIntoStatement(stmt, counter);

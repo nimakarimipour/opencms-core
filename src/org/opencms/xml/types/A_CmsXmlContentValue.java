@@ -387,7 +387,7 @@ public abstract class A_CmsXmlContentValue implements I_CmsXmlContentValue, I_Cm
      *
      * @return the name
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_name;
     }

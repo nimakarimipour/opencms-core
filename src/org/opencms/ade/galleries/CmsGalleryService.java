@@ -3292,7 +3292,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
      *
      * @param folders the folder filters
      */
-    private void storeFolderFilter(Set<String> folders) {
+    private void storeFolderFilter(@RUntainted Set<String> folders) {
 
         JSONObject storedFilters = readUserFolderFilters();
         try {

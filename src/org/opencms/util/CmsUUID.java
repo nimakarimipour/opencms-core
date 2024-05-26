@@ -171,7 +171,7 @@ public final class CmsUUID extends Object implements Cloneable, Comparable<CmsUU
      *
      * @return a String representing a dummy (random based) ethernet address
      */
-    public static String getDummyEthernetAddress() {
+    public static @RUntainted String getDummyEthernetAddress() {
 
         return UUIDGenerator.getInstance().getDummyAddress().toString();
     }
@@ -182,7 +182,7 @@ public final class CmsUUID extends Object implements Cloneable, Comparable<CmsUU
      *
      * @return a null UUID
      */
-    public static CmsUUID getNullUUID() {
+    public static @RUntainted CmsUUID getNullUUID() {
 
         return NULL_UUID;
     }
@@ -292,7 +292,7 @@ public final class CmsUUID extends Object implements Cloneable, Comparable<CmsUU
      *
      * @return the String representation of this UUID
      */
-    public String getStringValue() {
+    public @RUntainted String getStringValue() {
 
         return toString();
     }
@@ -374,7 +374,7 @@ public final class CmsUUID extends Object implements Cloneable, Comparable<CmsUU
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString() {
+    public @RUntainted String toString() {
 
         return m_uuid.toString();
     }

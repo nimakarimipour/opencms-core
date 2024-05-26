@@ -130,7 +130,7 @@ public class CmsJsonResourceHandler implements I_CmsResourceInit, I_CmsNeedsAdmi
      * @param res the resource to link to
      * @return the link to the resource
      */
-    public static String link(CmsObject cms, CmsResource res) {
+    public static @RUntainted String link(CmsObject cms, CmsResource res) {
 
         I_CmsCustomLinkRenderer linkRenderer = getLinkRenderer(cms);
         if (linkRenderer != null) {
@@ -275,7 +275,7 @@ public class CmsJsonResourceHandler implements I_CmsResourceInit, I_CmsNeedsAdmi
         }
 
         int status = HttpServletResponse.SC_OK;
-        String output = "";
+        @RUntainted String output = "";
         CmsJsonAccessPolicy accessPolicy = null;
         try {
             if (cms == null) {

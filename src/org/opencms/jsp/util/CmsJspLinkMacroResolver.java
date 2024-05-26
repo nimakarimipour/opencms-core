@@ -226,7 +226,7 @@ public class CmsJspLinkMacroResolver implements I_CmsMacroResolver {
      *
      * @see org.opencms.util.I_CmsMacroResolver#resolveMacros(java.lang.String)
      */
-    public String resolveMacros(String input) {
+    public @RUntainted String resolveMacros(String input) {
 
         // clear the list of links
         m_links.clear();

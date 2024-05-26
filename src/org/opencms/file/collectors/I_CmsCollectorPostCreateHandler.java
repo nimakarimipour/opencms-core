@@ -30,6 +30,8 @@ package org.opencms.file.collectors;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.util.CmsPair;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Interface which can be used to add custom code to execute after a user has created a new content

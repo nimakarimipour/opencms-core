@@ -44,5 +44,5 @@ public interface I_CmsRepositoryFolderHandler {
      *
      * @return the site path of the repository folder
      */
-    String getRepositoryFolder(CmsObject cms, String reference, String type);
+    @RUntainted String getRepositoryFolder(CmsObject cms, String reference, String type);
 }

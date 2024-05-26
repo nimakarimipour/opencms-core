@@ -379,7 +379,7 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
             widgetConfiguration,
             CONF_PARAM_SEPARATOR,
             CONF_KEYVALUE_SEPARATOR);
-        for (Map.Entry<String, String> entry : confEntries.entrySet()) {
+        for (Map.Entry<String, @RUntainted String> entry : confEntries.entrySet()) {
             try {
                 result.put(entry.getKey(), entry.getValue());
             } catch (JSONException e) {

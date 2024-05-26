@@ -185,7 +185,7 @@ public class CmsResourceTypeXmlContent extends A_CmsResourceTypeLinkParseable {
      *
      * @since 7.0.2
      */
-    public static boolean isXmlContent(CmsResource resource) {
+    public static @RUntainted boolean isXmlContent(CmsResource resource) {
 
         boolean result = false;
         if (resource != null) {

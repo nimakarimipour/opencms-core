@@ -564,9 +564,9 @@ public class CmsLoginController {
      */
     public void onClickLogin() {
 
-        String user = m_ui.getUser();
+        @RUntainted String user = m_ui.getUser();
         String password = m_ui.getPassword();
-        String ou = m_ui.getOrgUnit();
+        @RUntainted String ou = m_ui.getOrgUnit();
         if (CmsLoginOuSelector.OU_NONE.equals(ou)) {
             displayError(
                 CmsVaadinUtils.getMessageText(Messages.GUI_LOGIN_NO_OU_SELECTED_WARNING_0) + "\n\n",
@@ -584,7 +584,7 @@ public class CmsLoginController {
         }
 
         String realUser = CmsStringUtil.joinPaths(ou, user);
-        String pcType = m_ui.getPcType();
+        @RUntainted String pcType = m_ui.getPcType();
         CmsObject currentCms = A_CmsUI.getCmsObject();
         CmsUser userObj = null;
 

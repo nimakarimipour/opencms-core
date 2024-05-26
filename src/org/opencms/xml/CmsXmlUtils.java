@@ -483,7 +483,7 @@ public final class CmsXmlUtils {
      * @return the output stream with the xml content
      * @throws CmsXmlException if something goes wrong
      */
-    public static OutputStream marshal(Document document, OutputStream out, String encoding) throws CmsXmlException {
+    public static @RPolyTainted OutputStream marshal(Document document, @RPolyTainted OutputStream out, String encoding) throws CmsXmlException {
 
         try {
             OutputFormat format = OutputFormat.createPrettyPrint();
@@ -898,7 +898,7 @@ public final class CmsXmlUtils {
      *
      * @throws CmsXmlException if the validation fails
      */
-    public static void validateXmlStructure(byte[] xmlData, EntityResolver resolver) throws CmsXmlException {
+    public static void validateXmlStructure(@RUntainted byte[] xmlData, EntityResolver resolver) throws CmsXmlException {
 
         validateXmlStructure(new ByteArrayInputStream(xmlData), resolver);
     }
@@ -917,7 +917,7 @@ public final class CmsXmlUtils {
     throws CmsXmlException {
 
         // generate bytes from document
-        byte[] xmlData = ((ByteArrayOutputStream)marshal(
+        @RUntainted byte[] xmlData = ((ByteArrayOutputStream)marshal(
             document,
             new ByteArrayOutputStream(512),
             encoding)).toByteArray();

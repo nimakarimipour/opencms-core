@@ -247,7 +247,7 @@ public class CmsPublishService extends CmsGwtService implements I_CmsPublishServ
         }
 
         boolean useCurrentPageAsDefault = params.containsKey(CmsPublishOptions.PARAM_START_WITH_CURRENT_PAGE);
-        CmsPublishOptions options = getCachedOptions();
+        @RUntainted CmsPublishOptions options = getCachedOptions();
         List<CmsProjectBean> projects = OpenCms.getWorkflowManager().getManageableProjects(cms, params);
         Set<CmsUUID> availableProjectIds = Sets.newHashSet();
         for (CmsProjectBean projectBean : projects) {
@@ -336,7 +336,7 @@ public class CmsPublishService extends CmsGwtService implements I_CmsPublishServ
      */
     public CmsPublishGroupList getResourceGroups(
         CmsWorkflow workflow,
-        CmsPublishOptions options,
+        @RUntainted CmsPublishOptions options,
         boolean projectChanged)
     throws CmsRpcException {
 
@@ -451,9 +451,9 @@ public class CmsPublishService extends CmsGwtService implements I_CmsPublishServ
      *
      * @return the cached publish options
      */
-    private CmsPublishOptions getCachedOptions() {
+    private @RUntainted CmsPublishOptions getCachedOptions() {
 
-        CmsPublishOptions cache = (CmsPublishOptions)getRequest().getSession().getAttribute(
+        @RUntainted CmsPublishOptions cache = (CmsPublishOptions)getRequest().getSession().getAttribute(
             SESSION_ATTR_ADE_PUB_OPTS_CACHE);
         if (cache == null) {
             CmsUserSettings settings = new CmsUserSettings(getCmsObject());

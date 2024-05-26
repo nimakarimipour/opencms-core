@@ -112,7 +112,7 @@ public class CmsJsonPart {
      *
      * @return the value
      */
-    public String getValue() {
+    public @RUntainted String getValue() {
 
         return m_value;
     }

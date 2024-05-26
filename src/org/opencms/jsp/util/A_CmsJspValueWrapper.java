@@ -180,7 +180,7 @@ abstract class A_CmsJspValueWrapper extends AbstractCollection<String> {
      *
      * @return the substituted link
      */
-    public static String substituteLink(CmsObject cms, String target) {
+    public static String substituteLink(CmsObject cms, @RUntainted String target) {
 
         if (cms != null) {
             return OpenCms.getLinkManager().substituteLinkForUnknownTarget(

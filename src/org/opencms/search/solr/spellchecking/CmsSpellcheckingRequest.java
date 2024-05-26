@@ -36,7 +36,7 @@ import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 class CmsSpellcheckingRequest {
 
     /** The Id of the request sent by tinyMce. */
-    String m_id;
+    @RUntainted String m_id;
 
     /** The dictionary to use.  */
     String m_dictionaryToUse;
@@ -45,7 +45,7 @@ class CmsSpellcheckingRequest {
     String[] m_wordsToCheck;
 
     /** JSON object containing the computed suggestions for the checked words. */
-    JSONObject m_wordSuggestions;
+    @RUntainted JSONObject m_wordSuggestions;
 
     /**
      * Constructor.

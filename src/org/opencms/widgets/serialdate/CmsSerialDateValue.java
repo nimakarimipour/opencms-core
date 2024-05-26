@@ -111,7 +111,7 @@ public class CmsSerialDateValue extends A_CmsSerialDateValue {
             if (isWholeDay()) {
                 result.put(JsonKey.WHOLE_DAY, true);
             }
-            JSONObject pattern = patternToJson();
+            @RUntainted JSONObject pattern = patternToJson();
             result.put(JsonKey.PATTERN, pattern);
             SortedSet<Date> exceptions = getExceptions();
             if (!exceptions.isEmpty()) {
@@ -188,7 +188,7 @@ public class CmsSerialDateValue extends A_CmsSerialDateValue {
      * @param individualDates the list to convert.
      * @return Json array with long values of dates as string
      */
-    private JSONArray datesToJson(Collection<Date> individualDates) {
+    private @RUntainted JSONArray datesToJson(Collection<Date> individualDates) {
 
         if (null != individualDates) {
             JSONArray result = new JSONArray();
@@ -205,7 +205,7 @@ public class CmsSerialDateValue extends A_CmsSerialDateValue {
      * @param d the date to convert
      * @return the String representation we use in the JSON.
      */
-    private String dateToJson(Date d) {
+    private @RUntainted String dateToJson(Date d) {
 
         return Long.toString(d.getTime());
     }
@@ -225,7 +225,7 @@ public class CmsSerialDateValue extends A_CmsSerialDateValue {
      * @return the JSON object storing the pattern information.
      * @throws JSONException if JSON creation fails.
      */
-    private JSONObject patternToJson() throws JSONException {
+    private @RUntainted JSONObject patternToJson() throws JSONException {
 
         JSONObject pattern = new JSONObject();
         if (null != getPatternType()) {

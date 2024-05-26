@@ -121,7 +121,7 @@ public class CmsJsonRendererContainerPage {
          *
          * @return the container name
          */
-        public String getName() {
+        public @RUntainted String getName() {
 
             return m_container.getName();
         }
@@ -131,7 +131,7 @@ public class CmsJsonRendererContainerPage {
          *
          * @return the container type
          */
-        public String getType() {
+        public @RUntainted String getType() {
 
             return m_container.getType();
         }
@@ -367,12 +367,12 @@ public class CmsJsonRendererContainerPage {
         if (elementNode.getElement() != null) {
             result.put("path", elementNode.getElement().getResource().getRootPath());
             // new container page format has property formatterKey
-            String formatterKey = CmsFormatterUtils.getFormatterKey(
+            @RUntainted String formatterKey = CmsFormatterUtils.getFormatterKey(
                 elementNode.getParentContainerNode().getName(),
                 elementNode.getElement());
             result.put("formatterKey", formatterKey);
             JSONObject settings = new JSONObject();
-            for (Map.Entry<String, String> entry : elementNode.getElement().getSettings().entrySet()) {
+            for (Map.Entry<String, @RUntainted String> entry : elementNode.getElement().getSettings().entrySet()) {
                 // formatterSettings and element_instance_id setting have become obsolete in the new container page format
                 if (entry.getKey().startsWith("formatterSettings") || entry.getKey().equals("element_instance_id")) {
                     continue;

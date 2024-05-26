@@ -113,16 +113,16 @@ public class CmsUploadBean extends CmsJspBean {
     private Map<String, String[]> m_parameterMap;
 
     /** The names by id of the resources that have been created successfully. */
-    private HashMap<CmsUUID, String> m_resourcesCreated = new HashMap<CmsUUID, String>();
+    private @RUntainted HashMap<CmsUUID, String> m_resourcesCreated = new HashMap<CmsUUID, String>();
 
     /** A CMS context for the root site. */
     private CmsObject m_rootCms;
 
     /** The server side upload delay. */
-    private int m_uploadDelay;
+    private @RUntainted int m_uploadDelay;
 
     /** The upload hook URI. */
-    private String m_uploadHook;
+    private @RUntainted String m_uploadHook;
 
     private CmsUploadRestrictionInfo m_uploadRestrictionInfo;
 
@@ -184,7 +184,7 @@ public class CmsUploadBean extends CmsJspBean {
      *
      * @param uploadDelay the uploadDelay to set
      */
-    public void setUploadDelay(int uploadDelay) {
+    public void setUploadDelay(@RUntainted int uploadDelay) {
 
         m_uploadDelay = uploadDelay;
     }
@@ -505,7 +505,7 @@ public class CmsUploadBean extends CmsJspBean {
      *
      * @return the the response String
      */
-    private String generateResponse(Boolean success, String message, String stacktrace) {
+    private String generateResponse(@RUntainted Boolean success, @RUntainted String message, @RUntainted String stacktrace) {
 
         JSONObject result = new JSONObject();
         try {

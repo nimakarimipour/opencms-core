@@ -79,9 +79,9 @@ public class CmsJspTagEnableAde extends BodyTagSupport {
      *
      * @throws JspException in case something goes wrong
      */
-    public static void enableAdeTagAction(PageContext context) throws JspException {
+    public static void enableAdeTagAction(@RUntainted PageContext context) throws JspException {
 
-        ServletRequest req = context.getRequest();
+        @RUntainted ServletRequest req = context.getRequest();
         if (CmsHistoryResourceHandler.isHistoryRequest(req)) {
             // don't display advanced direct edit buttons on an historical resource
             return;
@@ -210,7 +210,7 @@ public class CmsJspTagEnableAde extends BodyTagSupport {
      *
      * @return the preview mode include
      */
-    private static String getPreviewInclude(String buttonLeft, String titleMessage) {
+    private static String getPreviewInclude(@RUntainted String buttonLeft, @RUntainted String titleMessage) {
 
         StringBuffer buffer = new StringBuffer();
         buffer.append("<style type=\"text/css\"> @import url(\"").append(

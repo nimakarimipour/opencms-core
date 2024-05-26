@@ -238,7 +238,7 @@ public class CmsCategory implements Comparable<CmsCategory>, Serializable {
      *
      * @return the path
      */
-    public String getPath() {
+    public @RUntainted String getPath() {
 
         return m_path;
     }
@@ -248,7 +248,7 @@ public class CmsCategory implements Comparable<CmsCategory>, Serializable {
      *
      * @return the category's root path
      */
-    public String getRootPath() {
+    public @RUntainted String getRootPath() {
 
         return m_rootPath;
     }
@@ -258,7 +258,7 @@ public class CmsCategory implements Comparable<CmsCategory>, Serializable {
      *
      * @return the title
      */
-    public String getTitle() {
+    public @RUntainted String getTitle() {
 
         return m_title;
     }

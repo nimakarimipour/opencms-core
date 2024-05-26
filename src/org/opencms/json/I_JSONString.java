@@ -70,5 +70,5 @@ public interface I_JSONString {
      *
      * @return a strictly syntactically correct JSON text
      */
-    String toJSONString();
+    @RUntainted String toJSONString();
 }

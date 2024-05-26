@@ -74,7 +74,7 @@ public class CmsExtractionResultCache {
      * @param basepath the base path for the cache in the RFS
      * @param foldername the folder name for this cache, to be used a subfolder for the base folder
      */
-    public CmsExtractionResultCache(String basepath, String foldername) {
+    public CmsExtractionResultCache(@RUntainted String basepath, @RUntainted String foldername) {
 
         // normalize the given folder name
         m_rfsRepository = CmsFileUtil.normalizePath(basepath + foldername + File.separatorChar);

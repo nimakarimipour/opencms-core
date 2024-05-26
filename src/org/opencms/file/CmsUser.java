@@ -490,7 +490,7 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
      *
      * @return the email address of this user
      */
-    public String getEmail() {
+    public @RUntainted String getEmail() {
 
         return m_email;
     }

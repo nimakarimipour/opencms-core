@@ -422,7 +422,7 @@ public class CmsDbSynchronizationView extends VerticalLayout {
         if (m_synchronizeSettings.getDestinationPathInRfs() != null) {
             m_target.setValue(m_synchronizeSettings.getDestinationPathInRfs());
         }
-        List<String> resources = m_synchronizeSettings.getSourceListInVfs();
+        List<@RUntainted String> resources = m_synchronizeSettings.getSourceListInVfs();
         for (String resource : resources) {
             addResource(resource);
         }

@@ -208,7 +208,7 @@ public final class CmsRole {
     private final CmsRole m_parentRole;
 
     /** The name of this role. */
-    private final String m_roleName;
+    private final @RUntainted String m_roleName;
 
     /** Indicates if this role is a system role or a user defined role. */
     private boolean m_systemRole;
@@ -221,7 +221,7 @@ public final class CmsRole {
      * @param parentRole the parent role of this role
      * @param ouDependent if the role is organizational unit dependent
      */
-    public CmsRole(String roleName, CmsRole parentRole, String groupName, boolean ouDependent) {
+    public CmsRole(@RUntainted String roleName, CmsRole parentRole, String groupName, boolean ouDependent) {
 
         this(roleName, parentRole, groupName);
         m_ouDependent = ouDependent;
@@ -253,7 +253,7 @@ public final class CmsRole {
      * @param parentRole the parent role of this role
      * @param groupName the related group name
      */
-    private CmsRole(String roleName, CmsRole parentRole, String groupName) {
+    private CmsRole(@RUntainted String roleName, CmsRole parentRole, String groupName) {
 
         m_roleName = roleName;
         m_id = CmsUUID.getConstantUUID(m_roleName);
@@ -717,7 +717,7 @@ public final class CmsRole {
      *
      * @return the name of the role
      */
-    public String getRoleName() {
+    public @RUntainted String getRoleName() {
 
         return m_roleName;
     }

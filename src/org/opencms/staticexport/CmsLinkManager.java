@@ -114,7 +114,7 @@ public class CmsLinkManager {
      *
      * @return an absolute URI calculated from "relativeUri" and "baseUri"
      */
-    public static @RPolyTainted String getAbsoluteUri(@RPolyTainted String relativeUri, String baseUri) {
+    public static String getAbsoluteUri(@RUntainted String relativeUri, String baseUri) {
 
         if (isAbsoluteUri(relativeUri)) {
             // URI is null or already absolute
@@ -330,7 +330,7 @@ public class CmsLinkManager {
      * @param path the path where the OpenCms context should be removed
      * @return the adjusted path
      */
-    public static String removeOpenCmsContext(final String path) {
+    public static @RPolyTainted String removeOpenCmsContext(final @RPolyTainted String path) {
 
         String context = OpenCms.getSystemInfo().getOpenCmsContext();
         if (path.startsWith(context + "/")) {
@@ -387,7 +387,7 @@ public class CmsLinkManager {
      *
      * @see #getServerLink(CmsObject, String)
      */
-    public String getOnlineLink(CmsObject cms, String resourceName, boolean forceSecure) {
+    public @RUntainted String getOnlineLink(CmsObject cms, String resourceName, boolean forceSecure) {
 
         String result = "";
         try {
@@ -922,7 +922,7 @@ public class CmsLinkManager {
      * @return a link <i>from</i> the URI stored in the provided OpenCms user context
      *      <i>to</i> the given <code>link</code>
      */
-    public String substituteLinkForUnknownTarget(CmsObject cms, String link) {
+    public @RUntainted String substituteLinkForUnknownTarget(CmsObject cms, String link) {
 
         return substituteLinkForUnknownTarget(cms, link, false);
 

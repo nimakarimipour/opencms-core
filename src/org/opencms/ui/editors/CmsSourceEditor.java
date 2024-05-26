@@ -100,7 +100,7 @@ implements I_CmsEditor, I_CmsWindowCloseListener, ViewChangeListener, I_CmsHasSh
         boolean m_closeBrackets = true;
 
         /** The font size. */
-        String m_fontSize = "16px";
+        @RUntainted String m_fontSize = "16px";
 
         /** The highlighting flag. */
         boolean m_highlighting = true;

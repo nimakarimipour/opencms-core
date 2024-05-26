@@ -131,7 +131,7 @@ public class CmsErrorUI extends A_CmsUI {
      */
     private static void setErrorAttributes(CmsObject cms, @RUntainted Throwable throwable, HttpServletRequest request) {
 
-        String errorUri = CmsFlexController.getThrowableResourceUri(request);
+        @RUntainted String errorUri = CmsFlexController.getThrowableResourceUri(request);
         if (errorUri == null) {
             errorUri = cms.getRequestContext().getUri();
         }

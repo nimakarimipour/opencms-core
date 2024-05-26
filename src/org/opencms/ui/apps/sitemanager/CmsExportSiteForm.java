@@ -136,7 +136,7 @@ public class CmsExportSiteForm extends CmsBasicDialog {
         m_exportParams.setSkipParentFolders(false);
         SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
         String dateStr = fmt.format(new Date());
-        String filename = dateStr
+        @RUntainted String filename = dateStr
             + "_"
             + CmsFileUtil.removeTrailingSeparator(CmsFileUtil.removeLeadingSeparator(m_siteRoot)).replace("/", "_")
             + ".zip";

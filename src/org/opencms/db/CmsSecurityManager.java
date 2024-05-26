@@ -4258,7 +4258,7 @@ public final class CmsSecurityManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public String readBestUrlName(CmsRequestContext context, CmsUUID id, Locale locale, List<Locale> defaultLocales)
+    public @RUntainted String readBestUrlName(CmsRequestContext context, CmsUUID id, Locale locale, List<Locale> defaultLocales)
     throws CmsException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
@@ -5294,13 +5294,13 @@ public final class CmsSecurityManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public List<CmsResource> readResourcesVisitedBy(
+    public @RUntainted List<CmsResource> readResourcesVisitedBy(
         CmsRequestContext context,
         String poolName,
         CmsVisitedByFilter filter)
     throws CmsException {
 
-        List<CmsResource> result = null;
+        @RUntainted List<CmsResource> result = null;
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
         try {
             result = m_driverManager.readResourcesVisitedBy(dbc, poolName, filter);
@@ -5555,13 +5555,13 @@ public final class CmsSecurityManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public List<CmsResource> readSubscribedResources(
+    public @RUntainted List<CmsResource> readSubscribedResources(
         CmsRequestContext context,
         String poolName,
         CmsSubscriptionFilter filter)
     throws CmsException {
 
-        List<CmsResource> result = null;
+        @RUntainted List<CmsResource> result = null;
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
         try {
             result = m_driverManager.readSubscribedResources(dbc, poolName, filter);
@@ -7216,7 +7216,7 @@ public final class CmsSecurityManager {
      */
     public String writeUrlNameMapping(
         CmsRequestContext context,
-        Iterator<String> nameSeq,
+        Iterator<@RUntainted String> nameSeq,
         CmsUUID structureId,
         String locale,
         boolean replaceOnPublish)

@@ -178,10 +178,10 @@ public class CmsJspLoader implements I_CmsResourceLoader, I_CmsFlexCacheEnabledL
     private static Map<String, ReentrantReadWriteLock> m_fileLocks = CmsMemoryMonitor.createLRUCacheMap(10000);
 
     /** The directory to store the generated JSP pages in (absolute path). */
-    private static String m_jspRepository;
+    private static @RUntainted String m_jspRepository;
 
     /** The directory to store the generated JSP pages in (relative path in web application). */
-    private static String m_jspWebAppRepository;
+    private static @RUntainted String m_jspWebAppRepository;
 
     /** The CmsFlexCache used to store generated cache entries in. */
     private CmsFlexCache m_cache;
@@ -560,7 +560,7 @@ public class CmsJspLoader implements I_CmsResourceLoader, I_CmsFlexCacheEnabledL
      * @return the transformed JSP text
      */
     @Deprecated
-    public String processTaglibAttributes(String content) {
+    public @RUntainted String processTaglibAttributes(String content) {
 
         // matches a whole page directive
         final Pattern directivePattern = Pattern.compile("(?sm)<%@\\s*page.*?%>");
@@ -836,7 +836,7 @@ public class CmsJspLoader implements I_CmsResourceLoader, I_CmsFlexCacheEnabledL
                     if (!jspFile.exists() || (jspModificationDate == jspFile.lastModified())) {
                         updatedFiles.add(jspTargetName);
                         @RUntainted byte[] contents;
-                        String encoding;
+                        @RUntainted String encoding;
                         try {
                             CmsObject cms = controller.getCmsObject();
                             contents = cms.readFile(resource).getContents();
@@ -1200,13 +1200,13 @@ public class CmsJspLoader implements I_CmsResourceLoader, I_CmsFlexCacheEnabledL
      * @return the modified JSP content
      */
     protected @RUntainted byte[] parseJsp(
-        byte[] byteContent,
-        String encoding,
+        @RUntainted byte[] byteContent,
+        @RUntainted String encoding,
         CmsFlexController controller,
         Set<String> updatedFiles,
         boolean isHardInclude) {
 
-        String content;
+        @RUntainted String content;
         // make sure encoding is set correctly
         try {
             content = new String(byteContent, encoding);
@@ -1254,7 +1254,7 @@ public class CmsJspLoader implements I_CmsResourceLoader, I_CmsFlexCacheEnabledL
      *
      * @return the parsed JSP content
      */
-    protected String parseJspCmsTag(String content, CmsFlexController controller, Set<String> updatedFiles) {
+    protected @RUntainted String parseJspCmsTag(@RUntainted String content, CmsFlexController controller, Set<String> updatedFiles) {
 
         // check if a JSP directive occurs in the file
         int i1 = content.indexOf(DIRECTIVE_START);
@@ -1361,7 +1361,7 @@ public class CmsJspLoader implements I_CmsResourceLoader, I_CmsFlexCacheEnabledL
      *
      * @return the parsed JSP content
      */
-    protected String parseJspEncoding(String content, String encoding, boolean isHardInclude) {
+    protected @RUntainted String parseJspEncoding(@RUntainted String content, String encoding, boolean isHardInclude) {
 
         // check if a JSP directive occurs in the file
         int i1 = content.indexOf(DIRECTIVE_START);
@@ -1486,7 +1486,7 @@ public class CmsJspLoader implements I_CmsResourceLoader, I_CmsFlexCacheEnabledL
      *
      * @return the parsed JSP content
      */
-    protected String parseJspIncludes(String content, CmsFlexController controller, Set<String> updatedFiles) {
+    protected @RUntainted String parseJspIncludes(@RUntainted String content, CmsFlexController controller, Set<String> updatedFiles) {
 
         // check if a JSP directive occurs in the file
         int i1 = content.indexOf(DIRECTIVE_START);
@@ -1594,7 +1594,7 @@ public class CmsJspLoader implements I_CmsResourceLoader, I_CmsFlexCacheEnabledL
      *
      * @return the parsed content
      */
-    protected String parseJspLinkMacros(String content, CmsFlexController controller) {
+    protected @RUntainted String parseJspLinkMacros(String content, CmsFlexController controller) {
 
         CmsJspLinkMacroResolver macroResolver = new CmsJspLinkMacroResolver(controller.getCmsObject(), null, true);
         return macroResolver.resolveMacros(content);
@@ -1663,7 +1663,7 @@ public class CmsJspLoader implements I_CmsResourceLoader, I_CmsFlexCacheEnabledL
      *
      * @return the file name of the updated JSP in the "real" FS
      */
-    protected String updateJsp(String vfsName, CmsFlexController controller, Set<String> updatedFiles) {
+    protected String updateJsp(@RUntainted String vfsName, CmsFlexController controller, Set<String> updatedFiles) {
 
         String jspVfsName = CmsLinkManager.getAbsoluteUri(vfsName, controller.getCurrentRequest().getElementRootPath());
         if (LOG.isDebugEnabled()) {

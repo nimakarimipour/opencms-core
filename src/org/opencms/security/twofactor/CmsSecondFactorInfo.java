@@ -103,7 +103,7 @@ public class CmsSecondFactorInfo {
      *
      * @return the secret
      */
-    public String getSecret() {
+    public @RUntainted String getSecret() {
 
         return m_secret;
     }

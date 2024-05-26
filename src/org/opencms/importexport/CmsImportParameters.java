@@ -54,7 +54,7 @@ public class CmsImportParameters {
      * @param destination path in the OpenCms VFS to import into
      * @param keepPermissions if set, the permissions set on existing resources will not be modified
      */
-    public CmsImportParameters(String path, String destination, boolean keepPermissions) {
+    public CmsImportParameters(@RUntainted String path, String destination, boolean keepPermissions) {
 
         setPath(path);
         setDestinationPath(destination);
@@ -128,7 +128,7 @@ public class CmsImportParameters {
      *
      * @param path the file path, could be a folder or a zip file
      */
-    public void setPath(String path) {
+    public void setPath(@RUntainted String path) {
 
         m_path = path;
     }

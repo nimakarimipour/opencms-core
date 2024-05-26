@@ -44,6 +44,7 @@ import org.opencms.main.OpenCms;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor for the type "plain".<p>

@@ -527,7 +527,7 @@ public class CmsGitCheckin {
      * @param configurations Collection of configurations where the new configuration should be added.
      * @param configFile file to read the new configuration from.
      */
-    private void addConfigurationIfValid(final Collection<CmsGitConfiguration> configurations, final File configFile) {
+    private void addConfigurationIfValid(final Collection<CmsGitConfiguration> configurations, final @RUntainted File configFile) {
 
         CmsGitConfiguration config = null;
         try {
@@ -752,7 +752,7 @@ public class CmsGitCheckin {
      *
      * @return true if there were no errors during the import
      */
-    private boolean importModule(File file) throws CmsException {
+    private boolean importModule(@RUntainted File file) throws CmsException {
 
         m_logStream.println("Trying to import module from " + file.getAbsolutePath());
         I_CmsReport report = new CmsPrintStreamReport(
@@ -803,7 +803,7 @@ public class CmsGitCheckin {
                     }
                 }
             }
-            List<String> sortedModules = Lists.newArrayList();
+            List<@RUntainted String> sortedModules = Lists.newArrayList();
             // if there are no cycles, this loop will find one element on each iteration
             for (int i = 0; i < m_modulesToExport.size(); i++) {
                 String nextModule = null;
@@ -822,7 +822,7 @@ public class CmsGitCheckin {
                 }
             }
             m_logStream.println("Modules sorted by dependencies: " + sortedModules);
-            for (String moduleName : sortedModules) {
+            for (@RUntainted String moduleName : sortedModules) {
                 String dir = CmsStringUtil.joinPaths(
                     m_currentConfiguration.getModulesPath(),
                     moduleName,
@@ -833,7 +833,7 @@ public class CmsGitCheckin {
                 }
                 try {
                     m_logStream.println("Creating temp file for module " + moduleName);
-                    File outputFile = File.createTempFile(moduleName + "-", ".zip");
+                    @RUntainted File outputFile = File.createTempFile(moduleName + "-", ".zip");
                     FileOutputStream fos = new FileOutputStream(outputFile);
                     m_logStream.println("Zipping module structure to " + outputFile.getAbsolutePath());
                     zipRfsFolder(dirEntry, fos);
@@ -869,7 +869,7 @@ public class CmsGitCheckin {
         // All files in the config folder
         File configFolder = new File(DEFAULT_CONFIG_FOLDER);
         if (configFolder.isDirectory()) {
-            for (File configFile : configFolder.listFiles()) {
+            for (@RUntainted File configFile : configFolder.listFiles()) {
                 addConfigurationIfValid(configurations, configFile);
             }
         }

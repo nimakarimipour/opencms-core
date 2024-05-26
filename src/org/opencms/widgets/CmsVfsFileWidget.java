@@ -150,16 +150,16 @@ public class CmsVfsFileWidget extends A_CmsWidget implements I_CmsADEWidget {
     private String m_searchTypes;
 
     /** The types that may be selected through the gallery widget. */
-    private String m_selectableTypes;
+    private @RUntainted String m_selectableTypes;
 
     /** Flag to determine if the site selector should be shown in popup window. */
     private boolean m_showSiteSelector;
 
     /** The start folder. */
-    private String m_startFolder;
+    private @RUntainted String m_startFolder;
 
     /** The start site used in the popup window. */
-    private String m_startSite;
+    private @RUntainted String m_startSite;
 
     /**
      * Creates a new vfs file widget.<p>
@@ -227,7 +227,7 @@ public class CmsVfsFileWidget extends A_CmsWidget implements I_CmsADEWidget {
      *
      * @return a comma separated list of the default search type names
      */
-    public static String getDefaultSearchTypes(CmsObject cms, CmsResource resource) {
+    public static @RUntainted String getDefaultSearchTypes(CmsObject cms, CmsResource resource) {
 
         StringBuffer result = new StringBuffer();
         String referenceSitePath = cms.getSitePath(resource);
@@ -598,7 +598,7 @@ public class CmsVfsFileWidget extends A_CmsWidget implements I_CmsADEWidget {
         A_CmsXmlContentValue schemaType,
         CmsMessages messages,
         CmsResource resource,
-        Locale contentLocale) {
+        @RUntainted Locale contentLocale) {
 
         JSONObject config = new JSONObject();
         try {
@@ -630,7 +630,7 @@ public class CmsVfsFileWidget extends A_CmsWidget implements I_CmsADEWidget {
             if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(m_searchTypes)) {
                 CmsMacroResolver resolver = CmsMacroResolver.newInstance();
                 resolver.addDynamicMacro(DEFAULT_SEARCH_TYPES_MACRO, new SearchTypesFactory(cms, resource));
-                String searchTypes = resolver.resolveMacros(m_searchTypes.trim());
+                @RUntainted String searchTypes = resolver.resolveMacros(m_searchTypes.trim());
                 config.put(I_CmsGalleryProviderConstants.CONFIG_SEARCH_TYPES, searchTypes);
             } else if (CmsStringUtil.isEmptyOrWhitespaceOnly(m_selectableTypes)) {
                 config.put(I_CmsGalleryProviderConstants.CONFIG_SEARCH_TYPES, getDefaultSearchTypes(cms, resource));
@@ -638,7 +638,7 @@ public class CmsVfsFileWidget extends A_CmsWidget implements I_CmsADEWidget {
             if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(m_startFolder)) {
                 config.put(I_CmsGalleryProviderConstants.CONFIG_START_FOLDER, m_startFolder);
             }
-            String treeToken = ""
+            @RUntainted String treeToken = ""
                 + Objects.hashCode(m_startSite, cms.getRequestContext().getSiteRoot(), "" + m_selectableTypes);
             config.put(I_CmsGalleryProviderConstants.CONFIG_TREE_TOKEN, treeToken);
 

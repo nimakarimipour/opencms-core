@@ -450,7 +450,7 @@ public class CmsCopyMoveDialog extends CmsBasicDialog {
         try {
             CmsResource targetFolder = null;
             String targetName = null;
-            String target = m_targetPath.getValue();
+            @RUntainted String target = m_targetPath.getValue();
             boolean isSingleResource = m_context.getResources().size() == 1;
             // resolve relative paths
             target = CmsLinkManager.getAbsoluteUri(

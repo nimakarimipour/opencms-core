@@ -162,7 +162,7 @@ public interface I_CmsXmlSchemaType extends Comparable<I_CmsXmlSchemaType> {
      *
      * @return the XML node name of this type in the current schema
      */
-    String getName();
+    @RUntainted String getName();
 
     /**
      * Returns a String representation of the XML definition for this schema type.<p>

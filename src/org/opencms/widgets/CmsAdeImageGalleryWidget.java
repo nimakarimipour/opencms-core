@@ -110,13 +110,13 @@ public class CmsAdeImageGalleryWidget extends A_CmsAdeGalleryWidget {
         result.put(I_CmsGalleryProviderConstants.CONFIG_USE_FORMATS, config.isShowFormat());
         result.put(I_CmsGalleryProviderConstants.CONFIG_IMAGE_FORMATS, new JSONArray(config.getFormatValues()));
         String temp = config.getSelectFormatString();
-        String[] formatNames = new String[0];
+        @RUntainted String[] formatNames = new String[0];
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(temp)) {
             formatNames = config.getSelectFormatString().split("\\|");
         }
         result.put(I_CmsGalleryProviderConstants.CONFIG_IMAGE_FORMAT_NAMES, new JSONArray(formatNames));
         result.put(I_CmsGalleryProviderConstants.CONFIG_TAB_CONFIG, "selectDoc");
-        String uploadFolder = OpenCms.getWorkplaceManager().getRepositoryFolderHandler().getRepositoryFolder(
+        @RUntainted String uploadFolder = OpenCms.getWorkplaceManager().getRepositoryFolderHandler().getRepositoryFolder(
             cms,
             resource,
             GALLERY_NAME + "gallery");

@@ -51,6 +51,7 @@ import org.apache.commons.logging.Log;
 import org.dom4j.Attribute;
 import org.dom4j.Element;
 import org.htmlparser.util.ParserException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes the XML content type "OpenCmsHtml".<p>

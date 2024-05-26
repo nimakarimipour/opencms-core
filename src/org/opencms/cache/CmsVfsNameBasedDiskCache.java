@@ -68,7 +68,7 @@ public class CmsVfsNameBasedDiskCache {
      * @param basepath the base path for the cache in the RFS
      * @param foldername the folder name for this cache, to be used a sub-folder for the base folder
      */
-    public CmsVfsNameBasedDiskCache(String basepath, String foldername) {
+    public CmsVfsNameBasedDiskCache(@RUntainted String basepath, @RUntainted String foldername) {
 
         // normalize the given folder name
         m_rfsRepository = CmsFileUtil.normalizePath(basepath + foldername + File.separatorChar);
@@ -153,7 +153,7 @@ public class CmsVfsNameBasedDiskCache {
      *
      * @return the absolute path of the cache repository in the RFS
      */
-    public String getRepositoryPath() {
+    public @RUntainted String getRepositoryPath() {
 
         return m_rfsRepository;
     }

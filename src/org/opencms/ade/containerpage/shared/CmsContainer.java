@@ -35,6 +35,7 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Container bean.<p>

@@ -91,6 +91,7 @@ import org.apache.commons.logging.Log;
 import org.dom4j.Element;
 import org.w3c.dom.Document;
 import org.xml.sax.Attributes;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * System master configuration class.<p>
@@ -651,7 +652,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
     private String m_credentialsResolverClass;
 
     /** The default content encoding. */
-    private String m_defaultContentEncoding;
+    private @RUntainted String m_defaultContentEncoding;
 
     /** The detail page handler. */
     private I_CmsDetailPageHandler m_detailPageHandler = new CmsDefaultDetailPageHandler();
@@ -2015,7 +2016,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
      *
      * @return the defaultContentEncoding
      */
-    public String getDefaultContentEncoding() {
+    public @RUntainted String getDefaultContentEncoding() {
 
         return m_defaultContentEncoding;
     }
@@ -2583,7 +2584,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
      *
      * @param defaultContentEncoding the defaultContentEncoding to set
      */
-    public void setDefaultContentEncoding(String defaultContentEncoding) {
+    public void setDefaultContentEncoding(@RUntainted String defaultContentEncoding) {
 
         m_defaultContentEncoding = defaultContentEncoding;
     }

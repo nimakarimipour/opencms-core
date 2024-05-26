@@ -366,7 +366,7 @@ public class CmsLocaleManager implements I_CmsEventListener {
      */
     public static final @RUntainted String getResourceEncoding(CmsObject cms, CmsResource res) {
 
-        String encoding = null;
+        @RUntainted String encoding = null;
         // get the encoding
         try {
             encoding = cms.readPropertyObject(res, CmsPropertyDefinition.PROPERTY_CONTENT_ENCODING, true).getValue();

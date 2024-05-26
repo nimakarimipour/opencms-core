@@ -85,14 +85,14 @@ public class CmsJsonDocumentFolder extends A_CmsJsonDocument implements I_CmsJso
      * @return the JSON representation of the folder listing
      * @throws Exception if something goes wrong
      */
-    protected JSONObject folderListingJson(CmsResource target, int levelsLeft) throws Exception {
+    protected @RUntainted JSONObject folderListingJson(CmsResource target, int levelsLeft) throws Exception {
 
         List<CmsResource> children = m_context.getCms().readResources(target, CmsResourceFilter.DEFAULT, false);
         JSONObject result = new JSONObject(true);
         for (CmsResource resource : children) {
-            JSONObject childEntry = formatResource(resource);
+            @RUntainted JSONObject childEntry = formatResource(resource);
             if (resource.isFolder() && (levelsLeft > 1)) {
-                JSONObject childrenJson = folderListingJson(resource, levelsLeft - 1);
+                @RUntainted JSONObject childrenJson = folderListingJson(resource, levelsLeft - 1);
                 childEntry.put("children", childrenJson);
             }
             result.put(resource.getName(), childEntry);
@@ -107,7 +107,7 @@ public class CmsJsonDocumentFolder extends A_CmsJsonDocument implements I_CmsJso
      * @return the JSON
      * @throws Exception if something goes wrong
      */
-    private JSONObject formatResource(CmsResource resource) throws Exception {
+    private @RUntainted JSONObject formatResource(CmsResource resource) throws Exception {
 
         boolean isContent = false;
         if (!resource.isFolder()) {

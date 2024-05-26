@@ -178,7 +178,7 @@ public class CmsAliasResourceHandler implements I_CmsResourceInit {
         CmsResourceInitException resInitException = new CmsResourceInitException(getClass());
         if (res != null) {
             // preserve request parameters for the redirect
-            String query = req.getQueryString();
+            @RUntainted String query = req.getQueryString();
             if (query != null) {
                 link += "?" + query;
             }

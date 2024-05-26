@@ -67,6 +67,6 @@ public interface I_CmsJsonRendererXmlContent extends I_CmsConfigurationParameter
      *
      * @throws JSONException if something goes wrong
      */
-    Object render(CmsXmlContent content, Locale locale) throws JSONException;
+    @RUntainted Object render(CmsXmlContent content, Locale locale) throws JSONException;
 
 }

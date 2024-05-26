@@ -88,7 +88,7 @@ public abstract class A_CmsAdeGalleryWidget extends A_CmsWidget implements I_Cms
     /**
      * @see org.opencms.widgets.I_CmsADEWidget#getConfiguration(org.opencms.file.CmsObject, org.opencms.xml.types.A_CmsXmlContentValue, org.opencms.i18n.CmsMessages, org.opencms.file.CmsResource, java.util.Locale)
      */
-    public String getConfiguration(
+    public @RUntainted String getConfiguration(
         CmsObject cms,
         A_CmsXmlContentValue schemaType,
         CmsMessages messages,
@@ -352,11 +352,11 @@ public abstract class A_CmsAdeGalleryWidget extends A_CmsWidget implements I_Cms
         A_CmsXmlContentValue schemaType,
         CmsMessages messages,
         CmsResource resource,
-        Locale contentLocale) {
+        @RUntainted Locale contentLocale) {
 
         JSONObject result = new JSONObject();
         try {
-            for (Entry<String, String> paramEntry : getGalleryOpenParams(
+            for (Entry<String, @RUntainted String> paramEntry : getGalleryOpenParams(
                 cms,
                 messages,
                 schemaType,

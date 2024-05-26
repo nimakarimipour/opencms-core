@@ -164,8 +164,8 @@ public class CmsImportVersion4 extends A_CmsImport {
         CmsObject cms,
         String importPath,
         I_CmsReport report,
-        File importResource,
-        ZipFile importZip,
+        @RUntainted File importResource,
+        @RUntainted ZipFile importZip,
         Document docXml)
     throws CmsImportExportException {
 

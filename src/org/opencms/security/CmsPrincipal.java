@@ -462,7 +462,7 @@ public abstract class CmsPrincipal implements I_CmsPrincipal, Comparable<I_CmsPr
      *
      * @see java.security.Principal#getName()
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_name;
     }

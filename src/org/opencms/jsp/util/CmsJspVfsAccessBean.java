@@ -293,7 +293,7 @@ public final class CmsJspVfsAccessBean {
         /**
          * @see org.apache.commons.collections.Transformer#transform(java.lang.Object)
          */
-        public Object transform(Object input) {
+        public Object transform(@RUntainted Object input) {
 
             return A_CmsJspValueWrapper.substituteLink(getCmsObject(), String.valueOf(input));
         }

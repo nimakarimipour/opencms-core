@@ -294,7 +294,7 @@ public class CmsUserDataRequestInfo {
      * @param key the attribute name
      * @param value the value
      */
-    private void setString(String key, String value) {
+    private void setString(String key, @RUntainted String value) {
 
         try {
             m_json.put(key, value);

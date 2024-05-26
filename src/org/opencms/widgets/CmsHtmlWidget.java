@@ -121,7 +121,7 @@ public class CmsHtmlWidget extends A_CmsHtmlWidget implements I_CmsADEWidget {
         CmsHtmlWidgetOption widgetOptions,
         CmsObject cms,
         CmsResource resource,
-        Locale contentLocale) {
+        @RUntainted Locale contentLocale) {
 
         JSONObject result = new JSONObject();
 
@@ -138,7 +138,7 @@ public class CmsHtmlWidget extends A_CmsHtmlWidget implements I_CmsADEWidget {
                 result.put("allowscripts", Boolean.TRUE);
             }
             result.put("fullpage", widgetOptions.isFullPage());
-            List<String> toolbarItems = widgetOptions.getButtonBarShownItems();
+            @RUntainted List<String> toolbarItems = widgetOptions.getButtonBarShownItems();
             result.put("toolbar_items", toolbarItems);
             Locale workplaceLocale = OpenCms.getWorkplaceManager().getWorkplaceLocale(cms);
             String editorHeight = widgetOptions.getEditorHeight();
@@ -195,7 +195,7 @@ public class CmsHtmlWidget extends A_CmsHtmlWidget implements I_CmsADEWidget {
                 && !widgetOptions.isButtonHidden(CmsHtmlWidgetOption.OPTION_FORMATSELECT)) {
                 result.put("block_formats", getTinyMceBlockFormats(formatSelectOptions));
             }
-            Boolean pasteText = Boolean.valueOf(
+            @RUntainted Boolean pasteText = Boolean.valueOf(
                 OpenCms.getWorkplaceManager().getWorkplaceEditorManager().getEditorParameter(
                     cms,
                     "tinymce",
@@ -215,7 +215,7 @@ public class CmsHtmlWidget extends A_CmsHtmlWidget implements I_CmsADEWidget {
                 result.put("spellcheck_language", contentLocale.getLanguage());
             }
 
-            String linkDefaultProtocol = widgetOptions.getLinkDefaultProtocol();
+            @RUntainted String linkDefaultProtocol = widgetOptions.getLinkDefaultProtocol();
             if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(linkDefaultProtocol)) {
                 result.put("link_default_protocol", linkDefaultProtocol);
             }
@@ -235,7 +235,7 @@ public class CmsHtmlWidget extends A_CmsHtmlWidget implements I_CmsADEWidget {
                     CmsMacroResolver resolver = new CmsMacroResolver();
                     resolver.setCmsObject(cms);
                     resolver.setMessages(OpenCms.getWorkplaceManager().getMessages(workplaceLocale));
-                    JSONObject replacedOptions = CmsJsonUtil.mapJsonObject(directOptions, val -> {
+                    @RUntainted JSONObject replacedOptions = CmsJsonUtil.mapJsonObject(directOptions, val -> {
                         if (val instanceof String) {
                             return resolver.resolveMacros((String)val);
                         } else {
@@ -263,7 +263,7 @@ public class CmsHtmlWidget extends A_CmsHtmlWidget implements I_CmsADEWidget {
      *
      * @return the block_formats configuration
      */
-    public static String getTinyMceBlockFormats(String formatSelectOptions) {
+    public static @RUntainted String getTinyMceBlockFormats(String formatSelectOptions) {
 
         String[] options = formatSelectOptions.split(";");
         List<String> resultParts = Lists.newArrayList();
@@ -436,14 +436,14 @@ public class CmsHtmlWidget extends A_CmsHtmlWidget implements I_CmsADEWidget {
         if (embeddedDownloadGalleryOptions != null) {
             CmsAdeDownloadGalleryWidget widget = new CmsAdeDownloadGalleryWidget();
             widget.setConfiguration(embeddedDownloadGalleryOptions);
-            String downloadJsonString = widget.getConfiguration(
+            @RUntainted String downloadJsonString = widget.getConfiguration(
                 cms,
                 schemaType/*?*/,
                 messages,
                 resource,
                 contentLocale);
 
-            JSONObject downloadJsonObj = new JSONObject(downloadJsonString);
+            @RUntainted JSONObject downloadJsonObj = new JSONObject(downloadJsonString);
             filterEmbeddedGalleryOptions(downloadJsonObj);
             result.put("downloadGalleryConfig", downloadJsonObj);
         }
@@ -451,8 +451,8 @@ public class CmsHtmlWidget extends A_CmsHtmlWidget implements I_CmsADEWidget {
         if (embeddedImageGalleryOptions != null) {
             CmsAdeImageGalleryWidget widget = new CmsAdeImageGalleryWidget();
             widget.setConfiguration(embeddedImageGalleryOptions);
-            String imageJsonString = widget.getConfiguration(cms, schemaType/*?*/, messages, resource, contentLocale);
-            JSONObject imageJsonObj = new JSONObject(imageJsonString);
+            @RUntainted String imageJsonString = widget.getConfiguration(cms, schemaType/*?*/, messages, resource, contentLocale);
+            @RUntainted JSONObject imageJsonObj = new JSONObject(imageJsonString);
             filterEmbeddedGalleryOptions(imageJsonObj);
             result.put("imageGalleryConfig", imageJsonObj);
         }

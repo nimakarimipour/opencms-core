@@ -284,7 +284,7 @@ public class CmsMessages {
      * @param time the time value to format as date
      * @return the formatted date and time
      */
-    public String getDateTime(long time) {
+    public @RUntainted String getDateTime(long time) {
 
         return CmsDateUtil.getDateTime(new Date(time), DateFormat.SHORT, m_locale);
     }
@@ -375,7 +375,7 @@ public class CmsMessages {
      * @param keyName the key for the desired string
      * @return the resource string for the given key
      */
-    public String key(String keyName) {
+    public @RUntainted String key(String keyName) {
 
         return key(keyName, false);
     }
@@ -420,7 +420,7 @@ public class CmsMessages {
      *
      * @return the selected localized message for the initialized resource bundle and locale
      */
-    public String key(String key, Object arg0) {
+    public @RUntainted String key(String key, Object arg0) {
 
         return key(key, new Object[] {arg0});
     }

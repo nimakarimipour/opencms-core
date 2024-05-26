@@ -206,7 +206,7 @@ public final class CmsSiteManagerImpl implements I_CmsEventListener {
     private volatile AlternativeSiteData m_alternativeSiteData = new AlternativeSiteData(new ArrayList<>());
 
     /**Map with webserver scripting parameter. */
-    private Map<String, String> m_apacheConfig;
+    private Map<String, @RUntainted String> m_apacheConfig;
 
     /**CmsObject.*/
     private CmsObject m_clone;
@@ -276,9 +276,9 @@ public final class CmsSiteManagerImpl implements I_CmsEventListener {
      *
      * @return the alias site matcher
      */
-    public static CmsSiteMatcher createAliasSiteMatcher(String alias, String redirect, String offset) {
+    public static CmsSiteMatcher createAliasSiteMatcher(String alias, String redirect, @RUntainted String offset) {
 
-        long timeOffset = 0;
+        @RUntainted long timeOffset = 0;
         try {
             timeOffset = Long.parseLong(offset);
         } catch (Throwable e) {
@@ -1152,7 +1152,7 @@ public final class CmsSiteManagerImpl implements I_CmsEventListener {
      *
      * @return Map with configuration data
      */
-    public Map<String, String> getWebServerConfig() {
+    public Map<String, @RUntainted String> getWebServerConfig() {
 
         return m_apacheConfig;
     }
@@ -1658,12 +1658,12 @@ public final class CmsSiteManagerImpl implements I_CmsEventListener {
      * @param loggingdir path
      */
     public void setWebServerScripting(
-        String webserverscript,
-        String targetpath,
-        String configtemplate,
-        String securetemplate,
-        String filenameprefix,
-        String loggingdir) {
+        @RUntainted String webserverscript,
+        @RUntainted String targetpath,
+        @RUntainted String configtemplate,
+        @RUntainted String securetemplate,
+        @RUntainted String filenameprefix,
+        @RUntainted String loggingdir) {
 
         m_apacheConfig = new HashMap<String, String>();
         m_apacheConfig.put(WEB_SERVER_CONFIG_WEBSERVERSCRIPT, webserverscript);

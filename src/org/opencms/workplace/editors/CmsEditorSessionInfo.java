@@ -72,7 +72,7 @@ public class CmsEditorSessionInfo {
     *
     * @return the session info key for the bean
     */
-    protected static String getEditorSessionInfoKey(CmsResource editedResource) {
+    protected static @RUntainted String getEditorSessionInfoKey(CmsResource editedResource) {
 
         return PREFIX_EDITOR_SESSION_INFO + editedResource.getStructureId().getStringValue();
     }

@@ -77,13 +77,13 @@ public class CmsDisplayTypeSelectWidget extends CmsSelectWidget {
     class FormatterOption {
 
         /** the display type. */
-        String m_displayType;
+        @RUntainted String m_displayType;
 
         /** The option key. */
-        String m_key;
+        @RUntainted String m_key;
 
         /** The option label. */
-        String m_label;
+        @RUntainted String m_label;
 
         /** The formatter rank. */
         int m_rank;
@@ -169,7 +169,7 @@ public class CmsDisplayTypeSelectWidget extends CmsSelectWidget {
         List<FormatterOption> options = getFormatterOptions(cms, resource);
         JSONObject config = new JSONObject();
         try {
-            String path;
+            @RUntainted String path;
             if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(schemaType.getPath())) {
                 path = CmsStringUtil.joinPaths(schemaType.getPath(), schemaType.getName());
             } else {

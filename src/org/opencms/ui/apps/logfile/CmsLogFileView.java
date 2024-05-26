@@ -65,7 +65,7 @@ public class CmsLogFileView extends VerticalLayout {
     protected static @RUntainted String ATTR_FILE_VIEW_SIZE = "log-file-size";
 
     /**Window size.*/
-    protected static int WINDOW_SIZE = 1000;
+    protected static @RUntainted int WINDOW_SIZE = 1000;
 
     /** Logger instance for this class. */
     private static final Log LOG = CmsLog.getLog(CmsLogFileView.class);
@@ -84,7 +84,7 @@ public class CmsLogFileView extends VerticalLayout {
     private Label m_fileContent;
 
     /**Vaadin component. */
-    private ComboBox m_logfile;
+    private @RUntainted ComboBox m_logfile;
 
     /**RfsFileView holding data for log to show. */
     private CmsRfsFileViewer m_logView;
@@ -189,7 +189,7 @@ public class CmsLogFileView extends VerticalLayout {
      *
      * @return line number
      */
-    private int getSize() {
+    private @RUntainted int getSize() {
 
         return Integer.valueOf(
             (String)CmsVaadinUtils.getRequest().getSession().getAttribute(ATTR_FILE_VIEW_SIZE)).intValue();

@@ -270,7 +270,7 @@ public class CmsAjaxImageGallery extends A_CmsAjaxGallery {
             // 6: image structure id hash code
             jsonObj.put("hash", res.getStructureId().hashCode());
             // 7: image copyright
-            String copyright = getJsp().property(PROPERTY_COPYRIGHT, sitePath, "");
+            @RUntainted String copyright = getJsp().property(PROPERTY_COPYRIGHT, sitePath, "");
             jsonObj.put("copyright", CmsStringUtil.escapeJavaScript(copyright));
 
         } catch (JSONException e) {

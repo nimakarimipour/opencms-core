@@ -56,7 +56,7 @@ public class CmsJspTagJsonPart extends TagSupport implements TryCatchFinally {
     private static final Log LOG = CmsLog.getLog(CmsJspTagJsonPart.class);
 
     /** The name to be used as a key for the JSON part. */
-    private String m_element;
+    private @RUntainted String m_element;
 
     /** Variable to keep track of whether we still need to write the end marker. */
     private boolean m_needEnd;
@@ -139,7 +139,7 @@ public class CmsJspTagJsonPart extends TagSupport implements TryCatchFinally {
      *
      * @param elementName the name to be used as a JSON key
      */
-    public void setElement(String elementName) {
+    public void setElement(@RUntainted String elementName) {
 
         m_element = elementName;
     }

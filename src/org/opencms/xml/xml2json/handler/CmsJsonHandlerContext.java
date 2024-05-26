@@ -264,7 +264,7 @@ public class CmsJsonHandlerContext {
      *
      * @return the request parameters
      */
-    public Map<String, String> getParameters() {
+    public Map<String, @RUntainted String> getParameters() {
 
         return Collections.unmodifiableMap(m_parameters);
     }

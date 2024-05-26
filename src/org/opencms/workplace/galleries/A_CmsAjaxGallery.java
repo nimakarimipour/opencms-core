@@ -747,7 +747,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
                     CmsResource res = getCms().readResource(galleryUrl);
                     String path = getCms().getSitePath(res);
                     // read the gallery title
-                    String title = getCms().readPropertyObject(
+                    @RUntainted String title = getCms().readPropertyObject(
                         res,
                         CmsPropertyDefinition.PROPERTY_TITLE,
                         false).getValue("");
@@ -817,7 +817,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
             String path = getCms().getSitePath(res);
             JSONObject jsonObj = new JSONObject();
             // 1: gallery title
-            String title = "";
+            @RUntainted String title = "";
             try {
                 // read the gallery title
                 title = getCms().readPropertyObject(path, CmsPropertyDefinition.PROPERTY_TITLE, false).getValue("");
@@ -878,7 +878,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
      * @param res the resource to create the object from
      * @param sitePath site path to the object
      */
-    protected void buildJsonItemCommonPart(JSONObject jsonObj, CmsResource res, String sitePath) {
+    protected void buildJsonItemCommonPart(JSONObject jsonObj, CmsResource res, @RUntainted String sitePath) {
 
         try {
             // 1: file item site path
@@ -899,7 +899,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
             // 6: file modification date (formatted)
             jsonObj.put("datelastmodified", getMessages().getDateTime(res.getDateLastModified()));
             // 7: file state, if the item is new or changed
-            CmsResourceState state = res.getState();
+            @RUntainted CmsResourceState state = res.getState();
             CmsLock lock = CmsLock.getNullLock();
             try {
                 // obtain current lock state to determine correct resource state and editable flag
@@ -912,7 +912,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
             }
             jsonObj.put("state", state);
             // 8: determine if the item is locked by another user
-            String locked = "";
+            @RUntainted String locked = "";
             if (!lock.isNullLock()
                 && !lock.getType().isPublish()
                 && !lock.getUserId().equals(getCms().getRequestContext().getCurrentUser().getId())) {
@@ -958,7 +958,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
             jsonObj.put("writepermission", writePermission);
             jsonObj.put("directpublish", directPublishPermission);
             // 11: item description
-            String desc = getJsp().property(CmsPropertyDefinition.PROPERTY_DESCRIPTION, sitePath, "");
+            @RUntainted String desc = getJsp().property(CmsPropertyDefinition.PROPERTY_DESCRIPTION, sitePath, "");
             jsonObj.put("description", CmsStringUtil.escapeJavaScript(desc));
         } catch (JSONException e) {
             if (LOG.isErrorEnabled()) {
