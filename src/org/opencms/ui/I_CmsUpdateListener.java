@@ -28,6 +28,7 @@
 package org.opencms.ui;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles updates to items of a given type.<p>

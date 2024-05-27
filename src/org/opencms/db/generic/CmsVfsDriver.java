@@ -3739,7 +3739,7 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
      *
      * @throws SQLException if something goes wrong
      */
-    protected CmsUrlNameMappingEntry internalCreateUrlNameMappingEntry(ResultSet resultSet) throws SQLException {
+    protected CmsUrlNameMappingEntry internalCreateUrlNameMappingEntry(@RUntainted ResultSet resultSet) throws SQLException {
 
         String name = resultSet.getString(1);
         CmsUUID structureId = new CmsUUID(resultSet.getString(2));
@@ -4742,7 +4742,7 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
      *
      * @throws SQLException if something goes wrong
      */
-    PreparedStatement getPreparedStatementForFilter(Connection conn, String baseQuery, CmsUrlNameMappingFilter filter)
+    @RUntainted PreparedStatement getPreparedStatementForFilter(Connection conn, String baseQuery, CmsUrlNameMappingFilter filter)
     throws SQLException {
 
         CmsPair<String, List<I_CmsPreparedStatementParameter>> conditionData = prepareUrlNameMappingConditions(filter);

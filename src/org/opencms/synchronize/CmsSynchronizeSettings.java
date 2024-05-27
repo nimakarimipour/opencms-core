@@ -51,7 +51,7 @@ public class CmsSynchronizeSettings implements Serializable {
     private static final long serialVersionUID = 3713893787290111758L;
 
     /** The destination path of the synchronization in the "real" file system. */
-    private String m_destinationPathInRfs;
+    private @RUntainted String m_destinationPathInRfs;
 
     /** Indicates if the synchronization is enabled or not. */
     private boolean m_enabled;
@@ -105,7 +105,7 @@ public class CmsSynchronizeSettings implements Serializable {
      *
      * @return the destination path of the synchronization in the "real" file system
      */
-    public String getDestinationPathInRfs() {
+    public @RUntainted String getDestinationPathInRfs() {
 
         return m_destinationPathInRfs;
     }
@@ -117,7 +117,7 @@ public class CmsSynchronizeSettings implements Serializable {
      *
      * @return the source path list of the synchronization in the OpenCms VFS
      */
-    public List<String> getSourceListInVfs() {
+    public List<@RUntainted String> getSourceListInVfs() {
 
         return m_sourceListInVfs;
     }

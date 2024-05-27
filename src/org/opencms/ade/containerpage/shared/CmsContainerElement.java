@@ -32,6 +32,7 @@ import org.opencms.gwt.shared.I_CmsHasIconClasses;
 import org.opencms.util.CmsUUID;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean holding basic container element information.<p>

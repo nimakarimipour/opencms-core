@@ -82,7 +82,7 @@ public class CmsAdvancedLinkSubstitutionHandler extends CmsDefaultLinkSubstituti
      * @see org.opencms.staticexport.I_CmsLinkSubstitutionHandler#getRootPath(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
     @Override
-    public String getRootPath(CmsObject cms, String targetUri, String basePath) {
+    public String getRootPath(CmsObject cms, @RUntainted String targetUri, String basePath) {
 
         if (cms == null) {
             // required by unit test cases

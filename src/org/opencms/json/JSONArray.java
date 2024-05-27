@@ -432,7 +432,7 @@ public class JSONArray {
      * @return a string
      * @throws JSONException if the array contains an invalid number
      */
-    public String join(String separator) throws JSONException {
+    public @RUntainted String join(String separator) throws JSONException {
 
         int len = length();
         StringBuffer sb = new StringBuffer();
@@ -907,7 +907,7 @@ public class JSONArray {
      * @return a printable, displayable, transmittable representation of the array
      */
     @Override
-    public String toString() {
+    public @RUntainted String toString() {
 
         try {
             return '[' + join(",") + ']';
@@ -986,7 +986,7 @@ public class JSONArray {
      *  representation of the array
      * @throws JSONException if something goes wrong
      */
-    String toString(int indentFactor, int indent) throws JSONException {
+    @RUntainted String toString(int indentFactor, int indent) throws JSONException {
 
         int len = length();
         if (len == 0) {

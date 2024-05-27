@@ -170,7 +170,7 @@ public class CmsSystemInfo {
     private String m_configurationFileRfsPath;
 
     /** Default encoding, can be set in opencms-system.xml. */
-    private String m_defaultEncoding;
+    private @RUntainted String m_defaultEncoding;
 
     /** The device selector instance. */
     private I_CmsJspDeviceSelector m_deviceSelector;
@@ -334,7 +334,7 @@ public class CmsSystemInfo {
      * folder outside its webapplication.
      * @return complete rfs path to the config folder.
      */
-    public String getConfigFolder() {
+    public @RUntainted String getConfigFolder() {
 
         // check if the system property is set and return its value
         if (CmsStringUtil.isNotEmpty(System.getProperty(CONFIG_FOLDER_PROPERTY))) {
@@ -472,7 +472,7 @@ public class CmsSystemInfo {
      * @return the absolute path to the folder of the main OpenCms log file (in
      * the "real" file system)
      */
-    public String getLogFileRfsFolder() {
+    public @RUntainted String getLogFileRfsFolder() {
 
         return CmsLog.getLogFileRfsFolder();
     }
@@ -517,7 +517,7 @@ public class CmsSystemInfo {
      * @see #getContextPath()
      * @see #getServletPath()
      */
-    public String getOpenCmsContext() {
+    public @RUntainted String getOpenCmsContext() {
 
         return m_servletContainerSettings.getOpenCmsContext();
     }
@@ -795,7 +795,7 @@ public class CmsSystemInfo {
      *
      * @param encoding the default encoding to set
      */
-    protected void setDefaultEncoding(String encoding) {
+    protected void setDefaultEncoding(@RUntainted String encoding) {
 
         m_defaultEncoding = encoding.intern();
         if (CmsLog.INIT.isInfoEnabled()) {

@@ -70,7 +70,7 @@ public class CmsUploadListener implements ProgressListener, Serializable {
     private boolean m_finished;
 
     /** The UUID for this listener. */
-    private CmsUUID m_id;
+    private @RUntainted CmsUUID m_id;
 
     /** Stores the current item. */
     private int m_item;
@@ -212,7 +212,7 @@ public class CmsUploadListener implements ProgressListener, Serializable {
      *
      * @param delay the delay to set
      */
-    public void setDelay(int delay) {
+    public void setDelay(@RUntainted int delay) {
 
         m_delay = delay;
     }

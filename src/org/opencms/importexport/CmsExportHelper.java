@@ -83,7 +83,7 @@ public class CmsExportHelper {
      * @throws SAXException in case of issues creating the manifest.xml
      * @throws IOException in case of file access issues
      */
-    public CmsExportHelper(String exportPath, boolean exportAsFiles, boolean validateXml)
+    public CmsExportHelper(@RUntainted String exportPath, boolean exportAsFiles, boolean validateXml)
     throws SAXException, IOException {
 
         m_exportPath = exportPath;
@@ -161,7 +161,7 @@ public class CmsExportHelper {
      *
      * @throws IOException in case of file access issues
      */
-    public void writeFile(CmsFile file, String name) throws IOException {
+    public void writeFile(CmsFile file, @RUntainted String name) throws IOException {
 
         if (m_isExportAsFiles) {
             writeFile2Rfs(file, name);
@@ -194,7 +194,7 @@ public class CmsExportHelper {
      *
      * @return the RFS file name for the given OpenCms VFS file name
      */
-    protected @RUntainted String getRfsFileName(String name) {
+    protected @RUntainted String getRfsFileName(@RUntainted String name) {
 
         return m_exportPath + name;
     }
@@ -231,7 +231,7 @@ public class CmsExportHelper {
      *
      * @throws IOException in case of file access issues
      */
-    protected void writeFile2Rfs(CmsFile file, String name) throws IOException {
+    protected void writeFile2Rfs(CmsFile file, @RUntainted String name) throws IOException {
 
         String fileName = getRfsFileName(name);
         File rfsFile = new File(fileName);

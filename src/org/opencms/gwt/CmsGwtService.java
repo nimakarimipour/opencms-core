@@ -316,8 +316,8 @@ public class CmsGwtService extends RemoteServiceServlet {
     @Override
     protected SerializationPolicy doGetSerializationPolicy(
         HttpServletRequest request,
-        String moduleBaseURL,
-        String strongName) {
+        @RUntainted String moduleBaseURL,
+        @RUntainted String strongName) {
 
         return m_context.getSerializationPolicy(getCmsObject(), moduleBaseURL, strongName);
     }

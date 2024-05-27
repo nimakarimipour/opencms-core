@@ -30,6 +30,7 @@ package org.opencms.scheduler;
 import org.opencms.file.CmsObject;
 
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Identifies a class that can be scheduled with the OpenCms scheduler.<p>

@@ -35,6 +35,7 @@ import org.opencms.workplace.threads.CmsDatabaseImportThread;
 import com.vaadin.ui.Button;
 import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.ComboBox;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the import from server option.<p>

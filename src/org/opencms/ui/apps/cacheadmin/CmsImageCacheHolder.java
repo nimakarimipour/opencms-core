@@ -77,7 +77,7 @@ public class CmsImageCacheHolder {
      * public constructor.<p>
      * @param search
      */
-    public CmsImageCacheHolder(final String search) {
+    public CmsImageCacheHolder(final @RUntainted String search) {
 
         try {
             m_clonedCms = getClonedCmsObject(A_CmsUI.getCmsObject());
@@ -224,7 +224,7 @@ public class CmsImageCacheHolder {
         return clonedCms;
     }
 
-    private String getRootFromPattern(String pattern) {
+    private @RUntainted String getRootFromPattern(@RUntainted String pattern) {
 
         String res = pattern.substring(0, pattern.lastIndexOf("/"));
 

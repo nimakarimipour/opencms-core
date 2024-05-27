@@ -2505,7 +2505,7 @@ public class CmsUserDriver implements I_CmsUserDriver {
      *
      * @throws SQLException in case the result set does not include a requested table attribute
      */
-    protected CmsUser internalCreateUser(CmsDbContext dbc, ResultSet res) throws SQLException {
+    protected CmsUser internalCreateUser(CmsDbContext dbc, @RUntainted ResultSet res) throws SQLException {
 
         String userName = res.getString(m_sqlManager.readQuery("C_USERS_USER_NAME_0"));
         String ou = CmsOrganizationalUnit.removeLeadingSeparator(

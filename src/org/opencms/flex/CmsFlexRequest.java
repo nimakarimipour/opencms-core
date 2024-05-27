@@ -236,7 +236,7 @@ public class CmsFlexRequest extends HttpServletRequestWrapper {
      * @param controller the controller to use
      * @param resource the target resource that has been requested
      */
-    CmsFlexRequest(HttpServletRequest req, CmsFlexController controller, String resource) {
+    CmsFlexRequest(HttpServletRequest req, CmsFlexController controller, @RUntainted String resource) {
 
         super(req);
         m_controller = controller;
@@ -563,7 +563,7 @@ public class CmsFlexRequest extends HttpServletRequestWrapper {
      *
      * @return the constructed CmsFlexRequestDispatcher
      */
-    public CmsFlexRequestDispatcher getRequestDispatcherToExternal(String vfs_target, String ext_target) {
+    public CmsFlexRequestDispatcher getRequestDispatcherToExternal(@RUntainted String vfs_target, String ext_target) {
 
         return new CmsFlexRequestDispatcher(
             m_controller.getTopRequest().getRequestDispatcher(ext_target),

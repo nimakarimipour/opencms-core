@@ -56,7 +56,7 @@ public class CmsSynchronizeList implements Serializable {
     /**
      * Name of the resource stored in the sync list.
      */
-    private String m_resName;
+    private @RUntainted String m_resName;
 
     /**
      * Name of the translated resource stored in the sync list.
@@ -74,7 +74,7 @@ public class CmsSynchronizeList implements Serializable {
      * @param modifiedVfs last modification date in the Vfs
      * @param modifiedFs last modification date in the Fs
      */
-    public CmsSynchronizeList(String resName, String transResName, long modifiedVfs, long modifiedFs) {
+    public CmsSynchronizeList(@RUntainted String resName, String transResName, long modifiedVfs, long modifiedFs) {
 
         m_resName = resName;
         m_transResName = transResName;
@@ -117,7 +117,7 @@ public class CmsSynchronizeList implements Serializable {
      * Returns the name of the resource.
      * @return name of the resource
      */
-    public String getResName() {
+    public @RUntainted String getResName() {
 
         return m_resName;
     }

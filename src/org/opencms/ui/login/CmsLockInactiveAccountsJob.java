@@ -45,6 +45,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 
 import org.antlr.stringtemplate.StringTemplate;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Scheduled job for locking user  accounts which have not been logged into for longer than the configured time.<p>

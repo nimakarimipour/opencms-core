@@ -2645,13 +2645,13 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
     /**
      * @see org.opencms.db.I_CmsProjectDriver#readStaticExportResources(org.opencms.db.CmsDbContext, int, long)
      */
-    public List<String> readStaticExportResources(CmsDbContext dbc, int parameterResources, long timestamp)
+    public List<@RUntainted String> readStaticExportResources(CmsDbContext dbc, int parameterResources, long timestamp)
     throws CmsDataAccessException {
 
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet res = null;
-        List<String> returnValue = new ArrayList<String>();
+        List<@RUntainted String> returnValue = new ArrayList<@RUntainted String>();
 
         if (parameterResources == CmsStaticExportManager.EXPORT_LINK_WITHOUT_PARAMETER) {
             timestamp = 0;

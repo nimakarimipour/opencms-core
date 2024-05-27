@@ -274,7 +274,7 @@ public abstract class A_CmsStaticExportHandler implements I_CmsStaticExportHandl
      *
      * @return a list of related files to purge
      */
-    protected abstract List<@RUntainted File> getRelatedFilesToPurge(String exportFileName, String vfsName);
+    protected abstract List<@RUntainted File> getRelatedFilesToPurge(@RUntainted String exportFileName, String vfsName);
 
     /**
      * Returns a list containing the root paths of all siblings of a resource.<p>
@@ -531,7 +531,7 @@ public abstract class A_CmsStaticExportHandler implements I_CmsStaticExportHandl
     private List<@RUntainted File> getContainerPagesToPurge(CmsObject cms, CmsUUID targetId) {
 
         try {
-            List<File> purgePages = new ArrayList<File>();
+            List<@RUntainted File> purgePages = new ArrayList<@RUntainted File>();
             List<CmsRelation> relations = cms.readRelations(CmsRelationFilter.relationsToStructureId(targetId));
             for (CmsRelation relation : relations) {
                 CmsResource source = null;
@@ -585,7 +585,7 @@ public abstract class A_CmsStaticExportHandler implements I_CmsStaticExportHandl
      */
     private List<@RUntainted File> getDetailPageFiles(CmsObject cms, CmsPublishedResource res, String vfsName) {
 
-        List<File> files = new ArrayList<File>();
+        List<@RUntainted File> files = new ArrayList<@RUntainted File>();
         try {
             if ((OpenCms.getRunLevel() < OpenCms.RUNLEVEL_4_SERVLET_ACCESS)) {
                 // Accessing the ADE manager during setup may not work.

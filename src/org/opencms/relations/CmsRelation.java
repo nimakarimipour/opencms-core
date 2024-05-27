@@ -37,6 +37,7 @@ import org.opencms.util.CmsUUID;
 import java.util.Comparator;
 
 import com.google.common.base.Objects;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A relation between two opencms resources.<p>

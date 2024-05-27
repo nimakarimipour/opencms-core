@@ -398,7 +398,7 @@ public class CmsLoginUI extends A_CmsUI {
      *
      * @return the selected org unit
      */
-    public String getOrgUnit() {
+    public @RUntainted String getOrgUnit() {
 
         String result = m_loginForm.getOrgUnit();
         if (result == null) {
@@ -423,7 +423,7 @@ public class CmsLoginUI extends A_CmsUI {
      *
      * @return the PC type
      */
-    public String getPcType() {
+    public @RUntainted String getPcType() {
 
         String result = m_loginForm.getPcType();
         if (result == null) {
@@ -437,7 +437,7 @@ public class CmsLoginUI extends A_CmsUI {
      *
      * @return the user name
      */
-    public String getUser() {
+    public @RUntainted String getUser() {
 
         return m_loginForm.getUser();
     }

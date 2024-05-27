@@ -383,7 +383,7 @@ public class CmsJspActionElement extends CmsJspBean {
      *
      * @return the HTML for an <code>&lt;img src&gt;</code> tag that includes the given image scaling parameters
      */
-    public String img(String target, CmsImageScaler scaler, Map<String, String> attributes) {
+    public String img(@RUntainted String target, CmsImageScaler scaler, Map<String, String> attributes) {
 
         return img(target, scaler, attributes, false);
     }
@@ -398,7 +398,7 @@ public class CmsJspActionElement extends CmsJspBean {
      *
      * @return the HTML for an <code>&lt;img src&gt;</code> tag that includes the given image scaling parameters
      */
-    public String img(String target, CmsImageScaler scaler, Map<String, String> attributes, boolean partialTag) {
+    public String img(@RUntainted String target, CmsImageScaler scaler, Map<String, String> attributes, boolean partialTag) {
 
         try {
             return CmsJspTagImage.imageTagAction(target, scaler, attributes, partialTag, getRequest());
@@ -957,7 +957,7 @@ public class CmsJspActionElement extends CmsJspBean {
      * @param target the relative URI to convert
      * @return the target URI converted to an absolute one
      */
-    public String toAbsolute(String target) {
+    public String toAbsolute(@RUntainted String target) {
 
         if (isNotInitialized()) {
             return getMessage(NOT_INITIALIZED);

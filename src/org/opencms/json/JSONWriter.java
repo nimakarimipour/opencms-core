@@ -262,7 +262,7 @@ public class JSONWriter {
      * @return this
      * @throws JSONException if the number is not finite
      */
-    public JSONWriter value(double d) throws JSONException {
+    public JSONWriter value(@RUntainted double d) throws JSONException {
 
         return this.value(Double.valueOf(d));
     }
@@ -274,7 +274,7 @@ public class JSONWriter {
      * @return this
      * @throws JSONException if something goes wrong
      */
-    public JSONWriter value(long l) throws JSONException {
+    public JSONWriter value(@RUntainted long l) throws JSONException {
 
         return append(Long.toString(l));
     }
@@ -288,7 +288,7 @@ public class JSONWriter {
      * @return this
      * @throws JSONException if the value is out of sequence
      */
-    public JSONWriter value(Object o) throws JSONException {
+    public JSONWriter value(@RUntainted Object o) throws JSONException {
 
         return append(JSONObject.valueToString(o));
     }
@@ -300,7 +300,7 @@ public class JSONWriter {
      * @return this
      * @throws JSONException if the value is out of sequence
      */
-    private JSONWriter append(String s) throws JSONException {
+    private JSONWriter append(@RUntainted String s) throws JSONException {
 
         if (s == null) {
             throw new JSONException("Null pointer");

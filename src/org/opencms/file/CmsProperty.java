@@ -774,7 +774,7 @@ public class CmsProperty implements Serializable, Cloneable, Comparable<CmsPrope
      *
      * @return the compound value of this property
      */
-    public String getValue() {
+    public @RUntainted String getValue() {
 
         return (m_structureValue != null) ? m_structureValue : m_resourceValue;
     }

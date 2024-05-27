@@ -161,7 +161,7 @@ public class CmsImageLoader extends CmsDumpLoader implements I_CmsEventListener 
     }
 
     /** The name of the configured image cache repository. */
-    protected String m_imageRepositoryFolder;
+    protected @RUntainted String m_imageRepositoryFolder;
 
     /** The maximum image size (width or height) to allow when up scaling an image using request parameters. */
     protected int m_maxScaleSize = CmsImageScaler.SCALE_DEFAULT_MAX_SIZE;
@@ -178,7 +178,7 @@ public class CmsImageLoader extends CmsDumpLoader implements I_CmsEventListener 
      * @see org.opencms.configuration.I_CmsConfigurationParameterHandler#addConfigurationParameter(java.lang.String, java.lang.String)
      */
     @Override
-    public void addConfigurationParameter(String paramName, String paramValue) {
+    public void addConfigurationParameter(String paramName, @RUntainted String paramValue) {
 
         if (CmsStringUtil.isNotEmpty(paramName) && CmsStringUtil.isNotEmpty(paramValue)) {
             if (CONFIGURATION_SCALING_ENABLED.equals(paramName)) {

@@ -47,6 +47,7 @@ import org.opencms.util.CmsUUID;
 
 import java.util.List;
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Definitions of all required project driver methods. <p>
@@ -628,7 +629,7 @@ public interface I_CmsProjectDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    List<String> readStaticExportResources(CmsDbContext dbc, int parameterResources, long timestamp)
+    List<@RUntainted String> readStaticExportResources(CmsDbContext dbc, int parameterResources, long timestamp)
     throws CmsDataAccessException;
 
     /**

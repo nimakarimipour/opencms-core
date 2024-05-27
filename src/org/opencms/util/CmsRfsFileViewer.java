@@ -77,7 +77,7 @@ public class CmsRfsFileViewer implements Cloneable {
     protected int m_windowPos;
 
     /** The amount of lines to show. */
-    protected int m_windowSize;
+    protected @RUntainted int m_windowSize;
 
     /** The additional allowed RFS roots for viewing files. */
     private List<String> m_additionalRoots;
@@ -605,7 +605,7 @@ public class CmsRfsFileViewer implements Cloneable {
      * @throws CmsRuntimeException if the configuration of this instance has been frozen
      *                             ({@link #setFrozen(boolean)})
      */
-    public void setWindowSize(int windowSize) throws CmsRuntimeException {
+    public void setWindowSize(@RUntainted int windowSize) throws CmsRuntimeException {
 
         checkFrozen();
         m_windowSize = windowSize;

@@ -38,6 +38,7 @@ import java.util.Locale;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.google.common.base.Optional;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The configuration for 'user generated content' forms.<p>

@@ -6891,7 +6891,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
      *
      * @throws CmsDataAccessException if the database operation failed
      */
-    public String readBestUrlName(CmsDbContext dbc, CmsUUID id, Locale locale, List<Locale> defaultLocales)
+    public @RUntainted String readBestUrlName(CmsDbContext dbc, CmsUUID id, Locale locale, List<Locale> defaultLocales)
     throws CmsDataAccessException {
 
         List<CmsUrlNameMappingEntry> entries = getVfsDriver(dbc).readUrlNameMappingEntries(
@@ -8190,7 +8190,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
      *
      * @throws CmsException if something goes wrong
      */
-    public List<CmsResource> readResourcesVisitedBy(CmsDbContext dbc, String poolName, CmsVisitedByFilter filter)
+    public @RUntainted List<CmsResource> readResourcesVisitedBy(CmsDbContext dbc, String poolName, CmsVisitedByFilter filter)
     throws CmsException {
 
         List<CmsResource> result = getSubscriptionDriver().readResourcesVisitedBy(dbc, poolName, filter);
@@ -8389,7 +8389,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
      *
      * @throws CmsException if something goes wrong
      */
-    public List<String> readStaticExportResources(CmsDbContext dbc, int parameterResources, long timestamp)
+    public List<@RUntainted String> readStaticExportResources(CmsDbContext dbc, int parameterResources, long timestamp)
     throws CmsException {
 
         return getProjectDriver(dbc).readStaticExportResources(dbc, parameterResources, timestamp);
@@ -8443,7 +8443,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
      *
      * @throws CmsException if something goes wrong
      */
-    public List<CmsResource> readSubscribedResources(CmsDbContext dbc, String poolName, CmsSubscriptionFilter filter)
+    public @RUntainted List<CmsResource> readSubscribedResources(CmsDbContext dbc, String poolName, CmsSubscriptionFilter filter)
     throws CmsException {
 
         List<CmsResource> result = getSubscriptionDriver().readSubscribedResources(dbc, poolName, filter);
@@ -10692,7 +10692,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
      */
     public String writeUrlNameMapping(
         CmsDbContext dbc,
-        Iterator<String> nameSeq,
+        Iterator<@RUntainted String> nameSeq,
         CmsUUID structureId,
         String locale,
         boolean replaceOnPublish)
@@ -10750,7 +10750,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
      */
     protected void addOrReplaceUrlNameMapping(
         CmsDbContext dbc,
-        String name,
+        @RUntainted String name,
         CmsUUID structureId,
         String locale,
         boolean replaceOnPublish)
@@ -10902,9 +10902,9 @@ public final class CmsDriverManager implements I_CmsEventListener {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    protected String findBestNameForUrlNameMapping(
+    protected @RUntainted String findBestNameForUrlNameMapping(
         CmsDbContext dbc,
-        Iterator<String> nameSeq,
+        Iterator<@RUntainted String> nameSeq,
         CmsUUID structureId,
         String locale)
     throws CmsDataAccessException {
@@ -11383,7 +11383,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
      *
      * @throws CmsException in case errors testing the permissions
      */
-    private List<CmsResource> filterPermissions(
+    private @RUntainted List<CmsResource> filterPermissions(
         CmsDbContext dbc,
         List<CmsResource> resourceList,
         CmsResourceFilter filter)

@@ -185,7 +185,7 @@ public abstract class A_CmsUI extends UI {
      *
      * @return the HTTP session
      */
-    public HttpSession getHttpSession() {
+    public @RUntainted HttpSession getHttpSession() {
 
         return ((WrappedHttpSession)getSession().getSession()).getHttpSession();
     }

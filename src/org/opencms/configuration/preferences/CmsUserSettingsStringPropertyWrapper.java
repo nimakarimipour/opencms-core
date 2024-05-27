@@ -1126,7 +1126,7 @@ public class CmsUserSettingsStringPropertyWrapper {
      *
      * @param l the new time warp
      */
-    public void setTimeWarp(String l) {
+    public void setTimeWarp(@RUntainted String l) {
 
         long warp = CmsContextInfo.CURRENT_TIME;
         try {

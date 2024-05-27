@@ -294,7 +294,7 @@ public class CmsJsonDocumentXmlContent extends CmsJsonDocumentResource {
             m_renderer = new CmsJsonRendererXmlContent();
         } else {
             m_renderer = (I_CmsJsonRendererXmlContent)Class.forName(settings.getClassName()).newInstance();
-            for (Map.Entry<String, String> entry : settings.getParameters().entrySet()) {
+            for (Map.Entry<String, @RUntainted String> entry : settings.getParameters().entrySet()) {
                 m_renderer.addConfigurationParameter(entry.getKey(), entry.getValue());
             }
             m_renderer.initConfiguration();

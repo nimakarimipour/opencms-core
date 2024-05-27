@@ -105,6 +105,6 @@ public interface I_CmsJspTagParamParent {
      *
      * @see CmsJspTagParam
      */
-    void addParameter(String name, String value);
+    void addParameter(String name, @RUntainted String value);
 
 }

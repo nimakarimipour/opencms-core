@@ -78,7 +78,7 @@ public class CmsUserIconHelper {
         private int m_size;
 
         /**Suffix to append to filename.*/
-        private String m_suffix;
+        private @RUntainted String m_suffix;
 
         /**
          * constructor.<p>
@@ -86,7 +86,7 @@ public class CmsUserIconHelper {
          * @param size in pixel
          * @param suffix for filename
          */
-        private IconSize(int size, String suffix) {
+        private IconSize(int size, @RUntainted String suffix) {
 
             m_size = size;
             m_suffix = suffix;

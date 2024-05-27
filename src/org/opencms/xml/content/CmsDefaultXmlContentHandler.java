@@ -3252,7 +3252,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
     protected void initJsonRenderer(Element element) {
 
         String cls = element.attributeValue(APPINFO_ATTR_CLASS);
-        Map<String, String> params = new HashMap<>();
+        Map<String, @RUntainted String> params = new HashMap<>();
         for (Element paramElement : element.elements(APPINFO_PARAM)) {
             String name = paramElement.attributeValue(APPINFO_ATTR_NAME);
             String value = paramElement.getText();

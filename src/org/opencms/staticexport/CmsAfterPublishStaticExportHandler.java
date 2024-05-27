@@ -123,7 +123,7 @@ public class CmsAfterPublishStaticExportHandler extends A_CmsStaticExportHandler
             }
 
             long timestamp = 0;
-            List<String> publishedTemplateResources;
+            List<@RUntainted String> publishedTemplateResources;
             boolean newTemplateLinksFound;
             int linkMode = CmsStaticExportManager.EXPORT_LINK_WITHOUT_PARAMETER;
             do {
@@ -616,7 +616,7 @@ public class CmsAfterPublishStaticExportHandler extends A_CmsStaticExportHandler
      * @param publishedTemplateResources list of potential candidates to export
      * @param report an I_CmsReport instance to print output message, or null to write messages to the log file
      */
-    protected void exportTemplateResources(CmsObject cms, List<String> publishedTemplateResources, I_CmsReport report) {
+    protected void exportTemplateResources(CmsObject cms, List<@RUntainted String> publishedTemplateResources, I_CmsReport report) {
 
         CmsStaticExportManager manager = OpenCms.getStaticExportManager();
         int size = publishedTemplateResources.size();
@@ -631,7 +631,7 @@ public class CmsAfterPublishStaticExportHandler extends A_CmsStaticExportHandler
 
         StringBuffer cookies = new StringBuffer();
         // now loop through all of them and request them from the server
-        Iterator<String> i = publishedTemplateResources.iterator();
+        Iterator<@RUntainted String> i = publishedTemplateResources.iterator();
         while (i.hasNext()) {
             String rfsName = i.next();
             CmsStaticExportData data = null;
@@ -725,7 +725,7 @@ public class CmsAfterPublishStaticExportHandler extends A_CmsStaticExportHandler
      * @see org.opencms.staticexport.A_CmsStaticExportHandler#getRelatedFilesToPurge(java.lang.String, java.lang.String)
      */
     @Override
-    protected List<File> getRelatedFilesToPurge(String exportFileName, String vfsName) {
+    protected List<@RUntainted File> getRelatedFilesToPurge(String exportFileName, String vfsName) {
 
         return Collections.emptyList();
     }

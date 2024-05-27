@@ -183,7 +183,7 @@ public class CmsObjectWrapper {
      * @throws CmsException if something goes wrong
      * @throws CmsIllegalArgumentException if the <code>resourcename</code> argument is null or of length 0
      */
-    public CmsResource createResource(String resourcename, int type, byte[] content, List<CmsProperty> properties)
+    public CmsResource createResource(String resourcename, int type, @RUntainted byte[] content, List<CmsProperty> properties)
     throws CmsException, CmsIllegalArgumentException {
 
         CmsResource res = null;

@@ -39,6 +39,7 @@ import java.util.Collection;
 import java.util.Date;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides access to common object types through wrappers.<p>

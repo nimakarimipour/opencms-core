@@ -34,6 +34,7 @@ import org.opencms.gwt.shared.CmsUploadProgessInfo;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.RemoteService;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles all RPC services related to the upload dialog.<p>

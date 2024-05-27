@@ -268,7 +268,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
      *
      * @throws CmsIllegalArgumentException if the given name is null, empty or already taken by another search index
      */
-    public CmsSearchIndex(String name)
+    public CmsSearchIndex(@RUntainted String name)
     throws CmsIllegalArgumentException {
 
         this();
@@ -1564,7 +1564,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
      *
      * @return the directory on the RFS for this index
      */
-    protected String generateIndexDirectory() {
+    protected @RUntainted String generateIndexDirectory() {
 
         return OpenCms.getSystemInfo().getAbsoluteRfsPathRelativeToWebInf(
             OpenCms.getSearchManager().getDirectory() + "/" + getName());

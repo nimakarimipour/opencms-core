@@ -36,6 +36,7 @@ import org.opencms.util.CmsStringUtil;
 
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A schedulable OpenCms job that optimizes the Lucene based search indexes at runtime.<p>

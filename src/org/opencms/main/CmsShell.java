@@ -61,6 +61,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A command line interface to access OpenCms functions which
@@ -481,8 +482,8 @@ public class CmsShell {
      * @param additionalShellCommands optional object for additional shell commands, or null
      */
     public CmsShell(
-        String webInfPath,
-        String servletMapping,
+        @RUntainted String webInfPath,
+        @RUntainted String servletMapping,
         String defaultWebAppName,
         String prompt,
         I_CmsShellCommands additionalShellCommands) {
@@ -511,8 +512,8 @@ public class CmsShell {
      * @param interactive if <code>true</code> this is an interactive session with a user sitting on a console
      */
     public CmsShell(
-        String webInfPath,
-        String servletMapping,
+        @RUntainted String webInfPath,
+        @RUntainted String servletMapping,
         String defaultWebAppName,
         String prompt,
         I_CmsShellCommands additionalShellCommands,

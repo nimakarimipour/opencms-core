@@ -93,7 +93,7 @@ public class CmsSiteConfigToLetsEncryptConfigConverter {
          *
          * @return the JSON configuration corresponding to the domain grouping
          */
-        public String generateCertJson() {
+        public @RUntainted String generateCertJson() {
 
             try {
                 JSONObject result = new JSONObject();

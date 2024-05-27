@@ -108,7 +108,7 @@ public class CmsModuleLog {
      * @param action the action
      * @param ok true if the action was successful
      */
-    public synchronized void log(String moduleName, Action action, boolean ok) {
+    public synchronized void log(@RUntainted String moduleName, Action action, boolean ok) {
 
         if (moduleName == null) {
             return;

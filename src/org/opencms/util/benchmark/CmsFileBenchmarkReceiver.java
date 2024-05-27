@@ -79,7 +79,7 @@ public class CmsFileBenchmarkReceiver implements CmsBenchmarkTable.Receiver {
      * @param benchmark the benchmark name
      * @param group the benchmark group
      */
-    public CmsFileBenchmarkReceiver(String path, @RUntainted String benchmark, @RUntainted String group) {
+    public CmsFileBenchmarkReceiver(@RUntainted String path, @RUntainted String benchmark, @RUntainted String group) {
 
         m_path = path;
         m_group = group;

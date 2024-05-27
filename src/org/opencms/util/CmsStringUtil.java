@@ -777,7 +777,7 @@ public final class CmsStringUtil {
      *
      * @return the Ethernet-Address
      */
-    public static String getEthernetAddress() {
+    public static @RUntainted String getEthernetAddress() {
 
         try {
             InetAddress ip = InetAddress.getLocalHost();
@@ -1812,7 +1812,7 @@ public final class CmsStringUtil {
      *
      * @return the substituted String
      */
-    public static @RPolyTainted String substitute(@RPolyTainted String source, @RPolyTainted String searchString, @RPolyTainted String replaceString) {
+    public static String substitute(String source, @RPolyTainted String searchString, @RPolyTainted String replaceString) {
 
         if (source == null) {
             return null;

@@ -171,6 +171,7 @@ import com.google.common.base.Optional;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gwt.user.client.rpc.core.java.util.LinkedHashMap_CustomFieldSerializer;
 import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * The internal implementation of the core OpenCms "operating system" functions.<p>
@@ -336,7 +337,7 @@ public final class OpenCmsCore {
     private CmsSubscriptionManager m_subscriptionManager;
 
     /** The system information container for "read only" system settings. */
-    private CmsSystemInfo m_systemInfo;
+    private @RUntainted CmsSystemInfo m_systemInfo;
 
     /** The template context manager. */
     private CmsTemplateContextManager m_templateContextManager;
@@ -961,7 +962,7 @@ public final class OpenCmsCore {
      *
      * @return the system information storage
      */
-    protected CmsSystemInfo getSystemInfo() {
+    protected @RUntainted CmsSystemInfo getSystemInfo() {
 
         return m_systemInfo;
     }
@@ -1875,7 +1876,7 @@ public final class OpenCmsCore {
      * @param context configuration of OpenCms from <code>web.xml</code>
      * @throws CmsInitException in case OpenCms can not be initialized
      */
-    protected synchronized void initContext(ServletContext context) throws CmsInitException {
+    protected synchronized void initContext(@RUntainted ServletContext context) throws CmsInitException {
 
         m_gwtServiceContexts = new HashMap<String, CmsGwtServiceContext>();
 
@@ -2126,7 +2127,7 @@ public final class OpenCmsCore {
      */
     protected void invokeGwtService(
         String serviceName,
-        HttpServletRequest req,
+        @RUntainted HttpServletRequest req,
         HttpServletResponse res,
         ServletConfig servletConfig) {
 
@@ -2597,7 +2598,7 @@ public final class OpenCmsCore {
      * @throws CmsInitException in case OpenCms can not be initialized
      * @return the initialized OpenCmsCore
      */
-    protected OpenCmsCore upgradeRunlevel(ServletContext context) throws CmsInitException {
+    protected OpenCmsCore upgradeRunlevel(@RUntainted ServletContext context) throws CmsInitException {
 
         synchronized (LOCK) {
             if ((m_instance != null) && (getRunLevel() >= OpenCms.RUNLEVEL_4_SERVLET_ACCESS)) {

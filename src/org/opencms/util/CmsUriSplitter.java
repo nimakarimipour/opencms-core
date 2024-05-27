@@ -225,7 +225,7 @@ public class CmsUriSplitter {
      *
      * @return the prefix part of the uri
      */
-    public String getPrefix() {
+    public @RUntainted String getPrefix() {
 
         return m_prefix;
     }

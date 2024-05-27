@@ -30,6 +30,7 @@ package org.opencms.configuration;
 import org.opencms.main.CmsLog;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract base implementation for xml configurations.<p>
@@ -42,7 +43,7 @@ public abstract class A_CmsXmlConfiguration implements I_CmsXmlConfiguration {
     private static final Log LOG = CmsLog.getLog(A_CmsXmlConfiguration.class);
 
     /** The name of the XML file used for this configuration. */
-    private String m_xmlFileName;
+    private @RUntainted String m_xmlFileName;
 
     /**
      * Constructor.<p>
@@ -94,7 +95,7 @@ public abstract class A_CmsXmlConfiguration implements I_CmsXmlConfiguration {
     /**
      * @see org.opencms.configuration.I_CmsXmlConfiguration#getXmlFileName()
      */
-    public String getXmlFileName() {
+    public @RUntainted String getXmlFileName() {
 
         return m_xmlFileName;
     }
@@ -120,7 +121,7 @@ public abstract class A_CmsXmlConfiguration implements I_CmsXmlConfiguration {
      *
      * @param fileName the file name to set
      */
-    protected void setXmlFileName(String fileName) {
+    protected void setXmlFileName(@RUntainted String fileName) {
 
         m_xmlFileName = fileName;
     }

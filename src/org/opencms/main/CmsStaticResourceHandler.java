@@ -95,7 +95,7 @@ public class CmsStaticResourceHandler implements I_CmsRequestHandler {
      *
      * @return the resource URL
      */
-    public static URL getStaticResourceURL(String resourcePath) {
+    public static @RUntainted URL getStaticResourceURL(String resourcePath) {
 
         URL resourceURL = null;
         if (isStaticResourceUri(resourcePath)) {

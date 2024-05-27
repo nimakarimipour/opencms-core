@@ -76,7 +76,7 @@ public class CmsFlexRequestDispatcher implements RequestDispatcher {
     private RequestDispatcher m_rd;
 
     /** The OpenCms VFS target that will be included by the RequestDispatcher. */
-    private String m_vfsTarget;
+    private @RUntainted String m_vfsTarget;
 
     /**
      * Creates a new instance of CmsFlexRequestDispatcher.<p>

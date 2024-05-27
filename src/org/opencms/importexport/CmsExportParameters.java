@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Export parameters.<p>
@@ -82,7 +83,7 @@ public class CmsExportParameters {
     private String m_overrideSiteRoot;
 
     /** The file path, should be a zip file. */
-    private String m_path;
+    private @RUntainted String m_path;
 
     /** If the resources should be recursively exported. */
     private boolean m_recursive = true;
@@ -268,7 +269,7 @@ public class CmsExportParameters {
      *
      * @return the file path
      */
-    public String getPath() {
+    public @RUntainted String getPath() {
 
         // ensure the export file name ends with ".zip" in case of ZIP file export
         if ((m_path != null) && !isExportAsFiles() && !m_path.toLowerCase().endsWith(".zip")) {

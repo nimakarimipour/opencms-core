@@ -275,7 +275,7 @@ public class CmsSqlManager extends org.opencms.db.CmsSqlManager {
      * @return PreparedStatement a new PreparedStatement containing the pre-compiled SQL statement
      * @throws SQLException if a database access error occurs
      */
-    public PreparedStatement getPreparedStatement(Connection con, String queryKey) throws SQLException {
+    public @RUntainted PreparedStatement getPreparedStatement(Connection con, String queryKey) throws SQLException {
 
         String rawSql = readQuery(CmsUUID.getNullUUID(), queryKey);
         return getPreparedStatementForSql(con, rawSql);
@@ -289,7 +289,7 @@ public class CmsSqlManager extends org.opencms.db.CmsSqlManager {
      * @return PreparedStatement a new PreparedStatement containing the pre-compiled SQL statement
      * @throws SQLException if a database access error occurs
      */
-    public PreparedStatement getPreparedStatementForSql(Connection con, String query) throws SQLException {
+    public @RUntainted PreparedStatement getPreparedStatementForSql(Connection con, String query) throws SQLException {
 
         // unfortunately, this wrapper is essential, because some JDBC driver
         // implementations don't accept the delegated objects of DBCP's connection pool.
@@ -384,7 +384,7 @@ public class CmsSqlManager extends org.opencms.db.CmsSqlManager {
      * @param queryKey the SQL query key
      * @return the the SQL query in this property list with the specified key
      */
-    public String readQuery(String queryKey) {
+    public @RUntainted String readQuery(String queryKey) {
 
         String value = m_queries.get(queryKey);
         if (value == null) {

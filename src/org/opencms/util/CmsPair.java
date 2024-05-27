@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.common.base.Objects;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generic pair class.<p>

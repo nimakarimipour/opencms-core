@@ -28,6 +28,7 @@
 package org.opencms.gwt.shared;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A simple bean class which represents a validation request for a single form field.<p>

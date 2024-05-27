@@ -119,7 +119,7 @@ public class CmsUploadBean extends CmsJspBean {
     private CmsObject m_rootCms;
 
     /** The server side upload delay. */
-    private int m_uploadDelay;
+    private @RUntainted int m_uploadDelay;
 
     /** The upload hook URI. */
     private String m_uploadHook;
@@ -184,7 +184,7 @@ public class CmsUploadBean extends CmsJspBean {
      *
      * @param uploadDelay the uploadDelay to set
      */
-    public void setUploadDelay(int uploadDelay) {
+    public void setUploadDelay(@RUntainted int uploadDelay) {
 
         m_uploadDelay = uploadDelay;
     }

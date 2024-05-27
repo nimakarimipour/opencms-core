@@ -321,7 +321,7 @@ public class CmsMessageBundleEditorModel {
          * @param escapeUnicode flag, indicating if unicode signs should be escaped
          * @return the converted string
          */
-        private @RUntainted String saveConvert(String theString, boolean escapeSpace, boolean escapeUnicode) {
+        private @RUntainted String saveConvert(@RUntainted String theString, boolean escapeSpace, boolean escapeUnicode) {
 
             int len = theString.length();
             int bufLen = len * 2;

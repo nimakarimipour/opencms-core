@@ -47,7 +47,7 @@ public class CmsFile extends CmsResource {
     private static final long serialVersionUID = -5201022482708455620L;
 
     /** The content of this file. */
-    private byte[] m_fileContent;
+    private @RUntainted byte[] m_fileContent;
 
     /**
      * Constructor, creates a new file Object from the given resource with

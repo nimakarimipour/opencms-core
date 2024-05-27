@@ -46,6 +46,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.logging.log4j.core.config.ConfigurationSource;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.logging.log4j.core.util.Loader;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides the OpenCms logging mechanism.<p>
@@ -106,10 +107,10 @@ public final class CmsLog {
     public static Log INIT;
 
     /** The absolute path to the folder of the main OpenCms log file (in the "real" file system). */
-    private static String m_logFileRfsFolder;
+    private static @RUntainted String m_logFileRfsFolder;
 
     /** The absolute path to the OpenCms log file (in the "real" file system). */
-    private static String m_logFileRfsPath;
+    private static @RUntainted String m_logFileRfsPath;
 
     /** Set of names of channels that should not be managed via the GUI. */
     private static CopyOnWriteArraySet<String> NON_MANAGEABLE_CHANNELS = new CopyOnWriteArraySet<>();
@@ -297,7 +298,7 @@ public final class CmsLog {
      * @return the absolute path to the folder of the main OpenCms log file (in
      * the "real" file system)
      */
-    protected static String getLogFileRfsFolder() {
+    protected static @RUntainted String getLogFileRfsFolder() {
 
         return m_logFileRfsFolder;
     }
@@ -310,7 +311,7 @@ public final class CmsLog {
      *
      * @return the filename of the log file (in the "real" file system)
      */
-    protected static String getLogFileRfsPath() {
+    protected static @RUntainted String getLogFileRfsPath() {
 
         return m_logFileRfsPath;
     }

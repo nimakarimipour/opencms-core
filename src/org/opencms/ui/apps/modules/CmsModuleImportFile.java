@@ -53,7 +53,7 @@ public class CmsModuleImportFile {
      *
      * @param path the path of the module zip file to import
      */
-    public CmsModuleImportFile(String path) {
+    public CmsModuleImportFile(@RUntainted String path) {
         m_path = path;
     }
 
@@ -72,7 +72,7 @@ public class CmsModuleImportFile {
      *
      * @return the path of the zip file
      */
-    public String getPath() {
+    public @RUntainted String getPath() {
 
         return m_path;
     }

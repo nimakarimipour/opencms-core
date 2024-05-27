@@ -40,6 +40,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes the XML content type "OpenCmsVfsImage".<p>

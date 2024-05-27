@@ -574,7 +574,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
      * @param uri the export point uri
      * @param destination the export point destination
      */
-    public void addExportPoint(String uri, String destination) {
+    public void addExportPoint(String uri, @RUntainted String destination) {
 
         CmsExportPoint point = new CmsExportPoint(uri, destination);
         m_exportPoints.add(point);

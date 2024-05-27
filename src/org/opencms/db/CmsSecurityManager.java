@@ -4258,7 +4258,7 @@ public final class CmsSecurityManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public String readBestUrlName(CmsRequestContext context, CmsUUID id, Locale locale, List<Locale> defaultLocales)
+    public @RUntainted String readBestUrlName(CmsRequestContext context, CmsUUID id, Locale locale, List<Locale> defaultLocales)
     throws CmsException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
@@ -5294,7 +5294,7 @@ public final class CmsSecurityManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public List<CmsResource> readResourcesVisitedBy(
+    public @RUntainted List<CmsResource> readResourcesVisitedBy(
         CmsRequestContext context,
         String poolName,
         CmsVisitedByFilter filter)
@@ -5482,11 +5482,11 @@ public final class CmsSecurityManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public List<String> readStaticExportResources(CmsRequestContext context, int parameterResources, long timestamp)
+    public List<@RUntainted String> readStaticExportResources(CmsRequestContext context, int parameterResources, long timestamp)
     throws CmsException {
 
         CmsDbContext dbc = m_dbContextFactory.getDbContext(context);
-        List<String> result = null;
+        List<@RUntainted String> result = null;
         try {
             result = m_driverManager.readStaticExportResources(dbc, parameterResources, timestamp);
         } catch (Exception e) {
@@ -5555,7 +5555,7 @@ public final class CmsSecurityManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public List<CmsResource> readSubscribedResources(
+    public @RUntainted List<CmsResource> readSubscribedResources(
         CmsRequestContext context,
         String poolName,
         CmsSubscriptionFilter filter)
@@ -7216,7 +7216,7 @@ public final class CmsSecurityManager {
      */
     public String writeUrlNameMapping(
         CmsRequestContext context,
-        Iterator<String> nameSeq,
+        Iterator<@RUntainted String> nameSeq,
         CmsUUID structureId,
         String locale,
         boolean replaceOnPublish)

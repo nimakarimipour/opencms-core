@@ -28,6 +28,7 @@
 package org.opencms.i18n;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience base class to access the localized messages of an OpenCms package.<p>

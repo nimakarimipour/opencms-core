@@ -57,7 +57,7 @@ public class CmsImportHelper {
     private static final Log LOG = CmsLog.getLog(CmsImport.class);
 
     /** The folder, or <code>null</code> if a zip file.*/
-    private File m_folder;
+    private @RUntainted File m_folder;
 
     /** The import parameters to use. */
     private CmsImportParameters m_params;
@@ -137,7 +137,7 @@ public class CmsImportHelper {
      *
      * @throws CmsImportExportException if something goes wrong
      */
-    public byte[] getFileBytes(@RUntainted String filename) throws CmsImportExportException {
+    public @RUntainted byte[] getFileBytes(@RUntainted String filename) throws CmsImportExportException {
 
         try {
             // is this a zip-file?

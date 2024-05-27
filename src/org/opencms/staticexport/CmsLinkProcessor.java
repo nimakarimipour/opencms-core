@@ -50,6 +50,7 @@ import org.htmlparser.tags.LinkTag;
 import org.htmlparser.tags.ObjectTag;
 import org.htmlparser.util.ParserException;
 import org.htmlparser.util.SimpleNodeIterator;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements the HTML parser node visitor pattern to

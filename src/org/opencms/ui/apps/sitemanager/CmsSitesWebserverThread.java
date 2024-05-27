@@ -108,12 +108,12 @@ public class CmsSitesWebserverThread extends A_CmsReportThread {
      */
     public CmsSitesWebserverThread(
         CmsObject cms,
-        String targetPath,
-        String templatePath,
-        String scriptPath,
-        String filePrefix,
+        @RUntainted String targetPath,
+        @RUntainted String templatePath,
+        @RUntainted String scriptPath,
+        @RUntainted String filePrefix,
         String loggingDir,
-        String secureTemplate) {
+        @RUntainted String secureTemplate) {
 
         super(cms, "write-to-webserver");
 

@@ -370,7 +370,7 @@ public class CmsUserSettings {
     private CmsSynchronizeSettings m_synchronizeSettings;
 
     /** The custom user surf time. */
-    private long m_timeWarp;
+    private @RUntainted long m_timeWarp;
 
     /** The path of the preselected folder for the upload applet on the client machine. */
     private String m_uploadAppletClientFolder;
@@ -2270,7 +2270,7 @@ public class CmsUserSettings {
      *
      * @param timewarp the time warp time to set
      */
-    public void setTimeWarp(long timewarp) {
+    public void setTimeWarp(@RUntainted long timewarp) {
 
         if (timewarp < 0) {
             timewarp = CmsContextInfo.CURRENT_TIME; // other negative values will break the workplace

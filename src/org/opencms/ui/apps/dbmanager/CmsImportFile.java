@@ -53,7 +53,7 @@ public class CmsImportFile {
      *
      * @param path of the file
      */
-    public CmsImportFile(String path) {
+    public CmsImportFile(@RUntainted String path) {
         m_path = path;
     }
 
@@ -72,7 +72,7 @@ public class CmsImportFile {
      *
      * @return the server path
      */
-    public String getPath() {
+    public @RUntainted String getPath() {
 
         return m_path;
     }

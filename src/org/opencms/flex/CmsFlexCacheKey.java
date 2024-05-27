@@ -45,6 +45,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Key used to describe the caching behaviour of a specific resource.<p>

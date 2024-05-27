@@ -54,10 +54,10 @@ public class CmsAfterPublishMultiLanguageStaticExportHandler extends CmsAfterPub
      * @see org.opencms.staticexport.CmsAfterPublishStaticExportHandler#getRelatedFilesToPurge(java.lang.String, java.lang.String)
      */
     @Override
-    protected List<File> getRelatedFilesToPurge(String exportFileName, String vfsName) {
+    protected List<@RUntainted File> getRelatedFilesToPurge(String exportFileName, String vfsName) {
 
         CmsStaticExportManager manager = OpenCms.getStaticExportManager();
-        List<File> result = new ArrayList<File>();
+        List<@RUntainted File> result = new ArrayList<@RUntainted File>();
         if (m_rules == null) {
             // get the locale matching rules
             CmsLocaleManager locManager = OpenCms.getLocaleManager();

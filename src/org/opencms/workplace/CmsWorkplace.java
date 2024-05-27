@@ -301,10 +301,10 @@ public abstract class CmsWorkplace {
     private String m_resourceUri;
 
     /** The current OpenCms users http session. */
-    private HttpSession m_session;
+    private @RUntainted HttpSession m_session;
 
     /** The current OpenCms users workplace settings. */
-    private CmsWorkplaceSettings m_settings;
+    private @RUntainted CmsWorkplaceSettings m_settings;
 
     /**
      * Public constructor.<p>
@@ -322,7 +322,7 @@ public abstract class CmsWorkplace {
      * @param cms the current user context
      * @param session the session
      */
-    public CmsWorkplace(CmsObject cms, HttpSession session) {
+    public CmsWorkplace(CmsObject cms, @RUntainted HttpSession session) {
 
         initWorkplaceMembers(cms, session);
     }
@@ -853,7 +853,7 @@ public abstract class CmsWorkplace {
      *
      * @see #initWorkplaceSettings(CmsObject, CmsWorkplaceSettings, boolean)
      */
-    public static CmsWorkplaceSettings initUserSettings(CmsObject cms, CmsWorkplaceSettings settings, boolean update) {
+    public static @RPolyTainted CmsWorkplaceSettings initUserSettings(CmsObject cms, @RPolyTainted CmsWorkplaceSettings settings, boolean update) {
 
         if (settings == null) {
             settings = new CmsWorkplaceSettings();
@@ -898,9 +898,9 @@ public abstract class CmsWorkplace {
      *
      * @see #initUserSettings(CmsObject, CmsWorkplaceSettings, boolean)
      */
-    public static synchronized CmsWorkplaceSettings initWorkplaceSettings(
+    public static synchronized @RPolyTainted CmsWorkplaceSettings initWorkplaceSettings(
         CmsObject cms,
-        CmsWorkplaceSettings settings,
+        @RPolyTainted CmsWorkplaceSettings settings,
         boolean update) {
 
         // init the workplace user settings
@@ -1011,7 +1011,7 @@ public abstract class CmsWorkplace {
      * @param session the session to store the settings in
      * @param settings the settings
      */
-    static void storeSettings(HttpSession session, CmsWorkplaceSettings settings) {
+    static void storeSettings(HttpSession session, @RUntainted CmsWorkplaceSettings settings) {
 
         // save the workplace settings in the session
         session.setAttribute(CmsWorkplaceManager.SESSION_WORKPLACE_SETTINGS, settings);
@@ -1732,7 +1732,7 @@ public abstract class CmsWorkplace {
      *
      * @return the current user http session
      */
-    public HttpSession getSession() {
+    public @RUntainted HttpSession getSession() {
 
         return m_session;
     }
@@ -2339,7 +2339,7 @@ public abstract class CmsWorkplace {
      * @param cms the user context
      * @param session the session
      */
-    protected void initWorkplaceMembers(CmsObject cms, HttpSession session) {
+    protected void initWorkplaceMembers(CmsObject cms, @RUntainted HttpSession session) {
 
         m_cms = cms;
         m_session = session;

@@ -39,6 +39,7 @@ import java.util.Set;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.jsp.tagext.TagSupport;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This tag is used to enable parameter escaping for a single Flex Request.<p>

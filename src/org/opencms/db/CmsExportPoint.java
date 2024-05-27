@@ -68,7 +68,7 @@ public class CmsExportPoint implements Serializable {
      * @param destination the destination folder in the "real" file system,
      *     relative to the web application root
      */
-    public CmsExportPoint(String uri, String destination) {
+    public CmsExportPoint(String uri, @RUntainted String destination) {
 
         m_uri = uri;
         m_configuredDestination = destination;
@@ -160,7 +160,7 @@ public class CmsExportPoint implements Serializable {
      * @param value the configured destination path
      *
      */
-    public void setConfiguredDestination(String value) {
+    public void setConfiguredDestination(@RUntainted String value) {
 
         m_configuredDestination = value;
         m_destinationPath = null;

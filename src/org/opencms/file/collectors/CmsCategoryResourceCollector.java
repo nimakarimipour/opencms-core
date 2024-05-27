@@ -51,6 +51,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A collector to fetch XML contents in a folder or the current site filtered by one or more given category types.<p>

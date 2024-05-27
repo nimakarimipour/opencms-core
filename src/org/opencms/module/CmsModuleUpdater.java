@@ -151,7 +151,7 @@ public class CmsModuleUpdater {
      *
      * @throws CmsException if something goes wrong
      */
-    public static Optional<CmsModuleUpdater> create(CmsObject cms, String importFile, I_CmsReport report)
+    public static Optional<CmsModuleUpdater> create(CmsObject cms, @RUntainted String importFile, I_CmsReport report)
     throws CmsException {
 
         CmsModuleImportData moduleData = readModuleData(cms, importFile, report);

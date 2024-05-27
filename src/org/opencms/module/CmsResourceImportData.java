@@ -95,7 +95,7 @@ public class CmsResourceImportData {
     public CmsResourceImportData(
         CmsResource resource,
         String path,
-        byte[] content,
+        @RUntainted byte[] content,
         List<CmsProperty> properties,
         List<CmsAccessControlEntry> aces,
         List<RelationData> relationData,

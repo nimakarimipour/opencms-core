@@ -60,7 +60,7 @@ public class CmsStaticExportData {
      * @param resource the resource object
      * @param parameters the parameter string of a resource
      */
-    public CmsStaticExportData(String vfsName, String rfsName, CmsResource resource, String parameters) {
+    public CmsStaticExportData(String vfsName, @RUntainted String rfsName, CmsResource resource, String parameters) {
 
         m_vfsName = vfsName;
         m_rfsName = rfsName;
@@ -163,7 +163,7 @@ public class CmsStaticExportData {
      *
      * @param rfsName the RFS name to set
      */
-    protected void setRfsName(String rfsName) {
+    protected void setRfsName(@RUntainted String rfsName) {
 
         m_rfsName = rfsName;
     }

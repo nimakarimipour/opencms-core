@@ -215,7 +215,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      * @throws Exception if something goes wrong
      * @see org.opencms.file.CmsRequestContext#setUri(String)
      */
-    public void cd(String target) throws Exception {
+    public void cd(@RUntainted String target) throws Exception {
 
         String folder = CmsResource.getFolderPath(m_cms.getRequestContext().getUri());
         if (!target.endsWith("/")) {
@@ -461,7 +461,7 @@ class CmsShellCommands implements I_CmsShellCommands {
         String description,
         String firstname,
         String lastname,
-        String email)
+        @RUntainted String email)
     throws Exception {
 
         if (existsUser(name)) {
@@ -991,7 +991,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      *
      * @see org.opencms.importexport.CmsImportExportManager#importData(CmsObject, I_CmsReport, CmsImportParameters)
      */
-    public void importModule(String importFile) throws Exception {
+    public void importModule(@RUntainted String importFile) throws Exception {
 
         CmsImportParameters params = new CmsImportParameters(importFile, "/", true);
 
@@ -1083,7 +1083,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      * @param importFile the absolute path of the import resource
      * @throws Exception if something goes wrong
      */
-    public void importResourcesWithTempProject(String importFile) throws Exception {
+    public void importResourcesWithTempProject(@RUntainted String importFile) throws Exception {
 
         CmsProject project = m_cms.createProject(
             "SystemUpdate",
@@ -1348,7 +1348,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      * @throws CmsException if something goes wrong
      * @return the selected files contents
      */
-    public String readFileContent(String filename) throws CmsException {
+    public String readFileContent(@RUntainted String filename) throws CmsException {
 
         filename = CmsLinkManager.getAbsoluteUri(
             filename,
@@ -1559,7 +1559,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      *
      * @throws Exception if something goes wrong
      */
-    public void replaceModule(String importFile) throws Exception {
+    public void replaceModule(@RUntainted String importFile) throws Exception {
 
         OpenCms.getModuleManager().replaceModule(
             m_cms,
@@ -1822,7 +1822,7 @@ class CmsShellCommands implements I_CmsShellCommands {
      *
      * @param name the timer name
      */
-    public void stopBenchmark(String name) {
+    public void stopBenchmark(@RUntainted String name) {
 
         m_shell.getBenchmarkTable().stop(name);
 

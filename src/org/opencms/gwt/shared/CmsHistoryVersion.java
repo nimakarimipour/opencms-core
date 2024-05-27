@@ -32,6 +32,7 @@ import org.opencms.util.CmsStringUtil;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean representing a file version for the history dialog.<p>

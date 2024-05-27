@@ -101,10 +101,10 @@ public class CmsSolrConfiguration {
     private boolean m_enabled;
 
     /** The Solr home. */
-    private String m_home;
+    private @RUntainted String m_home;
 
     /** The configured path to the Solr home. */
-    private String m_homeFolderPath;
+    private @RUntainted String m_homeFolderPath;
 
     /** The schema file. */
     private IndexSchema m_schema;
@@ -341,7 +341,7 @@ public class CmsSolrConfiguration {
      *
      * @param homeFolderPath the Solr home folder to set
      */
-    public void setHomeFolderPath(String homeFolderPath) {
+    public void setHomeFolderPath(@RUntainted String homeFolderPath) {
 
         m_homeFolderPath = homeFolderPath;
     }
@@ -397,7 +397,7 @@ public class CmsSolrConfiguration {
      *
      * @param name the file name to set
      */
-    public void setSolrFileName(String name) {
+    public void setSolrFileName(@RUntainted String name) {
 
         m_solrFileName = name;
     }

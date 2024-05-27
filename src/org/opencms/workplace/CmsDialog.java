@@ -249,7 +249,7 @@ public class CmsDialog extends CmsToolDialog {
     private String m_paramAction;
 
     /** The close link parameter. */
-    private String m_paramCloseLink;
+    private @RUntainted String m_paramCloseLink;
 
     /** The dialog type. */
     private String m_paramDialogtype;
@@ -1544,7 +1544,7 @@ public class CmsDialog extends CmsToolDialog {
      *
      * @param value the value to set
      */
-    public void setParamCloseLink(String value) {
+    public void setParamCloseLink(@RUntainted String value) {
 
         // ensure decoded chars are re-encoded again properly
 

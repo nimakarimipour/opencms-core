@@ -198,7 +198,7 @@ public final class CmsRequestContext {
      * @return the translated resource name including site root
      * @see #addSiteRoot(String, String)
      */
-    public String addSiteRoot(String resourcename) {
+    public @RUntainted String addSiteRoot(String resourcename) {
 
         return addSiteRoot(m_siteRoot, resourcename);
     }
@@ -212,7 +212,7 @@ public final class CmsRequestContext {
      * @param resourcename the resource name
      * @return the translated resource name including site root
      */
-    public String addSiteRoot(String siteRoot, String resourcename) {
+    public @RUntainted String addSiteRoot(String siteRoot, String resourcename) {
 
         if ((resourcename == null) || (siteRoot == null)) {
             return null;
@@ -461,7 +461,7 @@ public final class CmsRequestContext {
      * @see CmsResource#getRootPath()
      * @see CmsObject#getSitePath(CmsResource)
      */
-    public String getSitePath(CmsResource resource) {
+    public @RUntainted String getSitePath(CmsResource resource) {
 
         return removeSiteRoot(resource.getRootPath());
     }
@@ -547,7 +547,7 @@ public final class CmsRequestContext {
      *
      * @see #getSitePath(CmsResource)
      */
-    public String removeSiteRoot(String resourcename) {
+    public @RUntainted String removeSiteRoot(String resourcename) {
 
         String siteRoot = getAdjustedSiteRoot(m_siteRoot, resourcename);
         if ((siteRoot == m_siteRoot)

@@ -1849,7 +1849,7 @@ public final class CmsObject {
      * @see CmsRequestContext#getSitePath(CmsResource)
      * @see CmsResource#getRootPath()
      */
-    public String getSitePath(CmsResource resource) {
+    public @RUntainted String getSitePath(CmsResource resource) {
 
         return m_context.getSitePath(resource);
     }
@@ -2473,7 +2473,7 @@ public final class CmsObject {
      * @return an URL name or null
      * @throws CmsException if something goes wrong
      */
-    public String readBestUrlName(CmsUUID id, Locale locale, List<Locale> defaultLocales) throws CmsException {
+    public @RUntainted String readBestUrlName(CmsUUID id, Locale locale, List<Locale> defaultLocales) throws CmsException {
 
         return m_securityManager.readBestUrlName(m_context, id, locale, defaultLocales);
     }
@@ -3613,7 +3613,7 @@ public final class CmsObject {
      *
      * @throws CmsException if something goes wrong
      */
-    public List<String> readStaticExportResources(int parameterResources, long timestamp) throws CmsException {
+    public List<@RUntainted String> readStaticExportResources(int parameterResources, long timestamp) throws CmsException {
 
         return m_securityManager.readStaticExportResources(m_context, parameterResources, timestamp);
     }

@@ -376,7 +376,7 @@ public class CmsUserDataRequestManager {
      * @throws EmailException if sending the email fails
      * @throws AddressException if parsing the email address fails
      */
-    public void startUserDataRequest(CmsObject cms, CmsUserDataRequestConfig config, String email)
+    public void startUserDataRequest(CmsObject cms, CmsUserDataRequestConfig config, @RUntainted String email)
     throws CmsUserDataRequestException, EmailException, AddressException {
 
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(email)) {
@@ -585,7 +585,7 @@ public class CmsUserDataRequestManager {
      * @throws EmailException if sending the email fails
      * @throws AddressException if parsing the address fails
      */
-    private void sendMail(CmsObject cms, CmsUserDataRequestConfig config, String email, String id)
+    private void sendMail(CmsObject cms, CmsUserDataRequestConfig config, @RUntainted String email, String id)
     throws EmailException, AddressException {
 
         CmsHtmlMail mail = new CmsHtmlMail();

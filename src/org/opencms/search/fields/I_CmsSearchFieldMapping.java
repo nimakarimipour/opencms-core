@@ -39,6 +39,7 @@ import org.opencms.search.extractors.I_CmsExtractionResult;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes a mapping of a piece of content from an OpenCms VFS

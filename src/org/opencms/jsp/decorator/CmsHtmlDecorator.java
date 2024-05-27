@@ -41,6 +41,7 @@ import org.apache.commons.logging.Log;
 import org.htmlparser.Tag;
 import org.htmlparser.Text;
 import org.htmlparser.util.Translate;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The CmsHtmlDecorator is the main object for processing the text decorations.<p>

@@ -48,7 +48,7 @@ public interface I_CmsEmbeddedDialogInfo {
      *
      * @return the dialog id
      */
-    public String getDialogId();
+    public @RUntainted String getDialogId();
 
     /**
      * Gets the parameters.

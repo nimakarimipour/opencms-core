@@ -56,6 +56,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This manager provide access to the publish engine runtime information.<p>
@@ -114,7 +115,7 @@ public class CmsPublishManager {
     private boolean m_publishQueuePersistance;
 
     /** The amount of time to wait for a publish job during shutdown. */
-    private int m_publishQueueShutdowntime;
+    private @RUntainted int m_publishQueueShutdowntime;
 
     /** The security manager. */
     private CmsSecurityManager m_securityManager;
@@ -135,7 +136,7 @@ public class CmsPublishManager {
      * @param queuePersistance indicates if the queue is re-initialized on startup
      * @param queueShutdowntime the amount of time to wait for a publish job during shutdown
      */
-    public CmsPublishManager(int historySize, boolean queuePersistance, int queueShutdowntime) {
+    public CmsPublishManager(int historySize, boolean queuePersistance, @RUntainted int queueShutdowntime) {
 
         m_publishEngine = null;
         m_publishHistorySize = historySize;
@@ -823,7 +824,7 @@ public class CmsPublishManager {
      *
      * @param publishQueueShutdowntime the shutdown time to set, parsed as <code>int</code>
      */
-    public void setPublishQueueShutdowntime(String publishQueueShutdowntime) {
+    public void setPublishQueueShutdowntime(@RUntainted String publishQueueShutdowntime) {
 
         if (m_frozen) {
             throw new CmsRuntimeException(Messages.get().container(Messages.ERR_CONFIG_FROZEN_0));

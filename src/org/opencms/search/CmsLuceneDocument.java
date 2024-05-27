@@ -45,6 +45,7 @@ import org.opencms.search.fields.CmsSearchFieldConfiguration;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.*;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A Lucene search document implementation.<p>

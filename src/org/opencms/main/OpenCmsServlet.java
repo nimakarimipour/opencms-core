@@ -314,7 +314,7 @@ public class OpenCmsServlet extends HttpServlet implements I_CmsRequestHandler {
      * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+    public void doGet(@RUntainted HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
 
         // we are using stacks for these because the doGet method may be called reentrantly, e.g. when using servlet forwarding.
         currentRequestStack.push(req);
@@ -377,7 +377,7 @@ public class OpenCmsServlet extends HttpServlet implements I_CmsRequestHandler {
      * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
-    public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+    public void doPost(@RUntainted HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
 
         doGet(req, res);
     }
@@ -393,7 +393,7 @@ public class OpenCmsServlet extends HttpServlet implements I_CmsRequestHandler {
     /**
      * @see org.opencms.main.I_CmsRequestHandler#handle(HttpServletRequest, HttpServletResponse, String)
      */
-    public void handle(HttpServletRequest req, HttpServletResponse res, String name)
+    public void handle(@RUntainted HttpServletRequest req, HttpServletResponse res, String name)
     throws IOException, ServletException {
 
         int errorCode;
@@ -448,7 +448,7 @@ public class OpenCmsServlet extends HttpServlet implements I_CmsRequestHandler {
      * @see javax.servlet.Servlet#init(javax.servlet.ServletConfig)
      */
     @Override
-    public synchronized void init(ServletConfig config) throws ServletException {
+    public synchronized void init(@RUntainted ServletConfig config) throws ServletException {
 
         super.init(config);
         try {
@@ -484,7 +484,7 @@ public class OpenCmsServlet extends HttpServlet implements I_CmsRequestHandler {
      * @throws ServletException in case an error occurs
      * @throws IOException in case an error occurs
      */
-    protected void invokeHandler(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+    protected void invokeHandler(@RUntainted HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
 
         String pathInfo = OpenCmsCore.getPathInfo(req);
         String name = pathInfo.substring(HANDLE_PATH.length());

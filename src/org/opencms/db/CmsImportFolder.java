@@ -119,7 +119,7 @@ public class CmsImportFolder {
      * @param cms a OpenCms context to provide the permissions
      * @throws CmsException if something goes wrong
      */
-    public CmsImportFolder(String importFolderName, String importPath, CmsObject cms)
+    public CmsImportFolder(@RUntainted String importFolderName, String importPath, CmsObject cms)
     throws CmsException {
 
         importFolder(importFolderName, importPath, cms);
@@ -143,7 +143,7 @@ public class CmsImportFolder {
      * @param cms a OpenCms context to provide the permissions
      * @throws CmsException if something goes wrong
      */
-    public void importFolder(String importFolderName, String importPath, CmsObject cms) throws CmsException {
+    public void importFolder(@RUntainted String importFolderName, String importPath, CmsObject cms) throws CmsException {
 
         try {
             m_importedResources = new ArrayList<CmsResource>();
