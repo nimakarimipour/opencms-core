@@ -38,6 +38,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.ext.LexicalHandler;
 import org.xml.sax.helpers.DefaultHandler;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Simple SAX event handler that generates a XML (or HTML) file from the events caught.<p>
@@ -57,7 +58,7 @@ public class CmsXmlSaxWriter extends DefaultHandler implements LexicalHandler {
     private static final String INDENT_STR = "\t";
 
     /** The file encoding to use. */
-    private String m_encoding;
+    private @RUntainted String m_encoding;
 
     /**
      * Indicates if characters that are not part of the selected encoding
@@ -76,7 +77,7 @@ public class CmsXmlSaxWriter extends DefaultHandler implements LexicalHandler {
     private boolean m_isCdata;
 
     /** The last element name written to the output. */
-    private String m_lastElementName;
+    private @RUntainted String m_lastElementName;
 
     /** Indicates if a CDATA node needs to be opened. */
     private boolean m_openCdata;
@@ -102,7 +103,7 @@ public class CmsXmlSaxWriter extends DefaultHandler implements LexicalHandler {
      *
      * @param encoding the encoding for the XML file
      */
-    public CmsXmlSaxWriter(String encoding) {
+    public CmsXmlSaxWriter(@RUntainted String encoding) {
 
         this(new StringWriter(), encoding);
     }
@@ -125,7 +126,7 @@ public class CmsXmlSaxWriter extends DefaultHandler implements LexicalHandler {
      * @param writer the Writer to write to output to
      * @param encoding the encoding for the XML file
      */
-    public CmsXmlSaxWriter(Writer writer, String encoding) {
+    public CmsXmlSaxWriter(Writer writer, @RUntainted String encoding) {
 
         m_writer = writer;
         m_encoding = encoding;
@@ -138,7 +139,7 @@ public class CmsXmlSaxWriter extends DefaultHandler implements LexicalHandler {
      * @see org.xml.sax.ContentHandler#characters(char[], int, int)
      */
     @Override
-    public void characters(char[] buf, int offset, int len) throws SAXException {
+    public void characters(@RUntainted char[] buf, @RUntainted int offset, @RUntainted int len) throws SAXException {
 
         if (len == 0) {
             return;
@@ -153,7 +154,7 @@ public class CmsXmlSaxWriter extends DefaultHandler implements LexicalHandler {
         }
         if (m_escapeXml && !m_isCdata) {
             // XML should be escaped and we are not in a CDATA node
-            String escaped = new String(buf, offset, len);
+            @RUntainted String escaped = new String(buf, offset, len);
             // escape HTML entities ('<' becomes '&lt;')
             escaped = CmsEncoder.escapeXml(escaped, true);
             if (m_escapeUnknownChars) {
@@ -217,9 +218,9 @@ public class CmsXmlSaxWriter extends DefaultHandler implements LexicalHandler {
      * @see org.xml.sax.ContentHandler#endElement(java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public void endElement(String namespaceURI, String localName, String qualifiedName) throws SAXException {
+    public void endElement(String namespaceURI, @RUntainted String localName, @RUntainted String qualifiedName) throws SAXException {
 
-        String elementName = resolveName(localName, qualifiedName);
+        @RUntainted String elementName = resolveName(localName, qualifiedName);
         if (m_openElement) {
             write("/>");
         } else {
@@ -290,7 +291,7 @@ public class CmsXmlSaxWriter extends DefaultHandler implements LexicalHandler {
      *
      * @param value the encoding to use for the generated output
      */
-    public void setEncoding(String value) {
+    public void setEncoding(@RUntainted String value) {
 
         m_encoding = value;
     }
@@ -342,7 +343,7 @@ public class CmsXmlSaxWriter extends DefaultHandler implements LexicalHandler {
     /**
      * @see org.xml.sax.ext.LexicalHandler#startDTD(java.lang.String, java.lang.String, java.lang.String)
      */
-    public void startDTD(String name, String publicId, String systemId) throws SAXException {
+    public void startDTD(@RUntainted String name, @RUntainted String publicId, @RUntainted String systemId) throws SAXException {
 
         write("<!DOCTYPE ");
         write(name);
@@ -364,7 +365,7 @@ public class CmsXmlSaxWriter extends DefaultHandler implements LexicalHandler {
      * @see org.xml.sax.ContentHandler#startElement(java.lang.String, java.lang.String, java.lang.String, org.xml.sax.Attributes)
      */
     @Override
-    public void startElement(String namespaceURI, String localName, String qualifiedName, Attributes attributes)
+    public void startElement(String namespaceURI, @RUntainted String localName, @RUntainted String qualifiedName, @RUntainted Attributes attributes)
     throws SAXException {
 
         if (m_openElement) {
@@ -383,7 +384,7 @@ public class CmsXmlSaxWriter extends DefaultHandler implements LexicalHandler {
                 write(" ");
                 write(resolveName(attributes.getLocalName(i), attributes.getQName(i)));
                 write("=\"");
-                String value = attributes.getValue(i);
+                @RUntainted String value = attributes.getValue(i);
                 if (m_escapeXml) {
                     // XML should be escaped
                     // escape HTML entities ('<' becomes '&lt;')
@@ -417,7 +418,7 @@ public class CmsXmlSaxWriter extends DefaultHandler implements LexicalHandler {
      * @param qualifiedName the qualified XML 1.0 name
      * @return the resolved name to use
      */
-    private String resolveName(String localName, String qualifiedName) {
+    private @RUntainted String resolveName(@RUntainted String localName, @RUntainted String qualifiedName) {
 
         if ((localName == null) || (localName.length() == 0)) {
             return qualifiedName;
@@ -432,7 +433,7 @@ public class CmsXmlSaxWriter extends DefaultHandler implements LexicalHandler {
      * @param s the String to write
      * @throws SAXException in case of I/O errors
      */
-    private void write(String s) throws SAXException {
+    private void write(@RUntainted String s) throws SAXException {
 
         try {
             m_writer.write(s);

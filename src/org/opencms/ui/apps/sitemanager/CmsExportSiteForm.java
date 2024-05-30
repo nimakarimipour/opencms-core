@@ -55,6 +55,7 @@ import org.apache.commons.logging.Log;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Window;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog used to export the contents of a site.
@@ -80,7 +81,7 @@ public class CmsExportSiteForm extends CmsBasicDialog {
     protected Label m_projectLabel;
 
     /** The site root of the site to export. */
-    protected String m_siteRoot;
+    protected @RUntainted String m_siteRoot;
 
     /**
      * Creates a new instance.
@@ -89,7 +90,7 @@ public class CmsExportSiteForm extends CmsBasicDialog {
      * @param manager the site manager app instance
      * @param siteRoot the site root of the site to export
      */
-    public CmsExportSiteForm(CmsObject cms, CmsSiteManager manager, String siteRoot) {
+    public CmsExportSiteForm(CmsObject cms, CmsSiteManager manager, @RUntainted String siteRoot) {
 
         m_manager = manager;
         m_siteRoot = siteRoot;
@@ -135,7 +136,7 @@ public class CmsExportSiteForm extends CmsBasicDialog {
         m_exportParams.setSkipParentFolders(false);
         SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
         String dateStr = fmt.format(new Date());
-        String filename = dateStr
+        @RUntainted String filename = dateStr
             + "_"
             + CmsFileUtil.removeTrailingSeparator(CmsFileUtil.removeLeadingSeparator(m_siteRoot)).replace("/", "_")
             + ".zip";

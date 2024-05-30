@@ -32,6 +32,7 @@ import org.opencms.main.CmsRuntimeException;
 import org.opencms.util.CmsStringUtil;
 
 import java.io.Serializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A version number for an OpenCms module.<p>
@@ -63,16 +64,16 @@ public class CmsModuleVersion implements Comparable<Object>, Serializable {
     private static final long serialVersionUID = 5871716904011659917L;
 
     /** The dot count of the version. */
-    private int m_dots;
+    private @RUntainted int m_dots;
 
     /** The version number (for comparisons). */
-    private long m_number;
+    private @RUntainted long m_number;
 
     /** Indicates if the module version was already updated. */
     private boolean m_updated;
 
     /** The version String. */
-    private String m_version;
+    private @RUntainted String m_version;
 
     /**
      * Creates a new module version based on a String.<p>
@@ -129,7 +130,7 @@ public class CmsModuleVersion implements Comparable<Object>, Serializable {
      *
      * @return the current version String
      */
-    public String getVersion() {
+    public @RUntainted String getVersion() {
 
         return m_version;
     }
@@ -164,7 +165,7 @@ public class CmsModuleVersion implements Comparable<Object>, Serializable {
             throw new CmsIllegalArgumentException(
                 Messages.get().container(Messages.ERR_INVALID_VERSION_LENGTH_1, version));
         }
-        String[] numbers = new String[5];
+        @RUntainted String[] numbers = new String[5];
         System.arraycopy(split, 0, numbers, 1, m_dots);
         numbers[0] = "1";
         for (int i = 1 + m_dots; i < 5; i++) {
@@ -172,7 +173,7 @@ public class CmsModuleVersion implements Comparable<Object>, Serializable {
         }
         for (int i = numbers.length - 1; i >= 0; i--) {
             try {
-                int number = Integer.valueOf(numbers[numbers.length - i - 1]).intValue();
+                @RUntainted int number = Integer.valueOf(numbers[numbers.length - i - 1]).intValue();
 
                 if ((number > 999) || (number < 0)) {
                     throw new CmsIllegalArgumentException(
@@ -192,7 +193,7 @@ public class CmsModuleVersion implements Comparable<Object>, Serializable {
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString() {
+    public @RUntainted String toString() {
 
         return getVersion();
     }
@@ -235,11 +236,11 @@ public class CmsModuleVersion implements Comparable<Object>, Serializable {
      *
      * @param number the version number to set
      */
-    private void setVersion(long number) {
+    private void setVersion(@RUntainted long number) {
 
-        String result = "";
+        @RUntainted String result = "";
         for (int i = 0; i < 4; i++) {
-            long mod = number % 1000L;
+            @RUntainted long mod = number % 1000L;
             number = number / 1000L;
             if (m_dots >= (4 - i)) {
                 if (m_dots > (4 - i)) {

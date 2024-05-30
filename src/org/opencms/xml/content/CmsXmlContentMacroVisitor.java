@@ -33,6 +33,7 @@ import org.opencms.util.CmsMacroResolver;
 import org.opencms.xml.types.I_CmsXmlContentValue;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Visitor implementation that provides macro resolving for all visited values.<p>

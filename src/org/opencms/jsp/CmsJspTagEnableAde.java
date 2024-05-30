@@ -57,6 +57,7 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the <code>&lt;enable-ade/&gt;</code> tag.<p>
@@ -78,9 +79,9 @@ public class CmsJspTagEnableAde extends BodyTagSupport {
      *
      * @throws JspException in case something goes wrong
      */
-    public static void enableAdeTagAction(PageContext context) throws JspException {
+    public static void enableAdeTagAction(@RUntainted PageContext context) throws JspException {
 
-        ServletRequest req = context.getRequest();
+        @RUntainted ServletRequest req = context.getRequest();
         if (CmsHistoryResourceHandler.isHistoryRequest(req)) {
             // don't display advanced direct edit buttons on an historical resource
             return;
@@ -173,7 +174,7 @@ public class CmsJspTagEnableAde extends BodyTagSupport {
      *
      * @param request the request
      */
-    public static void updateDirectEditFlagInSession(ServletRequest request) {
+    public static void updateDirectEditFlagInSession(@RUntainted ServletRequest request) {
 
         String disabledParam = request.getParameter(CmsGwtConstants.PARAM_DISABLE_DIRECT_EDIT);
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(disabledParam)) {
@@ -181,9 +182,9 @@ public class CmsJspTagEnableAde extends BodyTagSupport {
                 ((HttpServletRequest)request).getSession().setAttribute(
                     CmsGwtConstants.PARAM_DISABLE_DIRECT_EDIT,
                     Boolean.TRUE);
-                String buttonLeft = request.getParameter(CmsGwtConstants.PARAM_BUTTON_LEFT);
+                @RUntainted String buttonLeft = request.getParameter(CmsGwtConstants.PARAM_BUTTON_LEFT);
                 if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(buttonLeft)) {
-                    Integer left = null;
+                    @RUntainted Integer left = null;
                     try {
                         left = Integer.valueOf(buttonLeft);
                         if (left.intValue() > 0) {

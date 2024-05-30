@@ -176,6 +176,7 @@ import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles all RPC services related to the vfs sitemap.<p>
@@ -3105,7 +3106,7 @@ public class CmsVfsSitemapService extends CmsGwtService implements I_CmsSitemapS
      */
     private void removeAllLocalesExcept(CmsXmlContainerPage page, Locale localeToKeep) throws CmsXmlException {
 
-        List<Locale> locales = page.getLocales();
+        List<@RUntainted Locale> locales = page.getLocales();
         for (Locale locale : locales) {
             if (!locale.equals(localeToKeep)) {
                 page.removeLocale(locale);

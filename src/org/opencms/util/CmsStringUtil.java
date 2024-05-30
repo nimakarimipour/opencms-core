@@ -68,6 +68,8 @@ import com.cybozu.labs.langdetect.Detector;
 import com.cybozu.labs.langdetect.DetectorFactory;
 import com.cybozu.labs.langdetect.LangDetectException;
 import com.google.common.base.Optional;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides String utility functions.<p>
@@ -775,7 +777,7 @@ public final class CmsStringUtil {
      *
      * @return the Ethernet-Address
      */
-    public static String getEthernetAddress() {
+    public static @RUntainted String getEthernetAddress() {
 
         try {
             InetAddress ip = InetAddress.getLocalHost();
@@ -1207,7 +1209,7 @@ public final class CmsStringUtil {
      *
      * @return the joined path
      */
-    public static String joinPaths(String... paths) {
+    public static @RUntainted String joinPaths(String... paths) {
 
         StringBuffer result = new StringBuffer(paths.length * 32);
         boolean noSlash = true;
@@ -1305,10 +1307,10 @@ public final class CmsStringUtil {
      * @param map the input map
      * @return the JSON data containing the map entries
      */
-    public static String mapAsJson(Map<String, String> map) {
+    public static String mapAsJson(Map<@RUntainted String, String> map) {
 
         JSONObject obj = new JSONObject();
-        for (Map.Entry<String, String> entry : map.entrySet()) {
+        for (Map.Entry<@RUntainted String, String> entry : map.entrySet()) {
             try {
                 obj.put(entry.getKey(), entry.getValue());
             } catch (JSONException e) {
@@ -1626,7 +1628,7 @@ public final class CmsStringUtil {
      *
      * @return a map of splitted key-value pairs
      */
-    public static Map<String, String> splitAsMap(String source, String paramDelim, String keyValDelim) {
+    public static @RUntainted Map<String, String> splitAsMap(String source, String paramDelim, String keyValDelim) {
 
         int keyValLen = keyValDelim.length();
         // use LinkedHashMap to preserve the order of items
@@ -1810,7 +1812,7 @@ public final class CmsStringUtil {
      *
      * @return the substituted String
      */
-    public static String substitute(String source, String searchString, String replaceString) {
+    public static @RPolyTainted String substitute(@RPolyTainted String source, @RPolyTainted String searchString, @RPolyTainted String replaceString) {
 
         if (source == null) {
             return null;

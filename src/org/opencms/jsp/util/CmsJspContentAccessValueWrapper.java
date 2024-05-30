@@ -56,6 +56,7 @@ import org.apache.commons.collections.Transformer;
 
 import org.dom4j.Element;
 import org.dom4j.Node;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Allows direct access to XML content values, with possible iteration of sub-nodes.<p>

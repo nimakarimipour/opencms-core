@@ -38,6 +38,7 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Validation class which both translates a sitemap URL name and checks whether it already exists in a '|'-separated

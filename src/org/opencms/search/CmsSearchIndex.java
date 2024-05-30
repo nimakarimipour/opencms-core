@@ -93,6 +93,7 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.IOContext;
 import org.apache.solr.uninverting.UninvertingReader;
 import org.apache.solr.uninverting.UninvertingReader.Type;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract search index implementation.<p>
@@ -267,7 +268,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
      *
      * @throws CmsIllegalArgumentException if the given name is null, empty or already taken by another search index
      */
-    public CmsSearchIndex(String name)
+    public CmsSearchIndex(@RUntainted String name)
     throws CmsIllegalArgumentException {
 
         this();
@@ -637,11 +638,11 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
      * @return the language locale for the given resource in this index
      */
     @Override
-    public Locale getLocaleForResource(CmsObject cms, CmsResource resource, List<Locale> availableLocales) {
+    public Locale getLocaleForResource(CmsObject cms, CmsResource resource, List<@RUntainted Locale> availableLocales) {
 
         Locale result;
-        List<Locale> defaultLocales = OpenCms.getLocaleManager().getDefaultLocales(cms, resource);
-        List<Locale> locales = availableLocales;
+        List<@RUntainted Locale> defaultLocales = OpenCms.getLocaleManager().getDefaultLocales(cms, resource);
+        List<@RUntainted Locale> locales = availableLocales;
         if ((locales == null) || (locales.size() == 0)) {
             locales = defaultLocales;
         }
@@ -685,7 +686,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
      * @return the path where this index stores it's data in the "real" file system
      */
     @Override
-    public String getPath() {
+    public @RUntainted String getPath() {
 
         if (super.getPath() == null) {
             setPath(generateIndexDirectory());
@@ -1427,7 +1428,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
      *
      * @return the path to the backup folder, or <code>null</code> in case no backup was created
      */
-    protected String createIndexBackup() {
+    protected @RUntainted String createIndexBackup() {
 
         if (!isBackupReindexing()) {
             // if no backup is generated we don't need to do anything
@@ -1440,7 +1441,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
             // index does not exist yet, so we can't backup it
             return null;
         }
-        String backupPath = getPath() + "_backup";
+        @RUntainted String backupPath = getPath() + "_backup";
         FSDirectory oldDir = null;
         FSDirectory newDir = null;
         try {
@@ -1563,7 +1564,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
      *
      * @return the directory on the RFS for this index
      */
-    protected String generateIndexDirectory() {
+    protected @RUntainted String generateIndexDirectory() {
 
         return OpenCms.getSystemInfo().getAbsoluteRfsPathRelativeToWebInf(
             OpenCms.getSearchManager().getDirectory() + "/" + getName());
@@ -1760,7 +1761,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
      *
      * @param path the path to the index directory
      */
-    protected synchronized void indexSearcherOpen(String path) {
+    protected synchronized void indexSearcherOpen(@RUntainted String path) {
 
         IndexSearcher oldSearcher = null;
         Directory indexDirectory = null;
@@ -1936,7 +1937,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
      *
      * @param path the backup folder to remove
      */
-    protected void removeIndexBackup(String path) {
+    protected void removeIndexBackup(@RUntainted String path) {
 
         if (!isBackupReindexing()) {
             // if no backup is generated we don't need to do anything

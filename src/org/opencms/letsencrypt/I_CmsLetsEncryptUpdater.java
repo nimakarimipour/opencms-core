@@ -26,6 +26,7 @@
  */
 
 package org.opencms.letsencrypt;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface for classes which should handle an updated certificate configuration.<p>
@@ -40,6 +41,6 @@ public interface I_CmsLetsEncryptUpdater {
      *
      * @return true if the update was successful from OpenCms' point of view
      */
-    boolean update(String certConfig);
+    boolean update(@RUntainted String certConfig);
 
 }

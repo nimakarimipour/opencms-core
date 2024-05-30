@@ -57,6 +57,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 
 import com.cybozu.labs.langdetect.DetectorFactory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Manages the locales configured for this OpenCms installation.<p>
@@ -155,7 +157,7 @@ public class CmsLocaleManager implements I_CmsEventListener {
      *
      * @return the default locale configured in <code>opencms-system.xml</code>
      */
-    public static Locale getDefaultLocale() {
+    public static @RUntainted Locale getDefaultLocale() {
 
         return m_defaultLocale;
     }
@@ -173,7 +175,7 @@ public class CmsLocaleManager implements I_CmsEventListener {
      * @param localeName the full locale name
      * @return the locale or <code>null</code> if not available
      */
-    public static Locale getLocale(String localeName) {
+    public static @RPolyTainted Locale getLocale(@RPolyTainted String localeName) {
 
         if (CmsStringUtil.isEmpty(localeName)) {
             return getDefaultLocale();
@@ -362,9 +364,9 @@ public class CmsLocaleManager implements I_CmsEventListener {
      *
      * @return the content encoding set for the given resource
      */
-    public static final String getResourceEncoding(CmsObject cms, CmsResource res) {
+    public static final @RUntainted String getResourceEncoding(CmsObject cms, CmsResource res) {
 
-        String encoding = null;
+        @RUntainted String encoding = null;
         // get the encoding
         try {
             encoding = cms.readPropertyObject(res, CmsPropertyDefinition.PROPERTY_CONTENT_ENCODING, true).getValue();
@@ -545,7 +547,7 @@ public class CmsLocaleManager implements I_CmsEventListener {
      *
      * @see #getAvailableLocales()
      */
-    public List<Locale> getAvailableLocales(CmsObject cms, CmsResource resource) {
+    public List<@RUntainted Locale> getAvailableLocales(CmsObject cms, CmsResource resource) {
 
         String availableNames = null;
         try {
@@ -667,7 +669,7 @@ public class CmsLocaleManager implements I_CmsEventListener {
      *
      * @return the best matching locale name or null if no name matches
      */
-    public Locale getBestMatchingLocale(Locale requestedLocale, List<Locale> defaults, List<Locale> available) {
+    public Locale getBestMatchingLocale(Locale requestedLocale, List<@RUntainted Locale> defaults, List<@RUntainted Locale> available) {
 
         if ((available == null) || available.isEmpty()) {
             // no locales are available at all
@@ -803,7 +805,7 @@ public class CmsLocaleManager implements I_CmsEventListener {
      *
      * @see #getAvailableLocales()
      */
-    public List<Locale> getDefaultLocales() {
+    public List<@RUntainted Locale> getDefaultLocales() {
 
         return m_defaultLocales;
     }
@@ -838,7 +840,7 @@ public class CmsLocaleManager implements I_CmsEventListener {
      *
      * @since 7.0.2
      */
-    public List<Locale> getDefaultLocales(CmsObject cms, CmsResource resource) {
+    public List<@RUntainted Locale> getDefaultLocales(CmsObject cms, CmsResource resource) {
 
         String defaultNames = null;
         try {
@@ -877,7 +879,7 @@ public class CmsLocaleManager implements I_CmsEventListener {
      * @see #getDefaultLocale(CmsObject, String)
      * @see #getDefaultLocales(CmsObject, CmsResource)
      */
-    public List<Locale> getDefaultLocales(CmsObject cms, String resourceName) {
+    public List<@RUntainted Locale> getDefaultLocales(CmsObject cms, String resourceName) {
 
         String defaultNames = null;
         try {
@@ -898,7 +900,7 @@ public class CmsLocaleManager implements I_CmsEventListener {
      *
      * @return the first precise or simplified match, or <code>null</code> in case no match is found
      */
-    public Locale getFirstMatchingLocale(List<Locale> locales, List<Locale> available) {
+    public Locale getFirstMatchingLocale(List<@RUntainted Locale> locales, List<@RUntainted Locale> available) {
 
         Iterator<Locale> i;
         // first try a precise match

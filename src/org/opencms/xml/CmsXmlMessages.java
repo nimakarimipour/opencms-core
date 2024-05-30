@@ -42,6 +42,7 @@ import org.opencms.xml.content.CmsXmlContentFactory;
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The xml messages overwrite some methods of the general CmsMessages class to get keys from an individual configuration file.<p>

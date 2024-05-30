@@ -80,6 +80,7 @@ import org.dom4j.Element;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Supplier;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides common methods on XML property configuration.<p>
@@ -147,7 +148,7 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
      */
     public static Map<String, String> convertPropertiesToClientFormat(
         CmsObject cms,
-        Map<String, String> props,
+        Map<@RUntainted String, String> props,
         Map<String, CmsXmlContentProperty> propConfig) {
 
         return convertProperties(cms, props, propConfig, true);
@@ -374,11 +375,11 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(widgetConfiguration)) {
             return result;
         }
-        Map<String, String> confEntries = CmsStringUtil.splitAsMap(
+        Map<@RUntainted String, String> confEntries = CmsStringUtil.splitAsMap(
             widgetConfiguration,
             CONF_PARAM_SEPARATOR,
             CONF_KEYVALUE_SEPARATOR);
-        for (Map.Entry<String, String> entry : confEntries.entrySet()) {
+        for (Map.Entry<@RUntainted String, String> entry : confEntries.entrySet()) {
             try {
                 result.put(entry.getKey(), entry.getValue());
             } catch (JSONException e) {
@@ -408,7 +409,7 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
         CmsObject cms,
         CmsADEConfigData config,
         CmsResource resource,
-        Map<String, String> properties,
+        Map<@RUntainted String, String> properties,
         Locale locale,
         ServletRequest request) {
 
@@ -464,7 +465,7 @@ public final class CmsXmlContentPropertyHelper implements Cloneable {
     public static Map<String, String> mergeDefaults(
         CmsObject cms,
         Map<String, CmsXmlContentProperty> propertyConfig,
-        Map<String, String> properties) {
+        Map<@RUntainted String, String> properties) {
 
         Set<String> hidden = new HashSet<>();
         Map<String, String> result = new HashMap<String, String>();

@@ -55,6 +55,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generates user ident-icons.<p>
@@ -77,7 +78,7 @@ public class CmsUserIconHelper {
         private int m_size;
 
         /**Suffix to append to filename.*/
-        private String m_suffix;
+        private @RUntainted String m_suffix;
 
         /**
          * constructor.<p>
@@ -85,7 +86,7 @@ public class CmsUserIconHelper {
          * @param size in pixel
          * @param suffix for filename
          */
-        private IconSize(int size, String suffix) {
+        private IconSize(int size, @RUntainted String suffix) {
 
             m_size = size;
             m_suffix = suffix;
@@ -106,7 +107,7 @@ public class CmsUserIconHelper {
          *
          * @return string
          */
-        public String getSuffix() {
+        public @RUntainted String getSuffix() {
 
             return m_suffix;
         }
@@ -392,7 +393,7 @@ public class CmsUserIconHelper {
 
         boolean isAdmin = OpenCms.getRoleManager().hasRole(cms, user.getName(), CmsRole.ADMINISTRATOR);
         String name = user.getName() + Boolean.toString(isAdmin);
-        String rfsName = toRfsName(name, size);
+        @RUntainted String rfsName = toRfsName(name, size);
         String path = toPath(name, size);
         if (!m_cache.hasCacheContent(rfsName)) {
 
@@ -457,7 +458,7 @@ public class CmsUserIconHelper {
      *
      * @return the path
      */
-    private String toRfsName(String name, IconSize size) {
+    private @RUntainted String toRfsName(String name, IconSize size) {
 
         return CmsStringUtil.joinPaths(m_cache.getRepositoryPath(), "" + name.hashCode()) + size.getSuffix();
     }

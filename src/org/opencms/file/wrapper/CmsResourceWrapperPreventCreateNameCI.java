@@ -39,6 +39,7 @@ import org.opencms.util.CmsStringUtil;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource wrapper class which is used to prevent resources with a certain name from being created.<p>

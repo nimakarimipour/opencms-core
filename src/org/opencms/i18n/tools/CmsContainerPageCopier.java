@@ -80,6 +80,7 @@ import org.apache.commons.logging.Log;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for copying container pages including some of their elements.<p>
@@ -723,7 +724,7 @@ public class CmsContainerPageCopier {
      *
      * @return the map with the possible replaced ids
      */
-    private Map<String, String> maybeReplaceFormatterInSettings(Map<String, String> individualSettings) {
+    private Map<String, String> maybeReplaceFormatterInSettings(Map<@RUntainted String, String> individualSettings) {
 
         if (individualSettings == null) {
             return null;

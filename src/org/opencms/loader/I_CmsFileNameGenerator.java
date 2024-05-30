@@ -32,6 +32,7 @@ import org.opencms.main.CmsException;
 import org.opencms.util.PrintfFormat;
 
 import java.util.Iterator;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides methods to generate file names either for the <code>urlName</code> mapping

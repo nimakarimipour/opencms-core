@@ -40,6 +40,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Superclass for OpenCms JSP beans that provides convient access
@@ -198,7 +199,7 @@ public class CmsJspBean {
      *
      * @see javax.servlet.ServletResponse#setContentType(java.lang.String)
      */
-    public void setContentType(String type) {
+    public void setContentType(@RUntainted String type) {
 
         // set the content type on the top level response
         m_controller.getTopResponse().setContentType(type);

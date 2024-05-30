@@ -29,6 +29,7 @@ package org.opencms.file.wrapper;
 
 import org.opencms.file.CmsFile;
 import org.opencms.file.CmsResource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class to create "virtual" resources not existing in the vfs which are

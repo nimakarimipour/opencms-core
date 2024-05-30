@@ -56,6 +56,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor for the type "xmlpage".<p>
@@ -198,7 +199,7 @@ public class CmsResourceTypeXmlPage extends A_CmsResourceTypeLinkParseable {
         Set<CmsLink> links = new LinkedHashSet<CmsLink>();
         try {
             CmsXmlPage xmlPage = CmsXmlPageFactory.unmarshal(cms, file);
-            List<Locale> locales = xmlPage.getLocales();
+            List<@RUntainted Locale> locales = xmlPage.getLocales();
 
             // iterate over all languages
             Iterator<Locale> i = locales.iterator();

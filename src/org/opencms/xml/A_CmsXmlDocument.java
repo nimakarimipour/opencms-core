@@ -60,6 +60,7 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.Node;
 import org.xml.sax.EntityResolver;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides basic XML document handling functions useful when dealing
@@ -88,7 +89,7 @@ public abstract class A_CmsXmlDocument implements I_CmsXmlDocument {
     protected CmsFile m_file;
 
     /** Set of locales contained in this document. */
-    protected Set<Locale> m_locales;
+    protected Set<@RUntainted Locale> m_locales;
 
     /** Reference for named elements in the document. */
     private Map<String, I_CmsXmlContentValue> m_bookmarks;
@@ -441,7 +442,7 @@ public abstract class A_CmsXmlDocument implements I_CmsXmlDocument {
     /**
      * @see org.opencms.xml.I_CmsXmlDocument#getLocales()
      */
-    public List<Locale> getLocales() {
+    public @RUntainted List<@RUntainted Locale> getLocales() {
 
         return new ArrayList<Locale>(m_locales);
     }
@@ -669,7 +670,7 @@ public abstract class A_CmsXmlDocument implements I_CmsXmlDocument {
      * @return the content of the current XML document written into a byte array
      * @throws CmsXmlException if something goes wrong
      */
-    public byte[] marshal() throws CmsXmlException {
+    public @RUntainted byte[] marshal() throws CmsXmlException {
 
         return ((ByteArrayOutputStream)marshal(new ByteArrayOutputStream(), m_encoding)).toByteArray();
     }
@@ -796,7 +797,7 @@ public abstract class A_CmsXmlDocument implements I_CmsXmlDocument {
      *
      * @param locale the locale to add
      */
-    protected void addLocale(Locale locale) {
+    protected void addLocale(@RUntainted Locale locale) {
 
         // add the locale to all locales in this dcoument
         m_locales.add(locale);
@@ -906,7 +907,7 @@ public abstract class A_CmsXmlDocument implements I_CmsXmlDocument {
      * @return the output stream with the XML content
      * @throws CmsXmlException if something goes wrong
      */
-    protected OutputStream marshal(OutputStream out, String encoding) throws CmsXmlException {
+    protected @RUntainted OutputStream marshal(@RUntainted OutputStream out, String encoding) throws CmsXmlException {
 
         return CmsXmlUtils.marshal(m_document, out, encoding);
     }
@@ -941,7 +942,7 @@ public abstract class A_CmsXmlDocument implements I_CmsXmlDocument {
     protected void updateLocaleNodeSorting() {
 
         // check if the locale nodes require sorting
-        List<Locale> locales = new ArrayList<Locale>(m_locales);
+        List<@RUntainted Locale> locales = new ArrayList<@RUntainted Locale>(m_locales);
         Collections.sort(locales, new Comparator<Locale>() {
 
             public int compare(Locale o1, Locale o2) {

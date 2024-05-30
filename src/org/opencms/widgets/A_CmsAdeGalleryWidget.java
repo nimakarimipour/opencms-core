@@ -49,6 +49,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Base class for all ADE gallery widget implementations.<p>
@@ -282,14 +283,14 @@ public abstract class A_CmsAdeGalleryWidget extends A_CmsWidget implements I_Cms
      *
      * @return the gallery open parameters
      */
-    protected Map<String, String> getGalleryOpenParams(
+    protected Map<@RUntainted String, String> getGalleryOpenParams(
         CmsObject cms,
         CmsMessages messages,
         I_CmsWidgetParameter param,
         String resource,
         long hashId) {
 
-        Map<String, String> result = new HashMap<String, String>();
+        Map<@RUntainted String, String> result = new HashMap<@RUntainted String, String>();
         result.put(I_CmsGalleryProviderConstants.CONFIG_GALLERY_MODE, A_CmsAjaxGallery.MODE_WIDGET);
         result.put(I_CmsGalleryProviderConstants.CONFIG_GALLERY_STORAGE_PREFIX, getGalleryStoragePrefix());
         result.put(I_CmsGalleryProviderConstants.CONFIG_RESOURCE_TYPES, getGalleryTypes());
@@ -355,7 +356,7 @@ public abstract class A_CmsAdeGalleryWidget extends A_CmsWidget implements I_Cms
 
         JSONObject result = new JSONObject();
         try {
-            for (Entry<String, String> paramEntry : getGalleryOpenParams(
+            for (Entry<@RUntainted String, String> paramEntry : getGalleryOpenParams(
                 cms,
                 messages,
                 schemaType,

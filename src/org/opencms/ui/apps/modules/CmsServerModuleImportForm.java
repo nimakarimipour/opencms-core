@@ -45,6 +45,7 @@ import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.v7.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The form for importing a module from the application server.<p>
@@ -80,7 +81,7 @@ public class CmsServerModuleImportForm extends A_CmsModuleImportForm {
         m_moduleSelect.setItemCaptionMode(ItemCaptionMode.PROPERTY);
         m_moduleSelect.setItemCaptionPropertyId("label");
         m_moduleSelect.setNullSelectionAllowed(false);
-        String moduleDir = OpenCms.getSystemInfo().getAbsoluteRfsPathRelativeToWebInf("packages/modules");
+        @RUntainted String moduleDir = OpenCms.getSystemInfo().getAbsoluteRfsPathRelativeToWebInf("packages/modules");
         File moduleDirFile = new File(moduleDir);
         if (moduleDirFile.exists()) {
             List<File> files = Lists.newArrayList(moduleDirFile.listFiles());
@@ -96,9 +97,9 @@ public class CmsServerModuleImportForm extends A_CmsModuleImportForm {
         }
         m_moduleSelect.addValueChangeListener(new ValueChangeListener() {
 
-            public void valueChange(ValueChangeEvent event) {
+            public void valueChange(@RUntainted ValueChangeEvent event) {
 
-                String path = (String)(event.getProperty().getValue());
+                @RUntainted String path = (String)(event.getProperty().getValue());
                 m_importFile = new CmsModuleImportFile(path);
                 m_ok.setEnabled(false);
                 validateModuleFile();

@@ -84,6 +84,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Ordering;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of a object used to access and manage the xml data of a container page.<p>
@@ -934,7 +935,7 @@ public class CmsXmlContainerPage extends CmsXmlContent {
                     createNewElem.addText(Boolean.TRUE.toString());
                 }
                 // the properties
-                Map<String, String> properties = element.getIndividualSettings();
+                Map<@RUntainted String, String> properties = element.getIndividualSettings();
                 Map<String, String> processedSettings = processSettingsForSaveV1(adeConfig, properties);
                 Map<String, CmsXmlContentProperty> propertiesConf = OpenCms.getADEManager().getElementSettings(
                     cms,

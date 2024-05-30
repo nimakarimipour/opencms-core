@@ -61,6 +61,7 @@ import com.google.common.collect.Sets;
 
 import de.malkusch.whoisServerList.publicSuffixList.PublicSuffixList;
 import de.malkusch.whoisServerList.publicSuffixList.PublicSuffixListFactory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class which converts the OpenCms site configuration to a certificate configuration for the LetsEncrypt docker instance.
@@ -73,7 +74,7 @@ public class CmsSiteConfigToLetsEncryptConfigConverter {
     public static class DomainGrouping {
 
         /** The list of domain sets. */
-        private List<Set<String>> m_domainGroups = Lists.newArrayList();
+        private List<Set<@RUntainted String>> m_domainGroups = Lists.newArrayList();
 
         /**
          * Adds a domain group.<p>
@@ -92,12 +93,12 @@ public class CmsSiteConfigToLetsEncryptConfigConverter {
          *
          * @return the JSON configuration corresponding to the domain grouping
          */
-        public String generateCertJson() {
+        public @RUntainted String generateCertJson() {
 
             try {
                 JSONObject result = new JSONObject();
-                for (Set<String> domainGroup : m_domainGroups) {
-                    String key = computeName(domainGroup);
+                for (Set<@RUntainted String> domainGroup : m_domainGroups) {
+                    @RUntainted String key = computeName(domainGroup);
                     if (key != null) {
                         result.put(key, new JSONArray(domainGroup));
                     }
@@ -147,12 +148,12 @@ public class CmsSiteConfigToLetsEncryptConfigConverter {
          * @param domains the domains
          * @return the certificate name
          */
-        private String computeName(Set<String> domains) {
+        private @RUntainted String computeName(Set<@RUntainted String> domains) {
 
             try {
-                List<String> domainList = Lists.newArrayList(domains);
+                List<@RUntainted String> domainList = Lists.newArrayList(domains);
                 Collections.sort(domainList);
-                String prefix = domainList.get(0);
+                @RUntainted String prefix = domainList.get(0);
                 MessageDigest md5 = MessageDigest.getInstance("MD5");
                 for (String domain : domainList) {
                     md5.update(domain.getBytes("UTF-8"));
@@ -503,7 +504,7 @@ public class CmsSiteConfigToLetsEncryptConfigConverter {
                         org.opencms.ui.apps.Messages.RPT_LETSENCRYPT_NO_DOMAINS_0));
                 return false;
             }
-            String certConfig = domainGrouping.generateCertJson();
+            @RUntainted String certConfig = domainGrouping.generateCertJson();
             if (!m_configUpdater.update(certConfig)) {
                 report.println(
                     org.opencms.ui.apps.Messages.get().container(

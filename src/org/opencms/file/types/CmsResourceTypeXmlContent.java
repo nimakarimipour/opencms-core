@@ -80,6 +80,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor for the type "xmlcontent".<p>
@@ -515,7 +516,7 @@ public class CmsResourceTypeXmlContent extends A_CmsResourceTypeLinkParseable {
         }
 
         // iterate over all languages
-        List<Locale> locales = xmlContent.getLocales();
+        List<@RUntainted Locale> locales = xmlContent.getLocales();
         Iterator<Locale> i = locales.iterator();
         while (i.hasNext()) {
             Locale locale = i.next();

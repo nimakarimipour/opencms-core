@@ -60,6 +60,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor for the type "containerpage".<p>
@@ -340,7 +341,7 @@ public class CmsResourceTypeXmlContainerPage extends CmsResourceTypeXmlContent {
         }
 
         // iterate over all languages
-        List<Locale> locales = xmlContent.getLocales();
+        List<@RUntainted Locale> locales = xmlContent.getLocales();
         Iterator<Locale> i = locales.iterator();
         while (i.hasNext()) {
             Locale locale = i.next();

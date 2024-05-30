@@ -43,6 +43,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Action to logout.<p>

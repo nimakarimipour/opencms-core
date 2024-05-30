@@ -63,6 +63,7 @@ import javax.xml.transform.stream.StreamSource;
 import org.apache.commons.logging.Log;
 
 import org.w3c.dom.Document;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Transforms all resources of a given type by
@@ -111,7 +112,7 @@ public class CmsXmlFileTransformer {
      */
     public CmsXmlFileTransformer(
         CmsObject cms,
-        String path,
+        @RUntainted String path,
         String type,
         String xslName,
         InputStream xslStream,
@@ -356,7 +357,7 @@ public class CmsXmlFileTransformer {
      * @return true if the XML is equivalent
      *
      */
-    private boolean sameXml(byte[] xml1, byte[] xml2) {
+    private boolean sameXml(@RUntainted byte[] xml1, @RUntainted byte[] xml2) {
 
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         dbf.setNamespaceAware(true);

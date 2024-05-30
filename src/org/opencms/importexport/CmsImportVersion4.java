@@ -66,6 +66,7 @@ import org.apache.commons.logging.Log;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.Node;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the OpenCms Import Interface ({@link org.opencms.importexport.I_CmsImport}) for
@@ -163,8 +164,8 @@ public class CmsImportVersion4 extends A_CmsImport {
         CmsObject cms,
         String importPath,
         I_CmsReport report,
-        File importResource,
-        ZipFile importZip,
+        @RUntainted File importResource,
+        @RUntainted ZipFile importZip,
         Document docXml)
     throws CmsImportExportException {
 

@@ -28,6 +28,7 @@
 package org.opencms.workplace;
 
 import org.opencms.file.CmsObject;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * An interface which provides a hook which can be called after uploading files.

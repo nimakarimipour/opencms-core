@@ -32,6 +32,7 @@ import org.apache.commons.digester3.Rule;
 
 import org.dom4j.Element;
 import org.xml.sax.Attributes;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
 * Helper class for parsing an element with no content but several attributes into a subclass of I_CmsConfigurationParameterHandler.<p>
@@ -39,7 +40,7 @@ import org.xml.sax.Attributes;
 public class CmsElementWithAttrsParamConfigHelper {
 
     /** The attributes to read / write. */
-    private String[] m_attrs;
+    private @RUntainted String[] m_attrs;
 
     /** The xpath of the element. */
     private String m_basePath;
@@ -58,7 +59,7 @@ public class CmsElementWithAttrsParamConfigHelper {
      * @param cls the class to use for the configuration (must be subclass of I_CmsConfigurationParameterHandler)
      * @param attrs the attributes to read / write
      */
-    public CmsElementWithAttrsParamConfigHelper(String parentPath, String name, Class<?> cls, String... attrs) {
+    public CmsElementWithAttrsParamConfigHelper(String parentPath, String name, Class<?> cls, @RUntainted String... attrs) {
 
         m_basePath = parentPath + "/" + name;
         m_name = name;
@@ -77,11 +78,11 @@ public class CmsElementWithAttrsParamConfigHelper {
 
             @SuppressWarnings("synthetic-access")
             @Override
-            public void begin(String namespace, String name, Attributes attributes) throws Exception {
+            public void begin(String namespace, String name, @RUntainted Attributes attributes) throws Exception {
 
                 I_CmsConfigurationParameterHandler config = (I_CmsConfigurationParameterHandler)(m_class.newInstance());
-                for (String attr : m_attrs) {
-                    String attrValue = attributes.getValue(attr);
+                for (@RUntainted String attr : m_attrs) {
+                    @RUntainted String attrValue = attributes.getValue(attr);
                     if (attrValue != null) {
                         config.addConfigurationParameter(attr, attrValue);
                     }

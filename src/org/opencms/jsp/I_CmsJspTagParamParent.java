@@ -83,6 +83,7 @@
  */
 
 package org.opencms.jsp;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface for tag handlers implementing valid parent tags for

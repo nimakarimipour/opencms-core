@@ -141,6 +141,7 @@ import org.dom4j.Element;
 
 import com.google.common.base.Suppliers;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Service to provide entity persistence within OpenCms. <p>
@@ -2142,10 +2143,10 @@ public class CmsContentService extends CmsGwtService implements I_CmsContentServ
         CmsADEConfigData config = OpenCms.getADEManager().lookupConfiguration(
             cms,
             cms.getRequestContext().getRootUri());
-        List<Locale> availableLocalesList = OpenCms.getLocaleManager().getAvailableLocales(cms, file);
+        List<@RUntainted Locale> availableLocalesList = OpenCms.getLocaleManager().getAvailableLocales(cms, file);
         if (!availableLocalesList.contains(locale)) {
             availableLocalesList.retainAll(content.getLocales());
-            List<Locale> defaultLocales = OpenCms.getLocaleManager().getDefaultLocales(cms, file);
+            List<@RUntainted Locale> defaultLocales = OpenCms.getLocaleManager().getDefaultLocales(cms, file);
             Locale replacementLocale = OpenCms.getLocaleManager().getBestMatchingLocale(
                 locale,
                 defaultLocales,

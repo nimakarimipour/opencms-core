@@ -37,6 +37,7 @@ import org.opencms.util.CmsUUID;
 
 import java.util.Date;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A resource implementation that combines the Solr document together with a OpenCms VFS resource.<p>

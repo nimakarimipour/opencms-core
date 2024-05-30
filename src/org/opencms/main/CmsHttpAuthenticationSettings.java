@@ -28,6 +28,7 @@
 package org.opencms.main;
 
 import org.opencms.workplace.CmsWorkplace;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains the settings to handle HTTP basic authentication.<p>

@@ -36,6 +36,7 @@ import org.opencms.xml.xml2json.CmsJsonRequest;
 import org.opencms.xml.xml2json.CmsResourceDataJsonHelper;
 import org.opencms.xml.xml2json.handler.CmsJsonHandlerException;
 import org.opencms.xml.xml2json.handler.CmsJsonHandlerXmlContent.PathNotFoundException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class representing a JSON document for a CMS resource.<p>
@@ -115,7 +116,7 @@ public class CmsJsonDocumentResource extends A_CmsJsonDocument implements I_CmsJ
     protected void insertJsonResourceParams() throws JSONException {
 
         JSONObject json = new JSONObject(true);
-        for (String key : m_context.getParameters().keySet()) {
+        for (@RUntainted String key : m_context.getParameters().keySet()) {
             json.put(key, m_context.getParameters().get(key));
         }
         m_json.put("requestParams", json);

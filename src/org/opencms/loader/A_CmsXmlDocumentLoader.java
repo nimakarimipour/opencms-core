@@ -46,6 +46,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * OpenCms base loader implementation for resources of type <code>{@link org.opencms.xml.I_CmsXmlDocument}</code>.<p>
@@ -116,7 +117,7 @@ abstract class A_CmsXmlDocumentLoader implements I_CmsResourceLoader, I_CmsResou
         I_CmsXmlDocument doc = unmarshalXmlDocument(cms, resource, req);
 
         // check the page locales
-        List<Locale> locales = doc.getLocales(element);
+        List<@RUntainted Locale> locales = doc.getLocales(element);
         if (locales.isEmpty()) {
             // selected element is not available in any locale
             return null;

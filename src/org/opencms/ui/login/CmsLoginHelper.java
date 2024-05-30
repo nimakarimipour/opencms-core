@@ -65,6 +65,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Utility to login users to the OpenCms workplace.<p>
@@ -506,9 +508,9 @@ public class CmsLoginHelper extends CmsJspLoginBean {
      * @param cms the CMS context which should be initialized
      * @return the workplace set
      */
-    public static CmsWorkplaceSettings initSiteAndProject(CmsObject cms) {
+    public static @RUntainted CmsWorkplaceSettings initSiteAndProject(CmsObject cms) {
 
-        CmsWorkplaceSettings workplaceSettings = CmsWorkplace.initWorkplaceSettings(cms, null, false);
+        @RUntainted CmsWorkplaceSettings workplaceSettings = CmsWorkplace.initWorkplaceSettings(cms, null, false);
         String startSite = CmsWorkplace.getStartSiteRoot(cms, workplaceSettings);
         // switch to the preferred site
         workplaceSettings.setSite(startSite);
@@ -548,9 +550,9 @@ public class CmsLoginHelper extends CmsJspLoginBean {
      * @param response the current response
      */
     public static void setCookieData(
-        String pcType,
-        String username,
-        String oufqn,
+        @RUntainted String pcType,
+        @RUntainted String username,
+        @RUntainted String oufqn,
         HttpServletRequest request,
         HttpServletResponse response) {
 
@@ -559,7 +561,7 @@ public class CmsLoginHelper extends CmsJspLoginBean {
         }
         // set the PC type cookie only if security dialog is enabled
         if (OpenCms.getLoginManager().isEnableSecurity() && CmsStringUtil.isNotEmpty(pcType)) {
-            Cookie pcTypeCookie = getCookie(request, COOKIE_PCTYPE);
+            @RUntainted Cookie pcTypeCookie = getCookie(request, COOKIE_PCTYPE);
             pcTypeCookie.setValue(pcType);
             setCookie(pcTypeCookie, false, request, response);
         }
@@ -567,12 +569,12 @@ public class CmsLoginHelper extends CmsJspLoginBean {
         // only store user name and OU cookies on private PC types
         if (PCTYPE_PRIVATE.equals(pcType)) {
             // set the user name cookie
-            Cookie userNameCookie = getCookie(request, COOKIE_USERNAME);
+            @RUntainted Cookie userNameCookie = getCookie(request, COOKIE_USERNAME);
             userNameCookie.setValue(username);
             setCookie(userNameCookie, false, request, response);
 
             // set the organizational unit cookie
-            Cookie ouFqnCookie = getCookie(request, COOKIE_OUFQN);
+            @RUntainted Cookie ouFqnCookie = getCookie(request, COOKIE_OUFQN);
             ouFqnCookie.setValue(oufqn);
             setCookie(ouFqnCookie, false, request, response);
         } else if (OpenCms.getLoginManager().isEnableSecurity() && PCTYPE_PUBLIC.equals(pcType)) {
@@ -617,7 +619,7 @@ public class CmsLoginHelper extends CmsJspLoginBean {
      *
      * @return the cookie
      */
-    protected static Cookie getCookie(HttpServletRequest request, String name) {
+    protected static @RPolyTainted Cookie getCookie(HttpServletRequest request, @RPolyTainted String name) {
 
         Cookie[] cookies = request.getCookies();
         for (int i = 0; (cookies != null) && (i < cookies.length); i++) {
@@ -637,7 +639,7 @@ public class CmsLoginHelper extends CmsJspLoginBean {
      * @param response the current response
      */
     protected static void setCookie(
-        Cookie cookie,
+        @RUntainted Cookie cookie,
         boolean delete,
         HttpServletRequest request,
         HttpServletResponse response) {

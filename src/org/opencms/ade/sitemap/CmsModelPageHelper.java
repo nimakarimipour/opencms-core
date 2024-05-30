@@ -72,6 +72,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for model page operations in the sitemap editor.<p>
@@ -557,7 +558,7 @@ public class CmsModelPageHelper {
      */
     private Locale getLocale(CmsXmlContent content) {
 
-        List<Locale> locales = content.getLocales();
+        List<@RUntainted Locale> locales = content.getLocales();
         if (locales.contains(Locale.ENGLISH) || locales.isEmpty()) {
             return Locale.ENGLISH;
         }

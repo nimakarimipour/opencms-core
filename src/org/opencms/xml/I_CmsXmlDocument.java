@@ -37,6 +37,7 @@ import org.opencms.xml.types.I_CmsXmlContentValue;
 
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes the API to access the values of a XML content document.<p>
@@ -159,7 +160,7 @@ public interface I_CmsXmlDocument {
      *
      * @return a List of all locales that have at last one value in this XML document
      */
-    List<Locale> getLocales();
+    List<@RUntainted Locale> getLocales();
 
     /**
      * Returns a List of all locales that have at least one element with the given path in this XML document.<p>
@@ -169,7 +170,7 @@ public interface I_CmsXmlDocument {
      * @param path the path to look up the locale List for
      * @return a List of all locales that have at least one element with the given path in this XML document
      */
-    List<Locale> getLocales(String path);
+    List<@RUntainted Locale> getLocales(String path);
 
     /**
      * Returns a List of all available elements paths (Strings) used in this document for the given locale.<p>

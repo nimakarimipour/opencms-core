@@ -31,6 +31,7 @@ import org.opencms.file.I_CmsResource;
 import org.opencms.util.CmsUUID;
 
 import java.io.Serializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A historical version of a resource in the OpenCms VFS resource history.<p>

@@ -46,6 +46,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Iterators;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource bundle which loads its data from a VFS resource.<p>
@@ -234,7 +235,7 @@ public class CmsVfsResourceBundle extends ResourceBundle implements I_CmsResourc
      *
      * @return the message data
      */
-    private Map<Locale, Map<String, String>> getData() {
+    private Map<@RUntainted Locale, Map<String, String>> getData() {
 
         @SuppressWarnings("unchecked")
         Map<Locale, Map<String, String>> result = (Map<Locale, Map<String, String>>)m_cache.getCachedObject(
@@ -258,11 +259,11 @@ public class CmsVfsResourceBundle extends ResourceBundle implements I_CmsResourc
      */
     private Map<String, String> getMessagesForLocale() {
 
-        Map<Locale, Map<String, String>> data = getData();
+        Map<@RUntainted Locale, Map<String, String>> data = getData();
         if (data == null) {
             return Collections.emptyMap();
         }
-        List<Locale> available = new ArrayList<Locale>(data.keySet());
+        List<@RUntainted Locale> available = new ArrayList<@RUntainted Locale>(data.keySet());
         Locale bestMatchingLocale = OpenCms.getLocaleManager().getBestMatchingLocale(
             getLocale(),
             OpenCms.getLocaleManager().getDefaultLocales(),

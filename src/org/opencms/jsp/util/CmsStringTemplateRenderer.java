@@ -60,6 +60,7 @@ import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroup;
 import org.stringtemplate.v4.compiler.CompiledST;
 import org.stringtemplate.v4.compiler.FormalArgument;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Renderer for string templates.<p>
@@ -213,7 +214,7 @@ public class CmsStringTemplateRenderer {
      *
      * @return the element settings wrapped in access wrappers
      */
-    public static Map<String, CmsJspObjectValueWrapper> wrapSettings(CmsObject cms, Map<String, String> settings) {
+    public static Map<String, CmsJspObjectValueWrapper> wrapSettings(CmsObject cms, Map<@RUntainted String, String> settings) {
 
         Map<String, CmsJspObjectValueWrapper> wrappedSettings = null;
         if (settings != null) {

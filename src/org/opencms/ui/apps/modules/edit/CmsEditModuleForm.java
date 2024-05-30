@@ -100,6 +100,7 @@ import com.vaadin.v7.ui.Field;
 import com.vaadin.v7.ui.TextArea;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Form for editing a module.<p>
@@ -583,7 +584,7 @@ public class CmsEditModuleForm extends CmsBasicDialog {
             for (I_CmsEditableGroupRow row : m_exportPointGroup.getRows()) {
                 CmsExportPointWidget widget = (CmsExportPointWidget)(row.getComponent());
                 String source = widget.getUri().trim();
-                String target = widget.getDestination().trim();
+                @RUntainted String target = widget.getDestination().trim();
                 if (CmsStringUtil.isEmpty(source) || CmsStringUtil.isEmpty(target)) {
                     continue;
                 }

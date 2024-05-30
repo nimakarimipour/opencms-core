@@ -33,6 +33,7 @@ import org.opencms.json.JSONException;
 import org.opencms.json.JSONObject;
 import org.opencms.util.CmsMacroResolver;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Configuration options for the gallery widget (e.g. DownloadGalleryWidget).<p>

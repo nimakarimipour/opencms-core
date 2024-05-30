@@ -28,6 +28,7 @@
 package org.opencms.search.solr.spellchecking;
 
 import org.opencms.json.JSONObject;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class that represents a spellchecking request.

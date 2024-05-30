@@ -58,6 +58,7 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Used for rendering container pages as a JSON structure.
@@ -371,7 +372,7 @@ public class CmsJsonRendererContainerPage {
                 elementNode.getElement());
             result.put("formatterKey", formatterKey);
             JSONObject settings = new JSONObject();
-            for (Map.Entry<String, String> entry : elementNode.getElement().getSettings().entrySet()) {
+            for (Map.Entry<@RUntainted String, String> entry : elementNode.getElement().getSettings().entrySet()) {
                 // formatterSettings and element_instance_id setting have become obsolete in the new container page format
                 if (entry.getKey().startsWith("formatterSettings") || entry.getKey().equals("element_instance_id")) {
                     continue;
@@ -414,7 +415,7 @@ public class CmsJsonRendererContainerPage {
             formatters.put(new CmsUUID(formatter.getId()), formatter);
         }
 
-        Map<String, String> settings = elementBean.getIndividualSettings();
+        Map<@RUntainted String, String> settings = elementBean.getIndividualSettings();
         I_CmsFormatterBean result = null;
 
         String forKeyWithContainer = settings.get(CmsFormatterConfig.FORMATTER_SETTINGS_KEY + container.getName());

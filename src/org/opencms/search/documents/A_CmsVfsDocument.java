@@ -41,6 +41,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Base document factory class for a VFS <code>{@link org.opencms.file.CmsResource}</code>,
@@ -118,7 +119,7 @@ public abstract class A_CmsVfsDocument implements I_CmsDocumentFactory {
 
             // check if caching is enabled for this document type
             CmsExtractionResultCache cache = getCache();
-            String cacheName = null;
+            @RUntainted String cacheName = null;
             if ((cache != null) && (resource.getSiblingCount() > 1)) {
                 // hard drive based caching only makes sense for resources that have siblings,
                 // because the index will also store the content as a blob

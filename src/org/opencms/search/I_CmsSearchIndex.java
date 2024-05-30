@@ -39,6 +39,7 @@ import org.opencms.search.fields.I_CmsSearchFieldConfiguration;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface for search indizes that should be handled by the {@link org.opencms.search.CmsSearchManager}.
@@ -85,7 +86,7 @@ public interface I_CmsSearchIndex extends I_CmsConfigurationParameterHandler, Se
      *
      * @return the language locale for the given resource in this index
      */
-    public Locale getLocaleForResource(CmsObject cms, CmsResource resource, List<Locale> availableLocales);
+    public Locale getLocaleForResource(CmsObject cms, CmsResource resource, List<@RUntainted Locale> availableLocales);
 
     /**
      * Returns all configured sources names of this search index.<p>
@@ -315,7 +316,7 @@ public interface I_CmsSearchIndex extends I_CmsConfigurationParameterHandler, Se
      *
      * @throws CmsIllegalArgumentException if the given name is null, empty or already taken by another search index
      */
-    void setName(String name) throws CmsIllegalArgumentException;
+    void setName(@RUntainted String name) throws CmsIllegalArgumentException;
 
     /**
      * Sets the name of the project used to index resources.<p>

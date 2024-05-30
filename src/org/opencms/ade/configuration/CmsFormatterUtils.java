@@ -35,6 +35,8 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Helper class for formatter-related functionality.
@@ -68,7 +70,7 @@ public class CmsFormatterUtils {
      */
     public static String getFormatterKey(String containerName, CmsContainerElementBean element) {
 
-        Map<String, String> settings = element.getSettings();
+        Map<@RUntainted String, String> settings = element.getSettings();
         return getFormatterKey(containerName, settings);
     }
 

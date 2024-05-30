@@ -40,6 +40,7 @@ import org.opencms.workplace.I_CmsGroupNameTranslation;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Common methods shared among user and group principals,

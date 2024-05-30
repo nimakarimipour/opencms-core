@@ -47,6 +47,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Loader for "pointers" to resources in the VFS or to external resources.<p>
@@ -124,7 +126,7 @@ public class CmsPointerLoader extends CmsDumpLoader {
      *
      * @return the pointer with the parameters
      */
-    private static String appendLinkParams(String pointerLink, HttpServletRequest req) {
+    private static @RPolyTainted String appendLinkParams(@RPolyTainted String pointerLink, HttpServletRequest req) {
 
         String result = pointerLink;
         if (isRequestParamSupportEnabled()) {
@@ -302,7 +304,7 @@ public class CmsPointerLoader extends CmsDumpLoader {
             return;
         }
 
-        String pointer = new String(
+        @RUntainted String pointer = new String(
             cms.readFile(resource).getContents(),
             CmsLocaleManager.getResourceEncoding(cms, resource));
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(pointer)) {

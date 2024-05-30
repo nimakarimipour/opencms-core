@@ -54,6 +54,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper class for a HttpServletResponse, required in order to process JSPs from the OpenCms VFS.<p>
@@ -208,7 +209,7 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
     private Map<String, List<String>> m_bufferHeaders;
 
     /** String to hold a buffered redirect target. */
-    private String m_bufferRedirect;
+    private @RUntainted String m_bufferRedirect;
 
     /** Byte array used for "cached leafs" optimization. */
     private byte[] m_cacheBytes;
@@ -328,11 +329,11 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
     public static void processHeaders(Map<String, List<String>> headers, HttpServletResponse res) {
 
         if (headers != null) {
-            Iterator<Map.Entry<String, List<String>>> i = headers.entrySet().iterator();
+            Iterator<Map.Entry<String, List<@RUntainted String>>> i = headers.entrySet().iterator();
             while (i.hasNext()) {
-                Map.Entry<String, List<String>> entry = i.next();
+                Map.Entry<String, List<@RUntainted String>> entry = i.next();
                 String key = entry.getKey();
-                List<String> l = entry.getValue();
+                List<@RUntainted String> l = entry.getValue();
                 for (int j = 0; j < l.size(); j++) {
                     if ((j == 0) && ((l.get(0)).startsWith(SET_HEADER))) {
                         String s = l.get(0);
@@ -423,7 +424,7 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
      * @see javax.servlet.http.HttpServletResponse#addDateHeader(java.lang.String, long)
      */
     @Override
-    public void addDateHeader(String name, long date) {
+    public void addDateHeader(@RUntainted String name, @RUntainted long date) {
 
         addHeader(name, CmsDateUtil.getHeaderDate(date));
     }
@@ -434,7 +435,7 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
      * @see javax.servlet.http.HttpServletResponse#addHeader(java.lang.String, java.lang.String)
      */
     @Override
-    public void addHeader(String name, String value) {
+    public void addHeader(@RUntainted String name, @RUntainted String value) {
 
         if (isSuspended()) {
             return;
@@ -480,7 +481,7 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
      * @see javax.servlet.http.HttpServletResponse#addIntHeader(java.lang.String, int)
      */
     @Override
-    public void addIntHeader(String name, int value) {
+    public void addIntHeader(@RUntainted String name, @RUntainted int value) {
 
         addHeader(name, String.valueOf(value));
     }
@@ -640,7 +641,7 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
      * @throws IllegalArgumentException In case of a malformed location string
      */
     @Override
-    public void sendRedirect(String location) throws IOException {
+    public void sendRedirect(@RUntainted String location) throws IOException {
 
         sendRedirect(location, false);
     }
@@ -653,7 +654,7 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
      *
      * @throws IOException if IO operations on the response fail
      */
-    public void sendRedirect(String location, boolean permanent) throws IOException {
+    public void sendRedirect(@RUntainted String location, boolean permanent) throws IOException {
 
         // Ignore any redirects after the first one
         if (isSuspended() && (!location.equals(m_bufferRedirect))) {
@@ -739,7 +740,7 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
      * @see javax.servlet.http.HttpServletResponse#setDateHeader(java.lang.String, long)
      */
     @Override
-    public void setDateHeader(String name, long date) {
+    public void setDateHeader(@RUntainted String name, long date) {
 
         setHeader(name, CmsDateUtil.getHeaderDate(date));
     }
@@ -750,7 +751,7 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
      * @see javax.servlet.http.HttpServletResponse#setHeader(java.lang.String, java.lang.String)
      */
     @Override
-    public void setHeader(String name, String value) {
+    public void setHeader(@RUntainted String name, String value) {
 
         if (isSuspended()) {
             return;
@@ -796,7 +797,7 @@ public class CmsFlexResponse extends HttpServletResponseWrapper {
      * @see javax.servlet.http.HttpServletResponse#setIntHeader(java.lang.String, int)
      */
     @Override
-    public void setIntHeader(String name, int value) {
+    public void setIntHeader(@RUntainted String name, int value) {
 
         setHeader(name, "" + value);
     }

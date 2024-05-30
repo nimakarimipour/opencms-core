@@ -93,6 +93,7 @@ import javax.servlet.jsp.tagext.TryCatchFinally;
 
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides access to the page container elements.<p>
@@ -197,7 +198,7 @@ public class CmsJspTagContainer extends BodyTagSupport implements TryCatchFinall
         CmsObject cms,
         CmsContainerElementBean element,
         CmsADEConfigData adeConfig,
-        String containerName,
+        @RUntainted String containerName,
         String containerType,
         int containerWidth) {
 
@@ -208,7 +209,7 @@ public class CmsJspTagContainer extends BodyTagSupport implements TryCatchFinall
             containerName,
             containerType,
             containerWidth);
-        String settingsKey = CmsFormatterConfig.getSettingsKeyForContainer(containerName);
+        @RUntainted String settingsKey = CmsFormatterConfig.getSettingsKeyForContainer(containerName);
         if (formatterBean != null) {
             String keyOrId = formatterBean.getKeyOrId();
             if (keyOrId == null) {
@@ -1699,7 +1700,7 @@ public class CmsJspTagContainer extends BodyTagSupport implements TryCatchFinall
             // ignore and log
             LOG.error(e.getLocalizedMessage(), e);
         }
-        Map<String, String> settings = element.getSettings();
+        Map<@RUntainted String, String> settings = element.getSettings();
         if (settings == null) {
             return true;
         }

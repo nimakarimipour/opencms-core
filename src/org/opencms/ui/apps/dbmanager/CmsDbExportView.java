@@ -75,6 +75,7 @@ import com.vaadin.v7.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the Export dialog.<p>
@@ -194,7 +195,7 @@ public class CmsDbExportView extends VerticalLayout {
     private CheckBox m_skipParentFolders;
 
     /**vaadin component.*/
-    private ComboBox m_target;
+    private @RUntainted ComboBox m_target;
 
     /**
      * public constructor.<p>

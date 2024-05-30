@@ -93,6 +93,7 @@ import com.google.common.base.Optional;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class to generate all the data which is necessary for the resource status dialog(s).<p>
@@ -385,7 +386,7 @@ public class CmsDefaultResourceStatusProvider {
         if (resType instanceof CmsResourceTypeXmlContent) {
             CmsFile file = cms.readFile(resource);
             CmsXmlContent content = CmsXmlContentFactory.unmarshal(cms, file);
-            List<Locale> locales = content.getLocales();
+            List<@RUntainted Locale> locales = content.getLocales();
             List<String> localeStrings = new ArrayList<String>();
             for (Locale l : locales) {
                 localeStrings.add(l.toString());

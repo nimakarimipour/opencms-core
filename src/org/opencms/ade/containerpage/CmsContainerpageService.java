@@ -183,6 +183,8 @@ import com.google.common.collect.Sets;
 import com.google.web.bindery.autobean.shared.AutoBean;
 import com.google.web.bindery.autobean.shared.AutoBeanCodex;
 import com.google.web.bindery.autobean.vm.AutoBeanFactorySource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * The RPC service used by the container-page editor.<p>
@@ -814,7 +816,7 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
                 modelResource,
                 pageFolderForElementCreation);
             CmsContainerElementBean bean = getCachedElement(clientId, pageResource.getRootPath());
-            Map<String, String> settings = new HashMap<String, String>();
+            Map<@RUntainted String, String> settings = new HashMap<@RUntainted String, String>();
 
             settings = bean.getIndividualSettings();
 
@@ -1881,7 +1883,7 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
     /**
      * @see org.opencms.ade.containerpage.shared.rpc.I_CmsContainerpageService#saveClipboardTab(int)
      */
-    public void saveClipboardTab(int tabIndex) {
+    public void saveClipboardTab(@RUntainted int tabIndex) {
 
         getRequest().getSession().setAttribute(ATTR_CLIPBOARD_TAB, Integer.valueOf(tabIndex));
     }
@@ -2261,7 +2263,7 @@ public class CmsContainerpageService extends CmsGwtService implements I_CmsConta
      */
     Map<String, String> getSettingsToChangeForDnd(
         CmsADEConfigData config,
-        Map<String, String> originalSettings,
+        Map<@RUntainted String, String> originalSettings,
         CmsFormatterConfiguration formatterConfig,
         Collection<CmsContainer> containers,
         String dndContainer) {

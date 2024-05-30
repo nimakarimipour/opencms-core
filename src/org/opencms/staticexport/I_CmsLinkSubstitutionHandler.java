@@ -28,6 +28,7 @@
 package org.opencms.staticexport;
 
 import org.opencms.file.CmsObject;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Allows to configure customized link substitution behavior.<p>

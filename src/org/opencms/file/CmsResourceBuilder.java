@@ -30,6 +30,7 @@ package org.opencms.file;
 import org.opencms.db.CmsResourceState;
 import org.opencms.file.types.I_CmsResourceType;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class allows the developer to build a CmsResource object by filling out individual fields one after the

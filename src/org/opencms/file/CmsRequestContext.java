@@ -38,6 +38,8 @@ import org.opencms.workplace.CmsWorkplace;
 import java.util.Hashtable;
 import java.util.Locale;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Stores the information about the current users OpenCms context,
@@ -103,7 +105,7 @@ public final class CmsRequestContext {
     private long m_requestTime;
 
     /** The name of the root, e.g. /site_a/vfs. */
-    private String m_siteRoot;
+    private @RUntainted String m_siteRoot;
 
     /** Flag to indicate that this context should not update the user session. */
     private boolean m_updateSession;
@@ -459,7 +461,7 @@ public final class CmsRequestContext {
      * @see CmsResource#getRootPath()
      * @see CmsObject#getSitePath(CmsResource)
      */
-    public String getSitePath(CmsResource resource) {
+    public @RUntainted String getSitePath(CmsResource resource) {
 
         return removeSiteRoot(resource.getRootPath());
     }
@@ -469,7 +471,7 @@ public final class CmsRequestContext {
      *
      * @return the current root directory in the virtual file system
      */
-    public String getSiteRoot() {
+    public @RUntainted String getSiteRoot() {
 
         return m_siteRoot;
     }
@@ -479,7 +481,7 @@ public final class CmsRequestContext {
      *
      * @return the OpenCms VFS URI of the requested resource
      */
-    public String getUri() {
+    public @RUntainted String getUri() {
 
         return m_uri;
     }
@@ -545,7 +547,7 @@ public final class CmsRequestContext {
      *
      * @see #getSitePath(CmsResource)
      */
-    public String removeSiteRoot(String resourcename) {
+    public @RUntainted String removeSiteRoot(String resourcename) {
 
         String siteRoot = getAdjustedSiteRoot(m_siteRoot, resourcename);
         if ((siteRoot == m_siteRoot)
@@ -679,7 +681,7 @@ public final class CmsRequestContext {
      *
      * @param root the name of the new root directory
      */
-    public void setSiteRoot(String root) {
+    public void setSiteRoot(@RUntainted String root) {
 
         // site roots must never end with a "/"
         if (root.endsWith("/")) {

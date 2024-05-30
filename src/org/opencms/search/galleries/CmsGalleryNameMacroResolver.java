@@ -61,6 +61,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Macro resolver used to resolve macros for the gallery name mapping.<p>
@@ -229,7 +230,7 @@ public class CmsGalleryNameMacroResolver extends CmsMacroResolver {
         if (pages.isEmpty()) {
             return null;
         }
-        Map<Locale, String> pagePathByLocale = Maps.newHashMap();
+        Map<@RUntainted Locale, String> pagePathByLocale = Maps.newHashMap();
         for (CmsResource page : pages) {
             Locale pageLocale = OpenCms.getLocaleManager().getDefaultLocale(m_cms, page);
             String pagePathCandidate = page.getRootPath();
@@ -272,7 +273,7 @@ public class CmsGalleryNameMacroResolver extends CmsMacroResolver {
             return "";
         }
         try {
-            Map<Locale, String> pagePropsByLocale = Maps.newHashMap();
+            Map<@RUntainted Locale, String> pagePropsByLocale = Maps.newHashMap();
             for (CmsResource page : pages) {
                 List<CmsProperty> pagePropertiesList = m_cms.readPropertyObjects(page, true);
                 Map<String, CmsProperty> pageProperties = CmsProperty.toObjectMap(pagePropertiesList);

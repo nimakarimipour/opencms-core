@@ -57,6 +57,7 @@ import com.vaadin.v7.ui.Upload.StartedListener;
 import com.vaadin.v7.ui.Upload.SucceededEvent;
 import com.vaadin.v7.ui.Upload.SucceededListener;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The form for importing modules via HTTP.<p>
@@ -202,7 +203,7 @@ public class CmsModuleImportForm extends A_CmsModuleImportForm {
 
             public OutputStream receiveUpload(String filename, String mimeType) {
 
-                String path = CmsStringUtil.joinPaths(
+                @RUntainted String path = CmsStringUtil.joinPaths(
                     OpenCms.getSystemInfo().getWebInfRfsPath(),
                     "packages/modules",
                     processFileName(filename));

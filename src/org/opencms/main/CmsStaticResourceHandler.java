@@ -41,6 +41,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles the requests for static resources located in the classpath.<p>
@@ -94,9 +95,9 @@ public class CmsStaticResourceHandler implements I_CmsRequestHandler {
      *
      * @return the resource URL
      */
-    public static URL getStaticResourceURL(String resourcePath) {
+    public static @RUntainted URL getStaticResourceURL(String resourcePath) {
 
-        URL resourceURL = null;
+        @RUntainted URL resourceURL = null;
         if (isStaticResourceUri(resourcePath)) {
             String path = removeStaticResourcePrefix(resourcePath);
             path = CmsStringUtil.joinPaths(OPENCMS_PATH_PREFIX, path);
@@ -187,7 +188,7 @@ public class CmsStaticResourceHandler implements I_CmsRequestHandler {
     public void handle(HttpServletRequest request, HttpServletResponse response, String name) throws IOException {
 
         String path = OpenCmsCore.getInstance().getPathInfo(request);
-        URL resourceURL = getStaticResourceURL(path);
+        @RUntainted URL resourceURL = getStaticResourceURL(path);
         if (resourceURL != null) {
             setResponseHeaders(request, response, path, resourceURL);
             writeStaticResourceResponse(request, response, resourceURL);
@@ -318,7 +319,7 @@ public class CmsStaticResourceHandler implements I_CmsRequestHandler {
         }
 
         // Set type mime type if we can determine it based on the filename
-        String mimetype = OpenCms.getResourceManager().getMimeType(filename, "UTF-8");
+        @RUntainted String mimetype = OpenCms.getResourceManager().getMimeType(filename, "UTF-8");
         if (mimetype != null) {
             response.setContentType(mimetype);
         }
@@ -337,12 +338,12 @@ public class CmsStaticResourceHandler implements I_CmsRequestHandler {
     protected void writeStaticResourceResponse(
         HttpServletRequest request,
         HttpServletResponse response,
-        URL resourceUrl)
+        @RUntainted URL resourceUrl)
     throws IOException {
 
         URLConnection connection = null;
         InputStream is = null;
-        String urlStr = resourceUrl.toExternalForm();
+        @RUntainted String urlStr = resourceUrl.toExternalForm();
         try {
             if (allowServePrecompressedResource(request, urlStr)) {
                 // try to serve a precompressed version if available

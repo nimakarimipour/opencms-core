@@ -43,6 +43,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A user principal in the OpenCms permission system.<p>
@@ -367,7 +368,7 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
      *
      * @see #getAdditionalInfo()
      */
-    public Object getAdditionalInfo(String key) {
+    public @RUntainted Object getAdditionalInfo(String key) {
 
         return m_additionalInfo.get(key);
     }

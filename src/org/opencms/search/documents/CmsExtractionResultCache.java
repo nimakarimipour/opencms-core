@@ -39,6 +39,7 @@ import java.io.IOException;
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements a disk cache that stores text extraction results in the RFS.<p>
@@ -65,7 +66,7 @@ public class CmsExtractionResultCache {
     private static final Log LOG = CmsLog.getLog(CmsExtractionResultCache.class);
 
     /** The name of the cache base repository folder in the RFS. */
-    private String m_rfsRepository;
+    private @RUntainted String m_rfsRepository;
 
     /**
      * Creates a new disk cache.<p>
@@ -73,7 +74,7 @@ public class CmsExtractionResultCache {
      * @param basepath the base path for the cache in the RFS
      * @param foldername the folder name for this cache, to be used a subfolder for the base folder
      */
-    public CmsExtractionResultCache(String basepath, String foldername) {
+    public CmsExtractionResultCache(@RUntainted String basepath, @RUntainted String foldername) {
 
         // normalize the given folder name
         m_rfsRepository = CmsFileUtil.normalizePath(basepath + foldername + File.separatorChar);
@@ -130,7 +131,7 @@ public class CmsExtractionResultCache {
      *
      * @return the RFS name to use for caching the given VFS resource with parameters
      */
-    public String getCacheName(CmsResource resource, Locale locale, String docTypeName) {
+    public @RUntainted String getCacheName(CmsResource resource, Locale locale, String docTypeName) {
 
         // create a StringBuffer for the result
         StringBuffer buf = new StringBuffer(m_rfsRepository.length() + 36);
@@ -167,7 +168,7 @@ public class CmsExtractionResultCache {
      *
      * @return the extraction result stored in the requested file in the RFS disk cache, or <code>null</code>
      */
-    public CmsExtractionResult getCacheObject(String rfsName) {
+    public CmsExtractionResult getCacheObject(@RUntainted String rfsName) {
 
         try {
             File f = new File(rfsName);
@@ -205,7 +206,7 @@ public class CmsExtractionResultCache {
      *
      * @throws IOException in case of disk access errors
      */
-    public void saveCacheObject(String rfsName, I_CmsExtractionResult content) throws IOException {
+    public void saveCacheObject(@RUntainted String rfsName, I_CmsExtractionResult content) throws IOException {
 
         byte[] byteContent = content.getBytes();
         if (byteContent != null) {

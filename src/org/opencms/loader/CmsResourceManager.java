@@ -76,6 +76,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Collects all available resource loaders, resource types and resource collectors at startup and provides
@@ -787,7 +788,7 @@ public class CmsResourceManager {
      *
      * @return the MIME type for a specified file
      */
-    public String getMimeType(String filename, String encoding) {
+    public @RUntainted String getMimeType(String filename, String encoding) {
 
         return getMimeType(filename, encoding, MIMETYPE_HTML);
     }
@@ -807,7 +808,7 @@ public class CmsResourceManager {
      *
      * @return the MIME type for a specified file
      */
-    public String getMimeType(String filename, String encoding, String defaultMimeType) {
+    public @RUntainted String getMimeType(String filename, String encoding, String defaultMimeType) {
 
         String mimeType = null;
         int lastDot = filename.lastIndexOf('.');

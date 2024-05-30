@@ -34,6 +34,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Formatter configuration data.<p>
@@ -97,7 +98,7 @@ public class CmsFormatterConfig implements IsSerializable {
      *
      * @return the settings key
      */
-    public static String getSettingsKeyForContainer(String containerName) {
+    public static @RPolyTainted String getSettingsKeyForContainer(@RPolyTainted String containerName) {
 
         return FORMATTER_SETTINGS_KEY + containerName;
     }

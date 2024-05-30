@@ -58,6 +58,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A resource type wrapper for xml page files, which explodes the xml pages to folders.<p>
@@ -105,7 +106,7 @@ public class CmsResourceWrapperXmlPage extends A_CmsResourceWrapper {
                     return ret;
                 }
 
-                List<Locale> locales = xml.getLocales();
+                List<@RUntainted Locale> locales = xml.getLocales();
                 Iterator<Locale> iter1 = locales.iterator();
                 while (iter1.hasNext()) {
                     Locale locale = iter1.next();

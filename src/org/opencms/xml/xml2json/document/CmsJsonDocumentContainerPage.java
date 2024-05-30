@@ -35,6 +35,7 @@ import org.opencms.xml.xml2json.CmsJsonRequest;
 import org.opencms.xml.xml2json.handler.CmsJsonHandlerException;
 import org.opencms.xml.xml2json.handler.CmsJsonHandlerXmlContent.PathNotFoundException;
 import org.opencms.xml.xml2json.renderer.CmsJsonRendererContainerPage;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class representing a JSON document for a container page.

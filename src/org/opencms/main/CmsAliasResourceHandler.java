@@ -46,6 +46,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource init handler for detail-pages.<p>
@@ -106,7 +107,7 @@ public class CmsAliasResourceHandler implements I_CmsResourceInit {
             CmsRewriteAliasMatcher rewriteAliases = OpenCms.getAliasManager().getRewriteAliasMatcher(cms, siteRoot);
             CmsRewriteAliasMatcher.RewriteResult rewriteResult = rewriteAliases.match(sitePath);
             if ((rewriteResult != null) && (res != null)) {
-                String link = OpenCms.getLinkManager().substituteLink(cms, rewriteResult.getNewPath());
+                @RUntainted String link = OpenCms.getLinkManager().substituteLink(cms, rewriteResult.getNewPath());
                 if (rewriteResult.getAlias().getMode().isRedirect()) {
                     redirectToTarget(
                         cms,
@@ -170,14 +171,14 @@ public class CmsAliasResourceHandler implements I_CmsResourceInit {
         CmsObject cms,
         HttpServletRequest req,
         HttpServletResponse res,
-        String link,
+        @RUntainted String link,
         boolean isPermanent)
     throws IOException, CmsResourceInitException {
 
         CmsResourceInitException resInitException = new CmsResourceInitException(getClass());
         if (res != null) {
             // preserve request parameters for the redirect
-            String query = req.getQueryString();
+            @RUntainted String query = req.getQueryString();
             if (query != null) {
                 link += "?" + query;
             }

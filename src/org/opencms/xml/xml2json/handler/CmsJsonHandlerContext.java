@@ -43,6 +43,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides context information to JSON handlers.<p>
@@ -135,7 +136,7 @@ public class CmsJsonHandlerContext {
     private CmsParameterConfiguration m_handlerConfig;
 
     /** The request parameters from the resource init handler call. */
-    private Map<String, String> m_parameters;
+    private Map<@RUntainted String, String> m_parameters;
 
     /** The path below the JSON handler prefix. */
     private String m_path;
@@ -165,7 +166,7 @@ public class CmsJsonHandlerContext {
         CmsObject rootCms,
         String path,
         CmsResource resource,
-        Map<String, String> params,
+        Map<@RUntainted String, String> params,
         CmsParameterConfiguration handlerConfig,
         CmsJsonAccessPolicy policy) {
 
@@ -263,7 +264,7 @@ public class CmsJsonHandlerContext {
      *
      * @return the request parameters
      */
-    public Map<String, String> getParameters() {
+    public Map<@RUntainted String, String> getParameters() {
 
         return Collections.unmodifiableMap(m_parameters);
     }

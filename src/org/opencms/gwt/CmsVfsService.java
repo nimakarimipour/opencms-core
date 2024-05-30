@@ -124,6 +124,7 @@ import org.apache.commons.logging.Log;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A service class for reading the VFS tree.<p>
@@ -1487,7 +1488,7 @@ public class CmsVfsService extends CmsGwtService implements I_CmsVfsService {
     private LinkedHashMap<String, String> getAvailableLocales(CmsResource resource) {
 
         LinkedHashMap<String, String> result = null;
-        List<Locale> locales = null;
+        List<@RUntainted Locale> locales = null;
         try {
             if (CmsResourceTypeXmlPage.isXmlPage(resource)) {
                 locales = CmsXmlPageFactory.unmarshal(getCmsObject(), resource, getRequest()).getLocales();

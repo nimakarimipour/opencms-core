@@ -60,6 +60,7 @@ import org.apache.commons.logging.Log;
 
 import org.dom4j.Document;
 import org.dom4j.io.SAXReader;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Responsible for mapping formatters, containers and settings to different formatters, containers and settings according to
@@ -274,7 +275,7 @@ public final class CmsTemplateMapper {
                 return null;
             }
         }
-        Map<String, String> settings = element.getIndividualSettings();
+        Map<@RUntainted String, String> settings = element.getIndividualSettings();
         if (settings == null) {
             settings = new HashMap<>();
         }

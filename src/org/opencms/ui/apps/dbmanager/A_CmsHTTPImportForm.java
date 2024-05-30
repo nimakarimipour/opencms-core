@@ -43,6 +43,7 @@ import com.vaadin.v7.ui.Upload.StartedEvent;
 import com.vaadin.v7.ui.Upload.StartedListener;
 import com.vaadin.v7.ui.Upload.SucceededEvent;
 import com.vaadin.v7.ui.Upload.SucceededListener;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  *Abstract class for HTTP imports.<p>
@@ -100,7 +101,7 @@ public abstract class A_CmsHTTPImportForm extends A_CmsImportForm {
 
             public OutputStream receiveUpload(String filename, String mimeType) {
 
-                String path = CmsStringUtil.joinPaths(
+                @RUntainted String path = CmsStringUtil.joinPaths(
                     OpenCms.getSystemInfo().getWebInfRfsPath(),
                     pathToServer,
                     processFileName(filename));

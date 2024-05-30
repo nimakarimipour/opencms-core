@@ -31,6 +31,7 @@ import org.opencms.json.JSONArray;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Tag for defining a JSON array.
@@ -80,7 +81,7 @@ public class CmsJspTagJsonArray extends A_CmsJspJsonTag implements I_CmsJspJsonC
      * @see org.opencms.jsp.A_CmsJspJsonTag#getJsonValue()
      */
     @Override
-    public Object getJsonValue() {
+    public @RUntainted Object getJsonValue() {
 
         return m_jsonArray;
     }

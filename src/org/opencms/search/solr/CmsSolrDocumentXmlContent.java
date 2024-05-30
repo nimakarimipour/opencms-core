@@ -85,6 +85,7 @@ import java.util.function.Consumer;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Special document text extraction factory for Solr index.<p>
@@ -425,7 +426,7 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
         CmsObject cms,
         CmsResource resource,
         I_CmsSearchIndex index,
-        Locale forceLocale,
+        @RUntainted Locale forceLocale,
         Set<CmsUUID> alreadyExtracted,
         Consumer<A_CmsXmlDocument> contentConsumer)
     throws CmsException {
@@ -447,7 +448,7 @@ public class CmsSolrDocumentXmlContent extends A_CmsVfsDocument {
         // initialize some variables
         Map<Locale, LinkedHashMap<String, String>> items = new HashMap<Locale, LinkedHashMap<String, String>>();
         Map<String, String> fieldMappings = new HashMap<String, String>();
-        List<Locale> contentLocales = forceLocale != null
+        List<@RUntainted Locale> contentLocales = forceLocale != null
         ? Collections.singletonList(forceLocale)
         : xmlContent.getLocales();
         Locale resourceLocale = index.getLocaleForResource(cms, resource, contentLocales);

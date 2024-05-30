@@ -83,6 +83,7 @@ import com.vaadin.server.VaadinServletService;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.ApplicationConstants;
 import com.vaadin.ui.UI;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Servlet for workplace UI requests.<p>
@@ -127,7 +128,7 @@ public class CmsUIServlet extends VaadinServlet implements SystemMessagesProvide
                     LOG.error(e.getLocalizedMessage(), e);
                 }
             }
-            Locale currentLocale = OpenCms.getWorkplaceManager().getWorkplaceLocale(cms);
+            @RUntainted Locale currentLocale = OpenCms.getWorkplaceManager().getWorkplaceLocale(cms);
             // Inject CmsCoreData etc. for GWT dialogs
             try {
                 doc.head().append(CmsGwtActionElement.exportCommon(cms, svc.prefetch()));

@@ -39,6 +39,8 @@ import org.opencms.util.CmsUUID;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Base class for all OpenCms VFS resources like <code>{@link CmsFile}</code> or <code>{@link CmsFolder}</code>.<p>
@@ -397,7 +399,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
     private CmsUUID m_resourceId;
 
     /** The name of a resource with it's full path from the root folder including the current site root. */
-    private String m_rootPath;
+    private @RUntainted String m_rootPath;
 
     /** The number of links that point to this resource. */
     private int m_siblingCount;
@@ -406,7 +408,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
     private CmsResourceState m_state;
 
     /** The id of the structure database record. */
-    private CmsUUID m_structureId;
+    private @RUntainted CmsUUID m_structureId;
 
     /** The resource type id of this resource. */
     private int m_typeId;
@@ -622,7 +624,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      * @param resource the name of a resource
      * @return the folder of the given resource
      */
-    public static String getFolderPath(String resource) {
+    public static @RPolyTainted String getFolderPath(@RPolyTainted String resource) {
 
         return resource.substring(0, resource.lastIndexOf('/') + 1);
     }
@@ -639,7 +641,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      * @param resource the resource to get the name for
      * @return the name of a resource without the path information
      */
-    public static String getName(String resource) {
+    public static @RPolyTainted String getName(@RPolyTainted String resource) {
 
         if ("/".equals(resource)) {
             return "/";
@@ -949,9 +951,9 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      *
      * @return the file name of this resource without parent folders
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
-        String name = getName(m_rootPath);
+        @RUntainted String name = getName(m_rootPath);
         if (name.charAt(name.length() - 1) == '/') {
             return name.substring(0, name.length() - 1);
         } else {
@@ -993,7 +995,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      * @see CmsRequestContext#getSitePath(CmsResource)
      * @see CmsRequestContext#removeSiteRoot(String)
      */
-    public String getRootPath() {
+    public @RUntainted String getRootPath() {
 
         return m_rootPath;
     }
@@ -1030,7 +1032,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      *
      * @return the id of the database structure record of this resource
      */
-    public CmsUUID getStructureId() {
+    public @RUntainted CmsUUID getStructureId() {
 
         return m_structureId;
     }

@@ -48,6 +48,7 @@ import org.opencms.xml.xml2json.handler.CmsJsonHandlerContext;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Converts an XML content to JSON by creating a CmsXmlContentTree and then recursively processing its nodes.
@@ -121,9 +122,9 @@ public class CmsJsonRendererXmlContent implements I_CmsJsonRendererXmlContent {
     public static JSONObject renderAllLocales(CmsXmlContent content, I_CmsJsonRendererXmlContent renderer)
     throws JSONException {
 
-        List<Locale> locales = content.getLocales();
+        List<@RUntainted Locale> locales = content.getLocales();
         JSONObject result = new JSONObject(true);
-        for (Locale locale : locales) {
+        for (@RUntainted Locale locale : locales) {
             Object jsonForLocale = renderer.render(content, locale);
             result.put(locale.toString(), jsonForLocale);
         }
@@ -225,7 +226,7 @@ public class CmsJsonRendererXmlContent implements I_CmsJsonRendererXmlContent {
                 JSONArray array = new JSONArray();
                 for (Field field : node.getFields()) {
 
-                    SimpleEntry<String, Object> keyAndValue = renderField(field);
+                    SimpleEntry<@RUntainted String, Object> keyAndValue = renderField(field);
                     if (keyAndValue != null) {
                         JSONObject choiceObj = new JSONObject(true);
                         choiceObj.put(keyAndValue.getKey(), keyAndValue.getValue());
@@ -252,9 +253,9 @@ public class CmsJsonRendererXmlContent implements I_CmsJsonRendererXmlContent {
      *
      * @throws JSONException if something goes wrong
      */
-    protected SimpleEntry<String, Object> renderField(Field field) throws JSONException {
+    protected SimpleEntry<@RUntainted String, Object> renderField(Field field) throws JSONException {
 
-        String name = field.getName();
+        @RUntainted String name = field.getName();
         if (field.isMultivalue()) {
             // If field is *potentially* multivalue,
             // we always generate a JSON array for the sake of consistency,

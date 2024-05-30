@@ -59,6 +59,7 @@ import org.apache.solr.client.solrj.response.SpellCheckResponse.Suggestion;
 import org.apache.solr.common.params.ModifiableSolrParams;
 import org.apache.solr.core.CoreContainer;
 import org.apache.solr.core.SolrCore;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * CmsSolrSpellchecker is used to perform spellchecking in OpenCms by using Solr. The JSON-formatted result of the
@@ -116,7 +117,7 @@ public final class CmsSolrSpellchecker {
     private CoreContainer m_coreContainer;
 
     /** The SolrClient object. */
-    private SolrClient m_solrClient;
+    private @RUntainted SolrClient m_solrClient;
 
     /**
      * Private constructor due to usage of the Singleton pattern.
@@ -209,7 +210,7 @@ public final class CmsSolrSpellchecker {
 
         if ((null != cmsSpellcheckingRequest) && cmsSpellcheckingRequest.isInitialized()) {
             // Perform the actual spellchecking
-            final SpellCheckResponse spellCheckResponse = performSpellcheckQuery(cmsSpellcheckingRequest);
+            final @RUntainted SpellCheckResponse spellCheckResponse = performSpellcheckQuery(cmsSpellcheckingRequest);
 
             /*
              * The field spellCheckResponse is null when exactly one correctly spelled word is passed to the spellchecker.
@@ -247,17 +248,17 @@ public final class CmsSolrSpellchecker {
      * @param response The SpellCheckResponse object containing the spellcheck results.
      * @return The spellcheck suggestions as JSON object or null if something goes wrong.
      */
-    private JSONObject getConvertedResponseAsJson(SpellCheckResponse response) {
+    private JSONObject getConvertedResponseAsJson(@RUntainted SpellCheckResponse response) {
 
         if (null == response) {
             return null;
         }
 
         final JSONObject suggestions = new JSONObject();
-        final Map<String, Suggestion> solrSuggestions = response.getSuggestionMap();
+        final Map<@RUntainted String, Suggestion> solrSuggestions = response.getSuggestionMap();
 
         // Add suggestions to the response
-        for (final String key : solrSuggestions.keySet()) {
+        for (final @RUntainted String key : solrSuggestions.keySet()) {
 
             // Indicator to ignore words that are erroneously marked as misspelled.
             boolean ignoreWord = false;
@@ -448,7 +449,7 @@ public final class CmsSolrSpellchecker {
      *
      * @return Results of the Solr spell check of type SpellCheckResponse or null if something goes wrong.
      */
-    private SpellCheckResponse performSpellcheckQuery(CmsSpellcheckingRequest request) {
+    private @RUntainted SpellCheckResponse performSpellcheckQuery(CmsSpellcheckingRequest request) {
 
         if ((null == request) || !request.isInitialized()) {
             return null;
@@ -474,7 +475,7 @@ public final class CmsSolrSpellchecker {
         query.add(params);
 
         try {
-            QueryResponse qres = m_solrClient.query(query);
+            @RUntainted QueryResponse qres = m_solrClient.query(query);
             return qres.getSpellCheckResponse();
         } catch (Exception e) {
             LOG.debug("Exception while performing spellcheck query...", e);

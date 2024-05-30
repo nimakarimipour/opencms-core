@@ -41,6 +41,7 @@ import org.opencms.xml.types.I_CmsXmlContentValue;
 
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for writing detail page information to an XML configuration file.<p>
@@ -131,7 +132,7 @@ public class CmsDetailPageConfigurationWriter {
     private Locale getLocale() throws CmsException {
 
         getDocument();
-        List<Locale> locales = m_document.getLocales();
+        List<@RUntainted Locale> locales = m_document.getLocales();
         if (locales.contains(Locale.ENGLISH) || locales.isEmpty()) {
             return Locale.ENGLISH;
         }

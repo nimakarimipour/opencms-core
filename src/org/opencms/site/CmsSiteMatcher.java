@@ -34,6 +34,7 @@ import java.io.Serializable;
 import java.net.URI;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A matcher object to compare request data against the configured sites.<p>
@@ -114,7 +115,7 @@ public final class CmsSiteMatcher implements Cloneable, Serializable {
     private String m_serverProtocol;
 
     /** The time offset. */
-    private long m_timeOffset;
+    private @RUntainted long m_timeOffset;
 
     /**Redirect (only for aliase). */
     private RedirectMode m_redirect = RedirectMode.none;
@@ -141,7 +142,7 @@ public final class CmsSiteMatcher implements Cloneable, Serializable {
      * @param serverString the String, e.g. http://localhost:8080
      * @param timeOffset the time offset
      */
-    public CmsSiteMatcher(String serverString, long timeOffset) {
+    public CmsSiteMatcher(String serverString, @RUntainted long timeOffset) {
 
         if (serverString == null) {
             init(WILDCARD, WILDCARD, 0, timeOffset);
@@ -230,7 +231,7 @@ public final class CmsSiteMatcher implements Cloneable, Serializable {
      * @param serverPort the port required to access this site
      * @param timeOffset the time offset
      */
-    public CmsSiteMatcher(String serverProtocol, String serverName, int serverPort, long timeOffset) {
+    public CmsSiteMatcher(String serverProtocol, String serverName, int serverPort, @RUntainted long timeOffset) {
 
         init(serverProtocol, serverName, serverPort, timeOffset);
     }
@@ -338,7 +339,7 @@ public final class CmsSiteMatcher implements Cloneable, Serializable {
      *
      * @return the time Offset
      */
-    public long getTimeOffset() {
+    public @RUntainted long getTimeOffset() {
 
         return m_timeOffset;
     }
@@ -466,7 +467,7 @@ public final class CmsSiteMatcher implements Cloneable, Serializable {
      *
      * @param timeOffset the time Offset to set
      */
-    protected void setTimeOffset(long timeOffset) {
+    protected void setTimeOffset(@RUntainted long timeOffset) {
 
         m_timeOffset = timeOffset * 1000L;
     }
@@ -479,7 +480,7 @@ public final class CmsSiteMatcher implements Cloneable, Serializable {
      * @param serverPort the port required to access this site
      * @param timeOffset the time offset
      */
-    private void init(String serverProtocol, String serverName, int serverPort, long timeOffset) {
+    private void init(String serverProtocol, String serverName, int serverPort, @RUntainted long timeOffset) {
 
         setServerProtocol(serverProtocol);
         setServerName(serverName);

@@ -35,6 +35,7 @@ import java.io.File;
 import org.apache.commons.logging.Log;
 
 import org.alfresco.jlan.app.JLANServer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A simple class used to start and stop JLAN.<p>
@@ -91,7 +92,7 @@ public class CmsJlanThreadManager {
      */
     public synchronized void start() {
 
-        String path = OpenCms.getSystemInfo().getAbsoluteRfsPathRelativeToWebInf("config/jlanConfig.xml");
+        @RUntainted String path = OpenCms.getSystemInfo().getAbsoluteRfsPathRelativeToWebInf("config/jlanConfig.xml");
         File configFile = new File(path);
         if (configFile.exists()) {
 

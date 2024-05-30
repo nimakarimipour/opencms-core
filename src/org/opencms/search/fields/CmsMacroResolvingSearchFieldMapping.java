@@ -43,6 +43,7 @@ import org.opencms.xml.content.CmsXmlContentFactory;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Adopted version of the default {@link org.opencms.search.fields.CmsSearchFieldMapping}

@@ -41,6 +41,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource init handler that loads a resource given its permalink.<p>
@@ -141,7 +142,7 @@ public class CmsPermalinkResourceHandler implements I_CmsResourceInit {
                         CmsResource pageResource = cms.readResource(pageId);
                         if (res != null) {
                             CmsResource detailResource = cms.readResource(detailId);
-                            String detailName = cms.getDetailName(
+                            @RUntainted String detailName = cms.getDetailName(
                                 detailResource,
                                 cms.getRequestContext().getLocale(), // the locale in the request context should be the locale of the container page
                                 OpenCms.getLocaleManager().getDefaultLocales());
@@ -152,7 +153,7 @@ public class CmsPermalinkResourceHandler implements I_CmsResourceInit {
                                 parentFolder = pageResource;
                             }
                             String baseLink = OpenCms.getLinkManager().substituteLink(cms, parentFolder);
-                            String redirectLink = baseLink + (baseLink.endsWith("/") ? "" : "/") + detailName;
+                            @RUntainted String redirectLink = baseLink + (baseLink.endsWith("/") ? "" : "/") + detailName;
                             CmsResourceInitException resInitException = new CmsResourceInitException(getClass());
 
                             resInitException.setClearErrors(true);

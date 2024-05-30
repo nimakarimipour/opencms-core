@@ -46,6 +46,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Parser class for parsing inheritance container references.<p>
@@ -110,7 +111,7 @@ public class CmsInheritanceReferenceParser {
      */
     protected void parse(CmsXmlContent content) {
 
-        List<Locale> availableLocales = content.getLocales();
+        List<@RUntainted Locale> availableLocales = content.getLocales();
         for (Locale locale : availableLocales) {
             CmsXmlContentRootLocation location = new CmsXmlContentRootLocation(content, locale);
             CmsInheritanceReference ref = parseReference(location, locale);

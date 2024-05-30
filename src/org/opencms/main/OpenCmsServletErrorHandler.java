@@ -39,6 +39,7 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This the error handler servlet of the OpenCms system.<p>
@@ -69,7 +70,7 @@ public class OpenCmsServletErrorHandler extends OpenCmsServlet {
      * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+    public void doGet(@RUntainted HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
 
         // check the error status
         Integer errorStatus = (Integer)req.getAttribute(CmsJspStatusBean.ERROR_STATUS_CODE);

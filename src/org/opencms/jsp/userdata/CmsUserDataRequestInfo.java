@@ -33,6 +33,7 @@ import org.opencms.main.CmsLog;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The stored information about a user data request.
@@ -143,7 +144,7 @@ public class CmsUserDataRequestInfo {
      *
      * @return the id
      */
-    public String getId() {
+    public @RUntainted String getId() {
 
         return m_json.optString(A_ID);
     }
@@ -273,7 +274,7 @@ public class CmsUserDataRequestInfo {
      *
      * @return the JSON text
      */
-    public String toJson() {
+    public @RUntainted String toJson() {
 
         return m_json.toString();
     }
@@ -293,7 +294,7 @@ public class CmsUserDataRequestInfo {
      * @param key the attribute name
      * @param value the value
      */
-    private void setString(String key, String value) {
+    private void setString(@RUntainted String key, String value) {
 
         try {
             m_json.put(key, value);

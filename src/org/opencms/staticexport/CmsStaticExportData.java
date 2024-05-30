@@ -28,6 +28,7 @@
 package org.opencms.staticexport;
 
 import org.opencms.file.CmsResource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a data structure for the result of an export request.<p>
@@ -92,7 +93,7 @@ public class CmsStaticExportData {
      *
      * @return the rfs name of the resource to export
      */
-    public String getRfsName() {
+    public @RUntainted String getRfsName() {
 
         return m_rfsName;
     }

@@ -57,6 +57,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 
 import com.google.common.io.BaseEncoding;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This is the session class to work with the {@link CmsRepository}.<p>
@@ -465,7 +466,7 @@ public class CmsRepositorySession extends A_CmsRepositorySession {
     public void save(String path, InputStream inputStream, boolean overwrite) throws CmsException, IOException {
 
         path = validatePath(path);
-        byte[] content = CmsFileUtil.readFully(inputStream);
+        @RUntainted byte[] content = CmsFileUtil.readFully(inputStream);
 
         try {
             CmsFile file = m_cms.readFile(path, CmsResourceFilter.DEFAULT);

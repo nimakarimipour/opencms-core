@@ -43,6 +43,7 @@ import java.util.Map;
 import java.util.RandomAccess;
 
 import org.apache.commons.collections.Transformer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents a property (meta-information) mapped to a VFS resource.<p>
@@ -211,7 +212,7 @@ public class CmsProperty implements Serializable, Cloneable, Comparable<CmsPrope
     private boolean m_frozen;
 
     /** The name of this property. */
-    private String m_name;
+    private @RUntainted String m_name;
 
     /** The origin root path of the property. */
     private String m_origin;
@@ -272,7 +273,7 @@ public class CmsProperty implements Serializable, Cloneable, Comparable<CmsPrope
      * @param autoCreatePropertyDefinition if <code>true</code>, the property definition for this property will be
      *      created implicitly on any write operation if it doesn't exist already
      */
-    public CmsProperty(String name, String structureValue, String resourceValue, boolean autoCreatePropertyDefinition) {
+    public CmsProperty(@RUntainted String name, String structureValue, String resourceValue, boolean autoCreatePropertyDefinition) {
 
         m_name = name.trim();
         m_structureValue = structureValue;
@@ -650,7 +651,7 @@ public class CmsProperty implements Serializable, Cloneable, Comparable<CmsPrope
      *
      * @return the name of this property
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_name;
     }
@@ -773,7 +774,7 @@ public class CmsProperty implements Serializable, Cloneable, Comparable<CmsPrope
      *
      * @return the compound value of this property
      */
-    public String getValue() {
+    public @RUntainted String getValue() {
 
         return (m_structureValue != null) ? m_structureValue : m_resourceValue;
     }
@@ -1019,7 +1020,7 @@ public class CmsProperty implements Serializable, Cloneable, Comparable<CmsPrope
      *
      * @param name the name to set
      */
-    public void setName(String name) {
+    public void setName(@RUntainted String name) {
 
         checkFrozen();
         m_name = name.trim();

@@ -38,6 +38,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.logging.Log;
 
 import com.google.common.base.Optional;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Message key fallback handler used to enable reuse of localization keys for editor labels.<p>

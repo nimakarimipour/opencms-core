@@ -62,6 +62,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation for the <code>{@link I_CmsStaticExportHandler}</code> interface.<p>
@@ -249,7 +250,7 @@ public class CmsAfterPublishStaticExportHandler extends A_CmsStaticExportHandler
 
         // first check if the test resource was published already
         // if not, we must do a complete export of all static resources
-        String rfsName = CmsFileUtil.normalizePath(
+        @RUntainted String rfsName = CmsFileUtil.normalizePath(
             OpenCms.getStaticExportManager().getExportPath(OpenCms.getStaticExportManager().getTestResource())
                 + OpenCms.getStaticExportManager().getTestResource());
 
@@ -520,10 +521,10 @@ public class CmsAfterPublishStaticExportHandler extends A_CmsStaticExportHandler
     protected int exportTemplateResource(CmsStaticExportData data, StringBuffer cookies) throws IOException {
 
         String vfsName = data.getVfsName();
-        String rfsName = data.getRfsName();
+        @RUntainted String rfsName = data.getRfsName();
         CmsStaticExportManager manager = OpenCms.getStaticExportManager();
 
-        String exportUrlStr;
+        @RUntainted String exportUrlStr;
         if (rfsName.contains(manager.getRfsPrefix(vfsName))) {
             LOG.info("rfsName " + rfsName + " contains rfsPrefix " + manager.getRfsPrefix(vfsName));
             exportUrlStr = manager.getExportUrl() + rfsName;
@@ -554,7 +555,7 @@ public class CmsAfterPublishStaticExportHandler extends A_CmsStaticExportHandler
         }
 
         // get the last modified date and add it to the request
-        String exportFileName = CmsFileUtil.normalizePath(manager.getExportPath(vfsName) + rfsName);
+        @RUntainted String exportFileName = CmsFileUtil.normalizePath(manager.getExportPath(vfsName) + rfsName);
         File exportFile = new File(exportFileName);
         long dateLastModified = exportFile.lastModified();
         // system folder case
@@ -724,7 +725,7 @@ public class CmsAfterPublishStaticExportHandler extends A_CmsStaticExportHandler
      * @see org.opencms.staticexport.A_CmsStaticExportHandler#getRelatedFilesToPurge(java.lang.String, java.lang.String)
      */
     @Override
-    protected List<File> getRelatedFilesToPurge(String exportFileName, String vfsName) {
+    protected List<@RUntainted File> getRelatedFilesToPurge(String exportFileName, String vfsName) {
 
         return Collections.emptyList();
     }

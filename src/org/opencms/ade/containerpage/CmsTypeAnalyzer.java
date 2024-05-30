@@ -73,6 +73,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Analyzes content type and formatter usage in a site / folder.
@@ -797,7 +798,7 @@ public class CmsTypeAnalyzer {
                 try {
                     element.initResource(m_cms);
                     checkFunction(pageResource, element);
-                    Map<String, String> settings = element.getIndividualSettings();
+                    Map<@RUntainted String, String> settings = element.getIndividualSettings();
                     String formatterRef = settings.get(CmsFormatterConfig.FORMATTER_SETTINGS_KEY + container.getName());
                     if (formatterRef == null) {
                         for (String key : settings.keySet()) {

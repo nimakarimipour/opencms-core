@@ -54,6 +54,7 @@
 package org.opencms.json;
 
 import java.util.Iterator;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This provides static methods to convert an XML text into a JSONObject,
@@ -292,10 +293,10 @@ public final class XML {
 
         char c;
         int i;
-        String n;
+        @RUntainted String n;
         JSONObject o = null;
-        String s;
-        Object t;
+        @RUntainted String s;
+        @RUntainted Object t;
 
         // Test for and skip past these forms:
         //      <!-- ... -->

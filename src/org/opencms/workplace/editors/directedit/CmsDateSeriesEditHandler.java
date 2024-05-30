@@ -60,6 +60,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Special edit handler for contents that define multiple instances in a date series. */
 public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
@@ -410,7 +411,7 @@ public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
         private void setInstanceDate() {
 
             String sl = null;
-            Map<String, String> settings = m_elementBean.getSettings();
+            Map<@RUntainted String, String> settings = m_elementBean.getSettings();
             if (settings.containsKey(PARAM_INSTANCEDATE)) {
                 sl = settings.get(PARAM_INSTANCEDATE);
             } else if (m_requestParameters.containsKey(PARAM_INSTANCEDATE)) {

@@ -61,6 +61,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles /json requests.
@@ -274,7 +275,7 @@ public class CmsJsonResourceHandler implements I_CmsResourceInit, I_CmsNeedsAdmi
         }
 
         int status = HttpServletResponse.SC_OK;
-        String output = "";
+        @RUntainted String output = "";
         CmsJsonAccessPolicy accessPolicy = null;
         try {
             if (cms == null) {

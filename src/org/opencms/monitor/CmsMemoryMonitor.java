@@ -94,6 +94,7 @@ import org.apache.commons.logging.Log;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Monitors OpenCms memory consumption.<p>
@@ -1497,7 +1498,7 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
      *
      * @return the locale cached with the given cache key
      */
-    public Locale getCachedLocale(String key) {
+    public @RUntainted Locale getCachedLocale(String key) {
 
         if (m_cacheLocale == null) {
             // this may be accessed before initialization

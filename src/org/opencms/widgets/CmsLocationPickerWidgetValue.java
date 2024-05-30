@@ -37,6 +37,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.util.CmsStringUtil;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A value of the google map widget.<p>

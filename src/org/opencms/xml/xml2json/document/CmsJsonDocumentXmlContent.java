@@ -57,6 +57,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class representing a JSON document for an XML content.
@@ -293,7 +294,7 @@ public class CmsJsonDocumentXmlContent extends CmsJsonDocumentResource {
             m_renderer = new CmsJsonRendererXmlContent();
         } else {
             m_renderer = (I_CmsJsonRendererXmlContent)Class.forName(settings.getClassName()).newInstance();
-            for (Map.Entry<String, String> entry : settings.getParameters().entrySet()) {
+            for (Map.Entry<String, @RUntainted String> entry : settings.getParameters().entrySet()) {
                 m_renderer.addConfigurationParameter(entry.getKey(), entry.getValue());
             }
             m_renderer.initConfiguration();
@@ -354,7 +355,7 @@ public class CmsJsonDocumentXmlContent extends CmsJsonDocumentResource {
         if (localeExists) {
             jsonObject = (JSONObject)m_renderer.render(m_xmlContent, selectedLocale);
         } else if (isShowFallbackLocaleRequest()) {
-            List<Locale> localeList = m_xmlContent.getLocales();
+            List<@RUntainted Locale> localeList = m_xmlContent.getLocales();
             if (!localeList.isEmpty()) {
                 jsonObject = (JSONObject)m_renderer.render(m_xmlContent, localeList.get(0));
                 m_json.put("localeFallback", localeList.get(0).toString());

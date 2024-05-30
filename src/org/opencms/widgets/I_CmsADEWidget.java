@@ -35,6 +35,7 @@ import org.opencms.xml.types.A_CmsXmlContentValue;
 
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Widgets to be used with the new XML content editor are required to implement this interface.<p>

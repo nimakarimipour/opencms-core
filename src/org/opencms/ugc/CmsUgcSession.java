@@ -67,6 +67,7 @@ import org.apache.commons.logging.Log;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A form editing session is required to create and edit contents from the web front-end.<p>
@@ -379,7 +380,7 @@ public class CmsUgcSession implements I_CmsSessionDestroyHandler {
      *
      * @return the session id
      */
-    public CmsUUID getId() {
+    public @RUntainted CmsUUID getId() {
 
         return getProject().getUuid();
     }

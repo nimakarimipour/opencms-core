@@ -35,6 +35,7 @@ import java.util.Map;
 
 import com.google.common.base.Function;
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A client-side bean for representing an OpenCms property.<p>

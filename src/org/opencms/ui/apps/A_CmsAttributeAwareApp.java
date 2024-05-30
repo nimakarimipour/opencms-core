@@ -34,6 +34,7 @@ import com.google.common.collect.Maps;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
 import com.vaadin.v7.ui.Label;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * An abstract subclass of A_CmsWorkplaceApp which provides an additional way for the main component of an app

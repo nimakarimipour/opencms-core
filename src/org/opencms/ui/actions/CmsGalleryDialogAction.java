@@ -40,6 +40,7 @@ import org.opencms.workplace.explorer.Messages;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The gallery dialog action.<p>

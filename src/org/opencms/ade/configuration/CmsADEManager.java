@@ -117,6 +117,7 @@ import org.apache.commons.logging.Log;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This is the main class used to access the ADE configuration and also accomplish some other related tasks
@@ -1530,7 +1531,7 @@ public class CmsADEManager {
                 data.put(FavListProp.FORMATTER.name().toLowerCase(), element.getFormatterId().toString());
             }
             JSONObject properties = new JSONObject();
-            for (Map.Entry<String, String> entry : element.getIndividualSettings().entrySet()) {
+            for (Map.Entry<@RUntainted String, String> entry : element.getIndividualSettings().entrySet()) {
                 String settingKey = entry.getKey();
                 if (!excludeSettings.contains(settingKey)) {
                     properties.put(entry.getKey(), entry.getValue());

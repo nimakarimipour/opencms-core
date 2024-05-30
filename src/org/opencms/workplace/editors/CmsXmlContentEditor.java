@@ -82,6 +82,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Creates the editor for XML content definitions.<p>
@@ -363,7 +364,7 @@ public class CmsXmlContentEditor extends CmsEditor implements I_CmsWidgetDialog 
             m_content.removeLocale(loc);
             //write the modified xml content
             writeContent();
-            List<Locale> locales = m_content.getLocales();
+            List<@RUntainted Locale> locales = m_content.getLocales();
             if (locales.size() > 0) {
                 // set first locale as new display locale
                 Locale newLoc = locales.get(0);

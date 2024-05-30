@@ -136,6 +136,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Multimap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Allows convenient access to the most important OpenCms functions on a JSP page,
@@ -224,7 +225,7 @@ public final class CmsJspStandardContextBean {
          * @see org.opencms.xml.containerpage.CmsContainerElementBean#getIndividualSettings()
          */
         @Override
-        public Map<String, String> getIndividualSettings() {
+        public Map<@RUntainted String, String> getIndividualSettings() {
 
             return m_wrappedElement.getIndividualSettings();
         }
@@ -309,7 +310,7 @@ public final class CmsJspStandardContextBean {
          * @see org.opencms.xml.containerpage.CmsContainerElementBean#getSettings()
          */
         @Override
-        public Map<String, String> getSettings() {
+        public Map<@RUntainted String, String> getSettings() {
 
             return m_wrappedElement.getSettings();
         }
@@ -2839,7 +2840,7 @@ public final class CmsJspStandardContextBean {
         }
         if (container != null) {
             String containerName = container.getName();
-            Map<String, String> settings = element.getSettings();
+            Map<@RUntainted String, String> settings = element.getSettings();
             if (settings != null) {
                 String formatterConfigId = settings.get(CmsFormatterConfig.getSettingsKeyForContainer(containerName));
                 I_CmsFormatterBean dynamicFmt = m_config.findFormatter(formatterConfigId);

@@ -35,6 +35,7 @@ import org.opencms.util.CmsMacroResolver;
 
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Menu item which acts only as a container for nested menu items.<p>

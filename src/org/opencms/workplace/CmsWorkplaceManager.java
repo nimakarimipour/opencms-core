@@ -119,6 +119,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manages the global OpenCms workplace settings for all users.<p>
@@ -573,7 +574,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
      * @param uri the export point uri
      * @param destination the export point destination
      */
-    public void addExportPoint(String uri, String destination) {
+    public void addExportPoint(String uri, @RUntainted String destination) {
 
         CmsExportPoint point = new CmsExportPoint(uri, destination);
         m_exportPoints.add(point);
@@ -1591,7 +1592,7 @@ public final class CmsWorkplaceManager implements I_CmsLocaleHandler, I_CmsEvent
      *
      * @return the workplace locale
      */
-    public Locale getWorkplaceLocale(CmsObject cms) {
+    public @RUntainted Locale getWorkplaceLocale(CmsObject cms) {
 
         return getWorkplaceLocale(cms.getRequestContext());
     }

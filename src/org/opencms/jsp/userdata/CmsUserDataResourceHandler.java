@@ -40,6 +40,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Impelemnts user data download links for the user data request feature.<p>
@@ -96,11 +97,11 @@ public class CmsUserDataResourceHandler implements I_CmsResourceInit {
             return null;
         }
 
-        String uri = cms.getRequestContext().getUri();
+        @RUntainted String uri = cms.getRequestContext().getUri();
         if (!uri.startsWith(PREFIX)) {
             return null;
         }
-        String infoStr = uri.substring(PREFIX.length());
+        @RUntainted String infoStr = uri.substring(PREFIX.length());
         String key = CmsFileUtil.removeTrailingSeparator(infoStr);
         if (key.indexOf("/") >= 0) {
             return null;
