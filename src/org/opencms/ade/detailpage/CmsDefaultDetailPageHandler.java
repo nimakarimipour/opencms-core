@@ -48,6 +48,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class uses information from the detail page information stored in the sitemap to find/recognize the detail pages for
@@ -180,7 +181,7 @@ public class CmsDefaultDetailPageHandler implements I_CmsDetailPageHandler {
      * @param paramValue the param value
      * @see org.opencms.configuration.I_CmsConfigurationParameterHandler#addConfigurationParameter(java.lang.String, java.lang.String)
      */
-    public void addConfigurationParameter(String paramName, String paramValue) {
+    public void addConfigurationParameter(String paramName, @RUntainted String paramValue) {
 
         m_config.add(paramName, paramValue);
 
@@ -195,7 +196,7 @@ public class CmsDefaultDetailPageHandler implements I_CmsDetailPageHandler {
      * @throws CmsException the cms exception
      * @see org.opencms.ade.detailpage.I_CmsDetailPageHandler#getAllDetailPages(org.opencms.file.CmsObject, int)
      */
-    public Collection<String> getAllDetailPages(CmsObject cms, int resType) throws CmsException {
+    public Collection<@RUntainted String> getAllDetailPages(CmsObject cms, int resType) throws CmsException {
 
         if (!OpenCms.getADEManager().isInitialized()) {
             return new ArrayList<String>();

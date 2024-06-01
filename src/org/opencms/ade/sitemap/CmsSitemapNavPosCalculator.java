@@ -38,6 +38,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for recalculating navigation positions when a user has changed the order of navigation entries in the sitemap

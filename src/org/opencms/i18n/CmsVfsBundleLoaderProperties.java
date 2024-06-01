@@ -44,6 +44,7 @@ import java.util.Properties;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Loads message bundles from .properties files in the VFS.<p>
@@ -58,7 +59,7 @@ public class CmsVfsBundleLoaderProperties implements CmsVfsResourceBundle.I_Load
     /**
      * @see org.opencms.i18n.CmsVfsResourceBundle.I_Loader#loadData(org.opencms.file.CmsObject, org.opencms.i18n.CmsVfsBundleParameters)
      */
-    public Map<Locale, Map<String, String>> loadData(CmsObject cms, CmsVfsBundleParameters params) throws Exception {
+    public Map<@RUntainted Locale, Map<String, String>> loadData(CmsObject cms, CmsVfsBundleParameters params) throws Exception {
 
         CmsFile file = cms.readFile(params.getBasePath());
         String encoding = getEncoding(cms, file);
@@ -69,7 +70,7 @@ public class CmsVfsBundleLoaderProperties implements CmsVfsResourceBundle.I_Load
         for (Map.Entry<Object, Object> entry : props.entrySet()) {
             messages.put((String)entry.getKey(), (String)entry.getValue());
         }
-        Map<Locale, Map<String, String>> result = Maps.newHashMap();
+        Map<@RUntainted Locale, Map<String, String>> result = Maps.newHashMap();
         result.put(params.getLocale(), messages);
         return result;
     }

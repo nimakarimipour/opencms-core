@@ -29,6 +29,7 @@ package org.opencms.ade.containerpage.shared;
 
 import java.io.Serializable;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Option dialog data.<p>

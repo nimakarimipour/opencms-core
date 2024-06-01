@@ -69,6 +69,7 @@ import java.util.Set;
 import javax.servlet.jsp.JspException;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This tag is used to easily create a search form for a Solr search within a JSP.
@@ -110,7 +111,7 @@ public class CmsJspTagSearch extends CmsJspScopedVarBodyTagSuport implements I_C
     private Integer m_addContentInfoForEntries;
 
     /** The "configFile" tag attribute. */
-    private Object m_configFile;
+    private @RUntainted Object m_configFile;
 
     /** The "configString" tag attribute. */
     private String m_configString;
@@ -157,7 +158,7 @@ public class CmsJspTagSearch extends CmsJspScopedVarBodyTagSuport implements I_C
                 CmsPublishListHelper.adjustCmsObject(cms, false),
                 new CmsSolrQuery(null, searchParams),
                 true);
-            Set<String> offlineIds = new HashSet<String>(offlineResults.size());
+            Set<@RUntainted String> offlineIds = new HashSet<@RUntainted String>(offlineResults.size());
             for (CmsSearchResource offlineResult : offlineResults) {
                 offlineIds.add(offlineResult.getField(CmsSearchField.FIELD_ID));
             }
@@ -171,7 +172,7 @@ public class CmsJspTagSearch extends CmsJspScopedVarBodyTagSuport implements I_C
                 CmsPublishListHelper.adjustCmsObject(cms, true),
                 new CmsSolrQuery(null, searchParams),
                 true);
-            Set<String> deletedIds = new HashSet<String>(onlineResults.size());
+            Set<@RUntainted String> deletedIds = new HashSet<@RUntainted String>(onlineResults.size());
             for (CmsSearchResource onlineResult : onlineResults) {
                 String uuid = onlineResult.getField(CmsSearchField.FIELD_ID);
                 if (!offlineIds.contains(uuid)) {
@@ -273,7 +274,7 @@ public class CmsJspTagSearch extends CmsJspScopedVarBodyTagSuport implements I_C
     /** Setter for the configuration file.
      * @param fileName Name of the configuration file to use for the search.
      */
-    public void setConfigFile(Object fileName) {
+    public void setConfigFile(@RUntainted Object fileName) {
 
         m_configFile = fileName;
     }

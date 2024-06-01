@@ -32,6 +32,7 @@ import org.opencms.main.CmsShell;
 
 import java.io.PrintStream;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Report class used for the shell.<p>

@@ -43,6 +43,7 @@ import org.apache.lucene.index.LeafReaderContext;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.ScoreMode;
 import org.apache.lucene.search.SimpleCollector;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Collects category information during a search process.<p>
@@ -102,7 +103,7 @@ public class CmsSearchCategoryCollector extends SimpleCollector {
     private Map<String, CmsCategroyCount> m_categories;
 
     /** The index of the document reader. */
-    private int m_docBase;
+    private @RUntainted int m_docBase;
 
     /** The index searcher used. */
     private IndexSearcher m_searcher;
@@ -147,7 +148,7 @@ public class CmsSearchCategoryCollector extends SimpleCollector {
      * @see org.apache.lucene.search.SimpleCollector#collect(int)
      */
     @Override
-    public void collect(int id) {
+    public void collect(@RUntainted int id) {
 
         String category = null;
         int rebasedId = m_docBase + id;

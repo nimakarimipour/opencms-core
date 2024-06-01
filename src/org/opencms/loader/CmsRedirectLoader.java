@@ -45,6 +45,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Loader for HTML redirects.<p>
@@ -58,7 +59,7 @@ public class CmsRedirectLoader implements I_CmsResourceLoader, I_CmsFlexCacheEna
     private static final CmsParameterConfiguration CONFIG = new CmsParameterConfiguration();
 
     /** The CmsFlexCache used to store generated cache entries in. */
-    private CmsFlexCache m_cache;
+    private @RUntainted CmsFlexCache m_cache;
 
     /**
      * @see org.opencms.configuration.I_CmsConfigurationParameterHandler#addConfigurationParameter(java.lang.String, java.lang.String)
@@ -81,7 +82,7 @@ public class CmsRedirectLoader implements I_CmsResourceLoader, I_CmsFlexCacheEna
      */
     public byte[] dump(
         CmsObject cms,
-        CmsResource resource,
+        @RUntainted CmsResource resource,
         String element,
         Locale locale,
         HttpServletRequest req,
@@ -93,7 +94,7 @@ public class CmsRedirectLoader implements I_CmsResourceLoader, I_CmsFlexCacheEna
     /**
      * @see org.opencms.loader.I_CmsResourceLoader#export(org.opencms.file.CmsObject, org.opencms.file.CmsResource, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-    public byte[] export(CmsObject cms, CmsResource resource, HttpServletRequest req, HttpServletResponse res) {
+    public @RUntainted byte[] export(CmsObject cms, CmsResource resource, HttpServletRequest req, HttpServletResponse res) {
 
         throw new CmsRuntimeException(
             Messages.get().container(Messages.ERR_EXPORT_UNSUPPORTED_1, getClass().getName()));
@@ -169,7 +170,7 @@ public class CmsRedirectLoader implements I_CmsResourceLoader, I_CmsFlexCacheEna
     /**
      * @see org.opencms.loader.I_CmsResourceLoader#load(org.opencms.file.CmsObject, org.opencms.file.CmsResource, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-    public void load(CmsObject cms, CmsResource resource, HttpServletRequest req, HttpServletResponse res)
+    public void load(@RUntainted CmsObject cms, @RUntainted CmsResource resource, @RUntainted HttpServletRequest req, @RUntainted HttpServletResponse res)
     throws CmsException {
 
         getController(cms, resource, req, res, false, true);
@@ -189,7 +190,7 @@ public class CmsRedirectLoader implements I_CmsResourceLoader, I_CmsFlexCacheEna
     /**
      * @see org.opencms.loader.I_CmsFlexCacheEnabledLoader#setFlexCache(org.opencms.flex.CmsFlexCache)
      */
-    public void setFlexCache(CmsFlexCache cache) {
+    public void setFlexCache(@RUntainted CmsFlexCache cache) {
 
         m_cache = cache;
     }
@@ -207,12 +208,12 @@ public class CmsRedirectLoader implements I_CmsResourceLoader, I_CmsFlexCacheEna
      * @return a Flex controller
      */
     protected CmsFlexController getController(
-        CmsObject cms,
-        CmsResource resource,
-        HttpServletRequest req,
-        HttpServletResponse res,
-        boolean streaming,
-        boolean top) {
+        @RUntainted CmsObject cms,
+        @RUntainted CmsResource resource,
+        @RUntainted HttpServletRequest req,
+        @RUntainted HttpServletResponse res,
+        @RUntainted boolean streaming,
+        @RUntainted boolean top) {
 
         CmsFlexController controller = null;
         if (top) {

@@ -54,6 +54,7 @@ import com.vaadin.v7.data.util.ObjectProperty;
 import com.vaadin.v7.data.util.PropertysetItem;
 import com.vaadin.v7.data.validator.AbstractStringValidator;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Form Layout for user data.<p>
@@ -132,7 +133,7 @@ public class CmsUserDataFormLayout extends FormLayout {
     private EditLevel m_editLevel;
 
     /** The property item. */
-    private PropertysetItem m_infos;
+    private @RUntainted PropertysetItem m_infos;
 
     /**
      * empty constructor.<p>

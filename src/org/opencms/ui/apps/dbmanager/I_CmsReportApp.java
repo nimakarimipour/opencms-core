@@ -28,6 +28,7 @@
 package org.opencms.ui.apps.dbmanager;
 
 import org.opencms.report.A_CmsReportThread;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface for Apps, which run an import thread for files.<p>

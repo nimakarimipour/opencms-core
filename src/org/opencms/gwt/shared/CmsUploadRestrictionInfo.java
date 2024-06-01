@@ -40,6 +40,7 @@ import java.util.Set;
 
 import com.google.common.base.Joiner;
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains information about which folders should restrict uploads.

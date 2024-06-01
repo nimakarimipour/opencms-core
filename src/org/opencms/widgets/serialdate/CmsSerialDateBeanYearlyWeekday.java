@@ -36,6 +36,7 @@ import org.opencms.acacia.shared.I_CmsSerialDateValue.WeekOfMonth;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.SortedSet;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of @{link org.opencms.widgets.serialdate.I_CmsSerialDateBean}
@@ -71,7 +72,7 @@ public class CmsSerialDateBeanYearlyWeekday extends A_CmsSerialDateBean {
         EndType endType,
         Date serialEndDate,
         int occurrences,
-        SortedSet<Date> exceptions,
+        SortedSet<@RUntainted Date> exceptions,
         WeekOfMonth weekOfMonth,
         Month month,
         WeekDay weekDay) {

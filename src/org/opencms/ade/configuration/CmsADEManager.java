@@ -117,6 +117,7 @@ import org.apache.commons.logging.Log;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This is the main class used to access the ADE configuration and also accomplish some other related tasks
@@ -403,7 +404,7 @@ public class CmsADEManager {
      * Returns the names of the bundles configured as workplace bundles in any module configuration.
      * @return the names of the bundles configured as workplace bundles in any module configuration.
      */
-    public Set<String> getConfiguredWorkplaceBundles() {
+    public Set<@RUntainted String> getConfiguredWorkplaceBundles() {
 
         CmsADEConfigData configData = internalLookupConfiguration(null, null);
         return configData.getConfiguredWorkplaceBundles();
@@ -431,7 +432,7 @@ public class CmsADEManager {
      *
      * @throws CmsException if no current element is set
      */
-    public CmsContainerElementBean getCurrentElement(ServletRequest req) throws CmsException {
+    public CmsContainerElementBean getCurrentElement(@RUntainted ServletRequest req) throws CmsException {
 
         CmsJspStandardContextBean sCBean = CmsJspStandardContextBean.getInstance(req);
         CmsContainerElementBean element = sCBean.getElement();
@@ -514,7 +515,7 @@ public class CmsADEManager {
      * @param type the resource type name
      * @return a list of detail page root paths
      */
-    public List<String> getDetailPages(CmsObject cms, String type) {
+    public List<@RUntainted String> getDetailPages(CmsObject cms, String type) {
 
         CmsConfigurationCache cache = isOnline(cms) ? m_onlineCache : m_offlineCache;
         return cache.getState().getDetailPages(type);
@@ -1023,7 +1024,7 @@ public class CmsADEManager {
      *
      * @return the subsite root
      */
-    public String getSubSiteRoot(CmsObject cms, String rootPath) {
+    public @RUntainted String getSubSiteRoot(CmsObject cms, String rootPath) {
 
         CmsADEConfigData configData = lookupConfiguration(cms, rootPath);
         String basePath = configData.getBasePath();
@@ -1046,7 +1047,7 @@ public class CmsADEManager {
      *
      * @return the subsites to be displayed in the site selector
      */
-    public List<String> getSubsitesForSiteSelector(boolean online) {
+    public List<@RUntainted String> getSubsitesForSiteSelector(boolean online) {
 
         return getCacheState(online).getSubsitesForSiteSelector();
 
@@ -1446,7 +1447,7 @@ public class CmsADEManager {
      * @param showHelp the show help flag
      * @throws CmsException if writing the user info fails
      */
-    public void setShowEditorHelp(CmsObject cms, boolean showHelp) throws CmsException {
+    public void setShowEditorHelp(CmsObject cms, @RUntainted boolean showHelp) throws CmsException {
 
         CmsUser user = cms.getRequestContext().getCurrentUser();
         user.setAdditionalInfo(ADDINFO_ADE_SHOW_EDITOR_HELP, String.valueOf(showHelp));
@@ -1500,10 +1501,10 @@ public class CmsADEManager {
         if (data.has(FavListProp.FORMATTER.name().toLowerCase())) {
             formatter = new CmsUUID(data.getString(FavListProp.FORMATTER.name().toLowerCase()));
         }
-        Map<String, String> properties = new HashMap<String, String>();
+        Map<@RUntainted String, @RUntainted String> properties = new HashMap<@RUntainted String, @RUntainted String>();
 
         JSONObject props = data.getJSONObject(FavListProp.PROPERTIES.name().toLowerCase());
-        Iterator<String> keys = props.keys();
+        Iterator<@RUntainted String> keys = props.keys();
         while (keys.hasNext()) {
             String key = keys.next();
             properties.put(key, props.getString(key));
@@ -1520,7 +1521,7 @@ public class CmsADEManager {
      *
      * @return the JSON representation
      */
-    protected JSONObject elementToJson(CmsContainerElementBean element, Set<String> excludeSettings) {
+    protected @RUntainted JSONObject elementToJson(CmsContainerElementBean element, Set<String> excludeSettings) {
 
         JSONObject data = null;
         try {
@@ -1530,7 +1531,7 @@ public class CmsADEManager {
                 data.put(FavListProp.FORMATTER.name().toLowerCase(), element.getFormatterId().toString());
             }
             JSONObject properties = new JSONObject();
-            for (Map.Entry<String, String> entry : element.getIndividualSettings().entrySet()) {
+            for (Map.Entry<@RUntainted String, @RUntainted String> entry : element.getIndividualSettings().entrySet()) {
                 String settingKey = entry.getKey();
                 if (!excludeSettings.contains(settingKey)) {
                     properties.put(entry.getKey(), entry.getValue());

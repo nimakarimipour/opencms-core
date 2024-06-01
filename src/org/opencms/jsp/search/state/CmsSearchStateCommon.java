@@ -29,6 +29,7 @@ package org.opencms.jsp.search.state;
 
 import java.util.HashMap;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Class for handling the state of the common search options. */
 public class CmsSearchStateCommon implements I_CmsSearchStateCommon {

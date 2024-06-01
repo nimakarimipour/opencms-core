@@ -67,6 +67,7 @@ import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.v7.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the table containing groups of a ou.<p>
@@ -150,7 +151,7 @@ public class CmsGroupTable extends Table implements I_CmsFilterableTable, I_CmsT
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(final Set<String> context) {
+        public void executeAction(final Set<@RUntainted String> context) {
 
             Window window = CmsBasicDialog.prepareWindow();
             CmsDeleteMultiplePrincipalDialog dialog = new CmsDeleteMultiplePrincipalDialog(
@@ -190,7 +191,7 @@ public class CmsGroupTable extends Table implements I_CmsFilterableTable, I_CmsT
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> context) {
+        public void executeAction(Set<@RUntainted String> context) {
 
             Window window = CmsBasicDialog.prepareWindow();
             window.setCaption(CmsVaadinUtils.getMessageText(Messages.GUI_USERMANAGEMENT_EDIT_GROUP_0));
@@ -228,7 +229,7 @@ public class CmsGroupTable extends Table implements I_CmsFilterableTable, I_CmsT
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> context) {
+        public void executeAction(Set<@RUntainted String> context) {
 
             updateApp(context.iterator().next());
         }
@@ -274,7 +275,7 @@ public class CmsGroupTable extends Table implements I_CmsFilterableTable, I_CmsT
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> context) {
+        public void executeAction(Set<@RUntainted String> context) {
 
             Window window = CmsBasicDialog.prepareWindow(DialogWidth.wide);
             window.setCaption(CmsVaadinUtils.getMessageText(Messages.GUI_USERMANAGEMENT_SHOW_RESOURCES_0));
@@ -312,7 +313,7 @@ public class CmsGroupTable extends Table implements I_CmsFilterableTable, I_CmsT
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> context) {
+        public void executeAction(Set<@RUntainted String> context) {
 
             boolean includeTechnicalFields = false;
             try {
@@ -622,7 +623,7 @@ public class CmsGroupTable extends Table implements I_CmsFilterableTable, I_CmsT
      *
      * @param uuid of current group
      */
-    protected void updateApp(String uuid) {
+    protected void updateApp(@RUntainted String uuid) {
 
         try {
             CmsGroup group = m_cms.readGroup(new CmsUUID(uuid));

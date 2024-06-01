@@ -91,6 +91,7 @@ import org.apache.commons.logging.Log;
 import org.dom4j.Element;
 import org.w3c.dom.Document;
 import org.xml.sax.Attributes;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * System master configuration class.<p>
@@ -122,7 +123,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
 
             element.addElement("name").addText(getName());
             element.addElement("class").addText(getClassName());
-            for (Map.Entry<String, String> entry : m_params.entrySet()) {
+            for (Map.Entry<String, @RUntainted String> entry : m_params.entrySet()) {
                 Element paramElem = element.addElement("param");
                 paramElem.addAttribute("name", entry.getKey());
                 paramElem.addText(entry.getValue());
@@ -185,7 +186,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
         * @param key the parameter name
         * @param value the parameter value
         */
-        public void setParam(String key, String value) {
+        public void setParam(String key, @RUntainted String value) {
 
             m_params.put(key, value);
         }
@@ -627,10 +628,10 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
     private List<ApiAuthorizationConfig> m_apiAuthorizations = new ArrayList<>();
 
     /** Parameters for the authorization handler. */
-    private Map<String, String> m_authHandlerParams = new HashMap<>();
+    private Map<String, @RUntainted String> m_authHandlerParams = new HashMap<>();
 
     /** The authorization handler. */
-    private String m_authorizationHandler;
+    private @RUntainted String m_authorizationHandler;
 
     /** The settings of the memory monitor. */
     private CmsCacheSettings m_cacheSettings;
@@ -639,7 +640,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
     private CmsDefaultUsers m_cmsDefaultUsers;
 
     /** The flex cache configuration object. */
-    private CmsFlexCacheConfiguration m_cmsFlexCacheConfiguration;
+    private @RUntainted CmsFlexCacheConfiguration m_cmsFlexCacheConfiguration;
 
     /** The memory monitor configuration. */
     private CmsMemoryMonitorConfiguration m_cmsMemoryMonitorConfiguration;
@@ -651,22 +652,22 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
     private String m_credentialsResolverClass;
 
     /** The default content encoding. */
-    private String m_defaultContentEncoding;
+    private @RUntainted String m_defaultContentEncoding;
 
     /** The detail page handler. */
     private I_CmsDetailPageHandler m_detailPageHandler = new CmsDefaultDetailPageHandler();
 
     /** The configured OpenCms event manager. */
-    private CmsEventManager m_eventManager;
+    private @RUntainted CmsEventManager m_eventManager;
 
     /** Indicates if the version history is enabled. */
-    private boolean m_historyEnabled;
+    private @RUntainted boolean m_historyEnabled;
 
     /** The maximum number of historical versions per resource. */
-    private int m_historyVersions;
+    private @RUntainted int m_historyVersions;
 
     /** The maximum number of historical versions for deleted resources. */
-    private int m_historyVersionsAfterDeletion;
+    private @RUntainted int m_historyVersionsAfterDeletion;
 
     /** The HTTP basic authentication settings. */
     private CmsHttpAuthenticationSettings m_httpAuthenticationSettings;
@@ -684,11 +685,11 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
     private CmsMailSettings m_mailSettings;
 
     /** Notification project. */
-    private String m_notificationProject;
+    private @RUntainted String m_notificationProject;
 
     /** The duration after which responsibles will be notified about out-dated content (in days). */
     // It is an Integer object so that it can be distinguished if this optional element was set or not
-    private Integer m_notificationTime;
+    private @RUntainted Integer m_notificationTime;
 
     /** The password handler. */
     private I_CmsPasswordHandler m_passwordHandler;
@@ -722,7 +723,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
     private boolean m_saxImplProperties;
 
     /** The configured session storage provider class name. */
-    private String m_sessionStorageProvider;
+    private @RUntainted String m_sessionStorageProvider;
 
     /** The shell server options. */
     private CmsRemoteShellConfiguration m_shellServerOptions;
@@ -731,7 +732,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
     private CmsSubscriptionManager m_subscriptionManager;
 
     /** The temporary file project id. */
-    private int m_tempFileProjectId;
+    private @RUntainted int m_tempFileProjectId;
 
     private Map<String, I_CmsTextEncryption> m_textEncryptions = new LinkedHashMap<>();
 
@@ -744,7 +745,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
     private UserSessionMode m_userSessionMode;
 
     /** The configured validation handler. */
-    private String m_validationHandler;
+    private @RUntainted String m_validationHandler;
 
     /** The configured workflow manager. */
     private I_CmsWorkflowManager m_workflowManager;
@@ -766,7 +767,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
      * @param name the parameter name
      * @param value the parameter value
      */
-    public void addAuthorizationHandlerParam(String name, String value) {
+    public void addAuthorizationHandlerParam(String name, @RUntainted String value) {
 
         m_authHandlerParams.put(name, value);
     }
@@ -785,7 +786,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
      *
      * @param clazz the class name of event manager class  to instantiate and add
      */
-    public void addEventManager(String clazz) {
+    public void addEventManager(@RUntainted String clazz) {
 
         try {
             m_eventManager = (CmsEventManager)Class.forName(clazz).newInstance();
@@ -804,7 +805,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
      *
      * @param clazz the class name of the request handler to instantiate and add
      */
-    public void addRequestHandler(String clazz, CmsParameterConfiguration params) {
+    public void addRequestHandler(@RUntainted String clazz, CmsParameterConfiguration params) {
 
         Object handler;
         try {
@@ -832,7 +833,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
      * @param clazz the class name of the resource init handler to instantiate and add
      * @param params the parameters set for the resource init handler (parameters need to be copied out, the object will be modified after use)
      */
-    public void addResourceInitHandler(String clazz, CmsParameterConfiguration params)
+    public void addResourceInitHandler(@RUntainted String clazz, CmsParameterConfiguration params)
     throws CmsConfigurationException {
 
         Object initClass;
@@ -939,7 +940,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
             new Rule() {
 
                 private String m_name;
-                private String m_value;
+                private @RUntainted String m_value;
 
                 @Override
                 public void begin(String namespace, String name, Attributes attributes) throws Exception {
@@ -967,7 +968,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
             new Rule() {
 
                 private String m_name;
-                private String m_value;
+                private @RUntainted String m_value;
 
                 @Override
                 public void begin(String namespace, String name, Attributes attributes) throws Exception {
@@ -1822,9 +1823,9 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
         if (workflowMan != null) {
             Element workflowElem = systemElement.addElement(N_WORKFLOW);
             workflowElem.addAttribute(A_CLASS, workflowMan.getClass().getName());
-            Map<String, String> parameters = workflowMan.getParameters();
+            Map<String, @RUntainted String> parameters = workflowMan.getParameters();
             Element parametersElem = workflowElem.addElement(N_PARAMETERS);
-            for (Map.Entry<String, String> entry : parameters.entrySet()) {
+            for (Map.Entry<String, @RUntainted String> entry : parameters.entrySet()) {
                 Element paramElem = parametersElem.addElement(N_PARAM);
                 paramElem.addAttribute(A_NAME, entry.getKey());
                 paramElem.addText(entry.getValue());
@@ -1972,7 +1973,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
      *
      * @return the flexCacheConfiguration
      */
-    public CmsFlexCacheConfiguration getCmsFlexCacheConfiguration() {
+    public @RUntainted CmsFlexCacheConfiguration getCmsFlexCacheConfiguration() {
 
         return m_cmsFlexCacheConfiguration;
     }
@@ -2015,7 +2016,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
      *
      * @return the defaultContentEncoding
      */
-    public String getDefaultContentEncoding() {
+    public @RUntainted String getDefaultContentEncoding() {
 
         return m_defaultContentEncoding;
     }
@@ -2503,9 +2504,9 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
         String userGuest,
         String userExport,
         String userDeletedResource,
-        String groupAdministrators,
-        String groupUsers,
-        String groupGuests) {
+        @RUntainted String groupAdministrators,
+        @RUntainted String groupUsers,
+        @RUntainted String groupGuests) {
 
         if (CmsLog.INIT.isInfoEnabled()) {
             CmsLog.INIT.info(Messages.get().getBundle().key(Messages.INIT_CHECKING_DEFAULT_USER_NAMES_0));
@@ -2547,7 +2548,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
      *
      * @param flexCacheConfiguration the flexCacheConfiguration to set
      */
-    public void setCmsFlexCacheConfiguration(CmsFlexCacheConfiguration flexCacheConfiguration) {
+    public void setCmsFlexCacheConfiguration(@RUntainted CmsFlexCacheConfiguration flexCacheConfiguration) {
 
         m_cmsFlexCacheConfiguration = flexCacheConfiguration;
     }
@@ -2583,7 +2584,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
      *
      * @param defaultContentEncoding the defaultContentEncoding to set
      */
-    public void setDefaultContentEncoding(String defaultContentEncoding) {
+    public void setDefaultContentEncoding(@RUntainted String defaultContentEncoding) {
 
         m_defaultContentEncoding = defaultContentEncoding;
     }
@@ -2667,9 +2668,9 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
      * @param logoutUri the alternative logout handler URI (may be null)
      */
     public void setLoginManager(
-        String disableMinutesStr,
-        String maxBadAttemptsStr,
-        String enableSecurityStr,
+        @RUntainted String disableMinutesStr,
+        @RUntainted String maxBadAttemptsStr,
+        @RUntainted String enableSecurityStr,
         String tokenLifetime,
         String maxInactive,
         String passwordChangeInterval,
@@ -2716,7 +2717,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
      *
      * @param mailSettings the mail settings to set.
      */
-    public void setMailSettings(CmsMailSettings mailSettings) {
+    public void setMailSettings(@RUntainted CmsMailSettings mailSettings) {
 
         m_mailSettings = mailSettings;
         if (LOG.isDebugEnabled()) {
@@ -2828,7 +2829,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
      *
      * @param configValue the configuration value
      */
-    public void setRequestErrorPageAttribute(String configValue) {
+    public void setRequestErrorPageAttribute(@RUntainted String configValue) {
 
         OpenCms.getSystemInfo().getServletContainerSettings().setRequestErrorPageAttribute(configValue);
     }
@@ -2848,7 +2849,7 @@ public class CmsSystemConfiguration extends A_CmsXmlConfiguration {
      *
      * @param className the class name of the configured runtime info factory
      */
-    public void setRuntimeInfoFactory(String className) {
+    public void setRuntimeInfoFactory(@RUntainted String className) {
 
         Object objectInstance;
 

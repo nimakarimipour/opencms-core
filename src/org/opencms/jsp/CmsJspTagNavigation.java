@@ -40,6 +40,7 @@ import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the <code>&lt;cms:navigation var="..." /&gt;</code> tag,

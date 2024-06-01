@@ -32,6 +32,8 @@ import org.opencms.json.JSONException;
 import org.opencms.json.JSONObject;
 
 import java.util.function.Function;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Utility class for JSON-related functions.
@@ -47,7 +49,7 @@ public class CmsJsonUtil {
      * @return the copy with the replaced values
      * @throws JSONException if JSON operations fail
      */
-    public static Object mapJson(Object obj, Function<Object, Object> func) throws JSONException {
+    public static @RPolyTainted Object mapJson(Object obj, Function<Object, @RPolyTainted Object> func) throws JSONException {
 
         if (obj instanceof JSONObject) {
             return mapJsonObject((JSONObject)obj, func);
@@ -67,7 +69,7 @@ public class CmsJsonUtil {
      * @return the copy with the replaced values
      * @throws JSONException if JSON operations fail
      */
-    public static JSONObject mapJsonObject(JSONObject obj, Function<Object, Object> func) throws JSONException {
+    public static @RUntainted JSONObject mapJsonObject(JSONObject obj, Function<Object, @RUntainted Object> func) throws JSONException {
 
         JSONObject result = new JSONObject();
         for (String key : obj.keySet()) {
@@ -88,7 +90,7 @@ public class CmsJsonUtil {
      * @throws JSONException if JSON operations fail
      */
 
-    private static JSONArray mapJsonArray(JSONArray array, Function<Object, Object> func) throws JSONException {
+    private static @RUntainted JSONArray mapJsonArray(JSONArray array, Function<Object, @RUntainted Object> func) throws JSONException {
 
         JSONArray result = new JSONArray();
         for (int i = 0; i < array.length(); i++) {

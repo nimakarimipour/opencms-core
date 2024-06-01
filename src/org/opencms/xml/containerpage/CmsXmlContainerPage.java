@@ -84,6 +84,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Ordering;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of a object used to access and manage the xml data of a container page.<p>
@@ -168,7 +169,7 @@ public class CmsXmlContainerPage extends CmsXmlContent {
      * @param encoding the encoding of the container page
      * @param resolver the XML entity resolver to use
      */
-    protected CmsXmlContainerPage(CmsObject cms, Document document, String encoding, EntityResolver resolver) {
+    protected CmsXmlContainerPage(CmsObject cms, @RUntainted Document document, String encoding, EntityResolver resolver) {
 
         // must set document first to be able to get the content definition
         m_document = document;
@@ -498,7 +499,7 @@ public class CmsXmlContainerPage extends CmsXmlContent {
      * @see org.opencms.xml.content.CmsXmlContent#initDocument(org.opencms.file.CmsObject, org.dom4j.Document, java.lang.String, org.opencms.xml.CmsXmlContentDefinition)
      */
     @Override
-    protected void initDocument(CmsObject cms, Document document, String encoding, CmsXmlContentDefinition definition) {
+    protected void initDocument(CmsObject cms, @RUntainted Document document, String encoding, CmsXmlContentDefinition definition) {
 
         m_document = document;
         m_contentDefinition = definition;
@@ -516,7 +517,7 @@ public class CmsXmlContainerPage extends CmsXmlContent {
         }
 
         // initialize the bookmarks
-        for (Iterator<Element> itCntPages = CmsXmlGenericWrapper.elementIterator(
+        for (Iterator<@RUntainted Element> itCntPages = CmsXmlGenericWrapper.elementIterator(
             m_document.getRootElement()); itCntPages.hasNext();) {
             Element cntPage = itCntPages.next();
 
@@ -527,7 +528,7 @@ public class CmsXmlContainerPage extends CmsXmlContent {
                 addLocale(locale);
 
                 List<CmsContainerBean> containers = new ArrayList<CmsContainerBean>();
-                for (Iterator<Element> itCnts = CmsXmlGenericWrapper.elementIterator(
+                for (Iterator<@RUntainted Element> itCnts = CmsXmlGenericWrapper.elementIterator(
                     cntPage,
                     XmlNode.Containers.name()); itCnts.hasNext();) {
                     Element container = itCnts.next();
@@ -562,7 +563,7 @@ public class CmsXmlContainerPage extends CmsXmlContent {
 
                     List<CmsContainerElementBean> elements = new ArrayList<CmsContainerElementBean>();
                     // Elements
-                    for (Iterator<Element> itElems = CmsXmlGenericWrapper.elementIterator(
+                    for (Iterator<@RUntainted Element> itElems = CmsXmlGenericWrapper.elementIterator(
                         container,
                         XmlNode.Elements.name()); itElems.hasNext();) {
                         Element element = itElems.next();
@@ -632,7 +633,7 @@ public class CmsXmlContainerPage extends CmsXmlContent {
                         }
 
                         // the properties
-                        Map<String, String> propertiesMap = CmsXmlContentPropertyHelper.readProperties(
+                        Map<@RUntainted String, @RUntainted String> propertiesMap = CmsXmlContentPropertyHelper.readProperties(
                             this,
                             locale,
                             element,
@@ -724,7 +725,7 @@ public class CmsXmlContainerPage extends CmsXmlContent {
      * @see org.opencms.xml.A_CmsXmlDocument#initDocument(org.dom4j.Document, java.lang.String, org.opencms.xml.CmsXmlContentDefinition)
      */
     @Override
-    protected void initDocument(Document document, String encoding, CmsXmlContentDefinition definition) {
+    protected void initDocument(@RUntainted Document document, String encoding, CmsXmlContentDefinition definition) {
 
         initDocument(null, document, encoding, definition);
     }
@@ -788,13 +789,13 @@ public class CmsXmlContainerPage extends CmsXmlContent {
       *@param propertiesMap the map of setting s
      * @return the modified settings
      */
-    private Map<String, String> fixNestedFormatterSettings(
+    private @RUntainted Map<@RUntainted String, @RUntainted String> fixNestedFormatterSettings(
         CmsObject cms,
         CmsADEConfigData config,
-        Map<String, String> propertiesMap) {
+        Map<@RUntainted String, @RUntainted String> propertiesMap) {
 
-        Map<String, String> result = new HashMap<>();
-        for (Map.Entry<String, String> entry : propertiesMap.entrySet()) {
+        Map<@RUntainted String, @RUntainted String> result = new HashMap<>();
+        for (Map.Entry<@RUntainted String, @RUntainted String> entry : propertiesMap.entrySet()) {
             String key = entry.getKey();
 
             // replace structure ids, fallback keys or alias keys with the main key if possible
@@ -820,10 +821,10 @@ public class CmsXmlContainerPage extends CmsXmlContent {
      * @param settings the element settings
      * @return the modified element settings
      */
-    private Map<String, String> processSettingsForSaveV1(CmsADEConfigData config, Map<String, String> settings) {
+    private Map<@RUntainted String, @RUntainted String> processSettingsForSaveV1(CmsADEConfigData config, Map<@RUntainted String, @RUntainted String> settings) {
 
-        Map<String, String> result = new LinkedHashMap<>();
-        for (Map.Entry<String, String> entry : settings.entrySet()) {
+        Map<String, @RUntainted String> result = new LinkedHashMap<>();
+        for (Map.Entry<@RUntainted String, @RUntainted String> entry : settings.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
             if (key.startsWith(CmsFormatterConfig.FORMATTER_SETTINGS_KEY)) {
@@ -861,11 +862,11 @@ public class CmsXmlContainerPage extends CmsXmlContent {
      * @param settings the element settings
      * @return the modified element settings
      */
-    private Map<String, String> processSettingsForSaveV2(CmsADEConfigData config, Map<String, String> settings) {
+    private Map<@RUntainted String, @RUntainted String> processSettingsForSaveV2(CmsADEConfigData config, Map<String, @RUntainted String> settings) {
 
-        Map<String, String> result = new LinkedHashMap<>();
+        Map<String, @RUntainted String> result = new LinkedHashMap<>();
 
-        for (Map.Entry<String, String> entry : settings.entrySet()) {
+        for (Map.Entry<String, @RUntainted String> entry : settings.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
             if (key.startsWith(CmsFormatterConfig.FORMATTER_SETTINGS_KEY)) {
@@ -934,8 +935,8 @@ public class CmsXmlContainerPage extends CmsXmlContent {
                     createNewElem.addText(Boolean.TRUE.toString());
                 }
                 // the properties
-                Map<String, String> properties = element.getIndividualSettings();
-                Map<String, String> processedSettings = processSettingsForSaveV1(adeConfig, properties);
+                Map<@RUntainted String, @RUntainted String> properties = element.getIndividualSettings();
+                Map<@RUntainted String, @RUntainted String> processedSettings = processSettingsForSaveV1(adeConfig, properties);
                 Map<String, CmsXmlContentProperty> propertiesConf = OpenCms.getADEManager().getElementSettings(
                     cms,
                     uriRes);
@@ -983,7 +984,7 @@ public class CmsXmlContainerPage extends CmsXmlContent {
             for (CmsContainerElementBean element : container.getElements()) {
                 Element elemElement = cntElement.addElement(XmlNode.Elements.name());
 
-                Map<String, String> properties = new HashMap<>(element.getIndividualSettings());
+                Map<String, @RUntainted String> properties = new HashMap<>(element.getIndividualSettings());
 
                 String instanceId = properties.remove(CmsContainerElement.ELEMENT_INSTANCE_ID);
                 if (instanceId != null) {
@@ -1020,7 +1021,7 @@ public class CmsXmlContainerPage extends CmsXmlContent {
                 }
                 // the properties
 
-                Map<String, String> processedSettings = processSettingsForSaveV2(adeConfig, properties);
+                Map<@RUntainted String, @RUntainted String> processedSettings = processSettingsForSaveV2(adeConfig, properties);
                 Map<String, CmsXmlContentProperty> propertiesConf = OpenCms.getADEManager().getElementSettings(
                     cms,
                     elementRes);
@@ -1109,7 +1110,7 @@ public class CmsXmlContainerPage extends CmsXmlContent {
      * @param settings the map of settings
      * @return the sorted settings map
      */
-    private LinkedHashMap<String, String> sortSettingsForSave(Map<String, String> settings) {
+    private LinkedHashMap<String, @RUntainted String> sortSettingsForSave(Map<String, @RUntainted String> settings) {
 
         LinkedHashMap<String, String> result = new LinkedHashMap<>();
         List<String> keys = new ArrayList<>(settings.keySet());
@@ -1132,9 +1133,9 @@ public class CmsXmlContainerPage extends CmsXmlContent {
      * @param translation the translation function
      * @return the new map with the translated keys
      */
-    private Map<String, String> translateMapKeys(Map<String, String> settings, Function<String, String> translation) {
+    private @RUntainted Map<@RUntainted String, @RUntainted String> translateMapKeys(Map<@RUntainted String, @RUntainted String> settings, Function<String, String> translation) {
 
-        LinkedHashMap<String, String> result = new LinkedHashMap<>();
+        LinkedHashMap<@RUntainted String, @RUntainted String> result = new LinkedHashMap<>();
         settings.entrySet().forEach(e -> result.put(translation.apply(e.getKey()), e.getValue()));
         return result;
 

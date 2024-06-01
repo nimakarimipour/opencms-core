@@ -37,6 +37,7 @@ import java.io.UnsupportedEncodingException;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements a name based RFS file based disk cache, that handles parameter based versions of VFS files.<p>
@@ -59,7 +60,7 @@ public class CmsVfsNameBasedDiskCache {
     private static final Log LOG = CmsLog.getLog(CmsVfsNameBasedDiskCache.class);
 
     /** The name of the cache base repository folder in the RFS. */
-    private String m_rfsRepository;
+    private @RUntainted String m_rfsRepository;
 
     /**
      * Creates a new disk cache.<p>
@@ -81,7 +82,7 @@ public class CmsVfsNameBasedDiskCache {
      *
      * @return the content of the requested file in the disk cache, or <code>null</code>
      */
-    public byte[] getCacheContent(String rfsName) {
+    public byte[] getCacheContent(@RUntainted String rfsName) {
 
         try {
             File f = new File(rfsName);
@@ -108,7 +109,7 @@ public class CmsVfsNameBasedDiskCache {
      *
      * @return the RFS name to use for caching the given VFS resource with parameters
      */
-    public String getCacheName(CmsResource resource, String parameters) {
+    public @RUntainted String getCacheName(CmsResource resource, String parameters) {
 
         // calculate the base cache path for the resource
         String rfsName = m_rfsRepository + resource.getRootPath();
@@ -152,7 +153,7 @@ public class CmsVfsNameBasedDiskCache {
      *
      * @return the absolute path of the cache repository in the RFS
      */
-    public String getRepositoryPath() {
+    public @RUntainted String getRepositoryPath() {
 
         return m_rfsRepository;
     }
@@ -164,7 +165,7 @@ public class CmsVfsNameBasedDiskCache {
      *
      * @return <code>true</code> if the file is available
      */
-    public boolean hasCacheContent(String rfsName) {
+    public boolean hasCacheContent(@RUntainted String rfsName) {
 
         File f = new File(rfsName);
         if (f.exists()) {
@@ -181,7 +182,7 @@ public class CmsVfsNameBasedDiskCache {
      *
      * @throws IOException in case of disk access errors
      */
-    public void saveCacheFile(String rfsName, byte[] content) throws IOException {
+    public void saveCacheFile(@RUntainted String rfsName, byte[] content) throws IOException {
 
         CmsVfsDiskCache.saveFile(rfsName, content);
     }

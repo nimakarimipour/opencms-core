@@ -28,6 +28,7 @@
 package org.opencms.ugc;
 
 import org.apache.commons.fileupload.FileItem;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the I_CmsFormDataItem which delegates its methods to a FileItem from Apache Commons Upload.<p>
@@ -69,7 +70,7 @@ public class CmsUgcDataItem implements I_CmsFormDataItem {
      * @see org.opencms.ugc.I_CmsFormDataItem#getFileName()
      */
     @Override
-    public String getFileName() {
+    public @RUntainted String getFileName() {
 
         return m_fileItem.getName();
     }

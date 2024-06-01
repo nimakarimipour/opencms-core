@@ -67,6 +67,7 @@ import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.v7.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class to show ous in table for account management.<p>
@@ -415,7 +416,7 @@ public class CmsOUTable extends Table implements I_CmsFilterableTable {
     protected CmsAccountsApp m_app;
 
     /**Parent ou. */
-    protected String m_parentOu;
+    protected @RUntainted String m_parentOu;
 
     /**CmsObject. */
     CmsObject m_cms;
@@ -435,7 +436,7 @@ public class CmsOUTable extends Table implements I_CmsFilterableTable {
      * @param ou ou
      * @param app calling app
      */
-    public CmsOUTable(String ou, CmsAccountsApp app) {
+    public CmsOUTable(@RUntainted String ou, CmsAccountsApp app) {
 
         m_app = app;
         init(ou);
@@ -540,7 +541,7 @@ public class CmsOUTable extends Table implements I_CmsFilterableTable {
      *
      * @param parentOu ou name
      */
-    private void init(String parentOu) {
+    private void init(@RUntainted String parentOu) {
 
         m_parentOu = parentOu;
         m_menu = new CmsContextMenu();

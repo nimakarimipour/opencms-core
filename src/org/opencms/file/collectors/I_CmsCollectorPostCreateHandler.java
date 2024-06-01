@@ -30,6 +30,8 @@ package org.opencms.file.collectors;
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
 import org.opencms.util.CmsPair;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Interface which can be used to add custom code to execute after a user has created a new content
@@ -44,7 +46,7 @@ public interface I_CmsCollectorPostCreateHandler {
      * @param handlerConfig string that configures the handler
      * @return pair with the handler class and the configuration
      */
-    static CmsPair<String, String> splitClassAndConfig(String handlerConfig) {
+    static CmsPair<String, @RPolyTainted String> splitClassAndConfig(@RPolyTainted String handlerConfig) {
 
         if (null != handlerConfig) {
             int separatorIdx = handlerConfig.indexOf('|');
@@ -76,7 +78,7 @@ public interface I_CmsCollectorPostCreateHandler {
      * @param copyMode true if the user chose one of the elements in the collector list as a model
      * @param config an optional configuration string that can be handled specific by each implementation
      */
-    default void onCreate(CmsObject cms, CmsResource createdResource, boolean copyMode, String config) {
+    default void onCreate(CmsObject cms, CmsResource createdResource, boolean copyMode, @RUntainted String config) {
 
         onCreate(cms, createdResource, copyMode);
     }

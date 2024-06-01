@@ -33,6 +33,7 @@ import org.opencms.util.CmsMacroResolver;
 
 import java.util.Arrays;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Content type class for subsitemap content folders.

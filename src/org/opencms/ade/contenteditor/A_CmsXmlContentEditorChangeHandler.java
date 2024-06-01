@@ -30,6 +30,7 @@ package org.opencms.ade.contenteditor;
 import org.opencms.file.CmsResource;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.xml.content.I_CmsXmlContentEditorChangeHandler;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract implementation of the content editor change handler.<p>
@@ -87,7 +88,7 @@ public abstract class A_CmsXmlContentEditorChangeHandler implements I_CmsXmlCont
     /**
      * @see org.opencms.xml.content.I_CmsXmlContentEditorChangeHandler#setConfiguration(java.lang.String)
      */
-    public void setConfiguration(String configuration) {
+    public void setConfiguration(@RUntainted String configuration) {
 
         m_configuration = configuration;
     }

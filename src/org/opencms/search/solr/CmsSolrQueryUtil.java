@@ -26,6 +26,7 @@
  */
 
 package org.opencms.search.solr;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Utilities for building and analyzing Solr queries.

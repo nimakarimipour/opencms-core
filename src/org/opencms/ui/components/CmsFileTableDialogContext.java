@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The file table dialog context.<p>
@@ -85,7 +86,7 @@ public class CmsFileTableDialogContext extends A_CmsDialogContext implements I_C
      * @see org.opencms.ui.A_CmsDialogContext#finish(org.opencms.file.CmsProject, java.lang.String)
      */
     @Override
-    public void finish(CmsProject project, String siteRoot) {
+    public void finish(CmsProject project, @RUntainted String siteRoot) {
 
         super.finish(null);
         super.reload();

@@ -60,6 +60,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.v7.shared.ui.combobox.FilteringMode;
 import com.vaadin.v7.ui.ComboBox;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The project select dialog.<p>
@@ -259,7 +260,7 @@ public class CmsProjectSelectDialog extends CmsBasicDialog {
      *
      * @return the combo box
      */
-    private ComboBox prepareComboBox(IndexedContainer container, String captionKey) {
+    private ComboBox prepareComboBox(IndexedContainer container, @RUntainted String captionKey) {
 
         ComboBox result = new ComboBox(CmsVaadinUtils.getWpMessagesForCurrentLocale().key(captionKey), container);
         result.setTextInputAllowed(true);
@@ -279,7 +280,7 @@ public class CmsProjectSelectDialog extends CmsBasicDialog {
      *
      * @return the combo box
      */
-    private CmsExtendedSiteSelector prepareSiteSelector(String captionKey) {
+    private CmsExtendedSiteSelector prepareSiteSelector(@RUntainted String captionKey) {
 
         CmsExtendedSiteSelector result = new CmsExtendedSiteSelector();
         boolean isExplorer = CmsFileExplorerConfiguration.APP_ID.equals(m_context.getAppId());

@@ -53,6 +53,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A class which represents the context for resolving all content value mappings of an XML content.<p>
@@ -112,7 +113,7 @@ public class CmsMappingResolutionContext {
          *
          * @return the name
          */
-        public String getName() {
+        public @RUntainted String getName() {
 
             return m_name;
         }
@@ -139,10 +140,10 @@ public class CmsMappingResolutionContext {
     private CmsXmlContent m_content;
 
     /** Stored expiration dates. */
-    private Map<Locale, Long> m_dateExpired = new HashMap<>();
+    private Map<Locale, @RUntainted Long> m_dateExpired = new HashMap<>();
 
     /** Stored release dates. */
-    private Map<Locale, Long> m_dateReleased = new HashMap<>();
+    private Map<Locale, @RUntainted Long> m_dateReleased = new HashMap<>();
 
     /** True if the schema for the content has attribute mappings. */
     private boolean m_hasAttributeMappings;
@@ -245,7 +246,7 @@ public class CmsMappingResolutionContext {
      *
      * @throws CmsException if something goes wrong
      */
-    public void setAttribute(CmsResource res, AttributeType type, Long value) throws CmsException {
+    public void setAttribute(CmsResource res, AttributeType type, @RUntainted Long value) throws CmsException {
 
         if (type == AttributeType.release) {
             long actualValue = value != null ? value.longValue() : 0;
@@ -288,10 +289,10 @@ public class CmsMappingResolutionContext {
                         sibling,
                         CmsPropertyDefinition.PROPERTY_LOCALE,
                         true);
-                    List<Locale> locales = OpenCms.getLocaleManager().getDefaultLocales();
+                    List<@RUntainted Locale> locales = OpenCms.getLocaleManager().getDefaultLocales();
                     if (!localeProp.isNullProperty()) {
                         String localeStr = localeProp.getValue();
-                        List<Locale> tempLocales = CmsLocaleManager.getLocales(localeStr);
+                        List<@RUntainted Locale> tempLocales = CmsLocaleManager.getLocales(localeStr);
                         if (!tempLocales.isEmpty()) {
                             locales = tempLocales;
                         }

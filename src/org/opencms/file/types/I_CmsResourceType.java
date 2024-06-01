@@ -43,6 +43,7 @@ import org.opencms.xml.containerpage.CmsFormatterConfiguration;
 
 import java.io.Serializable;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptors for all resources in the VFS.<p>
@@ -326,7 +327,7 @@ public interface I_CmsResourceType extends I_CmsConfigurationParameterHandler, S
     CmsResource createResource(
         CmsObject cms,
         CmsSecurityManager securityManager,
-        String resourcename,
+        @RUntainted String resourcename,
         byte[] content,
         List<CmsProperty> properties)
     throws CmsException, CmsIllegalArgumentException;
@@ -404,7 +405,7 @@ public interface I_CmsResourceType extends I_CmsConfigurationParameterHandler, S
      * @see org.opencms.flex.CmsFlexCache
      * @see org.opencms.flex.CmsFlexCacheKey
      */
-    String getCachePropertyDefault();
+    @RUntainted String getCachePropertyDefault();
 
     /**
      * Returns the class name configured for this resource type.<p>
@@ -437,7 +438,7 @@ public interface I_CmsResourceType extends I_CmsConfigurationParameterHandler, S
      *
      * @return a list of file extensions mappings for this resource type in an unmodifiable List
      */
-    List<String> getConfiguredMappings();
+    List<@RUntainted String> getConfiguredMappings();
 
     /**
      * Returns the formatter configuration for the given resource.<p>
@@ -475,7 +476,7 @@ public interface I_CmsResourceType extends I_CmsConfigurationParameterHandler, S
      *
      * @return the module name if this is an additional resource type which is defined in a module, or <code>null</code>
      */
-    String getModuleName();
+    @RUntainted String getModuleName();
 
     /**
      * Returns the type id of this resource type.<p>
@@ -488,14 +489,14 @@ public interface I_CmsResourceType extends I_CmsConfigurationParameterHandler, S
      * Use of int based resource type references will be discontinued in a future OpenCms release.
      */
     @Deprecated
-    int getTypeId();
+    @RUntainted int getTypeId();
 
     /**
      * Returns the name of this resource type.<p>
      *
      * @return the name of this resource type
      */
-    String getTypeName();
+    @RUntainted String getTypeName();
 
     /**
      * Imports a resource to the OpenCms VFS.<p>
@@ -556,7 +557,7 @@ public interface I_CmsResourceType extends I_CmsConfigurationParameterHandler, S
      *
      * @throws CmsConfigurationException if the configuration is invalid
      */
-    void initConfiguration(String name, String id, String className) throws CmsConfigurationException;
+    void initConfiguration(@RUntainted String name, String id, String className) throws CmsConfigurationException;
 
     /**
      * Initializes this resource type.<p>
@@ -587,7 +588,7 @@ public interface I_CmsResourceType extends I_CmsConfigurationParameterHandler, S
      *
      * @return <code>true</code> if this resource type is a folder
      */
-    boolean isFolder();
+    @RUntainted boolean isFolder();
 
     /**
      * Tests if the given resource type definition is identical to this resource type definition.<p>
@@ -754,7 +755,7 @@ public interface I_CmsResourceType extends I_CmsConfigurationParameterHandler, S
      *
      * @param adjustLinksFolder the folder for which links should be adjusted
      */
-    void setAdjustLinksFolder(String adjustLinksFolder);
+    void setAdjustLinksFolder(@RUntainted String adjustLinksFolder);
 
     /**
      * Changes the "expire" date of a resource.<p>

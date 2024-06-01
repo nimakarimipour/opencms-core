@@ -73,6 +73,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Analyzes content type and formatter usage in a site / folder.
@@ -493,7 +494,7 @@ public class CmsTypeAnalyzer {
      */
     public CmsTypeAnalyzer(
         CmsObject cms,
-        String siteRoot,
+        @RUntainted String siteRoot,
         String path,
         boolean skipDetailOnly,
         Set<String> excludedContainers,
@@ -606,7 +607,7 @@ public class CmsTypeAnalyzer {
             CmsResourceTypeXmlContainerPage.RESOURCE_TYPE_NAME);
         I_CmsResourceType modelGroupType = OpenCms.getResourceManager().getResourceType(
             CmsResourceTypeXmlContainerPage.MODEL_GROUP_TYPE_NAME);
-        List<CmsResource> pages = m_cms.readResources(
+        List<@RUntainted CmsResource> pages = m_cms.readResources(
             m_state.m_path,
             CmsResourceFilter.IGNORE_EXPIRATION.addRequireType(pageType));
         for (CmsResource page : pages) {
@@ -618,7 +619,7 @@ public class CmsTypeAnalyzer {
             }
             processPage(page);
         }
-        List<CmsResource> modelGroups = m_cms.readResources(
+        List<@RUntainted CmsResource> modelGroups = m_cms.readResources(
             m_state.m_path,
             CmsResourceFilter.IGNORE_EXPIRATION.addRequireType(modelGroupType));
         for (CmsResource modelGroup : modelGroups) {
@@ -628,7 +629,7 @@ public class CmsTypeAnalyzer {
             processPage(modelGroup);
         }
 
-        List<CmsResource> elementGroups = m_cms.readResources(
+        List<@RUntainted CmsResource> elementGroups = m_cms.readResources(
             m_state.m_path,
             CmsResourceFilter.IGNORE_EXPIRATION.addRequireType(
                 OpenCms.getResourceManager().getResourceType(
@@ -698,7 +699,7 @@ public class CmsTypeAnalyzer {
         }
         int count = -1;
         try {
-            List<CmsResource> resources = m_cms.readResources(
+            List<@RUntainted CmsResource> resources = m_cms.readResources(
                 m_state.m_path,
                 CmsResourceFilter.IGNORE_EXPIRATION.addRequireType(OpenCms.getResourceManager().getResourceType(type)),
                 true);
@@ -754,7 +755,7 @@ public class CmsTypeAnalyzer {
      * @param groupResource the group resource
      * @throws CmsException if something goes wrong
      */
-    private void processElementGroup(CmsResource groupResource) throws CmsException {
+    private void processElementGroup(@RUntainted CmsResource groupResource) throws CmsException {
 
         addResource(groupResource);
 
@@ -779,7 +780,7 @@ public class CmsTypeAnalyzer {
      * @param pageResource the page resource
      * @throws CmsException the cms exception
      */
-    private void processPage(CmsResource pageResource) throws CmsException {
+    private void processPage(@RUntainted CmsResource pageResource) throws CmsException {
 
         LOG.debug("processing page " + pageResource.getRootPath());
 
@@ -797,7 +798,7 @@ public class CmsTypeAnalyzer {
                 try {
                     element.initResource(m_cms);
                     checkFunction(pageResource, element);
-                    Map<String, String> settings = element.getIndividualSettings();
+                    Map<@RUntainted String, @RUntainted String> settings = element.getIndividualSettings();
                     String formatterRef = settings.get(CmsFormatterConfig.FORMATTER_SETTINGS_KEY + container.getName());
                     if (formatterRef == null) {
                         for (String key : settings.keySet()) {

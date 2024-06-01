@@ -51,6 +51,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.google.common.base.Joiner;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Default implementation of the user query builder.<p>
@@ -67,7 +68,7 @@ public class CmsUserQueryBuilder {
      *
      * @return a pair consisting of the query string and its parameters
      */
-    public CmsPair<String, List<Object>> createUserQuery(CmsUserSearchParameters searchParams, boolean countOnly) {
+    public CmsPair<String, @RUntainted List<Object>> createUserQuery(CmsUserSearchParameters searchParams, boolean countOnly) {
 
         CmsSelectQuery select = new CmsSelectQuery();
         TableAlias users = select.addTable(tabUsers(), "usr");
@@ -673,7 +674,7 @@ public class CmsUserQueryBuilder {
      *
      * @return the paged version of the query
      */
-    protected CmsPair<String, List<Object>> makePaged(CmsSelectQuery select, CmsUserSearchParameters params) {
+    protected CmsPair<String, @RUntainted List<Object>> makePaged(CmsSelectQuery select, CmsUserSearchParameters params) {
 
         CmsPagingQuery paging = new CmsPagingQuery(select);
         paging.setUseWindowFunctions(useWindowFunctionsForPaging());

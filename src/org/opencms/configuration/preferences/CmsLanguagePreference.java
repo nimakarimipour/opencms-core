@@ -44,6 +44,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.collect.ComparisonChain;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Workplace locale preference.<p>
@@ -74,8 +75,8 @@ public class CmsLanguagePreference extends CmsBuiltinPreference {
     public static Map<Locale, String> getOptionMapForLanguage() {
 
         // get available locales from the workplace manager
-        List<Locale> locales = new ArrayList<>(OpenCms.getWorkplaceManager().getLocales());
-        List<Locale> contentLocales = OpenCms.getLocaleManager().getAvailableLocales();
+        List<@RUntainted Locale> locales = new ArrayList<>(OpenCms.getWorkplaceManager().getLocales());
+        List<@RUntainted Locale> contentLocales = OpenCms.getLocaleManager().getAvailableLocales();
 
         // Put locales that are configured as content locales first
         Collections.sort(locales, (a, b) -> {
@@ -157,7 +158,7 @@ public class CmsLanguagePreference extends CmsBuiltinPreference {
      *
      * @return the options for the language selector
      */
-    private String getOptionsForLanguage(Locale setLocale) {
+    private @RUntainted String getOptionsForLanguage(Locale setLocale) {
 
         Map<Locale, String> options = getOptionMapForLanguage();
         String result = options.entrySet().stream().map(entry -> entry.getKey() + ":" + entry.getValue()).collect(

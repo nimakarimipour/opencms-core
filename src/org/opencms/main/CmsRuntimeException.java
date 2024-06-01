@@ -30,6 +30,7 @@ package org.opencms.main;
 import org.opencms.i18n.CmsMessageContainer;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A replacement for <code>{@link java.lang.RuntimeException}</code> to obtain fully

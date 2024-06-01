@@ -49,6 +49,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides convenient wrappers useful to create user login pages.<p>
@@ -89,7 +90,7 @@ public class CmsJspLoginBean extends CmsJspActionElement {
      * @param req the JSP request
      * @param res the JSP response
      */
-    public CmsJspLoginBean(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsJspLoginBean(@RUntainted PageContext context, @RUntainted HttpServletRequest req, @RUntainted HttpServletResponse res) {
 
         super();
         init(context, req, res);
@@ -104,7 +105,7 @@ public class CmsJspLoginBean extends CmsJspActionElement {
      */
     public static void logLoginException(
         CmsRequestContext requestContext,
-        String userName,
+        @RUntainted String userName,
         CmsException currentLoginException) {
 
         if (currentLoginException instanceof CmsAuthentificationException) {
@@ -192,7 +193,7 @@ public class CmsJspLoginBean extends CmsJspActionElement {
      *
      * @return the link to the form that contains the login element
      */
-    public String getFormLink() {
+    public @RUntainted String getFormLink() {
 
         return link(getRequestContext().getUri());
     }
@@ -271,7 +272,7 @@ public class CmsJspLoginBean extends CmsJspActionElement {
      * @param password the password
      * @param projectName the project to switch to after login (if null project is not switched)
      */
-    public void login(String userName, String password, String projectName) {
+    public void login(@RUntainted String userName, String password, String projectName) {
 
         HttpSession session = null;
         m_loginException = null;

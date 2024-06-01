@@ -68,6 +68,7 @@ import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.xml.sax.InputSource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of a page object used to access and manage xml data.<p>
@@ -135,7 +136,7 @@ public class CmsXmlPage extends A_CmsXmlDocument {
      * @param document the document to create the CmsXmlPage from
      * @param encoding the encoding of the xml page
      */
-    public CmsXmlPage(Document document, String encoding) {
+    public CmsXmlPage(@RUntainted Document document, String encoding) {
 
         initDocument(document, encoding, getContentDefinition());
     }
@@ -180,7 +181,7 @@ public class CmsXmlPage extends A_CmsXmlDocument {
      *         given locale already exists in the xmlpage.
      *
      */
-    public void addValue(String name, Locale locale) throws CmsIllegalArgumentException {
+    public void addValue(@RUntainted String name, @RUntainted Locale locale) throws CmsIllegalArgumentException {
 
         if (name.indexOf('[') >= 0) {
             throw new CmsIllegalArgumentException(
@@ -197,7 +198,7 @@ public class CmsXmlPage extends A_CmsXmlDocument {
         Element page = null;
 
         // search if a page for the selected language is already available
-        for (Iterator<Element> i = CmsXmlGenericWrapper.elementIterator(pages, NODE_PAGE); i.hasNext();) {
+        for (Iterator<@RUntainted Element> i = CmsXmlGenericWrapper.elementIterator(pages, NODE_PAGE); i.hasNext();) {
             Element nextPage = i.next();
             String language = nextPage.attributeValue(ATTRIBUTE_LANGUAGE);
             if (localeStr.equals(language)) {
@@ -305,12 +306,12 @@ public class CmsXmlPage extends A_CmsXmlDocument {
      * @see org.opencms.xml.A_CmsXmlDocument#getNames(java.util.Locale)
      */
     @Override
-    public List<String> getNames(Locale locale) {
+    public List<@RUntainted String> getNames(Locale locale) {
 
-        Set<String> sn = m_elementNames.get(locale);
+        Set<@RUntainted String> sn = m_elementNames.get(locale);
         if (sn != null) {
-            List<String> result = new ArrayList<String>();
-            Iterator<String> i = sn.iterator();
+            List<@RUntainted String> result = new ArrayList<@RUntainted String>();
+            Iterator<@RUntainted String> i = sn.iterator();
             while (i.hasNext()) {
                 String path = i.next();
                 result.add(CmsXmlUtils.removeXpathIndex(path));
@@ -462,7 +463,7 @@ public class CmsXmlPage extends A_CmsXmlDocument {
      * @see org.opencms.xml.A_CmsXmlDocument#initDocument(org.dom4j.Document, java.lang.String, org.opencms.xml.CmsXmlContentDefinition)
      */
     @Override
-    protected void initDocument(Document document, String encoding, CmsXmlContentDefinition definition) {
+    protected void initDocument(@RUntainted Document document, String encoding, CmsXmlContentDefinition definition) {
 
         m_encoding = CmsEncoder.lookupEncoding(encoding, encoding);
         m_document = document;
@@ -479,11 +480,11 @@ public class CmsXmlPage extends A_CmsXmlDocument {
         clearBookmarks();
         Element pages = m_document.getRootElement();
         try {
-            for (Iterator<Element> i = CmsXmlGenericWrapper.elementIterator(pages, NODE_PAGE); i.hasNext();) {
+            for (Iterator<@RUntainted Element> i = CmsXmlGenericWrapper.elementIterator(pages, NODE_PAGE); i.hasNext();) {
 
                 Element page = i.next();
                 Locale locale = CmsLocaleManager.getLocale(page.attributeValue(ATTRIBUTE_LANGUAGE));
-                for (Iterator<Element> j = CmsXmlGenericWrapper.elementIterator(page, NODE_ELEMENT); j.hasNext();) {
+                for (Iterator<@RUntainted Element> j = CmsXmlGenericWrapper.elementIterator(page, NODE_ELEMENT); j.hasNext();) {
 
                     Element element = j.next();
                     String name = element.attributeValue(ATTRIBUTE_NAME);

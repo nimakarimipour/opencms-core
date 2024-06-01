@@ -31,6 +31,7 @@ import org.apache.chemistry.opencmis.commons.data.Acl;
 import org.apache.chemistry.opencmis.commons.data.AllowableActions;
 import org.apache.chemistry.opencmis.commons.data.ObjectData;
 import org.apache.chemistry.opencmis.commons.enums.IncludeRelationships;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface containing the basic CRUD operations for CMIS objects.<p>
@@ -44,7 +45,7 @@ public interface I_CmsCmisObjectHelper {
      * @param objectId the id of the object to delete
      * @param allVersions flag to delete all version
      */
-    void deleteObject(CmsCmisCallContext context, String objectId, boolean allVersions);
+    void deleteObject(CmsCmisCallContext context, @RUntainted String objectId, boolean allVersions);
 
     /**
      * Gets the ACL for an object.<p>
@@ -55,7 +56,7 @@ public interface I_CmsCmisObjectHelper {
      *
      * @return the ACL for the object
      */
-    Acl getAcl(CmsCmisCallContext context, String objectId, boolean onlyBasicPermissions);
+    Acl getAcl(CmsCmisCallContext context, @RUntainted String objectId, boolean onlyBasicPermissions);
 
     /**
      * Gets the allowable actions for an object.<p>
@@ -64,7 +65,7 @@ public interface I_CmsCmisObjectHelper {
      * @param objectId the object id
      * @return the allowable actions
      */
-    AllowableActions getAllowableActions(CmsCmisCallContext context, String objectId);
+    AllowableActions getAllowableActions(CmsCmisCallContext context, @RUntainted String objectId);
 
     /**
      * Gets the data for a CMIS object.<p>
@@ -82,7 +83,7 @@ public interface I_CmsCmisObjectHelper {
      */
     ObjectData getObject(
         CmsCmisCallContext context,
-        String objectId,
+        @RUntainted String objectId,
         String filter,
         boolean includeAllowableActions,
         IncludeRelationships includeRelationships,

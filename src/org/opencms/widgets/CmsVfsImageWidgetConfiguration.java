@@ -37,6 +37,7 @@ import org.opencms.util.CmsStringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Configuration options for the VFS image widget.<p>
@@ -94,7 +95,7 @@ public class CmsVfsImageWidgetConfiguration extends CmsGalleryWidgetConfiguratio
     public static final String TYPE_GALLERY = "gallery";
 
     /** The list of image format values matching the options for the format select box. */
-    private List<String> m_formatValues;
+    private @RUntainted List<String> m_formatValues;
 
     /** The scale parameters to apply to a scaled image (e.g. quality, type). */
     private String m_scaleParams;
@@ -103,7 +104,7 @@ public class CmsVfsImageWidgetConfiguration extends CmsGalleryWidgetConfiguratio
     private List<CmsSelectWidgetOption> m_selectFormat;
 
     /** The select options for the format select box as String. */
-    private String m_selectFormatString;
+    private @RUntainted String m_selectFormatString;
 
     /** The flag if the description field should be shown. */
     private boolean m_showDescription;
@@ -123,7 +124,7 @@ public class CmsVfsImageWidgetConfiguration extends CmsGalleryWidgetConfiguratio
         CmsObject cms,
         CmsMessages widgetDialog,
         I_CmsWidgetParameter param,
-        String configuration) {
+        @RUntainted String configuration) {
 
         super();
         init(cms, widgetDialog, param, configuration);
@@ -134,7 +135,7 @@ public class CmsVfsImageWidgetConfiguration extends CmsGalleryWidgetConfiguratio
      *
      * @return the list of image format values matching the options for the format select box
      */
-    public List<String> getFormatValues() {
+    public @RUntainted List<String> getFormatValues() {
 
         return m_formatValues;
     }
@@ -166,7 +167,7 @@ public class CmsVfsImageWidgetConfiguration extends CmsGalleryWidgetConfiguratio
      *
      * @return the select options for the format select box
      */
-    public String getSelectFormatString() {
+    public @RUntainted String getSelectFormatString() {
 
         return m_selectFormatString;
     }
@@ -200,7 +201,7 @@ public class CmsVfsImageWidgetConfiguration extends CmsGalleryWidgetConfiguratio
      * @param configuration the widget configuration string
      */
     @Override
-    protected void init(CmsObject cms, CmsMessages widgetDialog, I_CmsWidgetParameter param, String configuration) {
+    protected void init(CmsObject cms, CmsMessages widgetDialog, I_CmsWidgetParameter param, @RUntainted String configuration) {
 
         if (configuration == null) {
             // no configuration String found, return
@@ -265,7 +266,7 @@ public class CmsVfsImageWidgetConfiguration extends CmsGalleryWidgetConfiguratio
      *
      * @param formatValues the list of image format values matching the options for the format select box
      */
-    private void setFormatValues(List<String> formatValues) {
+    private void setFormatValues(@RUntainted List<String> formatValues) {
 
         m_formatValues = formatValues;
     }
@@ -295,7 +296,7 @@ public class CmsVfsImageWidgetConfiguration extends CmsGalleryWidgetConfiguratio
      *
      * @param formatString the select options for the format select box as String
      */
-    private void setSelectFormatString(String formatString) {
+    private void setSelectFormatString(@RUntainted String formatString) {
 
         m_selectFormatString = formatString;
     }

@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains the settings for the synchronization.<p>
@@ -50,10 +51,10 @@ public class CmsSynchronizeSettings implements Serializable {
     private static final long serialVersionUID = 3713893787290111758L;
 
     /** The destination path of the synchronization in the "real" file system. */
-    private String m_destinationPathInRfs;
+    private @RUntainted String m_destinationPathInRfs;
 
     /** Indicates if the synchronization is enabled or not. */
-    private boolean m_enabled;
+    private @RUntainted boolean m_enabled;
 
     /** The source path list of the synchronization in the OpenCms VFS. */
     private List<String> m_sourceListInVfs;
@@ -104,7 +105,7 @@ public class CmsSynchronizeSettings implements Serializable {
      *
      * @return the destination path of the synchronization in the "real" file system
      */
-    public String getDestinationPathInRfs() {
+    public @RUntainted String getDestinationPathInRfs() {
 
         return m_destinationPathInRfs;
     }
@@ -126,7 +127,7 @@ public class CmsSynchronizeSettings implements Serializable {
      *
      * @return the enabled flag
      */
-    public boolean isEnabled() {
+    public @RUntainted boolean isEnabled() {
 
         return m_enabled;
     }
@@ -149,7 +150,7 @@ public class CmsSynchronizeSettings implements Serializable {
      *
      * @param destinationPathInRfs the destination path of the synchronization in the "real" file system to set
      */
-    public void setDestinationPathInRfs(String destinationPathInRfs) {
+    public void setDestinationPathInRfs(@RUntainted String destinationPathInRfs) {
 
         String destination;
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(destinationPathInRfs)) {
@@ -183,7 +184,7 @@ public class CmsSynchronizeSettings implements Serializable {
      *
      * @param enabled the enabled flag to set
      */
-    public void setEnabled(boolean enabled) {
+    public void setEnabled(@RUntainted boolean enabled) {
 
         m_enabled = enabled;
     }
@@ -195,7 +196,7 @@ public class CmsSynchronizeSettings implements Serializable {
      *
      * @param sourceListInVfs the source path list of the synchronization in the OpenCms VFS to set
      */
-    public void setSourceListInVfs(List<String> sourceListInVfs) {
+    public void setSourceListInVfs(List<@RUntainted String> sourceListInVfs) {
 
         if (sourceListInVfs == null) {
             m_sourceListInVfs = new ArrayList<String>();

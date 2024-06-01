@@ -28,6 +28,7 @@
 package org.opencms.gwt.shared;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * AutoBean interface for the data injected into the page by the cms:enable-list-add tag.
@@ -46,7 +47,7 @@ public interface I_CmsListAddMetadata {
      *
      * @return the types
      */
-    List<String> getTypes();
+    List<@RUntainted String> getTypes();
 
     /**
      * Gets the upload folder.

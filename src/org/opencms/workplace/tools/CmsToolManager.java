@@ -49,6 +49,7 @@ import java.util.Map;
 import javax.servlet.ServletException;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manages the registered tools, actualizing its state every time the workplace is reinitialize.<p>
@@ -789,7 +790,7 @@ public class CmsToolManager {
      *
      * @return a valid and visible tool path
      */
-    private String repairPath(CmsWorkplace wp, String path) {
+    private String repairPath(CmsWorkplace wp, @RUntainted String path) {
 
         String rootKey = getCurrentRoot(wp).getKey();
         // navigate until to reach a valid path
@@ -838,7 +839,7 @@ public class CmsToolManager {
         if (!toolPath.startsWith(TOOLPATH_SEPARATOR)) {
             return false;
         }
-        List<String> groups = CmsStringUtil.splitAsList(toolPath, TOOLPATH_SEPARATOR);
+        List<@RUntainted String> groups = CmsStringUtil.splitAsList(toolPath, TOOLPATH_SEPARATOR);
         Iterator<String> itGroups = groups.iterator();
         String subpath = "";
         while (itGroups.hasNext()) {

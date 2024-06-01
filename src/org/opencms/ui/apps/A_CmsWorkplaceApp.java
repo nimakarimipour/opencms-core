@@ -51,6 +51,8 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Super class for workplace apps to help implementing the app navigation and layout.<p>
@@ -180,7 +182,7 @@ public abstract class A_CmsWorkplaceApp implements I_CmsWorkplaceApp {
      *
      * @return the parameter value
      */
-    public static String getParamFromState(String state, String paramName) {
+    public static @RPolyTainted String getParamFromState(@RPolyTainted String state, @RPolyTainted String paramName) {
 
         String prefix = PARAM_SEPARATOR + paramName + PARAM_ASSIGN;
         if (state.contains(prefix)) {
@@ -200,9 +202,9 @@ public abstract class A_CmsWorkplaceApp implements I_CmsWorkplaceApp {
      *
      * @return the parameters
      */
-    public static Map<String, String> getParamsFromState(String state) {
+    public static Map<String, @RUntainted String> getParamsFromState(String state) {
 
-        Map<String, String> result = new HashMap<String, String>();
+        Map<String, @RUntainted String> result = new HashMap<String, @RUntainted String>();
         int separatorIndex = state.indexOf(PARAM_SEPARATOR);
         while (separatorIndex >= 0) {
             state = state.substring(separatorIndex + 2);
@@ -300,7 +302,7 @@ public abstract class A_CmsWorkplaceApp implements I_CmsWorkplaceApp {
      * @param state the state
      * @param updateState <code>true</code> to update the state URL token
      */
-    public void openSubView(String state, boolean updateState) {
+    public void openSubView(@RUntainted String state, boolean updateState) {
 
         if (updateState) {
             CmsAppWorkplaceUi.get().changeCurrentAppState(state);
@@ -342,7 +344,7 @@ public abstract class A_CmsWorkplaceApp implements I_CmsWorkplaceApp {
      *
      * @return bread crumb entry name by state, in case the state is empty, the entry will be disabled
      */
-    protected abstract LinkedHashMap<String, String> getBreadCrumbForState(String state);
+    protected abstract LinkedHashMap<String, String> getBreadCrumbForState(@RUntainted String state);
 
     /**
      * Returns the app component for the given state.<p>
@@ -351,7 +353,7 @@ public abstract class A_CmsWorkplaceApp implements I_CmsWorkplaceApp {
      *
      * @return the app component
      */
-    protected abstract Component getComponentForState(String state);
+    protected abstract Component getComponentForState(@RUntainted String state);
 
     /**
      * Returns the last path level.<p>

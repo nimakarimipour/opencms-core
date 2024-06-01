@@ -80,6 +80,7 @@ import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The permission dialog.<p>
@@ -121,7 +122,7 @@ public class CmsPermissionDialog extends CmsBasicDialog implements PermissionCha
     private Button m_okButton;
 
     /** The cms context. */
-    private CmsObject m_cms;
+    private @RUntainted CmsObject m_cms;
 
     /** The dialog context. */
     private I_CmsDialogContext m_context;
@@ -145,7 +146,7 @@ public class CmsPermissionDialog extends CmsBasicDialog implements PermissionCha
     private CmsResource m_resource;
 
     /**Parent path map. */
-    private Map<CmsUUID, String> m_parents;
+    private @RUntainted Map<CmsUUID, String> m_parents;
 
     /** The resource permissions panel. */
     private VerticalLayout m_resourcePermissions;
@@ -248,7 +249,7 @@ public class CmsPermissionDialog extends CmsBasicDialog implements PermissionCha
     /**
      * @see org.opencms.ui.dialogs.permissions.CmsPrincipalSelect.I_PrincipalSelectHandler#onPrincipalSelect(java.lang.String, java.lang.String)
      */
-    public void onPrincipalSelect(String principalType, String principalName) {
+    public void onPrincipalSelect(String principalType, @RUntainted String principalName) {
 
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(principalName)) {
             String permissionString = "";
@@ -481,10 +482,10 @@ public class CmsPermissionDialog extends CmsBasicDialog implements PermissionCha
      * @param inheritedRes boolean
      */
     private void addEntryTableToLayout(
-        List<CmsAccessControlEntry> entries,
+        @RUntainted List<CmsAccessControlEntry> entries,
         VerticalLayout layout,
-        boolean editable,
-        boolean inheritedRes) {
+        @RUntainted boolean editable,
+        @RUntainted boolean inheritedRes) {
 
         final CmsPermissionViewTable table = new CmsPermissionViewTable(
             m_cms,
@@ -538,7 +539,7 @@ public class CmsPermissionDialog extends CmsBasicDialog implements PermissionCha
      * @return String with HTML code of the form
      */
     private CmsPermissionView buildPermissionEntryForm(
-        CmsUUID id,
+        @RUntainted CmsUUID id,
         CmsPermissionSet curSet,
         boolean editable,
         boolean extendedView) {

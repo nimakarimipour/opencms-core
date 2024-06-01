@@ -59,6 +59,7 @@ import com.vaadin.v7.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog to delete property definitions.<p>

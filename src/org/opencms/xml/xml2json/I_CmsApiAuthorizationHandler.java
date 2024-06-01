@@ -32,6 +32,7 @@ import org.opencms.file.CmsObject;
 import org.opencms.main.CmsException;
 
 import javax.servlet.http.HttpServletRequest;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Special authorization handler for APIs using stateless authorization.
@@ -53,7 +54,7 @@ public interface I_CmsApiAuthorizationHandler {
      *
      * @throws CmsException if something goes wrong
      */
-    CmsObject initCmsObject(CmsObject adminCms, HttpServletRequest request) throws CmsException;
+    @RUntainted CmsObject initCmsObject(CmsObject adminCms, HttpServletRequest request) throws CmsException;
 
     /**
      * Sets the admin CmsObject used internally by this handler.

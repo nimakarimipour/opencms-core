@@ -84,6 +84,8 @@ import com.vaadin.ui.Window;
 import com.vaadin.v7.data.Validator;
 import com.vaadin.v7.ui.TextArea;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Dialog to edit or create resourcetypes.<p>
@@ -318,10 +320,10 @@ public class CmsNewResourceTypeDialog extends CmsBasicDialog {
     private TextField m_typeID;
 
     /** vaadin component.*/
-    private TextField m_typeName;
+    private @RUntainted TextField m_typeName;
 
     /** vaadin component.*/
-    private TextField m_typeShortName;
+    private @RUntainted TextField m_typeShortName;
 
     /** vaadin component.*/
     private TextField m_typeXPathName;
@@ -934,12 +936,12 @@ public class CmsNewResourceTypeDialog extends CmsBasicDialog {
      *
      * @return String name-pattern
      */
-    private String getNamePattern() {
+    private @RUntainted String getNamePattern() {
 
         String niceName = m_typeShortName.getValue();
         if (m_typeShortName.getValue().contains("-")) {
             int maxLength = 0;
-            String[] nameParts = niceName.split("-");
+            @RUntainted String[] nameParts = niceName.split("-");
             for (int i = 0; i < nameParts.length; i++) {
                 if (nameParts[i].length() > maxLength) {
                     maxLength = nameParts[i].length();

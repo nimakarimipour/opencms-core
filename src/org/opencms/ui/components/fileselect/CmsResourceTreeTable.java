@@ -64,6 +64,7 @@ import com.vaadin.v7.ui.Tree.CollapseListener;
 import com.vaadin.v7.ui.Tree.ExpandEvent;
 import com.vaadin.v7.ui.Tree.ExpandListener;
 import com.vaadin.v7.ui.TreeTable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Tree subclass used to display VFS resource trees.<p>

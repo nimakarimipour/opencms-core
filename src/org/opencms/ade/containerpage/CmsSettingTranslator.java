@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for transforming a map of element settings based on the aliases/replacement rules in the setting definitions for a given formatter.
@@ -118,11 +119,11 @@ public class CmsSettingTranslator {
      * @param settings the settings to translate
      * @return the map of translated settings
      */
-    public Map<String, String> translateSettings(I_CmsFormatterBean formatter, Map<String, String> settings) {
+    public @RUntainted Map<@RUntainted String, @RUntainted String> translateSettings(I_CmsFormatterBean formatter, Map<@RUntainted String, @RUntainted String> settings) {
 
-        Map<String, String> result = new HashMap<>();
+        Map<@RUntainted String, @RUntainted String> result = new HashMap<>();
         Map<String, CmsXmlContentProperty> settingDefsWithAliases = getSettingsForFormatter(formatter.getKeyOrId());
-        for (Map.Entry<String, String> entry : settings.entrySet()) {
+        for (Map.Entry<String, @RUntainted String> entry : settings.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
             String targetKey = key;
@@ -193,7 +194,7 @@ public class CmsSettingTranslator {
      * @param value the value to translate
      * @return the translated value
      */
-    private String translateValue(CmsXmlContentProperty settingDef, String value) {
+    private @RUntainted String translateValue(CmsXmlContentProperty settingDef, String value) {
 
         if (settingDef.getTranslationStr() == null) {
             return value;

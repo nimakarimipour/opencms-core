@@ -28,6 +28,7 @@
 package org.opencms.lock;
 
 import org.opencms.util.A_CmsModeIntEnumeration;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Indicates the different possible lock types.<p>

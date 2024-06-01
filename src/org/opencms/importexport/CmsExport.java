@@ -85,6 +85,7 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.SAXWriter;
 import org.xml.sax.SAXException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides the functionality to export files from the OpenCms VFS to a ZIP file.<p>
@@ -104,7 +105,7 @@ public class CmsExport {
     private CmsObject m_cms;
 
     /** Counter for the export. */
-    private int m_exportCount;
+    private @RUntainted int m_exportCount;
 
     /** Set of all exported files, required for preventing redundant sibling export. */
     private Set<CmsUUID> m_exportedResources;
@@ -1566,7 +1567,7 @@ public class CmsExport {
      *
      * @return the trimmed resource name
      */
-    protected String trimResourceName(String resourceName) {
+    protected @RUntainted String trimResourceName(String resourceName) {
 
         if (resourceName.startsWith("/")) {
             resourceName = resourceName.substring(1);

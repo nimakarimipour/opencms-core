@@ -47,6 +47,7 @@ import org.opencms.util.CmsUUID;
 
 import java.util.List;
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Definitions of all required project driver methods. <p>
@@ -95,14 +96,14 @@ public interface I_CmsProjectDriver {
      */
     CmsProject createProject(
         CmsDbContext dbc,
-        CmsUUID id,
+        @RUntainted CmsUUID id,
         CmsUser owner,
         CmsGroup group,
         CmsGroup managergroup,
-        String name,
-        String description,
-        int flags,
-        CmsProjectType type)
+        @RUntainted String name,
+        @RUntainted String description,
+        @RUntainted int flags,
+        @RUntainted CmsProjectType type)
     throws CmsDataAccessException;
 
     /**
@@ -114,7 +115,7 @@ public interface I_CmsProjectDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    void createProjectResource(CmsDbContext dbc, CmsUUID projectId, String resourceName) throws CmsDataAccessException;
+    void createProjectResource(CmsDbContext dbc, CmsUUID projectId, @RUntainted String resourceName) throws CmsDataAccessException;
 
     /**
      * Inserts an entry for a publish job .<p>
@@ -463,7 +464,7 @@ public interface I_CmsProjectDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    CmsProject readProject(CmsDbContext dbc, CmsUUID id) throws CmsDataAccessException;
+    @RUntainted CmsProject readProject(CmsDbContext dbc, CmsUUID id) throws CmsDataAccessException;
 
     /**
      * Reads a project.<p>
@@ -474,7 +475,7 @@ public interface I_CmsProjectDriver {
      * @return the project with the given name
      * @throws CmsDataAccessException if something goes wrong
      */
-    CmsProject readProject(CmsDbContext dbc, String name) throws CmsDataAccessException;
+    @RUntainted CmsProject readProject(CmsDbContext dbc, String name) throws CmsDataAccessException;
 
     /**
      * Reads the project resource path for a given project and resource path,

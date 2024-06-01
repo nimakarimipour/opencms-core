@@ -41,6 +41,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Jsp tag to initialize an editing session for user generated content.<p>
@@ -63,7 +64,7 @@ public class CmsJspTagUgc extends TagSupport {
     private String m_configPath;
 
     /** The structure id of the edit resource. */
-    private String m_editId;
+    private @RUntainted String m_editId;
 
     /** The file name of the edit resource. */
     private String m_editName;
@@ -193,7 +194,7 @@ public class CmsJspTagUgc extends TagSupport {
      *
      * @param editId the structure id of the edit resource
      */
-    public void setEditId(String editId) {
+    public void setEditId(@RUntainted String editId) {
 
         m_editId = CmsStringUtil.isEmptyOrWhitespaceOnly(editId) ? null : editId;
     }

@@ -30,6 +30,7 @@ package org.opencms.jsp.search.config;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Configuration for the query facet. */
 public class CmsSearchConfigurationFacetQuery extends CmsSearchConfigurationFacet

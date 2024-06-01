@@ -49,6 +49,7 @@ import java.util.Map;
 import java.util.TimeZone;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a DHTML calendar widget, for use on a widget dialog.<p>
@@ -74,7 +75,7 @@ public class CmsCalendarWidget extends A_CmsWidget implements I_CmsADEWidget {
      *
      * @param configuration the configuration to use
      */
-    public CmsCalendarWidget(String configuration) {
+    public CmsCalendarWidget(@RUntainted String configuration) {
 
         super(configuration);
     }
@@ -461,11 +462,11 @@ public class CmsCalendarWidget extends A_CmsWidget implements I_CmsADEWidget {
     @Override
     public void setEditorValue(
         CmsObject cms,
-        Map<String, String[]> formParameters,
+        Map<String, @RUntainted String[]> formParameters,
         I_CmsWidgetDialog widgetDialog,
         I_CmsWidgetParameter param) {
 
-        String[] values = formParameters.get(param.getId());
+        @RUntainted String[] values = formParameters.get(param.getId());
         if ((values != null) && (values.length > 0)) {
             String dateTimeValue = values[0].trim();
             if (CmsMacroResolver.isMacro(dateTimeValue, CmsMacroResolver.KEY_CURRENT_TIME)) {

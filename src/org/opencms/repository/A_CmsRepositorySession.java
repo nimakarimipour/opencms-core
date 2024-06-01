@@ -28,6 +28,7 @@
 package org.opencms.repository;
 
 import org.opencms.file.CmsResource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract implementation of the interface {@link I_CmsRepositorySession} to provide

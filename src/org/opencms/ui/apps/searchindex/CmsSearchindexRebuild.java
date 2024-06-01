@@ -43,6 +43,7 @@ import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Panel;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the GUI to rebuild indexes.<p>
@@ -122,7 +123,7 @@ public class CmsSearchindexRebuild extends VerticalLayout {
      * @param data list of indexes seperated by CmsSearchindexApp.SEPERATOR_INDEXNAMES
      * @return string representation of indexes
      */
-    private String getCommaSeperatedIndexes(Set<String> data) {
+    private @RUntainted String getCommaSeperatedIndexes(Set<String> data) {
 
         Iterator<String> it = data.iterator();
         String res = it.next();

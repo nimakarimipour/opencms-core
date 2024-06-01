@@ -77,6 +77,7 @@ import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog used to change resource modification times.<p>
@@ -251,7 +252,7 @@ public class CmsHistoryDialog extends CmsBasicDialog {
      * @param structureId the structure id of the resource to restore
      * @param version the version to which the resource should be restored
      */
-    public void actionRestore(final CmsObject cms, final CmsUUID structureId, final Integer version) {
+    public void actionRestore(final @RUntainted CmsObject cms, final CmsUUID structureId, final Integer version) {
 
         String title = CmsVaadinUtils.getMessageText(Messages.GUI_HISTORY_DIALOG_CONFIRM_RESTORE_TITLE_0);
         String message = CmsVaadinUtils.getMessageText(Messages.GUI_HISTORY_DIALOG_CONFIRM_RESTORE_0);

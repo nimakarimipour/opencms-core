@@ -35,6 +35,7 @@ import org.apache.commons.logging.Log;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Error hander for writing errors found during XML validation to the OpenCms log.<p>
@@ -49,7 +50,7 @@ public class CmsXmlErrorHandler implements ErrorHandler {
     private static final Log LOG = CmsLog.getLog(CmsXmlErrorHandler.class);
 
     /** The name of the resource that is parsed, for logging (optional). */
-    private String m_resourceName;
+    private @RUntainted String m_resourceName;
 
     /**
      * Creates an OpenCms XML error handler.<p>

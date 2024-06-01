@@ -68,6 +68,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Search configuration parser reading XML. */
 public class CmsXMLSearchConfigurationParser implements I_CmsSearchConfigurationParser {
@@ -543,7 +544,7 @@ public class CmsXMLSearchConfigurationParser implements I_CmsSearchConfiguration
      * @param path The XML path of the element to read.
      * @return The Boolean value stored in the XML, or <code>null</code> if the value could not be read.
      */
-    protected Boolean parseOptionalBooleanValue(final String path) {
+    protected Boolean parseOptionalBooleanValue(final @RUntainted String path) {
 
         final I_CmsXmlContentValue value = m_xml.getValue(path, m_locale);
         if (value == null) {
@@ -564,7 +565,7 @@ public class CmsXMLSearchConfigurationParser implements I_CmsSearchConfiguration
      * @param path The XML path of the element to read.
      * @return The Integer value stored in the XML, or <code>null</code> if the value could not be read.
      */
-    protected Integer parseOptionalIntValue(final String path) {
+    protected Integer parseOptionalIntValue(final @RUntainted String path) {
 
         final I_CmsXmlContentValue value = m_xml.getValue(path, m_locale);
         if (value == null) {
@@ -585,7 +586,7 @@ public class CmsXMLSearchConfigurationParser implements I_CmsSearchConfiguration
      * @param path The XML path of the element to read.
      * @return The String value stored in the XML, or <code>null</code> if the value could not be read.
      */
-    protected String parseOptionalStringValue(final String path) {
+    protected @RUntainted String parseOptionalStringValue(final String path) {
 
         final I_CmsXmlContentValue value = m_xml.getValue(path, m_locale);
         if (value == null) {
@@ -630,7 +631,7 @@ public class CmsXMLSearchConfigurationParser implements I_CmsSearchConfiguration
             final String sother = parseOptionalStringValue(pathPrefix + XML_ELEMENT_RANGE_FACET_OTHER);
             List<I_CmsSearchConfigurationFacetRange.Other> other = null;
             if (sother != null) {
-                final List<String> sothers = Arrays.asList(sother.split(","));
+                final List<@RUntainted String> sothers = Arrays.asList(sother.split(","));
                 other = new ArrayList<I_CmsSearchConfigurationFacetRange.Other>(sothers.size());
                 for (String so : sothers) {
                     try {

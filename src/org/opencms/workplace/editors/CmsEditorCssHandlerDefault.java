@@ -38,6 +38,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A default editor CSS handler to obtain the CSS style sheet path from the template property value of the template itself.<p>

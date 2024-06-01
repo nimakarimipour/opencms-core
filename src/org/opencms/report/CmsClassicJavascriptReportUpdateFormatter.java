@@ -37,6 +37,7 @@ import java.util.Locale;
 import java.util.StringTokenizer;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Report update formatter for the Javascript-based report update format, which was used in the old workplace most of the time.<p>

@@ -103,6 +103,7 @@ import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.Table.RowHeaderMode;
 import com.vaadin.v7.ui.Table.TableDragMode;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generic table for displaying lists of resources.<p>
@@ -358,7 +359,7 @@ public class CmsResourceTable extends CustomComponent {
     protected ItemContainer m_container = new ItemContainer();
 
     /** The table used to display the resource data. */
-    protected Table m_fileTable = new Table();
+    protected @RUntainted Table m_fileTable = new Table();
 
     /** Property provider for additional columns. */
     protected List<I_ResourcePropertyProvider> m_propertyProviders;
@@ -722,7 +723,7 @@ public class CmsResourceTable extends CustomComponent {
      *
      * @return the structure id
      */
-    public CmsUUID getUUIDFromItemID(String itemId) {
+    public CmsUUID getUUIDFromItemID(@RUntainted String itemId) {
 
         return new CmsUUID(itemId);
     }
@@ -830,7 +831,7 @@ public class CmsResourceTable extends CustomComponent {
      *
      * @return the UUIDs
      */
-    protected List<CmsUUID> itemIdsToUUIDs(Collection<String> itemIds) {
+    protected List<CmsUUID> itemIdsToUUIDs(Collection<@RUntainted String> itemIds) {
 
         List<CmsUUID> ids = new ArrayList<CmsUUID>();
         for (String itemId : itemIds) {

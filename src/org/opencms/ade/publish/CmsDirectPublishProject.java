@@ -47,6 +47,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  *  Virtual project for 'direct publishing' of resources.<p>
@@ -151,7 +152,7 @@ public class CmsDirectPublishProject implements I_CmsVirtualProject {
         for (CmsResource res : resources) {
             if (res.isFolder()) {
                 try {
-                    List<CmsResource> childrenOfCurrentResource = rootCms.readResources(
+                    List<@RUntainted CmsResource> childrenOfCurrentResource = rootCms.readResources(
                         res.getRootPath(),
                         CmsResourceFilter.ALL,
                         true);

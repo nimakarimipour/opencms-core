@@ -43,6 +43,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides access to the settings of an ADE container element.<p>
@@ -73,7 +74,7 @@ public class CmsJspTagElementSetting extends TagSupport {
      *
      * @return a map that contains the element settings
      */
-    public static Map<String, String> elementSettingTagAction(ServletRequest req) {
+    public static Map<@RUntainted String, @RUntainted String> elementSettingTagAction(@RUntainted ServletRequest req) {
 
         CmsFlexController controller = CmsFlexController.getController(req);
 
@@ -104,7 +105,7 @@ public class CmsJspTagElementSetting extends TagSupport {
         String setting,
         String defaultValue,
         boolean escape,
-        ServletRequest req) {
+        @RUntainted ServletRequest req) {
 
         String value = elementSettingTagAction(req).get(setting);
         if (value == null) {

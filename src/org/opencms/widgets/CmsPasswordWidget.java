@@ -36,6 +36,7 @@ import org.opencms.xml.types.A_CmsXmlContentValue;
 
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a standard HTML form password widget, for use on a widget dialog.<p>
@@ -58,7 +59,7 @@ public class CmsPasswordWidget extends A_CmsWidget implements I_CmsADEWidget {
      *
      * @param configuration the configuration to use
      */
-    public CmsPasswordWidget(String configuration) {
+    public CmsPasswordWidget(@RUntainted String configuration) {
 
         super(configuration);
     }

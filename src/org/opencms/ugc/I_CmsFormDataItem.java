@@ -26,6 +26,7 @@
  */
 
 package org.opencms.ugc;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface representing the data from a field of a submitted form.<p>
@@ -51,6 +52,6 @@ public interface I_CmsFormDataItem {
      *
      * @return the file name
      */
-    public String getFileName();
+    public @RUntainted String getFileName();
 
 }

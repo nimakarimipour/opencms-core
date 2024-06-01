@@ -77,6 +77,7 @@ import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.v7.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Table for user.<p>
@@ -178,7 +179,7 @@ public class CmsUserTable extends Table implements I_CmsFilterableTable, I_CmsTo
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> context) {
+        public void executeAction(Set<@RUntainted String> context) {
 
             Window window = CmsBasicDialog.prepareWindow(DialogWidth.max);
             CmsAdditionalInfosDialog dialog = new CmsAdditionalInfosDialog(
@@ -219,7 +220,7 @@ public class CmsUserTable extends Table implements I_CmsFilterableTable, I_CmsTo
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(final Set<String> context) {
+        public void executeAction(final Set<@RUntainted String> context) {
 
             Window window = CmsBasicDialog.prepareWindow();
             CmsBasicDialog dialog = null;
@@ -242,7 +243,7 @@ public class CmsUserTable extends Table implements I_CmsFilterableTable, I_CmsTo
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#getVisibility(java.lang.Object)
          */
-        public CmsMenuItemVisibilityMode getVisibility(Set<String> context) {
+        public CmsMenuItemVisibilityMode getVisibility(Set<@RUntainted String> context) {
 
             return onlyVisibleForOU(context);
         }
@@ -257,7 +258,7 @@ public class CmsUserTable extends Table implements I_CmsFilterableTable, I_CmsTo
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> context) {
+        public void executeAction(Set<@RUntainted String> context) {
 
             Window window = CmsBasicDialog.prepareWindow(DialogWidth.wide);
             window.setCaption(CmsVaadinUtils.getMessageText(Messages.GUI_USERMANAGEMENT_EDIT_USER_0));
@@ -277,7 +278,7 @@ public class CmsUserTable extends Table implements I_CmsFilterableTable, I_CmsTo
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#getVisibility(java.lang.Object)
          */
-        public CmsMenuItemVisibilityMode getVisibility(Set<String> context) {
+        public CmsMenuItemVisibilityMode getVisibility(Set<@RUntainted String> context) {
 
             CmsUUID id = new CmsUUID(context.iterator().next());
             return CmsMenuItemVisibilityMode.activeInactive(
@@ -294,7 +295,7 @@ public class CmsUserTable extends Table implements I_CmsFilterableTable, I_CmsTo
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> context) {
+        public void executeAction(Set<@RUntainted String> context) {
 
             Window window = CmsBasicDialog.prepareWindow(DialogWidth.max);
 
@@ -314,7 +315,7 @@ public class CmsUserTable extends Table implements I_CmsFilterableTable, I_CmsTo
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#getVisibility(java.lang.Object)
          */
-        public CmsMenuItemVisibilityMode getVisibility(Set<String> context) {
+        public CmsMenuItemVisibilityMode getVisibility(Set<@RUntainted String> context) {
 
             return CmsMenuItemVisibilityMode.activeInactive(
                 onlyVisibleForOU(new CmsUUID(context.iterator().next())) && (context.size() <= 1));
@@ -330,7 +331,7 @@ public class CmsUserTable extends Table implements I_CmsFilterableTable, I_CmsTo
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> context) {
+        public void executeAction(Set<@RUntainted String> context) {
 
             Window window = CmsBasicDialog.prepareWindow(DialogWidth.max);
 
@@ -350,7 +351,7 @@ public class CmsUserTable extends Table implements I_CmsFilterableTable, I_CmsTo
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#getVisibility(java.lang.Object)
          */
-        public CmsMenuItemVisibilityMode getVisibility(Set<String> context) {
+        public CmsMenuItemVisibilityMode getVisibility(Set<@RUntainted String> context) {
 
             return CmsMenuItemVisibilityMode.activeInactive(
                 onlyVisibleForOU(new CmsUUID(context.iterator().next())) && (context.size() <= 1));
@@ -366,7 +367,7 @@ public class CmsUserTable extends Table implements I_CmsFilterableTable, I_CmsTo
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> context) {
+        public void executeAction(Set<@RUntainted String> context) {
 
             final Window window = CmsBasicDialog.prepareWindow();
             try {
@@ -414,7 +415,7 @@ public class CmsUserTable extends Table implements I_CmsFilterableTable, I_CmsTo
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#getVisibility(java.lang.Object)
          */
-        public CmsMenuItemVisibilityMode getVisibility(Set<String> context) {
+        public CmsMenuItemVisibilityMode getVisibility(Set<@RUntainted String> context) {
 
             try {
                 CmsUser user = m_cms.readUser(new CmsUUID(context.iterator().next()));
@@ -440,7 +441,7 @@ public class CmsUserTable extends Table implements I_CmsFilterableTable, I_CmsTo
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> context) {
+        public void executeAction(Set<@RUntainted String> context) {
 
             try {
                 openInfoDialog(new CmsUUID(context.iterator().next()));
@@ -486,11 +487,11 @@ public class CmsUserTable extends Table implements I_CmsFilterableTable, I_CmsTo
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> context) {
+        public void executeAction(Set<@RUntainted String> context) {
 
             final Window window = CmsBasicDialog.prepareWindow();
             window.setCaption(CmsVaadinUtils.getMessageText(Messages.GUI_MESSAGES_DESTROY_SESSION_0));
-            Set<String> sessionIds = new HashSet<String>();
+            Set<@RUntainted String> sessionIds = new HashSet<@RUntainted String>();
             for (CmsSessionInfo info : OpenCms.getSessionManager().getSessionInfos(
                 new CmsUUID(context.iterator().next()))) {
                 sessionIds.add(info.getSessionId().getStringValue());
@@ -517,7 +518,7 @@ public class CmsUserTable extends Table implements I_CmsFilterableTable, I_CmsTo
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#getVisibility(java.lang.Object)
          */
-        public CmsMenuItemVisibilityMode getVisibility(Set<String> context) {
+        public CmsMenuItemVisibilityMode getVisibility(Set<@RUntainted String> context) {
 
             if (context.size() > 1) {
                 return CmsMenuItemVisibilityMode.VISIBILITY_INACTIVE;
@@ -538,7 +539,7 @@ public class CmsUserTable extends Table implements I_CmsFilterableTable, I_CmsTo
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(final Set<String> context) {
+        public void executeAction(final Set<@RUntainted String> context) {
 
             Window window = CmsBasicDialog.prepareWindow(DialogWidth.wide);
             CmsBasicDialog dialog = null;
@@ -561,7 +562,7 @@ public class CmsUserTable extends Table implements I_CmsFilterableTable, I_CmsTo
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#getVisibility(java.lang.Object)
          */
-        public CmsMenuItemVisibilityMode getVisibility(Set<String> context) {
+        public CmsMenuItemVisibilityMode getVisibility(Set<@RUntainted String> context) {
 
             try {
                 if (OpenCms.getOrgUnitManager().readOrganizationalUnit(m_cms, m_ou).hasFlagWebuser()) {
@@ -584,7 +585,7 @@ public class CmsUserTable extends Table implements I_CmsFilterableTable, I_CmsTo
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(final Set<String> context) {
+        public void executeAction(final Set<@RUntainted String> context) {
 
             try {
                 final Window window = CmsBasicDialog.prepareWindow(DialogWidth.wide);
@@ -700,7 +701,7 @@ public class CmsUserTable extends Table implements I_CmsFilterableTable, I_CmsTo
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> context) {
+        public void executeAction(Set<@RUntainted String> context) {
 
             Window window = CmsBasicDialog.prepareWindow(DialogWidth.wide);
             window.setCaption(CmsVaadinUtils.getMessageText(Messages.GUI_USERMANAGEMENT_SHOW_RESOURCES_0));
@@ -738,7 +739,7 @@ public class CmsUserTable extends Table implements I_CmsFilterableTable, I_CmsTo
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> context) {
+        public void executeAction(Set<@RUntainted String> context) {
 
             final Window window = CmsBasicDialog.prepareWindow();
             final CmsUUID userID = new CmsUUID(context.iterator().next());
@@ -790,7 +791,7 @@ public class CmsUserTable extends Table implements I_CmsFilterableTable, I_CmsTo
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#getVisibility(java.lang.Object)
          */
-        public CmsMenuItemVisibilityMode getVisibility(Set<String> context) {
+        public CmsMenuItemVisibilityMode getVisibility(Set<@RUntainted String> context) {
 
             try {
                 OpenCms.getRoleManager().checkRole(m_cms, CmsRole.ADMINISTRATOR);
@@ -811,7 +812,7 @@ public class CmsUserTable extends Table implements I_CmsFilterableTable, I_CmsTo
     private static final long serialVersionUID = 7863356514060544048L;
 
     /**Name of group to show user for, or null. */
-    protected String m_group;
+    protected @RUntainted String m_group;
 
     /**Type to be shown. */
     protected I_CmsOuTreeType m_type;
@@ -829,7 +830,7 @@ public class CmsUserTable extends Table implements I_CmsFilterableTable, I_CmsTo
     CmsContextMenu m_menu;
 
     /**OU. */
-    String m_ou;
+    @RUntainted String m_ou;
 
     /**Black list of user from higher OU than current user.*/
     private HashSet<CmsUser> m_blackList = new HashSet<CmsUser>();
@@ -859,7 +860,7 @@ public class CmsUserTable extends Table implements I_CmsFilterableTable, I_CmsTo
      * @param app the app
      */
     public CmsUserTable(
-        String ou,
+        @RUntainted String ou,
         CmsUUID groupID,
         I_CmsOuTreeType cmsOuTreeType,
         boolean showAll,
@@ -906,7 +907,7 @@ public class CmsUserTable extends Table implements I_CmsFilterableTable, I_CmsTo
      * @param app the app
      * @param showAll boolean
      */
-    public CmsUserTable(String ou, I_CmsOuTreeType type, CmsAccountsApp app, boolean showAll) {
+    public CmsUserTable(@RUntainted String ou, I_CmsOuTreeType type, CmsAccountsApp app, boolean showAll) {
 
         m_ou = ou.equals("/") ? "" : ou;
         m_app = app;
@@ -1267,7 +1268,7 @@ public class CmsUserTable extends Table implements I_CmsFilterableTable, I_CmsTo
      * @param context items
      * @return CmsMenuItemVisibilityMode
      */
-    protected CmsMenuItemVisibilityMode onlyVisibleForOU(Set<String> context) {
+    protected CmsMenuItemVisibilityMode onlyVisibleForOU(Set<@RUntainted String> context) {
 
         for (String id : context) {
             if (!onlyVisibleForOU(new CmsUUID(id))) {

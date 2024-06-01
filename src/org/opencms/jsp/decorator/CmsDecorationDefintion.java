@@ -46,6 +46,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class defines text decoration to be made by the postprocessor.<p>
@@ -162,7 +163,7 @@ public class CmsDecorationDefintion {
      * @return CmsDecorationBundle including all decoration lists that match the locale
      * @throws CmsException if something goes wrong
      */
-    public CmsDecorationBundle createDecorationBundle(CmsObject cms, Locale locale) throws CmsException {
+    public CmsDecorationBundle createDecorationBundle(CmsObject cms, @RUntainted Locale locale) throws CmsException {
 
         // get configfile basename and the list of all decoration map files
         List<CmsResource> decorationMapFiles = getDecorationMapFiles(cms);
@@ -195,7 +196,7 @@ public class CmsDecorationDefintion {
      * @param locale the locale to build the decoration bundle for. If no locale is given, a bundle of all locales is build
      * @return CmsDecorationBundle including all decoration lists that match the locale
      */
-    public CmsDecorationBundle createDecorationBundle(List<CmsDecorationMap> decorationMaps, Locale locale) {
+    public CmsDecorationBundle createDecorationBundle(List<CmsDecorationMap> decorationMaps, @RUntainted Locale locale) {
 
         CmsDecorationBundle decorationBundle = new CmsDecorationBundle(locale);
         // sort the bundles
@@ -398,7 +399,7 @@ public class CmsDecorationDefintion {
      * @return list of CmsResources of the decoration map files
      * @throws CmsException if something goes wrong.
      */
-    private List<CmsResource> getDecorationMapFiles(CmsObject cms) throws CmsException {
+    private @RUntainted List<CmsResource> getDecorationMapFiles(CmsObject cms) throws CmsException {
 
         List<CmsResource> files = new ArrayList<CmsResource>();
 
@@ -428,7 +429,7 @@ public class CmsDecorationDefintion {
             // this should really never happen
             plainId = CmsResourceTypePlain.getStaticTypeId();
         }
-        List<CmsResource> resources = cms.readResources(
+        List<@RUntainted CmsResource> resources = cms.readResources(
             CmsResource.getParentFolder(m_configurationFile),
             CmsResourceFilter.DEFAULT);
         Iterator<CmsResource> i = resources.iterator();
@@ -449,7 +450,7 @@ public class CmsDecorationDefintion {
      * @param decorationListFiles the list of decoration files
      * @return list of decoration map objects
      */
-    private List<CmsDecorationMap> getDecorationMaps(CmsObject cms, List<CmsResource> decorationListFiles) {
+    private @RUntainted List<CmsDecorationMap> getDecorationMaps(CmsObject cms, List<CmsResource> decorationListFiles) {
 
         List<CmsDecorationMap> decorationMaps = new ArrayList<CmsDecorationMap>();
         Iterator<CmsResource> i = decorationListFiles.iterator();

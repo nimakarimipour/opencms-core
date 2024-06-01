@@ -28,6 +28,7 @@
 package org.opencms.configuration.preferences;
 
 import org.opencms.xml.content.CmsXmlContentProperty;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Preference for the timewarp widget.<p>

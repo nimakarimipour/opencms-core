@@ -93,6 +93,7 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.IOContext;
 import org.apache.solr.uninverting.UninvertingReader;
 import org.apache.solr.uninverting.UninvertingReader.Type;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract search index implementation.<p>
@@ -206,16 +207,16 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
     private transient Analyzer m_analyzer;
 
     /** Indicates if backup re-indexing is used by this index. */
-    private boolean m_backupReindexing;
+    private @RUntainted boolean m_backupReindexing;
 
     /** The permission check mode for this index. */
-    private boolean m_checkPermissions;
+    private @RUntainted boolean m_checkPermissions;
 
     /** The time range check mode for this index. */
-    private boolean m_checkTimeRange;
+    private @RUntainted boolean m_checkTimeRange;
 
     /** The excerpt mode for this index. */
-    private boolean m_createExcerpt;
+    private @RUntainted boolean m_createExcerpt;
 
     /** Map of display query filters to use. */
     private transient Map<String, Query> m_displayFilters;
@@ -227,16 +228,16 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
     private boolean m_ignoreExpiration;
 
     /** The Lucene index searcher to use. */
-    private transient IndexSearcher m_indexSearcher;
+    private transient @RUntainted IndexSearcher m_indexSearcher;
 
     /** The Lucene index RAM buffer size, see {@link IndexWriterConfig#setRAMBufferSizeMB(double)}. */
-    private Double m_luceneRAMBufferSizeMB;
+    private @RUntainted Double m_luceneRAMBufferSizeMB;
 
     /** Indicates how many hits are loaded at maximum. */
-    private int m_maxHits;
+    private @RUntainted int m_maxHits;
 
     /** The thread priority for a search. */
-    private int m_priority;
+    private @RUntainted int m_priority;
 
     /** Controls if a resource requires view permission to be displayed in the result list. */
     private boolean m_requireViewPermission;
@@ -267,7 +268,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
      *
      * @throws CmsIllegalArgumentException if the given name is null, empty or already taken by another search index
      */
-    public CmsSearchIndex(String name)
+    public CmsSearchIndex(@RUntainted String name)
     throws CmsIllegalArgumentException {
 
         this();
@@ -424,7 +425,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
      *
      */
     @Override
-    public void addConfigurationParameter(String key, String value) {
+    public void addConfigurationParameter(@RUntainted String key, @RUntainted String value) {
 
         if (PERMISSIONS.equals(key)) {
             m_checkPermissions = Boolean.valueOf(value).booleanValue();
@@ -497,7 +498,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
      *
      * @return the Lucene analyzer used for this index
      */
-    public Analyzer getAnalyzer() {
+    public @RUntainted Analyzer getAnalyzer() {
 
         return m_analyzer;
     }
@@ -637,11 +638,11 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
      * @return the language locale for the given resource in this index
      */
     @Override
-    public Locale getLocaleForResource(CmsObject cms, CmsResource resource, List<Locale> availableLocales) {
+    public Locale getLocaleForResource(CmsObject cms, CmsResource resource, List<@RUntainted Locale> availableLocales) {
 
         Locale result;
-        List<Locale> defaultLocales = OpenCms.getLocaleManager().getDefaultLocales(cms, resource);
-        List<Locale> locales = availableLocales;
+        List<@RUntainted Locale> defaultLocales = OpenCms.getLocaleManager().getDefaultLocales(cms, resource);
+        List<@RUntainted Locale> locales = availableLocales;
         if ((locales == null) || (locales.size() == 0)) {
             locales = defaultLocales;
         }
@@ -674,7 +675,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
      *
      * @since 7.5.1
      */
-    public int getMaxHits() {
+    public @RUntainted int getMaxHits() {
 
         return m_maxHits;
     }
@@ -685,7 +686,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
      * @return the path where this index stores it's data in the "real" file system
      */
     @Override
-    public String getPath() {
+    public @RUntainted String getPath() {
 
         if (super.getPath() == null) {
             setPath(generateIndexDirectory());
@@ -708,7 +709,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
      *
      * @return the Lucene index searcher used for this search index
      */
-    public IndexSearcher getSearcher() {
+    public @RUntainted IndexSearcher getSearcher() {
 
         return m_indexSearcher;
     }
@@ -869,7 +870,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
      *
      * @throws CmsSearchException if something goes wrong
      */
-    public CmsSearchResultList search(CmsObject cms, CmsSearchParameters params) throws CmsSearchException {
+    public CmsSearchResultList search(CmsObject cms, @RUntainted CmsSearchParameters params) throws CmsSearchException {
 
         long timeTotal = -System.currentTimeMillis();
         long timeLucene;
@@ -1114,7 +1115,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
 
         if (LOG.isDebugEnabled()) {
             timeTotal += System.currentTimeMillis();
-            Object[] logParams = new Object[] {
+            @RUntainted Object[] logParams = new Object[] {
                 Long.valueOf(hits == null ? 0 : hits.totalHits.value),
                 Long.valueOf(timeTotal),
                 Long.valueOf(timeLucene),
@@ -1427,7 +1428,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
      *
      * @return the path to the backup folder, or <code>null</code> in case no backup was created
      */
-    protected String createIndexBackup() {
+    protected @RUntainted String createIndexBackup() {
 
         if (!isBackupReindexing()) {
             // if no backup is generated we don't need to do anything
@@ -1577,7 +1578,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
      *
      * @return a cached Lucene term query filter for the given field and terms
      */
-    protected Query getMultiTermQueryFilter(String field, List<String> terms) {
+    protected Query getMultiTermQueryFilter(String field, List<@RUntainted String> terms) {
 
         return getMultiTermQueryFilter(field, null, terms);
     }
@@ -1604,7 +1605,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
      *
      * @return a cached Lucene term query filter for the given field and terms
      */
-    protected Query getMultiTermQueryFilter(String field, String termsStr, List<String> termsList) {
+    protected Query getMultiTermQueryFilter(String field, String termsStr, List<@RUntainted String> termsList) {
 
         if (termsStr == null) {
             StringBuffer buf = new StringBuffer(64);
@@ -1702,7 +1703,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
      *
      * @return a cached Lucene term query filter for the given field and term
      */
-    protected Query getTermQueryFilter(String field, String term) {
+    protected Query getTermQueryFilter(String field, @RUntainted String term) {
 
         return getMultiTermQueryFilter(field, term, Collections.singletonList(term));
     }
@@ -1760,7 +1761,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
      *
      * @param path the path to the index directory
      */
-    protected synchronized void indexSearcherOpen(String path) {
+    protected synchronized void indexSearcherOpen(@RUntainted String path) {
 
         IndexSearcher oldSearcher = null;
         Directory indexDirectory = null;
@@ -1879,7 +1880,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
      *
      * @return true if the sort option should be used
      */
-    protected boolean isSortScoring(IndexSearcher searcher, Sort sort) {
+    protected @RUntainted boolean isSortScoring(IndexSearcher searcher, Sort sort) {
 
         boolean doScoring = false;
         if (sort != null) {
@@ -1936,7 +1937,7 @@ public class CmsSearchIndex extends A_CmsSearchIndex {
      *
      * @param path the backup folder to remove
      */
-    protected void removeIndexBackup(String path) {
+    protected void removeIndexBackup(@RUntainted String path) {
 
         if (!isBackupReindexing()) {
             // if no backup is generated we don't need to do anything

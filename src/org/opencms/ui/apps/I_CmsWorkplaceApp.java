@@ -26,6 +26,7 @@
  */
 
 package org.opencms.ui.apps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Common interface for all workplace apps.<p>
@@ -45,5 +46,5 @@ public interface I_CmsWorkplaceApp {
      *
      * @param state the app state to show
      */
-    void onStateChange(String state);
+    void onStateChange(@RUntainted String state);
 }

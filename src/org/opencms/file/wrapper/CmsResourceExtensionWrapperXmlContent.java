@@ -31,6 +31,7 @@ import org.opencms.file.types.CmsResourceTypeXmlContent;
 import org.opencms.file.types.I_CmsResourceType;
 import org.opencms.main.CmsException;
 import org.opencms.main.OpenCms;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A resource type wrapper for xml content files, which adds the correct file extension "xml"
@@ -65,7 +66,7 @@ public class CmsResourceExtensionWrapperXmlContent extends A_CmsResourceExtensio
      * @see org.opencms.file.wrapper.A_CmsResourceExtensionWrapper#getExtension()
      */
     @Override
-    protected String getExtension() {
+    protected @RUntainted String getExtension() {
 
         return RESOURCE_TYPE_EXTENSION;
     }

@@ -44,6 +44,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provider for the OpenCms default graphical "direct edit" buttons.<p>
@@ -64,7 +65,7 @@ public class CmsDirectEditDefaultProvider extends A_CmsDirectEditProvider {
     protected int m_lastPermissionMode;
 
     /** The include file used by this provider. */
-    private String m_headerInclude;
+    private @RUntainted String m_headerInclude;
 
     /**
      * Returns the end HTML for a disabled direct edit button.<p>
@@ -103,7 +104,7 @@ public class CmsDirectEditDefaultProvider extends A_CmsDirectEditProvider {
      * @see org.opencms.workplace.editors.directedit.A_CmsDirectEditProvider#init(org.opencms.file.CmsObject, org.opencms.workplace.editors.directedit.CmsDirectEditMode, java.lang.String)
      */
     @Override
-    public void init(CmsObject cms, CmsDirectEditMode mode, String fileName) {
+    public void init(CmsObject cms, CmsDirectEditMode mode, @RUntainted String fileName) {
 
         super.init(cms, mode, fileName);
 
@@ -382,7 +383,7 @@ public class CmsDirectEditDefaultProvider extends A_CmsDirectEditProvider {
      *
      * @throws CmsException if something goes wrong
      */
-    protected String getContentAsString(CmsFile file) throws CmsException {
+    protected @RUntainted String getContentAsString(CmsFile file) throws CmsException {
 
         CmsProperty p = m_cms.readPropertyObject(file, CmsPropertyDefinition.PROPERTY_CONTENT_ENCODING, true);
         String e = p.getValue();

@@ -15,6 +15,7 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.response.RangeFacet;
 import org.apache.solr.client.solrj.response.SpellCheckResponse;
 import org.apache.solr.common.SolrDocumentList;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Encapsulates a list of 'OpenCms resource documents' ({@link CmsSearchResource}).<p>
@@ -37,7 +38,7 @@ public class CmsSolrResultList extends ArrayList<CmsSearchResource> {
     private int m_end;
 
     /** The time in ms when the highlighting is finished. */
-    private long m_highlightEndTime;
+    private @RUntainted long m_highlightEndTime;
 
     /** A map of highlighting. */
     private Map<String, Map<String, List<String>>> m_highlighting;
@@ -52,7 +53,7 @@ public class CmsSolrResultList extends ArrayList<CmsSearchResource> {
     private QueryResponse m_queryResponse;
 
     /** The original list of Solr documents. */
-    private SolrDocumentList m_resultDocuments;
+    private @RUntainted SolrDocumentList m_resultDocuments;
 
     /** The row count. */
     private Integer m_rows;
@@ -82,7 +83,7 @@ public class CmsSolrResultList extends ArrayList<CmsSearchResource> {
     public CmsSolrResultList(
         SolrQuery query,
         QueryResponse queryResponse,
-        SolrDocumentList resultDocuments,
+        @RUntainted SolrDocumentList resultDocuments,
         List<CmsSearchResource> resourceDocumentList,
         int start,
         Integer rows,
@@ -148,7 +149,7 @@ public class CmsSolrResultList extends ArrayList<CmsSearchResource> {
      *
      * @return the facet field
      */
-    public FacetField getFacetField(String name) {
+    public @RUntainted FacetField getFacetField(String name) {
 
         return m_queryResponse.getFacetField(name);
     }
@@ -189,7 +190,7 @@ public class CmsSolrResultList extends ArrayList<CmsSearchResource> {
      *
      * @return the time in ms when the highlighting is finished
      */
-    public long getHighlightEndTime() {
+    public @RUntainted long getHighlightEndTime() {
 
         return m_highlightEndTime;
     }
@@ -229,7 +230,7 @@ public class CmsSolrResultList extends ArrayList<CmsSearchResource> {
      *
      * @return the count of docs that have been found
      */
-    public long getNumFound() {
+    public @RUntainted long getNumFound() {
 
         return m_resultDocuments.getNumFound();
     }

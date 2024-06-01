@@ -38,6 +38,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This bean holding the gallery dialog information required for displaying the content of the gallery tabs.<p>
@@ -101,7 +102,7 @@ public class CmsGalleryDataBean implements IsSerializable {
     private String m_startFolder;
 
     /** The folder filter for the initial search. */
-    private Set<String> m_startFolderFilter;
+    private @RUntainted Set<String> m_startFolderFilter;
 
     /** The start gallery folder. */
     private String m_startGallery;
@@ -307,7 +308,7 @@ public class CmsGalleryDataBean implements IsSerializable {
      *
      * @return the start folder filter
      */
-    public Set<String> getStartFolderFilter() {
+    public @RUntainted Set<String> getStartFolderFilter() {
 
         return m_startFolderFilter;
     }

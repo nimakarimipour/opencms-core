@@ -35,6 +35,7 @@ import org.opencms.xml.types.A_CmsXmlContentValue;
 
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Widgets to be used with the new XML content editor are required to implement this interface.<p>
@@ -57,7 +58,7 @@ public interface I_CmsADEWidget extends I_CmsWidget {
         A_CmsXmlContentValue contentValue,
         CmsMessages messages,
         CmsResource resource,
-        Locale contentLocale);
+        @RUntainted Locale contentLocale);
 
     /**
      * Returns a list of CSS resources required by the widget.<p>
@@ -96,7 +97,7 @@ public interface I_CmsADEWidget extends I_CmsWidget {
      *
      * @return the class name
      */
-    String getWidgetName();
+    @RUntainted String getWidgetName();
 
     /**
      * Returns if this is an internal widget.<p>

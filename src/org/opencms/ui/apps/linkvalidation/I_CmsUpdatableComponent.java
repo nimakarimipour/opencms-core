@@ -28,6 +28,7 @@
 package org.opencms.ui.apps.linkvalidation;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface with method to update a vaadin table.<p>

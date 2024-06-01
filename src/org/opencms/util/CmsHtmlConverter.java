@@ -45,6 +45,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * HTML cleaner and pretty printer.<p>
@@ -252,7 +253,7 @@ public class CmsHtmlConverter {
     public String convertToString(String htmlInput) throws UnsupportedEncodingException {
 
         // first: collect all converter classes to use on the input
-        Map<String, List<String>> converters = new HashMap<String, List<String>>();
+        Map<@RUntainted String, List<String>> converters = new HashMap<@RUntainted String, List<String>>();
         for (Iterator<String> i = getModes().iterator(); i.hasNext();) {
             String mode = i.next();
             String converterClass = OpenCms.getResourceManager().getHtmlConverter(mode);
@@ -268,8 +269,8 @@ public class CmsHtmlConverter {
         }
 
         // second: convert the content with all found converter classes
-        for (Iterator<Entry<String, List<String>>> i = converters.entrySet().iterator(); i.hasNext();) {
-            Entry<String, List<String>> entry = i.next();
+        for (Iterator<Entry<@RUntainted String, List<String>>> i = converters.entrySet().iterator(); i.hasNext();) {
+            Entry<@RUntainted String, List<String>> entry = i.next();
             String className = entry.getKey();
             List<String> modes = entry.getValue();
             try {
@@ -377,7 +378,7 @@ public class CmsHtmlConverter {
      */
     private List<String> getModes() {
 
-        List<String> modes = new ArrayList<String>();
+        List<@RUntainted String> modes = new ArrayList<@RUntainted String>();
         try {
             modes = CmsStringUtil.splitAsList(getMode(), SEPARATOR_MODES, true);
         } catch (Exception e) {

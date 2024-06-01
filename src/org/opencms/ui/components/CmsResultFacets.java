@@ -67,6 +67,7 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Displays search result facets.<p>
@@ -230,13 +231,13 @@ public class CmsResultFacets extends VerticalLayout {
      *
      * @return the filtered facets
      */
-    private Collection<Count> filterFolderFacets(Collection<Count> folderFacets, CmsObject cms) {
+    private Collection<@RUntainted Count> filterFolderFacets(Collection<@RUntainted Count> folderFacets, CmsObject cms) {
 
         String siteRoot = cms.getRequestContext().getSiteRoot();
         if (!siteRoot.endsWith("/")) {
             siteRoot += "/";
         }
-        Collection<Count> result = new ArrayList<Count>();
+        Collection<@RUntainted Count> result = new ArrayList<@RUntainted Count>();
         for (Count value : folderFacets) {
             if (value.getName().startsWith(siteRoot) && (value.getName().length() > siteRoot.length())) {
                 if (m_selectedFolders.isEmpty()) {
@@ -262,7 +263,7 @@ public class CmsResultFacets extends VerticalLayout {
      *
      * @return the label
      */
-    private String getCategoryLabel(String categoryPath, CmsObject cms) {
+    private String getCategoryLabel(@RUntainted String categoryPath, CmsObject cms) {
 
         String result = "";
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(categoryPath)) {
@@ -310,7 +311,7 @@ public class CmsResultFacets extends VerticalLayout {
      *
      * @return the label
      */
-    private String getFolderLabel(String path) {
+    private String getFolderLabel(@RUntainted String path) {
 
         CmsObject cms = A_CmsUI.getCmsObject();
         return cms.getRequestContext().removeSiteRoot(path);

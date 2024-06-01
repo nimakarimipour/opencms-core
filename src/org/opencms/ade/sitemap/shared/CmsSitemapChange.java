@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean containing sitemap entry change information.<p>
@@ -78,13 +79,13 @@ public class CmsSitemapChange implements IsSerializable, Comparable<CmsSitemapCh
     private List<CmsDetailPageInfo> m_detailPageInfos;
 
     /** The entry id. */
-    private CmsUUID m_entryId;
+    private @RUntainted CmsUUID m_entryId;
 
     /** Indicates if the entry to change is a leaf type entry. */
     private boolean m_isLeafType;
 
     /** The entry name. */
-    private String m_name;
+    private @RUntainted String m_name;
 
     /** The new entry copy resource structure id. */
     private CmsUUID m_newCopyResourceId;
@@ -96,7 +97,7 @@ public class CmsSitemapChange implements IsSerializable, Comparable<CmsSitemapCh
     private Map<String, CmsClientProperty> m_ownInternalProperties = new HashMap<String, CmsClientProperty>();
 
     /** An additional parameter which may contain additional information for creating a new resource. */
-    private String m_parameter;
+    private @RUntainted String m_parameter;
 
     /** The entry parent id. */
     private CmsUUID m_parentId;
@@ -128,7 +129,7 @@ public class CmsSitemapChange implements IsSerializable, Comparable<CmsSitemapCh
      * @param sitePath the entry site-path
      * @param changeType the change type
      */
-    public CmsSitemapChange(CmsUUID entryId, String sitePath, ChangeType changeType) {
+    public CmsSitemapChange(@RUntainted CmsUUID entryId, String sitePath, ChangeType changeType) {
 
         m_entryId = entryId;
         m_sitePath = sitePath;
@@ -248,7 +249,7 @@ public class CmsSitemapChange implements IsSerializable, Comparable<CmsSitemapCh
      *
      * @return an additional parameter which may contain information needed to create new resources
      */
-    public String getCreateParameter() {
+    public @RUntainted String getCreateParameter() {
 
         return m_parameter;
     }
@@ -298,7 +299,7 @@ public class CmsSitemapChange implements IsSerializable, Comparable<CmsSitemapCh
      *
      * @return the entry id
      */
-    public CmsUUID getEntryId() {
+    public @RUntainted CmsUUID getEntryId() {
 
         return m_entryId;
     }
@@ -308,7 +309,7 @@ public class CmsSitemapChange implements IsSerializable, Comparable<CmsSitemapCh
      *
      * @return the entry name
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_name;
     }
@@ -517,7 +518,7 @@ public class CmsSitemapChange implements IsSerializable, Comparable<CmsSitemapCh
      *
      * @param parameter the additional resource creation information
      */
-    public void setCreateParameter(String parameter) {
+    public void setCreateParameter(@RUntainted String parameter) {
 
         m_parameter = parameter;
 
@@ -568,7 +569,7 @@ public class CmsSitemapChange implements IsSerializable, Comparable<CmsSitemapCh
      *
      * @param entryId the entry id to set
      */
-    public void setEntryId(CmsUUID entryId) {
+    public void setEntryId(@RUntainted CmsUUID entryId) {
 
         m_entryId = entryId;
     }

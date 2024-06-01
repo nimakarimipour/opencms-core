@@ -52,6 +52,7 @@
  */
 
 package org.opencms.json;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The <code>I_JSONString</code> interface allows a <code>toJSONString()</code>
@@ -69,5 +70,5 @@ public interface I_JSONString {
      *
      * @return a strictly syntactically correct JSON text
      */
-    String toJSONString();
+    @RUntainted String toJSONString();
 }

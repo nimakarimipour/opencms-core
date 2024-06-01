@@ -53,6 +53,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.HashMultimap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Validates relations of resources in the OpenCms VFS.<p>
@@ -302,7 +303,7 @@ public class CmsRelationSystemValidator {
         CmsDbContext dbc,
         CmsResource resource,
         CmsRelation relation,
-        String link,
+        @RUntainted String link,
         CmsProject project,
         Map<String, CmsResource> fileLookup) {
 
@@ -371,7 +372,7 @@ public class CmsRelationSystemValidator {
      */
     protected List<CmsRelation> validateLinks(
         CmsDbContext dbc,
-        CmsResource resource,
+        @RUntainted CmsResource resource,
         Map<String, CmsResource> fileLookup,
         CmsProject project,
         I_CmsReport report) {

@@ -28,6 +28,7 @@
 package org.opencms.jsp.util;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Common interface for accessing formatter / resource type infos in JSPs.

@@ -35,6 +35,7 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Container bean.<p>
@@ -71,7 +72,7 @@ public class CmsContainer implements IsSerializable {
     private int m_maxElements;
 
     /** The container name. */
-    private String m_name;
+    private @RUntainted String m_name;
 
     /** The parent container name. */
     private String m_parentContainerName;
@@ -83,7 +84,7 @@ public class CmsContainer implements IsSerializable {
     private Map<String, String> m_settingPresets = new HashMap<String, String>();
 
     /** The container type. */
-    private String m_type;
+    private @RUntainted String m_type;
 
     /** The width of the container. */
     private int m_width;
@@ -188,7 +189,7 @@ public class CmsContainer implements IsSerializable {
      *
      * @return the container name
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_name;
     }
@@ -218,7 +219,7 @@ public class CmsContainer implements IsSerializable {
      *
      * @return the setting presets
      */
-    public Map<String, String> getSettingPresets() {
+    public Map<String, @RUntainted String> getSettingPresets() {
 
         return m_settingPresets;
     }
@@ -228,7 +229,7 @@ public class CmsContainer implements IsSerializable {
      *
      * @return the container type
      */
-    public String getType() {
+    public @RUntainted String getType() {
 
         return m_type;
     }

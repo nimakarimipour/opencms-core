@@ -65,6 +65,7 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import com.google.common.collect.Maps;
 import com.vaadin.ui.Component;
 import com.vaadin.v7.data.util.converter.Converter;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class whose instances contain the static data needed for a table column.<p>
@@ -432,10 +433,10 @@ public class CmsResourceTableProperty implements Serializable {
     private float m_expandRatio;
 
     /** The message key for the column header. */
-    private String m_headerKey;
+    private @RUntainted String m_headerKey;
 
     /** The column id. */
-    private String m_id;
+    private @RUntainted String m_id;
 
     /**
      * Creates a new instance.<p>
@@ -449,7 +450,7 @@ public class CmsResourceTableProperty implements Serializable {
      * @param columnWidth the column width
      */
     public CmsResourceTableProperty(
-        String id,
+        @RUntainted String id,
         Class<?> columnType,
         Object defaultValue,
         String headerKey,
@@ -473,7 +474,7 @@ public class CmsResourceTableProperty implements Serializable {
      * @param converter the property converter
      */
     public CmsResourceTableProperty(
-        String id,
+        @RUntainted String id,
         Class<?> columnType,
         Object defaultValue,
         String headerKey,
@@ -505,7 +506,7 @@ public class CmsResourceTableProperty implements Serializable {
      * @param columnWidth the column width
      */
     public CmsResourceTableProperty(
-        String id,
+        @RUntainted String id,
         String editPropertyId,
         Class<?> columnType,
         Object defaultValue,
@@ -620,7 +621,7 @@ public class CmsResourceTableProperty implements Serializable {
      *
      * @return the edit property id
      */
-    public String getEditPropertyId() {
+    public @RUntainted String getEditPropertyId() {
 
         return m_editPropertyId;
     }
@@ -640,7 +641,7 @@ public class CmsResourceTableProperty implements Serializable {
      *
      * @return the headerKey
      */
-    public String getHeaderKey() {
+    public @RUntainted String getHeaderKey() {
 
         return m_headerKey;
     }
@@ -650,7 +651,7 @@ public class CmsResourceTableProperty implements Serializable {
      *
      * @return the id
      */
-    public String getId() {
+    public @RUntainted String getId() {
 
         return m_id;
     }

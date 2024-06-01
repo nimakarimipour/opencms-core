@@ -33,6 +33,7 @@ import org.opencms.ui.I_CmsDialogContext;
 
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface for workplace context menu items.<p>
@@ -95,7 +96,7 @@ public interface I_CmsContextMenuItem extends I_CmsHasMenuItemVisibility, I_CmsC
      *
      * @return the title
      */
-    String getTitle(Locale locale);
+    @RUntainted String getTitle(Locale locale);
 
     /**
      * Computes the visibility for this context menu items with the given CMS context and resources.<p>

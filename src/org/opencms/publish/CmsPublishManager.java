@@ -56,6 +56,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This manager provide access to the publish engine runtime information.<p>
@@ -214,7 +215,7 @@ public class CmsPublishManager {
      * @return the number of cleaned up rows
      * @throws CmsException if something goes wrong
      */
-    public int cleanupPublishHistory(CmsObject cms) throws CmsException {
+    public @RUntainted int cleanupPublishHistory(CmsObject cms) throws CmsException {
 
         List<CmsUUID> exceptions = new ArrayList<>();
         for (Supplier<List<CmsUUID>> provider : m_specialHistoryIdProviders) {
@@ -875,7 +876,7 @@ public class CmsPublishManager {
      *
      * @throws Exception if something goes wrong
      */
-    public Map<String, List<CmsRelation>> validateRelations(
+    public Map<@RUntainted String, List<CmsRelation>> validateRelations(
         CmsObject cms,
         CmsPublishList publishList,
         I_CmsReport report)

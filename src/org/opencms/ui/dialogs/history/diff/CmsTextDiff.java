@@ -60,6 +60,7 @@ import com.google.common.base.Optional;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Panel;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interprets two versions of a resource as text files, and shows a diff view for the two texts.<p>

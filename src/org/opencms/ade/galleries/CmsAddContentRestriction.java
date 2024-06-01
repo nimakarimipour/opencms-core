@@ -52,6 +52,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Replacement configuration for the 'add content' dialog.
@@ -72,7 +73,7 @@ public class CmsAddContentRestriction {
         private String m_origin;
 
         /** The replacement titles for the search results, with the corresponding structure ids as keys. */
-        private Map<CmsUUID, String> m_replacedTitles = new HashMap<>();
+        private Map<CmsUUID, @RUntainted String> m_replacedTitles = new HashMap<>();
 
         /** The resources to replace the search result for the configured type with. */
         private List<CmsResource> m_resources = new ArrayList<>();
@@ -91,7 +92,7 @@ public class CmsAddContentRestriction {
         public TypeEntry(
             String type,
             List<CmsResource> resources,
-            Map<CmsUUID, String> titleReplacements,
+            Map<CmsUUID, @RUntainted String> titleReplacements,
             String origin) {
 
             m_type = type;
@@ -238,7 +239,7 @@ public class CmsAddContentRestriction {
     public static TypeEntry readEntry(CmsObject cms, I_CmsXmlContentValueLocation location) {
 
         String type = location.getSubValue(N_TYPE).getValue().getStringValue(cms).trim();
-        Map<CmsUUID, String> titleMap = new HashMap<>();
+        Map<CmsUUID, @RUntainted String> titleMap = new HashMap<>();
         List<CmsResource> resourceList = new ArrayList<>();
         for (I_CmsXmlContentValueLocation entryLoc : location.getSubValues(N_ENTRY)) {
             CmsXmlVfsFileValue resoureValue = (CmsXmlVfsFileValue)(entryLoc.getSubValue(N_RESOURCE).getValue());

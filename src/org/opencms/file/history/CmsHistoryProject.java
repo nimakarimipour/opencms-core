@@ -34,6 +34,7 @@ import org.opencms.security.CmsPrincipal;
 import org.opencms.util.CmsUUID;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes an OpenCms historical project entry.<p>
@@ -43,16 +44,16 @@ import java.util.List;
 public class CmsHistoryProject extends CmsProject {
 
     /** The publishing date of this project. */
-    private long m_datePublished;
+    private @RUntainted long m_datePublished;
 
     /** The resources belonging to the project. */
-    private List<String> m_projectResources;
+    private @RUntainted List<String> m_projectResources;
 
     /** The publish tag of the published project. */
-    private int m_publishTag;
+    private @RUntainted int m_publishTag;
 
     /** The user id of the publisher. */
-    private CmsUUID m_userPublished;
+    private @RUntainted CmsUUID m_userPublished;
 
     /**
      * Creates a new CmsHistoryProject.<p>
@@ -71,18 +72,18 @@ public class CmsHistoryProject extends CmsProject {
      * @param projectResources a list of resources that are the project "view"
      */
     public CmsHistoryProject(
-        int publishTag,
-        CmsUUID projectId,
-        String name,
-        String description,
-        CmsUUID ownerId,
-        CmsUUID groupId,
-        CmsUUID managerGroupId,
-        long dateCreated,
-        CmsProjectType type,
-        long datePublished,
-        CmsUUID userPublished,
-        List<String> projectResources) {
+        @RUntainted int publishTag,
+        @RUntainted CmsUUID projectId,
+        @RUntainted String name,
+        @RUntainted String description,
+        @RUntainted CmsUUID ownerId,
+        @RUntainted CmsUUID groupId,
+        @RUntainted CmsUUID managerGroupId,
+        @RUntainted long dateCreated,
+        @RUntainted CmsProjectType type,
+        @RUntainted long datePublished,
+        @RUntainted CmsUUID userPublished,
+        @RUntainted List<String> projectResources) {
 
         super(projectId, name, description, ownerId, groupId, managerGroupId, 0, dateCreated, type);
 
@@ -96,7 +97,7 @@ public class CmsHistoryProject extends CmsProject {
      * @see org.opencms.file.CmsProject#clone()
      */
     @Override
-    public Object clone() {
+    public @RUntainted Object clone() {
 
         return new CmsHistoryProject(
             m_publishTag,
@@ -191,7 +192,7 @@ public class CmsHistoryProject extends CmsProject {
      *
      * @return the id of the user that published this project
      */
-    public CmsUUID getPublishedBy() {
+    public @RUntainted CmsUUID getPublishedBy() {
 
         return m_userPublished;
     }
@@ -246,7 +247,7 @@ public class CmsHistoryProject extends CmsProject {
      *
      * @param projectResources the projectResources to set
      */
-    public void setProjectResources(List<String> projectResources) {
+    public void setProjectResources(@RUntainted List<String> projectResources) {
 
         m_projectResources = projectResources;
     }

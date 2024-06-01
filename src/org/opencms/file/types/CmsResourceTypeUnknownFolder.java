@@ -29,6 +29,7 @@ package org.opencms.file.types;
 
 import org.opencms.configuration.CmsConfigurationException;
 import org.opencms.main.OpenCms;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor for unknown folder types.<p>
@@ -72,7 +73,7 @@ public class CmsResourceTypeUnknownFolder extends A_CmsResourceTypeFolderBase {
      *
      * @return the static type id of this (default) resource type
      */
-    public static int getStaticTypeId() {
+    public static @RUntainted int getStaticTypeId() {
 
         return m_staticTypeId;
     }

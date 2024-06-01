@@ -59,6 +59,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for creating a new resource using the New dialog.<p>
@@ -216,7 +217,7 @@ public class CmsNewResourceBuilder {
     private CmsResource m_modelResource;
 
     /** The path with name pattern at which the resource should be created. */
-    private String m_pathWithPattern;
+    private @RUntainted String m_pathWithPattern;
 
     /** The property changes to save (may be null). */
     private CmsPropertyChangeSet m_propChanges;
@@ -348,7 +349,7 @@ public class CmsNewResourceBuilder {
      *
      * @param locale the locale
      */
-    public void setLocale(Locale locale) {
+    public void setLocale(@RUntainted Locale locale) {
 
         m_cms.getRequestContext().setLocale(locale);
 
@@ -369,7 +370,7 @@ public class CmsNewResourceBuilder {
      *
      * @param destination the creation path
      */
-    public void setPatternPath(String destination) {
+    public void setPatternPath(@RUntainted String destination) {
 
         m_pathWithPattern = destination;
     }
@@ -389,7 +390,7 @@ public class CmsNewResourceBuilder {
      *
      * @param siteRoot the site root
      */
-    public void setSiteRoot(String siteRoot) {
+    public void setSiteRoot(@RUntainted String siteRoot) {
 
         m_cms.getRequestContext().setSiteRoot(siteRoot);
     }

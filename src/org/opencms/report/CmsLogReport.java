@@ -30,6 +30,7 @@ package org.opencms.report;
 import org.opencms.main.CmsLog;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Report class used for the logfile.<p>

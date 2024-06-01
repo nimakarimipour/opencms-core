@@ -35,6 +35,7 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of @{link org.opencms.widgets.serialdate.I_CmsSerialDateBean}
@@ -62,8 +63,8 @@ public class CmsSerialDateBeanIndividual extends A_CmsSerialDateBean {
         EndType endType,
         Date serialEndDate,
         int occurrences,
-        SortedSet<Date> exceptions,
-        SortedSet<Date> individualDates) {
+        SortedSet<@RUntainted Date> exceptions,
+        SortedSet<@RUntainted Date> individualDates) {
         super(startDate, endDate, isWholeDay, endType, serialEndDate, occurrences, exceptions);
         m_individualDates = null == individualDates ? new TreeSet<Date>() : new TreeSet<Date>(individualDates);
 

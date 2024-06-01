@@ -33,6 +33,7 @@ import org.opencms.acacia.shared.I_CmsSerialDateValue.Month;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.SortedSet;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of @{link org.opencms.widgets.serialdate.I_CmsSerialDateBean}
@@ -65,7 +66,7 @@ public class CmsSerialDateBeanYearly extends A_CmsSerialDateBean {
         EndType endType,
         Date serialEndDate,
         int occurrences,
-        SortedSet<Date> exceptions,
+        SortedSet<@RUntainted Date> exceptions,
         int dayOfMonth,
         Month month) {
 

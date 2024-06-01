@@ -43,6 +43,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Panel;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Displays two image versions side by side, scaled.<p>

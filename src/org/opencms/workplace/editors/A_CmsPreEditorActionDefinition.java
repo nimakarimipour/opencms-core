@@ -33,6 +33,7 @@ import org.opencms.file.types.I_CmsResourceType;
 import org.opencms.loader.CmsLoaderException;
 import org.opencms.main.OpenCms;
 import org.opencms.workplace.CmsDialog;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Defines an action to be performed before the workplace editor is opened for the first time.<p>
@@ -64,7 +65,7 @@ public abstract class A_CmsPreEditorActionDefinition implements I_CmsPreEditorAc
     /**
      * @see org.opencms.configuration.I_CmsConfigurationParameterHandler#addConfigurationParameter(java.lang.String, java.lang.String)
      */
-    public void addConfigurationParameter(String paramName, String paramValue) {
+    public void addConfigurationParameter(String paramName, @RUntainted String paramValue) {
 
         m_configuration.add(paramName, paramValue);
     }

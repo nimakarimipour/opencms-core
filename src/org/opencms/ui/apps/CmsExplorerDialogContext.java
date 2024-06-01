@@ -41,6 +41,7 @@ import org.opencms.util.CmsUUID;
 
 import java.util.Collection;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog context for the explorer.<p>
@@ -72,7 +73,7 @@ public class CmsExplorerDialogContext extends CmsFileTableDialogContext {
      * @see org.opencms.ui.A_CmsDialogContext#finish(org.opencms.file.CmsProject, java.lang.String)
      */
     @Override
-    public void finish(CmsProject project, String siteRoot) {
+    public void finish(CmsProject project, @RUntainted String siteRoot) {
 
         finish(null);
         m_explorer.onSiteOrProjectChange(project, siteRoot);

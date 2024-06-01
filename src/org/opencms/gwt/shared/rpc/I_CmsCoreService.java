@@ -47,6 +47,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.gwt.user.client.rpc.RemoteService;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides general core services.<p>
@@ -119,9 +120,9 @@ public interface I_CmsCoreService extends RemoteService {
      * @throws CmsRpcException if something goes wrong
      */
     List<CmsCategoryTreeEntry> getCategories(
-        String fromCatPath,
+        @RUntainted String fromCatPath,
         boolean includeSubCats,
-        String refVfsPath,
+        @RUntainted String refVfsPath,
         boolean withRepositories)
     throws CmsRpcException;
 
@@ -186,7 +187,7 @@ public interface I_CmsCoreService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    CmsReturnLinkInfo getLinkForReturnCode(String returnCode) throws CmsRpcException;
+    CmsReturnLinkInfo getLinkForReturnCode(@RUntainted String returnCode) throws CmsRpcException;
 
     /**
      * Gets the resource state for a resource with a given path.<p>
@@ -336,7 +337,7 @@ public interface I_CmsCoreService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    void setShowEditorHelp(boolean showHelp) throws CmsRpcException;
+    void setShowEditorHelp(@RUntainted boolean showHelp) throws CmsRpcException;
 
     /**
      * Writes the tool-bar visibility into the session cache.<p>

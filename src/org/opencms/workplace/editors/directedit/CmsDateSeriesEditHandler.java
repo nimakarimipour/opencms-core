@@ -60,6 +60,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Special edit handler for contents that define multiple instances in a date series. */
 public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
@@ -92,7 +93,7 @@ public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
         private CmsFile m_file;
 
         /** The date of the current instance of the series. */
-        private Date m_instanceDate;
+        private @RUntainted Date m_instanceDate;
 
         /** UUID of the container page we currently act on. */
         private CmsUUID m_pageContextId;
@@ -376,7 +377,7 @@ public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
          * @param l the locale to show the title in.
          * @return the gallery title of the series content.
          */
-        private String getTitle(Locale l) {
+        private @RUntainted String getTitle(Locale l) {
 
             CmsGallerySearchResult result;
             try {
@@ -410,7 +411,7 @@ public class CmsDateSeriesEditHandler implements I_CmsEditHandler {
         private void setInstanceDate() {
 
             String sl = null;
-            Map<String, String> settings = m_elementBean.getSettings();
+            Map<@RUntainted String, @RUntainted String> settings = m_elementBean.getSettings();
             if (settings.containsKey(PARAM_INSTANCEDATE)) {
                 sl = settings.get(PARAM_INSTANCEDATE);
             } else if (m_requestParameters.containsKey(PARAM_INSTANCEDATE)) {

@@ -47,6 +47,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Adds a folder in every existing folder with the name "__properties" which
@@ -102,7 +103,7 @@ public class CmsResourceWrapperPropertyFile extends A_CmsResourceWrapper {
             List<CmsResource> ret = new ArrayList<CmsResource>();
 
             // Iterate through all existing resources
-            List<CmsResource> resources = cms.getResourcesInFolder(parent, filter);
+            List<@RUntainted CmsResource> resources = cms.getResourcesInFolder(parent, filter);
             Iterator<CmsResource> iter = resources.iterator();
             while (iter.hasNext()) {
                 CmsResource res = iter.next();
@@ -444,7 +445,7 @@ public class CmsResourceWrapperPropertyFile extends A_CmsResourceWrapper {
      *
      * @return the full path to the property file of the resource
      */
-    private String getPropertyFileName(CmsResource res) {
+    private @RUntainted String getPropertyFileName(CmsResource res) {
 
         StringBuffer ret = new StringBuffer();
 

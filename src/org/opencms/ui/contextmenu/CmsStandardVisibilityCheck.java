@@ -87,6 +87,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Standard visibility check implementation.<p>
@@ -321,7 +322,7 @@ public final class CmsStandardVisibilityCheck extends A_CmsSimpleVisibilityCheck
      * @see org.opencms.ui.contextmenu.A_CmsSimpleVisibilityCheck#getSingleVisibility(org.opencms.file.CmsObject, org.opencms.file.CmsResource)
      */
     @Override
-    public CmsMenuItemVisibilityMode getSingleVisibility(CmsObject cms, CmsResource resource) {
+    public CmsMenuItemVisibilityMode getSingleVisibility(CmsObject cms, @RUntainted CmsResource resource) {
 
         boolean prioritize = false;
         String inActiveKey = null;

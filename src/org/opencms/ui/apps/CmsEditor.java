@@ -60,6 +60,7 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServletRequest;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The editor app. Will open the appropriate editor for a resource.<p>
@@ -238,7 +239,7 @@ implements I_CmsWorkplaceApp, ViewChangeListener, I_CmsWindowCloseListener, I_Cm
     /**
      * @see org.opencms.ui.apps.I_CmsWorkplaceApp#onStateChange(java.lang.String)
      */
-    public void onStateChange(String state) {
+    public void onStateChange(@RUntainted String state) {
 
         CmsUUID resId = getResourceIdFromState(state);
         String path = null;
@@ -254,7 +255,7 @@ implements I_CmsWorkplaceApp, ViewChangeListener, I_CmsWindowCloseListener, I_Cm
             } else if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(path)) {
                 resource = cms.readResource(path, CmsResourceFilter.ONLY_VISIBLE_NO_DELETED);
             }
-            Map<String, String> params = A_CmsWorkplaceApp.getParamsFromState(state);
+            Map<String, @RUntainted String> params = A_CmsWorkplaceApp.getParamsFromState(state);
             String newLink = params.get(CmsXmlContentEditor.PARAM_NEWLINK);
             I_CmsEditor editor = null;
             if (CmsStringUtil.isEmptyOrWhitespaceOnly(newLink)) {
@@ -325,7 +326,7 @@ implements I_CmsWorkplaceApp, ViewChangeListener, I_CmsWindowCloseListener, I_Cm
      *
      * @return the resource id
      */
-    private CmsUUID getResourceIdFromState(String state) {
+    private CmsUUID getResourceIdFromState(@RUntainted String state) {
 
         CmsUUID result = null;
         String id = A_CmsWorkplaceApp.getParamFromState(state, RESOURCE_ID_PREFIX);

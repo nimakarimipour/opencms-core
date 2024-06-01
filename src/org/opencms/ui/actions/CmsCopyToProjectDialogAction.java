@@ -38,6 +38,7 @@ import org.opencms.ui.dialogs.CmsCopyToProjectDialog;
 import org.opencms.workplace.explorer.Messages;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The copy to project dialog action.<p>
@@ -81,7 +82,7 @@ public class CmsCopyToProjectDialogAction extends A_CmsWorkplaceAction {
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
      */
     @Override
-    protected String getTitleKey() {
+    protected @RUntainted String getTitleKey() {
 
         return Messages.GUI_EXPLORER_CONTEXT_COPYTOPROJECT_0;
     }

@@ -33,6 +33,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains the data on which a workflow action should act (usually, a list of resources).<p>

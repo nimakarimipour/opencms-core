@@ -61,6 +61,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A command line interface to access OpenCms functions which
@@ -97,7 +98,7 @@ public class CmsShell {
     private class CmsCommandObject {
 
         /** The list of methods. */
-        private Map<String, List<Method>> m_methods;
+        private Map<String, List<@RUntainted Method>> m_methods;
 
         /** The object to execute the methods on. */
         private Object m_object;
@@ -124,14 +125,14 @@ public class CmsShell {
          * @return true if a method was executed, false otherwise
          */
         @SuppressWarnings("synthetic-access")
-        protected boolean executeMethod(String command, List<String> parameters) {
+        protected boolean executeMethod(String command, List<@RUntainted String> parameters) {
 
             m_hasReportError = false;
             // build the method lookup
             String lookup = buildMethodLookup(command, parameters.size());
 
             // try to look up the methods of this command object
-            List<Method> possibleMethods = m_methods.get(lookup);
+            List<@RUntainted Method> possibleMethods = m_methods.get(lookup);
             if (possibleMethods == null) {
                 return false;
             }
@@ -140,7 +141,7 @@ public class CmsShell {
             Method onlyStringMethod = null;
             Method foundMethod = null;
             Object[] params = null;
-            Iterator<Method> i;
+            Iterator<@RUntainted Method> i;
 
             // first check if there is one method with only has String parameters, make this the fall back
             i = possibleMethods.iterator();
@@ -266,7 +267,7 @@ public class CmsShell {
             StringBuffer buf = new StringBuffer(512);
             Iterator<String> i = m_methods.keySet().iterator();
             while (i.hasNext()) {
-                List<Method> l = m_methods.get(i.next());
+                List<@RUntainted Method> l = m_methods.get(i.next());
                 Iterator<Method> j = l.iterator();
                 while (j.hasNext()) {
                     Method method = j.next();
@@ -324,7 +325,7 @@ public class CmsShell {
          */
         private void initShellMethods() {
 
-            Map<String, List<Method>> result = new TreeMap<String, List<Method>>();
+            Map<String, List<@RUntainted Method>> result = new TreeMap<String, List<@RUntainted Method>>();
 
             Method[] methods = m_object.getClass().getMethods();
             for (int i = 0; i < methods.length; i++) {
@@ -481,8 +482,8 @@ public class CmsShell {
      * @param additionalShellCommands optional object for additional shell commands, or null
      */
     public CmsShell(
-        String webInfPath,
-        String servletMapping,
+        @RUntainted String webInfPath,
+        @RUntainted String servletMapping,
         String defaultWebAppName,
         String prompt,
         I_CmsShellCommands additionalShellCommands) {
@@ -511,8 +512,8 @@ public class CmsShell {
      * @param interactive if <code>true</code> this is an interactive session with a user sitting on a console
      */
     public CmsShell(
-        String webInfPath,
-        String servletMapping,
+        @RUntainted String webInfPath,
+        @RUntainted String servletMapping,
         String defaultWebAppName,
         String prompt,
         I_CmsShellCommands additionalShellCommands,
@@ -855,7 +856,7 @@ public class CmsShell {
      * @param command the command to execute
      * @param parameters the list of parameters for the command
      */
-    public void executeCommand(String command, List<String> parameters) {
+    public void executeCommand(@RUntainted String command, List<String> parameters) {
 
         if (null == command) {
             return;
@@ -1137,7 +1138,7 @@ public class CmsShell {
      *
      * @throws CmsException in case the locale of the current user can not be stored
      */
-    public void setLocale(Locale locale) throws CmsException {
+    public void setLocale(@RUntainted Locale locale) throws CmsException {
 
         CmsUserSettings settings = getSettings();
         if (settings != null) {
@@ -1186,7 +1187,7 @@ public class CmsShell {
      *
      * @param searchString the String to search for in the methods, if null all methods are shown
      */
-    protected void help(String searchString) {
+    protected void help(@RUntainted String searchString) {
 
         String commandList;
         boolean foundSomething = false;

@@ -33,38 +33,39 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** The base class for implementations of serial date values. */
 public class A_CmsSerialDateValue implements I_CmsSerialDateValue {
 
     /** Start date and time of the first event in the series. */
-    private Date m_start;
+    private @RUntainted Date m_start;
     /** End date and time of the first event in the series. */
-    private Date m_end;
+    private @RUntainted Date m_end;
     /** Last day events of the series should take place. */
-    private Date m_seriesEndDate;
+    private @RUntainted Date m_seriesEndDate;
     /** Maximal number of occurrences of the event. */
-    private int m_seriesOccurrences;
+    private @RUntainted int m_seriesOccurrences;
     /** The interval between two events (e.g., number of days, weeks, month, years). */
-    private int m_interval;
+    private @RUntainted int m_interval;
     /** The day of the month when the event should happen. */
-    private int m_dayOfMonth;
+    private @RUntainted int m_dayOfMonth;
     /** The weekdays at which the event should happen. */
-    private final SortedSet<WeekDay> m_weekDays = new TreeSet<>();
+    private final SortedSet<@RUntainted WeekDay> m_weekDays = new TreeSet<>();
     /** The recursion pattern of the event series. */
-    private PatternType m_patterntype;
+    private @RUntainted PatternType m_patterntype;
     /** The weeks in a month where the event should happen. */
-    private final SortedSet<WeekOfMonth> m_weeksOfMonth = new TreeSet<>();
+    private final SortedSet<@RUntainted WeekOfMonth> m_weeksOfMonth = new TreeSet<>();
     /** Dates in the event series, where the event is not taking place. */
-    private final SortedSet<Date> m_exceptions = new TreeSet<>();
+    private final SortedSet<@RUntainted Date> m_exceptions = new TreeSet<>();
     /** Individual dates, where the event takes place. */
-    private final SortedSet<Date> m_individualDates = new TreeSet<>();
+    private final SortedSet<@RUntainted Date> m_individualDates = new TreeSet<>();
     /** Flag, indicating if the event should take place on every working day. */
     private boolean m_isEveryWorkingDay;
     /** Flag, indicating if the event lasts all the day. */
     private boolean m_isWholeDay;
     /** Month in which the event takes place. */
-    private Month m_month = Month.JANUARY;
+    private @RUntainted Month m_month = Month.JANUARY;
     /** The end type of the series. */
     private EndType m_endType;
     /** The series content, the current value is extracted from. */
@@ -76,7 +77,7 @@ public class A_CmsSerialDateValue implements I_CmsSerialDateValue {
      * Add a date where the event should not take place, even if they are part of the series.
      * @param date the date to add as exception.
      */
-    public void addException(Date date) {
+    public void addException(@RUntainted Date date) {
 
         if (null != date) {
             m_exceptions.add(date);
@@ -88,7 +89,7 @@ public class A_CmsSerialDateValue implements I_CmsSerialDateValue {
      * Add a week of month.
      * @param week the week to add.
      */
-    public final void addWeekOfMonth(WeekOfMonth week) {
+    public final void addWeekOfMonth(@RUntainted WeekOfMonth week) {
 
         m_weeksOfMonth.add(week);
     }
@@ -191,7 +192,7 @@ public class A_CmsSerialDateValue implements I_CmsSerialDateValue {
     /**
      * @see org.opencms.acacia.shared.I_CmsSerialDateValue#getDayOfMonth()
      */
-    public final int getDayOfMonth() {
+    public final @RUntainted int getDayOfMonth() {
 
         return m_dayOfMonth;
     }
@@ -199,7 +200,7 @@ public class A_CmsSerialDateValue implements I_CmsSerialDateValue {
     /**
      * @see org.opencms.acacia.shared.I_CmsSerialDateValue#getEnd()
      */
-    public final Date getEnd() {
+    public final @RUntainted Date getEnd() {
 
         return m_end;
     }
@@ -215,7 +216,7 @@ public class A_CmsSerialDateValue implements I_CmsSerialDateValue {
     /**
      * @see org.opencms.acacia.shared.I_CmsSerialDateValue#getExceptions()
      */
-    public final SortedSet<Date> getExceptions() {
+    public final SortedSet<@RUntainted Date> getExceptions() {
 
         return new TreeSet<>(m_exceptions);
     }
@@ -223,7 +224,7 @@ public class A_CmsSerialDateValue implements I_CmsSerialDateValue {
     /**
      * @see org.opencms.acacia.shared.I_CmsSerialDateValue#getIndividualDates()
      */
-    public final SortedSet<Date> getIndividualDates() {
+    public final SortedSet<@RUntainted Date> getIndividualDates() {
 
         return new TreeSet<>(m_individualDates);
     }
@@ -231,7 +232,7 @@ public class A_CmsSerialDateValue implements I_CmsSerialDateValue {
     /**
      * @see org.opencms.acacia.shared.I_CmsSerialDateValue#getInterval()
      */
-    public final int getInterval() {
+    public final @RUntainted int getInterval() {
 
         return m_interval;
     }
@@ -239,7 +240,7 @@ public class A_CmsSerialDateValue implements I_CmsSerialDateValue {
     /**
      * @see org.opencms.acacia.shared.I_CmsSerialDateValue#getMonth()
      */
-    public final Month getMonth() {
+    public final @RUntainted Month getMonth() {
 
         return m_month;
     }
@@ -247,7 +248,7 @@ public class A_CmsSerialDateValue implements I_CmsSerialDateValue {
     /**
      * @see org.opencms.acacia.shared.I_CmsSerialDateValue#getOccurrences()
      */
-    public final int getOccurrences() {
+    public final @RUntainted int getOccurrences() {
 
         return m_seriesOccurrences;
     }
@@ -263,7 +264,7 @@ public class A_CmsSerialDateValue implements I_CmsSerialDateValue {
     /**
      * @see org.opencms.acacia.shared.I_CmsSerialDateValue#getPatternType()
      */
-    public final PatternType getPatternType() {
+    public final @RUntainted PatternType getPatternType() {
 
         return m_patterntype;
     }
@@ -271,7 +272,7 @@ public class A_CmsSerialDateValue implements I_CmsSerialDateValue {
     /**
      * @see org.opencms.acacia.shared.I_CmsSerialDateValue#getSeriesEndDate()
      */
-    public final Date getSeriesEndDate() {
+    public final @RUntainted Date getSeriesEndDate() {
 
         return m_seriesEndDate;
     }
@@ -279,7 +280,7 @@ public class A_CmsSerialDateValue implements I_CmsSerialDateValue {
     /**
      * @see org.opencms.acacia.shared.I_CmsSerialDateValue#getStart()
      */
-    public final Date getStart() {
+    public final @RUntainted Date getStart() {
 
         return m_start;
     }
@@ -298,7 +299,7 @@ public class A_CmsSerialDateValue implements I_CmsSerialDateValue {
     /**
      * @see org.opencms.acacia.shared.I_CmsSerialDateValue#getWeekDays()
      */
-    public final SortedSet<WeekDay> getWeekDays() {
+    public final SortedSet<@RUntainted WeekDay> getWeekDays() {
 
         return new TreeSet<>(m_weekDays);
     }
@@ -318,7 +319,7 @@ public class A_CmsSerialDateValue implements I_CmsSerialDateValue {
      * @see org.opencms.acacia.shared.I_CmsSerialDateValue#getWeeksOfMonth()
      */
     @Override
-    public final SortedSet<WeekOfMonth> getWeeksOfMonth() {
+    public final SortedSet<@RUntainted WeekOfMonth> getWeeksOfMonth() {
 
         return new TreeSet<>(m_weeksOfMonth);
     }
@@ -425,7 +426,7 @@ public class A_CmsSerialDateValue implements I_CmsSerialDateValue {
      * Set the day of month.
      * @param dayOfMonth the day of month to set.
      */
-    public final void setDayOfMonth(int dayOfMonth) {
+    public final void setDayOfMonth(@RUntainted int dayOfMonth) {
 
         m_dayOfMonth = dayOfMonth;
     }
@@ -434,7 +435,7 @@ public class A_CmsSerialDateValue implements I_CmsSerialDateValue {
      * Set the end time for the event.
      * @param date the end time to set.
      */
-    public final void setEnd(Date date) {
+    public final void setEnd(@RUntainted Date date) {
 
         m_end = date;
     }
@@ -462,7 +463,7 @@ public class A_CmsSerialDateValue implements I_CmsSerialDateValue {
      * Set dates where the event should not take place, even if they are part of the series.
      * @param dates dates to set.
      */
-    public final void setExceptions(SortedSet<Date> dates) {
+    public final void setExceptions(SortedSet<@RUntainted Date> dates) {
 
         m_exceptions.clear();
         if (null != dates) {
@@ -475,7 +476,7 @@ public class A_CmsSerialDateValue implements I_CmsSerialDateValue {
      * Set the individual dates where the event should take place.
      * @param dates the dates to set.
      */
-    public final void setIndividualDates(SortedSet<Date> dates) {
+    public final void setIndividualDates(SortedSet<@RUntainted Date> dates) {
 
         m_individualDates.clear();
         if (null != dates) {
@@ -493,7 +494,7 @@ public class A_CmsSerialDateValue implements I_CmsSerialDateValue {
      * Set the pattern type specific interval between two events, e.g., number of days, weeks, month, years.
      * @param interval the interval to set.
      */
-    public final void setInterval(int interval) {
+    public final void setInterval(@RUntainted int interval) {
 
         m_interval = interval;
     }
@@ -502,7 +503,7 @@ public class A_CmsSerialDateValue implements I_CmsSerialDateValue {
      * Set the month in which the event should take place.
      * @param month the month to set.
      */
-    public final void setMonth(Month month) {
+    public final void setMonth(@RUntainted Month month) {
 
         m_month = null == month ? Month.JANUARY : month;
 
@@ -512,7 +513,7 @@ public class A_CmsSerialDateValue implements I_CmsSerialDateValue {
      * Set the number of occurrences of the event.
      * @param occurrences the number of occurrences to set.
      */
-    public final void setOccurrences(int occurrences) {
+    public final void setOccurrences(@RUntainted int occurrences) {
 
         m_seriesOccurrences = occurrences;
 
@@ -535,7 +536,7 @@ public class A_CmsSerialDateValue implements I_CmsSerialDateValue {
      *
      * @param type the pattern type to set.
      */
-    public final void setPatternType(PatternType type) {
+    public final void setPatternType(@RUntainted PatternType type) {
 
         m_patterntype = null == type ? PatternType.NONE : type;
     }
@@ -544,7 +545,7 @@ public class A_CmsSerialDateValue implements I_CmsSerialDateValue {
      * Set the last day events of the series should occur.
      * @param date the day to set.
      */
-    public final void setSeriesEndDate(Date date) {
+    public final void setSeriesEndDate(@RUntainted Date date) {
 
         m_seriesEndDate = date;
 
@@ -554,7 +555,7 @@ public class A_CmsSerialDateValue implements I_CmsSerialDateValue {
      * Set the start time of the events. Unless you specify a single event, the day information is discarded.
      * @param date the time to set.
      */
-    public final void setStart(Date date) {
+    public final void setStart(@RUntainted Date date) {
 
         m_start = date;
     }
@@ -563,9 +564,9 @@ public class A_CmsSerialDateValue implements I_CmsSerialDateValue {
      * Set the week day the events should occur.
      * @param weekDay the week day to set.
      */
-    public final void setWeekDay(WeekDay weekDay) {
+    public final void setWeekDay(@RUntainted WeekDay weekDay) {
 
-        SortedSet<WeekDay> wds = new TreeSet<>();
+        SortedSet<@RUntainted WeekDay> wds = new TreeSet<>();
         if (null != weekDay) {
             wds.add(weekDay);
         }
@@ -577,7 +578,7 @@ public class A_CmsSerialDateValue implements I_CmsSerialDateValue {
      * Set the week days the events should occur.
      * @param weekDays the week days to set.
      */
-    public final void setWeekDays(SortedSet<WeekDay> weekDays) {
+    public final void setWeekDays(SortedSet<@RUntainted WeekDay> weekDays) {
 
         m_weekDays.clear();
         if (null != weekDays) {
@@ -589,9 +590,9 @@ public class A_CmsSerialDateValue implements I_CmsSerialDateValue {
      * Set the week of the month the events should occur.
      * @param weekOfMonth the week of month to set (first to fifth, where fifth means last).
      */
-    public final void setWeekOfMonth(WeekOfMonth weekOfMonth) {
+    public final void setWeekOfMonth(@RUntainted WeekOfMonth weekOfMonth) {
 
-        SortedSet<WeekOfMonth> woms = new TreeSet<>();
+        SortedSet<@RUntainted WeekOfMonth> woms = new TreeSet<>();
         if (null != weekOfMonth) {
             woms.add(weekOfMonth);
         }
@@ -602,7 +603,7 @@ public class A_CmsSerialDateValue implements I_CmsSerialDateValue {
      * Set the weeks of the month the events should occur.
      * @param weeksOfMonth the weeks of month to set (first to fifth, where fifth means last).
      */
-    public final void setWeeksOfMonth(SortedSet<WeekOfMonth> weeksOfMonth) {
+    public final void setWeeksOfMonth(SortedSet<@RUntainted WeekOfMonth> weeksOfMonth) {
 
         m_weeksOfMonth.clear();
         if (null != weeksOfMonth) {

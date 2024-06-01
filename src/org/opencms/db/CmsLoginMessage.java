@@ -35,6 +35,7 @@ import org.opencms.ui.components.CmsRichTextArea;
 import java.util.GregorianCalendar;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A message to display when a user logs in to the system.<p>
@@ -65,7 +66,7 @@ public class CmsLoginMessage {
     private String m_message;
 
     /** The time when to finish displaying this message. */
-    private long m_timeEnd;
+    private @RUntainted long m_timeEnd;
 
     /** The time when to start displaying this message. */
     private long m_timeStart;
@@ -128,7 +129,7 @@ public class CmsLoginMessage {
      *
      * @return the message
      */
-    public String getMessage() {
+    public @RUntainted String getMessage() {
 
         return m_message;
     }
@@ -138,7 +139,7 @@ public class CmsLoginMessage {
      *
      * @return the time the message ends
      */
-    public long getTimeEnd() {
+    public @RUntainted long getTimeEnd() {
 
         return m_timeEnd;
     }
@@ -175,7 +176,7 @@ public class CmsLoginMessage {
      *
      * @return <code>true</code> if this login message is the enabled
      */
-    public boolean isEnabled() {
+    public @RUntainted boolean isEnabled() {
 
         return m_enabled;
     }
@@ -200,7 +201,7 @@ public class CmsLoginMessage {
      *
      * @return <code>true</code> if logins are forbidden while this message is active
      */
-    public boolean isLoginForbidden() {
+    public @RUntainted boolean isLoginForbidden() {
 
         return m_loginForbidden;
     }

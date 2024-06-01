@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * CmsDecorationBundle, contains a map of merged CmsDEcorationMaps.<p>
@@ -77,7 +78,7 @@ public class CmsDecorationBundle {
      * @param key the key of the object ot get
      * @return the value matching the key or null.
      */
-    public Object get(Object key) {
+    public @RUntainted Object get(Object key) {
 
         return m_bundle.get(adjustKey(key.toString()));
     }

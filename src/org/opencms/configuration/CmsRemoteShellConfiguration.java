@@ -26,6 +26,7 @@
  */
 
 package org.opencms.configuration;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * RMI shell server configuration.<p>

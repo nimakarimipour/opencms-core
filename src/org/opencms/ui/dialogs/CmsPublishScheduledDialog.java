@@ -70,6 +70,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.FormLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The publish schedule dialog.<p>
@@ -336,7 +337,7 @@ public class CmsPublishScheduledDialog extends CmsBasicDialog {
      *
      * @return the publish project name
      */
-    private String computeProjectName(String rootPath, Date date) {
+    private @RUntainted String computeProjectName(@RUntainted String rootPath, Date date) {
 
         // create the temporary project, which is deleted after publishing
         // the publish scheduled date in project name
@@ -367,7 +368,7 @@ public class CmsPublishScheduledDialog extends CmsBasicDialog {
      *
      * @throws CmsException in case writing the project fails
      */
-    private CmsProject createTempProject(CmsObject adminCms, List<CmsResource> resources, Date date)
+    private CmsProject createTempProject(CmsObject adminCms, List<@RUntainted CmsResource> resources, Date date)
     throws CmsException {
 
         CmsProject tmpProject;

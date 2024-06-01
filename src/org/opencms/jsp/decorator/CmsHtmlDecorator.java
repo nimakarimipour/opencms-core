@@ -41,6 +41,7 @@ import org.apache.commons.logging.Log;
 import org.htmlparser.Tag;
 import org.htmlparser.Text;
 import org.htmlparser.util.Translate;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The CmsHtmlDecorator is the main object for processing the text decorations.<p>
@@ -107,7 +108,7 @@ public class CmsHtmlDecorator extends CmsHtmlParser {
     private static final String[] NON_TRANSLATORS = {"&nbsp;", "&quot;"};
 
     /** The decoration configuration.<p> */
-    I_CmsDecoratorConfiguration m_config;
+    @RUntainted I_CmsDecoratorConfiguration m_config;
 
     /** Decoration bundle to be used by the decorator. */
     CmsDecorationBundle m_decorations;
@@ -163,7 +164,7 @@ public class CmsHtmlDecorator extends CmsHtmlParser {
      *
      * @return the List of splitted Substrings
      */
-    public static List<String> splitAsList(String source, String[] delimiters, boolean trim, boolean includeDelimiters) {
+    public static List<@RUntainted String> splitAsList(String source, String[] delimiters, boolean trim, boolean includeDelimiters) {
 
         List<String> result = new ArrayList<String>();
         String delimiter = "";
@@ -290,7 +291,7 @@ public class CmsHtmlDecorator extends CmsHtmlParser {
      * @param delimiters delimiters for text seperation
      * @param recursive flag for recusrive search
      */
-    private void appendText(String text, String[] delimiters, boolean recursive) {
+    private void appendText(@RUntainted String text, String[] delimiters, boolean recursive) {
 
         if (LOG.isDebugEnabled()) {
             LOG.debug(Messages.get().getBundle().key(Messages.LOG_HTML_DECORATOR_APPEND_TEXT_2, m_config, text));
@@ -299,7 +300,7 @@ public class CmsHtmlDecorator extends CmsHtmlParser {
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(text) && m_decorate) {
 
             // split the input into single words
-            List<String> wordList = splitAsList(text, delimiters, false, true);
+            List<@RUntainted String> wordList = splitAsList(text, delimiters, false, true);
             int wordCount = wordList.size();
             for (int i = 0; i < wordCount; i++) {
                 String word = wordList.get(i);
@@ -480,7 +481,7 @@ public class CmsHtmlDecorator extends CmsHtmlParser {
      *
      * @return true if the word must be decoded, false otherweise
      */
-    private boolean mustDecode(String word, List<String> wordList, int count) {
+    private @RUntainted boolean mustDecode(String word, List<String> wordList, int count) {
 
         boolean decode = true;
         String nextWord = null;

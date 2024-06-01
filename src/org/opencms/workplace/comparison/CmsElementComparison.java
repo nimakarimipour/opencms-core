@@ -28,6 +28,7 @@
 package org.opencms.workplace.comparison;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Comparison of two xml page elements.<p>

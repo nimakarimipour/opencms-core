@@ -31,6 +31,7 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Response wrapper for static export requests, required to access the status code of the response.<p>
@@ -65,7 +66,7 @@ public class CmsStaticExportResponseWrapper extends HttpServletResponseWrapper {
      * @return the status code of this export response
      */
     @Override
-    public int getStatus() {
+    public @RUntainted int getStatus() {
 
         return m_status;
     }

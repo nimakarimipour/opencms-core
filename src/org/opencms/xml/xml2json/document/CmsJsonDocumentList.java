@@ -55,6 +55,7 @@ import org.opencms.xml.xml2json.handler.CmsJsonHandlerXmlContent.PathNotFoundExc
 
 import java.util.Collections;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class representing a JSON document for a CMS list.
@@ -82,7 +83,7 @@ public class CmsJsonDocumentList extends CmsJsonDocumentXmlContent {
      * @see org.opencms.xml.xml2json.document.I_CmsJsonDocument#getJson()
      */
     @Override
-    public Object getJson()
+    public @RUntainted Object getJson()
     throws JSONException, CmsException, CmsJsonHandlerException, PathNotFoundException, Exception {
 
         super.getJson();

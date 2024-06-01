@@ -28,6 +28,7 @@
 package org.opencms.ui.components.editablegroup;
 
 import com.vaadin.ui.Component;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface for components used as editable group rows.

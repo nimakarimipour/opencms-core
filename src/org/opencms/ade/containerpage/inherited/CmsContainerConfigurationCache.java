@@ -58,6 +58,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A cache class for storing inherited container configurations.<p>
@@ -158,7 +159,7 @@ public class CmsContainerConfigurationCache implements I_CmsGlobalConfigurationC
         }
         if (m_cms.existsResource("/", CmsResourceFilter.IGNORE_EXPIRATION)) {
             try {
-                List<CmsResource> resources = m_cms.readResources(
+                List<@RUntainted CmsResource> resources = m_cms.readResources(
                     "/",
                     CmsResourceFilter.IGNORE_EXPIRATION.addRequireType(
                         OpenCms.getResourceManager().getResourceType(
@@ -274,7 +275,7 @@ public class CmsContainerConfigurationCache implements I_CmsGlobalConfigurationC
      * @param resources the resources
      * @return the inheritance group configurations, with structure ids of the corresponding resources as keys
      */
-    protected Map<CmsUUID, CmsContainerConfigurationGroup> load(Collection<CmsResource> resources) {
+    protected Map<CmsUUID, CmsContainerConfigurationGroup> load(Collection<@RUntainted CmsResource> resources) {
 
         Map<CmsUUID, CmsContainerConfigurationGroup> result = Maps.newHashMap();
         for (CmsResource resource : resources) {

@@ -69,6 +69,7 @@ import org.apache.commons.logging.Log;
 import com.google.common.collect.Maps;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Resource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides {@link CmsResource} utility functions.<p>
@@ -603,7 +604,7 @@ public final class CmsResourceUtil {
      *
      * @return the user name who owns the lock for the given resource
      */
-    public String getLockedByName() {
+    public @RUntainted String getLockedByName() {
 
         String lockedBy = "";
         if (!getLock().isNullLock()) {
@@ -645,7 +646,7 @@ public final class CmsResourceUtil {
      *
      * @return the the project name that locked the current resource's
      */
-    public String getLockedInProjectName() {
+    public @RUntainted String getLockedInProjectName() {
 
         try {
             CmsUUID pId = getLockedInProjectId();
@@ -1020,7 +1021,7 @@ public final class CmsResourceUtil {
      *
      * @return the site path
      */
-    public String getSite() {
+    public @RUntainted String getSite() {
 
         String site = null;
         if ((m_siteMode == SITE_MODE_MATCHING) || (m_cms == null)) {

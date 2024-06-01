@@ -43,6 +43,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class used to determine which resources from a collector list should be included in a publish list.<p>
@@ -96,7 +97,7 @@ public class CmsCollectorPublishListHelper {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsObject getCmsObject(boolean online) throws CmsException {
+    public @RUntainted CmsObject getCmsObject(boolean online) throws CmsException {
 
         return CmsPublishListHelper.adjustCmsObject(m_cms, online);
     }

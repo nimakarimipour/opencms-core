@@ -44,6 +44,7 @@ import org.apache.tika.metadata.OfficeOpenXMLExtended;
 import org.apache.tika.parser.ParseContext;
 import org.apache.tika.parser.Parser;
 import org.apache.tika.sax.BodyContentHandler;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Base utility class that allows extraction of the indexable "plain" text from a given document format.<p>
@@ -190,7 +191,7 @@ public abstract class A_CmsTextExtractor implements I_CmsTextExtractor {
      *
      * @return the content with the unwanted control chars removed
      */
-    protected String removeControlChars(String content) {
+    protected @RUntainted String removeControlChars(String content) {
 
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(content)) {
             // to avoid later null pointer exceptions an empty String is returned

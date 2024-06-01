@@ -80,6 +80,7 @@ import org.apache.commons.logging.Log;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for copying container pages including some of their elements.<p>
@@ -154,7 +155,7 @@ public class CmsContainerPageCopier {
     private CopyMode m_copyMode = CopyMode.smartCopyAndChangeLocale;
 
     /** Map of custom replacements. */
-    private Map<CmsUUID, CmsUUID> m_customReplacements;
+    private Map<CmsUUID, @RUntainted CmsUUID> m_customReplacements;
 
     /** Maps structure ids of original container elements to structure ids of their copies/replacements. */
     private Map<CmsUUID, CmsUUID> m_elementReplacements = Maps.newHashMap();
@@ -186,7 +187,7 @@ public class CmsContainerPageCopier {
      *
      * @throws CmsException if something goes wrong
      */
-    public void adjustLocalesForElement(CmsResource elementResource, CmsResource originalResource) throws CmsException {
+    public void adjustLocalesForElement(@RUntainted CmsResource elementResource, @RUntainted CmsResource originalResource) throws CmsException {
 
         if (m_copyMode != CopyMode.smartCopyAndChangeLocale) {
             return;
@@ -374,7 +375,7 @@ public class CmsContainerPageCopier {
      * @throws CmsException if something goes wrong
      * @throws NoCustomReplacementException if a custom replacement element was not found for a type which requires it
      */
-    public void replaceElements(CmsResource containerPage) throws CmsException, NoCustomReplacementException {
+    public void replaceElements(@RUntainted CmsResource containerPage) throws CmsException, NoCustomReplacementException {
 
         CmsObject rootCms = getRootCms();
         CmsObject targetCms = OpenCms.initCmsObject(m_cms);
@@ -404,8 +405,8 @@ public class CmsContainerPageCopier {
                 CmsMacroResolver resolver = new CmsMacroResolver();
                 resolver.addMacro("sourcesite", m_cms.getRequestContext().getSiteRoot().replaceAll("/+$", ""));
                 resolver.addMacro("targetsite", targetCms.getRequestContext().getSiteRoot().replaceAll("/+$", ""));
-                Map<CmsUUID, CmsUUID> customReplacements = Maps.newHashMap();
-                for (Map.Entry<Object, Object> entry : props.entrySet()) {
+                Map<CmsUUID, @RUntainted CmsUUID> customReplacements = Maps.newHashMap();
+                for (Map.Entry<@RUntainted Object, @RUntainted Object> entry : props.entrySet()) {
                     if ((entry.getKey() instanceof String) && (entry.getValue() instanceof String)) {
                         try {
                             String key = (String)entry.getKey();
@@ -637,7 +638,7 @@ public class CmsContainerPageCopier {
      *
      * @throws CmsException if something goes wrong
      */
-    Double readMaxNavPos(CmsResource target) throws CmsException {
+    @RUntainted Double readMaxNavPos(CmsResource target) throws CmsException {
 
         List<CmsResource> existingResourcesInFolder = m_cms.readResources(
             target,
@@ -723,15 +724,15 @@ public class CmsContainerPageCopier {
      *
      * @return the map with the possible replaced ids
      */
-    private Map<String, String> maybeReplaceFormatterInSettings(Map<String, String> individualSettings) {
+    private @RUntainted Map<@RUntainted String, @RUntainted String> maybeReplaceFormatterInSettings(@RUntainted Map<@RUntainted String, @RUntainted String> individualSettings) {
 
         if (individualSettings == null) {
             return null;
         } else if (m_customReplacements == null) {
             return individualSettings;
         } else {
-            LinkedHashMap<String, String> result = new LinkedHashMap<String, String>();
-            for (Map.Entry<String, String> entry : individualSettings.entrySet()) {
+            LinkedHashMap<@RUntainted String, @RUntainted String> result = new LinkedHashMap<@RUntainted String, @RUntainted String>();
+            for (Map.Entry<String, @RUntainted String> entry : individualSettings.entrySet()) {
                 String value = entry.getValue();
                 if (CmsUUID.isValidUUID(value)) {
                     CmsUUID valueId = new CmsUUID(value);

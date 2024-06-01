@@ -40,6 +40,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This interface describes a resource loader for OpenCms,
@@ -97,12 +98,12 @@ public interface I_CmsResourceLoader extends I_CmsConfigurationParameterHandler 
      * @throws CmsException in case of errors accessing OpenCms functions
      */
     byte[] dump(
-        CmsObject cms,
-        CmsResource resource,
+        @RUntainted CmsObject cms,
+        @RUntainted CmsResource resource,
         String element,
-        Locale locale,
-        HttpServletRequest req,
-        HttpServletResponse res) throws ServletException, IOException, CmsException;
+        @RUntainted Locale locale,
+        @RUntainted HttpServletRequest req,
+        @RUntainted HttpServletResponse res) throws ServletException, IOException, CmsException;
 
     /**
      * Static exports the contents of the requested file and it's sub-elements.<p>
@@ -125,7 +126,7 @@ public interface I_CmsResourceLoader extends I_CmsConfigurationParameterHandler 
      * @throws CmsException in case something goes wrong
      * @return the contents to export, or <code>null</code> if no export is required
      */
-    byte[] export(CmsObject cms, CmsResource resource, HttpServletRequest req, HttpServletResponse res)
+    @RUntainted byte[] export(@RUntainted CmsObject cms, @RUntainted CmsResource resource, @RUntainted HttpServletRequest req, @RUntainted HttpServletResponse res)
     throws ServletException, IOException, CmsException;
 
     /**
@@ -133,7 +134,7 @@ public interface I_CmsResourceLoader extends I_CmsConfigurationParameterHandler 
      *
      * @return the id of the ResourceLoader
      */
-    int getLoaderId();
+    @RUntainted int getLoaderId();
 
     /**
      * Returns a String describing the ResourceLoader.<p>
@@ -187,7 +188,7 @@ public interface I_CmsResourceLoader extends I_CmsConfigurationParameterHandler 
      *
      * @see #service(CmsObject, CmsResource, ServletRequest, ServletResponse)
      */
-    void load(CmsObject cms, CmsResource resource, HttpServletRequest req, HttpServletResponse res)
+    void load(@RUntainted CmsObject cms, @RUntainted CmsResource resource, @RUntainted HttpServletRequest req, @RUntainted HttpServletResponse res)
     throws ServletException, IOException, CmsException;
 
     /**
@@ -206,6 +207,6 @@ public interface I_CmsResourceLoader extends I_CmsConfigurationParameterHandler 
      *
      * @see org.opencms.flex.CmsFlexRequestDispatcher
      */
-    void service(CmsObject cms, CmsResource resource, ServletRequest req, ServletResponse res)
+    void service(CmsObject cms, @RUntainted CmsResource resource, @RUntainted ServletRequest req, ServletResponse res)
     throws ServletException, IOException, CmsException;
 }

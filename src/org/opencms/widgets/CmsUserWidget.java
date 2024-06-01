@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a OpenCms User selection widget, for use on a widget dialog.<p>
@@ -95,7 +96,7 @@ public class CmsUserWidget extends CmsSelectWidget {
      * @see org.opencms.widgets.A_CmsWidget#getConfiguration()
      */
     @Override
-    public String getConfiguration() {
+    public @RUntainted String getConfiguration() {
 
         StringBuffer result = new StringBuffer(8);
 
@@ -237,7 +238,7 @@ public class CmsUserWidget extends CmsSelectWidget {
      * @see org.opencms.widgets.A_CmsWidget#setConfiguration(java.lang.String)
      */
     @Override
-    public void setConfiguration(String configuration) {
+    public void setConfiguration(@RUntainted String configuration) {
 
         m_groupName = null;
         m_flags = null;

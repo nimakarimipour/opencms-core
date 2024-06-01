@@ -36,6 +36,7 @@ import org.apache.commons.logging.Log;
 
 import com.vaadin.server.AbstractExtension;
 import com.vaadin.ui.UI;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Server side component used to open the login target for a logged in user.<p>

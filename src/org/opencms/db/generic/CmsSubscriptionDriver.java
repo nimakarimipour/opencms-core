@@ -68,6 +68,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generic implementation of the user tracking and subscription driver interface.<p>
@@ -938,7 +939,7 @@ public class CmsSubscriptionDriver implements I_CmsDriver, I_CmsSubscriptionDriv
      *
      * @throws SQLException if something goes wrong
      */
-    protected CmsVisitEntry internalReadVisitEntry(ResultSet res) throws SQLException {
+    protected CmsVisitEntry internalReadVisitEntry(@RUntainted ResultSet res) throws SQLException {
 
         CmsUUID userId = new CmsUUID(res.getString(m_sqlManager.readQuery("C_VISIT_USER_ID")));
         long date = res.getLong(m_sqlManager.readQuery("C_VISIT_DATE"));
@@ -953,7 +954,7 @@ public class CmsSubscriptionDriver implements I_CmsDriver, I_CmsSubscriptionDriv
      *
      * @return a pair containing both the SQL and the parameters for it
      */
-    protected CmsPair<String, List<I_CmsPreparedStatementParameter>> prepareVisitConditions(
+    protected CmsPair<String, @RUntainted List<I_CmsPreparedStatementParameter>> prepareVisitConditions(
         CmsVisitEntryFilter filter) {
 
         List<I_CmsPreparedStatementParameter> params = new ArrayList<I_CmsPreparedStatementParameter>();

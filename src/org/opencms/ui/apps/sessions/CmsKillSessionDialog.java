@@ -46,6 +46,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Label;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the dialog to kill sessions.<p>
@@ -76,7 +77,7 @@ public class CmsKillSessionDialog extends CmsBasicDialog {
      * @param sessionIds ids of sessions to be killed
      * @param canelRunnable runnable to be runned on cancel
      */
-    public CmsKillSessionDialog(final Set<String> sessionIds, final Runnable canelRunnable) {
+    public CmsKillSessionDialog(final Set<@RUntainted String> sessionIds, final Runnable canelRunnable) {
 
         CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
 

@@ -32,6 +32,7 @@ import org.opencms.file.CmsProject;
 import org.opencms.file.CmsResource;
 import org.opencms.main.CmsException;
 import org.opencms.main.OpenCms;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Helper functions used to collect information for the publish dialog. */
 public final class CmsPublishListHelper {
@@ -53,7 +54,7 @@ public final class CmsPublishListHelper {
      *
      * @throws CmsException if something goes wrong
      */
-    public static CmsObject adjustCmsObject(CmsObject cms, boolean online) throws CmsException {
+    public static @RUntainted CmsObject adjustCmsObject(CmsObject cms, boolean online) throws CmsException {
 
         CmsObject result = OpenCms.initCmsObject(cms);
         if (online) {

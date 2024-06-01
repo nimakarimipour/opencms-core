@@ -45,6 +45,7 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract class for a form to import a file.<p>
@@ -167,7 +168,7 @@ public abstract class A_CmsImportForm extends VerticalLayout {
      *
      * @return a vaadin combobox
      */
-    protected abstract ComboBox getSiteSelector();
+    protected abstract @RUntainted ComboBox getSiteSelector();
 
     /**
      * Gets the thread which gets started by clicking the ok button.<p>

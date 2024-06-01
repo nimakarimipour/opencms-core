@@ -40,6 +40,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A collector to fetch sorted XML contents in a folder or subtree based on their priority
@@ -85,7 +86,7 @@ public class CmsPriorityResourceCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getCreateLink(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String getCreateLink(CmsObject cms, String collectorName, String param) throws CmsException {
+    public @RUntainted String getCreateLink(CmsObject cms, String collectorName, String param) throws CmsException {
 
         // if action is not set, use default action
         if (collectorName == null) {
@@ -115,7 +116,7 @@ public class CmsPriorityResourceCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getCreateParam(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String getCreateParam(CmsObject cms, String collectorName, String param) throws CmsDataAccessException {
+    public @RUntainted String getCreateParam(CmsObject cms, String collectorName, @RUntainted String param) throws CmsDataAccessException {
 
         // if action is not set, use default action
         if (collectorName == null) {
@@ -237,7 +238,7 @@ public class CmsPriorityResourceCollector extends A_CmsResourceCollector {
             // include all not yet released and expired resources in an offline project
             filter = filter.addExcludeTimerange();
         }
-        List<CmsResource> result = cms.readResources(foldername, filter, tree);
+        List<@RUntainted CmsResource> result = cms.readResources(foldername, filter, tree);
 
         // create priority comparator to use to sort the resources
         CmsPriorityDateResourceComparator comparator = new CmsPriorityDateResourceComparator(cms, asc);
@@ -270,7 +271,7 @@ public class CmsPriorityResourceCollector extends A_CmsResourceCollector {
             // include all not yet released and expired resources in an offline project
             filter = filter.addExcludeTimerange();
         }
-        List<CmsResource> result = cms.readResources(foldername, filter, tree);
+        List<@RUntainted CmsResource> result = cms.readResources(foldername, filter, tree);
 
         // create priority comparator to use to sort the resources
         CmsPriorityTitleResourceComparator comparator = new CmsPriorityTitleResourceComparator(cms);
@@ -305,7 +306,7 @@ public class CmsPriorityResourceCollector extends A_CmsResourceCollector {
             filter = filter.addExcludeTimerange();
         }
 
-        List<CmsResource> result = cms.readResources(foldername, filter, true);
+        List<@RUntainted CmsResource> result = cms.readResources(foldername, filter, true);
         List<CmsResource> mapped = new ArrayList<CmsResource>();
 
         // sort out the resources mapped to the current page

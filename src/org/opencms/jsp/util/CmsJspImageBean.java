@@ -44,6 +44,7 @@ import java.util.TreeMap;
 
 import org.apache.commons.collections.Transformer;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean containing image information for the use in JSP (for example formatters).
@@ -169,7 +170,7 @@ public class CmsJspImageBean {
      *
      * @throws CmsException in case of problems reading the image from the VFS
      */
-    public CmsJspImageBean(CmsObject cms, String imageUri)
+    public CmsJspImageBean(CmsObject cms, @RUntainted String imageUri)
     throws CmsException {
 
         setCmsObject(cms);
@@ -241,11 +242,11 @@ public class CmsJspImageBean {
      * @return the created variation scaler for this image
      */
     protected static CmsImageScaler createVariation(
-        int originalWidth,
-        int originalHeight,
+        @RUntainted int originalWidth,
+        @RUntainted int originalHeight,
         CmsImageScaler baseScaler,
-        int targetWidth,
-        int targetHeight,
+        @RUntainted int targetWidth,
+        @RUntainted int targetHeight,
         int quality) {
 
         CmsImageScaler result = null;
@@ -403,7 +404,7 @@ public class CmsJspImageBean {
      *
      * @return a hi-DPI scaled version of the current image
      */
-    public CmsJspImageBean createHiDpiVariation(String hiDpiStr) {
+    public CmsJspImageBean createHiDpiVariation(@RUntainted String hiDpiStr) {
 
         CmsJspImageBean result = null;
         if (hiDpiStr.matches("^[0-9]+(.[0-9]+)?x$")) {
@@ -440,7 +441,7 @@ public class CmsJspImageBean {
      *
      * @return a ratio scaled version of the current image
      */
-    public CmsJspImageBean createRatioVariation(String ratioStr) {
+    public CmsJspImageBean createRatioVariation(@RUntainted String ratioStr) {
 
         CmsJspImageBean result = null;
 
@@ -494,7 +495,7 @@ public class CmsJspImageBean {
      *
      * @return a width scaled version of the current image
      */
-    public CmsJspImageBean createWidthVariation(String widthStr) {
+    public CmsJspImageBean createWidthVariation(@RUntainted String widthStr) {
 
         CmsJspImageBean result = null;
 

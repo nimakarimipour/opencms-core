@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.gwt.user.client.rpc.RemoteService;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles all RPC services related to the gallery dialog.<p>
@@ -103,7 +104,7 @@ public interface I_CmsGalleryService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    CmsResultItemBean getInfoForResource(String path, String locale) throws CmsRpcException;
+    CmsResultItemBean getInfoForResource(@RUntainted String path, String locale) throws CmsRpcException;
 
     /**
      * Returns the initial data for the given gallery mode.<p>
@@ -177,7 +178,7 @@ public interface I_CmsGalleryService extends RemoteService {
      *
      * @param resultViewType the result view type
      */
-    void saveResultViewType(String resultViewType);
+    void saveResultViewType(@RUntainted String resultViewType);
 
     /**
      * Saves the tree open state for a tree tab.<p>
@@ -189,7 +190,7 @@ public interface I_CmsGalleryService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    void saveTreeOpenState(String treeName, String treeToken, String siteRoot, Set<CmsUUID> openItems)
+    void saveTreeOpenState(@RUntainted String treeName, @RUntainted String treeToken, @RUntainted String siteRoot, @RUntainted Set<CmsUUID> openItems)
     throws CmsRpcException;
 
     /**

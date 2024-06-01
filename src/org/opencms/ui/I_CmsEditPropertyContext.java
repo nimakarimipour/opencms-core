@@ -26,6 +26,7 @@
  */
 
 package org.opencms.ui;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Action context that allows direct editing of single properties.<p>

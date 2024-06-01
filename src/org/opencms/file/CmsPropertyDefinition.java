@@ -32,6 +32,7 @@ import org.opencms.main.CmsIllegalArgumentException;
 import org.opencms.util.A_CmsModeIntEnumeration;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Defines a property name, so that <code>{@link CmsProperty}</code> instances can be created with that name.<p>
@@ -409,7 +410,7 @@ public class CmsPropertyDefinition implements Cloneable, Comparable<CmsPropertyD
      *
      * @return name The name of this property definition
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_name;
     }

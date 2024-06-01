@@ -34,6 +34,8 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.Node;
 import org.dom4j.QName;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Provides generic wrappers for XML library methods that do not support Java 5 generic types.<p>
@@ -58,7 +60,7 @@ public final class CmsXmlGenericWrapper {
      * @return type safe access to {@link Element#content()}.<p>
      */
     @SuppressWarnings("unchecked")
-    public static List<Node> content(Element element) {
+    public static List<@RPolyTainted Node> content(@RPolyTainted Element element) {
 
         return element.content();
     }
@@ -71,7 +73,7 @@ public final class CmsXmlGenericWrapper {
      *
      * @return the iterator
      */
-    public static Iterable<Element> elementIterable(final Element element, final String name) {
+    public static @RUntainted Iterable<Element> elementIterable(final Element element, final String name) {
 
         return new Iterable<Element>() {
 
@@ -90,7 +92,7 @@ public final class CmsXmlGenericWrapper {
      * @return type safe access to {@link Element#elementIterator(org.dom4j.QName)}.<p>
      */
     @SuppressWarnings("unchecked")
-    public static Iterator<Element> elementIterator(Element element) {
+    public static Iterator<@RPolyTainted Element> elementIterator(@RPolyTainted Element element) {
 
         return element.elementIterator();
     }
@@ -104,7 +106,7 @@ public final class CmsXmlGenericWrapper {
      * @return type safe access to {@link Element#elementIterator(String)}.<p>
      */
     @SuppressWarnings("unchecked")
-    public static Iterator<Element> elementIterator(Element element, String name) {
+    public static Iterator<@RPolyTainted Element> elementIterator(@RPolyTainted Element element, @RPolyTainted String name) {
 
         return element.elementIterator(name);
     }
@@ -117,7 +119,7 @@ public final class CmsXmlGenericWrapper {
      * @return type safe access to {@link Element#elements()}.<p>
      */
     @SuppressWarnings("unchecked")
-    public static List<Element> elements(Element element) {
+    public static List<@RPolyTainted Element> elements(@RPolyTainted Element element) {
 
         return element.elements();
     }
@@ -131,7 +133,7 @@ public final class CmsXmlGenericWrapper {
      * @return type safe access to {@link Element#elements(org.dom4j.QName)}.<p>
      */
     @SuppressWarnings("unchecked")
-    public static List<Element> elements(Element element, QName name) {
+    public static List<@RPolyTainted Element> elements(@RPolyTainted Element element, @RPolyTainted QName name) {
 
         return element.elements(name);
     }
@@ -145,7 +147,7 @@ public final class CmsXmlGenericWrapper {
      * @return type safe access to {@link Element#elements(String)}.<p>
      */
     @SuppressWarnings("unchecked")
-    public static List<Element> elements(Element element, String name) {
+    public static List<@RPolyTainted Element> elements(@RPolyTainted Element element, @RPolyTainted String name) {
 
         return element.elements(name);
     }

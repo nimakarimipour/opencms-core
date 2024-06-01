@@ -69,6 +69,7 @@ import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The source search form.<p>
@@ -215,7 +216,7 @@ public class CmsSourceSearchForm extends VerticalLayout {
     private ComboBox m_searchType;
 
     /** The site select. */
-    private ComboBox m_siteSelect;
+    private @RUntainted ComboBox m_siteSelect;
 
     /** The SOLR query field. */
     private TextField m_solrQuery;

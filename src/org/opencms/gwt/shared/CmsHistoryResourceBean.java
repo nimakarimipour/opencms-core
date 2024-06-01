@@ -30,6 +30,7 @@ package org.opencms.gwt.shared;
 import org.opencms.util.CmsUUID;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A bean representing the data to be displayed in the history dialog for a single resource version.<p>
@@ -46,7 +47,7 @@ public class CmsHistoryResourceBean implements IsSerializable {
     private CmsClientDateBean m_publishDate;
 
     /** The root path.<p> */
-    private String m_rootPath;
+    private @RUntainted String m_rootPath;
 
     /** The size. */
     private int m_size;
@@ -107,7 +108,7 @@ public class CmsHistoryResourceBean implements IsSerializable {
      *
      * @return the rootPath
      */
-    public String getRootPath() {
+    public @RUntainted String getRootPath() {
 
         return m_rootPath;
     }
@@ -197,7 +198,7 @@ public class CmsHistoryResourceBean implements IsSerializable {
      *
      * @param rootPath the rootPath to set
      */
-    public void setRootPath(String rootPath) {
+    public void setRootPath(@RUntainted String rootPath) {
 
         m_rootPath = rootPath;
     }

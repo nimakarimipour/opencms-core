@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Sitemap initialization data bean for prefetching.<p>
@@ -466,7 +467,7 @@ public class CmsSitemapData implements IsSerializable {
      *
      * @return the path at which the sitemap should be opened
      */
-    public String getOpenPath() {
+    public @RUntainted String getOpenPath() {
 
         return m_openPath;
     }

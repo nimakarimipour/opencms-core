@@ -92,6 +92,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A class which represents the accessible configuration data at a given point in a sitemap.<p>
@@ -468,7 +469,7 @@ public class CmsADEConfigData {
      * @param name a formatter name (key or ID)
      * @return the best formatter for that name, or null if no formatter could be found
      */
-    public I_CmsFormatterBean findFormatter(String name) {
+    public I_CmsFormatterBean findFormatter(@RUntainted String name) {
 
         return findFormatter(name, false);
     }
@@ -484,7 +485,7 @@ public class CmsADEConfigData {
      * @param noWarn if true, disables warnings
      * @return the best formatter for that name, or null if no formatter could be found
      */
-    public I_CmsFormatterBean findFormatter(String name, boolean noWarn) {
+    public I_CmsFormatterBean findFormatter(@RUntainted String name, boolean noWarn) {
 
         if (name == null) {
             return null;
@@ -705,7 +706,7 @@ public class CmsADEConfigData {
      *
      * @return the attribute value
      */
-    public String getAttribute(String key, String defaultValue) {
+    public @RUntainted String getAttribute(String key, @RUntainted String defaultValue) {
 
         AttributeValue value = getAttributes().get(key);
         if (value != null) {
@@ -779,7 +780,7 @@ public class CmsADEConfigData {
      *
      * @return the base path of the configuration
      */
-    public String getBasePath() {
+    public @RUntainted String getBasePath() {
 
         return m_data.getBasePath();
     }
@@ -814,7 +815,7 @@ public class CmsADEConfigData {
      *
      * @return the names of the bundles configured as workplace bundles in any module configuration.
      */
-    public Set<String> getConfiguredWorkplaceBundles() {
+    public Set<@RUntainted String> getConfiguredWorkplaceBundles() {
 
         Set<String> result = new HashSet<String>();
         for (CmsResourceTypeConfig config : internalGetResourceTypes(false)) {
@@ -833,7 +834,7 @@ public class CmsADEConfigData {
      *
      * @return the content folder path
      */
-    public String getContentFolderPath() {
+    public @RUntainted String getContentFolderPath() {
 
         return CmsStringUtil.joinPaths(m_data.getBasePath(), CmsADEManager.CONTENT_FOLDER_NAME);
 
@@ -848,7 +849,7 @@ public class CmsADEConfigData {
      *
      * @throws CmsException if something goes wrong
      */
-    public List<CmsResourceTypeConfig> getCreatableTypes(CmsObject cms, String pageFolderRootPath) throws CmsException {
+    public List<CmsResourceTypeConfig> getCreatableTypes(CmsObject cms, @RUntainted String pageFolderRootPath) throws CmsException {
 
         List<CmsResourceTypeConfig> result = new ArrayList<CmsResourceTypeConfig>();
         for (CmsResourceTypeConfig typeConfig : getResourceTypes()) {
@@ -1122,7 +1123,7 @@ public class CmsADEConfigData {
      *
      * @return the configuration of formatters for the resource
      */
-    public CmsFormatterConfiguration getFormatters(CmsObject cms, CmsResource res) {
+    public CmsFormatterConfiguration getFormatters(CmsObject cms, @RUntainted CmsResource res) {
 
         if (CmsResourceTypeFunctionConfig.isFunction(res)) {
 
@@ -1340,7 +1341,7 @@ public class CmsADEConfigData {
      *
      * @return the resource from which this configuration was read
      */
-    public CmsResource getResource() {
+    public @RUntainted CmsResource getResource() {
 
         return m_data.getResource();
     }
@@ -1511,7 +1512,7 @@ public class CmsADEConfigData {
      *
      * @return the set of types for which schema formatters are active
      */
-    public Set<String> getTypesWithActiveSchemaFormatters() {
+    public Set<@RUntainted String> getTypesWithActiveSchemaFormatters() {
 
         Set<String> result = Sets.newHashSet(getTypesWithModifiableFormatters());
         for (CmsFormatterChangeSet changeSet : getFormatterChangeSets()) {
@@ -1525,7 +1526,7 @@ public class CmsADEConfigData {
      *
      * @return the set of names of resource types which have schema-based formatters that can be enabled or disabled
      */
-    public Set<String> getTypesWithModifiableFormatters() {
+    public Set<@RUntainted String> getTypesWithModifiableFormatters() {
 
         Set<String> result = new HashSet<String>();
         for (I_CmsResourceType type : OpenCms.getResourceManager().getResourceTypes()) {
@@ -1829,7 +1830,7 @@ public class CmsADEConfigData {
         Map<String, String> result = new HashMap<String, String>();
         CmsObject cms = OpenCms.initCmsObject(getCms());
         if (m_data.isModuleConfig()) {
-            Set<String> siteRoots = OpenCms.getSiteManager().getSiteRoots();
+            Set<@RUntainted String> siteRoots = OpenCms.getSiteManager().getSiteRoots();
             for (String siteRoot : siteRoots) {
                 cms.getRequestContext().setSiteRoot(siteRoot);
                 for (CmsResourceTypeConfig config : getResourceTypes()) {

@@ -35,6 +35,7 @@ import org.opencms.util.CmsStringUtil;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A schedulable OpenCms job to clear the history.<p>

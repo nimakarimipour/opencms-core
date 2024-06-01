@@ -57,6 +57,7 @@ import org.apache.commons.collections.map.LRUMap;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class implements the FlexCache.<p>
@@ -236,19 +237,19 @@ public class CmsFlexCache extends Object implements I_CmsEventListener {
     private CmsFlexBucketConfiguration m_bucketConfiguration;
 
     /** Indicates if offline resources should be cached or not. */
-    private boolean m_cacheOffline;
+    private @RUntainted boolean m_cacheOffline;
 
     /** The CMS object used for VFS operations. */
     private CmsObject m_cmsObject;
 
     /** Indicates if the cache is enabled or not. */
-    private boolean m_enabled;
+    private @RUntainted boolean m_enabled;
 
     /** Map to store the entries for fast lookup. */
     private Map<String, CmsFlexCacheVariation> m_keyCache;
 
     /** Counter for the size. */
-    private int m_size;
+    private @RUntainted int m_size;
 
     /**
      * Constructor for class CmsFlexCache.<p>
@@ -679,7 +680,7 @@ public class CmsFlexCache extends Object implements I_CmsEventListener {
      * @param resource the resource name for which to look up the key for
      * @return the CmsFlexCacheKey data structure found for the resource
      */
-    CmsFlexCacheKey getKey(String resource) {
+    CmsFlexCacheKey getKey(@RUntainted String resource) {
 
         if (!isEnabled()) {
             return null;
@@ -726,7 +727,7 @@ public class CmsFlexCache extends Object implements I_CmsEventListener {
      * @param requestKey the request key from which the variation was determined
      * @return true if the value was added to the cache, false otherwise
      */
-    boolean put(CmsFlexCacheKey key, CmsFlexCacheEntry entry, String variation, CmsFlexRequestKey requestKey) {
+    boolean put(CmsFlexCacheKey key, CmsFlexCacheEntry entry, @RUntainted String variation, CmsFlexRequestKey requestKey) {
 
         if (!isEnabled()) {
             return false;
@@ -821,7 +822,7 @@ public class CmsFlexCache extends Object implements I_CmsEventListener {
      * @param entriesOnly if <code>true</code>, only entries will be cleared, otherwise
      *         the entries and the keys will be cleared
      */
-    private synchronized void clearAccordingToSuffix(String suffix, boolean entriesOnly) {
+    private synchronized void clearAccordingToSuffix(@RUntainted String suffix, @RUntainted boolean entriesOnly) {
 
         Set<String> keys = synchronizedCopyKeys(m_keyCache);
         Iterator<String> i = keys.iterator();
@@ -1089,7 +1090,7 @@ public class CmsFlexCache extends Object implements I_CmsEventListener {
      * @param theCacheEntry the entry to cache
      * @param variation the variation string
      */
-    private void put(CmsFlexCacheKey key, CmsFlexCacheEntry theCacheEntry, String variation) {
+    private void put(CmsFlexCacheKey key, CmsFlexCacheEntry theCacheEntry, @RUntainted String variation) {
 
         CmsFlexCacheVariation o = m_keyCache.get(key.getResource());
         if (o != null) {

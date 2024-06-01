@@ -60,6 +60,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.JspException;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides basic methods for building the file editors of OpenCms.<p>
@@ -191,7 +192,7 @@ public abstract class CmsEditor extends CmsEditorBase {
     private String m_paramEditormode;
 
     /** Element language parameter. */
-    private String m_paramElementlanguage;
+    private @RUntainted String m_paramElementlanguage;
 
     /** Load default parameter. */
     private String m_paramLoadDefault;
@@ -200,10 +201,10 @@ public abstract class CmsEditor extends CmsEditorBase {
     private String m_paramModified;
 
     /** Old element language parameter. */
-    private String m_paramOldelementlanguage;
+    private @RUntainted String m_paramOldelementlanguage;
 
     /** Temporary file parameter. */
-    private String m_paramTempFile;
+    private @RUntainted String m_paramTempFile;
 
     /** Helper variable to store the uri to the editors pictures. */
     private String m_picsUri;
@@ -251,16 +252,16 @@ public abstract class CmsEditor extends CmsEditorBase {
      * @param selectedLocale the currently selected Locale
      * @return the html for the element language selectbox
      */
-    public String buildSelectElementLanguage(String attributes, String resourceName, Locale selectedLocale) {
+    public String buildSelectElementLanguage(String attributes, @RUntainted String resourceName, Locale selectedLocale) {
 
         // get locale names based on properties and global settings
-        List<Locale> locales = OpenCms.getLocaleManager().getAvailableLocales(getCms(), resourceName);
-        List<String> options = new ArrayList<String>(locales.size());
-        List<String> selectList = new ArrayList<String>(locales.size());
+        List<@RUntainted Locale> locales = OpenCms.getLocaleManager().getAvailableLocales(getCms(), resourceName);
+        List<@RUntainted String> options = new ArrayList<@RUntainted String>(locales.size());
+        List<@RUntainted String> selectList = new ArrayList<@RUntainted String>(locales.size());
         int currentIndex = -1;
 
         //get the locales already used in the resource
-        List<Locale> contentLocales = new ArrayList<Locale>();
+        List<@RUntainted Locale> contentLocales = new ArrayList<@RUntainted Locale>();
         try {
 
             CmsResource res = getCms().readResource(resourceName, CmsResourceFilter.IGNORE_EXPIRATION);
@@ -560,7 +561,7 @@ public abstract class CmsEditor extends CmsEditorBase {
      *
      * @return the current element language
      */
-    public String getParamElementlanguage() {
+    public @RUntainted String getParamElementlanguage() {
 
         if (m_paramElementlanguage == null) {
             if ((m_editorSessionInfo != null) && (m_editorSessionInfo.getElementLocale() != null)) {
@@ -595,7 +596,7 @@ public abstract class CmsEditor extends CmsEditorBase {
      *
      * @return the old element language
      */
-    public String getParamOldelementlanguage() {
+    public @RUntainted String getParamOldelementlanguage() {
 
         return m_paramOldelementlanguage;
     }
@@ -605,7 +606,7 @@ public abstract class CmsEditor extends CmsEditorBase {
      *
      * @return the name of the temporary file
      */
-    public String getParamTempfile() {
+    public @RUntainted String getParamTempfile() {
 
         return m_paramTempFile;
     }
@@ -681,7 +682,7 @@ public abstract class CmsEditor extends CmsEditorBase {
      *
      * @param elementLanguage the current element language
      */
-    public void setParamElementlanguage(String elementLanguage) {
+    public void setParamElementlanguage(@RUntainted String elementLanguage) {
 
         m_paramElementlanguage = elementLanguage;
     }
@@ -711,7 +712,7 @@ public abstract class CmsEditor extends CmsEditorBase {
      *
      * @param oldElementLanguage the old element language
      */
-    public void setParamOldelementlanguage(String oldElementLanguage) {
+    public void setParamOldelementlanguage(@RUntainted String oldElementLanguage) {
 
         m_paramOldelementlanguage = oldElementLanguage;
     }
@@ -721,7 +722,7 @@ public abstract class CmsEditor extends CmsEditorBase {
      *
      * @param fileName the name of the temporary file
      */
-    public void setParamTempfile(String fileName) {
+    public void setParamTempfile(@RUntainted String fileName) {
 
         m_paramTempFile = fileName;
     }
@@ -843,7 +844,7 @@ public abstract class CmsEditor extends CmsEditorBase {
      * @return the file name of the temporary file
      * @throws CmsException if something goes wrong
      */
-    protected String createTempFile() throws CmsException {
+    protected @RUntainted String createTempFile() throws CmsException {
 
         return OpenCms.getWorkplaceManager().createTempFile(getCms(), getParamResource(), getSettings().getProject());
     }

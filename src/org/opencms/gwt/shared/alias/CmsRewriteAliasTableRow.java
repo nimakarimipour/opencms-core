@@ -30,6 +30,7 @@ package org.opencms.gwt.shared.alias;
 import org.opencms.util.CmsUUID;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A class containing the data for a row of the rewrite alias table.<p>
@@ -110,7 +111,7 @@ public class CmsRewriteAliasTableRow implements IsSerializable {
      *
      * @return the regular expression string
      */
-    public String getPatternString() {
+    public @RUntainted String getPatternString() {
 
         return m_patternString;
     }
@@ -120,7 +121,7 @@ public class CmsRewriteAliasTableRow implements IsSerializable {
      *
      * @return the replacement string
      */
-    public String getReplacementString() {
+    public @RUntainted String getReplacementString() {
 
         return m_replacementString;
     }

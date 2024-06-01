@@ -30,6 +30,7 @@ package org.opencms.main;
 import org.opencms.util.CmsUUID;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This interface is used to define the session storage implementation provider.<p>

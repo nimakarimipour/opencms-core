@@ -30,6 +30,7 @@ package org.opencms.synchronize;
 import org.opencms.util.CmsDateUtil;
 
 import java.io.Serializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Defines the CmsSynchronizeList object, used to store synchronisation data
@@ -55,7 +56,7 @@ public class CmsSynchronizeList implements Serializable {
     /**
      * Name of the resource stored in the sync list.
      */
-    private String m_resName;
+    private @RUntainted String m_resName;
 
     /**
      * Name of the translated resource stored in the sync list.
@@ -116,7 +117,7 @@ public class CmsSynchronizeList implements Serializable {
      * Returns the name of the resource.
      * @return name of the resource
      */
-    public String getResName() {
+    public @RUntainted String getResName() {
 
         return m_resName;
     }

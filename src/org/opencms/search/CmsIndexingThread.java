@@ -36,6 +36,7 @@ import org.opencms.search.documents.CmsIndexNoContentException;
 import org.opencms.search.documents.I_CmsDocumentFactory;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements the indexing method for a single resource as thread.<p>

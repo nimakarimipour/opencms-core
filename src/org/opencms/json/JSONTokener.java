@@ -57,6 +57,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A JSONTokener takes a source string and extracts characters and tokens from
@@ -75,7 +76,7 @@ public class JSONTokener {
     private char m_lastChar;
 
     /** Flag which controls whether JSONObjects created by this tokener are ordered. */
-    private boolean m_ordered;
+    private @RUntainted boolean m_ordered;
 
     /** The reader. */
     private Reader m_reader;
@@ -310,7 +311,7 @@ public class JSONTokener {
      * @return      a String
      * @throws JSONException in case of an unterminated string
      */
-    public String nextString(char quote) throws JSONException {
+    public @RUntainted String nextString(char quote) throws JSONException {
 
         char c;
         StringBuffer sb = new StringBuffer();
@@ -366,7 +367,7 @@ public class JSONTokener {
      * @return   a string
      * @throws JSONException if something goes wrong
      */
-    public String nextTo(char d) throws JSONException {
+    public @RUntainted String nextTo(char d) throws JSONException {
 
         StringBuffer sb = new StringBuffer();
         for (;;) {
@@ -412,7 +413,7 @@ public class JSONTokener {
      * @return an object
      * @throws JSONException if something goes wrong
      */
-    public Object nextValue() throws JSONException {
+    public @RUntainted Object nextValue() throws JSONException {
 
         char c = nextClean();
         String s;
@@ -512,7 +513,7 @@ public class JSONTokener {
      *
      * @param ordered true if JSONObjects created by this should be ordered
      */
-    public void setOrdered(boolean ordered) {
+    public void setOrdered(@RUntainted boolean ordered) {
 
         m_ordered = ordered;
     }

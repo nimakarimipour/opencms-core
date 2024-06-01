@@ -32,6 +32,7 @@ import org.opencms.i18n.CmsMessageContainer;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Report proxy that multiplexes to all contained <code>{@link I_CmsReport}</code> instances.<p>

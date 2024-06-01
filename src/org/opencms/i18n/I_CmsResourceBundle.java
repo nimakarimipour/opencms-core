@@ -29,6 +29,7 @@ package org.opencms.i18n;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Increases the visibility of some key methods of a {@link ResourceBundle}.<p>
@@ -50,7 +51,7 @@ public interface I_CmsResourceBundle {
      *
      * @return a clone of the resource bundle
      */
-    I_CmsResourceBundle getClone();
+    @RUntainted I_CmsResourceBundle getClone();
 
     /**
      * Sets the locale used for this resource bundle.<p>

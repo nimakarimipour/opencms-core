@@ -50,6 +50,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.google.common.base.Joiner;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Oracle implementation of the user driver methods.<p>

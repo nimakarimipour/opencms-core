@@ -32,6 +32,7 @@ import org.opencms.util.CmsUUID;
 import java.util.Map;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A class which represents a property modification.<p>
@@ -53,7 +54,7 @@ public class CmsPropertyModification implements IsSerializable {
     private String m_name;
 
     /** The new value. */
-    private String m_value;
+    private @RUntainted String m_value;
 
     /**
     * Copy constructor.<p>
@@ -75,7 +76,7 @@ public class CmsPropertyModification implements IsSerializable {
      * @param value the new property value
      * @param isStructureValue flag which indicates whether the structure value changed
      */
-    public CmsPropertyModification(CmsUUID resourceId, String propertyName, String value, boolean isStructureValue) {
+    public CmsPropertyModification(CmsUUID resourceId, String propertyName, @RUntainted String value, boolean isStructureValue) {
 
         m_id = resourceId;
         m_name = propertyName;
@@ -89,9 +90,9 @@ public class CmsPropertyModification implements IsSerializable {
      *
      * @param value the new property value
      */
-    public CmsPropertyModification(String path, String value) {
+    public CmsPropertyModification(@RUntainted String path, @RUntainted String value) {
 
-        String[] pathComponents = path.split("/");
+        @RUntainted String[] pathComponents = path.split("/");
         String idStr = pathComponents[0];
         String propName = pathComponents[1];
         String mode = pathComponents[2];
@@ -125,7 +126,7 @@ public class CmsPropertyModification implements IsSerializable {
      *
      * @return the property name
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_name;
     }
@@ -135,7 +136,7 @@ public class CmsPropertyModification implements IsSerializable {
      *
      * @return the new value
      */
-    public String getValue() {
+    public @RUntainted String getValue() {
 
         return m_value;
     }

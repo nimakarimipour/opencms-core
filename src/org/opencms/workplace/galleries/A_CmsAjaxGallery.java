@@ -69,6 +69,7 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides the general helper methods to generate the content of a gallery dialog used in the XML content editors,
@@ -159,7 +160,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
     protected String m_galleryTypeParams;
 
     /** The gallery items to display. */
-    private List<CmsResource> m_galleryItems;
+    private List<@RUntainted CmsResource> m_galleryItems;
 
     /** The dialog mode the gallery is running in. */
     private String m_paramDialogMode;
@@ -168,13 +169,13 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
     private String m_paramFieldId;
 
     /** The current gallery path. */
-    private String m_paramGalleryPath;
+    private @RUntainted String m_paramGalleryPath;
 
     /** The list mode to get the item either from a gallery or by a category. */
     private String m_paramListMode;
 
     /** The value of the property (current property definition: Title). */
-    private String m_paramPropertyValue;
+    private @RUntainted String m_paramPropertyValue;
 
     /** The gallery base resource type. */
     private CmsResourceTypeFolderExtended m_resourceType;
@@ -207,7 +208,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
      * @param req the JSP request
      * @param res the JSP response
      */
-    public A_CmsAjaxGallery(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public A_CmsAjaxGallery(@RUntainted PageContext context, @RUntainted HttpServletRequest req, @RUntainted HttpServletResponse res) {
 
         this(new CmsJspActionElement(context, req, res));
     }
@@ -299,7 +300,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
      */
     public static List<CmsResource> getGalleries(int galleryTypeId, CmsObject cms) {
 
-        List<CmsResource> galleries = new ArrayList<CmsResource>();
+        List<@RUntainted CmsResource> galleries = new ArrayList<@RUntainted CmsResource>();
         try {
             // get the galleries of the current site
             galleries = cms.readResources("/", CmsResourceFilter.ONLY_VISIBLE_NO_DELETED.addRequireType(galleryTypeId));
@@ -310,7 +311,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
 
         // if the current site is NOT the root site - add all other galleries from the system path
         if (!cms.getRequestContext().getSiteRoot().equals("")) {
-            List<CmsResource> systemGalleries = null;
+            List<@RUntainted CmsResource> systemGalleries = null;
             try {
                 // get the galleries in the /system/ folder
                 systemGalleries = cms.readResources(
@@ -496,7 +497,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
      *
      * @return the path of the gallery to display
      */
-    public String getParamGalleryPath() {
+    public @RUntainted String getParamGalleryPath() {
 
         if (CmsStringUtil.isEmpty(m_paramGalleryPath)) {
             m_paramGalleryPath = "";
@@ -519,7 +520,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
      *
      * @return the property value parameter
      */
-    public String getParamPropertyValue() {
+    public @RUntainted String getParamPropertyValue() {
 
         return m_paramPropertyValue;
     }
@@ -621,7 +622,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
      *
      * @param paramPropertyValue the property value parameter to set
      */
-    public void setParamPropertyValue(String paramPropertyValue) {
+    public void setParamPropertyValue(@RUntainted String paramPropertyValue) {
 
         m_paramPropertyValue = paramPropertyValue;
     }
@@ -877,7 +878,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
      * @param res the resource to create the object from
      * @param sitePath site path to the object
      */
-    protected void buildJsonItemCommonPart(JSONObject jsonObj, CmsResource res, String sitePath) {
+    protected void buildJsonItemCommonPart(JSONObject jsonObj, CmsResource res, @RUntainted String sitePath) {
 
         try {
             // 1: file item site path
@@ -974,7 +975,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
      * @param res the resource to create the object from
      * @return the JSON object containing information from the given resource
      */
-    protected JSONObject buildJsonItemObject(CmsResource res) {
+    protected @RUntainted JSONObject buildJsonItemObject(CmsResource res) {
 
         // create a new JSON object
         JSONObject jsonObj = new JSONObject();
@@ -994,7 +995,7 @@ public abstract class A_CmsAjaxGallery extends CmsDialog {
      * @param res the resource to create the object from
      * @param sitePath site path to the object
      */
-    protected abstract void buildJsonItemSpecificPart(JSONObject jsonObj, CmsResource res, String sitePath);
+    protected abstract void buildJsonItemSpecificPart(JSONObject jsonObj, @RUntainted CmsResource res, String sitePath);
 
     /**
      * Builds the JSON code to create items for the folder.<p>

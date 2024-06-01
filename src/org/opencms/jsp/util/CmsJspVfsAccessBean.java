@@ -56,6 +56,7 @@ import java.util.Map;
 
 import org.apache.commons.collections.Transformer;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides utility methods that allow convenient access to the OpenCms VFS,
@@ -78,7 +79,7 @@ public final class CmsJspVfsAccessBean {
          */
         public Object transform(Object input) {
 
-            List<Locale> result;
+            List<@RUntainted Locale> result;
             // read the available locales
             result = OpenCms.getLocaleManager().getAvailableLocales(getCmsObject(), String.valueOf(input));
             return result;
@@ -194,7 +195,7 @@ public final class CmsJspVfsAccessBean {
         /**
          * @see org.apache.commons.collections.Transformer#transform(java.lang.Object)
          */
-        public Object transform(Object input) {
+        public Object transform(@RUntainted Object input) {
 
             CmsJspResourceWrapper result;
             try {
@@ -382,7 +383,7 @@ public final class CmsJspVfsAccessBean {
      *
      * @return a new instance of the JSP VFS access utility bean
      */
-    public static CmsJspVfsAccessBean create(CmsObject cms) {
+    public static CmsJspVfsAccessBean create(@RUntainted CmsObject cms) {
 
         CmsJspVfsAccessBean result;
         Object attribute = cms.getRequestContext().getAttribute(ATTRIBUTE_VFS_ACCESS_BEAN);

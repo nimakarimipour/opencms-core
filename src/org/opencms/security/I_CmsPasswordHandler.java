@@ -28,6 +28,7 @@
 package org.opencms.security;
 
 import org.opencms.configuration.I_CmsConfigurationParameterHandler;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Defines methods for OpenCms password validation.<p>

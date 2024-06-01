@@ -53,6 +53,7 @@ import com.vaadin.server.Resource;
 import com.vaadin.server.StreamResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Window;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class to export user.<p>
@@ -80,7 +81,7 @@ public abstract class A_CmsImportExportUserDialog extends CmsBasicDialog {
     private FileDownloader m_fileDownloader;
 
     /**Ou name to export from or import to. */
-    protected String m_ou;
+    protected @RUntainted String m_ou;
 
     /**Window. */
     protected Window m_window;
@@ -91,7 +92,7 @@ public abstract class A_CmsImportExportUserDialog extends CmsBasicDialog {
      * @param ou OU
      * @param window window
      */
-    protected void init(String ou, Window window) {
+    protected void init(@RUntainted String ou, Window window) {
 
         try {
             displayResourceInfoDirectly(

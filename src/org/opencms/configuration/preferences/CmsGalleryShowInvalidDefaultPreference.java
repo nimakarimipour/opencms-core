@@ -28,6 +28,7 @@
 package org.opencms.configuration.preferences;
 
 import org.opencms.xml.content.CmsXmlContentProperty;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the preference which controls whether invalid elements should be shown by default in the gallery result tab.

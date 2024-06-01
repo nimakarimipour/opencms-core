@@ -51,6 +51,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.logging.Log;
 
 import com.google.common.cache.CacheBuilder;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Creates a repository session to access OpenCms.<p>
@@ -83,7 +84,7 @@ public class CmsRepository extends A_CmsRepository {
     private Map<String, CmsObject> m_cmsObjectCache;
 
     /** The list of configured wrappers of the repository. */
-    private List<I_CmsResourceWrapper> m_wrappers;
+    private @RUntainted List<I_CmsResourceWrapper> m_wrappers;
 
     /**
      * Empty default constructor.<p>

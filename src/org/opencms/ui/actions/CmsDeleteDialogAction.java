@@ -42,6 +42,7 @@ import org.opencms.workplace.explorer.Messages;
 
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The delete dialog action.<p>
@@ -94,7 +95,7 @@ public class CmsDeleteDialogAction extends A_CmsWorkplaceAction implements I_Cms
     /**
      * @see org.opencms.ui.actions.I_CmsADEAction#getParams()
      */
-    public Map<String, String> getParams() {
+    public Map<String, @RUntainted String> getParams() {
 
         return null;
     }
@@ -141,7 +142,7 @@ public class CmsDeleteDialogAction extends A_CmsWorkplaceAction implements I_Cms
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getDialogTitleKey()
      */
     @Override
-    protected String getDialogTitleKey() {
+    protected @RUntainted String getDialogTitleKey() {
 
         return org.opencms.ui.Messages.GUI_DIALOGTITLE_DELETE_0;
     }
@@ -150,7 +151,7 @@ public class CmsDeleteDialogAction extends A_CmsWorkplaceAction implements I_Cms
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
      */
     @Override
-    protected String getTitleKey() {
+    protected @RUntainted String getTitleKey() {
 
         return Messages.GUI_EXPLORER_CONTEXT_DELETE_0;
     }

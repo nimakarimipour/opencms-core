@@ -43,6 +43,7 @@ import org.apache.commons.logging.Log;
 
 import org.dom4j.Element;
 import org.dom4j.Node;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the OpenCms Import Interface ({@link org.opencms.importexport.I_CmsImport}) for
@@ -92,7 +93,7 @@ public class CmsImportVersion6 extends CmsImportVersion5 {
 
         try {
             // getAll user nodes
-            List<Node> userNodes = m_docXml.selectNodes("//" + A_CmsImport.N_USERDATA);
+            List<@RUntainted Node> userNodes = m_docXml.selectNodes("//" + A_CmsImport.N_USERDATA);
             // walk threw all groups in manifest
             for (int i = 0; i < userNodes.size(); i++) {
                 Element currentElement = (Element)userNodes.get(i);
@@ -123,7 +124,7 @@ public class CmsImportVersion6 extends CmsImportVersion5 {
                 }
 
                 // get the groups of the user and put them into the list
-                List<Node> groupNodes = currentElement.selectNodes("*/" + A_CmsImport.N_GROUPNAME);
+                List<@RUntainted Node> groupNodes = currentElement.selectNodes("*/" + A_CmsImport.N_GROUPNAME);
                 List<String> userGroups = new ArrayList<String>();
                 for (int j = 0; j < groupNodes.size(); j++) {
                     Element currentGroup = (Element)groupNodes.get(j);

@@ -41,6 +41,7 @@ import java.util.Set;
 import java.util.function.Predicate;
 
 import com.google.common.collect.HashMultimap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for keeping track of which keys map to which formatters, and which formatters are active,

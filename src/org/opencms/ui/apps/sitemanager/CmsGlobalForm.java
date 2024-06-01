@@ -57,6 +57,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  *Class for the Global configuration dialog.<p>
@@ -281,7 +282,7 @@ public class CmsGlobalForm extends CmsBasicDialog {
         m_fieldSharedFolder.setNullSelectionAllowed(false);
         m_fieldSharedFolder.setTextInputAllowed(false);
         try {
-            List<CmsResource> folderUnderRoot = m_cms.readResources("/", CmsResourceFilter.DEFAULT_FOLDERS, false);
+            List<@RUntainted CmsResource> folderUnderRoot = m_cms.readResources("/", CmsResourceFilter.DEFAULT_FOLDERS, false);
             for (CmsResource folder : folderUnderRoot) {
                 if (!m_forbiddenFolder.contains(folder.getRootPath())) {
                     m_fieldSharedFolder.addItem(folder.getRootPath().replace("/", ""));

@@ -37,6 +37,7 @@ import org.opencms.security.CmsPermissionViolationException;
 
 import java.util.List;
 import java.util.regex.Pattern;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource wrapper class which is used to prevent resources with names matching a given regex from being created.<p>

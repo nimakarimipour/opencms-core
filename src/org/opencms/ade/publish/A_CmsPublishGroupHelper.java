@@ -40,6 +40,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for splitting a publish list into publish groups.<p>
@@ -393,7 +394,7 @@ public abstract class A_CmsPublishGroupHelper<RESOURCE, GROUP> {
      *
      * @return the last modification date of res
      */
-    protected abstract long getDateLastModified(RESOURCE res);
+    protected abstract @RUntainted long getDateLastModified(RESOURCE res);
 
     /**
      * Gets the root path of a resource.<p>

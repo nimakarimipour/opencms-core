@@ -43,6 +43,7 @@ import org.opencms.xml.content.CmsXmlContentFactory;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Adopted version of the default {@link org.opencms.search.fields.CmsSearchFieldMapping}
@@ -70,9 +71,9 @@ public class CmsMacroResolvingSearchFieldMapping extends CmsSearchFieldMapping {
      * @see org.opencms.search.fields.CmsSearchFieldMapping#getStringValue(org.opencms.file.CmsObject, org.opencms.file.CmsResource, org.opencms.search.extractors.I_CmsExtractionResult, java.util.List, java.util.List)
      */
     @Override
-    public String getStringValue(
+    public @RUntainted String getStringValue(
         CmsObject cms,
-        CmsResource res,
+        @RUntainted CmsResource res,
         I_CmsExtractionResult extractionResult,
         List<CmsProperty> properties,
         List<CmsProperty> propertiesSearched) {

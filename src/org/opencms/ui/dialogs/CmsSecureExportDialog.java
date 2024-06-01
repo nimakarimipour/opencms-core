@@ -64,6 +64,7 @@ import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.ui.themes.ValoTheme;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog used to change resource modification times.<p>
@@ -83,10 +84,10 @@ public class CmsSecureExportDialog extends CmsBasicDialog {
     protected I_CmsDialogContext m_context;
 
     /** Field for the export setting. */
-    protected OptionGroup m_exportField;
+    protected @RUntainted OptionGroup m_exportField;
 
     /** Field for the export name. */
-    protected TextField m_exportNameField;
+    protected @RUntainted TextField m_exportNameField;
 
     /** Field for the 'internal' option. */
     protected CheckBox m_internalField;
@@ -98,7 +99,7 @@ public class CmsSecureExportDialog extends CmsBasicDialog {
     protected CmsResource m_resource;
 
     /** Field for the secure setting. */
-    protected OptionGroup m_secureField;
+    protected @RUntainted OptionGroup m_secureField;
 
     /** Label to inform user that server has no secure server. */
     protected Label m_noSecureServerLabel;
@@ -298,7 +299,7 @@ public class CmsSecureExportDialog extends CmsBasicDialog {
      * @param prop the property to convert
      * @return the field value
      */
-    private String convertPropertyToFieldValue(CmsProperty prop) {
+    private @RUntainted String convertPropertyToFieldValue(CmsProperty prop) {
 
         if (prop == null) {
             return "";

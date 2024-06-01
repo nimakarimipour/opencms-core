@@ -30,6 +30,7 @@ package org.opencms.staticexport;
 import java.io.File;
 import java.util.Collections;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Concrete OnDemandExportHandler.<p>

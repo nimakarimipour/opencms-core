@@ -40,6 +40,7 @@ import java.util.List;
 import org.apache.commons.digester3.Digester;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Scheduled jobs configuration class.<p>

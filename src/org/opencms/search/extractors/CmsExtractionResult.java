@@ -42,6 +42,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The result of a document text extraction.<p>
@@ -57,10 +58,10 @@ public class CmsExtractionResult implements I_CmsExtractionResult, Serializable 
     private static final long serialVersionUID = 1465447302192195154L;
 
     /** The extracted individual content items. */
-    private Map<Locale, LinkedHashMap<String, String>> m_contentItems;
+    private Map<@RUntainted Locale, @RUntainted LinkedHashMap<String, @RUntainted String>> m_contentItems;
 
     /** The locales of the content. */
-    private Collection<Locale> m_locales;
+    private Collection<@RUntainted Locale> m_locales;
 
     /** The default locale of the content. Can be <code>null</code> for unilingual extraction results. */
     private Locale m_defaultLocale;
@@ -107,7 +108,7 @@ public class CmsExtractionResult implements I_CmsExtractionResult, Serializable 
      *
      * @param content the extracted content
      */
-    public CmsExtractionResult(String content) {
+    public CmsExtractionResult(@RUntainted String content) {
 
         this(content, null, null);
         m_contentItems.get(m_defaultLocale).put(ITEM_RAW, content);
@@ -119,7 +120,7 @@ public class CmsExtractionResult implements I_CmsExtractionResult, Serializable 
      * @param content the extracted content
      * @param contentItems the individual extracted content items
      */
-    public CmsExtractionResult(String content, LinkedHashMap<String, String> contentItems) {
+    public CmsExtractionResult(@RUntainted String content, LinkedHashMap<String, @RUntainted String> contentItems) {
 
         this(content, contentItems, null);
     }
@@ -132,8 +133,8 @@ public class CmsExtractionResult implements I_CmsExtractionResult, Serializable 
      * @param fieldMappings extraction results that should directly be indexed
      */
     public CmsExtractionResult(
-        String content,
-        LinkedHashMap<String, String> contentItems,
+        @RUntainted String content,
+        LinkedHashMap<String, @RUntainted String> contentItems,
         Map<String, String> fieldMappings) {
 
         m_defaultLocale = null;
@@ -208,7 +209,7 @@ public class CmsExtractionResult implements I_CmsExtractionResult, Serializable 
     /**
      * @see org.opencms.search.extractors.I_CmsExtractionResult#getContent()
      */
-    public String getContent() {
+    public @RUntainted String getContent() {
 
         return m_contentItems.get(m_defaultLocale).get(ITEM_CONTENT);
     }
@@ -218,14 +219,14 @@ public class CmsExtractionResult implements I_CmsExtractionResult, Serializable 
      */
     public String getContent(Locale locale) {
 
-        Map<String, String> localeItems = m_contentItems.get(locale);
+        Map<String, @RUntainted String> localeItems = m_contentItems.get(locale);
         return null == localeItems ? null : localeItems.get(ITEM_CONTENT);
     }
 
     /**
      * @see org.opencms.search.extractors.I_CmsExtractionResult#getContentItems()
      */
-    public LinkedHashMap<String, String> getContentItems() {
+    public @RUntainted LinkedHashMap<String, @RUntainted String> getContentItems() {
 
         return m_contentItems.get(m_defaultLocale);
     }
@@ -233,9 +234,9 @@ public class CmsExtractionResult implements I_CmsExtractionResult, Serializable 
     /**
      * @see org.opencms.search.extractors.I_CmsExtractionResult#getContentItems(java.util.Locale)
      */
-    public LinkedHashMap<String, String> getContentItems(Locale locale) {
+    public @RUntainted LinkedHashMap<String, String> getContentItems(Locale locale) {
 
-        LinkedHashMap<String, String> localeItems = m_contentItems.get(locale);
+        LinkedHashMap<String, @RUntainted String> localeItems = m_contentItems.get(locale);
         return null == localeItems ? new LinkedHashMap<String, String>() : localeItems;
     }
 
@@ -258,7 +259,7 @@ public class CmsExtractionResult implements I_CmsExtractionResult, Serializable 
     /**
      * @see org.opencms.search.extractors.I_CmsExtractionResult#getLocales()
      */
-    public Collection<Locale> getLocales() {
+    public Collection<@RUntainted Locale> getLocales() {
 
         return m_locales;
     }
@@ -272,7 +273,7 @@ public class CmsExtractionResult implements I_CmsExtractionResult, Serializable 
         Map<Locale, LinkedHashMap<String, String>> contentItems = new HashMap<Locale, LinkedHashMap<String, String>>(
             m_locales.size());
         for (Locale locale : m_locales) {
-            LinkedHashMap<String, String> originalLocalValues = m_contentItems.get(locale);
+            LinkedHashMap<String, @RUntainted String> originalLocalValues = m_contentItems.get(locale);
             LinkedHashMap<String, String> localeValues = new LinkedHashMap<String, String>(originalLocalValues);
             contentItems.put(locale, localeValues);
         }
@@ -337,8 +338,8 @@ public class CmsExtractionResult implements I_CmsExtractionResult, Serializable 
      * @param multilingualContentItems the map where replacement should take place
      * @return the map with all <code>null</code> values replaced with empty maps.
      */
-    private Map<Locale, LinkedHashMap<String, String>> removeNullEntries(
-        Map<Locale, LinkedHashMap<String, String>> multilingualContentItems) {
+    private @RUntainted Map<Locale, LinkedHashMap<String, String>> removeNullEntries(
+        @RUntainted Map<Locale, LinkedHashMap<String, String>> multilingualContentItems) {
 
         for (Locale locale : multilingualContentItems.keySet()) {
             if (null == multilingualContentItems.get(locale)) {

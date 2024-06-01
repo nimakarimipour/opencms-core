@@ -71,6 +71,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles all model group specific tasks.<p>
@@ -84,7 +85,7 @@ public class CmsModelGroupHelper {
     private static final Log LOG = CmsLog.getLog(CmsModelGroupHelper.class);
 
     /** Settings to keep when resetting. */
-    private static final String[] KEEP_SETTING_IDS = new String[] {
+    private static final @RUntainted String[] KEEP_SETTING_IDS = new String[] {
         CmsContainerElement.MODEL_GROUP_STATE,
         CmsContainerElement.ELEMENT_INSTANCE_ID,
         CmsContainerElement.USE_AS_COPY_MODEL};
@@ -161,7 +162,7 @@ public class CmsModelGroupHelper {
      *
      * @return <code>true</code> if the resource was updated
      */
-    public static boolean updateModelGroupResource(CmsObject cms, CmsResource group, String baseContainerName) {
+    public static boolean updateModelGroupResource(CmsObject cms, @RUntainted CmsResource group, @RUntainted String baseContainerName) {
 
         if (!isModelGroupResource(group)) {
             // skip resources that are no model group
@@ -244,7 +245,7 @@ public class CmsModelGroupHelper {
                 CmsFlexController controller = CmsFlexController.getController(request);
                 CmsObject cms = controller.getCmsObject();
                 CmsResource base = cms.readResource(basePath);
-                List<CmsResource> resources;
+                List<@RUntainted CmsResource> resources;
                 I_CmsResourceType groupType = OpenCms.getResourceManager().getResourceType(
                     CmsResourceTypeXmlContainerPage.MODEL_GROUP_TYPE_NAME);
                 if (base.isFolder()) {
@@ -326,8 +327,8 @@ public class CmsModelGroupHelper {
         List<String> foundGroups,
         CmsContainerPageBean page,
         boolean alwaysCopy,
-        Locale locale,
-        String createContextPath)
+        @RUntainted Locale locale,
+        @RUntainted String createContextPath)
     throws CmsException {
 
         for (Entry<String, CmsContainerElementBean> entry : elements.entrySet()) {
@@ -363,7 +364,7 @@ public class CmsModelGroupHelper {
             } else {
                 // here we need to make sure to remove the source container page setting and to set a new element instance id
 
-                Map<String, String> settings = new HashMap<String, String>(element.getIndividualSettings());
+                Map<@RUntainted String, @RUntainted String> settings = new HashMap<@RUntainted String, @RUntainted String>(element.getIndividualSettings());
                 String source = settings.get(CmsContainerpageService.SOURCE_CONTAINERPAGE_ID_SETTING);
                 settings.remove(CmsContainerpageService.SOURCE_CONTAINERPAGE_ID_SETTING);
                 // TODO: Make sure source id is available for second call
@@ -438,7 +439,7 @@ public class CmsModelGroupHelper {
                                                 modelInstanceId = child.getInstanceId();
                                                 foundInstance = true;
                                                 // we also want to keep the settings of the model group
-                                                Map<String, String> setting = new HashMap<String, String>(
+                                                Map<@RUntainted String, @RUntainted String> setting = new HashMap<@RUntainted String, @RUntainted String>(
                                                     child.getIndividualSettings());
                                                 setting.remove(CmsContainerElement.ELEMENT_INSTANCE_ID);
                                                 element = CmsContainerElementBean.cloneWithSettings(element, setting);
@@ -626,7 +627,7 @@ public class CmsModelGroupHelper {
             for (CmsContainerElementBean element : container.getElements()) {
                 if (element.isModelGroup() && !element.getId().equals(modelElementId)) {
                     // there should not be another model group element, remove the model group settings
-                    Map<String, String> settings = new HashMap<String, String>(element.getIndividualSettings());
+                    Map<@RUntainted String, @RUntainted String> settings = new HashMap<@RUntainted String, @RUntainted String>(element.getIndividualSettings());
                     settings.remove(CmsContainerElement.MODEL_GROUP_ID);
                     settings.remove(CmsContainerElement.MODEL_GROUP_STATE);
                     elements.add(
@@ -671,10 +672,10 @@ public class CmsModelGroupHelper {
     private CmsContainerElementBean adjustSettings(
         CmsContainerElementBean element,
         String originalContainer,
-        String adjustedContainer,
+        @RUntainted String adjustedContainer,
         boolean setNewInstanceId) {
 
-        Map<String, String> settings = new HashMap<String, String>(element.getIndividualSettings());
+        Map<@RUntainted String, @RUntainted String> settings = new HashMap<@RUntainted String, @RUntainted String>(element.getIndividualSettings());
         if (setNewInstanceId) {
             settings.put(CmsContainerElement.ELEMENT_INSTANCE_ID, new CmsUUID().toString());
         }
@@ -718,8 +719,8 @@ public class CmsModelGroupHelper {
      * @return the collected containers
      */
     private List<CmsContainerBean> collectModelStructure(
-        String modelInstanceId,
-        String replaceModelId,
+        @RUntainted String modelInstanceId,
+        @RUntainted String replaceModelId,
         Map<String, List<CmsContainerBean>> containerByParent,
         boolean isCopyGroup) {
 
@@ -776,8 +777,8 @@ public class CmsModelGroupHelper {
     private List<CmsContainerBean> createNewElementsForModelGroup(
         CmsObject cms,
         List<CmsContainerBean> modelContainers,
-        Locale locale,
-        String createContext)
+        @RUntainted Locale locale,
+        @RUntainted String createContext)
     throws CmsException {
 
         Map<CmsUUID, CmsResource> newResources = new HashMap<CmsUUID, CmsResource>();
@@ -860,7 +861,7 @@ public class CmsModelGroupHelper {
      *
      * @throws CmsException in case unmarshalling fails
      */
-    private CmsContainerPageBean getContainerPageBean(CmsResource resource) throws CmsException {
+    private CmsContainerPageBean getContainerPageBean(@RUntainted CmsResource resource) throws CmsException {
 
         CmsXmlContainerPage xmlCnt = CmsXmlContainerPageFactory.unmarshal(m_cms, m_cms.readFile(resource));
         return xmlCnt.getContainerPage(m_cms);
@@ -910,7 +911,7 @@ public class CmsModelGroupHelper {
                 || !formatter.getResourceTypeNames().contains(
                     OpenCms.getResourceManager().getResourceType(baseElement.getResource()).getTypeName());
         }
-        Map<String, String> settings;
+        Map<@RUntainted String, @RUntainted String> settings;
         if (resetSettings) {
             settings = new HashMap<String, String>();
             for (String id : KEEP_SETTING_IDS) {
@@ -920,7 +921,7 @@ public class CmsModelGroupHelper {
             }
             settings.put(CmsContainerElement.MODEL_GROUP_ID, element.getId().toString());
             // transfer all other settings
-            for (Entry<String, String> settingEntry : baseElement.getIndividualSettings().entrySet()) {
+            for (Entry<@RUntainted String, @RUntainted String> settingEntry : baseElement.getIndividualSettings().entrySet()) {
                 if (!settings.containsKey(settingEntry.getKey())) {
                     settings.put(settingEntry.getKey(), settingEntry.getValue());
                 }
@@ -973,8 +974,8 @@ public class CmsModelGroupHelper {
      * @return the model group containers
      */
     private List<CmsContainerBean> readModelContainers(
-        String modelInstanceId,
-        String localInstanceId,
+        @RUntainted String modelInstanceId,
+        @RUntainted String localInstanceId,
         CmsContainerPageBean modelPage,
         boolean isCopyGroup) {
 

@@ -41,6 +41,7 @@ import org.opencms.workplace.commons.Messages;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The delete dialog action.<p>
@@ -90,9 +91,9 @@ public class CmsPublishScheduledDialogAction extends A_CmsWorkplaceAction implem
     /**
      * @see org.opencms.ui.actions.I_CmsADEAction#getParams()
      */
-    public Map<String, String> getParams() {
+    public Map<String, @RUntainted String> getParams() {
 
-        Map<String, String> result = new HashMap<String, String>();
+        Map<String, @RUntainted String> result = new HashMap<String, @RUntainted String>();
         result.put("dialogId", CmsPublishScheduledDialogAction.class.getName());
         return result;
     }
@@ -132,7 +133,7 @@ public class CmsPublishScheduledDialogAction extends A_CmsWorkplaceAction implem
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
      */
     @Override
-    protected String getTitleKey() {
+    protected @RUntainted String getTitleKey() {
 
         return Messages.GUI_PUBLISH_SCHEDULED_0;
     }

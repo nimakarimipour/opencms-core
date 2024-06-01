@@ -73,6 +73,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Parses formatter beans from formatter configuration XML contents.<p>
@@ -299,7 +300,7 @@ public class CmsFormatterBeanParser {
     private int m_maxWidth;
 
     /** Parsed field. */
-    private String m_niceName;
+    private @RUntainted String m_niceName;
 
     /** Parsed field. */
     private boolean m_preview;
@@ -640,7 +641,7 @@ public class CmsFormatterBeanParser {
      *
      * @return the found value
      */
-    private String getString(I_CmsXmlContentLocation val, String path, String defaultValue) {
+    private @RUntainted String getString(I_CmsXmlContentLocation val, String path, @RUntainted String defaultValue) {
 
         if ((val != null)) {
             I_CmsXmlContentValueLocation subVal = val.getSubValue(path);

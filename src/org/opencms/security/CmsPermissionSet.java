@@ -32,6 +32,7 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * An immutable permission set that contains both allowed and denied permissions as bitsets.<p>
@@ -225,7 +226,7 @@ public class CmsPermissionSet implements Serializable {
      *
      * @return string of the format {{+|-}{r|w|v|c|d}}*
      */
-    public String getPermissionString() {
+    public @RUntainted String getPermissionString() {
 
         StringBuffer p = new StringBuffer("");
 

@@ -45,6 +45,7 @@ import java.util.List;
 
 import com.vaadin.navigator.View;
 import com.vaadin.ui.UI;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The edit control code dialog action.<p>
@@ -95,7 +96,7 @@ public class CmsEditCodeDialogAction extends A_CmsWorkplaceAction {
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
      */
     @Override
-    protected String getTitleKey() {
+    protected @RUntainted String getTitleKey() {
 
         return Messages.GUI_EXPLORER_CONTEXT_EDITCONTROLFILE_0;
     }

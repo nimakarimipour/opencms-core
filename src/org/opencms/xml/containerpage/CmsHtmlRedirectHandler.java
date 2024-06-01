@@ -45,6 +45,7 @@ import java.util.Arrays;
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Content handler for HTML redirects.<p>
@@ -58,7 +59,7 @@ public class CmsHtmlRedirectHandler extends CmsDefaultXmlContentHandler {
      * @see org.opencms.xml.content.CmsDefaultXmlContentHandler#prepareForWrite(org.opencms.file.CmsObject, org.opencms.xml.content.CmsXmlContent, org.opencms.file.CmsFile)
      */
     @Override
-    public CmsFile prepareForWrite(CmsObject cms, CmsXmlContent content, CmsFile file) throws CmsException {
+    public CmsFile prepareForWrite(CmsObject cms, @RUntainted CmsXmlContent content, CmsFile file) throws CmsException {
 
         CmsFile result = super.prepareForWrite(cms, content, file);
         try {
@@ -95,7 +96,7 @@ public class CmsHtmlRedirectHandler extends CmsDefaultXmlContentHandler {
         return result;
     }
 
-    private String getStringValue(CmsObject cms, CmsXmlContent content, String node) {
+    private @RUntainted String getStringValue(CmsObject cms, CmsXmlContent content, String node) {
 
         I_CmsXmlContentValue val = content.getValue(node, Locale.ENGLISH);
         if (val == null) {

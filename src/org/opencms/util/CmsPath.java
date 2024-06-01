@@ -28,6 +28,7 @@
 package org.opencms.util;
 
 import java.io.Serializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Simple data holder class which stores a path in a normalized form.<p>
@@ -43,14 +44,14 @@ public class CmsPath implements Serializable, Comparable<CmsPath> {
     private static final long serialVersionUID = 1L;
 
     /** The internal path string. */
-    private String m_pathStr;
+    private @RUntainted String m_pathStr;
 
     /**
      * Creates a new instance.
      *
      * @param pathStr the path string
      */
-    public CmsPath(String pathStr) {
+    public CmsPath(@RUntainted String pathStr) {
 
         if (pathStr.equals("") || pathStr.equals("/")) {
             m_pathStr = "/";
@@ -67,7 +68,7 @@ public class CmsPath implements Serializable, Comparable<CmsPath> {
      *
      * @return the path as a string.
      */
-    public String asString() {
+    public @RUntainted String asString() {
 
         return m_pathStr;
     }

@@ -50,6 +50,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Explorer type access object, encapsulates access control entries and lists of a explorer type.<p>
@@ -76,7 +77,7 @@ public class CmsExplorerTypeAccess implements Serializable {
     }
 
     /** The map of configured access control entries. */
-    private Map<String, String> m_accessControl;
+    private Map<@RUntainted String, String> m_accessControl;
 
     /** The acl based on the map of configured access control entries. */
     private CmsAccessControlList m_accessControlList;
@@ -102,7 +103,7 @@ public class CmsExplorerTypeAccess implements Serializable {
      * @param key the principal of the ace
      * @param value the permissions for the principal
      */
-    public void addAccessEntry(String key, String value) {
+    public void addAccessEntry(@RUntainted String key, @RUntainted String value) {
 
         m_accessControl.put(key, value);
         if (LOG.isDebugEnabled()) {
@@ -131,7 +132,7 @@ public class CmsExplorerTypeAccess implements Serializable {
         }
 
         m_accessControlList = new CmsAccessControlList();
-        Iterator<String> i = m_accessControl.keySet().iterator();
+        Iterator<@RUntainted String> i = m_accessControl.keySet().iterator();
         while (i.hasNext()) {
             String key = i.next();
             if (!PRINCIPAL_DEFAULT.equals(key)) {
@@ -196,7 +197,7 @@ public class CmsExplorerTypeAccess implements Serializable {
      *
      * @return the map of access entries of the explorer type setting
      */
-    public Map<String, String> getAccessEntries() {
+    public Map<@RUntainted String, String> getAccessEntries() {
 
         return m_accessControl;
     }

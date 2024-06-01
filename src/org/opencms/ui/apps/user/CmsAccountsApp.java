@@ -96,6 +96,7 @@ import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * App for the OU Management.<p>
@@ -114,7 +115,7 @@ public class CmsAccountsApp extends A_CmsWorkplaceApp implements I_CmsPrincipalS
         private CmsUUID m_groupID;
 
         /**ou path. */
-        private String m_path = "";
+        private @RUntainted String m_path = "";
 
         /**type of element to be openend. */
         private I_CmsOuTreeType m_type;
@@ -127,7 +128,7 @@ public class CmsAccountsApp extends A_CmsWorkplaceApp implements I_CmsPrincipalS
          * @param groupID groupid
          * @param filter filter string
          */
-        public CmsStateBean(String path, I_CmsOuTreeType type, CmsUUID groupID, String filter) {
+        public CmsStateBean(@RUntainted String path, I_CmsOuTreeType type, CmsUUID groupID, String filter) {
 
             m_path = path.equals("/") ? "" : path;
             m_type = type;
@@ -150,7 +151,7 @@ public class CmsAccountsApp extends A_CmsWorkplaceApp implements I_CmsPrincipalS
          *
          * @return ou path
          */
-        public String getPath() {
+        public @RUntainted String getPath() {
 
             return m_path;
         }
@@ -455,7 +456,7 @@ public class CmsAccountsApp extends A_CmsWorkplaceApp implements I_CmsPrincipalS
      */
     public IndexedContainer getAvailableGroupsContainerWithout(
         CmsObject cms,
-        String ouFqn,
+        @RUntainted String ouFqn,
         String propCaption,
         String propIcon,
         String propOu,
@@ -680,7 +681,7 @@ public class CmsAccountsApp extends A_CmsWorkplaceApp implements I_CmsPrincipalS
         String filter = "";
         I_CmsOuTreeType type = CmsOuTreeType.OU;
         CmsUUID groupId = null;
-        List<String> fields = CmsStringUtil.splitAsList(state, STATE_SEPERATOR);
+        List<@RUntainted String> fields = CmsStringUtil.splitAsList(state, STATE_SEPERATOR);
         if (!fields.isEmpty()) {
             if (fields.size() > 1) {
                 path = fields.get(1);
@@ -818,7 +819,7 @@ public class CmsAccountsApp extends A_CmsWorkplaceApp implements I_CmsPrincipalS
      * @return the user table
      */
     protected I_CmsFilterableTable createUserTable(
-        String ou,
+        @RUntainted String ou,
         CmsUUID groupID,
         I_CmsOuTreeType type,
         boolean showAll,
@@ -838,7 +839,7 @@ public class CmsAccountsApp extends A_CmsWorkplaceApp implements I_CmsPrincipalS
      * @return the user table
      */
     protected I_CmsFilterableTable createUserTable(
-        String ou,
+        @RUntainted String ou,
         I_CmsOuTreeType type,
         CmsAccountsApp cmsAccountsApp,
         boolean buttonPressed) {

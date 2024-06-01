@@ -31,6 +31,7 @@ import org.opencms.db.CmsResourceState;
 import org.opencms.util.CmsUUID;
 
 import java.util.Comparator;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Common ancestor interface for {@link CmsFile} and {@link CmsFolder}
@@ -217,42 +218,42 @@ public interface I_CmsResource {
      *
      * @return the date of the last modification of the content of this resource
      */
-    long getDateContent();
+    @RUntainted long getDateContent();
 
     /**
      * Returns the date of the creation of this resource.<p>
      *
      * @return the date of the creation of this resource
      */
-    long getDateCreated();
+    @RUntainted long getDateCreated();
 
     /**
      * Returns the expiration date this resource.<p>
      *
      * @return the expiration date of this resource
      */
-    long getDateExpired();
+    @RUntainted long getDateExpired();
 
     /**
      * Returns the date of the last modification of this resource.<p>
      *
      * @return the date of the last modification of this resource
      */
-    long getDateLastModified();
+    @RUntainted long getDateLastModified();
 
     /**
      * Returns the release date this resource.<p>
      *
      * @return the release date of this resource
      */
-    long getDateReleased();
+    @RUntainted long getDateReleased();
 
     /**
      * Returns the flags of this resource.<p>
      *
      * @return the flags of this resource
      */
-    int getFlags();
+    @RUntainted int getFlags();
 
     /**
      * Returns the content length of this resource.<p>
@@ -262,7 +263,7 @@ public interface I_CmsResource {
      *
      * @return the content length of this resource
      */
-    int getLength();
+    @RUntainted int getLength();
 
     /**
      * Returns the file name of this resource without parent folders, for example <code>index.html</code>.<p>
@@ -291,7 +292,7 @@ public interface I_CmsResource {
      *
      * @return name of this resource with it's full path from the top level root folder
      */
-    String getRootPath();
+    @RUntainted String getRootPath();
 
     /**
      * Returns the number of siblings of this resource, also counting this resource.<p>
@@ -301,28 +302,28 @@ public interface I_CmsResource {
      *
      * @return the number of siblings of this resource, also counting this resource
      */
-    int getSiblingCount();
+    @RUntainted int getSiblingCount();
 
     /**
      * Returns the state of this resource.<p>
      *
      * @return the state of this resource
      */
-    CmsResourceState getState();
+    @RUntainted CmsResourceState getState();
 
     /**
      * Returns the id of the database structure record of this resource.<p>
      *
      * @return the id of the database structure record of this resource
      */
-    CmsUUID getStructureId();
+    @RUntainted CmsUUID getStructureId();
 
     /**
      * Returns the resource type id for this resource.<p>
      *
      * @return the resource type id of this resource
      */
-    int getTypeId();
+    @RUntainted int getTypeId();
 
     /**
      * Returns the id of the {@link CmsUser} who created this resource.<p>

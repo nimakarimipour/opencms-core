@@ -41,6 +41,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource init handler that loads a resource given its permalink.<p>
@@ -68,10 +69,10 @@ public class CmsPermalinkResourceHandler implements I_CmsResourceInit {
     private static final Log LOG = CmsLog.getLog(CmsPermalinkResourceHandler.class);
 
     /** The compiled pattern for detail page permalinks. */
-    private Pattern m_detailPattern;
+    private @RUntainted Pattern m_detailPattern;
 
     /** The pattern used to match permalink uris and extract the structure id. */
-    private Pattern m_simplePermalinkPattern;
+    private @RUntainted Pattern m_simplePermalinkPattern;
 
     /**
      * Default constructor.<p>
@@ -87,7 +88,7 @@ public class CmsPermalinkResourceHandler implements I_CmsResourceInit {
     /**
      * @see org.opencms.main.I_CmsResourceInit#initResource(org.opencms.file.CmsResource, org.opencms.file.CmsObject, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-    public CmsResource initResource(
+    public @RUntainted CmsResource initResource(
         CmsResource resource,
         CmsObject cms,
         HttpServletRequest req,

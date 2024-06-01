@@ -31,6 +31,7 @@ import org.opencms.configuration.CmsConfigurationException;
 import org.opencms.configuration.CmsParameterConfiguration;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor for the type "folder".<p>
@@ -85,7 +86,7 @@ public class CmsResourceTypeFolder extends A_CmsResourceTypeFolderBase {
      *
      * @return the static type name of this (default) resource type
      */
-    public static String getStaticTypeName() {
+    public static @RUntainted String getStaticTypeName() {
 
         return RESOURCE_TYPE_NAME;
     }
@@ -126,7 +127,7 @@ public class CmsResourceTypeFolder extends A_CmsResourceTypeFolderBase {
      *
      * @return the indexPageTypes
      */
-    public String getIndexPageTypes() {
+    public @RUntainted String getIndexPageTypes() {
 
         return m_indexPageTypes;
     }

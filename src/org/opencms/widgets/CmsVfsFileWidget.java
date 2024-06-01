@@ -59,6 +59,7 @@ import org.apache.commons.collections.Factory;
 import org.apache.commons.logging.Log;
 
 import com.google.common.base.Objects;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a OpenCms VFS file selection widget, for use on a widget dialog.<p>
@@ -146,19 +147,19 @@ public class CmsVfsFileWidget extends A_CmsWidget implements I_CmsADEWidget {
     private boolean m_projectAware;
 
     /** The type shown in the gallery types tab. */
-    private String m_searchTypes;
+    private @RUntainted String m_searchTypes;
 
     /** The types that may be selected through the gallery widget. */
-    private String m_selectableTypes;
+    private @RUntainted String m_selectableTypes;
 
     /** Flag to determine if the site selector should be shown in popup window. */
     private boolean m_showSiteSelector;
 
     /** The start folder. */
-    private String m_startFolder;
+    private @RUntainted String m_startFolder;
 
     /** The start site used in the popup window. */
-    private String m_startSite;
+    private @RUntainted String m_startSite;
 
     /**
      * Creates a new vfs file widget.<p>
@@ -175,7 +176,7 @@ public class CmsVfsFileWidget extends A_CmsWidget implements I_CmsADEWidget {
      * @param showSiteSelector true if the site selector should be shown in the popup window
      * @param startSite the start site root for the popup window
      */
-    public CmsVfsFileWidget(boolean showSiteSelector, String startSite) {
+    public CmsVfsFileWidget(boolean showSiteSelector, @RUntainted String startSite) {
 
         this(showSiteSelector, startSite, true);
     }
@@ -187,7 +188,7 @@ public class CmsVfsFileWidget extends A_CmsWidget implements I_CmsADEWidget {
      * @param startSite the start site root for the popup window
      * @param includeFiles true if files should be shown in the popup window
      */
-    public CmsVfsFileWidget(boolean showSiteSelector, String startSite, boolean includeFiles) {
+    public CmsVfsFileWidget(boolean showSiteSelector, @RUntainted String startSite, boolean includeFiles) {
 
         this(showSiteSelector, startSite, includeFiles, true);
     }
@@ -200,7 +201,7 @@ public class CmsVfsFileWidget extends A_CmsWidget implements I_CmsADEWidget {
      * @param includeFiles <code>true</code> if files should be shown in the popup window
      * @param projectAware <code>true</code> if resources outside of the current project should be displayed as normal
      */
-    public CmsVfsFileWidget(boolean showSiteSelector, String startSite, boolean includeFiles, boolean projectAware) {
+    public CmsVfsFileWidget(boolean showSiteSelector, @RUntainted String startSite, boolean includeFiles, boolean projectAware) {
 
         m_showSiteSelector = showSiteSelector;
         m_startSite = startSite;
@@ -213,7 +214,7 @@ public class CmsVfsFileWidget extends A_CmsWidget implements I_CmsADEWidget {
      *
      * @param configuration the configuration to use
      */
-    public CmsVfsFileWidget(String configuration) {
+    public CmsVfsFileWidget(@RUntainted String configuration) {
 
         super(configuration);
     }
@@ -226,7 +227,7 @@ public class CmsVfsFileWidget extends A_CmsWidget implements I_CmsADEWidget {
      *
      * @return a comma separated list of the default search type names
      */
-    public static String getDefaultSearchTypes(CmsObject cms, CmsResource resource) {
+    public static @RUntainted String getDefaultSearchTypes(CmsObject cms, CmsResource resource) {
 
         StringBuffer result = new StringBuffer();
         String referenceSitePath = cms.getSitePath(resource);
@@ -259,7 +260,7 @@ public class CmsVfsFileWidget extends A_CmsWidget implements I_CmsADEWidget {
      * @see org.opencms.widgets.A_CmsWidget#getConfiguration()
      */
     @Override
-    public String getConfiguration() {
+    public @RUntainted String getConfiguration() {
 
         StringBuffer result = new StringBuffer(8);
 
@@ -321,7 +322,7 @@ public class CmsVfsFileWidget extends A_CmsWidget implements I_CmsADEWidget {
         A_CmsXmlContentValue schemaType,
         CmsMessages messages,
         CmsResource resource,
-        Locale contentLocale) {
+        @RUntainted Locale contentLocale) {
 
         JSONObject config = getJsonConfig(cms, schemaType, messages, resource, contentLocale);
         return config.toString();
@@ -516,7 +517,7 @@ public class CmsVfsFileWidget extends A_CmsWidget implements I_CmsADEWidget {
      * @see org.opencms.widgets.A_CmsWidget#setConfiguration(java.lang.String)
      */
     @Override
-    public void setConfiguration(String configuration) {
+    public void setConfiguration(@RUntainted String configuration) {
 
         m_showSiteSelector = true;
         m_includeFiles = true;
@@ -597,7 +598,7 @@ public class CmsVfsFileWidget extends A_CmsWidget implements I_CmsADEWidget {
         A_CmsXmlContentValue schemaType,
         CmsMessages messages,
         CmsResource resource,
-        Locale contentLocale) {
+        @RUntainted Locale contentLocale) {
 
         JSONObject config = new JSONObject();
         try {

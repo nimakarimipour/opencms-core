@@ -39,6 +39,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * The list configuration data.<p>
@@ -105,7 +107,7 @@ public class CmsConfigurationBean {
     private CmsGeoFilterBean m_geoFilter;
 
     /** The folders. */
-    private List<String> m_folders;
+    private List<@RUntainted String> m_folders;
 
     /** Search parameters by configuration node name. */
     private Map<String, String> m_parameterFields;
@@ -234,7 +236,7 @@ public class CmsConfigurationBean {
      *
      * @return the folders
      */
-    public List<String> getFolders() {
+    public List<@RUntainted String> getFolders() {
 
         return m_folders;
     }
@@ -431,7 +433,7 @@ public class CmsConfigurationBean {
      *
      * @param folders the folders
      */
-    public void setFolders(List<String> folders) {
+    public void setFolders(List<@RUntainted String> folders) {
 
         m_folders = folders;
     }

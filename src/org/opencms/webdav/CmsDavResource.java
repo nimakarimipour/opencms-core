@@ -79,6 +79,7 @@ import org.apache.jackrabbit.webdav.property.DefaultDavProperty;
 import org.apache.jackrabbit.webdav.property.PropEntry;
 import org.apache.jackrabbit.webdav.property.ResourceType;
 import org.apache.jackrabbit.webdav.xml.Namespace;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents a resource in the WebDav repository (may not actually correspond to an actual OpenCms resource, since
@@ -172,7 +173,7 @@ public class CmsDavResource implements DavResource {
         }
 
         MultiStatusResponse res = new MultiStatusResponse(getHref(), null);
-        Map<CmsPropertyName, String> propMap = new HashMap<>();
+        Map<CmsPropertyName, @RUntainted String> propMap = new HashMap<>();
         for (PropEntry entry : changeList) {
             if (entry instanceof DefaultDavProperty<?>) {
                 DefaultDavProperty<String> prop = (DefaultDavProperty<String>)entry;
@@ -563,7 +564,7 @@ public class CmsDavResource implements DavResource {
         }
 
         I_CmsRepositorySession session = getRepositorySession();
-        Map<CmsPropertyName, String> props = new HashMap<>();
+        Map<CmsPropertyName, @RUntainted String> props = new HashMap<>();
         CmsPropertyName key = new CmsPropertyName(propertyName.getNamespace().getURI(), propertyName.getName());
         props.put(key, "");
         try {
@@ -587,7 +588,7 @@ public class CmsDavResource implements DavResource {
             throw new DavException(HttpServletResponse.SC_FORBIDDEN);
         }
         I_CmsRepositorySession session = getRepositorySession();
-        Map<CmsPropertyName, String> props = new HashMap<>();
+        Map<CmsPropertyName, @RUntainted String> props = new HashMap<>();
         DavPropertyName propertyName = property.getName();
         String newValue = ((DefaultDavProperty<String>)property).getValue();
         if (newValue == null) {

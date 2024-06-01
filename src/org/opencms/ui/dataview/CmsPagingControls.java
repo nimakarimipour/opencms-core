@@ -40,6 +40,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.Label;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Set of buttons allowing the user to navigate between pages in a paged list.<p>
@@ -66,7 +67,7 @@ public class CmsPagingControls extends HorizontalLayout {
     private List<I_PagingCallback> m_callbacks = Lists.newArrayList();
 
     /** The page number. */
-    private int m_page;
+    private @RUntainted int m_page;
 
     /** Button to go to the next page. */
     private Button m_forward = new Button(FontAwesome.FORWARD);
@@ -90,7 +91,7 @@ public class CmsPagingControls extends HorizontalLayout {
     private int m_lastPage;
 
     /** The page size. */
-    private int m_pageSize;
+    private @RUntainted int m_pageSize;
 
     /** The result count. */
     private int m_resultCount;

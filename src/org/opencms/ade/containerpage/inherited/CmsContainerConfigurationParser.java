@@ -60,6 +60,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A parser class which reads data from inherited container configuration files.<p>
@@ -123,7 +124,7 @@ public class CmsContainerConfigurationParser {
      *
      * @throws CmsException if something goes wrong
      */
-    public void parse(CmsResource resource) throws CmsException {
+    public void parse(@RUntainted CmsResource resource) throws CmsException {
 
         CmsFile file = m_cms.readFile(resource);
         parse(file);
@@ -196,7 +197,7 @@ public class CmsContainerConfigurationParser {
             I_CmsXmlContentValueLocation uriLoc = actualElementLoc.getSubValue(N_URI);
             CmsUUID structureId = uriLoc.asId(m_cms);
             if (structureId != null) {
-                Map<String, String> settings = CmsXmlContentPropertyHelper.readProperties(m_cms, actualElementLoc);
+                Map<@RUntainted String, @RUntainted String> settings = CmsXmlContentPropertyHelper.readProperties(m_cms, actualElementLoc);
                 CmsContainerElementBean newElementBean = new CmsContainerElementBean(
                     structureId,
                     CmsUUID.getNullUUID(),

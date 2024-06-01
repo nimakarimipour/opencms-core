@@ -70,6 +70,7 @@ import org.apache.commons.logging.Log;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.Node;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the OpenCms Import Interface ({@link org.opencms.importexport.I_CmsImport}) for
@@ -96,7 +97,7 @@ public class CmsImportVersion5 extends A_CmsImport {
     protected Map<String, List<CmsRelation>> m_importedRelations;
 
     /** Stores all resources of any type that implements the {@link I_CmsLinkParseable} interface. */
-    protected List<CmsResource> m_parseables;
+    protected List<@RUntainted CmsResource> m_parseables;
 
     /** The keep permissions flag. */
     protected boolean m_keepPermissions;
@@ -202,7 +203,7 @@ public class CmsImportVersion5 extends A_CmsImport {
      *
      * @return long value of the time stamp
      */
-    protected long convertTimestamp(String timestamp) {
+    protected @RUntainted long convertTimestamp(@RUntainted String timestamp) {
 
         long value = 0;
         // try to parse the time stamp string
@@ -297,16 +298,16 @@ public class CmsImportVersion5 extends A_CmsImport {
      * @param resource the resource to import the relations for
      * @param parentElement the current element
      */
-    protected void importRelations(CmsResource resource, Element parentElement) {
+    protected void importRelations(CmsResource resource, @RUntainted Element parentElement) {
 
         // Get the nodes for the relations
         @SuppressWarnings("unchecked")
-        List<Node> relationElements = parentElement.selectNodes(
+        List<@RUntainted Node> relationElements = parentElement.selectNodes(
             "./" + A_CmsImport.N_RELATIONS + "/" + A_CmsImport.N_RELATION);
 
         List<CmsRelation> relations = new ArrayList<CmsRelation>();
         // iterate over the nodes
-        Iterator<Node> itRelations = relationElements.iterator();
+        Iterator<@RUntainted Node> itRelations = relationElements.iterator();
         while (itRelations.hasNext()) {
             Element relationElement = (Element)itRelations.next();
             String structureID = getChildElementTextValue(relationElement, A_CmsImport.N_RELATION_ATTRIBUTE_ID);
@@ -349,19 +350,19 @@ public class CmsImportVersion5 extends A_CmsImport {
      *
      * @return imported resource
      */
-    protected CmsResource importResource(
+    protected @RUntainted CmsResource importResource(
         String source,
-        String destination,
+        @RUntainted String destination,
         I_CmsResourceType type,
-        String uuidstructure,
-        String uuidresource,
-        long datelastmodified,
+        @RUntainted String uuidstructure,
+        @RUntainted String uuidresource,
+        @RUntainted long datelastmodified,
         String userlastmodified,
-        long datecreated,
+        @RUntainted long datecreated,
         String usercreated,
-        long datereleased,
-        long dateexpired,
-        String flags,
+        @RUntainted long datereleased,
+        @RUntainted long dateexpired,
+        @RUntainted String flags,
         List<CmsProperty> properties) {
 
         byte[] content = null;
@@ -471,7 +472,7 @@ public class CmsImportVersion5 extends A_CmsImport {
         String lastname,
         String email,
         long dateCreated,
-        Map<String, Object> userInfo,
+        Map<String, @RUntainted Object> userInfo,
         List<String> userGroups)
     throws CmsImportExportException {
 
@@ -502,7 +503,7 @@ public class CmsImportVersion5 extends A_CmsImport {
         usercreated = null, flags = null, timestamp = null;
         long datelastmodified = 0, datecreated = 0, datereleased = 0, dateexpired = 0;
 
-        List<Node> fileNodes = null, acentryNodes = null;
+        List<@RUntainted @RUntainted Node> fileNodes = null, acentryNodes = null;
         Element currentElement = null, currentEntry = null;
         List<CmsProperty> properties = null;
 
@@ -814,7 +815,7 @@ public class CmsImportVersion5 extends A_CmsImport {
         m_report.println(Messages.get().container(Messages.RPT_START_PARSE_LINKS_0), I_CmsReport.FORMAT_HEADLINE);
 
         int i = 0;
-        Iterator<CmsResource> it = m_parseables.iterator();
+        Iterator<@RUntainted CmsResource> it = m_parseables.iterator();
         while (it.hasNext()) {
             CmsResource res = it.next();
 

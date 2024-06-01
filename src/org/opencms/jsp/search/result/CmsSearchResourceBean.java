@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.Transformer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** JSP EL friendly wrapper class for a single search result (document). */
 public class CmsSearchResourceBean implements I_CmsSearchResourceBean {

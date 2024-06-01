@@ -28,6 +28,7 @@
 package org.opencms.workplace.editors.directedit;
 
 import org.opencms.xml.containerpage.CmsContainerElementBean;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A parameter set to start a direct edit element, for internal use only.<p>
@@ -43,13 +44,13 @@ public class CmsDirectEditParams {
     protected String m_collectorParams;
 
     /** The selected element in the target content.*/
-    protected String m_element;
+    protected @RUntainted String m_element;
 
     /** The link to the current page useed when closing an editor or dialog. */
     protected String m_linkForClose;
 
     /** The link to create a new VFS resource of the edited type. */
-    protected String m_linkForNew;
+    protected @RUntainted String m_linkForNew;
 
     /** The direct edit mode to use. */
     protected CmsDirectEditMode m_mode;
@@ -58,7 +59,7 @@ public class CmsDirectEditParams {
     protected CmsDirectEditButtonSelection m_options;
 
     /** The edit target VFS resource name. */
-    protected String m_resourceName;
+    protected @RUntainted String m_resourceName;
 
     /** The upload folder. */
     protected String m_uploadFolder;
@@ -67,10 +68,10 @@ public class CmsDirectEditParams {
     private CmsContainerElementBean m_containerElement;
 
     /** ID to identify the contentload instance. */
-    private String m_id;
+    private @RUntainted String m_id;
 
     /** The post-create handler class name. */
-    private String m_postCreateHandler;
+    private @RUntainted String m_postCreateHandler;
 
     /**
      * Creates a new direct edit parameter set usually used for including the head HTML.<p>
@@ -96,10 +97,10 @@ public class CmsDirectEditParams {
      * @param mode the direct edit mode to use
      */
     public CmsDirectEditParams(
-        String resourceName,
+        @RUntainted String resourceName,
         CmsDirectEditButtonSelection options,
         CmsDirectEditMode mode,
-        String linkForNew) {
+        @RUntainted String linkForNew) {
 
         m_resourceName = resourceName;
         m_options = options;
@@ -115,7 +116,7 @@ public class CmsDirectEditParams {
      * @param resourceName the edit target VFS resource name
      * @param element the selected element in the target content
      */
-    public CmsDirectEditParams(String resourceName, String element) {
+    public CmsDirectEditParams(@RUntainted String resourceName, @RUntainted String element) {
 
         m_resourceName = resourceName;
         m_options = CmsDirectEditButtonSelection.EDIT;
@@ -170,7 +171,7 @@ public class CmsDirectEditParams {
      *
      * @return the selected element in the target content
      */
-    public String getElement() {
+    public @RUntainted String getElement() {
 
         return m_element;
     }
@@ -180,7 +181,7 @@ public class CmsDirectEditParams {
      *
      * @return the id
      */
-    public String getId() {
+    public @RUntainted String getId() {
 
         return m_id;
     }
@@ -220,7 +221,7 @@ public class CmsDirectEditParams {
      *
      * @return the link to create a new VFS resource of the edited type
      */
-    public String getLinkForNew() {
+    public @RUntainted String getLinkForNew() {
 
         return m_linkForNew;
     }
@@ -240,7 +241,7 @@ public class CmsDirectEditParams {
      *
      * @return the post-create handler class name
      */
-    public String getPostCreateHandler() {
+    public @RUntainted String getPostCreateHandler() {
 
         return m_postCreateHandler;
     }
@@ -250,7 +251,7 @@ public class CmsDirectEditParams {
      *
      * @return the edit target VFS resource name
      */
-    public String getResourceName() {
+    public @RUntainted String getResourceName() {
 
         return m_resourceName;
     }
@@ -300,7 +301,7 @@ public class CmsDirectEditParams {
      *
      * @param id the id to set
      */
-    public void setId(String id) {
+    public void setId(@RUntainted String id) {
 
         m_id = id;
     }
@@ -310,7 +311,7 @@ public class CmsDirectEditParams {
      *
      * @param postCreateHandler the post-create handler class name
      */
-    public void setPostCreateHandler(String postCreateHandler) {
+    public void setPostCreateHandler(@RUntainted String postCreateHandler) {
 
         m_postCreateHandler = postCreateHandler;
     }

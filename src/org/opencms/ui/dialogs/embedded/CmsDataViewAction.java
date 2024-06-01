@@ -38,6 +38,7 @@ import org.opencms.ui.contextmenu.CmsMenuItemVisibilityMode;
 
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Action for the data view dialog.<p>
@@ -63,7 +64,7 @@ public class CmsDataViewAction implements I_CmsWorkplaceAction {
     /**
      * @see org.opencms.ui.actions.I_CmsWorkplaceAction#getTitle(java.util.Locale)
      */
-    public String getTitle(Locale locale) {
+    public @RUntainted String getTitle(Locale locale) {
 
         return OpenCms.getWorkplaceManager().getMessages(locale).key(org.opencms.ui.Messages.GUI_DATAVIEW_HEADER_0);
     }

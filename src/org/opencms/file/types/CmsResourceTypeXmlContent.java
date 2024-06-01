@@ -80,6 +80,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor for the type "xmlcontent".<p>
@@ -107,7 +108,7 @@ public class CmsResourceTypeXmlContent extends A_CmsResourceTypeLinkParseable {
     private static final long serialVersionUID = 2271469830431937731L;
 
     /** The (optional) schema of this resource. */
-    private String m_schema;
+    private @RUntainted String m_schema;
 
     /**
      * Returns the possible model files for the new resource.<p>
@@ -117,7 +118,7 @@ public class CmsResourceTypeXmlContent extends A_CmsResourceTypeLinkParseable {
      * @param newResourceTypeName the resource type name for the new resource to create
      * @return the possible model files for the new resource
      */
-    public static List<CmsResource> getModelFiles(CmsObject cms, String currentFolder, String newResourceTypeName) {
+    public static List<@RUntainted CmsResource> getModelFiles(CmsObject cms, @RUntainted String currentFolder, String newResourceTypeName) {
 
         try {
 
@@ -170,7 +171,7 @@ public class CmsResourceTypeXmlContent extends A_CmsResourceTypeLinkParseable {
      *
      * @return the static type name of this (default) resource type
      */
-    public static String getStaticTypeName() {
+    public static @RUntainted String getStaticTypeName() {
 
         return RESOURCE_TYPE_NAME;
     }
@@ -184,7 +185,7 @@ public class CmsResourceTypeXmlContent extends A_CmsResourceTypeLinkParseable {
      *
      * @since 7.0.2
      */
-    public static boolean isXmlContent(CmsResource resource) {
+    public static @RUntainted boolean isXmlContent(CmsResource resource) {
 
         boolean result = false;
         if (resource != null) {
@@ -212,10 +213,10 @@ public class CmsResourceTypeXmlContent extends A_CmsResourceTypeLinkParseable {
      * @see org.opencms.file.types.I_CmsResourceType#createResource(org.opencms.file.CmsObject, org.opencms.db.CmsSecurityManager, java.lang.String, byte[], java.util.List)
      */
     @Override
-    public CmsResource createResource(
+    public @RUntainted CmsResource createResource(
         CmsObject cms,
         CmsSecurityManager securityManager,
-        String resourcename,
+        @RUntainted String resourcename,
         byte[] content,
         List<CmsProperty> properties)
     throws CmsException {
@@ -351,7 +352,7 @@ public class CmsResourceTypeXmlContent extends A_CmsResourceTypeLinkParseable {
      * @see org.opencms.file.types.A_CmsResourceType#getFormattersForResource(org.opencms.file.CmsObject, org.opencms.file.CmsResource)
      */
     @Override
-    public CmsFormatterConfiguration getFormattersForResource(CmsObject cms, CmsResource resource) {
+    public CmsFormatterConfiguration getFormattersForResource(CmsObject cms, @RUntainted CmsResource resource) {
 
         CmsFormatterConfiguration result = null;
         CmsXmlContentDefinition cd = null;
@@ -399,7 +400,7 @@ public class CmsResourceTypeXmlContent extends A_CmsResourceTypeLinkParseable {
      *
      * @return the configured xsd schema uri, or <code>null</code> if not set
      */
-    public String getSchema() {
+    public @RUntainted String getSchema() {
 
         return m_schema;
     }
@@ -515,7 +516,7 @@ public class CmsResourceTypeXmlContent extends A_CmsResourceTypeLinkParseable {
         }
 
         // iterate over all languages
-        List<Locale> locales = xmlContent.getLocales();
+        List<@RUntainted Locale> locales = xmlContent.getLocales();
         Iterator<Locale> i = locales.iterator();
         while (i.hasNext()) {
             Locale locale = i.next();
@@ -592,7 +593,7 @@ public class CmsResourceTypeXmlContent extends A_CmsResourceTypeLinkParseable {
     public void setDateExpired(
         CmsObject cms,
         CmsSecurityManager securityManager,
-        CmsResource resource,
+        @RUntainted CmsResource resource,
         long dateExpired,
         boolean recursive)
     throws CmsException {
@@ -616,7 +617,7 @@ public class CmsResourceTypeXmlContent extends A_CmsResourceTypeLinkParseable {
     public void setDateReleased(
         CmsObject cms,
         CmsSecurityManager securityManager,
-        CmsResource resource,
+        @RUntainted CmsResource resource,
         long dateReleased,
         boolean recursive)
     throws CmsException {
@@ -676,7 +677,7 @@ public class CmsResourceTypeXmlContent extends A_CmsResourceTypeLinkParseable {
         if (locale != null) {
             return locale;
         }
-        List<Locale> locales = OpenCms.getLocaleManager().getDefaultLocales(
+        List<@RUntainted Locale> locales = OpenCms.getLocaleManager().getDefaultLocales(
             cms,
             CmsResource.getParentFolder(resourcename));
         return locales.get(0);
@@ -749,7 +750,7 @@ public class CmsResourceTypeXmlContent extends A_CmsResourceTypeLinkParseable {
      */
     private boolean applyReverseAvailabilityMapping(
         CmsObject cms,
-        CmsResource resource,
+        @RUntainted CmsResource resource,
         CmsMappingResolutionContext.AttributeType attr,
         long date)
     throws CmsException {
@@ -764,7 +765,7 @@ public class CmsResourceTypeXmlContent extends A_CmsResourceTypeLinkParseable {
 
             CmsFile file = cms.readFile(resource);
             CmsXmlContent content = CmsXmlContentFactory.unmarshal(cms, file);
-            List<Locale> locales = OpenCms.getLocaleManager().getDefaultLocales(cms, resource);
+            List<@RUntainted Locale> locales = OpenCms.getLocaleManager().getDefaultLocales(cms, resource);
             handler.applyReverseAvailabilityMapping(cms, content, attr, locales, date);
 
             CmsObject writeCms = OpenCms.initCmsObject(cms); // clone CmsObject  to get rid of the request attribute triggering the reverse mapping

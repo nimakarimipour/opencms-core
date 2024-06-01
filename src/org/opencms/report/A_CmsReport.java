@@ -35,6 +35,7 @@ import org.opencms.util.CmsStringUtil;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Base report class.<p>
@@ -91,7 +92,7 @@ public abstract class A_CmsReport implements I_CmsReport {
     /**
      * @see org.opencms.report.I_CmsReport#getErrors()
      */
-    public List<Object> getErrors() {
+    public @RUntainted List<Object> getErrors() {
 
         return m_errors;
     }
@@ -142,7 +143,7 @@ public abstract class A_CmsReport implements I_CmsReport {
     /**
      * @see org.opencms.report.I_CmsReport#getWarnings()
      */
-    public List<Object> getWarnings() {
+    public @RUntainted List<Object> getWarnings() {
 
         return m_warnings;
     }

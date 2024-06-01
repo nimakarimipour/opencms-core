@@ -39,6 +39,7 @@ import org.opencms.report.I_CmsReport;
 import org.opencms.util.CmsUUID;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Publish job information bean.<p>
@@ -63,7 +64,7 @@ public final class CmsPublishJobInfoBean {
     private long m_finishTime;
 
     /** The locale to use for publishing. */
-    private Locale m_locale;
+    private @RUntainted Locale m_locale;
 
     /** Project to use for publishing. */
     private CmsUUID m_projectId;
@@ -117,7 +118,7 @@ public final class CmsPublishJobInfoBean {
         CmsUUID projectId,
         String projectName,
         CmsUUID userId,
-        String localeName,
+        @RUntainted String localeName,
         int flags,
         int resourceCount,
         long enqueueTime,
@@ -172,7 +173,7 @@ public final class CmsPublishJobInfoBean {
      *
      * @return the time this object has been created
      */
-    public long getEnqueueTime() {
+    public @RUntainted long getEnqueueTime() {
 
         return m_enqueueTime;
     }
@@ -243,7 +244,7 @@ public final class CmsPublishJobInfoBean {
      *
      * @return the publish history id
      */
-    public CmsUUID getPublishHistoryId() {
+    public @RUntainted CmsUUID getPublishHistoryId() {
 
         return m_publishHistoryId;
     }

@@ -31,6 +31,7 @@ import org.opencms.ade.configuration.CmsADEConfigDataInternal.AttributeValue;
 import org.opencms.util.CmsCollectionsGenericWrapper;
 
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper object for accessing sitemap configuration information from JSPs.

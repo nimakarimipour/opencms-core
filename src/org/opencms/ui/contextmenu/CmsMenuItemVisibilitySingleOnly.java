@@ -32,6 +32,7 @@ import org.opencms.file.CmsResource;
 import org.opencms.ui.I_CmsDialogContext;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Decorator for menu item visibility classes which always returns INVISIBLE if more than one resource
@@ -54,7 +55,7 @@ public class CmsMenuItemVisibilitySingleOnly implements I_CmsHasMenuItemVisibili
     /**
      * @see org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility#getVisibility(org.opencms.file.CmsObject, java.util.List)
      */
-    public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<CmsResource> resources) {
+    public CmsMenuItemVisibilityMode getVisibility(CmsObject cms, List<@RUntainted CmsResource> resources) {
 
         if (resources.size() != 1) {
             return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;

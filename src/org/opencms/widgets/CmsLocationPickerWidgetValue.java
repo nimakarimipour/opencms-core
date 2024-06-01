@@ -37,6 +37,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.util.CmsStringUtil;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A value of the google map widget.<p>
@@ -76,14 +77,14 @@ public class CmsLocationPickerWidgetValue {
         staticMode("static");
 
         /** The mode value. */
-        private String m_modeValue;
+        private @RUntainted String m_modeValue;
 
         /**
          * Constructor.<p>
          *
          * @param modeValue the mode value
          */
-        private MapMode(String modeValue) {
+        private MapMode(@RUntainted String modeValue) {
 
             m_modeValue = modeValue;
         }
@@ -111,7 +112,7 @@ public class CmsLocationPickerWidgetValue {
          *
          * @return the mode
          */
-        public String getMode() {
+        public @RUntainted String getMode() {
 
             return m_modeValue;
         }
@@ -240,25 +241,25 @@ public class CmsLocationPickerWidgetValue {
     private static final Log LOG = CmsLog.getLog(CmsLocationPickerWidgetValue.class);
 
     /** Map height value. */
-    private int m_height;
+    private @RUntainted int m_height;
 
     /** Map center latitude value. */
-    private float m_lat;
+    private @RUntainted float m_lat;
 
     /** Map center longitude value. */
-    private float m_lng;
+    private @RUntainted float m_lng;
 
     /** Map mode value. */
     private MapMode m_mode;
 
     /** Map type value. */
-    private MapType m_type;
+    private @RUntainted MapType m_type;
 
     /** Map width value. */
-    private int m_width;
+    private @RUntainted int m_width;
 
     /** Map zoom value. */
-    private int m_zoom;
+    private @RUntainted int m_zoom;
 
     /**
      * Creates a new empty widget option object.<p>
@@ -291,7 +292,7 @@ public class CmsLocationPickerWidgetValue {
      *
      * @return the height
      */
-    public int getHeight() {
+    public @RUntainted int getHeight() {
 
         return m_height;
     }
@@ -301,7 +302,7 @@ public class CmsLocationPickerWidgetValue {
      *
      * @return the lat
      */
-    public float getLat() {
+    public @RUntainted float getLat() {
 
         return m_lat;
     }
@@ -311,7 +312,7 @@ public class CmsLocationPickerWidgetValue {
      *
      * @return the longitude
      */
-    public float getLng() {
+    public @RUntainted float getLng() {
 
         return m_lng;
     }
@@ -331,7 +332,7 @@ public class CmsLocationPickerWidgetValue {
      *
      * @return the type
      */
-    public MapType getType() {
+    public @RUntainted MapType getType() {
 
         return m_type;
     }
@@ -341,7 +342,7 @@ public class CmsLocationPickerWidgetValue {
      *
      * @return the width
      */
-    public int getWidth() {
+    public @RUntainted int getWidth() {
 
         return m_width;
     }
@@ -351,7 +352,7 @@ public class CmsLocationPickerWidgetValue {
      *
      * @return the zoom
      */
-    public int getZoom() {
+    public @RUntainted int getZoom() {
 
         return m_zoom;
     }
@@ -361,7 +362,7 @@ public class CmsLocationPickerWidgetValue {
      *
      * @param height the height to set
      */
-    public void setHeight(int height) {
+    public void setHeight(@RUntainted int height) {
 
         m_height = height;
     }
@@ -371,7 +372,7 @@ public class CmsLocationPickerWidgetValue {
      *
      * @param lat the latitude to set
      */
-    public void setLat(float lat) {
+    public void setLat(@RUntainted float lat) {
 
         m_lat = lat;
     }
@@ -381,7 +382,7 @@ public class CmsLocationPickerWidgetValue {
      *
      * @param lng the longitude to set
      */
-    public void setLng(float lng) {
+    public void setLng(@RUntainted float lng) {
 
         m_lng = lng;
     }
@@ -401,7 +402,7 @@ public class CmsLocationPickerWidgetValue {
      *
      * @param type the type to set
      */
-    public void setType(MapType type) {
+    public void setType(@RUntainted MapType type) {
 
         m_type = type;
     }
@@ -411,7 +412,7 @@ public class CmsLocationPickerWidgetValue {
      *
      * @param width the width to set
      */
-    public void setWidth(int width) {
+    public void setWidth(@RUntainted int width) {
 
         m_width = width;
     }
@@ -437,7 +438,7 @@ public class CmsLocationPickerWidgetValue {
      *
      * @param zoom the zoom to set
      */
-    public void setZoom(int zoom) {
+    public void setZoom(@RUntainted int zoom) {
 
         m_zoom = zoom;
     }

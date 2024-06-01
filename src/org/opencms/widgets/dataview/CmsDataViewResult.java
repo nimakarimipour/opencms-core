@@ -29,6 +29,7 @@ package org.opencms.widgets.dataview;
 
 import java.util.ArrayList;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents the result of a search query returned by an implementation of I_CmsDataView.

@@ -33,6 +33,7 @@ import org.opencms.gwt.shared.I_CmsContentLoadCollectorInfo;
 import org.opencms.main.CmsException;
 
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface which should be used for collectors which can provide their own publish list.<p>

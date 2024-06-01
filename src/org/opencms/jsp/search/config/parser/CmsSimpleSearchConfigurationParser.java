@@ -70,6 +70,7 @@ import java.util.stream.Collectors;
 import org.apache.solr.common.params.CommonParams;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Search configuration parser using a list configuration file as the base configuration with additional JSON.<p>
@@ -289,7 +290,7 @@ public class CmsSimpleSearchConfigurationParser extends CmsJSONSearchConfigurati
      *
      * @return the SOLR query
      */
-    public CmsSolrQuery getInitialQuery() {
+    public @RUntainted CmsSolrQuery getInitialQuery() {
 
         Map<String, String[]> queryParams = new HashMap<String, String[]>();
         if (!m_cms.getRequestContext().getCurrentProject().isOnlineProject() && m_config.isShowExpired()) {

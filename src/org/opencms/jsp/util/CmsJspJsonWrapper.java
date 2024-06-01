@@ -38,6 +38,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper for accessing JSON in JSPs.
@@ -127,14 +128,14 @@ public class CmsJspJsonWrapper extends AbstractCollection<Object> {
     }
 
     /** The wrapped value. */
-    private Object m_value;
+    private @RUntainted Object m_value;
 
     /**
      * Creates a new JSON wrapper.
      *
      * @param value the value to wrap
      */
-    public CmsJspJsonWrapper(Object value) {
+    public CmsJspJsonWrapper(@RUntainted Object value) {
 
         m_value = value;
     }

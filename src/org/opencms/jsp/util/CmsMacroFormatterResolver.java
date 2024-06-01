@@ -66,6 +66,7 @@ import javax.servlet.jsp.PageContext;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.beanutils.PropertyUtilsBean;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resolver for macro formatters.<p>
@@ -103,7 +104,7 @@ public class CmsMacroFormatterResolver {
     private CmsObject m_cms;
 
     /** The page context. */
-    private PageContext m_context;
+    private @RUntainted PageContext m_context;
 
     /** The JSP context bean. */
     private CmsJspStandardContextBean m_contextBean;
@@ -118,7 +119,7 @@ public class CmsMacroFormatterResolver {
     private String m_input;
 
     /** The request. */
-    private HttpServletRequest m_request;
+    private @RUntainted HttpServletRequest m_request;
 
     /** The response. */
     private HttpServletResponse m_response;
@@ -130,7 +131,7 @@ public class CmsMacroFormatterResolver {
      * @param req the request
      * @param res the response
      */
-    public CmsMacroFormatterResolver(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsMacroFormatterResolver(@RUntainted PageContext context, @RUntainted HttpServletRequest req, HttpServletResponse res) {
 
         m_context = context;
         m_request = req;

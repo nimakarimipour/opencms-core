@@ -31,6 +31,7 @@ import org.opencms.file.CmsResource;
 import org.opencms.i18n.CmsLocaleGroup;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides information about the current state of the locale comparison editor.<p>
@@ -42,7 +43,7 @@ public interface I_CmsLocaleCompareContext {
      *
      * @return the comparison locale
      */
-    Locale getComparisonLocale();
+    @RUntainted Locale getComparisonLocale();
 
     /**
      * Gets the locale group of the root resource.

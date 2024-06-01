@@ -35,6 +35,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper around ConcurrentHashMap which allows null values.<p>
@@ -71,9 +72,9 @@ public class CmsNullIgnoringConcurrentMap<K, V> implements Map<K, V> {
      *
      * @param otherMap the other map
      */
-    public CmsNullIgnoringConcurrentMap(Map<K, V> otherMap) {
+    public CmsNullIgnoringConcurrentMap(Map<@RUntainted K, @RUntainted V> otherMap) {
 
-        for (Map.Entry<K, V> entry : otherMap.entrySet()) {
+        for (Map.Entry<K, @RUntainted V> entry : otherMap.entrySet()) {
             put(entry.getKey(), entry.getValue());
         }
     }

@@ -72,6 +72,7 @@ import org.apache.commons.logging.Log;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This tag includes required CSS or JavaScript resources that are to be places in the HTML head.<p>
@@ -354,7 +355,7 @@ public class CmsJspTagHeadIncludes extends BodyTagSupport implements I_CmsJspTag
      * @throws CmsException if something goes wrong reading the resources
      * @throws IOException if something goes wrong writing to the response out
      */
-    public void tagCssAction(CmsObject cms, HttpServletRequest req) throws CmsException, IOException {
+    public void tagCssAction(CmsObject cms, @RUntainted HttpServletRequest req) throws CmsException, IOException {
 
         String includeType = TYPE_CSS;
 
@@ -459,7 +460,7 @@ public class CmsJspTagHeadIncludes extends BodyTagSupport implements I_CmsJspTag
      * @throws CmsException if something goes wrong reading the resources
      * @throws IOException if something goes wrong writing to the response out
      */
-    public void tagJSAction(CmsObject cms, HttpServletRequest req) throws CmsException, IOException {
+    public void tagJSAction(CmsObject cms, @RUntainted HttpServletRequest req) throws CmsException, IOException {
 
         CmsJspStandardContextBean standardContext = getStandardContext(cms, req);
         CmsContainerPageBean containerPage = standardContext.getPage();
@@ -548,7 +549,7 @@ public class CmsJspTagHeadIncludes extends BodyTagSupport implements I_CmsJspTag
      */
     protected void collectHeadIncludesForContainerElement(
         CmsObject cms,
-        ServletRequest req,
+        @RUntainted ServletRequest req,
         CmsJspStandardContextBean standardContext,
         CmsContainerPageBean containerPage,
         String includeType,
@@ -710,7 +711,7 @@ public class CmsJspTagHeadIncludes extends BodyTagSupport implements I_CmsJspTag
      *
      * @return the configured CSS head include resources
      */
-    private Set<String> getCSSHeadIncludes(CmsObject cms, CmsResource resource) {
+    private Set<String> getCSSHeadIncludes(CmsObject cms, @RUntainted CmsResource resource) {
 
         if (CmsResourceTypeXmlContent.isXmlContent(resource)) {
             try {
@@ -775,7 +776,7 @@ public class CmsJspTagHeadIncludes extends BodyTagSupport implements I_CmsJspTag
      *
      * @throws CmsLoaderException if something goes wrong reading the resource type
      */
-    private Set<String> getJSHeadIncludes(CmsObject cms, CmsResource resource) throws CmsLoaderException {
+    private Set<String> getJSHeadIncludes(CmsObject cms, @RUntainted CmsResource resource) throws CmsLoaderException {
 
         I_CmsResourceType resType = OpenCms.getResourceManager().getResourceType(resource.getTypeId());
         if (resType instanceof CmsResourceTypeXmlContent) {
@@ -823,7 +824,7 @@ public class CmsJspTagHeadIncludes extends BodyTagSupport implements I_CmsJspTag
      *
      * @throws CmsException if something goes wrong
      */
-    private CmsJspStandardContextBean getStandardContext(CmsObject cms, HttpServletRequest req) throws CmsException {
+    private CmsJspStandardContextBean getStandardContext(CmsObject cms, @RUntainted HttpServletRequest req) throws CmsException {
 
         CmsJspStandardContextBean standardContext = CmsJspStandardContextBean.getInstance(req);
         standardContext.initPage();

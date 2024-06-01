@@ -32,6 +32,7 @@ import org.opencms.ui.CmsCssIcon;
 import java.util.Locale;
 
 import com.vaadin.server.Resource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The app hierarchy configuration.<p>

@@ -43,6 +43,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Used to select various template elements form a JSP template that
@@ -107,7 +108,7 @@ public class CmsJspTagTemplate extends BodyTagSupport {
                 boolean found = false;
                 for (int i = 0; i < elements.length; i++) {
                     String el = elements[i].trim();
-                    List<Locale> locales = content.getLocales(el);
+                    List<@RUntainted Locale> locales = content.getLocales(el);
                     Locale locale = null;
                     if ((locales != null) && (locales.size() != 0)) {
                         locale = OpenCms.getLocaleManager().getBestMatchingLocale(

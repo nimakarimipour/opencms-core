@@ -35,6 +35,7 @@ import org.opencms.main.CmsException;
 import org.opencms.util.CmsMacroResolver;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.editors.Messages;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provider for the OpenCms graphical "direct edit" buttons. <p>
@@ -68,7 +69,7 @@ public class CmsDirectEditJQueryProvider extends CmsDirectEditDefaultProvider {
      * @see org.opencms.workplace.editors.directedit.I_CmsDirectEditProvider#init(org.opencms.file.CmsObject, org.opencms.workplace.editors.directedit.CmsDirectEditMode, java.lang.String)
      */
     @Override
-    public void init(CmsObject cms, CmsDirectEditMode mode, String fileName) {
+    public void init(CmsObject cms, CmsDirectEditMode mode, @RUntainted String fileName) {
 
         if (CmsStringUtil.isEmpty(fileName)) {
             fileName = INCLUDE_FILE_JQUERY;

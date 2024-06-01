@@ -42,6 +42,7 @@ import java.io.IOException;
 import javax.servlet.http.Cookie;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Login bean which sets a cookie that can be used by {@link CmsPersistentLoginAuthorizationHandler} to automatically
@@ -52,10 +53,10 @@ import org.apache.commons.logging.Log;
 public class CmsJspLoginPersistingBean extends CmsJspLoginBean {
 
     /** The token life time. */
-    private long m_tokenLifetime = CmsPersistentLoginTokenHandler.DEFAULT_LIFETIME;
+    private @RUntainted long m_tokenLifetime = CmsPersistentLoginTokenHandler.DEFAULT_LIFETIME;
 
     /** The cookie path. */
-    private String m_cookiePath = "%(CONTEXT_NAME)%(SERVLET_NAME)";
+    private @RUntainted String m_cookiePath = "%(CONTEXT_NAME)%(SERVLET_NAME)";
 
     /** True if the token has been set. */
     private boolean m_isTokenSet;
@@ -69,7 +70,7 @@ public class CmsJspLoginPersistingBean extends CmsJspLoginBean {
      * @param resolveMacros if true, macros should be resolved
      * @return the authorization cookie path
      */
-    public String getCookiePath(boolean resolveMacros) {
+    public @RUntainted String getCookiePath(boolean resolveMacros) {
 
         String result = m_cookiePath;
         if (resolveMacros) {
@@ -164,7 +165,7 @@ public class CmsJspLoginPersistingBean extends CmsJspLoginBean {
      *
      * @param cookiePath the cookie path, possibly including macros
      */
-    public void setCookiePath(String cookiePath) {
+    public void setCookiePath(@RUntainted String cookiePath) {
 
         m_cookiePath = cookiePath;
     }

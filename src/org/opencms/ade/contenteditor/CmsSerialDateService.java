@@ -45,6 +45,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
 import java.util.SortedSet;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Implementation of the serial date RPC service. */
 public class CmsSerialDateService extends CmsGwtService implements I_CmsSerialDateService {
@@ -123,7 +124,7 @@ public class CmsSerialDateService extends CmsGwtService implements I_CmsSerialDa
      *
      * @return the formatted date.
      */
-    private String formatDate(Date date) {
+    private @RUntainted String formatDate(Date date) {
 
         if (null == m_dateFormat) {
             m_dateFormat = DateFormat.getDateInstance(

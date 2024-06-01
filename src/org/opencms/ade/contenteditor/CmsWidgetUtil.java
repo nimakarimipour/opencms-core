@@ -46,6 +46,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.collections4.CollectionUtils;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Utility methods for getting widget informations out of content definitions.<p>
@@ -160,7 +161,7 @@ public final class CmsWidgetUtil {
         I_CmsComplexWidget complexWidget = null;
         I_CmsXmlContentHandler contentHandler = schemaType.getContentDefinition().getContentHandler();
         final List<I_CmsWidget> widgets = new ArrayList<>();
-        final List<String> widgetConfigs = new ArrayList<>();
+        final List<@RUntainted String> widgetConfigs = new ArrayList<>();
         final List<DisplayType> configuredDisplayTypes = new ArrayList<>();
         final List<I_CmsComplexWidget> configuredComplexWidgets = new ArrayList<>();
         if (messages == null) {
@@ -218,7 +219,7 @@ public final class CmsWidgetUtil {
         }
         // default complex widget and default c. widget config have lower priorities than those directly defined, so put them at the end of the list
         CollectionUtils.addIgnoreNull(configuredComplexWidgets, contentHandler.getDefaultComplexWidget());
-        List<String> complexWidgetConfigs = new ArrayList<>(widgetConfigs);
+        List<@RUntainted String> complexWidgetConfigs = new ArrayList<>(widgetConfigs);
         CollectionUtils.addIgnoreNull(complexWidgetConfigs, contentHandler.getDefaultComplexWidgetConfiguration());
         if (!configuredComplexWidgets.isEmpty()) {
             String config = "";
@@ -258,7 +259,7 @@ public final class CmsWidgetUtil {
      * @param widgetConfig the widget configuration
      * @return the macro resolution result
      */
-    private static String resolveWidgetConfigMacros(CmsMacroResolver resolver, String widgetConfig) {
+    private static @RUntainted String resolveWidgetConfigMacros(CmsMacroResolver resolver, @RUntainted String widgetConfig) {
 
         if (Boolean.parseBoolean((String)OpenCms.getRuntimeProperty("widgets.config.resolveMacros.disabled"))) {
             return widgetConfig;

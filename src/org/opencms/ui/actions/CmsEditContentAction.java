@@ -43,6 +43,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Action to logout.<p>
@@ -74,7 +75,7 @@ public class CmsEditContentAction extends A_CmsEditFileAction {
         if (!validContexts.contains(context.getAppId())) {
             return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
         }
-        List<CmsResource> resources = context.getResources();
+        List<@RUntainted CmsResource> resources = context.getResources();
         CmsResource resource = resources.get(0);
         if (OpenCms.getADEManager().isEditorRestricted(context.getCms(), resource)) {
             return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
@@ -91,7 +92,7 @@ public class CmsEditContentAction extends A_CmsEditFileAction {
      * @see org.opencms.ui.actions.A_CmsEditFileAction#getFileParam()
      */
     @Override
-    protected String getFileParam() {
+    protected @RUntainted String getFileParam() {
 
         return "%(file)";
     }
@@ -100,7 +101,7 @@ public class CmsEditContentAction extends A_CmsEditFileAction {
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
      */
     @Override
-    protected String getTitleKey() {
+    protected @RUntainted String getTitleKey() {
 
         return Messages.GUI_ACTION_EDIT_CONTENT_0;
     }

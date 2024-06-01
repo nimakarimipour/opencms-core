@@ -75,6 +75,7 @@ import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog for deleting resources.<p>
@@ -197,7 +198,7 @@ public class CmsDeleteDialog extends CmsBasicDialog {
      */
     public static Multimap<CmsResource, CmsResource> getBrokenLinks(
         CmsObject cms,
-        List<CmsResource> selectedResources,
+        List<@RUntainted CmsResource> selectedResources,
         boolean includeSiblings)
     throws CmsException {
 
@@ -285,7 +286,7 @@ public class CmsDeleteDialog extends CmsBasicDialog {
 
         I_CmsGwtContextMenuServerRpc rpc = new I_CmsGwtContextMenuServerRpc() {
 
-            public void refresh(String id) {
+            public void refresh(@RUntainted String id) {
 
                 if (id != null) {
                     m_context.finish(Arrays.asList(new CmsUUID(id)));

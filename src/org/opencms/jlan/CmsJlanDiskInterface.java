@@ -64,6 +64,7 @@ import org.alfresco.jlan.util.WildCard;
 import org.springframework.extensions.config.ConfigElement;
 
 import com.google.common.base.Joiner;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * OpenCms implementation of the JLAN DiskInterface interface.<p>
@@ -107,12 +108,12 @@ public class CmsJlanDiskInterface implements DiskInterface {
      * @param path the path to transform
      * @return the OpenCms path for the given path
      */
-    protected static String getCmsPath(String path) {
+    protected static String getCmsPath(@RUntainted String path) {
 
         String slashPath = path.replace('\\', '/');
 
         // split path into components, translate each of them separately, then combine them again at the end
-        String[] segments = slashPath.split("/");
+        @RUntainted String[] segments = slashPath.split("/");
         List<String> nonEmptySegments = new ArrayList<String>();
         for (String segment : segments) {
             if (segment.length() > 0) {
@@ -146,7 +147,7 @@ public class CmsJlanDiskInterface implements DiskInterface {
     /**
      * @see org.alfresco.jlan.server.filesys.DiskInterface#createDirectory(org.alfresco.jlan.server.SrvSession, org.alfresco.jlan.server.filesys.TreeConnection, org.alfresco.jlan.server.filesys.FileOpenParams)
      */
-    public void createDirectory(SrvSession session, TreeConnection connection, FileOpenParams params)
+    public void createDirectory(SrvSession session, TreeConnection connection, @RUntainted FileOpenParams params)
     throws IOException {
 
         internalCreateFile(session, connection, params, "folder");
@@ -155,7 +156,7 @@ public class CmsJlanDiskInterface implements DiskInterface {
     /**
      * @see org.alfresco.jlan.server.filesys.DiskInterface#createFile(org.alfresco.jlan.server.SrvSession, org.alfresco.jlan.server.filesys.TreeConnection, org.alfresco.jlan.server.filesys.FileOpenParams)
      */
-    public NetworkFile createFile(SrvSession session, TreeConnection connection, FileOpenParams params)
+    public NetworkFile createFile(SrvSession session, TreeConnection connection, @RUntainted FileOpenParams params)
     throws IOException {
 
         return internalCreateFile(session, connection, params, null);
@@ -193,7 +194,7 @@ public class CmsJlanDiskInterface implements DiskInterface {
     /**
      * @see org.alfresco.jlan.server.filesys.DiskInterface#fileExists(org.alfresco.jlan.server.SrvSession, org.alfresco.jlan.server.filesys.TreeConnection, java.lang.String)
      */
-    public int fileExists(SrvSession session, TreeConnection connection, String path) {
+    public int fileExists(SrvSession session, TreeConnection connection, @RUntainted String path) {
 
         try {
             CmsObjectWrapper cms = getCms(session, connection);
@@ -251,7 +252,7 @@ public class CmsJlanDiskInterface implements DiskInterface {
     /**
      * @see org.alfresco.jlan.server.filesys.DiskInterface#openFile(org.alfresco.jlan.server.SrvSession, org.alfresco.jlan.server.filesys.TreeConnection, org.alfresco.jlan.server.filesys.FileOpenParams)
      */
-    public NetworkFile openFile(SrvSession session, TreeConnection connection, FileOpenParams params)
+    public NetworkFile openFile(SrvSession session, TreeConnection connection, @RUntainted FileOpenParams params)
     throws IOException {
 
         String path = params.getPath();
@@ -305,7 +306,7 @@ public class CmsJlanDiskInterface implements DiskInterface {
     /**
      * @see org.alfresco.jlan.server.filesys.DiskInterface#renameFile(org.alfresco.jlan.server.SrvSession, org.alfresco.jlan.server.filesys.TreeConnection, java.lang.String, java.lang.String)
      */
-    public void renameFile(SrvSession session, TreeConnection connection, String oldName, String newName)
+    public void renameFile(SrvSession session, TreeConnection connection, String oldName, @RUntainted String newName)
     throws IOException {
 
         String cmsNewPath = getCmsPath(newName);
@@ -329,7 +330,7 @@ public class CmsJlanDiskInterface implements DiskInterface {
     /**
      * @see org.alfresco.jlan.server.filesys.DiskInterface#setFileInformation(org.alfresco.jlan.server.SrvSession, org.alfresco.jlan.server.filesys.TreeConnection, java.lang.String, org.alfresco.jlan.server.filesys.FileInfo)
      */
-    public void setFileInformation(SrvSession session, TreeConnection connection, String path, FileInfo info)
+    public void setFileInformation(SrvSession session, TreeConnection connection, @RUntainted String path, FileInfo info)
     throws IOException {
 
         try {
@@ -349,7 +350,7 @@ public class CmsJlanDiskInterface implements DiskInterface {
     public SearchContext startSearch(
         SrvSession session,
         TreeConnection connection,
-        String searchPath,
+        @RUntainted String searchPath,
         int searchAttributes) {
 
         try {
@@ -429,7 +430,7 @@ public class CmsJlanDiskInterface implements DiskInterface {
      *
      * @throws CmsException if something goes wrong
      */
-    protected CmsObjectWrapper getCms(SrvSession session, TreeConnection connection) throws CmsException {
+    protected CmsObjectWrapper getCms(@RUntainted SrvSession session, TreeConnection connection) throws CmsException {
 
         CmsJlanRepository repository = ((CmsJlanDeviceContext)connection.getContext()).getRepository();
         CmsObjectWrapper result = repository.getCms(session, connection);
@@ -451,7 +452,7 @@ public class CmsJlanDiskInterface implements DiskInterface {
         CmsObjectWrapper cms,
         SrvSession session,
         TreeConnection connection,
-        String path)
+        @RUntainted String path)
     throws CmsException {
 
         try {
@@ -474,7 +475,7 @@ public class CmsJlanDiskInterface implements DiskInterface {
      * @return the network file object for the given path
      * @throws CmsException if something goes wrong
      */
-    protected CmsJlanNetworkFile getFileForPath(SrvSession session, TreeConnection connection, String path)
+    protected CmsJlanNetworkFile getFileForPath(SrvSession session, TreeConnection connection, @RUntainted String path)
     throws CmsException {
 
         CmsObjectWrapper cms = getCms(session, connection);
@@ -496,7 +497,7 @@ public class CmsJlanDiskInterface implements DiskInterface {
     protected NetworkFile internalCreateFile(
         SrvSession session,
         TreeConnection connection,
-        FileOpenParams params,
+        @RUntainted FileOpenParams params,
         String typeName)
     throws IOException {
 
@@ -529,11 +530,11 @@ public class CmsJlanDiskInterface implements DiskInterface {
      *
      * @return the path with the translated last segment
      */
-    protected String translateName(String path) {
+    protected String translateName(@RUntainted String path) {
 
         return CmsStringUtil.substitute(Pattern.compile("/([^/]+)$"), path, new I_CmsRegexSubstitution() {
 
-            public String substituteMatch(String text, Matcher matcher) {
+            public String substituteMatch(@RUntainted String text, @RUntainted Matcher matcher) {
 
                 String name = text.substring(matcher.start(1), matcher.end(1));
                 return "/" + OpenCms.getResourceManager().getFileTranslator().translateResource(name);

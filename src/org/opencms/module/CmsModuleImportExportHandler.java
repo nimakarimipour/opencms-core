@@ -78,6 +78,7 @@ import org.apache.commons.logging.Log;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.xml.sax.SAXException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Import/export handler implementation for Cms modules.<p>
@@ -96,7 +97,7 @@ public class CmsModuleImportExportHandler implements I_CmsImportExportHandler {
     private String m_description;
 
     /** The name of the export file in the real file system.<p> */
-    private String m_fileName;
+    private @RUntainted String m_fileName;
 
     /** The module imported with the digester. */
     private CmsModule m_importedModule;
@@ -105,7 +106,7 @@ public class CmsModuleImportExportHandler implements I_CmsImportExportHandler {
     private CmsImportParameters m_importParams;
 
     /** The (package) name of the module to be exported.<p> */
-    private String m_moduleName;
+    private @RUntainted String m_moduleName;
 
     /**
      * Creates a new Cms module import/export handler.<p>
@@ -184,7 +185,7 @@ public class CmsModuleImportExportHandler implements I_CmsImportExportHandler {
      *
      * @throws CmsConfigurationException if the module could not be imported
      */
-    public static CmsModule readModuleFromImport(String importResource) throws CmsConfigurationException {
+    public static CmsModule readModuleFromImport(@RUntainted String importResource) throws CmsConfigurationException {
 
         // instantiate Digester and enable XML validation
         Digester digester = new Digester();
@@ -488,7 +489,7 @@ public class CmsModuleImportExportHandler implements I_CmsImportExportHandler {
      *
      * @return the (package) name of the module to be exported
      */
-    public String getModuleName() {
+    public @RUntainted String getModuleName() {
 
         return m_moduleName;
     }
@@ -617,7 +618,7 @@ public class CmsModuleImportExportHandler implements I_CmsImportExportHandler {
      *
      * @param fileName the name of the export file in the real file system
      */
-    public void setFileName(String fileName) {
+    public void setFileName(@RUntainted String fileName) {
 
         m_fileName = fileName;
     }

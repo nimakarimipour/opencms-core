@@ -28,6 +28,7 @@
 package org.opencms.widgets;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Select box widget that can transform into a combo box by clicking an edit icon.

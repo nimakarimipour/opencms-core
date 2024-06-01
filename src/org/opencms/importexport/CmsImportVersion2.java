@@ -71,6 +71,7 @@ import org.apache.commons.logging.Log;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.Node;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the OpenCms Import Interface ({@link org.opencms.importexport.I_CmsImport}) for
@@ -109,7 +110,7 @@ public class CmsImportVersion2 extends A_CmsImport {
     private List<String> m_folderStorage;
 
     /** page file storage for page file and body co.version. */
-    private List<String> m_pageStorage;
+    private @RUntainted List<@RUntainted String> m_pageStorage;
 
     /**
      * Translates directory Strings from OpenCms 4.x structure to new 5.0 structure.<p>
@@ -320,7 +321,7 @@ public class CmsImportVersion2 extends A_CmsImport {
         String lastname,
         String email,
         long dateCreated,
-        Map<String, Object> userInfo,
+        Map<String, @RUntainted Object> userInfo,
         List<String> userGroups)
     throws CmsImportExportException {
 
@@ -382,7 +383,7 @@ public class CmsImportVersion2 extends A_CmsImport {
      */
     private List<String> getCompatibilityWebAppNames() {
 
-        List<String> webAppNamesOri = new ArrayList<String>();
+        List<@RUntainted String> webAppNamesOri = new ArrayList<@RUntainted String>();
 
         String configuredWebAppNames = (String)OpenCms.getRuntimeProperty(COMPATIBILITY_WEBAPPNAMES);
         if ((configuredWebAppNames != null) && (configuredWebAppNames.length() != 0)) {
@@ -431,8 +432,8 @@ public class CmsImportVersion2 extends A_CmsImport {
      */
     private void importAllResources() throws CmsImportExportException {
 
-        List<Node> fileNodes = null;
-        List<Node> acentryNodes = null;
+        List<@RUntainted Node> fileNodes = null;
+        List<@RUntainted Node> acentryNodes = null;
         Element currentElement = null, currentEntry = null;
         String source = null, destination = null, resourceTypeName = null, timestamp = null, uuid = null,
         uuidresource = null;
@@ -693,12 +694,12 @@ public class CmsImportVersion2 extends A_CmsImport {
      */
     private CmsResource importResource(
         String source,
-        String destination,
-        String uuid,
-        String uuidresource,
-        int resourceTypeId,
-        String resourceTypeName,
-        long lastmodified,
+        @RUntainted String destination,
+        @RUntainted String uuid,
+        @RUntainted String uuidresource,
+        @RUntainted int resourceTypeId,
+        @RUntainted String resourceTypeName,
+        @RUntainted long lastmodified,
         List<CmsProperty> properties) {
 
         byte[] content = null;
@@ -817,7 +818,7 @@ public class CmsImportVersion2 extends A_CmsImport {
      * @throws CmsImportExportException if something goes wrong
      * @throws CmsXmlException if the page file could not be unmarshalled
      */
-    private void mergePageFile(String resourcename) throws CmsXmlException, CmsImportExportException {
+    private void mergePageFile(@RUntainted String resourcename) throws CmsXmlException, CmsImportExportException {
 
         try {
 
@@ -862,9 +863,9 @@ public class CmsImportVersion2 extends A_CmsImport {
 
                 String bodyclass = null;
                 String bodyname = null;
-                Map<String, String> bodyparams = null;
+                Map<@RUntainted String, @RUntainted String> bodyparams = null;
 
-                List<Element> nodes = ((Element)bodyNode).elements();
+                List<@RUntainted Element> nodes = ((Element)bodyNode).elements();
                 for (int i = 0, n = nodes.size(); i < n; i++) {
 
                     Node node = nodes.get(i);
@@ -957,8 +958,8 @@ public class CmsImportVersion2 extends A_CmsImport {
                 }
                 // if set, add bodyparams as properties
                 if (bodyparams != null) {
-                    for (Iterator<Entry<String, String>> p = bodyparams.entrySet().iterator(); p.hasNext();) {
-                        Entry<String, String> entry = p.next();
+                    for (Iterator<Entry<@RUntainted String, @RUntainted String>> p = bodyparams.entrySet().iterator(); p.hasNext();) {
+                        Entry<@RUntainted String, @RUntainted String> entry = p.next();
                         String key = entry.getKey();
                         String value = entry.getValue();
                         newProperty = new CmsProperty(key, value, null);
@@ -1077,7 +1078,7 @@ public class CmsImportVersion2 extends A_CmsImport {
         // iterate through the list of all page controlfiles found during the import process
         int size = m_pageStorage.size();
         m_report.println(Messages.get().container(Messages.RPT_MERGE_START_0), I_CmsReport.FORMAT_HEADLINE);
-        Iterator<String> i = m_pageStorage.iterator();
+        Iterator<@RUntainted String> i = m_pageStorage.iterator();
         int counter = 1;
         while (i.hasNext()) {
             String resname = i.next();

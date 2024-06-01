@@ -39,6 +39,7 @@ import org.opencms.util.CmsCollectionsGenericWrapper;
 import java.util.Map;
 
 import org.apache.commons.collections.Transformer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Allows access to the attributes and properties of a resource, usually used inside a loop of a
@@ -93,7 +94,7 @@ public class CmsJspResourceAccessBean {
     }
 
     /** The OpenCms context of the current user. */
-    private CmsObject m_cms;
+    private @RUntainted CmsObject m_cms;
 
     /** The file that can be accessed. */
     private CmsFile m_file;
@@ -111,7 +112,7 @@ public class CmsJspResourceAccessBean {
     private Map<String, Map<String, String>> m_localeProperties;
 
     /** The resource that can be accessed. */
-    private CmsResource m_resource;
+    private @RUntainted CmsResource m_resource;
 
     /**
      * No argument constructor, required for a JavaBean.<p>
@@ -373,7 +374,7 @@ public class CmsJspResourceAccessBean {
      * @param cms the OpenCms context of the current user
      * @param resource the resource to create the content from
      */
-    public void init(CmsObject cms, CmsResource resource) {
+    public void init(CmsObject cms, @RUntainted CmsResource resource) {
 
         m_cms = cms;
         m_resource = resource;

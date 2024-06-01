@@ -28,6 +28,7 @@
 package org.opencms.db.mssql;
 
 import org.opencms.db.generic.CmsSqlManager;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * MSSQL implementation of the subscription driver.<p>

@@ -55,6 +55,8 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.ServletRequest;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * One element of a container in a container page.<p>
@@ -70,7 +72,7 @@ public class CmsContainerElementBean implements Cloneable {
     private final boolean m_createNew;
 
     /** The client ADE editor hash. */
-    private transient String m_editorHash;
+    private transient @RUntainted String m_editorHash;
 
     /** The element's structure id. */
     private CmsUUID m_elementId;
@@ -79,7 +81,7 @@ public class CmsContainerElementBean implements Cloneable {
     private CmsUUID m_formatterId;
 
     /** The configured properties. */
-    private Map<String, String> m_individualSettings;
+    private @RUntainted Map<@RUntainted String, @RUntainted String> m_individualSettings;
 
     /** The inheritance info of this element. */
     private CmsInheritanceInfo m_inheritanceInfo;
@@ -94,10 +96,10 @@ public class CmsContainerElementBean implements Cloneable {
     private boolean m_releasedAndNotExpired;
 
     /** The resource of this element. */
-    private transient CmsResource m_resource;
+    private transient @RUntainted CmsResource m_resource;
 
     /** The settings of this element containing also default values. */
-    private transient Map<String, String> m_settings;
+    private transient Map<@RUntainted String, @RUntainted String> m_settings;
 
     /** The element site path, only set while rendering. */
     private String m_sitePath;
@@ -118,9 +120,9 @@ public class CmsContainerElementBean implements Cloneable {
     public CmsContainerElementBean(
         CmsFile file,
         CmsUUID formatterId,
-        Map<String, String> individualSettings,
+        @RUntainted Map<@RUntainted String, @RUntainted String> individualSettings,
         boolean inMemoryOnly,
-        String editorHash,
+        @RUntainted String editorHash,
         boolean createNew) {
 
         this(file.getStructureId(), formatterId, individualSettings, createNew);
@@ -140,12 +142,12 @@ public class CmsContainerElementBean implements Cloneable {
     public CmsContainerElementBean(
         CmsUUID elementId,
         CmsUUID formatterId,
-        Map<String, String> individualSettings,
+        @RUntainted Map<@RUntainted String, @RUntainted String> individualSettings,
         boolean createNew) {
 
         m_elementId = elementId;
         m_formatterId = formatterId;
-        Map<String, String> newSettings = (individualSettings == null
+        Map<String, @RUntainted String> newSettings = (individualSettings == null
         ? new HashMap<String, String>()
         : new HashMap<String, String>(individualSettings));
         if (!newSettings.containsKey(CmsContainerElement.ELEMENT_INSTANCE_ID)) {
@@ -185,13 +187,13 @@ public class CmsContainerElementBean implements Cloneable {
         boolean createNew,
         CmsUUID elementId,
         CmsUUID formatterId,
-        Map<String, String> individualSettings,
+        @RUntainted Map<@RUntainted String, @RUntainted String> individualSettings,
         CmsInheritanceInfo inheritanceInfo,
         boolean inMemoryOnly,
         boolean temporaryContent,
         boolean releasedAndNotExpired,
         CmsResource resource,
-        Map<String, String> settings,
+        Map<@RUntainted String, @RUntainted String> settings,
         String sitePath) {
 
         m_createNew = createNew;
@@ -232,7 +234,7 @@ public class CmsContainerElementBean implements Cloneable {
      */
     public static CmsContainerElementBean cloneWithSettings(
         CmsContainerElementBean source,
-        Map<String, String> settings) {
+        @RUntainted Map<@RUntainted String, @RUntainted String> settings) {
 
         boolean createNew = source.m_createNew;
         if (settings.containsKey(CmsContainerElement.CREATE_AS_NEW)) {
@@ -278,9 +280,9 @@ public class CmsContainerElementBean implements Cloneable {
     public static CmsContainerElementBean createElementForResourceType(
         CmsObject cms,
         I_CmsResourceType resourceType,
-        String targetFolder,
-        Map<String, String> individualSettings,
-        boolean isCopyModels,
+        @RUntainted String targetFolder,
+        @RUntainted Map<@RUntainted String, @RUntainted String> individualSettings,
+        @RUntainted boolean isCopyModels,
         Locale locale)
     throws CmsException {
 
@@ -288,7 +290,7 @@ public class CmsContainerElementBean implements Cloneable {
             throw new IllegalArgumentException();
         }
 
-        byte[] content = new byte[0];
+        @RUntainted byte[] content = new byte[0];
         String schema = ((CmsResourceTypeXmlContent)resourceType).getSchema();
         if (schema != null) {
             // must set URI of OpenCms user context to parent folder of created resource,
@@ -348,7 +350,7 @@ public class CmsContainerElementBean implements Cloneable {
      *
      * @return the hash code for the element settings
      */
-    private static String getSettingsHash(Map<String, String> individualSettings, boolean createNew) {
+    private static @RPolyTainted String getSettingsHash(@RUntainted Map<@RUntainted String, @RUntainted String> individualSettings, @RPolyTainted boolean createNew) {
 
         if (!individualSettings.isEmpty() || createNew) {
             int hash = (individualSettings.toString() + createNew).hashCode();
@@ -363,9 +365,9 @@ public class CmsContainerElementBean implements Cloneable {
      * @param containerName the container name
      * @param formatterId the formatter id
      */
-    public void addFormatterSetting(String containerName, String formatterId) {
+    public void addFormatterSetting(@RUntainted String containerName, @RUntainted String formatterId) {
 
-        Map<String, String> newSettings = new HashMap<String, String>(m_individualSettings);
+        Map<@RUntainted String, @RUntainted String> newSettings = new HashMap<@RUntainted String, @RUntainted String>(m_individualSettings);
         newSettings.put(CmsFormatterConfig.getSettingsKeyForContainer(containerName), formatterId);
         m_individualSettings = Collections.unmodifiableMap(newSettings);
         if (m_inMemoryOnly) {
@@ -405,7 +407,7 @@ public class CmsContainerElementBean implements Cloneable {
      *
      * @return the ADE client editor has value
      */
-    public String editorHash() {
+    public @RUntainted String editorHash() {
 
         if (m_editorHash == null) {
             m_editorHash = m_elementId.toString() + getSettingsHash();
@@ -418,7 +420,7 @@ public class CmsContainerElementBean implements Cloneable {
      */
     public void ensureNewInstanceId() {
 
-        Map<String, String> newSettings = new HashMap<String, String>(m_individualSettings);
+        Map<@RUntainted String, @RUntainted String> newSettings = new HashMap<@RUntainted String, @RUntainted String>(m_individualSettings);
         newSettings.put(CmsContainerElement.ELEMENT_INSTANCE_ID, new CmsUUID().toString());
         m_individualSettings = Collections.unmodifiableMap(newSettings);
         m_editorHash = m_elementId.toString() + getSettingsHash();
@@ -451,7 +453,7 @@ public class CmsContainerElementBean implements Cloneable {
      *
      * @return the structure id of the resource of this element
      */
-    public CmsUUID getId() {
+    public @RUntainted CmsUUID getId() {
 
         return m_elementId;
     }
@@ -461,7 +463,7 @@ public class CmsContainerElementBean implements Cloneable {
      *
      * @return the settings of this element
      */
-    public Map<String, String> getIndividualSettings() {
+    public @RUntainted Map<@RUntainted String, @RUntainted String> getIndividualSettings() {
 
         return m_individualSettings;
     }
@@ -481,7 +483,7 @@ public class CmsContainerElementBean implements Cloneable {
      *
      * @return the element instance id
      */
-    public String getInstanceId() {
+    public @RUntainted String getInstanceId() {
 
         return getIndividualSettings().get(CmsContainerElement.ELEMENT_INSTANCE_ID);
     }
@@ -495,7 +497,7 @@ public class CmsContainerElementBean implements Cloneable {
      *
      * @see #initResource(CmsObject)
      */
-    public CmsResource getResource() {
+    public @RUntainted CmsResource getResource() {
 
         return m_resource;
     }
@@ -506,7 +508,7 @@ public class CmsContainerElementBean implements Cloneable {
      *
      * @return the element settings
      */
-    public Map<String, String> getSettings() {
+    public Map<@RUntainted String, @RUntainted String> getSettings() {
 
         return m_settings;
     }
@@ -520,7 +522,7 @@ public class CmsContainerElementBean implements Cloneable {
      *
      * @see #initResource(CmsObject)
      */
-    public String getSitePath() {
+    public @RUntainted String getSitePath() {
 
         return m_sitePath;
     }
@@ -598,9 +600,9 @@ public class CmsContainerElementBean implements Cloneable {
         I_CmsFormatterBean formatterBean,
         Locale locale,
         ServletRequest request,
-        Map<String, String> presets) {
+        Map<@RUntainted String, @RUntainted String> presets) {
 
-        Map<String, String> mergedSettings;
+        Map<@RUntainted String, @RUntainted String> mergedSettings;
         if (formatterBean == null) {
             mergedSettings = CmsXmlContentPropertyHelper.mergeDefaults(
                 cms,
@@ -829,7 +831,7 @@ public class CmsContainerElementBean implements Cloneable {
      *
      * @param newSettings the new settings
      */
-    public void updateIndividualSettings(Map<String, String> newSettings) {
+    public void updateIndividualSettings(@RUntainted Map<@RUntainted String, @RUntainted String> newSettings) {
 
         m_individualSettings = Collections.unmodifiableMap(newSettings);
         setSettings(getIndividualSettings());
@@ -840,7 +842,7 @@ public class CmsContainerElementBean implements Cloneable {
      *
      * @return the hash code for the element settings
      */
-    private String getSettingsHash() {
+    private @RUntainted String getSettingsHash() {
 
         String instanceId = getInstanceId();
         if (instanceId == null) {
@@ -857,7 +859,7 @@ public class CmsContainerElementBean implements Cloneable {
      *
      * @param settings the settings
      */
-    private void setSettings(Map<String, String> settings) {
+    private void setSettings(Map<@RUntainted String, @RUntainted String> settings) {
 
         if (settings == null) {
             m_settings = null;

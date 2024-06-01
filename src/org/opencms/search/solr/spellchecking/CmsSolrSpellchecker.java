@@ -59,6 +59,7 @@ import org.apache.solr.client.solrj.response.SpellCheckResponse.Suggestion;
 import org.apache.solr.common.params.ModifiableSolrParams;
 import org.apache.solr.core.CoreContainer;
 import org.apache.solr.core.SolrCore;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * CmsSolrSpellchecker is used to perform spellchecking in OpenCms by using Solr. The JSON-formatted result of the
@@ -110,13 +111,13 @@ public final class CmsSolrSpellchecker {
     private static final String HTTP_PARAMETER_CHECKREBUILD = "check";
 
     /** The SolrCore object. */
-    private SolrCore m_core;
+    private @RUntainted SolrCore m_core;
 
     /** The Solr CoreContainer object. */
-    private CoreContainer m_coreContainer;
+    private @RUntainted CoreContainer m_coreContainer;
 
     /** The SolrClient object. */
-    private SolrClient m_solrClient;
+    private @RUntainted SolrClient m_solrClient;
 
     /**
      * Private constructor due to usage of the Singleton pattern.
@@ -124,7 +125,7 @@ public final class CmsSolrSpellchecker {
      * @param container Solr CoreContainer container object.
      * @param core The Solr Core object.
      */
-    private CmsSolrSpellchecker(CoreContainer container, SolrCore core) {
+    private CmsSolrSpellchecker(@RUntainted CoreContainer container, @RUntainted SolrCore core) {
 
         if ((null == container) || (null == core)) {
             throw new IllegalArgumentException();
@@ -152,7 +153,7 @@ public final class CmsSolrSpellchecker {
      *
      * @return instance of CmsSolrSpellchecker
      */
-    public static CmsSolrSpellchecker getInstance(CoreContainer container) {
+    public static CmsSolrSpellchecker getInstance(@RUntainted CoreContainer container) {
 
         if (null == instance) {
             synchronized (CmsSolrSpellchecker.class) {
@@ -247,14 +248,14 @@ public final class CmsSolrSpellchecker {
      * @param response The SpellCheckResponse object containing the spellcheck results.
      * @return The spellcheck suggestions as JSON object or null if something goes wrong.
      */
-    private JSONObject getConvertedResponseAsJson(SpellCheckResponse response) {
+    private @RUntainted JSONObject getConvertedResponseAsJson(@RUntainted SpellCheckResponse response) {
 
         if (null == response) {
             return null;
         }
 
         final JSONObject suggestions = new JSONObject();
-        final Map<String, Suggestion> solrSuggestions = response.getSuggestionMap();
+        final Map<@RUntainted String, @RUntainted Suggestion> solrSuggestions = response.getSuggestionMap();
 
         // Add suggestions to the response
         for (final String key : solrSuggestions.keySet()) {
@@ -448,7 +449,7 @@ public final class CmsSolrSpellchecker {
      *
      * @return Results of the Solr spell check of type SpellCheckResponse or null if something goes wrong.
      */
-    private SpellCheckResponse performSpellcheckQuery(CmsSpellcheckingRequest request) {
+    private @RUntainted SpellCheckResponse performSpellcheckQuery(CmsSpellcheckingRequest request) {
 
         if ((null == request) || !request.isInitialized()) {
             return null;

@@ -62,6 +62,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The default workflow manager implementation, which supports 2 basic actions, Release and Publish.
@@ -478,7 +479,7 @@ public class CmsExtendedWorkflowManager extends CmsDefaultWorkflowManager {
      *
      * @return the workflow project description
      */
-    protected String generateProjectDescription(CmsObject userCms) {
+    protected @RUntainted String generateProjectDescription(CmsObject userCms) {
 
         CmsUser user = userCms.getRequestContext().getCurrentUser();
         OpenCms.getLocaleManager();
@@ -501,7 +502,7 @@ public class CmsExtendedWorkflowManager extends CmsDefaultWorkflowManager {
      *
      * @return the workflow project name
      */
-    protected String generateProjectName(CmsObject userCms) {
+    protected @RUntainted String generateProjectName(CmsObject userCms) {
 
         String projectName = generateProjectName(userCms, true);
         if (existsProject(projectName)) {
@@ -518,7 +519,7 @@ public class CmsExtendedWorkflowManager extends CmsDefaultWorkflowManager {
      *
      * @return the workflow project name
      */
-    protected String generateProjectName(CmsObject userCms, boolean shortTime) {
+    protected @RUntainted String generateProjectName(CmsObject userCms, boolean shortTime) {
 
         CmsUser user = userCms.getRequestContext().getCurrentUser();
         long time = System.currentTimeMillis();

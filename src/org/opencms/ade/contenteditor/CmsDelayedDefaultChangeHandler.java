@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A change handler that reacts to changes in a field by setting another empty field to a default value.
@@ -57,7 +58,7 @@ public class CmsDelayedDefaultChangeHandler extends A_CmsXmlContentEditorChangeH
     private String m_relPath;
 
     /** The default value to set. */
-    private String m_default;
+    private @RUntainted String m_default;
 
     /**
      * @see org.opencms.xml.content.I_CmsXmlContentEditorChangeHandler#handleChange(org.opencms.file.CmsObject, org.opencms.xml.content.CmsXmlContent, java.util.Locale, java.util.Collection)
@@ -65,7 +66,7 @@ public class CmsDelayedDefaultChangeHandler extends A_CmsXmlContentEditorChangeH
     public CmsXmlContent handleChange(
         CmsObject cms,
         CmsXmlContent content,
-        Locale locale,
+        @RUntainted Locale locale,
         Collection<String> changedPaths) {
 
         List<String> paths = new ArrayList<String>(changedPaths);
@@ -85,7 +86,7 @@ public class CmsDelayedDefaultChangeHandler extends A_CmsXmlContentEditorChangeH
      * @see org.opencms.ade.contenteditor.A_CmsXmlContentEditorChangeHandler#setConfiguration(java.lang.String)
      */
     @Override
-    public void setConfiguration(String configuration) {
+    public void setConfiguration(@RUntainted String configuration) {
 
         super.setConfiguration(configuration);
         int pipePos = configuration.indexOf("|");

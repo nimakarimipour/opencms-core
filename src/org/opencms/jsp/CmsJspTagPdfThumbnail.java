@@ -35,6 +35,7 @@ import org.opencms.pdftools.CmsPdfThumbnailLink;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.jsp.tagext.TagSupport;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * JSP tag to generate a link to a PDF produced from a given XML content.<p>

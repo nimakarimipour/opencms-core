@@ -38,6 +38,7 @@ import java.util.Locale;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.google.common.base.Optional;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The configuration for 'user generated content' forms.<p>
@@ -84,13 +85,13 @@ public class CmsUgcConfiguration {
     private Optional<List<String>> m_validExtensions;
 
     /** The locale in which to save the content. */
-    private Locale m_locale;
+    private @RUntainted Locale m_locale;
 
     /** The resource type for new XML contents. */
     private String m_resourceType;
 
     /** The path of the configuration. */
-    private String m_path;
+    private @RUntainted String m_path;
 
     /**
      * Creates a new form configuration.<p>
@@ -117,7 +118,7 @@ public class CmsUgcConfiguration {
         String resourceType,
         CmsResource contentParentFolder,
         String namePattern,
-        Locale locale,
+        @RUntainted Locale locale,
         Optional<CmsResource> uploadParent,
         Optional<Long> maxUploadSize,
         Optional<Integer> maxContents,
@@ -148,7 +149,7 @@ public class CmsUgcConfiguration {
      *
      * @return the folder for XML contents
      */
-    public CmsResource getContentParentFolder() {
+    public @RUntainted CmsResource getContentParentFolder() {
 
         return m_contentParentFolder;
     }
@@ -180,7 +181,7 @@ public class CmsUgcConfiguration {
      *
      * @return the locale
      */
-    public Locale getLocale() {
+    public @RUntainted Locale getLocale() {
 
         return m_locale;
     }
@@ -230,7 +231,7 @@ public class CmsUgcConfiguration {
      *
      * @return the path of the configuration
      */
-    public String getPath() {
+    public @RUntainted String getPath() {
 
         return m_path;
     }

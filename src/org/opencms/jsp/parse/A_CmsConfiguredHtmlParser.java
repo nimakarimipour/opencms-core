@@ -34,6 +34,7 @@ import org.opencms.util.I_CmsHtmlNodeVisitor;
 import java.util.List;
 
 import org.htmlparser.util.ParserException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Base class for all classes that are specified for the &lt;cms:parse parserClass="name"
@@ -96,7 +97,7 @@ public abstract class A_CmsConfiguredHtmlParser {
      * @throws ParserException if something goes wrong at parsing
      * @throws CmsException if something goes wrong at accessing OpenCms core functionality
     */
-    public String doParse(String html, String encoding, List<String> noAutoCloseTags)
+    public String doParse(String html, String encoding, List<@RUntainted String> noAutoCloseTags)
     throws ParserException, CmsException {
 
         m_visitor = createVisitorInstance();

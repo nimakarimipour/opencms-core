@@ -42,6 +42,7 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides utility functions for XSLT transformations.<p>
@@ -62,7 +63,7 @@ public final class CmsXsltUtil {
     public static final char TEXT_DELIMITER = '"';
 
     /** the delimiters, the csv data can be separated with.*/
-    static final String[] DELIMITERS = {";", ",", "\t"};
+    static final @RUntainted String[] DELIMITERS = {";", ",", "\t"};
 
     /**
      * Hides the public constructor.<p>
@@ -79,7 +80,7 @@ public final class CmsXsltUtil {
      *
      * @return the delimiter that is best applicable for the CSV data
      */
-    public static String getPreferredDelimiter(String csvData) {
+    public static @RUntainted String getPreferredDelimiter(String csvData) {
 
         String bestMatch = "";
         int bestMatchCount = 0;

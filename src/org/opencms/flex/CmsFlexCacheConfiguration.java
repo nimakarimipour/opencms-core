@@ -32,6 +32,7 @@ import org.opencms.jsp.util.I_CmsJspDeviceSelector;
 import org.opencms.main.CmsLog;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Flex Cache configuration class.<p>
@@ -56,7 +57,7 @@ public class CmsFlexCacheConfiguration {
     private I_CmsJspDeviceSelector m_deviceSelector;
 
     /** The device selector configuration. */
-    private String m_deviceSelectorConfiguration;
+    private @RUntainted String m_deviceSelectorConfiguration;
 
     /**
      * Sizing parameters for the cached "entries" (ie. pages) in the FlexCache.<p>

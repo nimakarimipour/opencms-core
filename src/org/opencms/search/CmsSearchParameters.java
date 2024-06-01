@@ -46,6 +46,7 @@ import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains the search parameters for a call to <code>{@link org.opencms.search.CmsSearchIndex#search(org.opencms.file.CmsObject, CmsSearchParameters)}</code>.<p>
@@ -238,7 +239,7 @@ public class CmsSearchParameters {
     private boolean m_calculateCategories;
 
     /** The list of categories to limit the search to. */
-    private List<String> m_categories;
+    private List<@RUntainted String> m_categories;
 
     /** Indicates if all fields should be used for generating the excerpt, regardless if they have been searched or not. */
     private boolean m_excerptOnlySearchedFields;
@@ -283,10 +284,10 @@ public class CmsSearchParameters {
     private List<String> m_resourceTypes;
 
     /** Only resource that are sub-resource of one of the search roots are included in the search result. */
-    private List<String> m_roots;
+    private List<@RUntainted String> m_roots;
 
     /** The sort order for the search. */
-    private Sort m_sort;
+    private @RUntainted Sort m_sort;
 
     /**
      * Creates a new search parameter instance with no search query and
@@ -334,7 +335,7 @@ public class CmsSearchParameters {
     public CmsSearchParameters(
         String query,
         List<String> fields,
-        List<String> roots,
+        List<@RUntainted String> roots,
         List<String> categories,
         List<String> resourceTypes,
         boolean calculateCategories,
@@ -534,7 +535,7 @@ public class CmsSearchParameters {
      *
      * @return the parsed query
      */
-    public String getParsedQuery() {
+    public @RUntainted String getParsedQuery() {
 
         return m_parsedQuery;
     }
@@ -544,7 +545,7 @@ public class CmsSearchParameters {
      *
      * @return the search query to use
      */
-    public String getQuery() {
+    public @RUntainted String getQuery() {
 
         return m_query;
     }
@@ -578,7 +579,7 @@ public class CmsSearchParameters {
      *
      * @return the list of strings of search roots to use
      */
-    public List<String> getRoots() {
+    public List<@RUntainted String> getRoots() {
 
         return m_roots;
     }
@@ -634,7 +635,7 @@ public class CmsSearchParameters {
      *
      * @return the instance that defines the sort order for the results
      */
-    public Sort getSort() {
+    public @RUntainted Sort getSort() {
 
         return m_sort;
     }
@@ -759,7 +760,7 @@ public class CmsSearchParameters {
         }
 
         // restrict roots
-        List<String> roots = null;
+        List<@RUntainted String> roots = null;
         if ((m_roots != null) && (m_roots.size() > 0)) {
             if ((restriction.getRoots() != null) && (restriction.getRoots().size() > 0)) {
                 roots = ListUtils.intersection(m_roots, restriction.getRoots());
@@ -824,7 +825,7 @@ public class CmsSearchParameters {
      *
      * @param categories the list of categories (strings) of this parameters
      */
-    public void setCategories(List<String> categories) {
+    public void setCategories(List<@RUntainted String> categories) {
 
         m_categories = categories;
     }
@@ -880,7 +881,7 @@ public class CmsSearchParameters {
      *
      * @param indexName the name of the index
      */
-    public void setIndex(String indexName) {
+    public void setIndex(@RUntainted String indexName) {
 
         CmsSearchIndex index;
         if (CmsStringUtil.isNotEmpty(indexName)) {
@@ -1015,7 +1016,7 @@ public class CmsSearchParameters {
      *
      * @param roots  the list of strings of roots to search under for the search to set
      */
-    public void setRoots(List<String> roots) {
+    public void setRoots(List<@RUntainted String> roots) {
 
         m_roots = roots;
     }
@@ -1261,7 +1262,7 @@ public class CmsSearchParameters {
      *
      * @return the concatenated string
      */
-    private String toSeparatedString(List<String> stringList, char separator) {
+    private String toSeparatedString(List<@RUntainted String> stringList, char separator) {
 
         StringBuffer result = new StringBuffer();
         Iterator<String> it = stringList.iterator();

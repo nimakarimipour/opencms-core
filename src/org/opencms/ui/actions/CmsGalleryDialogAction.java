@@ -40,6 +40,7 @@ import org.opencms.workplace.explorer.Messages;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The gallery dialog action.<p>
@@ -66,7 +67,7 @@ public class CmsGalleryDialogAction extends A_CmsGalleryDialogAction {
                 A_CmsUI.get(),
                 new I_CmsUpdateListener<String>() {
 
-                    public void onUpdate(List<String> updatedItems) {
+                    public void onUpdate(List<@RUntainted String> updatedItems) {
 
                         List<CmsUUID> updatedIds = Lists.newArrayList();
                         for (String item : updatedItems) {
@@ -102,7 +103,7 @@ public class CmsGalleryDialogAction extends A_CmsGalleryDialogAction {
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
      */
     @Override
-    protected String getTitleKey() {
+    protected @RUntainted String getTitleKey() {
 
         return Messages.GUI_EXPLORER_CONTEXT_OPENGALLERY_0;
     }

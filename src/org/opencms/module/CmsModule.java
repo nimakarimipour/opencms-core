@@ -54,6 +54,7 @@ import java.util.TreeMap;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes an OpenCms module.<p>
@@ -191,7 +192,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
     private String m_importScript;
 
     /** The name of this module, must be a valid Java package name. */
-    private String m_name;
+    private @RUntainted String m_name;
 
     /** The "nice" display name of this module. */
     private String m_niceName;
@@ -209,7 +210,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
     private transient List<I_CmsResourceType> m_resourceTypes;
 
     /** The module site. */
-    private String m_site;
+    private @RUntainted String m_site;
 
     /** The name of the user who installed this module. */
     private String m_userInstalled;
@@ -258,12 +259,12 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
      * @param parameters the parameters for this module
      */
     public CmsModule(
-        String name,
+        @RUntainted String name,
         String niceName,
         String group,
         String actionClass,
         String importScript,
-        String site,
+        @RUntainted String site,
         boolean isImportSite,
         ExportMode exportMode,
         String description,
@@ -391,7 +392,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
                     continue;
                 }
                 // try to include sub-resources.
-                List<CmsResource> subResources = cms.readResources(sitePath, CmsResourceFilter.ALL, false);
+                List<@RUntainted CmsResource> subResources = cms.readResources(sitePath, CmsResourceFilter.ALL, false);
                 addCalculatedModuleResources(result, cms, subResources, excludedSubResources);
             }
         }
@@ -817,7 +818,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
      *
      * @return the list of export point added by this module
      */
-    public List<CmsExportPoint> getExportPoints() {
+    public List<@RUntainted CmsExportPoint> getExportPoints() {
 
         return m_exportPoints;
     }
@@ -871,7 +872,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
      *
      * @return the import site
      */
-    public String getImportSite() {
+    public @RUntainted String getImportSite() {
 
         if (m_hasImportSite) {
             return m_site;
@@ -888,7 +889,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
      *
      * @return the name of this module
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_name;
     }
@@ -963,7 +964,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
      *
      * @return the list of additional resource types that belong to this module
      */
-    public List<I_CmsResourceType> getResourceTypes() {
+    public @RUntainted List<I_CmsResourceType> getResourceTypes() {
 
         return m_resourceTypes;
     }
@@ -973,7 +974,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
      *
      * @return the site of the module
      */
-    public String getSite() {
+    public @RUntainted String getSite() {
 
         return m_site;
     }
@@ -1522,7 +1523,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
      *
      * @param importSite the import site
      */
-    public void setImportSite(String importSite) {
+    public void setImportSite(@RUntainted String importSite) {
 
         checkFrozen();
         if (importSite != null) {
@@ -1542,7 +1543,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
      *
      * @param value the module name to set
      */
-    public void setName(String value) {
+    public void setName(@RUntainted String value) {
 
         checkFrozen();
         if (!CmsStringUtil.isValidJavaClassName(value)) {
@@ -1622,7 +1623,7 @@ public class CmsModule implements Comparable<CmsModule>, Serializable {
      *
      * @param siteRoot the module site root
      */
-    public void setSite(String siteRoot) {
+    public void setSite(@RUntainted String siteRoot) {
 
         if (siteRoot == null) {
             m_hasImportSite = false;

@@ -56,6 +56,8 @@ import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /** This tag is used to attach an edit provider to a snippet of HTML. */
 public class CmsJspTagEdit extends CmsJspScopedVarBodyTagSuport {
@@ -85,13 +87,13 @@ public class CmsJspTagEdit extends CmsJspScopedVarBodyTagSuport {
     private boolean m_isEditOpen;
 
     /** The fully qualified class name of the post create handler to use. */
-    private String m_postCreateHandler;
+    private @RUntainted String m_postCreateHandler;
 
     /** The upload folder. */
     private String m_uploadFolder;
 
     /** UUID of the content to edit. */
-    private String m_uuid;
+    private @RUntainted String m_uuid;
 
     /** Creates a new resource.
      * @param cmsObject The CmsObject of the current request context.
@@ -107,15 +109,15 @@ public class CmsJspTagEdit extends CmsJspScopedVarBodyTagSuport {
      */
     public static String createResource(
         CmsObject cmsObject,
-        String newLink,
-        Locale locale,
+        @RUntainted String newLink,
+        @RUntainted Locale locale,
         String sitePath,
         String modelFileName,
         String mode,
         String postCreateHandler)
     throws CmsException {
 
-        String[] newLinkParts = newLink.split("\\|");
+        @RUntainted String[] newLinkParts = newLink.split("\\|");
         String rootPath = newLinkParts[1];
         String typeName = newLinkParts[2];
         CmsFile modelFile = null;
@@ -139,7 +141,7 @@ public class CmsJspTagEdit extends CmsJspScopedVarBodyTagSuport {
             cmsClone.getRequestContext().setLocale(locale);
         }
         newElement = typeConfig.createNewElement(cmsClone, modelFile, rootPath);
-        CmsPair<String, String> handlerParameter = I_CmsCollectorPostCreateHandler.splitClassAndConfig(
+        CmsPair<String, @RUntainted String> handlerParameter = I_CmsCollectorPostCreateHandler.splitClassAndConfig(
             postCreateHandler);
         I_CmsCollectorPostCreateHandler handler = A_CmsResourceCollector.getPostCreateHandler(
             handlerParameter.getFirst());
@@ -158,7 +160,7 @@ public class CmsJspTagEdit extends CmsJspScopedVarBodyTagSuport {
      *
      * @see #createResource(CmsObject, String, Locale, String, String, String, String)
      */
-    public static String getNewLink(CmsObject cms, I_CmsResourceType resType, String creationSitemap) {
+    public static @RUntainted String getNewLink(CmsObject cms, I_CmsResourceType resType, String creationSitemap) {
 
         String contextPath = getContextRootPath(cms, creationSitemap);
         StringBuffer newLink = new StringBuffer(NEW_LINK_IDENTIFIER);
@@ -177,7 +179,7 @@ public class CmsJspTagEdit extends CmsJspScopedVarBodyTagSuport {
      *
      * @return the resource type name
      */
-    public static String getRootPathFromNewLink(String newLink) {
+    public static @RPolyTainted String getRootPathFromNewLink(@RPolyTainted String newLink) {
 
         String result = null;
         if (newLink.startsWith(NEW_LINK_IDENTIFIER) && newLink.contains("|")) {
@@ -234,13 +236,13 @@ public class CmsJspTagEdit extends CmsJspScopedVarBodyTagSuport {
      */
     public static boolean insertDirectEditStart(
         CmsObject cms,
-        PageContext pageContext,
+        @RUntainted PageContext pageContext,
         CmsResource resource,
         boolean canCreate,
         boolean canDelete,
         String createType,
         String creationSitemap,
-        String postCreateHandler,
+        @RUntainted String postCreateHandler,
         String binaryUploadFolder) {
 
         boolean result = false;
@@ -426,7 +428,7 @@ public class CmsJspTagEdit extends CmsJspScopedVarBodyTagSuport {
     /** Setter for the "postCreateHandler" attribute of the tag.
      * @param postCreateHandler fully qualified class name of the {@link I_CmsCollectorPostCreateHandler} to use.
      */
-    public void setPostCreateHandler(final String postCreateHandler) {
+    public void setPostCreateHandler(final @RUntainted String postCreateHandler) {
 
         m_postCreateHandler = postCreateHandler;
     }
@@ -445,7 +447,7 @@ public class CmsJspTagEdit extends CmsJspScopedVarBodyTagSuport {
      * If no valid uuid of an existing resource is given, it is assumed the tag is only used for creating new contents.
      * @param uuid the uuid of the content that should be edited.
      */
-    public void setUuid(final String uuid) {
+    public void setUuid(final @RUntainted String uuid) {
 
         m_uuid = uuid;
     }

@@ -36,6 +36,7 @@ import org.opencms.file.CmsResource;
 
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrInputDocument;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The post document processor can be used in order to

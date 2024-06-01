@@ -41,6 +41,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.logging.Log;
 
 import com.google.common.base.Optional;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides access to the localized messages for several resource bundles simultaneously.<p>
@@ -84,7 +85,7 @@ public class CmsMultiMessages extends CmsMessages {
     private Map<String, Integer> m_lastBundleIndexForKey = new ConcurrentHashMap<>();
 
     /** A cache for the messages to prevent multiple lookups in many bundles. */
-    private Map<String, String> m_messageCache;
+    private Map<String, @RUntainted String> m_messageCache;
 
     /** List of resource bundles from the installed modules. */
     private List<CmsMessages> m_messages;
@@ -94,7 +95,7 @@ public class CmsMultiMessages extends CmsMessages {
      *
      * @param locale the locale to use for localization of the messages
      */
-    public CmsMultiMessages(Locale locale) {
+    public CmsMultiMessages(@RUntainted Locale locale) {
 
         super();
         // set the bundle name and the locale
@@ -206,7 +207,7 @@ public class CmsMultiMessages extends CmsMessages {
      * @see org.opencms.i18n.CmsMessages#key(java.lang.String, boolean)
      */
     @Override
-    public String key(String keyName, boolean allowNull) {
+    public @RUntainted String key(String keyName, boolean allowNull) {
 
         // special implementation since we uses several bundles for the messages
         String result = resolveKeyWithFallback(keyName);
@@ -235,7 +236,7 @@ public class CmsMultiMessages extends CmsMessages {
      * @param keyName the key for the desired string
      * @return the resource string for the given key or null if not found
      */
-    private String resolveKey(String keyName) {
+    private @RUntainted String resolveKey(@RUntainted String keyName) {
 
         if (LOG.isDebugEnabled()) {
             LOG.debug(Messages.get().getBundle().key(Messages.LOG_RESOLVE_MESSAGE_KEY_1, keyName));
@@ -313,7 +314,7 @@ public class CmsMultiMessages extends CmsMessages {
      *
      * @return the resolved key
      */
-    private String resolveKeyWithFallback(String keyName) {
+    private @RUntainted String resolveKeyWithFallback(String keyName) {
 
         String result = resolveKey(keyName);
         if ((result == null) && (m_keyFallbackHandler != null)) {

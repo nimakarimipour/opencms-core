@@ -33,6 +33,7 @@ import org.jsoup.safety.Cleaner;
 import org.jsoup.safety.Safelist;
 
 import com.vaadin.ui.RichTextArea;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Helper class for using rich text area in OpenCms.<p>

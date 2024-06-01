@@ -29,6 +29,7 @@ package org.opencms.gwt.shared;
 
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * AutoBean interface for the data needed to open an embedded Vaadin dialog from GWT.
@@ -47,21 +48,21 @@ public interface I_CmsEmbeddedDialogInfo {
      *
      * @return the dialog id
      */
-    public String getDialogId();
+    public @RUntainted String getDialogId();
 
     /**
      * Gets the parameters.
      *
      * @return the parameters
      */
-    public Map<String, String> getParameters();
+    public Map<String, @RUntainted String> getParameters();
 
     /**
      * Gets the structure ids.
      *
      * @return the structure ids
      */
-    public List<String> getStructureIds();
+    public List<@RUntainted String> getStructureIds();
 
     /**
      * Sets the context type.

@@ -31,6 +31,7 @@ import org.alfresco.jlan.server.SrvSession;
 import org.alfresco.jlan.server.auth.acl.AccessControl;
 import org.alfresco.jlan.server.auth.acl.AccessControlManager;
 import org.alfresco.jlan.server.core.SharedDevice;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * JLAN access control which just asks the CmsJlanRepository if a user can connect to it.<p>

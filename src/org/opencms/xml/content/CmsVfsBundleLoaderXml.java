@@ -40,6 +40,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Loads message bundles from the different locales of a single XML content.<p>
@@ -58,11 +59,11 @@ public class CmsVfsBundleLoaderXml implements CmsVfsResourceBundle.I_Loader {
     /**
      * @see org.opencms.i18n.CmsVfsResourceBundle.I_Loader#loadData(org.opencms.file.CmsObject, org.opencms.i18n.CmsVfsBundleParameters)
      */
-    public Map<Locale, Map<String, String>> loadData(CmsObject cms, CmsVfsBundleParameters params) throws Exception {
+    public Map<@RUntainted Locale, Map<String, String>> loadData(CmsObject cms, CmsVfsBundleParameters params) throws Exception {
 
         CmsFile file = cms.readFile(params.getBasePath());
         CmsXmlContent content = CmsXmlContentFactory.unmarshal(cms, file);
-        Map<Locale, Map<String, String>> result = Maps.newHashMap();
+        Map<@RUntainted Locale, Map<String, String>> result = Maps.newHashMap();
         for (Locale locale : content.getLocales()) {
             List<I_CmsXmlContentValue> messages = content.getValues(N_MESSAGE, locale);
             Map<String, String> currentLocale = new HashMap<String, String>();

@@ -36,6 +36,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.SortedSet;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of @{link org.opencms.widgets.serialdate.I_CmsSerialDateBean}
@@ -46,7 +47,7 @@ public class CmsSerialDateBeanMonthlyWeeks extends A_CmsSerialDateBean {
     /** The number of months till the next event. */
     private int m_interval;
     /** The number of the day or week day of the month the event should occur. */
-    private SortedSet<WeekOfMonth> m_weeksOfMonth;
+    private SortedSet<@RUntainted WeekOfMonth> m_weeksOfMonth;
     /** The weekday the event should occur. Can be <code>null</code> if the weekday does not matter. */
     private WeekDay m_weekDay;
     /** The index of the current week from the weeks of the month */
@@ -73,9 +74,9 @@ public class CmsSerialDateBeanMonthlyWeeks extends A_CmsSerialDateBean {
         EndType endType,
         Date serialEndDate,
         int occurrences,
-        SortedSet<Date> exceptions,
+        SortedSet<@RUntainted Date> exceptions,
         int interval,
-        SortedSet<WeekOfMonth> weeksOfMonth,
+        SortedSet<@RUntainted WeekOfMonth> weeksOfMonth,
         WeekDay weekDay) {
         super(startDate, endDate, isWholeDay, endType, serialEndDate, occurrences, exceptions);
         m_interval = interval;

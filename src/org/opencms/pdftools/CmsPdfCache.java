@@ -31,6 +31,7 @@ import org.opencms.cache.CmsVfsNameBasedDiskCache;
 import org.opencms.file.CmsResource;
 import org.opencms.file.wrapper.CmsWrappedResource;
 import org.opencms.main.OpenCms;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Cache class for storing generated PDFs in the RFS.<p>
@@ -54,7 +55,7 @@ public class CmsPdfCache extends CmsVfsNameBasedDiskCache {
      * @see org.opencms.cache.CmsVfsNameBasedDiskCache#getCacheName(org.opencms.file.CmsResource, java.lang.String)
      */
     @Override
-    public String getCacheName(CmsResource resource, String parameters) {
+    public @RUntainted String getCacheName(CmsResource resource, String parameters) {
 
         // we want a 'flat' folder structure, so we create a fake resource with a path in which the slashes
         // from the original path have been transformed to underscores

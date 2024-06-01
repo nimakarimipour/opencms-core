@@ -66,6 +66,8 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Provides utility methods to be used as functions from a JSP with the EL.<p>
@@ -116,7 +118,7 @@ public final class CmsJspElFunctions {
      *
      * @return an OpenCms user context created from an Object
      */
-    public static CmsObject convertCmsObject(Object input) {
+    public static @RPolyTainted CmsObject convertCmsObject(@RPolyTainted Object input) {
 
         CmsObject result;
         if (input instanceof CmsObject) {
@@ -173,7 +175,7 @@ public final class CmsJspElFunctions {
      *
      * @return a Date created from the given Object
      */
-    public static Date convertDate(Object input) {
+    public static @RPolyTainted Date convertDate(@RPolyTainted Object input) {
 
         Date result;
         if (input instanceof Date) {
@@ -306,7 +308,7 @@ public final class CmsJspElFunctions {
      *
      * @throws CmsException in case of errors accessing the OpenCms VFS for reading the resource
      */
-    public static CmsResource convertRawResource(CmsObject cms, Object input) throws CmsException {
+    public static @RUntainted CmsResource convertRawResource(CmsObject cms, @RUntainted Object input) throws CmsException {
 
         CmsResource result;
         CmsResourceFilter filter = CmsResourceFilter.ignoreExpirationOffline(cms);
@@ -366,7 +368,7 @@ public final class CmsJspElFunctions {
      *
      * @throws CmsException in case of errors accessing the OpenCms VFS for reading the resource
      */
-    public static CmsJspResourceWrapper convertResource(CmsObject cms, Object input) throws CmsException {
+    public static CmsJspResourceWrapper convertResource(CmsObject cms, @RUntainted Object input) throws CmsException {
 
         CmsJspResourceWrapper result;
         if (input instanceof CmsResource) {
@@ -407,7 +409,7 @@ public final class CmsJspElFunctions {
      *
      * @return a CmsUUID created from the given Object
      */
-    public static CmsUUID convertUUID(Object input) {
+    public static CmsUUID convertUUID(@RUntainted Object input) {
 
         CmsUUID uuid;
         if (input instanceof CmsUUID) {
@@ -538,7 +540,7 @@ public final class CmsJspElFunctions {
      *
      * @return a JSP / EL VFS access bean
      */
-    public static CmsJspVfsAccessBean getVfsAccessBean(Object input) {
+    public static CmsJspVfsAccessBean getVfsAccessBean(@RUntainted Object input) {
 
         return CmsJspVfsAccessBean.create(CmsJspElFunctions.convertCmsObject(input));
     }

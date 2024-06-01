@@ -71,6 +71,7 @@ import com.vaadin.v7.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.Table;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the table to show all current sessions.<p>
@@ -85,7 +86,7 @@ public class CmsSessionsTable extends Table {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> data) {
+        public void executeAction(Set<@RUntainted String> data) {
 
             try {
                 String sessionId = data.iterator().next();
@@ -131,7 +132,7 @@ public class CmsSessionsTable extends Table {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> data) {
+        public void executeAction(Set<@RUntainted String> data) {
 
             showKillDialog(
                 data,
@@ -172,7 +173,7 @@ public class CmsSessionsTable extends Table {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> data) {
+        public void executeAction(Set<@RUntainted String> data) {
 
             try {
                 String sessionId = data.iterator().next();
@@ -199,7 +200,7 @@ public class CmsSessionsTable extends Table {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#getVisibility(java.lang.Object)
          */
-        public CmsMenuItemVisibilityMode getVisibility(Set<String> data) {
+        public CmsMenuItemVisibilityMode getVisibility(Set<@RUntainted String> data) {
 
             if ((data == null) || (data.size() > 1)) {
                 return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
@@ -224,7 +225,7 @@ public class CmsSessionsTable extends Table {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> data) {
+        public void executeAction(Set<@RUntainted String> data) {
 
             CmsSessionsApp.showSendBroadcastDialog(
                 data,
@@ -525,7 +526,7 @@ public class CmsSessionsTable extends Table {
 
                     if (TableProperty.IS_ACTIVE.equals(propertyId)) {
 
-                        String[] ret = CmsSessionInfo.getHourMinuteSecondTimeString(
+                        @RUntainted String[] ret = CmsSessionInfo.getHourMinuteSecondTimeString(
                             ((Long)((Table)source).getItem(itemId).getItemProperty(propertyId).getValue()).longValue());
 
                         if (Integer.parseInt(ret[1]) == 1) {
@@ -581,7 +582,7 @@ public class CmsSessionsTable extends Table {
      * @param caption of the window
      * @param table to be updated
      */
-    protected static void showKillDialog(Set<String> ids, String caption, final CmsSessionsTable table) {
+    protected static void showKillDialog(Set<@RUntainted String> ids, String caption, final CmsSessionsTable table) {
 
         final Window window = CmsBasicDialog.prepareWindow();
         window.setCaption(caption);
@@ -684,7 +685,7 @@ public class CmsSessionsTable extends Table {
      *
      * @param data sessionid to be shown user off
      */
-    protected void showUserInfoWindow(String data) {
+    protected void showUserInfoWindow(@RUntainted String data) {
 
         CmsUserInfoDialog.showUserInfo(OpenCms.getSessionManager().getSessionInfo(data));
     }

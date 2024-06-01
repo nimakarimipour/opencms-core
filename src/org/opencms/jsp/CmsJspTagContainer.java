@@ -93,6 +93,8 @@ import javax.servlet.jsp.tagext.TryCatchFinally;
 
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Provides access to the page container elements.<p>
@@ -134,7 +136,7 @@ public class CmsJspTagContainer extends BodyTagSupport implements TryCatchFinall
     private boolean m_detailView;
 
     /** The editable by tag attribute. A comma separated list of OpenCms principals. */
-    private String m_editableBy;
+    private @RUntainted String m_editableBy;
 
     /** Indicating that the container page editor is active for the current request. */
     private boolean m_editableRequest;
@@ -146,13 +148,13 @@ public class CmsJspTagContainer extends BodyTagSupport implements TryCatchFinall
     private String m_maxElements;
 
     /** The name attribute value. */
-    private String m_name;
+    private @RUntainted String m_name;
 
     /**
      * The container name prefix to use for nested container names.
      * If empty the element instance id of the parent element will be used.
      **/
-    private String m_namePrefix;
+    private @RUntainted String m_namePrefix;
 
     /** The optional container parameter. */
     private String m_param;
@@ -167,7 +169,7 @@ public class CmsJspTagContainer extends BodyTagSupport implements TryCatchFinall
     private CmsContainerElementBean m_parentElement;
 
     /** The container setting presets. */
-    private HashMap<String, String> m_settingPresets;
+    private HashMap<String, @RUntainted String> m_settingPresets;
 
     /** The tag attribute value. */
     private String m_tag;
@@ -176,7 +178,7 @@ public class CmsJspTagContainer extends BodyTagSupport implements TryCatchFinall
     private String m_tagClass;
 
     /** The type attribute value. */
-    private String m_type;
+    private @RUntainted String m_type;
 
     /** The container width as a string. */
     private String m_width;
@@ -193,11 +195,11 @@ public class CmsJspTagContainer extends BodyTagSupport implements TryCatchFinall
      *
      * @return the formatter configuration bean, may be <code>null</code> if no formatter available or a schema formatter is used
      */
-    public static I_CmsFormatterBean ensureValidFormatterSettings(
+    public static @RUntainted I_CmsFormatterBean ensureValidFormatterSettings(
         CmsObject cms,
         CmsContainerElementBean element,
         CmsADEConfigData adeConfig,
-        String containerName,
+        @RUntainted String containerName,
         String containerType,
         int containerWidth) {
 
@@ -352,7 +354,7 @@ public class CmsJspTagContainer extends BodyTagSupport implements TryCatchFinall
      *
      * @return the nested container name
      */
-    public static String getNestedContainerName(String name, String parentIstanceId, String namePrefix) {
+    public static @RPolyTainted String getNestedContainerName(@RPolyTainted String name, @RPolyTainted String parentIstanceId, @RPolyTainted String namePrefix) {
 
         String prefix;
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(namePrefix)) {
@@ -696,7 +698,7 @@ public class CmsJspTagContainer extends BodyTagSupport implements TryCatchFinall
      *
      * @return String the container name
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         if (isNested()) {
             return getNestedContainerName(m_name, m_parentElement.getInstanceId(), m_namePrefix);
@@ -756,7 +758,7 @@ public class CmsJspTagContainer extends BodyTagSupport implements TryCatchFinall
      *
      * @return the type attribute value
      */
-    public String getType() {
+    public @RUntainted String getType() {
 
         return CmsStringUtil.isEmptyOrWhitespaceOnly(m_type) ? getName() : m_type;
     }
@@ -809,7 +811,7 @@ public class CmsJspTagContainer extends BodyTagSupport implements TryCatchFinall
      *
      * @param editableBy the editable by tag attribute to set
      */
-    public void setEditableby(String editableBy) {
+    public void setEditableby(@RUntainted String editableBy) {
 
         m_editableBy = editableBy;
     }
@@ -972,7 +974,7 @@ public class CmsJspTagContainer extends BodyTagSupport implements TryCatchFinall
 
         boolean result = false;
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(m_editableBy)) {
-            String[] principals = m_editableBy.split(",");
+            @RUntainted String[] principals = m_editableBy.split(",");
             List<CmsGroup> groups = null;
             for (int i = 0; i < principals.length; i++) {
                 String key = principals[i];
@@ -1114,7 +1116,7 @@ public class CmsJspTagContainer extends BodyTagSupport implements TryCatchFinall
     private CmsContainerElementBean generateDetailViewElement(
         ServletRequest request,
         CmsObject cms,
-        CmsResource detailContent,
+        @RUntainted CmsResource detailContent,
         CmsContainerBean container) {
 
         CmsContainerElementBean element = null;
@@ -1129,7 +1131,7 @@ public class CmsJspTagContainer extends BodyTagSupport implements TryCatchFinall
 
             if (formatter != null) {
                 // use structure id as the instance id to enable use of nested containers
-                Map<String, String> settings = new HashMap<String, String>();
+                Map<@RUntainted String, @RUntainted String> settings = new HashMap<@RUntainted String, @RUntainted String>();
                 for (CmsContainerElementBean el : container.getElements()) {
                     try {
                         el.initResource(cms);
@@ -1249,7 +1251,7 @@ public class CmsJspTagContainer extends BodyTagSupport implements TryCatchFinall
      *
      * @return the maximum number of elements of the container
      */
-    private int getMaxElements(String requestUri) {
+    private int getMaxElements(@RUntainted String requestUri) {
 
         String containerMaxElements = getMaxElements();
 
@@ -1282,7 +1284,7 @@ public class CmsJspTagContainer extends BodyTagSupport implements TryCatchFinall
      *
      * @return the session cache
      */
-    private CmsADESessionCache getSessionCache(CmsObject cms) {
+    private CmsADESessionCache getSessionCache(@RUntainted CmsObject cms) {
 
         return m_editableRequest
         ? CmsADESessionCache.getCache((HttpServletRequest)(pageContext.getRequest()), cms)
@@ -1318,7 +1320,7 @@ public class CmsJspTagContainer extends BodyTagSupport implements TryCatchFinall
      *
      * @throws IOException if something goes wrong writing to response out
      */
-    private void printElementErrorTag(String elementSitePath, String formatterSitePath, Exception exception)
+    private void printElementErrorTag(@RUntainted String elementSitePath, @RUntainted String formatterSitePath, Exception exception)
     throws IOException {
 
         if (m_editableRequest) {
@@ -1376,7 +1378,7 @@ public class CmsJspTagContainer extends BodyTagSupport implements TryCatchFinall
      */
     private boolean renderContainerElement(
         HttpServletRequest request,
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         CmsJspStandardContextBean standardContext,
         CmsContainerElementBean element,
         Locale locale,
@@ -1699,7 +1701,7 @@ public class CmsJspTagContainer extends BodyTagSupport implements TryCatchFinall
             // ignore and log
             LOG.error(e.getLocalizedMessage(), e);
         }
-        Map<String, String> settings = element.getSettings();
+        Map<@RUntainted String, @RUntainted String> settings = element.getSettings();
         if (settings == null) {
             return true;
         }
@@ -1711,7 +1713,7 @@ public class CmsJspTagContainer extends BodyTagSupport implements TryCatchFinall
             return false;
         }
 
-        List<String> contextsAllowedList = CmsStringUtil.splitAsList(contextsAllowed, "|");
+        List<@RUntainted String> contextsAllowedList = CmsStringUtil.splitAsList(contextsAllowed, "|");
         if (!contextsAllowedList.contains(contextKey)) {
             return false;
         }

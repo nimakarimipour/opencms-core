@@ -72,6 +72,7 @@ import org.dom4j.Document;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A class used to rewrite links and relations in one subtree such that relations from that subtree to another given subtree
@@ -89,7 +90,7 @@ public class CmsLinkRewriter {
     protected Map<String, CmsResource> m_translationsByPath = new HashMap<String, CmsResource>();
 
     /** A map of resources which have been cached by structure id. */
-    private Map<CmsUUID, CmsResource> m_cachedResources = new HashMap<CmsUUID, CmsResource>();
+    private Map<CmsUUID, @RUntainted CmsResource> m_cachedResources = new HashMap<CmsUUID, @RUntainted CmsResource>();
 
     /** The CMS object used for file operations. */
     private CmsObject m_cms;
@@ -230,7 +231,7 @@ public class CmsLinkRewriter {
         if (!m_rewriteAllXmlContents) {
             return;
         }
-        for (Map.Entry<CmsUUID, CmsResource> entry : m_cachedResources.entrySet()) {
+        for (Map.Entry<CmsUUID, @RUntainted CmsResource> entry : m_cachedResources.entrySet()) {
             CmsUUID key = entry.getKey();
             CmsResource resource = entry.getValue();
             if (isInTargets(resource.getRootPath()) && !m_rewrittenContent.contains(key)) {
@@ -349,7 +350,7 @@ public class CmsLinkRewriter {
      * @return a pair (content, encoding)
      * @throws CmsException if something goes wrong
      */
-    protected CmsPair<String, String> decode(CmsFile file) throws CmsException {
+    protected CmsPair<String, @RUntainted String> decode(CmsFile file) throws CmsException {
 
         String content = null;
         String encoding = getConfiguredEncoding(m_cms, file);
@@ -475,7 +476,7 @@ public class CmsLinkRewriter {
      *
      * @throws CmsException if the resource couldn't be read
      */
-    protected CmsResource getResource(CmsUUID structureId) throws CmsException {
+    protected @RUntainted CmsResource getResource(CmsUUID structureId) throws CmsException {
 
         if (m_cachedResources.containsKey(structureId)) {
             return m_cachedResources.get(structureId);
@@ -580,10 +581,10 @@ public class CmsLinkRewriter {
         CmsResource base = m_cms.readResource(rootPath);
 
         I_CmsResourceType resType = OpenCms.getResourceManager().getResourceType(base);
-        List<CmsResource> result = new ArrayList<CmsResource>();
+        List<@RUntainted CmsResource> result = new ArrayList<@RUntainted CmsResource>();
         if (resType.isFolder()) {
             rootPath = CmsStringUtil.joinPaths(rootPath, "/");
-            List<CmsResource> subResources = m_cms.readResources(rootPath, CmsResourceFilter.ALL, true);
+            List<@RUntainted CmsResource> subResources = m_cms.readResources(rootPath, CmsResourceFilter.ALL, true);
             result.add(base);
             result.addAll(subResources);
         } else {
@@ -651,12 +652,12 @@ public class CmsLinkRewriter {
      *
      * @return the content with the new structure ids
      */
-    protected String rewriteContentString(String originalContent) {
+    protected String rewriteContentString(@RUntainted String originalContent) {
 
         Pattern uuidPattern = Pattern.compile(CmsUUID.UUID_REGEX);
         I_CmsRegexSubstitution substitution = new I_CmsRegexSubstitution() {
 
-            public String substituteMatch(String text, Matcher matcher) {
+            public String substituteMatch(@RUntainted String text, @RUntainted Matcher matcher) {
 
                 String uuidString = text.substring(matcher.start(), matcher.end());
                 CmsUUID uuid = new CmsUUID(uuidString);
@@ -678,7 +679,7 @@ public class CmsLinkRewriter {
      *
      * @throws CmsException if something goes wrong
      */
-    protected void rewriteLinks(CmsResource resource, Collection<CmsRelation> relations) throws CmsException {
+    protected void rewriteLinks(@RUntainted CmsResource resource, Collection<CmsRelation> relations) throws CmsException {
 
         LOG.info("Rewriting relations for resource " + resource.getRootPath());
         I_CmsResourceType resourceType = OpenCms.getResourceManager().getResourceType(resource.getTypeId());

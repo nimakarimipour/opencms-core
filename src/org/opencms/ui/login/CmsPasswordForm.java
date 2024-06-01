@@ -41,6 +41,7 @@ import com.vaadin.ui.CssLayout;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.PasswordField;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The change password form.<p>

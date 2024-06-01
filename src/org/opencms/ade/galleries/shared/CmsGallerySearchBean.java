@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This bean represents the current search object.<p>
@@ -83,10 +84,10 @@ public class CmsGallerySearchBean implements IsSerializable {
     private boolean m_disablePreview;
 
     /** The list of selected vfs folders. */
-    private Set<String> m_folders = new HashSet<String>();
+    private @RUntainted Set<String> m_folders = new HashSet<String>();
 
     /** The list of selected galleries ids (path). */
-    private List<String> m_galleries = new ArrayList<String>();
+    private List<@RUntainted String> m_galleries = new ArrayList<@RUntainted String>();
 
     /** Flag to indicate whether the user changed the gallery selection. */
     private boolean m_galleriesChanged;
@@ -385,7 +386,7 @@ public class CmsGallerySearchBean implements IsSerializable {
      *
      * @return the list of selected VFS folders
      */
-    public Set<String> getFolders() {
+    public @RUntainted Set<String> getFolders() {
 
         return m_folders;
     }
@@ -395,7 +396,7 @@ public class CmsGallerySearchBean implements IsSerializable {
      *
      * @return the galleries
      */
-    public List<String> getGalleries() {
+    public List<@RUntainted String> getGalleries() {
 
         return m_galleries;
     }
@@ -845,7 +846,7 @@ public class CmsGallerySearchBean implements IsSerializable {
      *
      * @param folders the folders
      */
-    public void setFolders(Set<String> folders) {
+    public void setFolders(@RUntainted Set<String> folders) {
 
         m_folders = folders;
     }
@@ -855,7 +856,7 @@ public class CmsGallerySearchBean implements IsSerializable {
      *
      * @param galleries the galleries to set
      */
-    public void setGalleries(List<String> galleries) {
+    public void setGalleries(List<@RUntainted String> galleries) {
 
         m_galleries = galleries;
     }

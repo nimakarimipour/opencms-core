@@ -28,6 +28,7 @@
 package org.opencms.db.mysql;
 
 import org.opencms.db.generic.CmsSqlManager;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * MySQL implementation of the VFS driver methods.<p>

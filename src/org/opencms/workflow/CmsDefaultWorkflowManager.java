@@ -67,6 +67,8 @@ import java.util.concurrent.TimeoutException;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * The default implementation of the workflow manager interface, which offers only publish functionality.<p>
@@ -142,7 +144,7 @@ public class CmsDefaultWorkflowManager extends A_CmsWorkflowManager {
      *
      * @return the simple name if the ou is the same as the current user's ou
      */
-    protected static String getOuAwareName(CmsObject cms, String name) {
+    protected static @RPolyTainted String getOuAwareName(CmsObject cms, @RPolyTainted String name) {
 
         String ou = CmsOrganizationalUnit.getParentFqn(name);
         if (ou.equals(cms.getRequestContext().getCurrentUser().getOuFqn())) {
@@ -212,7 +214,7 @@ public class CmsDefaultWorkflowManager extends A_CmsWorkflowManager {
      *
      * @return the localized label
      */
-    public String getLabel(CmsObject cms, String key) {
+    public String getLabel(CmsObject cms, @RUntainted String key) {
 
         CmsMessages messages = Messages.get().getBundle(getLocale(cms));
         return messages.key(key);
@@ -221,7 +223,7 @@ public class CmsDefaultWorkflowManager extends A_CmsWorkflowManager {
     /**
      * @see org.opencms.workflow.I_CmsWorkflowManager#getManageableProjects(org.opencms.file.CmsObject, java.util.Map)
      */
-    public List<CmsProjectBean> getManageableProjects(CmsObject cms, Map<String, String> params) {
+    public List<CmsProjectBean> getManageableProjects(CmsObject cms, Map<String, @RUntainted String> params) {
 
         List<CmsProjectBean> manProjs = new ArrayList<CmsProjectBean>();
 

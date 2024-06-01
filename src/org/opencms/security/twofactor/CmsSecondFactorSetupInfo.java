@@ -26,6 +26,7 @@
  */
 
 package org.opencms.security.twofactor;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The data needed to set up two-factor authentication for a user.
@@ -36,7 +37,7 @@ public class CmsSecondFactorSetupInfo {
     private String m_qrCodeImageUrl;
 
     /** The shared secret. */
-    private String m_secret;
+    private @RUntainted String m_secret;
 
     /**
      * Creates a new instance.
@@ -65,7 +66,7 @@ public class CmsSecondFactorSetupInfo {
      *
      * @return the shared secret
      */
-    public String getSecret() {
+    public @RUntainted String getSecret() {
 
         return m_secret;
     }

@@ -46,6 +46,7 @@ import java.util.Locale;
 import org.apache.commons.logging.Log;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Base class for XML content value implementations.<p>
@@ -58,13 +59,13 @@ public abstract class A_CmsXmlContentValue implements I_CmsXmlContentValue, I_Cm
     private static final Log LOG = CmsLog.getLog(A_CmsXmlContentValue.class);
 
     /** The default value for nodes of this value. */
-    protected String m_defaultValue;
+    protected @RUntainted String m_defaultValue;
 
     /** The XML content instance this value belongs to. */
     protected I_CmsXmlDocument m_document;
 
     /** The XML element node that contains this value. */
-    protected Element m_element;
+    protected @RUntainted Element m_element;
 
     /** The locale this value was generated for. */
     protected Locale m_locale;
@@ -76,7 +77,7 @@ public abstract class A_CmsXmlContentValue implements I_CmsXmlContentValue, I_Cm
     protected int m_minOccurs;
 
     /** The configured XML node name of this value. */
-    protected String m_name;
+    protected @RUntainted String m_name;
 
     /** The content definition this schema type belongs to. */
     private CmsXmlContentDefinition m_contentDefinition;
@@ -114,7 +115,7 @@ public abstract class A_CmsXmlContentValue implements I_CmsXmlContentValue, I_Cm
      * @param locale the locale this value is created for
      * @param type the type instance to create the value for
      */
-    protected A_CmsXmlContentValue(I_CmsXmlDocument document, Element element, Locale locale, I_CmsXmlSchemaType type) {
+    protected A_CmsXmlContentValue(I_CmsXmlDocument document, @RUntainted Element element, Locale locale, I_CmsXmlSchemaType type) {
 
         m_element = element;
         m_name = element.getName();
@@ -135,7 +136,7 @@ public abstract class A_CmsXmlContentValue implements I_CmsXmlContentValue, I_Cm
      * @param minOccurs minimum number of occurrences of this type according to the XML schema
      * @param maxOccurs maximum number of occurrences of this type according to the XML schema
      */
-    protected A_CmsXmlContentValue(String name, String minOccurs, String maxOccurs) {
+    protected A_CmsXmlContentValue(@RUntainted String name, String minOccurs, String maxOccurs) {
 
         m_name = name;
         m_minOccurs = 1;
@@ -259,7 +260,7 @@ public abstract class A_CmsXmlContentValue implements I_CmsXmlContentValue, I_Cm
     /**
      * @see org.opencms.widgets.I_CmsWidgetParameter#getDefault(org.opencms.file.CmsObject)
      */
-    public String getDefault(CmsObject cms) {
+    public @RUntainted String getDefault(CmsObject cms) {
 
         return m_contentDefinition.getContentHandler().getDefault(cms, this, getLocale());
     }
@@ -267,7 +268,7 @@ public abstract class A_CmsXmlContentValue implements I_CmsXmlContentValue, I_Cm
     /**
      * @see org.opencms.xml.types.I_CmsXmlSchemaType#getDefault(java.util.Locale)
      */
-    public String getDefault(Locale locale) {
+    public @RUntainted String getDefault(Locale locale) {
 
         return m_defaultValue;
     }
@@ -291,7 +292,7 @@ public abstract class A_CmsXmlContentValue implements I_CmsXmlContentValue, I_Cm
     /**
      * @see org.opencms.widgets.I_CmsWidgetParameter#getId()
      */
-    public String getId() {
+    public @RUntainted String getId() {
 
         if (m_element == null) {
             return null;
@@ -386,7 +387,7 @@ public abstract class A_CmsXmlContentValue implements I_CmsXmlContentValue, I_Cm
      *
      * @return the name
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_name;
     }
@@ -411,7 +412,7 @@ public abstract class A_CmsXmlContentValue implements I_CmsXmlContentValue, I_Cm
     /**
      * @see org.opencms.xml.types.I_CmsXmlContentValue#getPlainText(org.opencms.file.CmsObject)
      */
-    public String getPlainText(CmsObject cms) {
+    public @RUntainted String getPlainText(CmsObject cms) {
 
         return null;
     }
@@ -517,7 +518,7 @@ public abstract class A_CmsXmlContentValue implements I_CmsXmlContentValue, I_Cm
      *
      * @param defaultValue the default value to set
      */
-    public void setDefault(String defaultValue) {
+    public void setDefault(@RUntainted String defaultValue) {
 
         m_defaultValue = defaultValue;
     }

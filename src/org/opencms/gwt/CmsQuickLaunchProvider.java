@@ -61,6 +61,7 @@ import com.google.common.collect.Lists;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FontIcon;
 import com.vaadin.server.Resource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides the data for the buttons in the quick launch menu.<p>

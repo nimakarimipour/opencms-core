@@ -43,6 +43,7 @@ import org.htmlparser.Tag;
 import org.htmlparser.lexer.Lexer;
 import org.htmlparser.lexer.Page;
 import org.htmlparser.util.ParserException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Simple html tag stripper that allows configuration of html tag names that are allowed.
@@ -139,7 +140,7 @@ public final class CmsHtmlStripper {
      */
     public void addPreserveTags(final String tagList, final char separator) {
 
-        List<String> tags = CmsStringUtil.splitAsList(tagList, separator, true);
+        List<@RUntainted String> tags = CmsStringUtil.splitAsList(tagList, separator, true);
         addPreserveTagList(tags);
     }
 

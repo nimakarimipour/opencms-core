@@ -36,6 +36,7 @@ import org.opencms.json.JSONException;
 import org.opencms.json.JSONObject;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * ADE image gallery widget implementations.<p>
@@ -63,7 +64,7 @@ public class CmsAdeImageGalleryWidget extends A_CmsAdeGalleryWidget {
      *
      * @param configuration the configuration to use
      */
-    protected CmsAdeImageGalleryWidget(String configuration) {
+    protected CmsAdeImageGalleryWidget(@RUntainted String configuration) {
 
         super(configuration);
     }
@@ -72,7 +73,7 @@ public class CmsAdeImageGalleryWidget extends A_CmsAdeGalleryWidget {
      * @see org.opencms.widgets.A_CmsAdeGalleryWidget#getGalleryName()
      */
     @Override
-    public String getGalleryName() {
+    public @RUntainted String getGalleryName() {
 
         return GALLERY_NAME;
     }
@@ -109,7 +110,7 @@ public class CmsAdeImageGalleryWidget extends A_CmsAdeGalleryWidget {
         result.put(I_CmsGalleryProviderConstants.CONFIG_USE_FORMATS, config.isShowFormat());
         result.put(I_CmsGalleryProviderConstants.CONFIG_IMAGE_FORMATS, new JSONArray(config.getFormatValues()));
         String temp = config.getSelectFormatString();
-        String[] formatNames = new String[0];
+        @RUntainted String[] formatNames = new String[0];
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(temp)) {
             formatNames = config.getSelectFormatString().split("\\|");
         }
@@ -129,7 +130,7 @@ public class CmsAdeImageGalleryWidget extends A_CmsAdeGalleryWidget {
      * @see org.opencms.widgets.A_CmsAdeGalleryWidget#getGalleryStoragePrefix()
      */
     @Override
-    protected String getGalleryStoragePrefix() {
+    protected @RUntainted String getGalleryStoragePrefix() {
 
         return "image";
     }
@@ -138,7 +139,7 @@ public class CmsAdeImageGalleryWidget extends A_CmsAdeGalleryWidget {
      * @see org.opencms.widgets.A_CmsAdeGalleryWidget#getGalleryTypes()
      */
     @Override
-    protected String getGalleryTypes() {
+    protected @RUntainted String getGalleryTypes() {
 
         return CmsResourceTypeImage.getStaticTypeName();
     }

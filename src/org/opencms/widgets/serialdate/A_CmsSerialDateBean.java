@@ -35,6 +35,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Abstract base class for serial date beans.
  * It deals with information common for all serial dates and already provides part of the implementation

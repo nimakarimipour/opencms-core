@@ -30,6 +30,7 @@ package org.opencms.jsp;
 import org.opencms.ade.contenteditor.shared.CmsEditorConstants;
 import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A container to store information about a collector's result.<p>
@@ -42,7 +43,7 @@ public class CmsContentInfoBean {
     public static final String PAGE_CONTEXT_ATTRIBUTE_NAME = "CollectorInfo";
 
     /** UUID identifying the content info instance. */
-    private String m_id = (new CmsUUID()).toString();
+    private @RUntainted String m_id = (new CmsUUID()).toString();
 
     /** The default locale (as String) that is used. */
     private String m_locale;
@@ -94,7 +95,7 @@ public class CmsContentInfoBean {
      *
      * @return the id identifying the collector list
      */
-    public String getId() {
+    public @RUntainted String getId() {
 
         return m_id;
     }

@@ -72,6 +72,7 @@ import com.vaadin.v7.data.Validator.InvalidValueException;
 import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.Field;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The edit project form component.<p>
@@ -159,7 +160,7 @@ public class CmsEditProjectForm extends CmsBasicDialog {
     private CheckBox m_fieldDeleteAfterPublish;
 
     /** The project description field. */
-    private TextField m_fieldDescription;
+    private @RUntainted TextField m_fieldDescription;
 
     /** The manager group field. */
     private CmsPrincipalSelect m_fieldManager;

@@ -46,6 +46,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Direct edit provider that uses the same JSP include based logic that has been
@@ -124,7 +125,7 @@ public class CmsDirectEditJspIncludeProvider extends A_CmsDirectEditProvider {
      */
     public static String includeDirectEditElement(
         PageContext context,
-        String jspIncludeFile,
+        @RUntainted String jspIncludeFile,
         String element,
         String editTarget,
         String editElement,
@@ -207,7 +208,7 @@ public class CmsDirectEditJspIncludeProvider extends A_CmsDirectEditProvider {
      * @see org.opencms.workplace.editors.directedit.A_CmsDirectEditProvider#init(org.opencms.file.CmsObject, org.opencms.workplace.editors.directedit.CmsDirectEditMode, java.lang.String)
      */
     @Override
-    public void init(CmsObject cms, CmsDirectEditMode mode, String fileName) {
+    public void init(CmsObject cms, CmsDirectEditMode mode, @RUntainted String fileName) {
 
         m_cms = cms;
         m_fileName = fileName;
@@ -242,7 +243,7 @@ public class CmsDirectEditJspIncludeProvider extends A_CmsDirectEditProvider {
     /**
      * @see org.opencms.workplace.editors.directedit.I_CmsDirectEditProvider#insertDirectEditIncludes(javax.servlet.jsp.PageContext, org.opencms.workplace.editors.directedit.CmsDirectEditParams)
      */
-    public void insertDirectEditIncludes(PageContext context, CmsDirectEditParams params) throws JspException {
+    public void insertDirectEditIncludes(@RUntainted PageContext context, CmsDirectEditParams params) throws JspException {
 
         try {
             CmsJspTagInclude.includeTagAction(

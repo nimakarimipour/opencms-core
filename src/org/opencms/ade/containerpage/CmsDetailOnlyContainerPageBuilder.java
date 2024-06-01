@@ -43,6 +43,7 @@ import java.util.TreeMap;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This is a simple helper class to more easily produce container page beans to be used as detail-only containers.<p>
@@ -129,7 +130,7 @@ public class CmsDetailOnlyContainerPageBuilder {
          *
          * @return the container name
          */
-        public String getName() {
+        public @RUntainted String getName() {
 
             return m_name;
         }
@@ -149,7 +150,7 @@ public class CmsDetailOnlyContainerPageBuilder {
          *
          * @return the type
          */
-        public String getType() {
+        public @RUntainted String getType() {
 
             return m_type;
         }
@@ -279,7 +280,7 @@ public class CmsDetailOnlyContainerPageBuilder {
      *
      * @return the container element bean
      */
-    private CmsContainerElementBean buildContainerElementBean(ContainerInfo cnt, CmsResource resource) {
+    private CmsContainerElementBean buildContainerElementBean(ContainerInfo cnt, @RUntainted CmsResource resource) {
 
         I_CmsFormatterBean formatter = m_config.getFormatters(m_cms, resource).getDefaultFormatter(
             cnt.getEffectiveType(),

@@ -60,6 +60,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for manipulating locale groups.<p>
@@ -123,7 +124,7 @@ public class CmsLocaleGroupService {
         List<Locale> secondaryLocales = Lists.newArrayList();
         Locale mainLocale = null;
         if (site != null) {
-            List<Locale> siteLocales = site.getSecondaryTranslationLocales();
+            List<@RUntainted Locale> siteLocales = site.getSecondaryTranslationLocales();
             mainLocale = site.getMainTranslationLocale(null);
             if ((siteLocales == null) || siteLocales.isEmpty()) {
                 siteLocales = OpenCms.getLocaleManager().getAvailableLocales();

@@ -9,6 +9,7 @@ import java.util.Map;
 import org.htmlparser.Tag;
 import org.htmlparser.Text;
 import org.htmlparser.util.Translate;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Extracts the HTML page content.<p>
@@ -305,7 +306,7 @@ public class CmsHtml2TextConverter extends CmsHtmlParser {
             appendIndentation();
             m_brCount = 0;
 
-            List<String> wordList = CmsStringUtil.splitAsList(text, ' ');
+            List<@RUntainted String> wordList = CmsStringUtil.splitAsList(text, ' ');
             Iterator<String> i = wordList.iterator();
             while (i.hasNext()) {
                 String word = i.next();

@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Formatter configuration for macro formatters.<p>
@@ -96,14 +97,14 @@ public class CmsMacroFormatterBean extends CmsFormatterBean {
      */
     public CmsMacroFormatterBean(
         Set<String> containerTypes,
-        String jspRootPath,
+        @RUntainted String jspRootPath,
         CmsUUID jspStructureId,
         int minWidth,
         int maxWidth,
         boolean searchContent,
         String location,
-        String niceName,
-        String description,
+        @RUntainted String niceName,
+        @RUntainted String description,
         Collection<String> resourceTypeNames,
         int rank,
         String id,

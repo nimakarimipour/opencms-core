@@ -39,6 +39,7 @@ import javax.servlet.jsp.tagext.BodyContent;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides access to the labels stored in the
@@ -65,7 +66,7 @@ public class CmsJspTagLabel extends BodyTagSupport {
      * @param req the current request
      * @return String the value of the selected label
      */
-    public static String wpLabelTagAction(String label, ServletRequest req) {
+    public static String wpLabelTagAction(@RUntainted String label, ServletRequest req) {
 
         CmsObject cms = CmsFlexController.getCmsObject(req);
         CmsMessages messages = OpenCms.getWorkplaceManager().getMessages(cms.getRequestContext().getLocale());

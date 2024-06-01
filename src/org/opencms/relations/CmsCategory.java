@@ -34,6 +34,8 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 
 import java.io.Serializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Represents a category, that is just a folder.<p>
@@ -57,22 +59,22 @@ public class CmsCategory implements Comparable<CmsCategory>, Serializable {
     private static final long serialVersionUID = -6395887983124249138L;
 
     /** The category's base path. */
-    private String m_basePath;
+    private @RUntainted String m_basePath;
 
     /** The description of the category. */
     private String m_description;
 
     /** The path of the category. */
-    private String m_path;
+    private @RUntainted String m_path;
 
     /** The category's root path. */
-    private String m_rootPath;
+    private @RUntainted String m_rootPath;
 
     /** The structure id of the resource that this category represents. */
     private CmsUUID m_structureId;
 
     /** The title of the category. */
-    private String m_title;
+    private @RUntainted String m_title;
 
     /**
      * Creates a new category based on another one, keeping everything except title and description, which are passed in separately.<p>
@@ -81,7 +83,7 @@ public class CmsCategory implements Comparable<CmsCategory>, Serializable {
      * @param title the new title
      * @param description the new description
      */
-    public CmsCategory(CmsCategory other, String title, String description) {
+    public CmsCategory(CmsCategory other, @RUntainted String title, String description) {
         m_basePath = other.m_basePath;
 
         m_path = other.m_path;
@@ -102,7 +104,7 @@ public class CmsCategory implements Comparable<CmsCategory>, Serializable {
      *
      * @throws CmsException if the root path does not match the given base folder
      */
-    public CmsCategory(CmsUUID structureId, String rootPath, String title, String description, String baseFolder)
+    public CmsCategory(CmsUUID structureId, @RUntainted String rootPath, @RUntainted String title, String description, @RUntainted String baseFolder)
     throws CmsException {
 
         m_structureId = structureId;
@@ -131,7 +133,7 @@ public class CmsCategory implements Comparable<CmsCategory>, Serializable {
      *
      * @throws CmsException if the root path does not match the given base folder
      */
-    public static String getCategoryPath(String rootPath, String baseFolder) throws CmsException {
+    public static @RPolyTainted String getCategoryPath(@RPolyTainted String rootPath, @RPolyTainted String baseFolder) throws CmsException {
 
         String base;
         if (rootPath.startsWith(CmsCategoryService.CENTRALIZED_REPOSITORY)) {
@@ -188,7 +190,7 @@ public class CmsCategory implements Comparable<CmsCategory>, Serializable {
      *
      * @return the category's base path
      */
-    public String getBasePath() {
+    public @RUntainted String getBasePath() {
 
         return m_basePath;
     }
@@ -236,7 +238,7 @@ public class CmsCategory implements Comparable<CmsCategory>, Serializable {
      *
      * @return the path
      */
-    public String getPath() {
+    public @RUntainted String getPath() {
 
         return m_path;
     }
@@ -246,7 +248,7 @@ public class CmsCategory implements Comparable<CmsCategory>, Serializable {
      *
      * @return the category's root path
      */
-    public String getRootPath() {
+    public @RUntainted String getRootPath() {
 
         return m_rootPath;
     }
@@ -256,7 +258,7 @@ public class CmsCategory implements Comparable<CmsCategory>, Serializable {
      *
      * @return the title
      */
-    public String getTitle() {
+    public @RUntainted String getTitle() {
 
         return m_title;
     }

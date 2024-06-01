@@ -38,6 +38,7 @@ import org.opencms.ui.contextmenu.CmsMenuItemVisibilityMode;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Action to edit a file given by the file param.<p>
@@ -72,9 +73,9 @@ public abstract class A_CmsEditFileAction extends A_CmsWorkplaceAction implement
     /**
      * @see org.opencms.ui.actions.I_CmsADEAction#getParams()
      */
-    public Map<String, String> getParams() {
+    public Map<String, @RUntainted String> getParams() {
 
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, @RUntainted String> params = new HashMap<String, @RUntainted String>();
         params.put("reload", Boolean.TRUE.toString());
         params.put("immediateReload", Boolean.TRUE.toString());
         params.put("filename", getFileParam());
@@ -119,5 +120,5 @@ public abstract class A_CmsEditFileAction extends A_CmsWorkplaceAction implement
      *
      * @return parameter of the file to edit
      */
-    protected abstract String getFileParam();
+    protected abstract @RUntainted String getFileParam();
 }

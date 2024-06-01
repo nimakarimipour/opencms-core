@@ -90,6 +90,7 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manages the sitemap tree in the 'locale comparison' view in the sitemap editor.<p>
@@ -191,7 +192,7 @@ public class CmsSitemapTreeController {
         /**
          * @see org.opencms.ui.I_CmsDialogContext#getCms()
          */
-        public CmsObject getCms() {
+        public @RUntainted CmsObject getCms() {
 
             return A_CmsUI.getCmsObject();
         }
@@ -207,7 +208,7 @@ public class CmsSitemapTreeController {
         /**
          * @see org.opencms.ui.I_CmsDialogContext#getResources()
          */
-        public List<CmsResource> getResources() {
+        public List<@RUntainted CmsResource> getResources() {
 
             return Arrays.asList(m_resource);
         }
@@ -479,7 +480,7 @@ public class CmsSitemapTreeController {
                 if (propValue == null) {
                     propValue = ""; // make getLocales not return null
                 }
-                List<Locale> currentLocales = CmsLocaleManager.getLocales(propValue);
+                List<@RUntainted Locale> currentLocales = CmsLocaleManager.getLocales(propValue);
                 if (!currentLocales.contains(m_localeContext.getComparisonLocale())) {
                     currentLocales.add(m_localeContext.getComparisonLocale());
                     String newPropValue = Joiner.on(",").join(currentLocales);
@@ -659,7 +660,7 @@ public class CmsSitemapTreeController {
                 if (propValue == null) {
                     propValue = ""; // make getLocales not return null
                 }
-                List<Locale> currentLocales = CmsLocaleManager.getLocales(propValue);
+                List<@RUntainted Locale> currentLocales = CmsLocaleManager.getLocales(propValue);
                 if (currentLocales.contains(m_localeContext.getComparisonLocale())) {
                     currentLocales.remove(m_localeContext.getComparisonLocale());
                     String newPropValue = Joiner.on(",").join(currentLocales);

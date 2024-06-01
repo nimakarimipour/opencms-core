@@ -39,6 +39,7 @@ import org.opencms.util.CmsStringUtil;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource wrapper class which is used to prevent resources with a certain name from being created.<p>
@@ -62,7 +63,7 @@ public class CmsResourceWrapperPreventCreateNameCI extends A_CmsResourceWrapper 
     @Override
     public void configure(String configString) {
 
-        List<String> tokens = CmsStringUtil.splitAsList(configString, NAME_SEPARATOR);
+        List<@RUntainted String> tokens = CmsStringUtil.splitAsList(configString, NAME_SEPARATOR);
         for (String token : tokens) {
             m_disabledNames.add(token.trim().toLowerCase());
         }

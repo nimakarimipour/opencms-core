@@ -56,6 +56,7 @@ import com.vaadin.server.AbstractErrorMessage.ContentMode;
 import com.vaadin.server.UserError;
 import com.vaadin.v7.event.FieldEvents.TextChangeEvent;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles inline editing within the file table.<p>
@@ -125,7 +126,7 @@ public class CmsContextMenuEditHandler implements I_CmsFilePropertyEditHandler {
     /**
      * @see org.opencms.ui.components.I_CmsFilePropertyEditHandler#save(java.lang.String)
      */
-    public void save(String value) {
+    public void save(@RUntainted String value) {
 
         try {
             CmsObject cms = A_CmsUI.getCmsObject();

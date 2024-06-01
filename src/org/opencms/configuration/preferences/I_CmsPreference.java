@@ -30,6 +30,7 @@ package org.opencms.configuration.preferences;
 import org.opencms.configuration.CmsDefaultUserSettings;
 import org.opencms.file.CmsObject;
 import org.opencms.xml.content.CmsXmlContentProperty;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface describing a single preference value which can possibly be edited by the user.<p>
@@ -48,7 +49,7 @@ public interface I_CmsPreference {
      *
      * @return the default value
      */
-    String getDefaultValue();
+    @RUntainted String getDefaultValue();
 
     /**
      * Gets the preference name.<p>
@@ -96,5 +97,5 @@ public interface I_CmsPreference {
      * @param settings the settings used to store the preference value
      * @param value the new value
      */
-    void setValue(CmsDefaultUserSettings settings, String value);
+    void setValue(CmsDefaultUserSettings settings, @RUntainted String value);
 }

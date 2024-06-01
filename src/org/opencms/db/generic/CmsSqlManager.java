@@ -48,6 +48,8 @@ import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Generic (ANSI-SQL) implementation of the SQL manager.<p>
@@ -75,7 +77,7 @@ public class CmsSqlManager extends org.opencms.db.CmsSqlManager {
     protected String m_poolUrl;
 
     /** A map holding all SQL queries. */
-    protected Map<String, String> m_queries;
+    protected Map<String, @RUntainted String> m_queries;
 
     /**
      * Creates a new, empty SQL manager.<p>
@@ -94,7 +96,7 @@ public class CmsSqlManager extends org.opencms.db.CmsSqlManager {
      *
      * @return a new instance of the SQL manager
      */
-    public static org.opencms.db.generic.CmsSqlManager getInstance(String classname) {
+    public static org.opencms.db.generic.CmsSqlManager getInstance(@RUntainted String classname) {
 
         org.opencms.db.generic.CmsSqlManager sqlManager;
 
@@ -203,7 +205,7 @@ public class CmsSqlManager extends org.opencms.db.CmsSqlManager {
      *
      * @throws SQLException if a database access error occurs
      */
-    public byte[] getBytes(ResultSet res, String attributeName) throws SQLException {
+    public @RUntainted byte[] getBytes(@RUntainted ResultSet res, @RUntainted String attributeName) throws SQLException {
 
         return res.getBytes(attributeName);
     }
@@ -240,7 +242,7 @@ public class CmsSqlManager extends org.opencms.db.CmsSqlManager {
      *
      * @throws SQLException if a database access error occurs
      */
-    public PreparedStatement getPreparedStatement(Connection con, CmsProject project, String queryKey)
+    public @RUntainted PreparedStatement getPreparedStatement(Connection con, CmsProject project, String queryKey)
     throws SQLException {
 
         return getPreparedStatement(con, project.getUuid(), queryKey);
@@ -258,7 +260,7 @@ public class CmsSqlManager extends org.opencms.db.CmsSqlManager {
      *
      * @throws SQLException if a database access error occurs
      */
-    public PreparedStatement getPreparedStatement(Connection con, CmsUUID projectId, String queryKey)
+    public @RUntainted PreparedStatement getPreparedStatement(Connection con, CmsUUID projectId, String queryKey)
     throws SQLException {
 
         String rawSql = readQuery(projectId, queryKey);
@@ -273,7 +275,7 @@ public class CmsSqlManager extends org.opencms.db.CmsSqlManager {
      * @return PreparedStatement a new PreparedStatement containing the pre-compiled SQL statement
      * @throws SQLException if a database access error occurs
      */
-    public PreparedStatement getPreparedStatement(Connection con, String queryKey) throws SQLException {
+    public @RUntainted PreparedStatement getPreparedStatement(Connection con, String queryKey) throws SQLException {
 
         String rawSql = readQuery(CmsUUID.getNullUUID(), queryKey);
         return getPreparedStatementForSql(con, rawSql);
@@ -287,7 +289,7 @@ public class CmsSqlManager extends org.opencms.db.CmsSqlManager {
      * @return PreparedStatement a new PreparedStatement containing the pre-compiled SQL statement
      * @throws SQLException if a database access error occurs
      */
-    public PreparedStatement getPreparedStatementForSql(Connection con, String query) throws SQLException {
+    public @RUntainted PreparedStatement getPreparedStatementForSql(Connection con, String query) throws SQLException {
 
         // unfortunately, this wrapper is essential, because some JDBC driver
         // implementations don't accept the delegated objects of DBCP's connection pool.
@@ -382,7 +384,7 @@ public class CmsSqlManager extends org.opencms.db.CmsSqlManager {
      * @param queryKey the SQL query key
      * @return the the SQL query in this property list with the specified key
      */
-    public String readQuery(String queryKey) {
+    public @RUntainted String readQuery(@RUntainted String queryKey) {
 
         String value = m_queries.get(queryKey);
         if (value == null) {
@@ -433,7 +435,7 @@ public class CmsSqlManager extends org.opencms.db.CmsSqlManager {
      *
      * @param propertyFilename the package/filename of the properties hash
      */
-    protected void loadQueryProperties(String propertyFilename) {
+    protected void loadQueryProperties(@RUntainted String propertyFilename) {
 
         Properties properties = new Properties();
 

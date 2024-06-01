@@ -55,6 +55,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A container for all new/changed/deteled Cms resources that are published together.<p>
@@ -235,7 +236,7 @@ public class CmsPublishList implements Externalizable {
      *
      * @return a list of {@link CmsResource} objects
      */
-    public List<CmsResource> getAllResources() {
+    public @RUntainted List<CmsResource> getAllResources() {
 
         List<CmsResource> all = new ArrayList<CmsResource>();
         all.addAll(m_folderList);
@@ -296,7 +297,7 @@ public class CmsPublishList implements Externalizable {
      *
      * @return the list with the new/changed folders in this publish list
      */
-    public List<CmsResource> getFolderList() {
+    public @RUntainted List<@RUntainted CmsResource> getFolderList() {
 
         if (m_needsRevive) {
             return null;
@@ -624,7 +625,7 @@ public class CmsPublishList implements Externalizable {
     protected boolean containsSubResources(CmsObject cms, CmsResource folder) throws CmsException {
 
         String folderPath = cms.getSitePath(folder);
-        List<CmsResource> subResources = cms.readResources(folderPath, CmsResourceFilter.ALL, true);
+        List<@RUntainted CmsResource> subResources = cms.readResources(folderPath, CmsResourceFilter.ALL, true);
         for (CmsResource resource : subResources) {
             if (!containsResource(resource)) {
                 return false;
@@ -648,7 +649,7 @@ public class CmsPublishList implements Externalizable {
         CmsObject rootCms = OpenCms.initCmsObject(cms);
         rootCms.getRequestContext().setSiteRoot("");
         for (CmsResource folder : folders) {
-            List<CmsResource> subResources = rootCms.readResources(folder.getRootPath(), CmsResourceFilter.ALL, true);
+            List<@RUntainted CmsResource> subResources = rootCms.readResources(folder.getRootPath(), CmsResourceFilter.ALL, true);
             for (CmsResource resource : subResources) {
                 if (!containsResource(resource) && !resource.getState().isNew()) {
                     result.add(resource);
@@ -792,7 +793,7 @@ public class CmsPublishList implements Externalizable {
      */
     private CmsUUID internalReadUUID(ObjectInput in) throws IOException {
 
-        byte[] bytes = new byte[UUID_LENGTH];
+        @RUntainted byte[] bytes = new byte[UUID_LENGTH];
         in.readFully(bytes, 0, UUID_LENGTH);
         return new CmsUUID(bytes);
     }

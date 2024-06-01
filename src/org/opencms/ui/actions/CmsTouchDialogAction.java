@@ -37,6 +37,7 @@ import org.opencms.ui.dialogs.CmsTouchDialog;
 import org.opencms.workplace.explorer.Messages;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The touch dialog action.<p>
@@ -63,7 +64,7 @@ public class CmsTouchDialogAction extends A_CmsWorkplaceAction {
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getDialogTitleKey()
      */
     @Override
-    public String getDialogTitleKey() {
+    public @RUntainted String getDialogTitleKey() {
 
         return org.opencms.ui.Messages.GUI_DIALOGTITLE_TOUCH_0;
     }
@@ -88,7 +89,7 @@ public class CmsTouchDialogAction extends A_CmsWorkplaceAction {
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
      */
     @Override
-    protected String getTitleKey() {
+    protected @RUntainted String getTitleKey() {
 
         return Messages.GUI_EXPLORER_CONTEXT_TOUCH_0;
     }

@@ -26,6 +26,7 @@
  */
 
 package org.opencms.gwt.shared;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface defining the data used to call a content collector.<p>

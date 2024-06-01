@@ -56,6 +56,8 @@ import org.apache.commons.logging.Log;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Adds the XML handler rules for import and export of a single module.<p>
@@ -478,7 +480,7 @@ public class CmsModuleXmlHandler {
      *
      * @return a valid Java class name from an invalid class name
      */
-    public static String makeValidJavaClassName(String className) {
+    public static @RPolyTainted String makeValidJavaClassName(@RPolyTainted String className) {
 
         StringBuffer result = new StringBuffer(className.length());
         int length = className.length();
@@ -545,7 +547,7 @@ public class CmsModuleXmlHandler {
      * @param name the module name of the dependency
      * @param version the module version of the dependency
      */
-    public void addDependency(String name, String version) {
+    public void addDependency(@RUntainted String name, @RUntainted String version) {
 
         CmsModuleVersion moduleVersion = new CmsModuleVersion(version);
 
@@ -562,7 +564,7 @@ public class CmsModuleXmlHandler {
      *
      * @param resource a resources uri in the OpenCms VFS
      */
-    public void addExcludeResource(String resource) {
+    public void addExcludeResource(@RUntainted String resource) {
 
         if (LOG.isDebugEnabled()) {
             LOG.debug(Messages.get().getBundle().key(Messages.LOG_ADD_MOD_EXCLUDERESOURCE_1, resource));
@@ -608,7 +610,7 @@ public class CmsModuleXmlHandler {
      * @param key the parameter key
      * @param value the parameter value
      */
-    public void addParameter(String key, String value) {
+    public void addParameter(@RUntainted String key, @RUntainted String value) {
 
         if (CmsStringUtil.isNotEmpty(key)) {
             key = key.trim();
@@ -627,7 +629,7 @@ public class CmsModuleXmlHandler {
      *
      * @param resource a resources uri in the OpenCms VFS
      */
-    public void addResource(String resource) {
+    public void addResource(@RUntainted String resource) {
 
         if (LOG.isDebugEnabled()) {
             LOG.debug(Messages.get().getBundle().key(Messages.LOG_ADD_MOD_RESOURCE_1, resource));
@@ -668,13 +670,13 @@ public class CmsModuleXmlHandler {
      * @param dateInstalled the date this module was uploaded
      */
     public void createdModule(
-        String name,
+        @RUntainted String name,
         String niceName,
         String group,
         String actionClass,
         String importScript,
-        String importSite,
-        String site,
+        @RUntainted String importSite,
+        @RUntainted String site,
         String exportModeName,
         String description,
         String version,

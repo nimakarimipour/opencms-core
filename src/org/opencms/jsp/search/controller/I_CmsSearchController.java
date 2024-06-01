@@ -33,6 +33,7 @@ import org.opencms.search.solr.CmsSolrQuery;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Interface all search controllers must implement. It consists of methods for query generation and state updates. */
 public interface I_CmsSearchController {

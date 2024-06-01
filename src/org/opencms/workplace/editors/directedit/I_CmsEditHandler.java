@@ -36,6 +36,7 @@ import org.opencms.xml.containerpage.CmsContainerElementBean;
 
 import java.util.Locale;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Edit handlers are optional and can be configured within the XSD-schema of a resource type.<p>

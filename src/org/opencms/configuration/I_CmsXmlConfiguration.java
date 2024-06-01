@@ -30,6 +30,7 @@ package org.opencms.configuration;
 import org.apache.commons.digester3.Digester;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Each configurable element in OpenCms must implement this interface.<p>
@@ -154,7 +155,7 @@ public interface I_CmsXmlConfiguration extends I_CmsConfigurationParameterHandle
      * @see #getDtdSystemLocation()
      * @see #getDtdUrlPrefix()
      */
-    String getDtdFilename();
+    @RUntainted String getDtdFilename();
 
     /**
      * Returns the internal system location of the DTD file for this XML configuration,
@@ -169,7 +170,7 @@ public interface I_CmsXmlConfiguration extends I_CmsConfigurationParameterHandle
      * @see #getDtdUrlPrefix()
      * @see #getDtdFilename()
      */
-    String getDtdSystemLocation();
+    @RUntainted String getDtdSystemLocation();
 
     /**
      * Returns the external system id prefix of the DTD file for this XML configuration,
@@ -182,7 +183,7 @@ public interface I_CmsXmlConfiguration extends I_CmsConfigurationParameterHandle
      * @see #getDtdSystemLocation()
      * @see #getDtdFilename()
      */
-    String getDtdUrlPrefix();
+    @RUntainted String getDtdUrlPrefix();
 
     /**
      * Returns the name of the XML input file for this configuration,
@@ -190,5 +191,5 @@ public interface I_CmsXmlConfiguration extends I_CmsConfigurationParameterHandle
      *
      * @return the name of the XML input file for this configuration
      */
-    String getXmlFileName();
+    @RUntainted String getXmlFileName();
 }

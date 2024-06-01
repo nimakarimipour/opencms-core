@@ -32,6 +32,7 @@ import org.opencms.ui.I_CmsDialogContext;
 import org.opencms.ui.components.CmsBasicDialog;
 import org.opencms.ui.dialogs.CmsGalleryOptimizeDialog;
 import org.opencms.workplace.explorer.Messages;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The gallery optimize dialog action.<p>
@@ -78,7 +79,7 @@ public class CmsGalleryOptimizeDialogAction extends A_CmsGalleryDialogAction {
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
      */
     @Override
-    protected String getTitleKey() {
+    protected @RUntainted String getTitleKey() {
 
         return Messages.GUI_EXPLORER_CONTEXT_OPTIMIZEGALLERY_0;
     }

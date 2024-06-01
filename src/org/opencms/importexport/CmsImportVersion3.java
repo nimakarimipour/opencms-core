@@ -66,6 +66,7 @@ import org.apache.commons.logging.Log;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.Node;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the OpenCms Import Interface ({@link org.opencms.importexport.I_CmsImport}) for
@@ -186,7 +187,7 @@ public class CmsImportVersion3 extends A_CmsImport {
         String lastname,
         String email,
         long dateCreated,
-        Map<String, Object> userInfo,
+        Map<String, @RUntainted Object> userInfo,
         List<String> userGroups)
     throws CmsImportExportException {
 
@@ -214,8 +215,8 @@ public class CmsImportVersion3 extends A_CmsImport {
         String source, destination, type, uuidresource, userlastmodified, usercreated, flags, timestamp;
         long datelastmodified, datecreated;
 
-        List<Node> fileNodes;
-        List<Node> acentryNodes;
+        List<@RUntainted Node> fileNodes;
+        List<@RUntainted Node> acentryNodes;
         Element currentElement, currentEntry;
         List<CmsProperty> properties = null;
 
@@ -411,14 +412,14 @@ public class CmsImportVersion3 extends A_CmsImport {
      */
     private CmsResource importResource(
         String source,
-        String destination,
+        @RUntainted String destination,
         String type,
-        String uuidresource,
-        long datelastmodified,
+        @RUntainted String uuidresource,
+        @RUntainted long datelastmodified,
         String userlastmodified,
-        long datecreated,
+        @RUntainted long datecreated,
         String usercreated,
-        String flags,
+        @RUntainted String flags,
         List<CmsProperty> properties) {
 
         byte[] content = null;

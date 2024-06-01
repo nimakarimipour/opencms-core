@@ -28,6 +28,7 @@
 package org.opencms.loader;
 
 import org.opencms.flex.CmsFlexCache;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource loaders that implement this interface are flex cache enabled.<p>
@@ -41,5 +42,5 @@ public interface I_CmsFlexCacheEnabledLoader {
      *
      * @param cache the (optional) flex cache instance to use
      */
-    void setFlexCache(CmsFlexCache cache);
+    void setFlexCache(@RUntainted CmsFlexCache cache);
 }

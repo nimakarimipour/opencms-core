@@ -41,6 +41,7 @@ import org.opencms.util.CmsStringUtil;
 
 import java.util.Locale;
 import java.util.Properties;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class to display the error dialog.<p>

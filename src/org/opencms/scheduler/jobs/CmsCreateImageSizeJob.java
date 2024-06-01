@@ -46,6 +46,7 @@ import org.opencms.scheduler.I_CmsScheduledJob;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A schedulable OpenCms job to calculate image size information.<p>
@@ -91,7 +92,7 @@ public class CmsCreateImageSizeJob implements I_CmsScheduledJob {
         I_CmsReport report = new CmsLogReport(cms.getRequestContext().getLocale(), CmsCreateImageSizeJob.class);
         report.println(Messages.get().container(Messages.RPT_IMAGE_SIZE_START_0), I_CmsReport.FORMAT_HEADLINE);
 
-        List<CmsResource> resources = Collections.emptyList();
+        List<@RUntainted CmsResource> resources = Collections.emptyList();
         try {
             // get all image resources
             resources = cms.readResources(

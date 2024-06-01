@@ -50,6 +50,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The parser class for creating dynamic function beans from XML contents.<p>
@@ -69,7 +70,7 @@ public class CmsDynamicFunctionParser {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsDynamicFunctionBean parseFunctionBean(CmsObject cms, CmsResource res) throws CmsException {
+    public CmsDynamicFunctionBean parseFunctionBean(CmsObject cms, @RUntainted CmsResource res) throws CmsException {
 
         CmsFile file = cms.readFile(res);
         CmsXmlContent xmlContent = CmsXmlContentFactory.unmarshal(cms, file);
@@ -207,7 +208,7 @@ public class CmsDynamicFunctionParser {
      *
      * @return the string value of that XML content location
      */
-    protected String getString(CmsObject cms, I_CmsXmlContentValueLocation location) {
+    protected @RUntainted String getString(CmsObject cms, I_CmsXmlContentValueLocation location) {
 
         if (location == null) {
             return null;
@@ -295,7 +296,7 @@ public class CmsDynamicFunctionParser {
      *
      * @return the parsed parameter key/value pair
      */
-    protected CmsPair<String, String> parseParameter(CmsObject cms, I_CmsXmlContentValueLocation valueLocation) {
+    protected CmsPair<String, @RUntainted String> parseParameter(CmsObject cms, I_CmsXmlContentValueLocation valueLocation) {
 
         String key = valueLocation.getSubValue("Key").asString(cms);
         String value = valueLocation.getSubValue("Value").asString(cms);

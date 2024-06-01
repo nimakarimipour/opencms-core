@@ -35,6 +35,7 @@ import org.opencms.monitor.CmsMemoryMonitor;
 
 import org.apache.commons.collections.Transformer;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements a memory cache, that stores objects related to VFS files,
@@ -102,7 +103,7 @@ public class CmsVfsMemoryObjectCache extends CmsVfsCache {
      *
      * @return the loaded object
      */
-    public Object loadVfsObject(CmsObject cms, String rootPath, Transformer function) {
+    public @RUntainted Object loadVfsObject(CmsObject cms, String rootPath, Transformer function) {
 
         Object result = getCachedObject(cms, rootPath);
         if (result == null) {
@@ -152,7 +153,7 @@ public class CmsVfsMemoryObjectCache extends CmsVfsCache {
      *
      * @return the cache key for the system id
      */
-    private String getCacheKey(String systemId, boolean online) {
+    private @RUntainted String getCacheKey(String systemId, boolean online) {
 
         if (online) {
             return "online_(" + m_id + ")_" + systemId;

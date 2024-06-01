@@ -47,6 +47,7 @@ import org.opencms.main.OpenCms;
 import java.util.Iterator;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generic base driver interface.<p>

@@ -39,6 +39,7 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Import data for a single resource.<p>
@@ -193,7 +194,7 @@ public class CmsResourceImportData {
      *
      * @return the path
      */
-    public String getPath() {
+    public @RUntainted String getPath() {
 
         return m_path;
     }
@@ -307,7 +308,7 @@ public class CmsResourceImportData {
      *
      * @return the created temp file
      */
-    private File createTempFile(byte[] content) {
+    private File createTempFile(@RUntainted byte[] content) {
 
         try {
             File file = File.createTempFile("ocms-moduleresource-", ".dat");

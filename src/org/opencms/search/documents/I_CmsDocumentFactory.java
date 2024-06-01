@@ -34,6 +34,7 @@ import org.opencms.search.I_CmsSearchDocument;
 import org.opencms.search.I_CmsSearchIndex;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Used to create index Lucene Documents for OpenCms resources,
@@ -109,7 +110,7 @@ public interface I_CmsDocumentFactory extends I_CmsSearchExtractor {
      *
      * @return the name of this document type factory
      */
-    String getName();
+    @RUntainted String getName();
 
     /**
      * Returns <code>true</code> if this document factory is locale depended.<p>

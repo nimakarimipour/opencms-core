@@ -145,6 +145,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Handles all RPC services related to the gallery dialog.<p>
@@ -489,7 +491,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
      *
      * @return the attribute name for the tree
      */
-    public static String getTreeOpenStateAttributeName(String treeName, String treeToken) {
+    public static @RPolyTainted String getTreeOpenStateAttributeName(@RPolyTainted String treeName, @RPolyTainted String treeToken) {
 
         return "tree_" + treeName + "_" + treeToken;
     }
@@ -548,7 +550,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
         if (resource.isFolder()) {
             cms = OpenCms.initCmsObject(cms);
             cms.getRequestContext().setSiteRoot("");
-            List<CmsResource> realChildren = cms.getResourcesInFolder(
+            List<@RUntainted CmsResource> realChildren = cms.getResourcesInFolder(
                 rootPath,
                 CmsResourceFilter.ONLY_VISIBLE_NO_DELETED);
             List<CmsResource> effectiveChildren = new ArrayList<CmsResource>();
@@ -683,7 +685,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
     public CmsGalleryConfiguration getAdeViewModeConfiguration() {
 
         CmsGalleryConfiguration result = new CmsGalleryConfiguration();
-        List<String> typeNames = new ArrayList<String>();
+        List<@RUntainted String> typeNames = new ArrayList<@RUntainted String>();
 
         for (I_CmsResourceType type : OpenCms.getResourceManager().getResourceTypes()) {
             Class<?> typeClass = type.getClass();
@@ -737,7 +739,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
     /**
      * @see org.opencms.ade.galleries.shared.rpc.I_CmsGalleryService#getInfoForResource(java.lang.String, java.lang.String)
      */
-    public CmsResultItemBean getInfoForResource(String linkPath, String locale) throws CmsRpcException {
+    public CmsResultItemBean getInfoForResource(@RUntainted String linkPath, String locale) throws CmsRpcException {
 
         CmsResultItemBean result = null;
         CmsObject cms = getCmsObject();
@@ -1203,7 +1205,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
                     }
                 }
                 CmsResource optionRes = cms.readResource(path);
-                List<CmsResource> folders = cms.readResources(
+                List<@RUntainted CmsResource> folders = cms.readResources(
                     optionRes.getRootPath(),
                     CmsResourceFilter.ONLY_VISIBLE_NO_DELETED.addRequireFolder());
                 folders.add(optionRes);
@@ -1277,7 +1279,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
     /**
      * @see org.opencms.ade.galleries.shared.rpc.I_CmsGalleryService#saveResultViewType(java.lang.String)
      */
-    public void saveResultViewType(String resultViewType) {
+    public void saveResultViewType(@RUntainted String resultViewType) {
 
         CmsUser user = getCmsObject().getRequestContext().getCurrentUser();
         user.setAdditionalInfo(RESULT_VIEW_TYPE_ADD_INFO_KEY, resultViewType);
@@ -1291,7 +1293,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
     /**
      * @see org.opencms.ade.galleries.shared.rpc.I_CmsGalleryService#saveTreeOpenState(java.lang.String, java.lang.String, java.lang.String, java.util.Set)
      */
-    public void saveTreeOpenState(String treeName, String treeToken, String siteRoot, Set<CmsUUID> openItems)
+    public void saveTreeOpenState(@RUntainted String treeName, @RUntainted String treeToken, @RUntainted String siteRoot, @RUntainted Set<CmsUUID> openItems)
     throws CmsRpcException {
 
         try {
@@ -1700,7 +1702,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
 
                     String labelSuffix = cms.getRequestContext().removeSiteRoot(subsitePath);
                     try {
-                        Map<String, String> properties = CmsProperty.toMap(
+                        Map<String, @RUntainted String> properties = CmsProperty.toMap(
                             cms.readPropertyObjects(cms.getRequestContext().removeSiteRoot(subsitePath), false));
                         for (String propName : new String[] {
                             CmsPropertyDefinition.PROPERTY_TITLE,
@@ -2402,7 +2404,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
 
         try {
             if (!siteRoot.equals("")) {
-                List<CmsResource> systemGalleries = null;
+                List<@RUntainted CmsResource> systemGalleries = null;
                 // get the galleries in the /system/ folder
                 systemGalleries = getCmsObject().readResources(
                     CmsWorkplace.VFS_PATH_SYSTEM,
@@ -2419,7 +2421,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
         try {
             if (!OpenCms.getSiteManager().isSharedFolder(siteRoot)) {
                 String shared = OpenCms.getSiteManager().getSharedFolder();
-                List<CmsResource> sharedGalleries = getCmsObject().readResources(
+                List<@RUntainted CmsResource> sharedGalleries = getCmsObject().readResources(
                     shared,
                     CmsResourceFilter.ONLY_VISIBLE_NO_DELETED.addRequireType(galleryTypeId));
                 if (sharedGalleries != null) {
@@ -2812,7 +2814,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
     private boolean hasNavigationProperty(CmsObject cms, CmsResource resource) throws CmsException {
 
         List<CmsProperty> props = cms.readPropertyObjects(resource, false);
-        Map<String, String> propMap = CmsProperty.toMap(props);
+        Map<String, @RUntainted String> propMap = CmsProperty.toMap(props);
         return propMap.containsKey(CmsPropertyDefinition.PROPERTY_NAVPOS)
             || propMap.containsKey(CmsPropertyDefinition.PROPERTY_NAVTEXT);
     }
@@ -3290,7 +3292,7 @@ public class CmsGalleryService extends CmsGwtService implements I_CmsGalleryServ
      *
      * @param folders the folder filters
      */
-    private void storeFolderFilter(Set<String> folders) {
+    private void storeFolderFilter(@RUntainted Set<String> folders) {
 
         JSONObject storedFilters = readUserFolderFilters();
         try {

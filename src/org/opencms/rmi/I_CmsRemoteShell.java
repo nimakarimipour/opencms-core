@@ -30,6 +30,7 @@ package org.opencms.rmi;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Remote interface for executing shell commands.<p>

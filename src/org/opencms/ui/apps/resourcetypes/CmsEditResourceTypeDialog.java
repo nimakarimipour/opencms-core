@@ -63,6 +63,7 @@ import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the edit resource type dialog.<p>
@@ -206,7 +207,7 @@ public class CmsEditResourceTypeDialog extends CmsBasicDialog {
     private Button m_cancel;
 
     /** Vaadin vomponent.*/
-    private TextField m_typeShortName;
+    private @RUntainted TextField m_typeShortName;
 
     /** Vaadin vomponent.*/
     private TextField m_typeName;

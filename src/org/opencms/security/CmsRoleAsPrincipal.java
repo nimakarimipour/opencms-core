@@ -31,6 +31,7 @@ import org.opencms.file.CmsObject;
 import org.opencms.workplace.I_CmsGroupNameTranslation;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper around CmsRole objects so they can be used as principals.

@@ -75,6 +75,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A class to parse ADE sitemap or module configuration files and create configuration objects from them.<p>
@@ -390,7 +391,7 @@ public class CmsConfigurationReader {
      *
      * @return the string value of that XML content location
      */
-    public static String getString(CmsObject cms, I_CmsXmlContentValueLocation location) {
+    public static @RUntainted String getString(CmsObject cms, I_CmsXmlContentValueLocation location) {
 
         if (location == null) {
             return null;
@@ -494,7 +495,7 @@ public class CmsConfigurationReader {
      * @param node the parent node
      * @return the set of keys of the formatters to add
      */
-    public Set<String> parseAddFormatters(I_CmsXmlContentLocation node) {
+    public Set<@RUntainted String> parseAddFormatters(I_CmsXmlContentLocation node) {
 
         Set<String> addFormatters = new HashSet<String>();
         for (I_CmsXmlContentValueLocation addLoc : node.getSubValues(N_ADD_FORMATTERS + "/" + N_ADD_FORMATTER)) {
@@ -519,7 +520,7 @@ public class CmsConfigurationReader {
      * @return the created configuration object with the data from the XML content
      * @throws CmsException if something goes wrong
      */
-    public CmsADEConfigDataInternal parseConfiguration(String basePath, CmsXmlContent content) throws CmsException {
+    public CmsADEConfigDataInternal parseConfiguration(@RUntainted String basePath, CmsXmlContent content) throws CmsException {
 
         m_detailPageConfigs = Lists.newArrayList();
         m_functionReferences = Lists.newArrayList();
@@ -819,7 +820,7 @@ public class CmsConfigurationReader {
      * @param node the parent node
      * @return the set of formatters to remove
      */
-    public Set<String> parseRemoveFormatters(I_CmsXmlContentLocation node) {
+    public @RUntainted Set<@RUntainted String> parseRemoveFormatters(I_CmsXmlContentLocation node) {
 
         Set<String> removeFormatters = new HashSet<String>();
         for (I_CmsXmlContentValueLocation removeLoc : node.getSubValues(
@@ -994,7 +995,7 @@ public class CmsConfigurationReader {
      * @return the parsed configuration data
      * @throws CmsException if something goes wrong
      */
-    public CmsADEConfigDataInternal parseSitemapConfiguration(String basePath, CmsResource configRes)
+    public CmsADEConfigDataInternal parseSitemapConfiguration(String basePath, @RUntainted CmsResource configRes)
     throws CmsException {
 
         LOG.info("Parsing configuration " + configRes.getRootPath());
@@ -1128,9 +1129,9 @@ public class CmsConfigurationReader {
         Set<CmsUUID> functions,
         Set<CmsUUID> functionsToRemove) {
 
-        Set<String> addFormatters = parseAddFormatters(node);
+        Set<@RUntainted String> addFormatters = parseAddFormatters(node);
         addFormatters.addAll(readLocalFormatters(node));
-        Set<String> removeFormatters = removeAllFormatters ? new HashSet<String>() : parseRemoveFormatters(node);
+        Set<@RUntainted String> removeFormatters = removeAllFormatters ? new HashSet<String>() : parseRemoveFormatters(node);
         String siteRoot = null;
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(basePath)) {
             siteRoot = OpenCms.getSiteManager().getSiteRoot(basePath);
@@ -1238,14 +1239,14 @@ public class CmsConfigurationReader {
                 I_CmsResourceType macroType = OpenCms.getResourceManager().getResourceType(
                     CmsFormatterConfigurationCache.TYPE_MACRO_FORMATTER);
                 CmsResourceFilter filter = CmsResourceFilter.IGNORE_EXPIRATION.addRequireType(macroType);
-                List<CmsResource> macroFormatters = m_cms.readResources(path, filter);
+                List<@RUntainted CmsResource> macroFormatters = m_cms.readResources(path, filter);
                 for (CmsResource formatter : macroFormatters) {
                     addFormatters.add(formatter.getStructureId().toString());
                 }
                 I_CmsResourceType flexType = OpenCms.getResourceManager().getResourceType(
                     CmsFormatterConfigurationCache.TYPE_FLEX_FORMATTER);
                 CmsResourceFilter filterFlex = CmsResourceFilter.IGNORE_EXPIRATION.addRequireType(flexType);
-                List<CmsResource> flexFormatters = m_cms.readResources(path, filterFlex);
+                List<@RUntainted CmsResource> flexFormatters = m_cms.readResources(path, filterFlex);
                 for (CmsResource formatter : flexFormatters) {
                     addFormatters.add(formatter.getStructureId().toString());
                 }

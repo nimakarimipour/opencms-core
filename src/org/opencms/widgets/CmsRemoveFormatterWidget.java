@@ -44,6 +44,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Widget used to select a formatter to remove.<p>
@@ -149,10 +150,10 @@ public class CmsRemoveFormatterWidget extends A_CmsFormatterWidget {
      * @see org.opencms.widgets.A_CmsFormatterWidget#getSelectedInFile(org.opencms.ade.configuration.CmsConfigurationReader, org.opencms.xml.content.CmsXmlContent)
      */
     @Override
-    protected Set<String> getSelectedInFile(CmsConfigurationReader reader, CmsXmlContent content) {
+    protected Set<@RUntainted String> getSelectedInFile(CmsConfigurationReader reader, CmsXmlContent content) {
 
         CmsXmlContentRootLocation root = new CmsXmlContentRootLocation(content, Locale.ENGLISH);
-        Set<String> addFormatters = reader.parseRemoveFormatters(root);
+        Set<@RUntainted String> addFormatters = reader.parseRemoveFormatters(root);
         return addFormatters;
     }
 
@@ -167,7 +168,7 @@ public class CmsRemoveFormatterWidget extends A_CmsFormatterWidget {
 
         List<CmsSelectWidgetOption> result = Lists.newArrayList();
         if (!allRemoved) {
-            Set<String> activeTypes = adeConfig.getTypesWithActiveSchemaFormatters();
+            Set<@RUntainted String> activeTypes = adeConfig.getTypesWithActiveSchemaFormatters();
             for (String activeType : activeTypes) {
                 CmsSelectWidgetOption option = getWidgetOptionForType(cms, activeType);
                 result.add(option);

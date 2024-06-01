@@ -57,6 +57,8 @@ import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Manager class for template context providers.<p>
@@ -366,7 +368,7 @@ public class CmsTemplateContextManager {
      *
      * @return the property value
      */
-    public String readPropertyFromTemplate(CmsObject cms, CmsResource res, String propertyName, String fallbackValue) {
+    public String readPropertyFromTemplate(CmsObject cms, CmsResource res, String propertyName, @RUntainted String fallbackValue) {
 
         try {
             CmsProperty templateProp = cms.readPropertyObject(res, CmsPropertyDefinition.PROPERTY_TEMPLATE, true);

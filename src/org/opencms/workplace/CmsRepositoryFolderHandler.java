@@ -34,6 +34,7 @@ import org.opencms.file.CmsResourceFilter;
 import org.opencms.main.CmsException;
 import org.opencms.security.CmsPermissionSet;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The default upload folder handler.<p>
@@ -43,7 +44,7 @@ public class CmsRepositoryFolderHandler implements I_CmsRepositoryFolderHandler 
     /**
      * @see org.opencms.workplace.I_CmsRepositoryFolderHandler#getRepositoryFolder(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String getRepositoryFolder(CmsObject cms, String reference, String type) {
+    public @RUntainted String getRepositoryFolder(CmsObject cms, String reference, String type) {
 
         String result = null;
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(reference)) {

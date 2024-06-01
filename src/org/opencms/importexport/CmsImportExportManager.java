@@ -61,6 +61,7 @@ import org.dom4j.Document;
 import org.dom4j.io.SAXReader;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides information about how to handle imported resources.<p>
@@ -427,10 +428,10 @@ public class CmsImportExportManager {
     private List<I_CmsImportExportHandler> m_importExportHandlers;
 
     /** Import principal group translations. */
-    private Map<String, String> m_importGroupTranslations;
+    private Map<String, @RUntainted String> m_importGroupTranslations;
 
     /** Import principal user translations. */
-    private Map<String, String> m_importUserTranslations;
+    private Map<String, @RUntainted String> m_importUserTranslations;
 
     /** The configured import versions class names. */
     private List<I_CmsImport> m_importVersionClasses;
@@ -439,7 +440,7 @@ public class CmsImportExportManager {
     private boolean m_overwriteCollidingResources;
 
     /** List of resourcetypes. Only used as helper for initializing the default timestamp modes. */
-    private List<String> m_resourcetypes;
+    private @RUntainted List<@RUntainted String> m_resourcetypes;
 
     /** The configured temporary export point paths. */
     private List<String> m_tempExportpointPaths = Lists.newArrayList();
@@ -475,7 +476,7 @@ public class CmsImportExportManager {
      * The method is called by the digester.
      * @param timestampMode the timestamp mode to add as default.
      */
-    public void addDefaultTimestampMode(String timestampMode) {
+    public void addDefaultTimestampMode(@RUntainted String timestampMode) {
 
         if (null != timestampMode) {
             try {
@@ -513,7 +514,7 @@ public class CmsImportExportManager {
      *
      * @param propertyName a property name
      */
-    public void addIgnoredProperty(String propertyName) {
+    public void addIgnoredProperty(@RUntainted String propertyName) {
 
         if (LOG.isDebugEnabled()) {
             LOG.debug(Messages.get().getBundle().key(Messages.LOG_IMPORTEXPORT_IGNORING_PROPERTY_1, propertyName));
@@ -527,7 +528,7 @@ public class CmsImportExportManager {
      *
      * @param immutableResource a resources uri in the OpenCms VFS
      */
-    public void addImmutableResource(String immutableResource) {
+    public void addImmutableResource(@RUntainted String immutableResource) {
 
         if (LOG.isDebugEnabled()) {
             LOG.debug(
@@ -543,7 +544,7 @@ public class CmsImportExportManager {
      *
      * @param handler the import/export handler to add
      */
-    public void addImportExportHandler(I_CmsImportExportHandler handler) {
+    public void addImportExportHandler(@RUntainted I_CmsImportExportHandler handler) {
 
         if (LOG.isDebugEnabled()) {
             LOG.debug(Messages.get().getBundle().key(Messages.LOG_IMPORTEXPORT_ADDED_IMPORTEXPORT_HANDLER_1, handler));
@@ -558,7 +559,7 @@ public class CmsImportExportManager {
      * @param from the "from" translation source
      * @param to the "to" translation target
      */
-    public void addImportPrincipalTranslation(String type, String from, String to) {
+    public void addImportPrincipalTranslation(@RUntainted String type, @RUntainted String from, @RUntainted String to) {
 
         if (LOG.isDebugEnabled()) {
             LOG.debug(
@@ -587,7 +588,7 @@ public class CmsImportExportManager {
      *
      * @param importVersionClass the import version class name to add
      */
-    public void addImportVersionClass(I_CmsImport importVersionClass) {
+    public void addImportVersionClass(@RUntainted I_CmsImport importVersionClass) {
 
         if (LOG.isDebugEnabled()) {
             LOG.debug(
@@ -738,7 +739,7 @@ public class CmsImportExportManager {
      *
      * @return the list of immutable resources, or {@link Collections#EMPTY_LIST}
      */
-    public List<String> getImmutableResources() {
+    public @RUntainted List<String> getImmutableResources() {
 
         return m_immutableResources;
     }
@@ -971,7 +972,7 @@ public class CmsImportExportManager {
      *
      * @param convertToXmlPage true, if imported pages should be converted into XML pages.
      */
-    public void setConvertToXmlPage(boolean convertToXmlPage) {
+    public void setConvertToXmlPage(@RUntainted boolean convertToXmlPage) {
 
         if (LOG.isDebugEnabled()) {
             LOG.debug(
@@ -1010,7 +1011,7 @@ public class CmsImportExportManager {
      *
      * @param webAppUrl a URL of the a OpenCms app. (e.g. http://localhost:8080/opencms/opencms/)
      */
-    public void setOldWebAppUrl(String webAppUrl) {
+    public void setOldWebAppUrl(@RUntainted String webAppUrl) {
 
         if (LOG.isDebugEnabled()) {
             LOG.debug(Messages.get().getBundle().key(Messages.LOG_IMPORTEXPORT_SET_OLD_WEBAPP_URL_1, webAppUrl));
@@ -1033,7 +1034,7 @@ public class CmsImportExportManager {
      *
      * @param overwriteCollidingResources true if colliding resources should be overwritten during the import
      */
-    public void setOverwriteCollidingResources(boolean overwriteCollidingResources) {
+    public void setOverwriteCollidingResources(@RUntainted boolean overwriteCollidingResources) {
 
         if (LOG.isDebugEnabled()) {
             LOG.debug(
@@ -1072,7 +1073,7 @@ public class CmsImportExportManager {
      * @param name the group name to translate
      * @return the translated name for the given group name
      */
-    public String translateGroup(String name) {
+    public @RUntainted String translateGroup(@RUntainted String name) {
 
         if (m_importGroupTranslations == null) {
             return name;
@@ -1093,7 +1094,7 @@ public class CmsImportExportManager {
      * @param name the user name to translate
      * @return the translated name for the given user name
      */
-    public String translateUser(String name) {
+    public @RUntainted String translateUser(@RUntainted String name) {
 
         if (m_importUserTranslations == null) {
             return name;

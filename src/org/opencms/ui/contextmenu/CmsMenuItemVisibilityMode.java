@@ -28,6 +28,7 @@
 package org.opencms.ui.contextmenu;
 
 import org.opencms.util.A_CmsModeIntEnumeration;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The visibility modes of a context menu item in the explorer view.<p>

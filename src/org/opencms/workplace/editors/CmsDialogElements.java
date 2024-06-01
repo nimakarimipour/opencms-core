@@ -54,6 +54,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides methods for the editor elements dialog.<p>
@@ -90,7 +91,7 @@ public class CmsDialogElements extends CmsDialog {
     private List<CmsDialogElement> m_elementList;
 
     /** The element locale. */
-    private Locale m_elementLocale;
+    private @RUntainted Locale m_elementLocale;
 
     // Special parameters used by this dialog
     /** The element language parameter. */
@@ -120,7 +121,7 @@ public class CmsDialogElements extends CmsDialog {
      * @param req the JSP request
      * @param res the JSP response
      */
-    public CmsDialogElements(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsDialogElements(@RUntainted PageContext context, @RUntainted HttpServletRequest req, @RUntainted HttpServletResponse res) {
 
         this(new CmsJspActionElement(context, req, res));
         m_changeElement = "";
@@ -145,9 +146,9 @@ public class CmsDialogElements extends CmsDialog {
         List<CmsDialogElement> result = new ArrayList<CmsDialogElement>();
 
         if (xmlPage != null) {
-            List<String> elementNames = xmlPage.getNames(locale);
+            List<@RUntainted String> elementNames = xmlPage.getNames(locale);
 
-            Iterator<String> i = elementNames.iterator();
+            Iterator<@RUntainted String> i = elementNames.iterator();
             while (i.hasNext()) {
                 String name = i.next();
                 CmsDialogElement element = new CmsDialogElement(name, null, false, false, true);
@@ -182,8 +183,8 @@ public class CmsDialogElements extends CmsDialog {
             }
             if (elements != null) {
                 // elements are defined on template file, merge with available elements
-                List<String> tokens = CmsStringUtil.splitAsList(elements, ',', true);
-                Iterator<String> it = tokens.iterator();
+                List<@RUntainted String> tokens = CmsStringUtil.splitAsList(elements, ',', true);
+                Iterator<@RUntainted String> it = tokens.iterator();
                 while (it.hasNext()) {
                     String currentElement = it.next();
                     String niceName = null;
@@ -223,7 +224,7 @@ public class CmsDialogElements extends CmsDialog {
      * @param locale the current element locale
      * @return the list of elements in a String array with element name, nice name (if present) and mandatory flag
      */
-    public static List<CmsDialogElement> computeElements(CmsObject cms, String xmlPageUri, Locale locale) {
+    public static List<CmsDialogElement> computeElements(CmsObject cms, @RUntainted String xmlPageUri, Locale locale) {
 
         CmsXmlPage page = null;
         try {
@@ -393,7 +394,7 @@ public class CmsDialogElements extends CmsDialog {
      *
      * @return the current element locale
      */
-    public Locale getElementLocale() {
+    public @RUntainted Locale getElementLocale() {
 
         if (m_elementLocale == null) {
             m_elementLocale = CmsLocaleManager.getLocale(getParamElementlanguage());

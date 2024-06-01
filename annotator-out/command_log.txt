@@ -1,0 +1,998 @@
+2024-05-30T22:47:07.083280:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-30T22:50:47.852525:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-30T22:54:10.243338:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-30T22:57:44.253874:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-30T23:01:03.029290:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-30T23:04:36.154689:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-30T23:08:13.568487:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-30T23:11:32.122106:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-30T23:14:52.876369:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-30T23:18:14.359716:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-30T23:21:38.374320:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-30T23:25:08.078844:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-30T23:28:45.270081:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-30T23:32:04.243428:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-30T23:35:38.249533:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-30T23:38:58.459875:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-30T23:42:29.414877:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-30T23:46:18.249199:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-30T23:49:53.295143:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-30T23:53:27.611254:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-30T23:56:49.104131:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T00:00:11.603058:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T00:03:32.836321:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T00:07:02.395172:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T00:10:20.896029:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T00:13:54.540146:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T00:17:14.267516:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T00:20:35.565812:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T00:23:54.463668:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T00:27:26.447950:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T00:31:04.809806:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T00:34:31.132471:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T00:38:04.419760:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T00:41:48.014713:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T00:45:35.885823:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T00:48:51.283199:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T00:52:27.520988:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T00:56:04.669141:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T00:59:26.155836:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T01:02:56.097156:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T01:06:30.939144:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T01:09:50.363234:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T01:13:22.651273:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T01:16:38.996160:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T01:20:02.452072:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T01:23:38.639581:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T01:27:06.289632:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T01:30:30.893478:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T01:34:02.587411:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T01:37:37.759307:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T01:41:13.493097:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T01:44:40.515753:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T01:48:12.204822:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T01:51:25.752504:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T01:54:50.798587:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T01:58:10.094174:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T02:01:41.664586:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T02:05:13.383409:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T02:08:39.841095:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T02:12:10.265495:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T02:15:43.139509:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T02:19:08.257709:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T02:22:27.526161:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T02:26:02.137831:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T02:29:23.069947:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T02:32:37.758128:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T02:36:04.632430:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T02:39:33.887818:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T02:43:10.694517:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T02:46:38.613279:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T02:49:55.543177:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T02:53:21.317804:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T02:56:39.159738:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T03:00:17.447155:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T03:03:44.840703:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T03:07:18.124566:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T03:10:48.143029:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T03:14:07.902002:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T03:17:42.387412:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T03:20:58.757048:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T03:24:36.566332:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T03:28:09.632580:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T03:31:34.668053:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T03:34:51.319282:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T03:38:06.073396:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T03:41:33.152006:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T03:45:00.714391:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T03:48:33.822105:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T03:52:05.531532:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T03:55:31.947953:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T03:58:44.936091:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T04:02:06.615346:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T04:05:22.926462:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T04:08:56.248735:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T04:12:20.217663:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T04:15:37.724825:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T04:19:19.925949:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T04:22:35.165647:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T04:26:04.550065:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T04:29:25.473906:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T04:32:57.339781:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T04:36:33.638089:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T04:40:03.223330:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T04:43:25.989323:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T04:46:45.449048:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T04:50:01.574430:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T04:53:25.889143:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T04:56:47.568627:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T05:00:22.302200:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T05:03:53.507783:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T05:07:10.580382:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T05:10:40.974850:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T05:14:05.942687:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T05:17:30.166127:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T05:20:49.298171:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T05:24:19.864535:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T05:27:46.541257:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T05:31:19.565995:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T05:34:43.475188:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T05:37:59.358644:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T05:41:19.229272:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T05:44:47.036639:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T05:48:10.156632:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T05:51:49.022979:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T05:55:24.210162:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T05:58:47.179646:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T06:02:07.563586:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T06:05:43.459706:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T06:09:18.330918:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T06:12:45.687648:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T06:16:11.248039:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T06:19:38.873564:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T06:23:18.755319:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T06:26:53.391263:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T06:30:09.821070:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T06:33:39.629348:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T06:37:09.548737:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T06:40:41.390847:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T06:44:07.083685:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T06:47:28.735764:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T06:50:49.493168:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T06:54:09.220121:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T06:57:25.866334:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T07:01:05.130206:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T07:04:37.757772:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T07:08:13.504061:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T07:11:39.755459:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T07:15:06.522286:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T07:18:23.979275:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T07:21:52.739424:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T07:25:28.570263:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T07:28:58.753178:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T07:32:39.794066:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T07:36:13.225426:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T07:39:54.784049:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T07:43:12.048412:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T07:46:46.952378:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T07:50:07.314208:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T07:53:28.756832:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T07:57:03.666955:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T08:00:26.068565:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T08:03:55.037568:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T08:07:25.026818:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T08:10:51.351656:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T08:14:15.601920:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T08:17:57.554702:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T08:21:43.140847:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T08:25:00.777087:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T08:28:37.374527:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T08:31:56.333372:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T08:35:28.611486:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T08:38:58.614237:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T08:42:23.989328:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T08:45:49.238819:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T08:49:06.592372:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T08:52:32.753614:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T08:55:58.014317:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T08:59:44.409507:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T09:03:06.117440:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T09:06:26.652277:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T09:09:57.494850:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T09:13:17.487371:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T09:16:52.447118:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T09:20:29.981382:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T09:23:49.476353:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T09:27:17.866547:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T09:30:44.602451:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T09:34:28.964751:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T09:37:57.734471:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T09:38:14.443204:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T09:41:37.835720:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T09:45:07.726321:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T09:48:40.702074:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T09:52:11.478913:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T09:55:50.569350:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T09:59:12.926851:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T10:02:46.465065:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T10:06:08.892289:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T10:09:48.886133:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T10:13:15.782024:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T10:16:43.223156:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T10:19:58.490047:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T10:23:18.101571:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T10:26:48.317916:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T10:30:29.244676:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T10:30:47.015456:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T10:34:10.215068:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T10:37:56.739777:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T10:41:23.924219:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T10:44:50.341519:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T10:48:19.453216:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T10:51:54.618040:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T10:55:21.708288:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T10:58:51.376355:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T11:02:41.506789:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T11:06:29.139928:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T11:10:05.757671:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T11:13:44.241772:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T11:17:11.166621:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T11:20:35.658377:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T11:23:53.854530:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T11:27:33.230850:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T11:31:01.898802:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T11:34:29.694354:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T11:38:07.926844:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T11:41:58.630956:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T11:42:15.881628:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T11:45:42.422158:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T11:49:19.954778:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T11:52:57.538391:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T11:56:34.076305:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T12:00:12.450040:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T12:03:46.775719:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T12:07:20.850927:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T12:10:59.937639:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T12:14:40.441409:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T12:18:25.919083:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T12:22:12.314717:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T12:25:45.353227:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T12:29:23.419442:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T12:32:46.748120:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T12:36:15.549028:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T12:39:46.501195:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T12:43:30.789962:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T12:47:13.787034:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T12:50:51.822872:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T12:54:26.675675:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T12:57:56.757992:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T13:01:26.340813:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T13:05:03.861269:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T13:08:24.686788:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T13:11:44.616736:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T13:12:02.148086:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T13:15:34.871923:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T13:19:31.773824:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T13:23:03.791081:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T13:26:36.538868:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T13:30:02.529651:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T13:33:37.253022:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T13:37:06.288329:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T13:40:40.825082:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T13:44:09.484471:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T13:47:46.662453:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T13:51:13.796473:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T13:54:57.135051:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T13:58:24.497815:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T14:01:53.695577:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T14:05:26.773092:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T14:09:00.888088:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T14:12:29.548459:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T14:16:02.098484:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T14:19:36.568905:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T14:23:20.583316:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T14:27:14.136476:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T14:30:49.740283:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T14:34:31.582615:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T14:38:12.600525:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T14:41:42.090983:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T14:45:18.057561:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T14:48:45.670147:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T14:52:16.669333:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T14:55:41.716547:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T14:59:16.083737:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T15:02:57.379065:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T15:06:33.010547:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T15:10:05.064322:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T15:13:49.661416:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T15:17:30.931002:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T15:21:08.021238:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T15:24:58.612654:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T15:28:47.485665:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T15:32:29.480666:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T15:36:27.893926:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T15:40:02.378999:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T15:43:50.478568:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T15:47:28.370138:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T15:47:47.076856:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T15:51:22.678161:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T15:54:50.133772:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T15:58:22.073366:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T16:02:09.258261:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T16:05:43.800959:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T16:09:20.533032:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T16:12:56.812346:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T16:16:42.308405:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T16:20:23.578771:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T16:24:00.829459:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T16:27:41.740117:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T16:31:26.251435:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T16:35:22.018382:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T16:39:15.757643:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T16:43:00.365482:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T16:47:05.333951:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T16:50:47.156215:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T16:54:13.885967:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T16:57:49.711009:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T17:01:24.761945:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T17:05:15.935345:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T17:09:11.402268:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T17:13:01.665349:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T17:16:38.719852:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T17:20:29.450345:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T17:24:16.851764:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T17:27:54.906874:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T17:31:42.280465:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T17:35:26.588235:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T17:39:22.179875:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T17:43:12.953839:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T17:46:51.807730:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T17:50:49.009910:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T17:54:30.538386:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T17:58:08.654855:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T18:01:44.289608:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T18:05:20.142160:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T18:09:08.953763:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T18:12:46.058138:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T18:16:31.788303:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T18:20:10.763617:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T18:24:02.714102:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T18:27:44.289709:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T18:31:24.116802:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T18:35:08.825712:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T18:39:03.195477:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T18:42:53.419778:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T18:46:41.291975:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T18:50:33.680027:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T18:54:31.684857:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T18:58:13.359994:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T19:01:59.018912:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T19:05:33.327842:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T19:09:11.195670:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T19:13:02.720821:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T19:16:45.170973:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T19:20:31.107896:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T19:24:14.348041:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T19:28:04.939370:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T19:31:46.922928:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T19:35:23.412647:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T19:39:16.561137:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T19:43:16.633596:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T19:47:08.469804:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T19:51:07.568937:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T19:55:01.471331:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T19:59:05.622996:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T20:02:48.855605:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T20:06:35.182114:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T20:10:16.726810:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T20:14:03.162518:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T20:17:50.064973:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T20:21:41.769052:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T20:25:36.627951:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T20:29:22.466889:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T20:33:15.167010:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T20:37:06.687665:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T20:40:51.894663:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T20:44:42.076710:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T20:48:42.001376:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T20:52:45.586267:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T20:56:43.599260:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T21:00:51.340190:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T21:04:48.774870:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T21:08:49.936957:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T21:12:39.138379:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T21:16:12.614291:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T21:19:57.968909:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T21:24:02.448887:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T21:27:51.737586:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T21:31:43.139733:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T21:35:48.662909:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T21:39:51.459918:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T21:43:38.300158:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T21:47:22.168870:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T21:51:27.724948:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T21:55:26.912670:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T21:59:20.982196:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T22:03:23.162870:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T22:07:17.580875:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T22:11:21.530112:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T22:15:18.823058:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T22:19:04.715533:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T22:22:44.817676:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T22:26:36.503863:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T22:30:32.916081:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T22:34:19.850894:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T22:38:26.153845:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T22:42:19.721432:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T22:46:16.732108:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T22:50:11.337873:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T22:53:57.710603:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T22:57:52.720819:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T23:01:57.790323:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T23:06:05.940857:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T23:10:21.333771:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T23:14:20.881412:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T23:18:18.150806:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T23:22:18.410508:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T23:26:11.817751:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T23:29:38.175461:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T23:33:30.507024:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T23:37:27.974582:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T23:41:22.354063:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T23:45:26.392737:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T23:49:28.824335:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T23:53:22.721867:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-05-31T23:57:15.977854:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T00:01:09.808818:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T00:05:10.728976:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T00:09:08.935901:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T00:13:02.425376:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T00:17:09.348127:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T00:21:18.691218:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T00:25:26.989411:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T00:29:27.195757:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T00:33:25.120060:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T00:37:15.729286:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T00:41:07.175377:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T00:45:04.561463:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T00:49:08.418320:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T00:53:16.545945:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T00:57:11.498045:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T01:01:18.509735:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T01:05:14.411033:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T01:09:25.287683:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T01:13:29.811128:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T01:17:34.267949:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T01:21:30.300230:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T01:25:34.517463:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T01:29:31.074613:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T01:33:29.684294:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T01:37:30.881734:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T01:41:22.525204:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T01:45:01.261861:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T01:48:58.671420:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T01:52:56.220895:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T01:56:55.905687:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T02:01:02.747911:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T02:05:07.209282:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T02:09:05.577555:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T02:13:08.412715:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T02:17:01.935693:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T02:20:59.951555:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T02:25:01.618437:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T02:28:59.414872:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T02:33:02.937743:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T02:37:09.158495:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T02:41:04.754879:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T02:45:08.319499:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T02:49:08.373532:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T02:52:50.272360:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T02:56:41.641426:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T03:00:49.447690:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T03:04:47.425893:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T03:08:52.384503:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T03:12:50.652541:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T03:16:52.542120:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T03:20:48.945141:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T03:24:44.241755:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T03:28:40.912496:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T03:32:45.503979:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T03:36:43.655870:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T03:40:46.286515:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T03:44:45.712581:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T03:48:56.430085:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T03:52:54.165723:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T03:56:49.143:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T04:00:34.278592:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T04:04:30.476495:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T04:08:31.167911:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T04:12:34.088749:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T04:16:33.413051:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T04:20:29.902715:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T04:24:28.591097:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T04:28:35.867504:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T04:32:38.699178:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T04:36:34.487686:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T04:40:46.675219:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T04:44:49.331455:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T04:48:53.062541:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+
+2024-06-01T04:49:03.315561:cd /home/nima/Developer/taint-benchmarks/opencms-core && ./annotator-command.sh
+

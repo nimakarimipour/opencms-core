@@ -29,6 +29,7 @@ package org.opencms.search.fields;
 
 import org.opencms.util.A_CmsModeIntEnumeration;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes a possible mapping type for a piece of content used in building a search index.<p>

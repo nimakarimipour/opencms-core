@@ -54,6 +54,7 @@ import org.apache.commons.collections.Transformer;
 import org.apache.commons.logging.Log;
 
 import com.google.common.base.Objects;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Bean for easy access to information of an event series. */
 public class CmsJspDateSeriesBean {

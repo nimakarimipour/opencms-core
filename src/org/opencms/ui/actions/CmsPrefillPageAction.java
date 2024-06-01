@@ -48,6 +48,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Action class for filling in container page content from a 'prefill template' configured via
@@ -128,9 +129,9 @@ public class CmsPrefillPageAction extends A_CmsWorkplaceAction implements I_CmsA
     /**
      * @see org.opencms.ui.actions.I_CmsADEAction#getParams()
      */
-    public Map<String, String> getParams() {
+    public Map<String, @RUntainted String> getParams() {
 
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, @RUntainted String> params = new HashMap<String, @RUntainted String>();
         params.put(CmsGwtConstants.ACTION_PARAM_DIALOG_ID, this.getClass().getName());
         params.put(CmsGwtConstants.PREFILL_MENU_PLACEHOLDER, "true");
         return params;
@@ -140,7 +141,7 @@ public class CmsPrefillPageAction extends A_CmsWorkplaceAction implements I_CmsA
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitle(java.util.Locale)
      */
     @Override
-    public String getTitle(Locale locale) {
+    public @RUntainted String getTitle(Locale locale) {
 
         // we make the context menu entry label customizable by trying a message key first that isn't
         // defined by default, and using the message key defined in the OpenCms core only as a fallback if that doesn't work.
@@ -170,7 +171,7 @@ public class CmsPrefillPageAction extends A_CmsWorkplaceAction implements I_CmsA
         if (!AdeContext.pageeditor.name().equals(context.getAppId())) {
             return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
         }
-        List<CmsResource> resources = context.getResources();
+        List<@RUntainted CmsResource> resources = context.getResources();
         if (resources.size() != 1) {
             return CmsMenuItemVisibilityMode.VISIBILITY_INVISIBLE;
         }
@@ -229,7 +230,7 @@ public class CmsPrefillPageAction extends A_CmsWorkplaceAction implements I_CmsA
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
      */
     @Override
-    protected String getTitleKey() {
+    protected @RUntainted String getTitleKey() {
 
         // not used - getTitle is implemented directly
         return null;

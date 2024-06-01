@@ -55,6 +55,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides methods for the editor copy language dialog.<p>
@@ -113,7 +114,7 @@ public class CmsDialogCopyLanguage extends CmsDialog {
      * @param req the JSP request
      * @param res the JSP response
      */
-    public CmsDialogCopyLanguage(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsDialogCopyLanguage(@RUntainted PageContext context, @RUntainted HttpServletRequest req, @RUntainted HttpServletResponse res) {
 
         this(new CmsJspActionElement(context, req, res));
     }
@@ -177,7 +178,7 @@ public class CmsDialogCopyLanguage extends CmsDialog {
             Locale elLocale = getElementLocale();
 
             // get locale names based on properties and global settings
-            List<Locale> localeList = OpenCms.getLocaleManager().getAvailableLocales(getCms(), getParamTempfile());
+            List<@RUntainted Locale> localeList = OpenCms.getLocaleManager().getAvailableLocales(getCms(), getParamTempfile());
 
             // read xml content for checking locale availability
             CmsFile file = getCms().readFile(getParamTempfile(), CmsResourceFilter.IGNORE_EXPIRATION);

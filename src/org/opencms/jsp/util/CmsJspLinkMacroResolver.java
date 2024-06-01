@@ -43,6 +43,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resolves link macros for jsp pages.<p>
@@ -69,7 +70,7 @@ public class CmsJspLinkMacroResolver implements I_CmsMacroResolver {
     public static final String[] VALUE_NAME_ARRAY = {MACRO_LINK, MACRO_LINK_WEAK, MACRO_LINK_STRONG};
 
     /** The link commands wrapped in a List. */
-    public static final List<String> VALUE_NAMES = Collections.unmodifiableList(Arrays.asList(VALUE_NAME_ARRAY));
+    public static final List<@RUntainted String> VALUE_NAMES = Collections.unmodifiableList(Arrays.asList(VALUE_NAME_ARRAY));
 
     /** The cms context. */
     private CmsObject m_cms;
@@ -113,13 +114,13 @@ public class CmsJspLinkMacroResolver implements I_CmsMacroResolver {
     /**
      * @see org.opencms.util.I_CmsMacroResolver#getMacroValue(java.lang.String)
      */
-    public String getMacroValue(String macro) {
+    public String getMacroValue(@RUntainted String macro) {
 
         String path = null;
         String id = null;
 
         // validate macro command
-        Iterator<String> it = VALUE_NAMES.iterator();
+        Iterator<@RUntainted String> it = VALUE_NAMES.iterator();
         while (it.hasNext()) {
             String cmd = it.next().toString();
             if (macro.startsWith(cmd)) {
@@ -225,7 +226,7 @@ public class CmsJspLinkMacroResolver implements I_CmsMacroResolver {
      *
      * @see org.opencms.util.I_CmsMacroResolver#resolveMacros(java.lang.String)
      */
-    public String resolveMacros(String input) {
+    public @RUntainted String resolveMacros(@RUntainted String input) {
 
         // clear the list of links
         m_links.clear();

@@ -45,6 +45,7 @@ import java.util.List;
 import java.util.Locale;
 
 import com.google.common.base.Optional;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Parser for form configuration files.<p>
@@ -138,10 +139,10 @@ public class CmsUgcConfigurationReader {
         Optional<Integer> maxQueueLength = getIntValue(N_QUEUE_MAX_LENGTH);
         boolean autoPublish = Boolean.parseBoolean(getStringValue(N_AUTO_PUBLISH));
         String validExtensionsStr = getStringValue(N_VALID_EXTENSIONS);
-        Optional<List<String>> validExtensions = Optional.absent();
+        Optional<List<@RUntainted String>> validExtensions = Optional.absent();
         if (validExtensionsStr != null) {
             validExtensionsStr = validExtensionsStr.trim();
-            List<String> extensions = CmsStringUtil.splitAsList(validExtensionsStr, EXTENSIONS_SEPARATOR);
+            List<@RUntainted String> extensions = CmsStringUtil.splitAsList(validExtensionsStr, EXTENSIONS_SEPARATOR);
             validExtensions = Optional.of(extensions);
         }
 
@@ -213,7 +214,7 @@ public class CmsUgcConfigurationReader {
      *
      * @return the value for that path as a string
      */
-    private String getStringValue(String path) {
+    private @RUntainted String getStringValue(String path) {
 
         I_CmsXmlContentValue value = m_content.getValue(path, Locale.ENGLISH);
         if (value == null) {

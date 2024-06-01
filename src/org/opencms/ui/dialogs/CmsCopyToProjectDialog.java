@@ -51,6 +51,7 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The copy to project dialog.<p>

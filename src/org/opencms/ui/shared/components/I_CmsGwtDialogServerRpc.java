@@ -30,6 +30,7 @@ package org.opencms.ui.shared.components;
 import java.util.List;
 
 import com.vaadin.shared.communication.ServerRpc;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Client-to-server rpc interface for the GWT dialog extension.<p>

@@ -71,6 +71,7 @@ import org.apache.commons.logging.Log;
 import com.google.web.bindery.autobean.shared.AutoBean;
 import com.google.web.bindery.autobean.shared.AutoBeanCodex;
 import com.google.web.bindery.autobean.vm.AutoBeanFactorySource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provider for the OpenCms AdvancedDirectEdit.<p>
@@ -107,7 +108,7 @@ public class CmsAdvancedDirectEditProvider extends A_CmsDirectEditProvider {
         private boolean m_edit;
 
         /** Allow favoriting. */
-        private boolean m_favorite;
+        private @RUntainted boolean m_favorite;
 
         /**
          * Private constructor.
@@ -116,7 +117,7 @@ public class CmsAdvancedDirectEditProvider extends A_CmsDirectEditProvider {
          * @param edit true if editing is allowed
          * @param favorite true if favoriting is allowed
          */
-        SitemapDirectEditPermissions(boolean create, boolean edit, boolean favorite) {
+        SitemapDirectEditPermissions(boolean create, boolean edit, @RUntainted boolean favorite) {
 
             m_create = create;
             m_edit = edit;
@@ -148,7 +149,7 @@ public class CmsAdvancedDirectEditProvider extends A_CmsDirectEditProvider {
          *
          * @return true if favoriting is allowed
          */
-        public boolean canFavorite() {
+        public @RUntainted boolean canFavorite() {
 
             return m_favorite;
         }
@@ -205,7 +206,7 @@ public class CmsAdvancedDirectEditProvider extends A_CmsDirectEditProvider {
      * Similar to the method in the superclass, but removes the write permission check, as this is handled differently.
      */
     @Override
-    public CmsDirectEditResourceInfo getResourceInfo(CmsDirectEditParams params, String resourceName) {
+    public CmsDirectEditResourceInfo getResourceInfo(CmsDirectEditParams params, @RUntainted String resourceName) {
 
         try {
             // first check some simple preconditions for direct edit
@@ -283,7 +284,7 @@ public class CmsAdvancedDirectEditProvider extends A_CmsDirectEditProvider {
      * @see org.opencms.workplace.editors.directedit.I_CmsDirectEditProvider#insertDirectEditIncludes(javax.servlet.jsp.PageContext, org.opencms.workplace.editors.directedit.CmsDirectEditParams)
      */
     @SuppressWarnings("unused")
-    public void insertDirectEditIncludes(PageContext context, CmsDirectEditParams params) throws JspException {
+    public void insertDirectEditIncludes(@RUntainted PageContext context, CmsDirectEditParams params) throws JspException {
 
         // For Advanced Direct Edit all necessary js and css-code is included by the enableADE tag. Further includes in the head are not needed.
 
@@ -317,7 +318,7 @@ public class CmsAdvancedDirectEditProvider extends A_CmsDirectEditProvider {
     /**
      * @see org.opencms.workplace.editors.directedit.I_CmsDirectEditProvider#insertDirectEditStart(javax.servlet.jsp.PageContext, org.opencms.workplace.editors.directedit.CmsDirectEditParams)
      */
-    public boolean insertDirectEditStart(PageContext context, CmsDirectEditParams params) throws JspException {
+    public boolean insertDirectEditStart(@RUntainted PageContext context, CmsDirectEditParams params) throws JspException {
 
         String content;
         // check the direct edit permissions of the current user

@@ -39,6 +39,7 @@ import org.opencms.ui.contextmenu.CmsMenuItemVisibilityMode;
 
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Opens the file explorer for the selected resource switching to the appropriate site.<p>
@@ -83,7 +84,7 @@ public class CmsViewInExplorerAction extends A_CmsWorkplaceAction implements I_C
     /**
      * @see org.opencms.ui.actions.I_CmsADEAction#getParams()
      */
-    public Map<String, String> getParams() {
+    public Map<String, @RUntainted String> getParams() {
 
         return null;
     }
@@ -124,7 +125,7 @@ public class CmsViewInExplorerAction extends A_CmsWorkplaceAction implements I_C
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
      */
     @Override
-    protected String getTitleKey() {
+    protected @RUntainted String getTitleKey() {
 
         return Messages.GUI_ACTION_VIEW_IN_EXPLORER_0;
     }

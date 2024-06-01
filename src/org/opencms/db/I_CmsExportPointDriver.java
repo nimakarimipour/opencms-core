@@ -28,6 +28,7 @@
 package org.opencms.db;
 
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides methods to write export points to the "real" file system.<p>
@@ -73,7 +74,7 @@ public interface I_CmsExportPointDriver {
      *
      * @return the set of all VFS paths that are exported as an export point
      */
-    Set<String> getExportPointPaths();
+    Set<@RUntainted String> getExportPointPaths();
 
     /**
      * Writes the file with the given root path to the real file system.<p>

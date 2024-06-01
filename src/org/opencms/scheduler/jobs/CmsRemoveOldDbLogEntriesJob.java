@@ -35,6 +35,7 @@ import org.opencms.scheduler.I_CmsScheduledJob;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A scheduled job which removes entries older than a given amount of time from the CMS_LOG table, to improve

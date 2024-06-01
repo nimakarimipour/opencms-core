@@ -58,6 +58,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.google.gwt.user.server.rpc.SerializationPolicy;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper for GWT services served through OpenCms.<p>
@@ -76,7 +77,7 @@ public class CmsGwtService extends RemoteServiceServlet {
     private CmsGwtServiceContext m_context;
 
     /** The current CMS context. */
-    private ThreadLocal<CmsObject> m_perThreadCmsObject;
+    private ThreadLocal<@RUntainted CmsObject> m_perThreadCmsObject;
 
     /** Stores whether the current request is a broadcast poll. */
     private ThreadLocal<Boolean> m_perThreadBroadcastPoll;
@@ -137,7 +138,7 @@ public class CmsGwtService extends RemoteServiceServlet {
      *
      * @return the current cms context
      */
-    public CmsObject getCmsObject() {
+    public @RUntainted CmsObject getCmsObject() {
 
         return m_perThreadCmsObject.get();
     }
@@ -149,7 +150,7 @@ public class CmsGwtService extends RemoteServiceServlet {
      *
      * @see #getThreadLocalRequest()
      */
-    public HttpServletRequest getRequest() {
+    public @RUntainted HttpServletRequest getRequest() {
 
         return getThreadLocalRequest();
     }
@@ -161,7 +162,7 @@ public class CmsGwtService extends RemoteServiceServlet {
      *
      * @see #getThreadLocalResponse()
      */
-    public HttpServletResponse getResponse() {
+    public @RUntainted HttpServletResponse getResponse() {
 
         return getThreadLocalResponse();
     }
@@ -218,7 +219,7 @@ public class CmsGwtService extends RemoteServiceServlet {
      * @see javax.servlet.http.HttpServlet#service(javax.servlet.ServletRequest, javax.servlet.ServletResponse)
      */
     @Override
-    public void service(ServletRequest request, ServletResponse response) throws ServletException, IOException {
+    public void service(@RUntainted ServletRequest request, ServletResponse response) throws ServletException, IOException {
 
         try {
             response.setCharacterEncoding(request.getCharacterEncoding());
@@ -244,7 +245,7 @@ public class CmsGwtService extends RemoteServiceServlet {
      *
      * @param cms the current cms context to set
      */
-    public synchronized void setCms(CmsObject cms) {
+    public synchronized void setCms(@RUntainted CmsObject cms) {
 
         if (m_perThreadCmsObject == null) {
             m_perThreadCmsObject = new ThreadLocal<CmsObject>();

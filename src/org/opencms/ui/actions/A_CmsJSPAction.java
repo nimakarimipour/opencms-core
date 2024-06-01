@@ -34,6 +34,7 @@ import org.opencms.ui.I_CmsDialogContext;
 import org.opencms.ui.components.extensions.CmsJSPBrowserFrameExtension;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract class for actions to display a JSP file in a vaadin window.<p>
@@ -67,7 +68,7 @@ public abstract class A_CmsJSPAction extends A_CmsWorkplaceAction {
      * @param resources to be transmitted
      * @return valid string for get-request
      */
-    protected String getRequestString(List<CmsResource> resources) {
+    protected String getRequestString(List<@RUntainted CmsResource> resources) {
 
         String res = "?";
 

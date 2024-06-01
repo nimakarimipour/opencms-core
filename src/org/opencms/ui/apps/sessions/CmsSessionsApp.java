@@ -65,6 +65,8 @@ import com.vaadin.v7.data.Validator;
 import com.vaadin.v7.event.FieldEvents.TextChangeEvent;
 import com.vaadin.v7.event.FieldEvents.TextChangeListener;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Class for the broadcast app.<p>
@@ -111,7 +113,7 @@ public class CmsSessionsApp extends A_CmsWorkplaceApp {
      * @param ids of user to be shown in boxed
      * @return list of resource infos
      */
-    protected static List<CmsResourceInfo> getUserInfos(Set<String> ids) {
+    protected static List<CmsResourceInfo> getUserInfos(Set<@RUntainted String> ids) {
 
         List<CmsResourceInfo> ret = new ArrayList<CmsResourceInfo>();
         try {
@@ -133,7 +135,7 @@ public class CmsSessionsApp extends A_CmsWorkplaceApp {
      * @param andLocalized String
      * @return user names as string
      */
-    protected static String getUserNames(Set<String> ids, String andLocalized) {
+    protected static @RPolyTainted String getUserNames(Set<@RUntainted String> ids, @RPolyTainted String andLocalized) {
 
         List<String> userNames = new ArrayList<String>();
 
@@ -177,7 +179,7 @@ public class CmsSessionsApp extends A_CmsWorkplaceApp {
      * @param caption of window
      * @param table instance of table to be refreshed after sending broadcast
      */
-    protected static void showSendBroadcastDialog(Set<String> ids, String caption, final CmsSessionsTable table) {
+    protected static void showSendBroadcastDialog(Set<@RUntainted String> ids, String caption, final CmsSessionsTable table) {
 
         final Window window = CmsBasicDialog.prepareWindow();
 

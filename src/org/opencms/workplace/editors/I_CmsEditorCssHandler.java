@@ -28,6 +28,7 @@
 package org.opencms.workplace.editors;
 
 import org.opencms.file.CmsObject;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides methods to determine the CSS style sheet URI for the editors based on the edited resource path.<p>

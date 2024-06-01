@@ -29,6 +29,7 @@ package org.opencms.jsp.search.config;
 
 import java.util.HashMap;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Search configuration for common parameters as the query parameter etc.

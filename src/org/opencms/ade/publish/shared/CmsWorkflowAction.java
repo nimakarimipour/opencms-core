@@ -28,6 +28,7 @@
 package org.opencms.ade.publish.shared;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Work flow action information.<p>

@@ -35,6 +35,7 @@ import org.opencms.ui.contextmenu.CmsMenuItemVisibilityMode;
 
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Action to logout.<p>
@@ -80,7 +81,7 @@ public class CmsShowLocaleAction extends A_CmsWorkplaceAction implements I_CmsAD
     /**
      * @see org.opencms.ui.actions.I_CmsADEAction#getParams()
      */
-    public Map<String, String> getParams() {
+    public Map<String, @RUntainted String> getParams() {
 
         return null;
     }
@@ -115,7 +116,7 @@ public class CmsShowLocaleAction extends A_CmsWorkplaceAction implements I_CmsAD
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
      */
     @Override
-    protected String getTitleKey() {
+    protected @RUntainted String getTitleKey() {
 
         return "SHOWLOCALE";
     }

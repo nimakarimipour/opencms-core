@@ -34,6 +34,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.apache.solr.uninverting.UninvertingReader.Type;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Base class for a typical field configuration. Basically handles name and description

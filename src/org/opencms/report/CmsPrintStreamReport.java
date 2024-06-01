@@ -33,6 +33,7 @@ import org.opencms.workplace.CmsWorkplace;
 
 import java.io.PrintStream;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Stream report where the output is streamed to the given print stream instance.<p>

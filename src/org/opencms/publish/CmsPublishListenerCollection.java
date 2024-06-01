@@ -36,6 +36,7 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Publish job information bean.<p>
@@ -171,7 +172,7 @@ public final class CmsPublishListenerCollection extends Vector<I_CmsPublishEvent
                 Long.valueOf(publishJob.getEnqueueTime()));
         } else {
             hasError = true;
-            Object[] params = new Object[] {
+            @RUntainted Object[] params = new Object[] {
                 Long.valueOf(publishJob.getEnqueueTime()),
                 Integer.valueOf(publishJob.getReport().getErrors().size()),
                 Integer.valueOf(publishJob.getReport().getWarnings().size())};

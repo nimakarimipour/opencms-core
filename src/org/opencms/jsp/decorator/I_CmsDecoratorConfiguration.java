@@ -34,6 +34,7 @@ import org.opencms.xml.content.CmsXmlContent;
 import java.util.Locale;
 
 import org.htmlparser.Tag;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface for a CmsDecoratorConfiguration.<p>

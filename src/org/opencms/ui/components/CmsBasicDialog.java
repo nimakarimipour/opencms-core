@@ -58,6 +58,7 @@ import com.vaadin.ui.Window.CloseListener;
 import com.vaadin.ui.declarative.DesignContext;
 import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.v7.ui.Label;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Basic dialog class with a content panel and button bar.<p>
@@ -284,7 +285,7 @@ public class CmsBasicDialog extends VerticalLayout {
      *
      * @return the panel
      */
-    public Panel createResourceListPanel(String caption, List<CmsResource> resources) {
+    public Panel createResourceListPanel(String caption, @RUntainted List<CmsResource> resources) {
 
         Panel result = null;
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(caption)) {
@@ -359,7 +360,7 @@ public class CmsBasicDialog extends VerticalLayout {
      *
      * @param resources the resources
      */
-    public void displayResourceInfo(List<CmsResource> resources) {
+    public void displayResourceInfo(List<@RUntainted CmsResource> resources) {
 
         displayResourceInfo(resources, Messages.GUI_SELECTED_0);
     }
@@ -370,7 +371,7 @@ public class CmsBasicDialog extends VerticalLayout {
      * @param resources to show info for
      * @param messageKey of the panel
      */
-    public void displayResourceInfo(List<CmsResource> resources, String messageKey) {
+    public void displayResourceInfo(List<CmsResource> resources, @RUntainted String messageKey) {
 
         m_infoResources = Lists.newArrayList(resources);
         if (m_infoComponent != null) {

@@ -35,6 +35,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * An option of a select type widget.<p>
@@ -186,7 +187,7 @@ public class CmsSelectWidgetOption {
      *
      * @return a select widget configuration String created from the given list of select options
      */
-    public static String createConfigurationString(List<CmsSelectWidgetOption> options) {
+    public static @RUntainted String createConfigurationString(List<CmsSelectWidgetOption> options) {
 
         if ((options == null) || (options.size() == 0)) {
             return "";
@@ -273,7 +274,7 @@ public class CmsSelectWidgetOption {
      *
      * @return a List of <code>{@link CmsSelectWidgetOption}</code> elements
      */
-    public static List<CmsSelectWidgetOption> parseOptions(String input) {
+    public static List<CmsSelectWidgetOption> parseOptions(@RUntainted String input) {
 
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(input)) {
             // default result for empty input

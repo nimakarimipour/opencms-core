@@ -46,6 +46,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides methods to determine the display options of a workplace editor for the current user.<p>
@@ -94,7 +95,7 @@ public class CmsEditorDisplayOptions {
     private Map<Object, Object> m_loadedConfigurations;
 
     /** Stores the mappings of users to their configuration options to use.<p> */
-    private Map<Object, Object> m_userMappings;
+    private Map<Object, @RUntainted Object> m_userMappings;
 
     /**
      * Constructor that initializes the editor display options for the workplace.<p>

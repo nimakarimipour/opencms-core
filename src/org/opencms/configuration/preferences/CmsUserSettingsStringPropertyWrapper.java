@@ -31,6 +31,7 @@ import org.opencms.ade.galleries.CmsGalleryService;
 import org.opencms.configuration.CmsDefaultUserSettings;
 import org.opencms.i18n.CmsLocaleManager;
 import org.opencms.main.CmsContextInfo;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean used to access the built-in preferences via reflection.<p>
@@ -781,7 +782,7 @@ public class CmsUserSettingsStringPropertyWrapper {
      *
      * @param elementView the element view
      */
-    public void setElementView(String elementView) {
+    public void setElementView(@RUntainted String elementView) {
 
         m_settings.setAdditionalPreference(CmsElementViewPreference.PREFERENCE_NAME, elementView);
     }
@@ -801,7 +802,7 @@ public class CmsUserSettingsStringPropertyWrapper {
      *
      * @param view the start element view.
      */
-    public void setExplorerElementView(String view) {
+    public void setExplorerElementView(@RUntainted String view) {
 
         m_settings.setAdditionalPreference(CmsElementViewPreference.EXPLORER_PREFERENCE_NAME, view);
     }
@@ -832,7 +833,7 @@ public class CmsUserSettingsStringPropertyWrapper {
      *
      * @param value the value to set
      */
-    public void setGalleryShowInvalidDefault(String value) {
+    public void setGalleryShowInvalidDefault(@RUntainted String value) {
 
         m_settings.setAdditionalPreference(CmsGalleryService.PREF_GALLERY_SHOW_INVALID_DEFAULT, value);
     }
@@ -852,7 +853,7 @@ public class CmsUserSettingsStringPropertyWrapper {
      *
      * @param s the new locale
      */
-    public void setLocale(String s) {
+    public void setLocale(@RUntainted String s) {
 
         m_settings.setLocale(CmsLocaleManager.getLocale(s));
     }
@@ -1074,7 +1075,7 @@ public class CmsUserSettingsStringPropertyWrapper {
      *
      * @param s the new start folder
      */
-    public void setStartFolder(String s) {
+    public void setStartFolder(@RUntainted String s) {
 
         m_settings.setStartFolder(s);
     }
@@ -1094,7 +1095,7 @@ public class CmsUserSettingsStringPropertyWrapper {
      *
      * @param s the new start site
      */
-    public void setStartSite(String s) {
+    public void setStartSite(@RUntainted String s) {
 
         m_settings.setStartSite(s);
     }
@@ -1141,7 +1142,7 @@ public class CmsUserSettingsStringPropertyWrapper {
      *
      * @param s the new upload applet client folder
      */
-    public void setUploadAppletClientFolder(String s) {
+    public void setUploadAppletClientFolder(@RUntainted String s) {
 
         m_settings.setUploadAppletClientFolder(s);
 
@@ -1172,7 +1173,7 @@ public class CmsUserSettingsStringPropertyWrapper {
      *
      * @param workplaceMode the workplace mode
      */
-    public void setWorkplaceMode(String workplaceMode) {
+    public void setWorkplaceMode(@RUntainted String workplaceMode) {
 
         m_settings.setAdditionalPreference(CmsWorkplaceModePreference.PREFERENCE_NAME, workplaceMode);
     }

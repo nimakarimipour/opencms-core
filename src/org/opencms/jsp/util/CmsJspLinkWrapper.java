@@ -46,6 +46,7 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper for handling links in template/formatter JSP EL.
@@ -68,7 +69,7 @@ public class CmsJspLinkWrapper extends AbstractCollection<String> {
     protected Optional<CmsResource> m_resource;
 
     /** Cached links (online, perma, server). */
-    protected Map<String, String> m_stringCache = new ConcurrentHashMap<>();
+    protected Map<String, @RUntainted String> m_stringCache = new ConcurrentHashMap<>();
 
     /** If <code>true</code> then empty links are allowed. */
     private boolean m_allowEmpty;
@@ -218,7 +219,7 @@ public class CmsJspLinkWrapper extends AbstractCollection<String> {
      *
      * @return the server link
      */
-    public String getServerLink() {
+    public @RUntainted String getServerLink() {
 
         return m_stringCache.computeIfAbsent(
             "server",

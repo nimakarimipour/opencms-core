@@ -49,6 +49,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.jsp.JspException;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Creates HTML code for &lt;img src&gt; tags that use the OpenCms image scaling capabilities.<p>
@@ -197,7 +198,7 @@ public class CmsJspTagImage extends CmsJspImageScalerTagSupport implements I_Cms
      * @throws CmsException in case something goes wrong
      */
     public static String imageTagAction(
-        String src,
+        @RUntainted String src,
         CmsImageScaler scaler,
         Map<String, String> attributes,
         boolean partialTag,
@@ -299,7 +300,7 @@ public class CmsJspTagImage extends CmsJspImageScalerTagSupport implements I_Cms
     /**
      * @see org.opencms.jsp.I_CmsJspTagParamParent#addParameter(java.lang.String, java.lang.String)
      */
-    public void addParameter(String name, String value) {
+    public void addParameter(String name, @RUntainted String value) {
 
         String key = name.trim().toLowerCase();
         switch (SCALER_ATTRS_LIST.indexOf(key)) {

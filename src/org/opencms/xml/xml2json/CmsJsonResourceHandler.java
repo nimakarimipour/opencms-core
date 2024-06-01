@@ -61,6 +61,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Handles /json requests.
@@ -86,7 +88,7 @@ public class CmsJsonResourceHandler implements I_CmsResourceInit, I_CmsNeedsAdmi
     private CmsObject m_adminCms;
 
     /** Configuration from config file. */
-    private CmsParameterConfiguration m_config = new CmsParameterConfiguration();
+    private @RUntainted CmsParameterConfiguration m_config = new CmsParameterConfiguration();
 
     /** Service loader used to load external JSON handler classes. */
     private ServiceLoader<I_CmsJsonHandlerProvider> m_serviceLoader = ServiceLoader.load(
@@ -106,7 +108,7 @@ public class CmsJsonResourceHandler implements I_CmsResourceInit, I_CmsNeedsAdmi
      * @param cms the current CMS context
      * @return the link renderer for the context, or null if there is none
      */
-    public static I_CmsCustomLinkRenderer getLinkRenderer(CmsObject cms) {
+    public static @RUntainted I_CmsCustomLinkRenderer getLinkRenderer(CmsObject cms) {
 
         Object context = cms.getRequestContext().getAttribute(ATTR_CONTEXT);
         if (context instanceof CmsJsonHandlerContext) {
@@ -129,7 +131,7 @@ public class CmsJsonResourceHandler implements I_CmsResourceInit, I_CmsNeedsAdmi
      * @param res the resource to link to
      * @return the link to the resource
      */
-    public static String link(CmsObject cms, CmsResource res) {
+    public static @RUntainted String link(CmsObject cms, CmsResource res) {
 
         I_CmsCustomLinkRenderer linkRenderer = getLinkRenderer(cms);
         if (linkRenderer != null) {
@@ -156,9 +158,9 @@ public class CmsJsonResourceHandler implements I_CmsResourceInit, I_CmsNeedsAdmi
      *
      * @return the initialized CmsObject
      */
-    private static CmsObject authorize(
+    private static @RPolyTainted CmsObject authorize(
         CmsObject adminCms,
-        CmsObject defaultCms,
+        @RPolyTainted CmsObject defaultCms,
         HttpServletRequest request,
         String authChain) {
 
@@ -231,7 +233,7 @@ public class CmsJsonResourceHandler implements I_CmsResourceInit, I_CmsNeedsAdmi
     /**
      * @see org.opencms.main.I_CmsResourceInit#initResource(org.opencms.file.CmsResource, org.opencms.file.CmsObject, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-    public CmsResource initResource(CmsResource origRes, CmsObject cms, HttpServletRequest req, HttpServletResponse res)
+    public @RUntainted CmsResource initResource(CmsResource origRes, @RUntainted CmsObject cms, @RUntainted HttpServletRequest req, HttpServletResponse res)
     throws CmsResourceInitException {
 
         String uri = cms.getRequestContext().getUri();
@@ -253,10 +255,10 @@ public class CmsJsonResourceHandler implements I_CmsResourceInit, I_CmsNeedsAdmi
             path = CmsFileUtil.removeTrailingSeparator(path);
         }
 
-        Map<String, String> singleParams = new TreeMap<>();
+        Map<@RUntainted String, @RUntainted String> singleParams = new TreeMap<>();
         // we don't care about multiple parameter values, single parameter values are easier to work with
-        for (Map.Entry<String, String[]> entry : req.getParameterMap().entrySet()) {
-            String[] data = entry.getValue();
+        for (Map.Entry<@RUntainted String, @RUntainted String[]> entry : req.getParameterMap().entrySet()) {
+            @RUntainted String[] data = entry.getValue();
             String value = null;
             if (data.length > 0) {
                 value = data[0];
@@ -388,7 +390,7 @@ public class CmsJsonResourceHandler implements I_CmsResourceInit, I_CmsNeedsAdmi
      * @param cms the CMS context used to load the access policy
      * @return the access policy
      */
-    protected CmsJsonAccessPolicy getAccessPolicy(CmsObject cms) {
+    protected @RUntainted CmsJsonAccessPolicy getAccessPolicy(CmsObject cms) {
 
         String accessConfigPath = m_config.getString("access-policy", null);
         if (accessConfigPath == null) {

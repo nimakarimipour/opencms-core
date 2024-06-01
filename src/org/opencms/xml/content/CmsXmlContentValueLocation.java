@@ -43,6 +43,7 @@ import java.util.Locale;
 
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents the concrete location of an XML content value.<p>
@@ -82,7 +83,7 @@ public class CmsXmlContentValueLocation implements I_CmsXmlContentValueLocation 
     /**
      * @see org.opencms.xml.content.I_CmsXmlContentValueLocation#asString(org.opencms.file.CmsObject)
      */
-    public String asString(CmsObject cms) {
+    public @RUntainted String asString(CmsObject cms) {
 
         return m_value.getStringValue(cms);
     }

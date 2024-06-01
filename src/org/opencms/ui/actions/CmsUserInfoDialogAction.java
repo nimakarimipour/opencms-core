@@ -43,6 +43,7 @@ import java.util.Locale;
 
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * User info dialog action, used only for sitemap and page editor toolbar.<p>
@@ -102,7 +103,7 @@ public class CmsUserInfoDialogAction extends A_CmsWorkplaceAction {
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitle(java.util.Locale)
      */
     @Override
-    public String getTitle(Locale locale) {
+    public @RUntainted String getTitle(Locale locale) {
 
         return "";
     }
@@ -132,7 +133,7 @@ public class CmsUserInfoDialogAction extends A_CmsWorkplaceAction {
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
      */
     @Override
-    protected String getTitleKey() {
+    protected @RUntainted String getTitleKey() {
 
         return "";
     }

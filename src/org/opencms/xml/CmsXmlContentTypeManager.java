@@ -55,6 +55,7 @@ import org.apache.commons.logging.Log;
 
 import org.dom4j.Document;
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manager class for registered OpenCms XML content types and content collectors.<p>
@@ -73,7 +74,7 @@ public class CmsXmlContentTypeManager {
     private Map<String, I_CmsWidget> m_defaultWidgets;
 
     /** Stores the registered content types. */
-    private Map<String, I_CmsXmlSchemaType> m_registeredTypes;
+    private @RUntainted Map<String, I_CmsXmlSchemaType> m_registeredTypes;
 
     /** Stores the registered content widgets by class name. */
     private Map<String, I_CmsWidget> m_registeredWidgets;
@@ -82,7 +83,7 @@ public class CmsXmlContentTypeManager {
     private Map<String, String> m_widgetAliases;
 
     /** The default configurations for the widgets. */
-    private Map<String, String> m_widgetDefaultConfigurations;
+    private Map<String, @RUntainted String> m_widgetDefaultConfigurations;
 
     /**
      * Creates a new content type manager.<p>
@@ -168,7 +169,7 @@ public class CmsXmlContentTypeManager {
      * @param className class name of the XML content schema type class to add
      * @param defaultWidget class name of the default XML widget class for the added XML content type
      */
-    public void addSchemaType(String className, String defaultWidget) {
+    public void addSchemaType(@RUntainted String className, @RUntainted String defaultWidget) {
 
         Class<?> classClazz;
         // initialize class for schema type
@@ -224,7 +225,7 @@ public class CmsXmlContentTypeManager {
      * @param aliases the (optional) alias names to use for the widget class
      * @param defaultConfiguration the default configuration of the widget
      */
-    public void addWidget(String className, List<String> aliases, String defaultConfiguration) {
+    public void addWidget(@RUntainted String className, List<String> aliases, @RUntainted String defaultConfiguration) {
 
         Class<?> widgetClazz;
         I_CmsWidget widget;
@@ -323,7 +324,7 @@ public class CmsXmlContentTypeManager {
      * @return an initialized instance of a XML content type definition
      * @throws CmsXmlException in case the element does not describe a valid XML content type definition
      */
-    public I_CmsXmlSchemaType getContentType(Element typeElement, Set<CmsXmlContentDefinition> nestedDefinitions)
+    public I_CmsXmlSchemaType getContentType(@RUntainted Element typeElement, Set<CmsXmlContentDefinition> nestedDefinitions)
     throws CmsXmlException {
 
         if (!CmsXmlContentDefinition.XSD_NODE_ELEMENT.equals(typeElement.getQName())) {
@@ -516,7 +517,7 @@ public class CmsXmlContentTypeManager {
      *
      * @return the default widget configuration
      */
-    public String getWidgetDefaultConfiguration(I_CmsWidget widget) {
+    public @RUntainted String getWidgetDefaultConfiguration(I_CmsWidget widget) {
 
         return m_widgetDefaultConfigurations.get(widget.getClass().getName());
     }

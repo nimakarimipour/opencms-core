@@ -53,6 +53,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The 'simpledisplay' tag can be used to display a single resource using a formatter. It also allows to activate direct editing.<p>
@@ -84,7 +85,7 @@ public class CmsJspTagSimpleDisplay extends BodyTagSupport implements I_CmsJspTa
     private boolean m_editable;
 
     /** The formatter key. */
-    private String m_formatterKey;
+    private @RUntainted String m_formatterKey;
 
     /** Stores the formatter path. */
     private String m_formatterPath;
@@ -105,7 +106,7 @@ public class CmsJspTagSimpleDisplay extends BodyTagSupport implements I_CmsJspTa
     private String m_uploadFolder;
 
     /** The site path to the resource to display. */
-    private String m_value;
+    private @RUntainted String m_value;
 
     /**
      * Constructor.<p>
@@ -157,8 +158,8 @@ public class CmsJspTagSimpleDisplay extends BodyTagSupport implements I_CmsJspTa
                     cms.getRequestContext().getRootUri());
                 I_CmsFormatterBean formatter = getFormatterBean(cms, config);
 
-                Map<String, String> settings = new HashMap<String, String>();
-                for (Entry<String, String> entry : m_parameterMap.entrySet()) {
+                Map<@RUntainted String, @RUntainted String> settings = new HashMap<@RUntainted String, @RUntainted String>();
+                for (Entry<@RUntainted String, @RUntainted String> entry : m_parameterMap.entrySet()) {
                     String settingKeySuffix = CmsJspTagDisplay.getSettingKeyForMatchingFormatterPrefix(
                         config,
                         formatter,
@@ -399,7 +400,7 @@ public class CmsJspTagSimpleDisplay extends BodyTagSupport implements I_CmsJspTa
      *
      * @param value the value to set
      */
-    public void setValue(String value) {
+    public void setValue(@RUntainted String value) {
 
         m_value = value;
     }

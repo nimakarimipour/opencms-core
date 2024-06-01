@@ -35,6 +35,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handler for issues found during XML content validation.<p>
@@ -47,7 +48,7 @@ public class CmsXmlContentErrorHandler {
     private static final Log LOG = CmsLog.getLog(CmsXmlContentErrorHandler.class);
 
     /** The list of validation errors. */
-    private Map<Locale, Map<String, String>> m_errors;
+    private Map<Locale, Map<String, @RUntainted String>> m_errors;
 
     /** Indicates that the validated content has errors. */
     private boolean m_hasErrors;
@@ -56,7 +57,7 @@ public class CmsXmlContentErrorHandler {
     private boolean m_hasWarnings;
 
     /** The list of validation warnings. */
-    private Map<Locale, Map<String, String>> m_warnings;
+    private Map<Locale, Map<String, @RUntainted String>> m_warnings;
 
     /**
      * Create a new instance of the validation handler.<p>
@@ -75,7 +76,7 @@ public class CmsXmlContentErrorHandler {
      * @param value the value that contains the error
      * @param message the error message to add
      */
-    public void addError(I_CmsXmlContentValue value, String message) {
+    public void addError(I_CmsXmlContentValue value, @RUntainted String message) {
 
         m_hasErrors = true;
         Locale locale = value.getLocale();
@@ -95,7 +96,7 @@ public class CmsXmlContentErrorHandler {
      * @param value the value that contians the warning
      * @param message the warning message to add
      */
-    public void addWarning(I_CmsXmlContentValue value, String message) {
+    public void addWarning(I_CmsXmlContentValue value, @RUntainted String message) {
 
         m_hasWarnings = true;
         Locale locale = value.getLocale();
@@ -118,7 +119,7 @@ public class CmsXmlContentErrorHandler {
      *
      * @return the map of validation errors
      */
-    public Map<Locale, Map<String, String>> getErrors() {
+    public Map<@RUntainted Locale, Map<String, @RUntainted String>> getErrors() {
 
         return m_errors;
     }
@@ -130,7 +131,7 @@ public class CmsXmlContentErrorHandler {
      *
      * @return the Map of errors for the selected locale
      */
-    public Map<String, String> getErrors(Locale locale) {
+    public Map<String, @RUntainted String> getErrors(Locale locale) {
 
         return m_errors.get(locale);
     }
@@ -145,7 +146,7 @@ public class CmsXmlContentErrorHandler {
      *
      * @return the map of validation warnings
      */
-    public Map<Locale, Map<String, String>> getWarnings() {
+    public Map<Locale, Map<String, @RUntainted String>> getWarnings() {
 
         return m_warnings;
     }
@@ -157,7 +158,7 @@ public class CmsXmlContentErrorHandler {
      *
      * @return the Map of warnings for the selected locale
      */
-    public Map<String, String> getWarnings(Locale locale) {
+    public Map<String, @RUntainted String> getWarnings(Locale locale) {
 
         return m_warnings.get(locale);
     }
@@ -217,9 +218,9 @@ public class CmsXmlContentErrorHandler {
      *
      * @return the localized issue map from the given base map
      */
-    private Map<String, String> getLocalIssueMap(Map<Locale, Map<String, String>> base, Locale locale) {
+    private Map<String, @RUntainted String> getLocalIssueMap(Map<Locale, Map<String, @RUntainted String>> base, Locale locale) {
 
-        Map<String, String> result = base.get(locale);
+        Map<String, @RUntainted String> result = base.get(locale);
         if (result == null) {
             result = new HashMap<String, String>();
             base.put(locale, result);

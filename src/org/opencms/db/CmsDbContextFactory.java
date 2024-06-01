@@ -28,6 +28,7 @@
 package org.opencms.db;
 
 import org.opencms.file.CmsRequestContext;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A default implementation of {@link I_CmsDbContextFactory}.<p>

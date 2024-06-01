@@ -33,6 +33,7 @@ import org.opencms.i18n.CmsMessages;
 import org.opencms.xml.types.A_CmsXmlContentValue;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Widget for restriction fields.
@@ -56,7 +57,7 @@ public class CmsAccessRestrictionWidget extends CmsCheckboxWidget {
      *
      * @param configuration the configuration
      */
-    public CmsAccessRestrictionWidget(String configuration) {
+    public CmsAccessRestrictionWidget(@RUntainted String configuration) {
 
         super(configuration);
     }

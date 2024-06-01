@@ -48,6 +48,7 @@ import org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility;
 import org.opencms.util.CmsStringUtil;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The display action. Renders the selected resource.<p>
@@ -143,7 +144,7 @@ public class CmsDisplayAction extends A_CmsWorkplaceAction implements I_CmsDefau
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
      */
     @Override
-    protected String getTitleKey() {
+    protected @RUntainted String getTitleKey() {
 
         return Messages.GUI_ACTION_DISPLAY_0;
     }

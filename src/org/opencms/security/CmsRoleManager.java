@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This manager provide access to the role related operations.<p>
@@ -125,7 +126,7 @@ public class CmsRoleManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public List<CmsGroup> getManageableGroups(CmsObject cms, String ouFqn, boolean includeSubOus) throws CmsException {
+    public List<CmsGroup> getManageableGroups(CmsObject cms, @RUntainted String ouFqn, boolean includeSubOus) throws CmsException {
 
         List<CmsGroup> groups = new ArrayList<CmsGroup>();
         Iterator<CmsOrganizationalUnit> it = getOrgUnitsForRole(
@@ -153,7 +154,7 @@ public class CmsRoleManager {
      */
     public List<CmsOrganizationalUnit> getManageableOrgUnits(
         CmsObject cms,
-        String ouFqn,
+        @RUntainted String ouFqn,
         boolean includeSubOus,
         boolean includeWebusers)
     throws CmsException {
@@ -199,7 +200,7 @@ public class CmsRoleManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public List<CmsUser> getManageableUsers(CmsObject cms, String ouFqn, boolean includeSubOus) throws CmsException {
+    public List<CmsUser> getManageableUsers(CmsObject cms, @RUntainted String ouFqn, boolean includeSubOus) throws CmsException {
 
         return getManageableUsers(cms, ouFqn, includeSubOus, false);
     }
@@ -217,7 +218,7 @@ public class CmsRoleManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public List<CmsUser> getManageableUsers(CmsObject cms, String ouFqn, boolean includeSubOus, boolean includeWebusers)
+    public List<CmsUser> getManageableUsers(CmsObject cms, @RUntainted String ouFqn, boolean includeSubOus, boolean includeWebusers)
     throws CmsException {
 
         List<CmsOrganizationalUnit> ous = getManageableOrgUnits(cms, ouFqn, includeSubOus, includeWebusers);

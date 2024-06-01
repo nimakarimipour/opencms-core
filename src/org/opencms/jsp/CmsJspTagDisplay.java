@@ -70,6 +70,7 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The 'display' tag can be used to display a single resource using a formatter. It also allows to activate direct editing.<p>
@@ -86,7 +87,7 @@ public class CmsJspTagDisplay extends BodyTagSupport implements I_CmsJspTagParam
     private static final long serialVersionUID = 2285680951218629093L;
 
     /** The base URI. */
-    private String m_baseUri;
+    private @RUntainted String m_baseUri;
 
     /** True if the display formatter include should go through the flex cache. */
     private Boolean m_cacheable;
@@ -101,7 +102,7 @@ public class CmsJspTagDisplay extends BodyTagSupport implements I_CmsJspTagParam
     private String m_creationSiteMap;
 
     /** The display formatter ids. */
-    private Map<String, String> m_displayFormatterIds;
+    private Map<String, @RUntainted String> m_displayFormatterIds;
 
     /** The display formatter paths. */
     private Map<String, String> m_displayFormatterPaths;
@@ -125,7 +126,7 @@ public class CmsJspTagDisplay extends BodyTagSupport implements I_CmsJspTagParam
     private String m_uploadFolder;
 
     /** The site path to the resource to display. */
-    private String m_value;
+    private @RUntainted String m_value;
 
     /**
      * Constructor.<p>
@@ -161,11 +162,11 @@ public class CmsJspTagDisplay extends BodyTagSupport implements I_CmsJspTagParam
         boolean canCreate,
         boolean canDelete,
         String creationSiteMap,
-        String postCreateHandler,
+        @RUntainted String postCreateHandler,
         String uploadFolder,
-        PageContext context,
-        ServletRequest request,
-        ServletResponse response) {
+        @RUntainted PageContext context,
+        @RUntainted ServletRequest request,
+        @RUntainted ServletResponse response) {
 
         if (CmsFlexController.isCmsRequest(request)) {
             // this will always be true if the page is called through OpenCms
@@ -247,9 +248,9 @@ public class CmsJspTagDisplay extends BodyTagSupport implements I_CmsJspTagParam
     public static void displayAction(
         CmsContainerElementBean element,
         I_CmsFormatterBean formatter,
-        PageContext context,
-        ServletRequest request,
-        ServletResponse response) {
+        @RUntainted PageContext context,
+        @RUntainted ServletRequest request,
+        @RUntainted ServletResponse response) {
 
         displayAction(element, formatter, true, false, false, false, null, null, null, context, request, response);
     }
@@ -274,17 +275,17 @@ public class CmsJspTagDisplay extends BodyTagSupport implements I_CmsJspTagParam
     public static void displayAction(
         CmsResource elementResource,
         I_CmsFormatterBean formatter,
-        Map<String, String> settings,
+        @RUntainted Map<@RUntainted String, @RUntainted String> settings,
         boolean cacheable,
         boolean editable,
         boolean canCreate,
         boolean canDelete,
         String creationSiteMap,
-        String postCreateHandler,
+        @RUntainted String postCreateHandler,
         String uploadFolder,
-        PageContext context,
-        ServletRequest request,
-        ServletResponse response) {
+        @RUntainted PageContext context,
+        @RUntainted ServletRequest request,
+        @RUntainted ServletResponse response) {
 
         CmsContainerElementBean element = new CmsContainerElementBean(
             elementResource.getStructureId(),
@@ -318,7 +319,7 @@ public class CmsJspTagDisplay extends BodyTagSupport implements I_CmsJspTagParam
     public static String getSettingKeyForMatchingFormatterPrefix(
         CmsADEConfigData config,
         I_CmsFormatterBean formatter,
-        String settingKey) {
+        @RUntainted String settingKey) {
 
         if (CmsElementUtil.isSystemSetting(settingKey)) {
             return null;
@@ -413,7 +414,7 @@ public class CmsJspTagDisplay extends BodyTagSupport implements I_CmsJspTagParam
                     throw new JspException(error);
                 }
 
-                Map<String, String> settings = prepareSettings(config, formatter);
+                Map<@RUntainted String, @RUntainted String> settings = prepareSettings(config, formatter);
 
                 displayAction(
                     res,
@@ -518,7 +519,7 @@ public class CmsJspTagDisplay extends BodyTagSupport implements I_CmsJspTagParam
      *
      * @param uri the base URI
      */
-    public void setBaseUri(String uri) {
+    public void setBaseUri(@RUntainted String uri) {
 
         m_baseUri = uri;
     }
@@ -669,7 +670,7 @@ public class CmsJspTagDisplay extends BodyTagSupport implements I_CmsJspTagParam
      *
      * @param value the value to set
      */
-    public void setValue(String value) {
+    public void setValue(@RUntainted String value) {
 
         m_value = value;
     }
@@ -701,7 +702,7 @@ public class CmsJspTagDisplay extends BodyTagSupport implements I_CmsJspTagParam
      *
      * @return the formatter configuration bean
      */
-    private I_CmsFormatterBean getFormatterForType(CmsObject cms, CmsResource resource, boolean isOnline) {
+    private I_CmsFormatterBean getFormatterForType(CmsObject cms, @RUntainted CmsResource resource, boolean isOnline) {
 
         String typeName = OpenCms.getResourceManager().getResourceType(resource).getTypeName();
         CmsADEConfigData config = OpenCms.getADEManager().lookupConfigurationWithCache(
@@ -747,10 +748,10 @@ public class CmsJspTagDisplay extends BodyTagSupport implements I_CmsJspTagParam
      *
      * @return the settings to use
      */
-    private Map<String, String> prepareSettings(CmsADEConfigData config, I_CmsFormatterBean formatter) {
+    private @RUntainted Map<@RUntainted String, @RUntainted String> prepareSettings(CmsADEConfigData config, I_CmsFormatterBean formatter) {
 
-        Map<String, String> settings = new HashMap<String, String>();
-        for (Entry<String, String> entry : m_parameterMap.entrySet()) {
+        Map<String, @RUntainted String> settings = new HashMap<String, @RUntainted String>();
+        for (Entry<@RUntainted String, String> entry : m_parameterMap.entrySet()) {
             if (CmsContainerElement.ELEMENT_INSTANCE_ID.equals(entry.getKey())) {
                 // remove any instance id to make sure to generate a unique one
                 continue;

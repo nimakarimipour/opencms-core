@@ -34,6 +34,7 @@ import org.opencms.workplace.CmsWorkplace;
 
 import java.util.Iterator;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a HTML text input field with optional values to select in a combo box, for use on a widget dialog.<p>
@@ -79,7 +80,7 @@ public class CmsComboWidget extends A_CmsSelectWidget {
      *
      * @param configuration the configuration (possible options) for the combo box
      */
-    public CmsComboWidget(String configuration) {
+    public CmsComboWidget(@RUntainted String configuration) {
 
         super(configuration);
     }

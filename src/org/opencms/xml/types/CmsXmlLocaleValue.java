@@ -33,6 +33,7 @@ import java.util.Locale;
 import java.util.regex.Pattern;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes the XML content type "OpenCmsLocale".<p>
@@ -66,7 +67,7 @@ public class CmsXmlLocaleValue extends A_CmsXmlValueTextBase {
      * @param locale the locale this value is created for
      * @param type the type instance to create the value for
      */
-    public CmsXmlLocaleValue(I_CmsXmlDocument document, Element element, Locale locale, I_CmsXmlSchemaType type) {
+    public CmsXmlLocaleValue(I_CmsXmlDocument document, @RUntainted Element element, Locale locale, I_CmsXmlSchemaType type) {
 
         super(document, element, locale, type);
     }
@@ -78,7 +79,7 @@ public class CmsXmlLocaleValue extends A_CmsXmlValueTextBase {
      * @param minOccurs minimum number of occurrences of this type according to the XML schema
      * @param maxOccurs maximum number of occurrences of this type according to the XML schema
      */
-    public CmsXmlLocaleValue(String name, String minOccurs, String maxOccurs) {
+    public CmsXmlLocaleValue(@RUntainted String name, String minOccurs, String maxOccurs) {
 
         super(name, minOccurs, maxOccurs);
     }
@@ -86,7 +87,7 @@ public class CmsXmlLocaleValue extends A_CmsXmlValueTextBase {
     /**
      * @see org.opencms.xml.types.A_CmsXmlContentValue#createValue(I_CmsXmlDocument, org.dom4j.Element, Locale)
      */
-    public I_CmsXmlContentValue createValue(I_CmsXmlDocument document, Element element, Locale locale) {
+    public I_CmsXmlContentValue createValue(I_CmsXmlDocument document, @RUntainted Element element, Locale locale) {
 
         return new CmsXmlLocaleValue(document, element, locale, this);
     }
@@ -125,7 +126,7 @@ public class CmsXmlLocaleValue extends A_CmsXmlValueTextBase {
     /**
      * @see org.opencms.xml.types.A_CmsXmlContentValue#newInstance(java.lang.String, java.lang.String, java.lang.String)
      */
-    public I_CmsXmlSchemaType newInstance(String name, String minOccurs, String maxOccurs) {
+    public I_CmsXmlSchemaType newInstance(@RUntainted String name, String minOccurs, String maxOccurs) {
 
         return new CmsXmlLocaleValue(name, minOccurs, maxOccurs);
     }

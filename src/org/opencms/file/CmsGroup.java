@@ -35,6 +35,8 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.util.CmsUUID;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * A group principal in the OpenCms permission system.<p>
@@ -68,7 +70,7 @@ public class CmsGroup extends CmsPrincipal {
      * @param description the description of the group
      * @param flags the flags of the group
      */
-    public CmsGroup(CmsUUID id, CmsUUID parentId, String name, String description, int flags) {
+    public CmsGroup(@RUntainted CmsUUID id, CmsUUID parentId, @RUntainted String name, @RUntainted String description, @RUntainted int flags) {
 
         m_id = id;
         m_name = name;

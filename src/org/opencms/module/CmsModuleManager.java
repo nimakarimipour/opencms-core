@@ -66,6 +66,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manages the modules of an OpenCms installation.<p>
@@ -90,7 +91,7 @@ public class CmsModuleManager {
     private Set<CmsExportPoint> m_moduleExportPoints;
 
     /** The map of configured modules. */
-    private Map<String, CmsModule> m_modules;
+    private @RUntainted Map<String, CmsModule> m_modules;
 
     /** Whether incremental module updates are allowed (rather than deleting / reimporting the module). */
     private boolean m_moduleUpdateEnabled = true;
@@ -141,7 +142,7 @@ public class CmsModuleManager {
      *
      * @throws CmsConfigurationException if something goes wrong
      */
-    public static Map<String, List<String>> buildDepsForAllModules(String rfsAbsPath, boolean mode)
+    public static Map<String, List<String>> buildDepsForAllModules(@RUntainted String rfsAbsPath, boolean mode)
     throws CmsConfigurationException {
 
         Map<String, List<String>> ret = new HashMap<String, List<String>>();
@@ -216,7 +217,7 @@ public class CmsModuleManager {
      */
     public static Map<String, List<String>> buildDepsForModulelist(
         List<String> moduleNames,
-        String rfsAbsPath,
+        @RUntainted String rfsAbsPath,
         boolean mode)
     throws CmsConfigurationException {
 
@@ -250,7 +251,7 @@ public class CmsModuleManager {
      *
      * @throws CmsConfigurationException if something goes wrong
      */
-    public static Map<CmsModule, String> getAllModulesFromPath(String rfsAbsPath) throws CmsConfigurationException {
+    public static Map<CmsModule, String> getAllModulesFromPath(@RUntainted String rfsAbsPath) throws CmsConfigurationException {
 
         Map<CmsModule, String> modules = new HashMap<CmsModule, String>();
         if (rfsAbsPath == null) {
@@ -259,7 +260,7 @@ public class CmsModuleManager {
         File folder = new File(rfsAbsPath);
         if (folder.exists()) {
             // list all child resources in the given folder
-            File[] folderFiles = folder.listFiles();
+            @RUntainted File[] folderFiles = folder.listFiles();
             if (folderFiles != null) {
                 for (int i = 0; i < folderFiles.length; i++) {
                     File moduleFile = folderFiles[i];
@@ -497,7 +498,7 @@ public class CmsModuleManager {
      */
     public synchronized void deleteModule(
         CmsObject cms,
-        String moduleName,
+        @RUntainted String moduleName,
         boolean replace,
         boolean preserveLibs,
         I_CmsReport report)
@@ -762,7 +763,7 @@ public class CmsModuleManager {
      * @throws CmsConfigurationException if a module with this name is not available for deleting
      * @throws CmsLockException if the module resources can not be locked
      */
-    public synchronized void deleteModule(CmsObject cms, String moduleName, boolean replace, I_CmsReport report)
+    public synchronized void deleteModule(CmsObject cms, @RUntainted String moduleName, boolean replace, I_CmsReport report)
     throws CmsRoleViolationException, CmsConfigurationException, CmsLockException {
 
         deleteModule(cms, moduleName, replace, false, report);
@@ -816,7 +817,7 @@ public class CmsModuleManager {
      *
      * @return the set of names of all the installed modules
      */
-    public Set<String> getModuleNames() {
+    public @RUntainted Set<@RUntainted String> getModuleNames() {
 
         synchronized (m_modules) {
             return new HashSet<String>(m_modules.keySet());
@@ -917,7 +918,7 @@ public class CmsModuleManager {
      * @return the module replacement status
      * @throws CmsException if something goes wrong
      */
-    public CmsReplaceModuleInfo replaceModule(CmsObject cms, String importFile, I_CmsReport report)
+    public CmsReplaceModuleInfo replaceModule(CmsObject cms, @RUntainted String importFile, I_CmsReport report)
     throws CmsException {
 
         CmsModule module = CmsModuleImportExportHandler.readModuleFromImport(importFile);
@@ -1088,7 +1089,7 @@ public class CmsModuleManager {
         Iterator<CmsModule> i = m_modules.values().iterator();
         while (i.hasNext()) {
             CmsModule module = i.next();
-            List<CmsExportPoint> moduleExportPoints = module.getExportPoints();
+            List<@RUntainted CmsExportPoint> moduleExportPoints = module.getExportPoints();
             for (int j = 0; j < moduleExportPoints.size(); j++) {
                 CmsExportPoint point = moduleExportPoints.get(j);
                 if (exportPoints.contains(point)) {

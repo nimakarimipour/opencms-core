@@ -35,6 +35,7 @@ import org.apache.commons.digester3.AbstractObjectCreationFactory;
 import org.apache.commons.logging.Log;
 
 import org.xml.sax.Attributes;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Factory to create resource type instances from the XML configuration.<p>
@@ -63,7 +64,7 @@ public class CmsDigesterResourceTypeCreationFactory extends AbstractObjectCreati
      * @see org.apache.commons.digester3.ObjectCreationFactory#createObject(org.xml.sax.Attributes)
      */
     @Override
-    public I_CmsResourceType createObject(Attributes attributes) throws Exception {
+    public I_CmsResourceType createObject(@RUntainted Attributes attributes) throws Exception {
 
         // get the class name attribute
         String className = attributes.getValue(I_CmsXmlConfiguration.A_CLASS);
