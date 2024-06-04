@@ -28,6 +28,7 @@
 package org.opencms.acacia.shared;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The attribute configuration. Stating the attribute label, help, widget name and widget configuration.<p>

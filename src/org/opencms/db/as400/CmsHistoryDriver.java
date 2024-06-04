@@ -28,6 +28,7 @@
 package org.opencms.db.as400;
 
 import org.opencms.db.generic.CmsSqlManager;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * AS400 implementation of the history driver methods.<p>

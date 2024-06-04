@@ -46,6 +46,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Action to lock a folder if it isn't already locked, with a dialog asking to confirm your choice
@@ -192,7 +193,7 @@ public class CmsLockAction extends A_CmsWorkplaceAction {
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
      */
     @Override
-    protected String getTitleKey() {
+    protected @RUntainted String getTitleKey() {
 
         return org.opencms.workplace.explorer.Messages.GUI_EXPLORER_CONTEXT_LOCK_0;
     }

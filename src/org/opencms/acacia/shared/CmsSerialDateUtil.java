@@ -26,6 +26,7 @@
  */
 
 package org.opencms.acacia.shared;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Utility methods for the serial date widget. */
 public final class CmsSerialDateUtil {
@@ -34,7 +35,7 @@ public final class CmsSerialDateUtil {
      * Returns the maximally allowed number of events in a series.
      * @return the maximally allowed number of events in a series.
      */
-    public static int getMaxEvents() {
+    public static @RUntainted int getMaxEvents() {
 
         return 100;
     }

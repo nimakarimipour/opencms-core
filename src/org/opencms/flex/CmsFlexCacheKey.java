@@ -45,6 +45,8 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Key used to describe the caching behaviour of a specific resource.<p>
@@ -618,7 +620,7 @@ public class CmsFlexCacheKey {
      * @return a complete String representation for this key
      */
     @Override
-    public String toString() {
+    public @RUntainted String toString() {
 
         StringBuffer str = new StringBuffer(100);
 
@@ -819,7 +821,7 @@ public class CmsFlexCacheKey {
      *
      * @return the resource
      */
-    protected String getResource() {
+    protected @RUntainted String getResource() {
 
         return m_resource;
     }
@@ -842,8 +844,8 @@ public class CmsFlexCacheKey {
      */
     private void parseFlexKey(String key) {
 
-        List<String> tokens = CmsStringUtil.splitAsList(key, ';', false);
-        Iterator<String> i = tokens.iterator();
+        List<@RUntainted String> tokens = CmsStringUtil.splitAsList(key, ';', false);
+        Iterator<@RUntainted String> i = tokens.iterator();
         try {
             while (i.hasNext()) {
                 String t = i.next();
@@ -994,7 +996,7 @@ public class CmsFlexCacheKey {
      * @param value the String to parse
      * @return a Map that contains of the parsed values, only the keyset of the Map is needed later
      */
-    private Set<String> parseValueList(String value) {
+    private Set<String> parseValueList(@RUntainted String value) {
 
         if (value.charAt(0) == '(') {
             value = value.substring(1);
@@ -1009,7 +1011,7 @@ public class CmsFlexCacheKey {
         if (LOG.isDebugEnabled()) {
             LOG.debug(Messages.get().getBundle().key(Messages.LOG_FLEXCACHEKEY_PARSE_VALUES_1, value));
         }
-        List<String> tokens = CmsStringUtil.splitAsList(value, ',', true);
+        List<@RUntainted String> tokens = CmsStringUtil.splitAsList(value, ',', true);
         Set<String> result = new HashSet<String>();
         result.addAll(tokens);
         return result;

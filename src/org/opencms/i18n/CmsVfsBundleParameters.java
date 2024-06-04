@@ -28,6 +28,7 @@
 package org.opencms.i18n;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Data class containing the parameters for a VFS-based resource bundle.<p>
@@ -41,7 +42,7 @@ public class CmsVfsBundleParameters {
     private boolean m_isDefault;
 
     /** The locale of the message bundle. */
-    private Locale m_locale;
+    private @RUntainted Locale m_locale;
 
     /** The name of the message bundle. */
     private String m_name;
@@ -81,7 +82,7 @@ public class CmsVfsBundleParameters {
      *
      * @return the locale
      */
-    public Locale getLocale() {
+    public @RUntainted Locale getLocale() {
 
         return m_locale;
     }

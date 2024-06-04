@@ -42,6 +42,7 @@ import org.opencms.ui.dialogs.history.CmsHistoryDialog;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The delete dialog action.<p>
@@ -93,9 +94,9 @@ public class CmsHistoryDialogAction extends A_CmsWorkplaceAction implements I_Cm
     /**
      * @see org.opencms.ui.actions.I_CmsADEAction#getParams()
      */
-    public Map<String, String> getParams() {
+    public Map<String, @RUntainted String> getParams() {
 
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, @RUntainted String> params = new HashMap<String, @RUntainted String>();
         params.put(CmsGwtConstants.ACTION_PARAM_DIALOG_ID, this.getClass().getName());
         return params;
     }
@@ -120,7 +121,7 @@ public class CmsHistoryDialogAction extends A_CmsWorkplaceAction implements I_Cm
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
      */
     @Override
-    protected String getTitleKey() {
+    protected @RUntainted String getTitleKey() {
 
         return org.opencms.workplace.explorer.Messages.GUI_EXPLORER_CONTEXT_HISTORY_0;
     }

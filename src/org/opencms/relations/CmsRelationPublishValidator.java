@@ -41,6 +41,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Util class to find broken links in a bundle of resources to be published.<p>
@@ -53,7 +54,7 @@ public class CmsRelationPublishValidator {
     private static final Log LOG = CmsLog.getLog(CmsRelationPublishValidator.class);
 
     /** The internal computed broken relations map. */
-    protected Map<String, List<CmsRelation>> m_brokenRelations;
+    protected Map<@RUntainted String, List<CmsRelation>> m_brokenRelations;
 
     /** the cms context object. */
     private CmsObject m_cms;
@@ -88,7 +89,7 @@ public class CmsRelationPublishValidator {
      *
      * @return the information bean for the given entry
      */
-    public CmsRelationValidatorInfoEntry getInfoEntry(String resourceName) {
+    public CmsRelationValidatorInfoEntry getInfoEntry(@RUntainted String resourceName) {
 
         String resName = resourceName;
         String siteRoot = m_cms.getRequestContext().getSiteRoot();
@@ -137,7 +138,7 @@ public class CmsRelationPublishValidator {
      *
      * @return the broken relations key set
      */
-    public Set<String> keySet() {
+    public Set<@RUntainted String> keySet() {
 
         return m_brokenRelations.keySet();
     }

@@ -49,6 +49,8 @@ import java.util.Set;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * A role is used in the OpenCms security system to check if a user has access to a certain system function.<p>
@@ -126,7 +128,7 @@ public final class CmsRole {
     public static final CmsRole WORKPLACE_USER;
 
     /** The list of system roles. */
-    private static final List<CmsRole> SYSTEM_ROLES;
+    private static final @RUntainted List<CmsRole> SYSTEM_ROLES;
 
     /**
      * Initializes the system roles with the configured OpenCms system group names.<p>
@@ -192,22 +194,22 @@ public final class CmsRole {
     private List<String> m_distictGroupNames = new ArrayList<String>();
 
     /** The name of the group this role is mapped to in the OpenCms database.*/
-    private final String m_groupName;
+    private final @RUntainted String m_groupName;
 
     /** The id of the role, does not differentiate for organizational units. */
-    private final CmsUUID m_id;
+    private final @RUntainted CmsUUID m_id;
 
     /** Indicates if this role is organizational unit dependent. */
     private boolean m_ouDependent;
 
     /** The organizational unit this role applies to. */
-    private String m_ouFqn;
+    private @RUntainted String m_ouFqn;
 
     /** The parent role of this role. */
     private final CmsRole m_parentRole;
 
     /** The name of this role. */
-    private final String m_roleName;
+    private final @RUntainted String m_roleName;
 
     /** Indicates if this role is a system role or a user defined role. */
     private boolean m_systemRole;
@@ -220,7 +222,7 @@ public final class CmsRole {
      * @param parentRole the parent role of this role
      * @param ouDependent if the role is organizational unit dependent
      */
-    public CmsRole(String roleName, CmsRole parentRole, String groupName, boolean ouDependent) {
+    public CmsRole(@RUntainted String roleName, CmsRole parentRole, @RUntainted String groupName, boolean ouDependent) {
 
         this(roleName, parentRole, groupName);
         m_ouDependent = ouDependent;
@@ -252,7 +254,7 @@ public final class CmsRole {
      * @param parentRole the parent role of this role
      * @param groupName the related group name
      */
-    private CmsRole(String roleName, CmsRole parentRole, String groupName) {
+    private CmsRole(@RUntainted String roleName, CmsRole parentRole, @RUntainted String groupName) {
 
         m_roleName = roleName;
         m_id = CmsUUID.getConstantUUID(m_roleName);
@@ -293,7 +295,7 @@ public final class CmsRole {
      *
      * @return the list of system defined roles
      */
-    public static List<CmsRole> getSystemRoles() {
+    public static @RUntainted List<CmsRole> getSystemRoles() {
 
         return SYSTEM_ROLES;
     }
@@ -333,7 +335,7 @@ public final class CmsRole {
      *
      * @return the given String with the prefix {@link #PRINCIPAL_ROLE} and the following dot removed
      */
-    public static String removePrefix(String principalName) {
+    public static @RPolyTainted String removePrefix(@RPolyTainted String principalName) {
 
         String result = principalName;
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(principalName)) {
@@ -377,7 +379,7 @@ public final class CmsRole {
      *
      * @return the role for the given group name
      */
-    public static CmsRole valueOfGroupName(String groupName) {
+    public static CmsRole valueOfGroupName(@RUntainted String groupName) {
 
         String groupOu = CmsOrganizationalUnit.getParentFqn(groupName);
         Iterator<CmsRole> it = SYSTEM_ROLES.iterator();
@@ -423,7 +425,7 @@ public final class CmsRole {
      *
      * @return the role for the given role name
      */
-    public static CmsRole valueOfRoleName(String roleName) {
+    public static CmsRole valueOfRoleName(@RUntainted String roleName) {
 
         String roleOu = CmsOrganizationalUnit.getParentFqn(roleName);
         Iterator<CmsRole> it = SYSTEM_ROLES.iterator();
@@ -542,7 +544,7 @@ public final class CmsRole {
      *
      * @return a new role based on this one for the given organizational unit
      */
-    public CmsRole forOrgUnit(String ouFqn) {
+    public @RUntainted CmsRole forOrgUnit(@RUntainted String ouFqn) {
 
         CmsRole newRole = new CmsRole(this);
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(ouFqn)) {
@@ -636,7 +638,7 @@ public final class CmsRole {
      *
      * @return the fqn of this role
      */
-    public String getFqn() {
+    public @RUntainted String getFqn() {
 
         if (getOuFqn() == null) {
             return getRoleName();
@@ -651,7 +653,7 @@ public final class CmsRole {
      *
      * @return the name of the group this role is mapped to in the OpenCms database
      */
-    public String getGroupName() {
+    public @RUntainted String getGroupName() {
 
         if ((m_ouFqn == null) || isOrganizationalUnitIndependent()) {
             return m_groupName;
@@ -666,7 +668,7 @@ public final class CmsRole {
      *
      * @return the id of this role
      */
-    public CmsUUID getId() {
+    public @RUntainted CmsUUID getId() {
 
         return m_id;
     }
@@ -678,7 +680,7 @@ public final class CmsRole {
      *
      * @return the localized role name
      */
-    public String getName(Locale locale) {
+    public @RUntainted String getName(Locale locale) {
 
         if (m_systemRole) {
             // localize role names for system roles
@@ -716,7 +718,7 @@ public final class CmsRole {
      *
      * @return the name of the role
      */
-    public String getRoleName() {
+    public @RUntainted String getRoleName() {
 
         return m_roleName;
     }
@@ -726,7 +728,7 @@ public final class CmsRole {
      *
      * @return the flags needed for a group to emulate this role
      */
-    public int getVirtualGroupFlags() {
+    public @RUntainted int getVirtualGroupFlags() {
 
         int flags = I_CmsPrincipal.FLAG_GROUP_VIRTUAL;
         flags += I_CmsPrincipal.FLAG_GROUP_VIRTUAL * 2 * getSystemRoles().indexOf(forOrgUnit(null));

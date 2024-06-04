@@ -39,6 +39,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.Window;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The dialog for selecting a site when exporting / deleting a module without a module site.<p>
@@ -60,7 +61,7 @@ public class CmsSiteSelectDialog extends CmsBasicDialog {
          *
          * @param site the selected site root
          */
-        void onSiteSelect(String site);
+        void onSiteSelect(@RUntainted String site);
     }
 
     /** The property id for the caption. */
@@ -79,7 +80,7 @@ public class CmsSiteSelectDialog extends CmsBasicDialog {
     private Button m_okButton;
 
     /** The site selector. */
-    private ComboBox m_siteSelector;
+    private @RUntainted ComboBox m_siteSelector;
 
     /**
      * Creates a new instance.<p>
@@ -136,7 +137,7 @@ public class CmsSiteSelectDialog extends CmsBasicDialog {
 
             }
 
-            public void onSiteSelect(String site) {
+            public void onSiteSelect(@RUntainted String site) {
 
                 window.close();
                 callback.onSiteSelect(site);
@@ -150,7 +151,7 @@ public class CmsSiteSelectDialog extends CmsBasicDialog {
      *
      * @return the selected site
      */
-    public String getSite() {
+    public @RUntainted String getSite() {
 
         return (String)(m_siteSelector.getValue());
     }

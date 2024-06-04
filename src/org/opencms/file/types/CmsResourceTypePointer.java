@@ -30,6 +30,7 @@ package org.opencms.file.types;
 import org.opencms.configuration.CmsConfigurationException;
 import org.opencms.loader.CmsPointerLoader;
 import org.opencms.main.OpenCms;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor for the type "pointer".<p>

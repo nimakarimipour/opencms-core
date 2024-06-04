@@ -52,6 +52,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * ADE's session cache.<p>
@@ -149,7 +150,7 @@ public final class CmsADESessionCache {
     private CmsGallerySearchBean m_lastPageEditorGallerySearch;
 
     /** The recently used formatters by resource type. */
-    private Map<String, List<String>> m_recentFormatters = new ConcurrentHashMap<String, List<String>>();
+    private Map<String, List<@RUntainted String>> m_recentFormatters = new ConcurrentHashMap<String, List<@RUntainted String>>();
 
     /** The sitemap editor mode. */
     private EditorMode m_sitemapEditorMode;
@@ -209,7 +210,7 @@ public final class CmsADESessionCache {
      *
      * @return the ADE session cache for the current session
      */
-    public static CmsADESessionCache getCache(HttpServletRequest request, CmsObject cms) {
+    public static CmsADESessionCache getCache(@RUntainted HttpServletRequest request, @RUntainted CmsObject cms) {
 
         CmsADESessionCache cache = (CmsADESessionCache)request.getSession().getAttribute(
             CmsADESessionCache.SESSION_ATTR_ADE_CACHE);
@@ -333,7 +334,7 @@ public final class CmsADESessionCache {
     public I_CmsFormatterBean getRecentFormatter(String resType, CmsContainer container, CmsADEConfigData config) {
 
         I_CmsFormatterBean result = null;
-        List<String> formatterKeys = m_recentFormatters.get(resType);
+        List<@RUntainted String> formatterKeys = m_recentFormatters.get(resType);
         if (formatterKeys != null) {
             Set<String> types = new HashSet<String>(Arrays.asList(container.getType().trim().split(" *, *")));
             for (String key : formatterKeys) {

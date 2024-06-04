@@ -68,6 +68,7 @@ import org.apache.chemistry.opencmis.commons.impl.dataobjects.PropertyIdImpl;
 import org.apache.chemistry.opencmis.commons.impl.dataobjects.PropertyIntegerImpl;
 import org.apache.chemistry.opencmis.commons.impl.dataobjects.PropertyStringImpl;
 import org.apache.chemistry.opencmis.commons.impl.dataobjects.PropertyUriImpl;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Utility class for operations which are frequently used by CMIS service methods.<p>
@@ -448,7 +449,7 @@ public final class CmsCmisUtil {
      * @param principalId the principal id from the ACE
      * @return the name of the principle
      */
-    public static String getAcePrincipalName(CmsObject cms, CmsUUID principalId) {
+    public static String getAcePrincipalName(CmsObject cms, @RUntainted CmsUUID principalId) {
 
         if (CmsAccessControlEntry.PRINCIPAL_ALL_OTHERS_ID.equals(principalId)) {
             return CmsAccessControlEntry.PRINCIPAL_ALL_OTHERS_NAME;

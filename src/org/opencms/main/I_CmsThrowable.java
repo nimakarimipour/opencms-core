@@ -30,6 +30,7 @@ package org.opencms.main;
 import org.opencms.i18n.CmsMessageContainer;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides localized Exception handling based on the OpenCms default locale.<p>

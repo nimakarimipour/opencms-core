@@ -28,6 +28,7 @@
 package org.opencms.xml.xml2json;
 
 import org.opencms.file.CmsObject;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Custom XML content values should implement this interface if custom JSON formatting is needed for them.
@@ -41,6 +42,6 @@ public interface I_CmsJsonFormattableValue {
      *
      * @return the JSON representation of the value
      */
-    Object toJson(CmsObject cms);
+    @RUntainted Object toJson(CmsObject cms);
 
 }

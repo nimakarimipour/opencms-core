@@ -30,6 +30,7 @@ package org.opencms.repository;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import com.google.common.base.Objects;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 public class CmsPropertyName {
 
@@ -59,12 +60,12 @@ public class CmsPropertyName {
         return Objects.equal(m_name, other.m_name) && Objects.equal(m_namespace, other.m_namespace);
     }
 
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_name;
     }
 
-    public String getNamespace() {
+    public @RUntainted String getNamespace() {
 
         return m_namespace;
     }

@@ -42,6 +42,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Creates and validates persisten login tokens for users.<p>
@@ -75,7 +76,7 @@ public class CmsPersistentLoginTokenHandler {
         public Token(String token) {
 
             if (token != null) {
-                List<String> parts = CmsStringUtil.splitAsList(token, SEPARATOR);
+                List<@RUntainted String> parts = CmsStringUtil.splitAsList(token, SEPARATOR);
                 if (parts.size() == 2) {
                     m_name = decodeName(parts.get(0));
                     m_key = parts.get(1);
@@ -195,7 +196,7 @@ public class CmsPersistentLoginTokenHandler {
     private static CmsObject m_adminCms;
 
     /** The lifetime for created tokens. */
-    private long m_lifetime = DEFAULT_LIFETIME;
+    private @RUntainted long m_lifetime = DEFAULT_LIFETIME;
 
     /**
      * Creates a new instance.<p>
@@ -225,7 +226,7 @@ public class CmsPersistentLoginTokenHandler {
      *
      * @throws CmsException if something goes wrong
      */
-    public String createToken(CmsObject cms) throws CmsException {
+    public @RUntainted String createToken(CmsObject cms) throws CmsException {
 
         CmsUser user = cms.getRequestContext().getCurrentUser();
         String key = RandomStringUtils.randomAlphanumeric(16);
@@ -271,7 +272,7 @@ public class CmsPersistentLoginTokenHandler {
     public void removeExpiredTokens(CmsUser user, long now) {
 
         List<String> toRemove = Lists.newArrayList();
-        for (Map.Entry<String, Object> entry : user.getAdditionalInfo().entrySet()) {
+        for (Map.Entry<String, @RUntainted Object> entry : user.getAdditionalInfo().entrySet()) {
             String key = entry.getKey();
             if (key.startsWith(KEY_PREFIX)) {
                 try {
@@ -295,7 +296,7 @@ public class CmsPersistentLoginTokenHandler {
      *
      * @param duration the number of milliseconds for which the token should be valid
      */
-    public void setTokenLifetime(long duration) {
+    public void setTokenLifetime(@RUntainted long duration) {
 
         m_lifetime = duration;
     }

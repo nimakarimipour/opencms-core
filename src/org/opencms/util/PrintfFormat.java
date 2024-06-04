@@ -60,6 +60,7 @@ import java.text.DecimalFormatSymbols;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Vector;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * PrintfFormat allows the formatting of an array of
@@ -3645,7 +3646,7 @@ public class PrintfFormat {
      * @exception CmsIllegalArgumentException if the
      *   conversion character is neither s nor S.
      */
-    public String sprintf(String x) throws CmsIllegalArgumentException {
+    public @RUntainted String sprintf(String x) throws CmsIllegalArgumentException {
 
         Enumeration<ConversionSpecification> e = m_vFmt.elements();
         ConversionSpecification cs = null;

@@ -36,6 +36,7 @@ import org.opencms.main.CmsLog;
 import java.util.Arrays;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Parser for restriction rules.

@@ -46,6 +46,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The CmsLockManager is used by the Cms application to detect
@@ -454,7 +455,7 @@ public final class CmsLockManager {
      * @param source the source root path
      * @param destination the destination root path
      */
-    public void moveResource(String source, String destination) {
+    public void moveResource(String source, @RUntainted String destination) {
 
         CmsLock lock = OpenCms.getMemoryMonitor().getCachedLock(source);
         if (lock != null) {
@@ -500,7 +501,7 @@ public final class CmsLockManager {
      * @param resourceName the root path of the deleted resource
      * @throws CmsException if something goes wrong
      */
-    public void removeDeletedResource(CmsDbContext dbc, String resourceName) throws CmsException {
+    public void removeDeletedResource(CmsDbContext dbc, @RUntainted String resourceName) throws CmsException {
 
         try {
             m_driverManager.getVfsDriver(dbc).readResource(dbc, dbc.currentProject().getUuid(), resourceName, false);
@@ -796,7 +797,7 @@ public final class CmsLockManager {
      * @param resourcename the name of the resource
      * @return the inherited lock or the null lock
      */
-    private CmsLock getParentLock(String resourcename) {
+    private CmsLock getParentLock(@RUntainted String resourcename) {
 
         CmsLock parentFolderLock = getParentFolderLock(resourcename);
         if (!parentFolderLock.isNullLock()) {
@@ -907,7 +908,7 @@ public final class CmsLockManager {
      *
      * @return the shared lock
      */
-    private CmsLock internalSiblingLock(CmsLock exclusiveLock, String siblingName) {
+    private CmsLock internalSiblingLock(CmsLock exclusiveLock, @RUntainted String siblingName) {
 
         CmsLock lock = null;
         if (!exclusiveLock.getSystemLock().isUnlocked()) {

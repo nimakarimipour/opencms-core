@@ -76,6 +76,7 @@ import org.dom4j.Element;
 import org.dom4j.Node;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.SAXException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of a XML content object,
@@ -141,7 +142,7 @@ public class CmsXmlContent extends A_CmsXmlDocument {
      * @param encoding the encoding of the xml content
      * @param resolver the XML entitiy resolver to use
      */
-    protected CmsXmlContent(CmsObject cms, Document document, String encoding, EntityResolver resolver) {
+    protected CmsXmlContent(CmsObject cms, @RUntainted Document document, String encoding, EntityResolver resolver) {
 
         // must set document first to be able to get the content definition
         m_document = document;
@@ -560,7 +561,7 @@ public class CmsXmlContent extends A_CmsXmlDocument {
      *
      * @throws CmsRuntimeException if no language element is found in the document
      */
-    public Element getLocaleNode(Locale locale) throws CmsRuntimeException {
+    public @RUntainted Element getLocaleNode(Locale locale) throws CmsRuntimeException {
 
         String localeStr = locale.toString();
         Iterator<Element> i = CmsXmlGenericWrapper.elementIterator(m_document.getRootElement());
@@ -882,7 +883,7 @@ public class CmsXmlContent extends A_CmsXmlDocument {
      */
     protected void addBookmarkForElement(
         Element element,
-        Locale locale,
+        @RUntainted Locale locale,
         Element parent,
         String parentPath,
         CmsXmlContentDefinition parentDef) {
@@ -904,7 +905,7 @@ public class CmsXmlContent extends A_CmsXmlDocument {
      * @param locale the locale to use for the bookmark
      * @param enabled if true, the value is enabled, if false it is disabled
      */
-    protected void addBookmarkForValue(I_CmsXmlContentValue value, String path, Locale locale, boolean enabled) {
+    protected void addBookmarkForValue(I_CmsXmlContentValue value, String path, @RUntainted Locale locale, boolean enabled) {
 
         addBookmark(path, locale, enabled, value);
     }
@@ -1011,7 +1012,7 @@ public class CmsXmlContent extends A_CmsXmlDocument {
      * @param encoding the encoding to use when marshalling the document later
      * @param definition the content definition to use
      */
-    protected void initDocument(CmsObject cms, Document document, String encoding, CmsXmlContentDefinition definition) {
+    protected void initDocument(CmsObject cms, @RUntainted Document document, String encoding, CmsXmlContentDefinition definition) {
 
         initDocument(document, encoding, definition);
         // check invalid links
@@ -1025,7 +1026,7 @@ public class CmsXmlContent extends A_CmsXmlDocument {
      * @see org.opencms.xml.A_CmsXmlDocument#initDocument(org.dom4j.Document, java.lang.String, org.opencms.xml.CmsXmlContentDefinition)
      */
     @Override
-    protected void initDocument(Document document, String encoding, CmsXmlContentDefinition definition) {
+    protected void initDocument(@RUntainted Document document, String encoding, CmsXmlContentDefinition definition) {
 
         m_document = document;
         m_contentDefinition = definition;
@@ -1036,7 +1037,7 @@ public class CmsXmlContent extends A_CmsXmlDocument {
         clearBookmarks();
 
         // initialize the bookmarks
-        for (Iterator<Element> i = CmsXmlGenericWrapper.elementIterator(m_document.getRootElement()); i.hasNext();) {
+        for (Iterator<@RUntainted Element> i = CmsXmlGenericWrapper.elementIterator(m_document.getRootElement()); i.hasNext();) {
             Element node = i.next();
             try {
                 Locale locale = CmsLocaleManager.getLocale(
@@ -1060,10 +1061,10 @@ public class CmsXmlContent extends A_CmsXmlDocument {
      * @param locale the locale
      * @param definition the XML content definition to use for processing the values
      */
-    protected void processSchemaNode(Element root, String rootPath, Locale locale, CmsXmlContentDefinition definition) {
+    protected void processSchemaNode(@RUntainted Element root, String rootPath, @RUntainted Locale locale, CmsXmlContentDefinition definition) {
 
         // iterate all XML nodes
-        List<Node> content = CmsXmlGenericWrapper.content(root);
+        List<@RUntainted Node> content = CmsXmlGenericWrapper.content(root);
         for (int i = content.size() - 1; i >= 0; i--) {
             Node node = content.get(i);
             if (!(node instanceof Element)) {

@@ -46,6 +46,7 @@ import org.apache.commons.logging.Log;
 import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the published resources dialog.<p>
@@ -69,7 +70,7 @@ public class CmsPublishResources extends VerticalLayout {
      *
      * @param id job-id
      */
-    public CmsPublishResources(String id) {
+    public CmsPublishResources(@RUntainted String id) {
 
         CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
 

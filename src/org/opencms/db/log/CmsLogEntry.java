@@ -33,6 +33,7 @@ import org.opencms.util.CmsUUID;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper class for a DB log entry.<p>
@@ -45,7 +46,7 @@ public class CmsLogEntry {
     public static final String ATTR_LOG_ENTRY = "ATTR_LOG_ENTRY";
 
     /** The additional data. */
-    private final String[] m_data;
+    private final @RUntainted String[] m_data;
 
     /** The entry's date in milliseconds. */
     private final long m_date;

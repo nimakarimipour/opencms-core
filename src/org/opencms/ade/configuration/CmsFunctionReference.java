@@ -28,6 +28,7 @@
 package org.opencms.ade.configuration;
 
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean for representing a named dynamic function reference from the configuration.<p>

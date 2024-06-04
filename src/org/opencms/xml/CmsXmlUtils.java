@@ -66,6 +66,8 @@ import org.xml.sax.SAXNotRecognizedException;
 import org.xml.sax.SAXNotSupportedException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Provides some basic XML handling utilities.<p>
@@ -138,7 +140,7 @@ public final class CmsXmlUtils {
      *
      * @return the concatenated Xpath build from prefix and suffix
      */
-    public static String concatXpath(String prefix, String suffix) {
+    public static @RPolyTainted String concatXpath(String prefix, @RPolyTainted String suffix) {
 
         if (suffix == null) {
             // ensure suffix is not null
@@ -178,7 +180,7 @@ public final class CmsXmlUtils {
      * @param doc the document to convert
      * @return the converted document
      */
-    public static Document convertDocumentFromW3CToDom4j(org.w3c.dom.Document doc) {
+    public static @RPolyTainted Document convertDocumentFromW3CToDom4j(org.w3c.dom.@RPolyTainted Document doc) {
 
         org.dom4j.io.DOMReader reader = new DOMReader();
         return reader.read(doc);
@@ -202,14 +204,14 @@ public final class CmsXmlUtils {
      *
      * @return the simplified Xpath for the given name
      */
-    public static String createXpath(String path, int index) {
+    public static @RPolyTainted String createXpath(@RPolyTainted String path, int index) {
 
         if (path.indexOf('/') > -1) {
             // this is a complex path over more then 1 node
             StringBuffer result = new StringBuffer(path.length() + 32);
 
             // split the path into sub elements
-            List<String> elements = CmsStringUtil.splitAsList(path, '/');
+            List<@RUntainted String> elements = CmsStringUtil.splitAsList(path, '/');
             int end = elements.size() - 1;
             for (int i = 0; i <= end; i++) {
                 // append [i] to path element if required
@@ -238,7 +240,7 @@ public final class CmsXmlUtils {
      *
      * @return the simplified Xpath for the given name
      */
-    public static String createXpathElement(String path, int index) {
+    public static @RPolyTainted String createXpathElement(@RPolyTainted String path, int index) {
 
         StringBuffer result = new StringBuffer(path.length() + 5);
         result.append(path);
@@ -262,7 +264,7 @@ public final class CmsXmlUtils {
      *
      * @return the simplified Xpath for the given name
      */
-    public static String createXpathElementCheck(String path, int index) {
+    public static @RPolyTainted String createXpathElementCheck(@RPolyTainted String path, int index) {
 
         if (path.charAt(path.length() - 1) == ']') {
             // path is already in the form "title[1]"
@@ -481,7 +483,7 @@ public final class CmsXmlUtils {
      * @return the output stream with the xml content
      * @throws CmsXmlException if something goes wrong
      */
-    public static OutputStream marshal(Document document, OutputStream out, String encoding) throws CmsXmlException {
+    public static @RPolyTainted OutputStream marshal(Document document, @RPolyTainted OutputStream out, String encoding) throws CmsXmlException {
 
         try {
             OutputFormat format = OutputFormat.createPrettyPrint();
@@ -507,7 +509,7 @@ public final class CmsXmlUtils {
      * @return the marshalled XML document
      * @throws CmsXmlException if something goes wrong
      */
-    public static String marshal(Document document, String encoding) throws CmsXmlException {
+    public static @RPolyTainted String marshal(Document document, @RPolyTainted String encoding) throws CmsXmlException {
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         marshal(document, out, encoding);
@@ -646,7 +648,7 @@ public final class CmsXmlUtils {
      *
      * @return the path with the last element removed
      */
-    public static String removeLastXpathElement(String path) {
+    public static @RPolyTainted String removeLastXpathElement(@RPolyTainted String path) {
 
         int pos = path.lastIndexOf('/');
         if (pos < 0) {
@@ -676,7 +678,7 @@ public final class CmsXmlUtils {
             StringBuffer result = new StringBuffer(path.length() + 32);
 
             // split the path into sub-elements
-            List<String> elements = CmsStringUtil.splitAsList(path, '/');
+            List<@RUntainted String> elements = CmsStringUtil.splitAsList(path, '/');
             int end = elements.size() - 1;
             for (int i = 0; i <= end; i++) {
                 // remove [i] from path element if required
@@ -706,7 +708,7 @@ public final class CmsXmlUtils {
      *
      * @return the path with the last Xpath index removed
      */
-    public static String removeXpathIndex(String path) {
+    public static @RPolyTainted String removeXpathIndex(@RPolyTainted String path) {
 
         int pos1 = path.lastIndexOf('/');
         int pos2 = path.lastIndexOf('[');
@@ -771,7 +773,7 @@ public final class CmsXmlUtils {
      *
      * @see CmsXmlUtils#unmarshalHelper(InputSource, EntityResolver)
      */
-    public static Document unmarshalHelper(byte[] xmlData, EntityResolver resolver) throws CmsXmlException {
+    public static @RPolyTainted Document unmarshalHelper(@RPolyTainted byte[] xmlData, EntityResolver resolver) throws CmsXmlException {
 
         return CmsXmlUtils.unmarshalHelper(new InputSource(new ByteArrayInputStream(xmlData)), resolver);
     }
@@ -814,7 +816,7 @@ public final class CmsXmlUtils {
      *
      * @throws CmsXmlException if something goes wrong
      */
-    public static Document unmarshalHelper(InputSource source, EntityResolver resolver) throws CmsXmlException {
+    public static @RPolyTainted Document unmarshalHelper(@RPolyTainted InputSource source, EntityResolver resolver) throws CmsXmlException {
 
         return unmarshalHelper(source, resolver, false);
     }
@@ -837,7 +839,7 @@ public final class CmsXmlUtils {
      *
      * @throws CmsXmlException if something goes wrong
      */
-    public static Document unmarshalHelper(InputSource source, EntityResolver resolver, boolean validate)
+    public static @RPolyTainted Document unmarshalHelper(@RPolyTainted InputSource source, EntityResolver resolver, boolean validate)
     throws CmsXmlException {
 
         if (null == source) {
@@ -882,7 +884,7 @@ public final class CmsXmlUtils {
      * @throws CmsXmlException if something goes wrong
      * @see CmsXmlUtils#unmarshalHelper(InputSource, EntityResolver)
      */
-    public static Document unmarshalHelper(String xmlData, EntityResolver resolver) throws CmsXmlException {
+    public static @RPolyTainted Document unmarshalHelper(@RPolyTainted String xmlData, EntityResolver resolver) throws CmsXmlException {
 
         return CmsXmlUtils.unmarshalHelper(new InputSource(new StringReader(xmlData)), resolver);
     }
@@ -931,7 +933,7 @@ public final class CmsXmlUtils {
      *
      * @throws CmsXmlException if the validation fails
      */
-    public static void validateXmlStructure(InputStream xmlStream, EntityResolver resolver) throws CmsXmlException {
+    public static void validateXmlStructure(@RUntainted InputStream xmlStream, EntityResolver resolver) throws CmsXmlException {
 
         XMLReader reader;
         try {

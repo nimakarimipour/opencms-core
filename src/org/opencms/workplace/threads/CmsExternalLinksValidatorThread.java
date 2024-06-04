@@ -38,6 +38,7 @@ import org.opencms.report.A_CmsReportThread;
 import org.opencms.workplace.threads.Messages;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Thread for extern link validation. <p>

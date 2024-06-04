@@ -28,6 +28,7 @@
 package org.opencms.security;
 
 import org.opencms.main.CmsIllegalArgumentException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Defines general validation methods.<p>

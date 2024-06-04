@@ -28,6 +28,7 @@
 package org.opencms.i18n;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Utility interface for generating localized messages for internal OpenCms operations.<p>
@@ -141,12 +142,12 @@ public interface I_CmsMessageBundle {
      *
      * @return the localized message bundle wrapped in this instance initialized with the provided locale
      */
-    CmsMessages getBundle(Locale locale);
+    CmsMessages getBundle(@RUntainted Locale locale);
 
     /**
      * Returns the bundle name for this OpenCms package.<p>
      *
      * @return the bundle name for this OpenCms package
      */
-    String getBundleName();
+    @RUntainted String getBundleName();
 }

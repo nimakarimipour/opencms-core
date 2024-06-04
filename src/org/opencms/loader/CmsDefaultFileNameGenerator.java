@@ -49,6 +49,7 @@ import java.util.Set;
 
 import org.apache.commons.collections.Factory;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The default class used for generating file names either for the <code>urlName</code> mapping
@@ -170,7 +171,7 @@ public class CmsDefaultFileNameGenerator implements I_CmsFileNameGenerator {
     /**
      * @see org.opencms.loader.I_CmsFileNameGenerator#getCopyFileName(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String getCopyFileName(CmsObject cms, String parentFolder, String baseName) {
+    public String getCopyFileName(CmsObject cms, String parentFolder, @RUntainted String baseName) {
 
         String name = baseName;
         int dot = name.lastIndexOf(".");
@@ -189,7 +190,7 @@ public class CmsDefaultFileNameGenerator implements I_CmsFileNameGenerator {
     /**
      * @see org.opencms.loader.I_CmsFileNameGenerator#getNewFileName(org.opencms.file.CmsObject, java.lang.String, int)
      */
-    public String getNewFileName(CmsObject cms, String namePattern, int defaultDigits) throws CmsException {
+    public @RUntainted String getNewFileName(CmsObject cms, @RUntainted String namePattern, int defaultDigits) throws CmsException {
 
         return getNewFileName(cms, namePattern, defaultDigits, false);
     }
@@ -213,7 +214,7 @@ public class CmsDefaultFileNameGenerator implements I_CmsFileNameGenerator {
      *
      * @throws CmsException in case something goes wrong
      */
-    public String getNewFileName(CmsObject userCms, String namePattern, int defaultDigits, boolean explorerMode)
+    public @RUntainted String getNewFileName(CmsObject userCms, @RUntainted String namePattern, int defaultDigits, boolean explorerMode)
     throws CmsException {
 
         CmsObject cms = OpenCms.initCmsObject(m_adminCms);
@@ -223,7 +224,7 @@ public class CmsDefaultFileNameGenerator implements I_CmsFileNameGenerator {
         String folderName = CmsResource.getFolderPath(checkPattern);
 
         // must check ALL resources in folder because name doesn't care for type
-        List<CmsResource> resources = cms.readResources(folderName, CmsResourceFilter.ALL, false);
+        List<@RUntainted CmsResource> resources = cms.readResources(folderName, CmsResourceFilter.ALL, false);
         CmsObject onlineCms = OpenCms.initCmsObject(cms);
         onlineCms.getRequestContext().setCurrentProject(cms.readProject(CmsProject.ONLINE_PROJECT_ID));
 
@@ -237,7 +238,7 @@ public class CmsDefaultFileNameGenerator implements I_CmsFileNameGenerator {
             CmsResource offlineFolder = cms.readResource(folderName);
             CmsResource onlineFolder = onlineCms.readResource(offlineFolder.getStructureId());
             String onlinePath = onlineCms.getSitePath(onlineFolder);
-            List<CmsResource> onlineContents = onlineCms.readResources(onlinePath, CmsResourceFilter.ALL, false);
+            List<@RUntainted CmsResource> onlineContents = onlineCms.readResources(onlinePath, CmsResourceFilter.ALL, false);
             for (CmsResource res : onlineContents) {
                 fileNames.add(cms.getSitePath(res));
             }
@@ -252,7 +253,7 @@ public class CmsDefaultFileNameGenerator implements I_CmsFileNameGenerator {
     /**
      * @see org.opencms.loader.I_CmsFileNameGenerator#getUniqueFileName(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String getUniqueFileName(CmsObject cms, String parentFolder, String baseName) {
+    public String getUniqueFileName(CmsObject cms, String parentFolder, @RUntainted String baseName) {
 
         String translatedTitle = OpenCms.getResourceManager().getFileTranslator().translateResource(baseName).replace(
             "/",
@@ -283,7 +284,7 @@ public class CmsDefaultFileNameGenerator implements I_CmsFileNameGenerator {
      *
      * @see org.opencms.loader.I_CmsFileNameGenerator#getUrlNameSequence(java.lang.String)
      */
-    public Iterator<String> getUrlNameSequence(String baseName) {
+    public Iterator<String> getUrlNameSequence(@RUntainted String baseName) {
 
         String translatedTitle = OpenCms.getResourceManager().getFileTranslator().translateResource(baseName).replace(
             "/",
@@ -311,9 +312,9 @@ public class CmsDefaultFileNameGenerator implements I_CmsFileNameGenerator {
      *
      * @return a new resource name based on the provided OpenCms user context and name pattern
      */
-    protected String getNewFileNameFromList(
+    protected @RUntainted String getNewFileNameFromList(
         Set<String> fileNames,
-        String checkPattern,
+        @RUntainted String checkPattern,
         int defaultDigits,
         final boolean explorerMode) {
 

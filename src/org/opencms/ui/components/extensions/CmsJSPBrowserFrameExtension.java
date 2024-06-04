@@ -39,6 +39,7 @@ import com.vaadin.server.AbstractExtension;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.BrowserFrame;
 import com.vaadin.ui.Window;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Vaadin extension class for a BrowserFrame to display a JSP.<p>
@@ -96,7 +97,7 @@ public class CmsJSPBrowserFrameExtension extends AbstractExtension implements I_
     /**
      * @see org.opencms.ui.shared.rpc.I_CmsJSPBrowserFrameRpc#cancelParentWindow(java.lang.String[])
      */
-    public void cancelParentWindow(String[] uuids) {
+    public void cancelParentWindow(@RUntainted String[] uuids) {
 
         m_window.close();
         m_context.finish(getSetFromUUIDStrings(uuids));
@@ -108,7 +109,7 @@ public class CmsJSPBrowserFrameExtension extends AbstractExtension implements I_
      * @param uuids in array as string
      * @return Set<CmsUUID> to use for finish method of I_CmsDialogContext
      */
-    private Set<CmsUUID> getSetFromUUIDStrings(String[] uuids) {
+    private Set<CmsUUID> getSetFromUUIDStrings(@RUntainted String[] uuids) {
 
         Set<CmsUUID> res = new HashSet<CmsUUID>();
         for (String uuid : uuids) {

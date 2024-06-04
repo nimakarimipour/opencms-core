@@ -34,6 +34,7 @@ import org.opencms.i18n.CmsLocaleManager;
 
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Custom resource type for ADE configurations.<p>

@@ -33,6 +33,7 @@ import org.opencms.util.CmsUUID;
 import java.util.Optional;
 
 import com.vaadin.ui.Component;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface the favorite dialog uses to interact with the rest of the application.

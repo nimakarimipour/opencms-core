@@ -45,6 +45,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The XML content handler class for inheritance groups.
@@ -70,7 +71,7 @@ public class CmsXmlInheritGroupContainerHandler extends CmsDefaultXmlContentHand
      *
      * @return the elements
      */
-    public static List<CmsContainerElementBean> loadInheritContainerElements(CmsObject cms, CmsResource resource) {
+    public static List<CmsContainerElementBean> loadInheritContainerElements(CmsObject cms, @RUntainted CmsResource resource) {
 
         CmsInheritanceReferenceParser parser = new CmsInheritanceReferenceParser(cms);
         try {

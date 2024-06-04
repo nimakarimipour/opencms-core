@@ -159,6 +159,7 @@ import org.apache.commons.logging.Log;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The OpenCms driver manager.<p>
@@ -330,7 +331,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
          * @param rootPath the root path
          * @return the organizational units to which the path belongs
          */
-        public List<CmsOrganizationalUnit> getResourceOrgUnits(String rootPath) {
+        public List<CmsOrganizationalUnit> getResourceOrgUnits(@RUntainted String rootPath) {
 
             Set<CmsOrganizationalUnit> result = new HashSet<>();
             String currentPath = rootPath;
@@ -564,7 +565,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
     public static final int UPDATE_STRUCTURE_STATE = 2;
 
     /** Map of pools defined in opencms.properties. */
-    protected static ConcurrentMap<String, CmsDbPoolV11> m_pools = Maps.newConcurrentMap();
+    protected static ConcurrentMap<String, @RUntainted CmsDbPoolV11> m_pools = Maps.newConcurrentMap();
 
     /** The log object for this class. */
     private static final Log LOG = CmsLog.getLog(CmsDriverManager.class);
@@ -1093,7 +1094,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
         CmsResource resource,
         String propertyDefinition,
         String oldValue,
-        String newValue,
+        @RUntainted String newValue,
         boolean recursive)
     throws CmsVfsException, CmsException {
 
@@ -1176,7 +1177,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
      * @see CmsObject#chflags(String, int)
      * @see I_CmsResourceType#chflags(CmsObject, CmsSecurityManager, CmsResource, int)
      */
-    public void chflags(CmsDbContext dbc, CmsResource resource, int flags) throws CmsException {
+    public void chflags(CmsDbContext dbc, CmsResource resource, @RUntainted int flags) throws CmsException {
 
         // must operate on a clone to ensure resource is not modified in case permissions are not granted
         CmsResource clone = (CmsResource)resource.clone();
@@ -1420,7 +1421,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
     public void copyResource(
         CmsDbContext dbc,
         CmsResource source,
-        String destination,
+        @RUntainted String destination,
         CmsResource.CmsResourceCopyMode siblingMode)
     throws CmsException, CmsIllegalArgumentException {
 
@@ -1624,7 +1625,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
      * @throws CmsException if the creation of the group failed
      * @throws CmsIllegalArgumentException if the length of the given name was below 1
      */
-    public CmsGroup createGroup(CmsDbContext dbc, CmsUUID id, String name, String description, int flags, String parent)
+    public CmsGroup createGroup(CmsDbContext dbc, @RUntainted CmsUUID id, @RUntainted String name, @RUntainted String description, @RUntainted int flags, String parent)
     throws CmsIllegalArgumentException, CmsException {
 
         // check the group name
@@ -1794,11 +1795,11 @@ public final class CmsDriverManager implements I_CmsEventListener {
      */
     public CmsProject createProject(
         CmsDbContext dbc,
-        String name,
-        String description,
+        @RUntainted String name,
+        @RUntainted String description,
         String groupname,
         String managergroupname,
-        CmsProject.CmsProjectType projecttype)
+        CmsProject.@RUntainted CmsProjectType projecttype)
     throws CmsIllegalArgumentException, CmsException {
 
         if (CmsProject.ONLINE_PROJECT_NAME.equals(name)) {
@@ -1931,7 +1932,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
      */
     public CmsResource createResource(
         CmsDbContext dbc,
-        String resourcePath,
+        @RUntainted String resourcePath,
         CmsResource resource,
         byte[] content,
         List<CmsProperty> properties,
@@ -2282,8 +2283,8 @@ public final class CmsDriverManager implements I_CmsEventListener {
     @SuppressWarnings("javadoc")
     public CmsResource createResource(
         CmsDbContext dbc,
-        String resourcename,
-        int type,
+        @RUntainted String resourcename,
+        @RUntainted int type,
         byte[] content,
         List<CmsProperty> properties)
     throws CmsException, CmsIllegalArgumentException {
@@ -2348,7 +2349,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
     public CmsResource createSibling(
         CmsDbContext dbc,
         CmsResource source,
-        String destination,
+        @RUntainted String destination,
         List<CmsProperty> properties)
     throws CmsException {
 
@@ -2561,7 +2562,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
      *
      * @throws CmsException if operation was not successful
      */
-    public void deleteAllProperties(CmsDbContext dbc, String resourcename) throws CmsException {
+    public void deleteAllProperties(CmsDbContext dbc, @RUntainted String resourcename) throws CmsException {
 
         CmsResource resource = null;
         List<CmsResource> resources = new ArrayList<CmsResource>();
@@ -2633,7 +2634,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
      * @throws CmsException if operation was not successful
      * @throws CmsDataAccessException if group to be deleted contains user
      */
-    public void deleteGroup(CmsDbContext dbc, CmsGroup group, CmsUUID replacementId)
+    public void deleteGroup(CmsDbContext dbc, CmsGroup group, @RUntainted CmsUUID replacementId)
     throws CmsDataAccessException, CmsException {
 
         CmsGroup replacementGroup = null;
@@ -5244,7 +5245,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
      *
      * @throws CmsException if operation was not successful
      */
-    public List<CmsUser> getUsersOfGroup(
+    public List<@RUntainted CmsUser> getUsersOfGroup(
         CmsDbContext dbc,
         String groupname,
         boolean includeOtherOuUsers,
@@ -5387,8 +5388,8 @@ public final class CmsDriverManager implements I_CmsEventListener {
     public CmsAliasImportResult importRewriteAlias(
         CmsDbContext dbc,
         String siteRoot,
-        String source,
-        String target,
+        @RUntainted String source,
+        @RUntainted String target,
         CmsAliasMode mode)
     throws CmsException {
 
@@ -5438,7 +5439,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
      */
     public CmsUser importUser(
         CmsDbContext dbc,
-        String id,
+        @RUntainted String id,
         String name,
         String password,
         String firstname,
@@ -5446,7 +5447,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
         String email,
         int flags,
         long dateCreated,
-        Map<String, Object> additionalInfos)
+        Map<String, @RUntainted Object> additionalInfos)
     throws CmsException {
 
         // no space before or after the name
@@ -5580,7 +5581,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
      *
      * @return <code>true</code>, if the specified resource is inside the current project
      */
-    public boolean isInsideCurrentProject(CmsDbContext dbc, String resourcename) {
+    public boolean isInsideCurrentProject(CmsDbContext dbc, @RUntainted String resourcename) {
 
         List<String> projectResources = null;
         try {
@@ -5989,13 +5990,13 @@ public final class CmsDriverManager implements I_CmsEventListener {
             m_monitor.clearUserCache(newUser);
 
             // write the changed user object back to the user driver
-            Map<String, Object> additionalInfosForRepositories = OpenCms.getRepositoryManager().getAdditionalInfoForLogin(
+            Map<String, @RUntainted Object> additionalInfosForRepositories = OpenCms.getRepositoryManager().getAdditionalInfoForLogin(
                 newUser.getName(),
                 password);
             boolean requiresAddInfoUpdate = false;
 
             // check for changes
-            for (Entry<String, Object> entry : additionalInfosForRepositories.entrySet()) {
+            for (Entry<String, @RUntainted Object> entry : additionalInfosForRepositories.entrySet()) {
                 Object value = entry.getValue();
                 Object current = newUser.getAdditionalInfo(entry.getKey());
                 if (((value == null) && (current != null)) || ((value != null) && !value.equals(current))) {
@@ -6156,7 +6157,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
      *
      * @see CmsSecurityManager#moveResource(CmsRequestContext, CmsResource, String)
      */
-    public void moveResource(CmsDbContext dbc, CmsResource source, String destination, boolean internal)
+    public void moveResource(CmsDbContext dbc, CmsResource source, @RUntainted String destination, boolean internal)
     throws CmsException {
 
         CmsFolder destinationFolder = readFolder(dbc, CmsResource.getParentFolder(destination), CmsResourceFilter.ALL);
@@ -6265,7 +6266,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
             // collect all folders...
             String folderPath = CmsResource.getParentFolder(destination);
             folderPath = folderPath.substring(1, folderPath.length() - 1); // cut out leading and trailing '/'
-            Iterator<String> folders = CmsStringUtil.splitAsList(folderPath, '/').iterator();
+            Iterator<@RUntainted String> folders = CmsStringUtil.splitAsList(folderPath, '/').iterator();
             // ...now create them....
             folderPath = "/";
             while (folders.hasNext()) {
@@ -6347,7 +6348,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
     public Object newDriverInstance(
         CmsDbContext dbc,
         CmsConfigurationManager configurationManager,
-        String driverName,
+        @RUntainted String driverName,
         List<String> successiveDrivers)
     throws CmsInitException {
 
@@ -6395,7 +6396,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
      * @return an initialized instance of the driver
      * @throws CmsException if something goes wrong
      */
-    public Object newDriverInstance(CmsParameterConfiguration configuration, String driverName, String driverPoolUrl)
+    public Object newDriverInstance(CmsParameterConfiguration configuration, @RUntainted String driverName, @RUntainted String driverPoolUrl)
     throws CmsException {
 
         Class<?>[] initParamClasses = {CmsParameterConfiguration.class, String.class, CmsDriverManager.class};
@@ -6890,7 +6891,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
      *
      * @throws CmsDataAccessException if the database operation failed
      */
-    public String readBestUrlName(CmsDbContext dbc, CmsUUID id, Locale locale, List<Locale> defaultLocales)
+    public @RUntainted String readBestUrlName(CmsDbContext dbc, CmsUUID id, @RUntainted Locale locale, List<@RUntainted Locale> defaultLocales)
     throws CmsDataAccessException {
 
         List<CmsUrlNameMappingEntry> entries = getVfsDriver(dbc).readUrlNameMappingEntries(
@@ -6915,7 +6916,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
             lastEntries.add(latestEntryForLocale);
         }
         CmsLocaleManager localeManager = OpenCms.getLocaleManager();
-        List<Locale> availableLocales = new ArrayList<Locale>();
+        List<@RUntainted Locale> availableLocales = new ArrayList<@RUntainted Locale>();
         for (CmsUrlNameMappingEntry entry : lastEntries) {
             availableLocales.add(CmsLocaleManager.getLocale(entry.getLocale()));
         }
@@ -7050,7 +7051,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
             if (resource.isFolder()) {
                 String folderName = CmsResource.getFolderPath(resource.getRootPath());
                 // resource is (still) a folder, check default files specified in configuration
-                Iterator<String> it = OpenCms.getDefaultFiles().iterator();
+                Iterator<@RUntainted String> it = OpenCms.getDefaultFiles().iterator();
                 while (it.hasNext()) {
                     String tmpResourceName = folderName + it.next();
                     try {
@@ -7249,7 +7250,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
      * @return the file read from the VFS
      * @throws CmsException if operation was not successful
      */
-    public CmsFile readFile(CmsDbContext dbc, CmsResource resource) throws CmsException {
+    public @RUntainted CmsFile readFile(CmsDbContext dbc, @RUntainted CmsResource resource) throws CmsException {
 
         if (resource.isFolder()) {
             throw new CmsVfsResourceNotFoundException(
@@ -7290,7 +7291,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
      * @see CmsObject#readFolder(String)
      * @see CmsObject#readFolder(String, CmsResourceFilter)
      */
-    public CmsFolder readFolder(CmsDbContext dbc, String resourcename, CmsResourceFilter filter)
+    public CmsFolder readFolder(CmsDbContext dbc, @RUntainted String resourcename, CmsResourceFilter filter)
     throws CmsDataAccessException {
 
         CmsResource resource = readResource(dbc, resourcename, filter);
@@ -7378,7 +7379,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
      * @see CmsObject#readGroup(CmsUUID)
      * @see CmsObject#readHistoryPrincipal(CmsUUID)
      */
-    public CmsHistoryPrincipal readHistoricalPrincipal(CmsDbContext dbc, CmsUUID principalId) throws CmsException {
+    public CmsHistoryPrincipal readHistoricalPrincipal(CmsDbContext dbc, @RUntainted CmsUUID principalId) throws CmsException {
 
         return getHistoryDriver(dbc).readPrincipal(dbc, principalId);
     }
@@ -7576,7 +7577,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
     public List<CmsResource> readPath(CmsDbContext dbc, String path, CmsResourceFilter filter) throws CmsException {
 
         // splits the path into folder and filename tokens
-        List<String> tokens = CmsStringUtil.splitAsList(path, '/');
+        List<@RUntainted String> tokens = CmsStringUtil.splitAsList(path, '/');
 
         // the root folder is no token in the path but a resource which has to be added to the path
         int count = tokens.size() + 1;
@@ -7680,7 +7681,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    public CmsProject readProject(CmsDbContext dbc, CmsUUID id) throws CmsDataAccessException {
+    public @RUntainted CmsProject readProject(CmsDbContext dbc, CmsUUID id) throws CmsDataAccessException {
 
         CmsProject project = null;
         project = m_monitor.getCachedProject(id.toString());
@@ -7706,7 +7707,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsProject readProject(CmsDbContext dbc, String name) throws CmsException {
+    public @RUntainted CmsProject readProject(CmsDbContext dbc, String name) throws CmsException {
 
         CmsProject project = null;
         project = m_monitor.getCachedProject(name);
@@ -7728,7 +7729,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
      *
      * @throws CmsException if something goes wrong
      */
-    public List<String> readProjectResources(CmsDbContext dbc, CmsProject project) throws CmsException {
+    public List<@RUntainted String> readProjectResources(CmsDbContext dbc, CmsProject project) throws CmsException {
 
         return getProjectDriver(dbc).readProjectResources(dbc, project);
     }
@@ -7808,7 +7809,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsProperty readPropertyObject(CmsDbContext dbc, CmsResource resource, String key, boolean search)
+    public CmsProperty readPropertyObject(CmsDbContext dbc, CmsResource resource, @RUntainted String key, boolean search)
     throws CmsException {
 
         // NOTE: Do not call readPropertyObject(dbc, resource, key, search, null) for performance reasons
@@ -7846,9 +7847,9 @@ public final class CmsDriverManager implements I_CmsEventListener {
     public CmsProperty readPropertyObject(
         CmsDbContext dbc,
         CmsResource resource,
-        String key,
+        @RUntainted String key,
         boolean search,
-        Locale locale)
+        @RUntainted Locale locale)
     throws CmsException {
 
         // use the list reading method to obtain all properties for the resource
@@ -8070,7 +8071,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
      * @see CmsObject#readResource(CmsUUID, CmsResourceFilter)
      * @see CmsObject#readResource(CmsUUID)
      */
-    public CmsResource readResource(CmsDbContext dbc, CmsUUID structureID, CmsResourceFilter filter)
+    public @RUntainted CmsResource readResource(CmsDbContext dbc, CmsUUID structureID, CmsResourceFilter filter)
     throws CmsDataAccessException {
 
         CmsUUID projectId = getProjectIdForContext(dbc);
@@ -8099,7 +8100,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
      * @see CmsObject#readResource(String)
      * @see CmsObject#readFile(CmsResource)
      */
-    public CmsResource readResource(CmsDbContext dbc, String resourcePath, CmsResourceFilter filter)
+    public @RUntainted CmsResource readResource(CmsDbContext dbc, @RUntainted String resourcePath, CmsResourceFilter filter)
     throws CmsDataAccessException {
 
         CmsUUID projectId = getProjectIdForContext(dbc);
@@ -8532,7 +8533,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsUser readUser(CmsDbContext dbc, CmsUUID id) throws CmsException {
+    public @RUntainted CmsUser readUser(CmsDbContext dbc, CmsUUID id) throws CmsException {
 
         CmsUser user = m_monitor.getCachedUser(id.toString());
         if (user == null) {
@@ -8553,7 +8554,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
      *
      * @throws CmsDataAccessException if operation was not successful
      */
-    public CmsUser readUser(CmsDbContext dbc, String username) throws CmsDataAccessException {
+    public @RUntainted CmsUser readUser(CmsDbContext dbc, String username) throws CmsDataAccessException {
 
         CmsUser user = m_monitor.getCachedUser(username);
         if (user == null) {
@@ -8990,7 +8991,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
      *
      * @see CmsObject#restoreDeletedResource(CmsUUID)
      */
-    public void restoreDeletedResource(CmsDbContext dbc, CmsUUID structureId) throws CmsException {
+    public void restoreDeletedResource(CmsDbContext dbc, @RUntainted CmsUUID structureId) throws CmsException {
 
         // get the last version, which should be the deleted one
         int version = getHistoryDriver(dbc).readLastVersion(dbc, structureId);
@@ -9299,7 +9300,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
      * @see CmsObject#setDateExpired(String, long, boolean)
      * @see I_CmsResourceType#setDateExpired(CmsObject, CmsSecurityManager, CmsResource, long, boolean)
      */
-    public void setDateExpired(CmsDbContext dbc, CmsResource resource, long dateExpired) throws CmsDataAccessException {
+    public void setDateExpired(CmsDbContext dbc, CmsResource resource, @RUntainted long dateExpired) throws CmsDataAccessException {
 
         resource.setDateExpired(dateExpired);
         if (resource.getState().isUnchanged()) {
@@ -9341,7 +9342,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
      * @see CmsObject#setDateLastModified(String, long, boolean)
      * @see I_CmsResourceType#setDateLastModified(CmsObject, CmsSecurityManager, CmsResource, long, boolean)
      */
-    public void setDateLastModified(CmsDbContext dbc, CmsResource resource, long dateLastModified)
+    public void setDateLastModified(CmsDbContext dbc, CmsResource resource, @RUntainted long dateLastModified)
     throws CmsDataAccessException {
 
         // modify the last modification date
@@ -9386,7 +9387,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
      * @see CmsObject#setDateReleased(String, long, boolean)
      * @see I_CmsResourceType#setDateReleased(CmsObject, CmsSecurityManager, CmsResource, long, boolean)
      */
-    public void setDateReleased(CmsDbContext dbc, CmsResource resource, long dateReleased)
+    public void setDateReleased(CmsDbContext dbc, CmsResource resource, @RUntainted long dateReleased)
     throws CmsDataAccessException {
 
         // modify the last modification date
@@ -9796,7 +9797,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
                 exportPoints);
 
             // the export point hash table contains RFS export paths keyed by their internal VFS paths
-            Iterator<String> i = exportPointDriver.getExportPointPaths().iterator();
+            Iterator<@RUntainted String> i = exportPointDriver.getExportPointPaths().iterator();
             I_CmsVfsDriver vfsDriver = getVfsDriver(dbc);
             while (i.hasNext()) {
                 String currentExportPoint = i.next();
@@ -10069,7 +10070,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
      *
      * @throws Exception if something goes wrong
      */
-    public Map<String, List<CmsRelation>> validateRelations(
+    public Map<@RUntainted String, List<CmsRelation>> validateRelations(
         CmsDbContext dbc,
         CmsPublishList publishList,
         I_CmsReport report)
@@ -10124,7 +10125,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
      * @param report an I_CmsReport instance to print output message, or null to write messages to the log file
      * @param publishHistoryId ID to identify the publish task in the publish history
      */
-    public void writeExportPoints(CmsDbContext dbc, I_CmsReport report, CmsUUID publishHistoryId) {
+    public void writeExportPoints(CmsDbContext dbc, I_CmsReport report, @RUntainted CmsUUID publishHistoryId) {
 
         boolean printReportHeaders = false;
         List<CmsPublishedResource> publishedResources = null;
@@ -10423,7 +10424,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
      *
      * @throws CmsException if operation was not successful
      */
-    public void writeProject(CmsDbContext dbc, CmsProject project) throws CmsException {
+    public void writeProject(CmsDbContext dbc, @RUntainted CmsProject project) throws CmsException {
 
         m_monitor.uncacheProject(project);
         getProjectDriver(dbc).writeProject(dbc, project);
@@ -10751,7 +10752,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
         CmsDbContext dbc,
         String name,
         CmsUUID structureId,
-        String locale,
+        @RUntainted String locale,
         boolean replaceOnPublish)
     throws CmsDataAccessException {
 
@@ -10806,10 +10807,10 @@ public final class CmsDriverManager implements I_CmsEventListener {
         CmsConfigurationManager configManager,
         CmsParameterConfiguration config,
         String driverChainKey,
-        String suffix) {
+        @RUntainted String suffix) {
 
         // read the vfs driver class properties and initialize a new instance
-        List<String> drivers = config.getList(driverChainKey);
+        List<@RUntainted String> drivers = config.getList(driverChainKey);
         String driverKey = drivers.get(0) + suffix;
         String driverName = config.get(driverKey);
         drivers = (drivers.size() > 1) ? drivers.subList(1, drivers.size()) : null;
@@ -11267,7 +11268,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
         if (directPublish) {
             // first get the names of all parent folders
             Iterator<CmsResource> it = publishList.getDirectPublishResources().iterator();
-            List<String> parentFolderNames = new ArrayList<String>();
+            List<@RUntainted String> parentFolderNames = new ArrayList<@RUntainted String>();
             while (it.hasNext()) {
                 CmsResource res = it.next();
                 String parentFolderName = CmsResource.getParentFolder(res.getRootPath());
@@ -11281,7 +11282,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
             try {
                 I_CmsVfsDriver vfsDriver = getVfsDriver(dbc);
                 // now check all folders if they exist in the online project
-                Iterator<String> parentIt = parentFolderNames.iterator();
+                Iterator<@RUntainted String> parentIt = parentFolderNames.iterator();
                 while (parentIt.hasNext()) {
                     parentFolderName = parentIt.next();
                     vfsDriver.readFolder(dbc, CmsProject.ONLINE_PROJECT_ID, parentFolderName);
@@ -12001,7 +12002,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
         if (result != null) {
             return result;
         }
-        List<String> projectResources = readProjectResources(dbc, readProject(dbc, projectId));
+        List<@RUntainted String> projectResources = readProjectResources(dbc, readProject(dbc, projectId));
         result = new ArrayList<CmsResource>();
         String currentProjectResource = null;
         List<CmsResource> resources = new ArrayList<CmsResource>();
@@ -12094,7 +12095,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
         CmsDbContext dbc,
         CmsProject project,
         CmsUUID principalId,
-        CmsUUID replacementId,
+        @RUntainted CmsUUID replacementId,
         boolean withACEs)
     throws CmsException {
 
@@ -12178,7 +12179,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
         CmsProject onlineProject,
         CmsResource offlineResource,
         CmsResource onlineResource,
-        CmsResourceState newState,
+        @RUntainted CmsResourceState newState,
         boolean moveUndone)
     throws CmsException {
 
@@ -12243,7 +12244,7 @@ public final class CmsDriverManager implements I_CmsEventListener {
                     ace.getFlags());
             }
         } else {
-            byte[] onlineContent = vfsDriver.readContent(
+            @RUntainted byte[] onlineContent = vfsDriver.readContent(
                 dbc,
                 CmsProject.ONLINE_PROJECT_ID,
                 onlineResource.getResourceId());

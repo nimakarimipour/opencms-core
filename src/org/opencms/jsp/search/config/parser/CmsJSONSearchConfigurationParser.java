@@ -70,6 +70,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Search configuration parser reading JSON. */
 public class CmsJSONSearchConfigurationParser implements I_CmsSearchConfigurationParser {
@@ -275,7 +276,7 @@ public class CmsJSONSearchConfigurationParser implements I_CmsSearchConfiguratio
      * @return The value from the JSON.
      * @throws JSONException thrown when parsing fails.
      */
-    protected static List<String> parseMandatoryStringValues(JSONObject json, String key) throws JSONException {
+    protected static List<String> parseMandatoryStringValues(JSONObject json, @RUntainted String key) throws JSONException {
 
         List<String> list = null;
         JSONArray array = json.getJSONArray(key);
@@ -296,7 +297,7 @@ public class CmsJSONSearchConfigurationParser implements I_CmsSearchConfiguratio
      * @param key The key of the value to read.
      * @return The value from the JSON, or <code>null</code> if the value does not exist, or is no Boolean.
      */
-    protected static Boolean parseOptionalBooleanValue(JSONObject json, String key) {
+    protected static Boolean parseOptionalBooleanValue(JSONObject json, @RUntainted String key) {
 
         try {
             return Boolean.valueOf(json.getBoolean(key));
@@ -311,7 +312,7 @@ public class CmsJSONSearchConfigurationParser implements I_CmsSearchConfiguratio
      * @param key The key of the value to read.
      * @return The value from the JSON, or <code>null</code> if the value does not exist, or is no Integer.
      */
-    protected static Integer parseOptionalIntValue(JSONObject json, String key) {
+    protected static Integer parseOptionalIntValue(JSONObject json, @RUntainted String key) {
 
         try {
             return Integer.valueOf(json.getInt(key));
@@ -326,7 +327,7 @@ public class CmsJSONSearchConfigurationParser implements I_CmsSearchConfiguratio
      * @param key The key of the value to read.
      * @return The value from the JSON, or <code>null</code> if the value does not exist.
      */
-    protected static String parseOptionalStringValue(JSONObject json, String key) {
+    protected static String parseOptionalStringValue(JSONObject json, @RUntainted String key) {
 
         try {
             return json.getString(key);
@@ -341,7 +342,7 @@ public class CmsJSONSearchConfigurationParser implements I_CmsSearchConfiguratio
      * @param key The key of the value to read.
      * @return The value from the JSON, or <code>null</code> if the value does not exist.
      */
-    protected static List<String> parseOptionalStringValues(JSONObject json, String key) {
+    protected static List<@RUntainted String> parseOptionalStringValues(JSONObject json, @RUntainted String key) {
 
         List<String> list = null;
         try {
@@ -1034,7 +1035,7 @@ public class CmsJSONSearchConfigurationParser implements I_CmsSearchConfiguratio
             String start = rangeFacetObject.getString(JSON_KEY_RANGE_FACET_START);
             String end = rangeFacetObject.getString(JSON_KEY_RANGE_FACET_END);
             String gap = rangeFacetObject.getString(JSON_KEY_RANGE_FACET_GAP);
-            List<String> sother = parseOptionalStringValues(rangeFacetObject, JSON_KEY_RANGE_FACET_OTHER);
+            List<@RUntainted String> sother = parseOptionalStringValues(rangeFacetObject, JSON_KEY_RANGE_FACET_OTHER);
             Boolean hardEnd = parseOptionalBooleanValue(rangeFacetObject, JSON_KEY_RANGE_FACET_HARDEND);
             List<I_CmsSearchConfigurationFacetRange.Other> other = null;
             if (sother != null) {

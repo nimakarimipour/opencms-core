@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Action for editing external links resources.<p>
@@ -101,7 +102,7 @@ public class CmsEditPointerAction extends A_CmsWorkplaceAction implements I_CmsA
     /**
      * @see org.opencms.ui.actions.I_CmsADEAction#getParams()
      */
-    public Map<String, String> getParams() {
+    public Map<String, @RUntainted String> getParams() {
 
         return null;
     }
@@ -126,7 +127,7 @@ public class CmsEditPointerAction extends A_CmsWorkplaceAction implements I_CmsA
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
      */
     @Override
-    protected String getTitleKey() {
+    protected @RUntainted String getTitleKey() {
 
         return org.opencms.workplace.explorer.Messages.GUI_EXPLORER_CONTEXT_EDIT_0;
     }

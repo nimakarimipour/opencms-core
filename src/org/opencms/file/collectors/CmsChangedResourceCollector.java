@@ -46,6 +46,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A resource collector that collects resources changed in a given time frame and supports flexible sorting based on resource dates.<p>
@@ -96,7 +97,7 @@ public class CmsChangedResourceCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getCreateLink(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String getCreateLink(CmsObject cms, String collectorName, String param) {
+    public @RUntainted String getCreateLink(CmsObject cms, String collectorName, String param) {
 
         // this collector does not support creation of new resources
         return null;
@@ -105,7 +106,7 @@ public class CmsChangedResourceCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getCreateParam(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String getCreateParam(CmsObject cms, String collectorName, String param) {
+    public @RUntainted String getCreateParam(CmsObject cms, String collectorName, String param) {
 
         // this collector does not support creation of new resources
         return null;
@@ -172,7 +173,7 @@ public class CmsChangedResourceCollector extends A_CmsResourceCollector {
         boolean asc,
         int numResults) throws CmsException {
 
-        Map<String, String> params = getParameters(param);
+        Map<String, @RUntainted String> params = getParameters(param);
 
         String foldername = "/";
         if (params.containsKey(PARAM_KEY_RESOURCE)) {
@@ -251,7 +252,7 @@ public class CmsChangedResourceCollector extends A_CmsResourceCollector {
         }
 
         // read the resources using the configured filter
-        List<CmsResource> result = cms.readResources(foldername, filter, tree);
+        List<@RUntainted CmsResource> result = cms.readResources(foldername, filter, tree);
 
         // determine which attribute should be used to sort the result
         String sortBy = CmsDateResourceComparator.DATE_ATTRIBUTES_LIST.get(1);

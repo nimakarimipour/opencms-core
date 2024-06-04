@@ -38,6 +38,7 @@ import java.util.zip.ZipInputStream;
 import org.dom4j.Document;
 import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Extracts the text from OpenOffice documents (.ods, .odf).<p>
@@ -99,7 +100,7 @@ public final class CmsExtractorOpenOffice extends A_CmsTextExtractor {
      *
      * @throws Exception if sth goes wrong
      */
-    private String readContent(java.io.InputStream in) throws Exception {
+    private @RUntainted String readContent(java.io.InputStream in) throws Exception {
 
         StringBuffer resultBuffer = new StringBuffer();
         SAXReader reader = new SAXReader();

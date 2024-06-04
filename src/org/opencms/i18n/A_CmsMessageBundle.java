@@ -28,6 +28,7 @@
 package org.opencms.i18n;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience base class to access the localized messages of an OpenCms package.<p>
@@ -169,7 +170,7 @@ public abstract class A_CmsMessageBundle implements I_CmsMessageBundle {
     /**
      * @see org.opencms.i18n.I_CmsMessageBundle#getBundle(java.util.Locale)
      */
-    public CmsMessages getBundle(Locale locale) {
+    public CmsMessages getBundle(@RUntainted Locale locale) {
 
         return new CmsMessages(getBundleName(), locale);
     }

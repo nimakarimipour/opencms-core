@@ -54,6 +54,7 @@ import javax.mail.internet.AddressException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.mail.EmailException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean used by the dynamic function JSP for user data requests.<p>
@@ -131,7 +132,7 @@ public class CmsJspUserDataRequestBean {
     private String m_infoHtml;
 
     /** The request parameters (duplicate parameters are removed). */
-    private Map<String, String> m_params;
+    private Map<String, @RUntainted String> m_params;
 
     /** Lazy map to access messages. */
     private Map<String, String> m_texts;
@@ -155,7 +156,7 @@ public class CmsJspUserDataRequestBean {
      *
      * @throws CmsException if something goes wrong
      */
-    public String action(CmsObject cms, Map<String, String[]> reqParameters) throws CmsException {
+    public String action(CmsObject cms, Map<String, @RUntainted String[]> reqParameters) throws CmsException {
 
         init(reqParameters);
 
@@ -375,11 +376,11 @@ public class CmsJspUserDataRequestBean {
      *
      * @param requestParams the request parameters
      */
-    private void init(Map<String, String[]> requestParams) {
+    private void init(Map<String, @RUntainted String[]> requestParams) {
 
         m_params = new HashMap<>();
-        for (Map.Entry<String, String[]> entry : requestParams.entrySet()) {
-            String[] vals = entry.getValue();
+        for (Map.Entry<String, @RUntainted String[]> entry : requestParams.entrySet()) {
+            @RUntainted String[] vals = entry.getValue();
             if (vals.length > 0) {
                 String val = vals[0];
                 m_params.put(entry.getKey(), val);

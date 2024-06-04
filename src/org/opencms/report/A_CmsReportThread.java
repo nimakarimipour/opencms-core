@@ -33,6 +33,7 @@ import org.opencms.util.CmsUUID;
 
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a common Thread class for the reports.<p>
@@ -183,7 +184,7 @@ public abstract class A_CmsReportThread extends Thread implements I_CmsReportThr
      *
      * @return the OpenCms UUID of this report thread
      */
-    public CmsUUID getUUID() {
+    public @RUntainted CmsUUID getUUID() {
 
         return m_id;
     }

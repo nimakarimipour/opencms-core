@@ -44,6 +44,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements the <code>&lt;cms:decorate&gt;&lt;/cms:decorate&gt;</code>
@@ -75,7 +76,7 @@ public class CmsJspTagDecorate extends BodyTagSupport {
     private String m_locale;
 
     /** List of upper case tag name strings of tags that should not be auto-corrected if closing divs are missing. */
-    private List<String> m_noAutoCloseTags;
+    private List<@RUntainted String> m_noAutoCloseTags;
 
     /**
      * Internal action method.<p>

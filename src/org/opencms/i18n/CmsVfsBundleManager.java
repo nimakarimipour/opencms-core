@@ -49,6 +49,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manages message bundles loaded from the VFS.<p>
@@ -83,7 +84,7 @@ public class CmsVfsBundleManager implements I_CmsEventListener {
          *
          * @return the locale
          */
-        public Locale getLocale() {
+        public @RUntainted Locale getLocale() {
 
             return m_locale;
         }
@@ -93,7 +94,7 @@ public class CmsVfsBundleManager implements I_CmsEventListener {
          *
          * @return the base name
          */
-        public String getName() {
+        public @RUntainted String getName() {
 
             return m_name;
         }
@@ -167,7 +168,7 @@ public class CmsVfsBundleManager implements I_CmsEventListener {
      *
      * @return the collection of all locales
      */
-    private static Collection<Locale> getAllLocales() {
+    private static Collection<@RUntainted Locale> getAllLocales() {
 
         Set<Locale> result = new HashSet<Locale>();
         result.addAll(OpenCms.getWorkplaceManager().getLocales());
@@ -207,8 +208,8 @@ public class CmsVfsBundleManager implements I_CmsEventListener {
 
         if ((OpenCms.getRunLevel() > OpenCms.RUNLEVEL_1_CORE_OBJECT)
             && OpenCms.getResourceManager().hasResourceType(TYPE_XML_BUNDLE)) {
-            List<CmsResource> xmlBundles = Lists.newArrayList();
-            List<CmsResource> propertyBundles = Lists.newArrayList();
+            List<@RUntainted CmsResource> xmlBundles = Lists.newArrayList();
+            List<@RUntainted CmsResource> propertyBundles = Lists.newArrayList();
             try {
                 I_CmsResourceType xmlType = OpenCms.getResourceManager().getResourceType(TYPE_XML_BUNDLE);
                 xmlBundles = m_cms.readResources("/", CmsResourceFilter.ALL.addRequireType(xmlType), true);

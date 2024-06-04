@@ -39,6 +39,7 @@ import java.util.Set;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.jsp.tagext.TagSupport;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This tag is used to enable parameter escaping for a single Flex Request.<p>
@@ -85,7 +86,7 @@ public class CmsJspTagSecureParams extends TagSupport {
         if (request instanceof CmsFlexRequest) {
             CmsFlexRequest flexRequest = (CmsFlexRequest)request;
             CmsObject cms = CmsFlexController.getCmsObject(flexRequest);
-            List<String> exceptions = Collections.emptyList();
+            List<@RUntainted String> exceptions = Collections.emptyList();
             if (allowXml != null) {
                 exceptions = CmsStringUtil.splitAsList(allowXml, ",");
             }
@@ -93,11 +94,11 @@ public class CmsJspTagSecureParams extends TagSupport {
             flexRequest.getParameterEscaper().setExceptions(exceptions);
             flexRequest.getParameterEscaper().setDummyValue(replaceInvalid);
             if (escapeInvalid != null) {
-                List<String> escapeInvalidList = CmsStringUtil.splitAsList(escapeInvalid.trim(), ",");
+                List<@RUntainted String> escapeInvalidList = CmsStringUtil.splitAsList(escapeInvalid.trim(), ",");
                 flexRequest.getParameterEscaper().setEscapeInvalid(escapeInvalidList);
 
             }
-            Set<String> allowHtmlSet = Collections.emptySet();
+            Set<@RUntainted String> allowHtmlSet = Collections.emptySet();
             if (allowHtml != null) {
                 allowHtmlSet = new HashSet<String>(CmsStringUtil.splitAsList(allowHtml, ","));
                 flexRequest.getParameterEscaper().enableAntiSamy(cms, policy, allowHtmlSet);

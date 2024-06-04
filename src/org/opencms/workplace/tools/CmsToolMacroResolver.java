@@ -38,6 +38,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resolves special macros for the admin view.<p>
@@ -91,7 +92,7 @@ public class CmsToolMacroResolver implements I_CmsMacroResolver {
         KEY_ROLENAME};
 
     /** The admin commands wrapped in a List. */
-    public static final List<String> VALUE_NAMES = Collections.unmodifiableList(Arrays.asList(VALUE_NAME_ARRAY));
+    public static final List<@RUntainted String> VALUE_NAMES = Collections.unmodifiableList(Arrays.asList(VALUE_NAME_ARRAY));
 
     /** The workplace class for falling back, and use the cms context. */
     private CmsWorkplace m_wp;
@@ -129,7 +130,7 @@ public class CmsToolMacroResolver implements I_CmsMacroResolver {
     /**
      * @see org.opencms.util.I_CmsMacroResolver#getMacroValue(java.lang.String)
      */
-    public String getMacroValue(String macro) {
+    public String getMacroValue(@RUntainted String macro) {
 
         if (!macro.startsWith(CmsToolMacroResolver.PREFIX_ADMIN)) {
             // the key is not an admin macro, fallback
@@ -138,7 +139,7 @@ public class CmsToolMacroResolver implements I_CmsMacroResolver {
         macro = macro.substring(CmsToolMacroResolver.PREFIX_ADMIN.length());
         String id = null;
         // validate macro command
-        Iterator<String> it = VALUE_NAMES.iterator();
+        Iterator<@RUntainted String> it = VALUE_NAMES.iterator();
         while (it.hasNext()) {
             String cmd = it.next();
             if (macro.startsWith(cmd)) {

@@ -88,6 +88,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides the functionality to export resources from the OpenCms VFS
@@ -161,7 +162,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
     private Map<String, Boolean> m_cacheExportLinks;
 
     /** Cache for the export uris. */
-    private Map<String, CmsStaticExportData> m_cacheExportUris;
+    private Map<String, @RUntainted CmsStaticExportData> m_cacheExportUris;
 
     /** Cache for the online links. */
     private Map<String, String> m_cacheOnlineLinks;
@@ -185,7 +186,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
     private List<String> m_exportHeaders;
 
     /** List of all resources that have the "exportname" property set: &lt;system-wide unique export name, root path&gt;. */
-    private Map<CmsExportname, String> m_exportnameResources;
+    private Map<CmsExportname, @RUntainted String> m_exportnameResources;
 
     /** Indicates if <code>true</code> is the default value for the property "export". */
     private boolean m_exportPropertyDefault;
@@ -203,13 +204,13 @@ public class CmsStaticExportManager implements I_CmsEventListener {
     private CmsStaticExportExportRule m_exportTmpRule;
 
     /** Export url to send internal requests to. */
-    private String m_exportUrl;
+    private @RUntainted String m_exportUrl;
 
     /** Export url with unsubstituted context values. */
     private String m_exportUrlConfigured;
 
     /** Export url to send internal requests to without http://servername. */
-    private String m_exportUrlPrefix;
+    private @RUntainted String m_exportUrlPrefix;
 
     /** Boolean value if the export is a full static export. */
     private boolean m_fullStaticExport;
@@ -239,13 +240,13 @@ public class CmsStaticExportManager implements I_CmsEventListener {
     private boolean m_quickPlainExport;
 
     /** Remote address. */
-    private String m_remoteAddr;
+    private @RUntainted String m_remoteAddr;
 
     /** Prefix to use for exported files. */
-    private String m_rfsPrefix;
+    private @RUntainted String m_rfsPrefix;
 
     /** Prefix to use for exported files with unsubstituted context values. */
-    private String m_rfsPrefixConfigured;
+    private @RUntainted String m_rfsPrefixConfigured;
 
     /** List of configured rfs rules. */
     private List<CmsStaticExportRfsRule> m_rfsRules;
@@ -260,28 +261,28 @@ public class CmsStaticExportManager implements I_CmsEventListener {
     private boolean m_staticExportEnabled;
 
     /** The path to where the static export will be written. */
-    private String m_staticExportPath;
+    private @RUntainted String m_staticExportPath;
 
     /** The path to where the static export will be written without the complete rfs path. */
-    private String m_staticExportPathConfigured;
+    private @RUntainted String m_staticExportPathConfigured;
 
     /** The path to where the static export will be written during the static export process. */
-    private String m_staticExportWorkPath;
+    private @RUntainted String m_staticExportWorkPath;
 
     /** The path to where the static export will be written during the static export process without the complete rfs path. */
-    private String m_staticExportWorkPathConfigured;
+    private @RUntainted String m_staticExportWorkPathConfigured;
 
     /** Vfs Name of a resource used to do a "static export required" test. */
-    private String m_testResource;
+    private @RUntainted String m_testResource;
 
     /** If there are several identical export paths the usage of temporary directories has to be disabled. */
     private boolean m_useTempDirs = true;
 
     /** Prefix to use for internal OpenCms files. */
-    private String m_vfsPrefix;
+    private @RUntainted String m_vfsPrefix;
 
     /** Prefix to use for internal OpenCms files with unsubstituted context values. */
-    private String m_vfsPrefixConfigured;
+    private @RUntainted String m_vfsPrefixConfigured;
 
     /**
      * Creates a new static export property object.<p>
@@ -316,7 +317,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
      *
      * @see org.opencms.staticexport.CmsStaticExportManager
      */
-    public static String getRfsPath(String filename, String extension, String parameters) {
+    public static @RUntainted String getRfsPath(String filename, String extension, String parameters) {
 
         boolean appendSlash = false;
         if (filename.endsWith("/")) {
@@ -344,7 +345,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
      *
      * @return the real file system name plus the default file name
      */
-    public String addDefaultFileNameToFolder(String rfsName, boolean isFolder) {
+    public @RUntainted String addDefaultFileNameToFolder(@RUntainted String rfsName, boolean isFolder) {
 
         StringBuffer name = new StringBuffer(rfsName);
 
@@ -499,7 +500,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
             return;
         }
         I_CmsReport report = null;
-        Map<String, Object> data = event.getData();
+        Map<String, @RUntainted Object> data = event.getData();
         if (data != null) {
             report = (I_CmsReport)data.get(I_CmsEventListener.KEY_REPORT);
         }
@@ -560,7 +561,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
      * @throws IOException in case of errors writing to the export output stream
      * @throws CmsStaticExportException if static export is disabled
      */
-    public int export(HttpServletRequest req, HttpServletResponse res, CmsObject cms, CmsStaticExportData data)
+    public @RUntainted int export(@RUntainted HttpServletRequest req, @RUntainted HttpServletResponse res, CmsObject cms, @RUntainted CmsStaticExportData data)
     throws CmsException, IOException, ServletException, CmsStaticExportException {
 
         CmsResource resource = data.getResource();
@@ -658,7 +659,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
 
         // do the export
         int status = -1;
-        List<Locale> locales = OpenCms.getLocaleManager().getDefaultLocales(exportCms, vfsName);
+        List<@RUntainted Locale> locales = OpenCms.getLocaleManager().getDefaultLocales(exportCms, vfsName);
         boolean exported = false;
         boolean matched = false;
         // iterate over all rules
@@ -834,7 +835,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
      *
      * @return a cached link for the given vfs name, or null
      */
-    public String getCachedOnlineLink(String vfsName) {
+    public @RUntainted String getCachedOnlineLink(String vfsName) {
 
         return m_cacheOnlineLinks.get(vfsName);
     }
@@ -914,7 +915,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
      *
      * @return the export data for the request, if null is returned no export is required
      */
-    public CmsStaticExportData getExportData(HttpServletRequest request, CmsObject cms) {
+    public @RUntainted CmsStaticExportData getExportData(@RUntainted HttpServletRequest request, CmsObject cms) {
 
         if (!isStaticExportEnabled()) {
             // export is disabled
@@ -1017,11 +1018,11 @@ public class CmsStaticExportManager implements I_CmsEventListener {
      *
      * @return a map of export names
      */
-    public Map<CmsExportname, String> getExportnames() {
+    public Map<CmsExportname, @RUntainted String> getExportnames() {
 
         if (m_exportnameResources == null) {
             try {
-                TreeMap<CmsExportname, String> sort = new TreeMap<CmsExportname, String>(new CmsExportNameComparator());
+                TreeMap<CmsExportname, @RUntainted String> sort = new TreeMap<CmsExportname, @RUntainted String>(new CmsExportNameComparator());
                 sort.putAll(computeVfsExportnames());
                 m_exportnameResources = sort;
             } catch (Throwable t) {
@@ -1055,7 +1056,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
      * @see #getRfsPrefix(String)
      * @see #getVfsPrefix()
      */
-    public String getExportPath(String vfsName) {
+    public @RUntainted String getExportPath(String vfsName) {
 
         if (vfsName != null) {
             Iterator<CmsStaticExportRfsRule> it = m_rfsRules.iterator();
@@ -1107,7 +1108,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
      *
      * @return true if the default value for the resource property "export" is true
      */
-    public boolean getExportPropertyDefault() {
+    public @RUntainted boolean getExportPropertyDefault() {
 
         return m_exportPropertyDefault;
     }
@@ -1138,7 +1139,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
      *
      * @return the export URL used for internal requests for exporting resources like JSP
      */
-    public String getExportUrl() {
+    public @RUntainted String getExportUrl() {
 
         return m_exportUrl;
     }
@@ -1164,7 +1165,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
      *
      * @return the export URL used for internal requests for exporting resources like JSP without http://servername
      */
-    public String getExportUrlPrefix() {
+    public @RUntainted String getExportUrlPrefix() {
 
         return m_exportUrlPrefix;
     }
@@ -1175,7 +1176,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
      *
      * @return the export work path for the static export
      */
-    public String getExportWorkPath() {
+    public @RUntainted String getExportWorkPath() {
 
         return m_staticExportWorkPath;
     }
@@ -1186,7 +1187,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
      *
      * @return the original configured export work path for the static export without the complete rfs path
      */
-    public String getExportWorkPathForConfiguration() {
+    public @RUntainted String getExportWorkPathForConfiguration() {
 
         if (m_staticExportWorkPathConfigured != null) {
             return m_staticExportWorkPathConfigured;
@@ -1230,7 +1231,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
      *
      * @return <code>"true"</code> or <code>"false"</code>
      */
-    public String getPlainExportOptimization() {
+    public @RUntainted String getPlainExportOptimization() {
 
         return String.valueOf(m_quickPlainExport);
     }
@@ -1328,7 +1329,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
      * @see #getVfsName(CmsObject, String)
      * @see #getRfsName(CmsObject, String, String, String)
      */
-    public String getRfsName(CmsObject cms, String vfsName) {
+    public @RUntainted String getRfsName(CmsObject cms, @RUntainted String vfsName) {
 
         return getRfsName(cms, vfsName, null, null);
     }
@@ -1344,7 +1345,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
      *
      * @return the static export rfs name for a give vfs resource
      */
-    public String getRfsName(CmsObject cms, String vfsName, String parameters, String targetDetailPage) {
+    public @RUntainted String getRfsName(CmsObject cms, @RUntainted String vfsName, String parameters, String targetDetailPage) {
 
         String rfsName;
         try {
@@ -1395,7 +1396,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
                             getExportPath(cms.getRequestContext().addSiteRoot(vfsName)) + rfsName));
                     File parent = rfsFile.getParentFile();
                     if (parent != null) {
-                        File[] paramVariants = parent.listFiles(new CmsPrefixFileFilter(rfsFile.getName()));
+                        @RUntainted File[] paramVariants = parent.listFiles(new CmsPrefixFileFilter(rfsFile.getName()));
                         if ((paramVariants != null) && (paramVariants.length > 0)) {
                             // take the first
                             suffix = paramVariants[0].getAbsolutePath().substring(rfsFile.getAbsolutePath().length());
@@ -1471,7 +1472,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
      * @see #getExportPath(String)
      * @see #getVfsPrefix()
      */
-    public String getRfsPrefix(String vfsName) {
+    public @RUntainted String getRfsPrefix(String vfsName) {
 
         if (vfsName != null) {
             Iterator<CmsStaticExportRfsRule> it = m_rfsRules.iterator();
@@ -1515,7 +1516,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
      *
      * @return the vfs name of the test resource.
      */
-    public String getTestResource() {
+    public @RUntainted String getTestResource() {
 
         return m_testResource;
     }
@@ -1528,7 +1529,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
      *
      * @return the export data for the request, if null is returned no export is required
      */
-    public CmsStaticExportData getVfsExportData(CmsObject cms, String vfsName) {
+    public CmsStaticExportData getVfsExportData(CmsObject cms, @RUntainted String vfsName) {
 
         return getRfsExportData(cms, getRfsName(cms, vfsName));
     }
@@ -1545,7 +1546,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
      *
      * @see #getRfsName(CmsObject, String)
      */
-    public String getVfsName(CmsObject cms, String rfsName) {
+    public @RUntainted String getVfsName(CmsObject cms, @RUntainted String rfsName) {
 
         CmsStaticExportData data = getRfsExportData(cms, rfsName);
         if (data != null) {
@@ -1570,7 +1571,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
      *
      * @throws CmsVfsResourceNotFoundException if something goes wrong
      */
-    public CmsStaticExportData getVfsNameInternal(CmsObject cms, String rfsName)
+    public @RUntainted CmsStaticExportData getVfsNameInternal(CmsObject cms, @RUntainted String rfsName)
     throws CmsVfsResourceNotFoundException {
 
         String storedSiteRoot = cms.getRequestContext().getSiteRoot();
@@ -1584,7 +1585,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
             // in case of files, remove the filename and trailing slash
             path = path.substring(0, path.lastIndexOf('/'));
             // cache the export names
-            Map<CmsExportname, String> exportnameMapping = getExportnames();
+            Map<CmsExportname, @RUntainted String> exportnameMapping = getExportnames();
             // in case of folders, remove the trailing slash and in case of files, remove the filename and trailing slash
             while (true) {
                 // exportnameResources are only folders!
@@ -1669,7 +1670,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
      * @see #getExportPath(String)
      * @see #getRfsPrefix(String)
      */
-    public String getVfsPrefix() {
+    public @RUntainted String getVfsPrefix() {
 
         return m_vfsPrefix;
     }
@@ -1694,7 +1695,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
      *
      * @param cms an OpenCms context object
      */
-    public void initialize(CmsObject cms) {
+    public void initialize(@RUntainted CmsObject cms) {
 
         m_adminCms = cms;
         // initialize static export RFS path (relative to web application)
@@ -2035,7 +2036,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
      *
      * @see #isSecureLink(CmsObject, String)
      */
-    public boolean isSecureLink(CmsObject cms, String vfsName, String siteRoot) {
+    public boolean isSecureLink(CmsObject cms, String vfsName, @RUntainted String siteRoot) {
 
         return isSecureLink(cms, vfsName, siteRoot, false);
     }
@@ -2058,7 +2059,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
      *
      * @see CmsStaticExportManager#isSecureLink(CmsObject, String, String)
      */
-    public boolean isSecureLink(CmsObject cms, String vfsName, String siteRoot, boolean fromSecure) {
+    public boolean isSecureLink(CmsObject cms, String vfsName, @RUntainted String siteRoot, boolean fromSecure) {
 
         if (siteRoot == null) {
             return isSecureLink(cms, vfsName, fromSecure);
@@ -2203,7 +2204,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
      *
      * @param exportHeader a specific http header
      */
-    public void setExportHeader(String exportHeader) {
+    public void setExportHeader(@RUntainted String exportHeader) {
 
         if (CmsStringUtil.splitAsArray(exportHeader, ':').length == 2) {
             if (CmsLog.INIT.isInfoEnabled()) {
@@ -2222,7 +2223,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
      *
      * @param path the path where the static export is written
      */
-    public void setExportPath(String path) {
+    public void setExportPath(@RUntainted String path) {
 
         m_staticExportPathConfigured = path;
     }
@@ -2242,7 +2243,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
      *
      * @param url the export url
      */
-    public void setExportUrl(String url) {
+    public void setExportUrl(@RUntainted String url) {
 
         m_exportUrl = insertContextStrings(url);
         m_exportUrlConfigured = url;
@@ -2253,7 +2254,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
      *
      * @param path the path where the static export is temporarily written
      */
-    public void setExportWorkPath(String path) {
+    public void setExportWorkPath(@RUntainted String path) {
 
         m_staticExportWorkPathConfigured = path;
     }
@@ -2323,7 +2324,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
      *
      * @param addr the remote address to be used
      */
-    public void setRemoteAddr(String addr) {
+    public void setRemoteAddr(@RUntainted String addr) {
 
         m_remoteAddr = addr;
     }
@@ -2333,7 +2334,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
      *
      * @param rfsPrefix the prefix for exported links in the "real" file system
      */
-    public void setRfsPrefix(String rfsPrefix) {
+    public void setRfsPrefix(@RUntainted String rfsPrefix) {
 
         m_rfsPrefixConfigured = rfsPrefix;
     }
@@ -2343,7 +2344,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
      *
      * @param testResource the vfs name of the test resource
      */
-    public void setTestResource(String testResource) {
+    public void setTestResource(@RUntainted String testResource) {
 
         m_testResource = testResource;
     }
@@ -2353,7 +2354,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
      *
      * @param vfsPrefix the prefix for internal links in the vfs
      */
-    public void setVfsPrefix(String vfsPrefix) {
+    public void setVfsPrefix(@RUntainted String vfsPrefix) {
 
         m_vfsPrefixConfigured = vfsPrefix;
     }
@@ -2465,7 +2466,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
      *
      * @throws CmsException if the folder could not be created
      */
-    protected void createExportFolder(String exportPath, String rfsName) throws CmsException {
+    protected void createExportFolder(@RUntainted String exportPath, @RUntainted String rfsName) throws CmsException {
 
         String exportFolderName = CmsFileUtil.normalizePath(exportPath + CmsResource.getFolderPath(rfsName));
         File exportFolder = new File(exportFolderName);
@@ -2505,7 +2506,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
      *
      * @return the export data for the request, if null is returned no export is required
      */
-    protected CmsStaticExportData getRfsExportData(CmsObject cms, String uri) {
+    protected @RUntainted CmsStaticExportData getRfsExportData(CmsObject cms, @RUntainted String uri) {
 
         // cut export prefix from name
         String rfsName = uri.substring(getRfsPrefixForRfsName(uri).length());
@@ -2601,7 +2602,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
      *
      * @return the rfs name for a given vfs name with consideration of the export name
      */
-    protected String getRfsNameWithExportName(CmsObject cms, String vfsName) {
+    protected @RUntainted String getRfsNameWithExportName(CmsObject cms, @RUntainted String vfsName) {
 
         String rfsName = vfsName;
 
@@ -2679,7 +2680,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
      *
      * @see #getRfsPrefix(String)
      */
-    protected String getRfsPrefixForRfsName(String rfsName) {
+    protected @RUntainted String getRfsPrefixForRfsName(String rfsName) {
 
         String retVal = "";
         // default case
@@ -2704,7 +2705,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
      * @param path the path to substitute
      * @return path with real context values
      */
-    protected String insertContextStrings(String path) {
+    protected @RUntainted String insertContextStrings(@RUntainted String path) {
 
         // create a new macro resolver
         CmsMacroResolver resolver = CmsMacroResolver.newInstance();
@@ -2751,7 +2752,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
       *
       * @return <code>true</code> if the String is not <code>null</code> and a valid URL
       */
-    protected boolean isValidURL(String inputString) {
+    protected boolean isValidURL(@RUntainted String inputString) {
 
         boolean isValid = false;
         try {
@@ -2774,7 +2775,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
      *
      * @return the normalized export path
      */
-    protected String normalizeExportPath(String exportPath) {
+    protected @RUntainted String normalizeExportPath(@RUntainted String exportPath) {
 
         String result = insertContextStrings(exportPath);
         result = OpenCms.getSystemInfo().getAbsoluteRfsPathRelativeToWebApplication(result);
@@ -2794,7 +2795,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
      *
      * @return the normalized rfs prefix
      */
-    protected String normalizeRfsPrefix(String rfsPrefix) {
+    protected @RUntainted String normalizeRfsPrefix(@RUntainted String rfsPrefix) {
 
         String result = insertContextStrings(rfsPrefix);
         if (!isValidURL(result)) {
@@ -2817,7 +2818,7 @@ public class CmsStaticExportManager implements I_CmsEventListener {
      *
      * @throws CmsException if soemthing goes wrong
      */
-    protected CmsStaticExportData readResource(CmsObject cms, String uri) throws CmsException {
+    protected @RUntainted CmsStaticExportData readResource(CmsObject cms, @RUntainted String uri) throws CmsException {
 
         CmsResource resource = null;
         boolean isDetailPage = false;
@@ -2944,9 +2945,9 @@ public class CmsStaticExportManager implements I_CmsEventListener {
       * @throws CmsException if something goes wrong
       */
     protected void writeResource(
-        HttpServletRequest req,
-        String exportPath,
-        String rfsName,
+        @RUntainted HttpServletRequest req,
+        @RUntainted String exportPath,
+        @RUntainted String rfsName,
         CmsResource resource,
         byte[] content)
     throws CmsException {

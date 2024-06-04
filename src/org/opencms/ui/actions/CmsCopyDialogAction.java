@@ -40,6 +40,7 @@ import org.opencms.ui.dialogs.CmsCopyMoveDialog;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The copy move dialog action.<p>
@@ -97,7 +98,7 @@ public class CmsCopyDialogAction extends A_CmsWorkplaceAction {
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
      */
     @Override
-    protected String getTitleKey() {
+    protected @RUntainted String getTitleKey() {
 
         return org.opencms.ui.Messages.GUI_DIALOGTITLE_COPY_0;
     }

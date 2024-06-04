@@ -102,6 +102,7 @@ import com.vaadin.v7.event.FieldEvents.TextChangeListener;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.Table.CellStyleGenerator;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Component that realizes a content finder.
@@ -116,7 +117,7 @@ public class CmsDateSearchComposite implements I_ResourcePropertyProvider, I_Cms
     private class FilterComponent extends VerticalLayout {
 
         /** The site selector. */
-        CmsSiteSelector m_siteSelector;
+        @RUntainted CmsSiteSelector m_siteSelector;
 
         /** The folder selector. */
         CmsFolderSelector m_folderSelector;
@@ -705,7 +706,7 @@ public class CmsDateSearchComposite implements I_ResourcePropertyProvider, I_Cms
      * Returns the current CMS context of this content finder.
      * @return the current CMS context of this content finder
      */
-    CmsObject getCmsObject() {
+    @RUntainted CmsObject getCmsObject() {
 
         if ((m_filterComponent == null) || (m_filterComponent.m_folderSelector == null)) {
             return A_CmsUI.getCmsObject();
@@ -718,7 +719,7 @@ public class CmsDateSearchComposite implements I_ResourcePropertyProvider, I_Cms
      * Builds the Solr query.
      * @return the Solr query
      */
-    private CmsSolrQuery buildQuery() {
+    private @RUntainted CmsSolrQuery buildQuery() {
 
         CmsSolrQuery query = new CmsSolrQuery(getCmsObject(), null);
         query.setSort(CmsSearchField.FIELD_PATH, ORDER.asc);
@@ -748,7 +749,7 @@ public class CmsDateSearchComposite implements I_ResourcePropertyProvider, I_Cms
         String dateRangeQuery = null;
         if ((dateFrom != null) || (dateTo != null)) {
             List<String> dateRangeQueries = new ArrayList<String>();
-            List<Locale> availableLocales = OpenCms.getLocaleManager().getAvailableLocales(getCmsObject(), folder);
+            List<@RUntainted Locale> availableLocales = OpenCms.getLocaleManager().getAvailableLocales(getCmsObject(), folder);
             for (Locale locale : availableLocales) {
                 CmsDateRangeRestriction restriction = new CmsDateRangeRestriction(dateFrom, dateTo);
                 dateRangeQueries.add(

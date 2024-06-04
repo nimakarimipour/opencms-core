@@ -57,6 +57,7 @@ import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** View of the message bundle editor options, i.e., language/mode switcher, file name display and "Add key" option. */
 public class CmsMessageBundleEditorOptions {
@@ -85,7 +86,7 @@ public class CmsMessageBundleEditorOptions {
     /** The input field that displays the path of the currently edited file. */
     private TextField m_filePathField;
     /** The "Add key" input field. */
-    TextField m_addKeyInput;
+    @RUntainted TextField m_addKeyInput;
     /** A flag, indicating if the mode switch should be shown. */
     private boolean m_showModeSwitch;
     /** A flag, indicating if the "Add key" row should be shown. */

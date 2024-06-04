@@ -95,6 +95,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generic (ANSI-SQL) database server implementation of the VFS driver methods.<p>
@@ -132,7 +133,7 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
      *
      * @return a pair consisting of an SQL string and a list of the prepared statement parameters for the SQL
      */
-    public static CmsPair<String, List<I_CmsPreparedStatementParameter>> prepareUrlNameMappingConditions(
+    public static CmsPair<String, @RUntainted List<I_CmsPreparedStatementParameter>> prepareUrlNameMappingConditions(
         CmsUrlNameMappingFilter filter) {
 
         List<String> sqlConditions = new ArrayList<String>();
@@ -295,7 +296,7 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
     /**
      * @see org.opencms.db.I_CmsVfsDriver#createFile(java.sql.ResultSet, CmsUUID)
      */
-    public CmsFile createFile(ResultSet res, CmsUUID projectId) throws SQLException {
+    public CmsFile createFile(@RUntainted ResultSet res, CmsUUID projectId) throws SQLException {
 
         CmsUUID structureId = new CmsUUID(res.getString(m_sqlManager.readQuery("C_RESOURCES_STRUCTURE_ID")));
         CmsUUID resourceId = new CmsUUID(res.getString(m_sqlManager.readQuery("C_RESOURCES_RESOURCE_ID")));
@@ -311,7 +312,7 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
         int resourceSize = res.getInt(m_sqlManager.readQuery("C_RESOURCES_SIZE"));
         CmsUUID userCreated = new CmsUUID(res.getString(m_sqlManager.readQuery("C_RESOURCES_USER_CREATED")));
         CmsUUID userLastModified = new CmsUUID(res.getString(m_sqlManager.readQuery("C_RESOURCES_USER_LASTMODIFIED")));
-        byte[] content = m_sqlManager.getBytes(res, m_sqlManager.readQuery("C_RESOURCES_FILE_CONTENT"));
+        @RUntainted byte[] content = m_sqlManager.getBytes(res, m_sqlManager.readQuery("C_RESOURCES_FILE_CONTENT"));
         int siblingCount = res.getInt(m_sqlManager.readQuery("C_RESOURCES_SIBLING_COUNT"));
         long dateContent = res.getLong(m_sqlManager.readQuery("C_RESOURCES_DATE_CONTENT"));
         int resourceVersion = res.getInt(m_sqlManager.readQuery("C_RESOURCES_VERSION"));
@@ -349,9 +350,9 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
     /**
      * @see org.opencms.db.I_CmsVfsDriver#createFile(java.sql.ResultSet, CmsUUID, boolean)
      */
-    public CmsFile createFile(ResultSet res, CmsUUID projectId, boolean hasFileContentInResultSet) throws SQLException {
+    public CmsFile createFile(@RUntainted ResultSet res, CmsUUID projectId, boolean hasFileContentInResultSet) throws SQLException {
 
-        byte[] content = null;
+        @RUntainted byte[] content = null;
 
         CmsUUID resProjectId = null;
 
@@ -409,7 +410,7 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
     /**
      * @see org.opencms.db.I_CmsVfsDriver#createFolder(java.sql.ResultSet, CmsUUID, boolean)
      */
-    public CmsFolder createFolder(ResultSet res, CmsUUID projectId, boolean hasProjectIdInResultSet)
+    public CmsFolder createFolder(@RUntainted ResultSet res, CmsUUID projectId, boolean hasProjectIdInResultSet)
     throws SQLException {
 
         CmsUUID structureId = new CmsUUID(res.getString(m_sqlManager.readQuery("C_RESOURCES_STRUCTURE_ID")));
@@ -561,7 +562,7 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
     /**
      * @see org.opencms.db.I_CmsVfsDriver#createRelation(org.opencms.db.CmsDbContext, CmsUUID, org.opencms.relations.CmsRelation)
      */
-    public void createRelation(CmsDbContext dbc, CmsUUID projectId, CmsRelation relation)
+    public void createRelation(CmsDbContext dbc, @RUntainted CmsUUID projectId, @RUntainted CmsRelation relation)
     throws CmsDataAccessException {
 
         Connection conn = null;
@@ -847,7 +848,7 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
     /**
      * @see org.opencms.db.I_CmsVfsDriver#createResource(java.sql.ResultSet, CmsUUID)
      */
-    public CmsResource createResource(ResultSet res, CmsUUID projectId) throws SQLException {
+    public CmsResource createResource(@RUntainted ResultSet res, CmsUUID projectId) throws SQLException {
 
         CmsUUID structureId = new CmsUUID(res.getString(m_sqlManager.readQuery("C_RESOURCES_STRUCTURE_ID")));
         CmsUUID resourceId = new CmsUUID(res.getString(m_sqlManager.readQuery("C_RESOURCES_RESOURCE_ID")));
@@ -1450,7 +1451,7 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
     /**
      * @see org.opencms.db.I_CmsVfsDriver#moveResource(CmsDbContext, CmsUUID, CmsResource, String)
      */
-    public void moveResource(CmsDbContext dbc, CmsUUID projectId, CmsResource source, String destinationPath)
+    public void moveResource(CmsDbContext dbc, CmsUUID projectId, CmsResource source, @RUntainted String destinationPath)
     throws CmsDataAccessException {
 
         if ((dbc.getRequestContext() != null)
@@ -1857,12 +1858,12 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
     /**
      * @see org.opencms.db.I_CmsVfsDriver#readContent(org.opencms.db.CmsDbContext, CmsUUID, org.opencms.util.CmsUUID)
      */
-    public byte[] readContent(CmsDbContext dbc, CmsUUID projectId, CmsUUID resourceId) throws CmsDataAccessException {
+    public @RUntainted byte[] readContent(CmsDbContext dbc, CmsUUID projectId, CmsUUID resourceId) throws CmsDataAccessException {
 
         PreparedStatement stmt = null;
         ResultSet res = null;
         Connection conn = null;
-        byte[] byteRes = null;
+        @RUntainted byte[] byteRes = null;
 
         try {
             conn = m_sqlManager.getConnection(dbc);
@@ -1936,7 +1937,7 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
     /**
      * @see org.opencms.db.I_CmsVfsDriver#readFolder(org.opencms.db.CmsDbContext, CmsUUID, java.lang.String)
      */
-    public CmsFolder readFolder(CmsDbContext dbc, CmsUUID projectId, String folderPath) throws CmsDataAccessException {
+    public CmsFolder readFolder(CmsDbContext dbc, CmsUUID projectId, @RUntainted String folderPath) throws CmsDataAccessException {
 
         CmsFolder folder = null;
         ResultSet res = null;
@@ -2083,7 +2084,7 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
     /**
      * @see org.opencms.db.I_CmsVfsDriver#readPropertyObject(org.opencms.db.CmsDbContext, java.lang.String, org.opencms.file.CmsProject, org.opencms.file.CmsResource)
      */
-    public CmsProperty readPropertyObject(CmsDbContext dbc, String key, CmsProject project, CmsResource resource)
+    public CmsProperty readPropertyObject(CmsDbContext dbc, @RUntainted String key, CmsProject project, CmsResource resource)
     throws CmsDataAccessException {
 
         CmsUUID projectId = ((dbc.getProjectId() == null) || dbc.getProjectId().isNullUUID())
@@ -2351,7 +2352,7 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
     /**
      * @see org.opencms.db.I_CmsVfsDriver#readResource(org.opencms.db.CmsDbContext, CmsUUID, java.lang.String, boolean)
      */
-    public CmsResource readResource(CmsDbContext dbc, CmsUUID projectId, String path, boolean includeDeleted)
+    public @RUntainted CmsResource readResource(CmsDbContext dbc, CmsUUID projectId, @RUntainted String path, boolean includeDeleted)
     throws CmsDataAccessException {
 
         CmsResource resource = null;
@@ -3738,7 +3739,7 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
      *
      * @throws SQLException if something goes wrong
      */
-    protected CmsUrlNameMappingEntry internalCreateUrlNameMappingEntry(ResultSet resultSet) throws SQLException {
+    protected CmsUrlNameMappingEntry internalCreateUrlNameMappingEntry(@RUntainted ResultSet resultSet) throws SQLException {
 
         String name = resultSet.getString(1);
         CmsUUID structureId = new CmsUUID(resultSet.getString(2));
@@ -3782,7 +3783,7 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
      *
      * @throws SQLException if something goes wrong
      */
-    protected CmsAlias internalReadAlias(ResultSet resultset) throws SQLException {
+    protected CmsAlias internalReadAlias(@RUntainted ResultSet resultset) throws SQLException {
 
         String siteRoot = resultset.getString(1);
         String path = resultset.getString(2);
@@ -3837,7 +3838,7 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    protected String internalReadParentId(CmsDbContext dbc, CmsUUID projectId, String resourcename)
+    protected String internalReadParentId(CmsDbContext dbc, CmsUUID projectId, @RUntainted String resourcename)
     throws CmsDataAccessException {
 
         if ("/".equalsIgnoreCase(resourcename)) {
@@ -3887,7 +3888,7 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
      *
      * @throws SQLException if something goes wrong
      */
-    protected CmsRelation internalReadRelation(ResultSet res) throws SQLException {
+    protected CmsRelation internalReadRelation(@RUntainted ResultSet res) throws SQLException {
 
         CmsUUID sourceId = new CmsUUID(res.getString(m_sqlManager.readQuery("C_RELATION_SOURCE_ID")));
         String sourcePath = res.getString(m_sqlManager.readQuery("C_RELATION_SOURCE_PATH"));
@@ -4741,7 +4742,7 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
      *
      * @throws SQLException if something goes wrong
      */
-    PreparedStatement getPreparedStatementForFilter(Connection conn, String baseQuery, CmsUrlNameMappingFilter filter)
+    @RUntainted PreparedStatement getPreparedStatementForFilter(Connection conn, String baseQuery, CmsUrlNameMappingFilter filter)
     throws SQLException {
 
         CmsPair<String, List<I_CmsPreparedStatementParameter>> conditionData = prepareUrlNameMappingConditions(filter);
@@ -4765,7 +4766,7 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
      * @param filter the alias filter
      * @return a pair containing a condition string and the parameters which are necessary for the conditions
      */
-    private CmsPair<String, List<String>> buildAliasConditions(CmsAliasFilter filter) {
+    private CmsPair<String, @RUntainted List<String>> buildAliasConditions(CmsAliasFilter filter) {
 
         List<String> conditions = new ArrayList<String>();
         conditions.add("1 = 1");
@@ -4793,7 +4794,7 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
      *
      * @return a pair consisting of an SQL condition string and a list of query parameters
      */
-    private CmsPair<String, List<Object>> prepareRewriteAliasConditions(CmsRewriteAliasFilter filter) {
+    private CmsPair<String, @RUntainted List<Object>> prepareRewriteAliasConditions(CmsRewriteAliasFilter filter) {
 
         List<String> conditions = new ArrayList<String>();
         conditions.add("1 = 1");

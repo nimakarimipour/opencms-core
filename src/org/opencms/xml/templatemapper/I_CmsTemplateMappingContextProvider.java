@@ -26,6 +26,7 @@
  */
 
 package org.opencms.xml.templatemapper;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface for a mapping template context providers.<p>

@@ -28,6 +28,7 @@
 package org.opencms.db.postgresql;
 
 import org.opencms.db.generic.CmsSqlManager;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * PostgreSQL  implementation of the subscription driver.<p>

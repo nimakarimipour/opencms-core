@@ -31,6 +31,7 @@ import org.opencms.i18n.CmsMessageContainer;
 
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This is the interface for the report classes which are used for the output
@@ -91,7 +92,7 @@ public interface I_CmsReport {
      *
      * @return an error list that occurred during the report
      */
-    List<Object> getErrors();
+    @RUntainted List<Object> getErrors();
 
     /**
      * Returns the time of last report entry.<p>
@@ -149,7 +150,7 @@ public interface I_CmsReport {
      *
      * @return a warning list that occurred during the report
      */
-    List<Object> getWarnings();
+    @RUntainted List<Object> getWarnings();
 
     /**
      * Returns if the report generated an error output.<p>

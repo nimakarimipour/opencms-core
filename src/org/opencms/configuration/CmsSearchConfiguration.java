@@ -55,6 +55,7 @@ import java.util.Map.Entry;
 import org.apache.commons.digester3.Digester;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Lucene search configuration class.<p>

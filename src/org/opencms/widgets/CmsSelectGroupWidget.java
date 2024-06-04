@@ -48,6 +48,7 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a widget for group selection select boxes.<p>
@@ -90,7 +91,7 @@ public class CmsSelectGroupWidget extends CmsSelectWidget {
     Pattern m_groupFilter;
 
     /** The configured group names to show in the select box. */
-    List<String> m_groupNames;
+    List<@RUntainted String> m_groupNames;
 
     /** Indicates if sub OUs should be included when reading the groups. */
     private boolean m_includeSubOus;
@@ -323,7 +324,7 @@ public class CmsSelectGroupWidget extends CmsSelectWidget {
         String configString = "";
         if (widgetDialog != null) {
             configString = CmsMacroResolver.resolveMacros(getConfiguration(), cms, widgetDialog);
-            Map<String, String> config = CmsStringUtil.splitAsMap(configString, "|", "=");
+            Map<String, @RUntainted String> config = CmsStringUtil.splitAsMap(configString, "|", "=");
             // get the list of group names to show
             String groups = config.get(CONFIGURATION_GROUPS);
             if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(groups)) {

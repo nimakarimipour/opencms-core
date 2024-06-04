@@ -28,6 +28,7 @@
 package org.opencms.workplace;
 
 import org.opencms.file.CmsObject;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * An interface which provides a hook which can be called after uploading files.
@@ -42,5 +43,5 @@ public interface I_CmsPostUploadDialogHandler {
      *
      * @return the upload hook URI for the given path, or null
      */
-    String getUploadHook(CmsObject cms, String uploadFolderSitePath);
+    @RUntainted String getUploadHook(CmsObject cms, String uploadFolderSitePath);
 }

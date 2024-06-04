@@ -32,6 +32,7 @@ import org.opencms.report.A_CmsReportThread;
 import org.opencms.report.I_CmsReport;
 
 import java.util.function.Consumer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Report thread for searching user data.

@@ -40,6 +40,7 @@ import org.opencms.util.CmsStringUtil;
 import java.util.List;
 
 import org.apache.commons.mail.EmailException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Notification class for the workflow 'release' action.<p>
@@ -50,7 +51,7 @@ public class CmsWorkflowNotification extends A_CmsNotification {
     private CmsObject m_adminCms;
 
     /** The publish link. */
-    private String m_link;
+    private @RUntainted String m_link;
 
     /** The path of the notification XML content. */
     private String m_notificationContent;
@@ -203,7 +204,7 @@ public class CmsWorkflowNotification extends A_CmsNotification {
      *
      * @return the message from the message bundle
      */
-    protected String getMessage(String key, String... args) {
+    protected String getMessage(@RUntainted String key, @RUntainted String... args) {
 
         return Messages.get().getBundle(getLocale()).key(key, args);
     }

@@ -39,6 +39,7 @@ import org.opencms.main.CmsException;
 import org.opencms.main.CmsIllegalArgumentException;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract base class which implements {@link I_CmsResourceWrapper} and
@@ -74,7 +75,7 @@ public abstract class A_CmsResourceExtensionWrapper extends A_CmsResourceWrapper
     @Override
     public CmsResource createResource(
         CmsObject cms,
-        String resourcename,
+        @RUntainted String resourcename,
         int type,
         byte[] content,
         List<CmsProperty> properties) throws CmsException, CmsIllegalArgumentException {
@@ -235,7 +236,7 @@ public abstract class A_CmsResourceExtensionWrapper extends A_CmsResourceWrapper
      * @see org.opencms.file.wrapper.A_CmsResourceWrapper#rewriteLink(CmsObject, CmsResource)
      */
     @Override
-    public String rewriteLink(CmsObject cms, CmsResource res) {
+    public @RUntainted String rewriteLink(CmsObject cms, CmsResource res) {
 
         if (checkTypeId(res.getTypeId())) {
             return CmsResourceWrapperUtils.addFileExtension(cms, res.getRootPath(), getExtension());
@@ -306,7 +307,7 @@ public abstract class A_CmsResourceExtensionWrapper extends A_CmsResourceWrapper
      *
      * @return the extension to use
      */
-    protected abstract String getExtension();
+    protected abstract @RUntainted String getExtension();
 
     /**
      * Trys to read the resourcename after removing the file extension and return the
@@ -332,7 +333,7 @@ public abstract class A_CmsResourceExtensionWrapper extends A_CmsResourceWrapper
      *
      * @return the resource or null if not found
      */
-    private CmsResource getResource(CmsObject cms, String resourcename, CmsResourceFilter filter) {
+    private @RUntainted CmsResource getResource(CmsObject cms, String resourcename, CmsResourceFilter filter) {
 
         CmsResource res = null;
 

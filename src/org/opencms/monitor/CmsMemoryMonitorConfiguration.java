@@ -32,6 +32,7 @@ import org.opencms.util.CmsStringUtil;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Memory Monitor configuration class.<p>
@@ -115,7 +116,7 @@ public class CmsMemoryMonitorConfiguration {
      *
      * @return the emailSender
      */
-    public String getEmailSender() {
+    public @RUntainted String getEmailSender() {
 
         return m_emailSender;
     }
@@ -135,7 +136,7 @@ public class CmsMemoryMonitorConfiguration {
      *
      * @return the maxUsagePercent
      */
-    public int getMaxUsagePercent() {
+    public @RUntainted int getMaxUsagePercent() {
 
         return m_maxUsagePercent;
     }

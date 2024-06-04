@@ -48,6 +48,7 @@ import java.util.Optional;
 
 import org.apache.commons.collections.Transformer;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Common value wrapper class that provides generic functions.<p>
@@ -157,10 +158,10 @@ abstract class A_CmsJspValueWrapper extends AbstractCollection<String> {
     private Long m_long;
 
     /** Resource created from the wrapped value. */
-    private CmsJspResourceWrapper m_resource;
+    private @RUntainted CmsJspResourceWrapper m_resource;
 
     /** String representation of the wrapped value. */
-    private String m_string;
+    private @RUntainted String m_string;
 
     /** String representation of the wrapped value with HTML stripped off. */
     private String m_stripHtml;
@@ -179,7 +180,7 @@ abstract class A_CmsJspValueWrapper extends AbstractCollection<String> {
      *
      * @return the substituted link
      */
-    public static String substituteLink(CmsObject cms, String target) {
+    public static @RUntainted String substituteLink(CmsObject cms, String target) {
 
         if (cms != null) {
             return OpenCms.getLinkManager().substituteLinkForUnknownTarget(
@@ -587,7 +588,7 @@ abstract class A_CmsJspValueWrapper extends AbstractCollection<String> {
      *
      * @return the resource this value if pointing to
      */
-    public CmsJspResourceWrapper getToResource() {
+    public @RUntainted CmsJspResourceWrapper getToResource() {
 
         if (m_resource == null) {
             try {
@@ -608,7 +609,7 @@ abstract class A_CmsJspValueWrapper extends AbstractCollection<String> {
      *
      * @return the wrapped value as a String
      */
-    public String getToString() {
+    public @RUntainted String getToString() {
 
         if (m_string == null) {
             m_string = toString();

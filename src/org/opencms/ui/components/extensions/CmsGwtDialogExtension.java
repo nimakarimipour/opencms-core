@@ -63,6 +63,7 @@ import com.google.gwt.user.server.rpc.RPC;
 import com.vaadin.server.AbstractExtension;
 import com.vaadin.server.VaadinService;
 import com.vaadin.ui.UI;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Extension used to open existing GWT based dialogs (from ADE, etc.) from the server side, for use in context menu actions.<p>
@@ -131,7 +132,7 @@ public class CmsGwtDialogExtension extends AbstractExtension implements I_CmsGwt
     /**
      * @see org.opencms.ui.shared.components.I_CmsGwtDialogServerRpc#onClose(java.util.List, long)
      */
-    public void onClose(List<String> changedStructureIds, long delayMillis) {
+    public void onClose(@RUntainted List<@RUntainted String> changedStructureIds, @RUntainted long delayMillis) {
 
         remove();
         if (delayMillis > 0) {
@@ -239,7 +240,7 @@ public class CmsGwtDialogExtension extends AbstractExtension implements I_CmsGwt
      *
      * @param resources the resources for which to open the publish dialog.
      */
-    public void openPublishDialog(List<CmsResource> resources) {
+    public void openPublishDialog(List<@RUntainted CmsResource> resources) {
 
         openPublishDailog(null, resources);
     }

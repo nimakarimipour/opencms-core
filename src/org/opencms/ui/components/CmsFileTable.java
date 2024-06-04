@@ -124,6 +124,7 @@ import com.vaadin.v7.ui.Table.TableDragMode;
 import com.vaadin.v7.ui.TextField;
 
 import au.com.bytecode.opencsv.CSVWriter;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Table for displaying resources.<p>
@@ -419,10 +420,10 @@ public class CmsFileTable extends CmsResourceTable {
 
             private static final long serialVersionUID = 1L;
 
-            public void valueChange(ValueChangeEvent event) {
+            public void valueChange(@RUntainted ValueChangeEvent event) {
 
                 @SuppressWarnings("unchecked")
-                Set<String> selectedIds = (Set<String>)event.getProperty().getValue();
+                Set<@RUntainted String> selectedIds = (Set<String>)event.getProperty().getValue();
                 List<CmsResource> selectedResources = new ArrayList<CmsResource>();
                 for (String id : selectedIds) {
                     try {
@@ -445,7 +446,7 @@ public class CmsFileTable extends CmsResourceTable {
 
             private static final long serialVersionUID = 1L;
 
-            public void itemClick(ItemClickEvent event) {
+            public void itemClick(@RUntainted ItemClickEvent event) {
 
                 handleFileItemClick(event);
             }
@@ -1030,7 +1031,7 @@ public class CmsFileTable extends CmsResourceTable {
      *
      * @param event the click event
      */
-    void handleFileItemClick(ItemClickEvent event) {
+    void handleFileItemClick(@RUntainted ItemClickEvent event) {
 
         if (isEditing()) {
             stopEdit();

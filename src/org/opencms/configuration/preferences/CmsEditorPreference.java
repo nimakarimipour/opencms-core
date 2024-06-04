@@ -30,6 +30,7 @@ package org.opencms.configuration.preferences;
 import org.opencms.configuration.CmsDefaultUserSettings;
 import org.opencms.file.CmsObject;
 import org.opencms.xml.content.CmsXmlContentProperty;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Preference subclass for preferred editors.<p>
@@ -60,7 +61,7 @@ public class CmsEditorPreference extends A_CmsPreference {
     /**
      * @see org.opencms.configuration.preferences.I_CmsPreference#getDefaultValue()
      */
-    public String getDefaultValue() {
+    public @RUntainted String getDefaultValue() {
 
         return m_value;
     }

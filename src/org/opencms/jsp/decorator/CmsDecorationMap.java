@@ -42,6 +42,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The CmsDecorationMap is the object representation of a single decoartion file.<p>
@@ -64,13 +65,13 @@ public class CmsDecorationMap implements Comparable<CmsDecorationMap> {
     private Map<String, CmsDecorationObject> m_decorationMap;
 
     /** The decorator defintion to be used for this decoration map. */
-    private CmsDecorationDefintion m_decoratorDefinition;
+    private @RUntainted CmsDecorationDefintion m_decoratorDefinition;
 
     /**  The locale of this decoration map. */
-    private Locale m_locale;
+    private @RUntainted Locale m_locale;
 
     /** The name of the decoration map. */
-    private String m_name;
+    private @RUntainted String m_name;
 
     /**
      * Constructor, creates a new, empty CmsDecorationMap.<p>
@@ -95,7 +96,7 @@ public class CmsDecorationMap implements Comparable<CmsDecorationMap> {
      * @param decDef the CmsDecorationDefintion to be used in this decoration map
      * @throws CmsException if something goes wrong
      */
-    public CmsDecorationMap(CmsObject cms, CmsResource res, CmsDecorationDefintion decDef)
+    public CmsDecorationMap(CmsObject cms, @RUntainted CmsResource res, CmsDecorationDefintion decDef)
     throws CmsException {
 
         m_decoratorDefinition = decDef;
@@ -153,7 +154,7 @@ public class CmsDecorationMap implements Comparable<CmsDecorationMap> {
      *
      * @return the name
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_name;
     }
@@ -223,7 +224,7 @@ public class CmsDecorationMap implements Comparable<CmsDecorationMap> {
      * @return decoration map, using decoration as key and decoration description as value
      * @throws CmsException if something goes wrong
      */
-    private Map<String, CmsDecorationObject> fillMap(CmsObject cms, CmsResource res) throws CmsException {
+    private Map<String, CmsDecorationObject> fillMap(CmsObject cms, @RUntainted CmsResource res) throws CmsException {
 
         if (LOG.isDebugEnabled()) {
             LOG.debug(
@@ -253,7 +254,7 @@ public class CmsDecorationMap implements Comparable<CmsDecorationMap> {
                     CmsStringUtil.escapeJavaScript(delimiter)));
         }
 
-        List<String> entries = CmsStringUtil.splitAsList(unparsedContent, delimiter);
+        List<@RUntainted String> entries = CmsStringUtil.splitAsList(unparsedContent, delimiter);
 
         if (LOG.isDebugEnabled()) {
             LOG.debug(
@@ -262,7 +263,7 @@ public class CmsDecorationMap implements Comparable<CmsDecorationMap> {
                     res.getName(),
                     entries));
         }
-        Iterator<String> i = entries.iterator();
+        Iterator<@RUntainted String> i = entries.iterator();
         while (i.hasNext()) {
             try {
                 String entry = i.next();

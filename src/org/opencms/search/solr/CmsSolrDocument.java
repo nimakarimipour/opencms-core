@@ -51,6 +51,7 @@ import org.opencms.util.CmsUUID;
 import java.nio.ByteBuffer;
 import java.text.ParseException;
 import java.util.*;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A search document implementation for Solr indexes.<p>
@@ -63,7 +64,7 @@ public class CmsSolrDocument implements I_CmsSearchDocument {
     private static final Log LOG = CmsLog.getLog(CmsSolrDocument.class);
 
     /** The Solr document. */
-    private SolrInputDocument m_doc;
+    private @RUntainted SolrInputDocument m_doc;
 
     /** Holds the score for this document. */
     private float m_score;
@@ -232,7 +233,7 @@ public class CmsSolrDocument implements I_CmsSearchDocument {
     /**
      * @see org.opencms.search.I_CmsSearchDocument#addSearchField(org.opencms.search.fields.CmsSearchField, java.lang.String)
      */
-    public void addSearchField(CmsSearchField sfield, String value) {
+    public void addSearchField(CmsSearchField sfield, @RUntainted String value) {
 
         CmsSolrField field = (CmsSolrField)sfield;
         List<String> fieldsToAdd = new ArrayList<String>(Collections.singletonList(field.getName()));
@@ -242,7 +243,7 @@ public class CmsSolrDocument implements I_CmsSearchDocument {
         IndexSchema schema = OpenCms.getSearchManager().getSolrServerConfiguration().getSolrSchema();
         for (String fieldName : fieldsToAdd) {
             try {
-                List<String> splitedValues = new ArrayList<String>();
+                List<@RUntainted String> splitedValues = new ArrayList<@RUntainted String>();
                 boolean multi = false;
 
                 try {
@@ -356,7 +357,7 @@ public class CmsSolrDocument implements I_CmsSearchDocument {
     /**
      * @see org.opencms.search.I_CmsSearchDocument#getFieldValueAsString(java.lang.String)
      */
-    public String getFieldValueAsString(String fieldName) {
+    public @RUntainted String getFieldValueAsString(@RUntainted String fieldName) {
 
         List<String> values = getMultivaluedFieldAsStringList(fieldName);
         if ((values != null) && !values.isEmpty()) {

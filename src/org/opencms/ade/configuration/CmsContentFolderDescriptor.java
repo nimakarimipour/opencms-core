@@ -36,6 +36,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A bean which represents the location configured for content elements of a specific type in a sitemap configuration.<p>
@@ -139,7 +140,7 @@ public class CmsContentFolderDescriptor {
      * @param pageFolderPath the root path of the folder containing the current container page
      * @return the folder root path
      */
-    public String getFolderPath(CmsObject cms, String pageFolderPath) {
+    public String getFolderPath(CmsObject cms, @RUntainted String pageFolderPath) {
 
         if (m_folder != null) {
             try {

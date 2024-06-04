@@ -31,6 +31,7 @@ import org.opencms.ui.A_CmsUI;
 
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.CssLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * UI class for Vaadin dialogs in the sitemap editor.<p>

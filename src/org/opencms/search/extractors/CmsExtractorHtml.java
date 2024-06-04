@@ -35,6 +35,7 @@ import org.opencms.util.CmsStringUtil;
 import java.io.InputStream;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Extracts the text from an HTML document.<p>

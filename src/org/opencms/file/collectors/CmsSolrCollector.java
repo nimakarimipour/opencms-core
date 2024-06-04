@@ -49,6 +49,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A Solr collector.<p>
@@ -83,13 +84,13 @@ public class CmsSolrCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getCreateLink(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String getCreateLink(CmsObject cms, String collectorName, String param) throws CmsException {
+    public @RUntainted String getCreateLink(CmsObject cms, String collectorName, String param) throws CmsException {
 
         collectorName = collectorName == null ? COLLECTORS[1] : collectorName;
         switch (COLLECTORS_LIST.indexOf(collectorName)) {
             case 0: // byQuery
             case 1: // byContext
-                Map<String, String> paramsAsMap = getParamsAsMap(param);
+                Map<String, @RUntainted String> paramsAsMap = getParamsAsMap(param);
                 CmsSolrQuery q = new CmsSolrQuery(
                     null,
                     CmsRequestUtil.createParameterMap(
@@ -111,14 +112,14 @@ public class CmsSolrCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getCreateParam(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String getCreateParam(CmsObject cms, String collectorName, String param) throws CmsDataAccessException {
+    public @RUntainted String getCreateParam(CmsObject cms, String collectorName, @RUntainted String param) throws CmsDataAccessException {
 
         collectorName = collectorName == null ? COLLECTORS[1] : collectorName;
         switch (COLLECTORS_LIST.indexOf(collectorName)) {
             case 0: // byQuery
             case 1: // byContext
                 // check if the param supports resource creation
-                Map<String, String> paramsAsMap = getParamsAsMap(param);
+                Map<String, @RUntainted String> paramsAsMap = getParamsAsMap(param);
                 CmsSolrQuery q = new CmsSolrQuery(
                     null,
                     CmsRequestUtil.createParameterMap(
@@ -144,7 +145,7 @@ public class CmsSolrCollector extends A_CmsResourceCollector {
     public int getCreateTypeId(CmsObject cms, String collectorName, String param) throws CmsException {
 
         int result = -1;
-        Map<String, String> paramsAsMap = getParamsAsMap(param);
+        Map<String, @RUntainted String> paramsAsMap = getParamsAsMap(param);
         if (paramsAsMap.get(PARAM_CREATE_PATH) != null) {
             String solrParams = paramsAsMap.get(SOLR_PART);
             CmsSolrQuery q = new CmsSolrQuery(
@@ -164,7 +165,7 @@ public class CmsSolrCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getResults(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public List<CmsResource> getResults(CmsObject cms, String collectorName, String param)
+    public List<CmsResource> getResults(@RUntainted CmsObject cms, String collectorName, String param)
     throws CmsDataAccessException, CmsException {
 
         return getResults(cms, collectorName, param, -1);
@@ -173,10 +174,10 @@ public class CmsSolrCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getResults(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public List<CmsResource> getResults(CmsObject cms, String name, String param, int numResults) throws CmsException {
+    public List<CmsResource> getResults(@RUntainted CmsObject cms, String name, String param, int numResults) throws CmsException {
 
         name = name == null ? COLLECTORS[1] : name;
-        Map<String, String> paramsAsMap = getParamsAsMap(param);
+        Map<String, @RUntainted String> paramsAsMap = getParamsAsMap(param);
         Map<String, String[]> pm = CmsRequestUtil.createParameterMap(
             paramsAsMap.get(SOLR_PART),
             Boolean.valueOf(paramsAsMap.get(PARAM_DECODE_URL)).booleanValue(),
@@ -204,9 +205,9 @@ public class CmsSolrCollector extends A_CmsResourceCollector {
      *
      * @return a map containing the arguments
      */
-    private Map<String, String> getParamsAsMap(String param) {
+    private Map<String, @RUntainted String> getParamsAsMap(String param) {
 
-        Map<String, String> result = new HashMap<String, String>();
+        Map<String, @RUntainted String> result = new HashMap<String, @RUntainted String>();
         if (param != null) {
             int in = (param.indexOf('|'));
             if (in != -1) {

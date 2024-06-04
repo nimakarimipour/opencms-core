@@ -34,6 +34,7 @@ import org.opencms.main.CmsLog;
 import java.sql.Statement;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Used to signal sql related issues.<p>

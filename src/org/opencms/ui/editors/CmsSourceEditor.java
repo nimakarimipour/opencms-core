@@ -71,6 +71,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.v7.data.Property.ValueChangeEvent;
 import com.vaadin.v7.data.Property.ValueChangeListener;
 import com.vaadin.v7.ui.ComboBox;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The plain text editor.<p>
@@ -99,7 +100,7 @@ implements I_CmsEditor, I_CmsWindowCloseListener, ViewChangeListener, I_CmsHasSh
         boolean m_closeBrackets = true;
 
         /** The font size. */
-        String m_fontSize = "16px";
+        @RUntainted String m_fontSize = "16px";
 
         /** The highlighting flag. */
         boolean m_highlighting = true;
@@ -581,7 +582,7 @@ implements I_CmsEditor, I_CmsWindowCloseListener, ViewChangeListener, I_CmsHasSh
 
             private static final long serialVersionUID = 1L;
 
-            public void valueChange(ValueChangeEvent event) {
+            public void valueChange(@RUntainted ValueChangeEvent event) {
 
                 m_codeMirror.setFontSize((String)event.getProperty().getValue());
             }

@@ -33,6 +33,7 @@ import org.opencms.main.CmsLog;
 import javax.servlet.jsp.JspException;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Adds a JSON value to the surrounding context and/or stores it as a variable in the page context.
@@ -46,7 +47,7 @@ public class CmsJspTagJsonValue extends A_CmsJspJsonTag {
     private static final long serialVersionUID = -8383685322762531356L;
 
     /** The value attribute. */
-    private Object m_value;
+    private @RUntainted Object m_value;
 
     /** Keeps track of whether the value should be parsed as a JSON string. */
     private boolean m_parse;
@@ -79,7 +80,7 @@ public class CmsJspTagJsonValue extends A_CmsJspJsonTag {
      * @see org.opencms.jsp.A_CmsJspJsonTag#getJsonValue()
      */
     @Override
-    public Object getJsonValue() {
+    public @RUntainted Object getJsonValue() {
 
         Object value = null;
         if (m_valueSpecified) {
@@ -135,7 +136,7 @@ public class CmsJspTagJsonValue extends A_CmsJspJsonTag {
      *
      * @param value the JSON value
      */
-    public void setValue(Object value) {
+    public void setValue(@RUntainted Object value) {
 
         m_value = value;
         m_valueSpecified = true;

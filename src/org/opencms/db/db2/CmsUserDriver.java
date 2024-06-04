@@ -34,6 +34,7 @@ import org.opencms.db.generic.CmsSqlManager;
 import org.opencms.db.generic.CmsUserQueryBuilder;
 
 import com.google.common.base.Joiner;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * DB2 implementation of the user driver methods.<p>

@@ -44,6 +44,7 @@ import org.opencms.xml.containerpage.CmsXmlContainerPageFactory;
 import org.opencms.xml.containerpage.mutable.CmsMutableContainerPage;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Pre-fills the page by adding contents from a template page into a specific container of the page to fill.
@@ -140,7 +141,7 @@ public class CmsStaticPrefillPageHandler implements I_CmsPrefillPageHandler {
      * @param resource the currently edited container page
      * @return the prefill template resource, or null if none was configured or the configured one was not found
      */
-    private CmsResource getPrefillTemplate(CmsObject cms, CmsResource resource) {
+    private @RUntainted CmsResource getPrefillTemplate(CmsObject cms, CmsResource resource) {
 
         try {
 

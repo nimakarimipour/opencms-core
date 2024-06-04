@@ -127,6 +127,7 @@ import com.vaadin.v7.ui.Tree.ExpandEvent;
 import com.vaadin.v7.ui.Tree.ExpandListener;
 import com.vaadin.v7.ui.Tree.ItemStyleGenerator;
 import com.vaadin.v7.ui.Tree.TreeDragMode;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The file explorer app.<p>
@@ -148,7 +149,7 @@ I_CmsContextProvider, CmsFileTable.I_FolderSelectHandler {
         /**
          * @see com.vaadin.event.dd.DropHandler#drop(com.vaadin.event.dd.DragAndDropEvent)
          */
-        public void drop(DragAndDropEvent dragEvent) {
+        public void drop(@RUntainted DragAndDropEvent dragEvent) {
 
             try {
                 CmsExplorerDialogContext context = getContext(dragEvent);
@@ -176,7 +177,7 @@ I_CmsContextProvider, CmsFileTable.I_FolderSelectHandler {
 
                 private static final long serialVersionUID = 1L;
 
-                public boolean accept(DragAndDropEvent dragEvent) {
+                public boolean accept(@RUntainted DragAndDropEvent dragEvent) {
 
                     try {
                         if (!m_copyMoveAction.isActive(getContext(dragEvent))) {
@@ -199,7 +200,7 @@ I_CmsContextProvider, CmsFileTable.I_FolderSelectHandler {
          *
          * @return the drag target id
          */
-        protected CmsUUID getTargetId(DragAndDropEvent dragEvent) {
+        protected CmsUUID getTargetId(@RUntainted DragAndDropEvent dragEvent) {
 
             CmsUUID targetId = null;
             if (dragEvent.getTargetDetails() instanceof AbstractSelectTargetDetails) {
@@ -261,7 +262,7 @@ I_CmsContextProvider, CmsFileTable.I_FolderSelectHandler {
          *
          * @throws CmsException if reading the drag resource fails
          */
-        CmsExplorerDialogContext getContext(DragAndDropEvent dragEvent) throws CmsException {
+        CmsExplorerDialogContext getContext(@RUntainted DragAndDropEvent dragEvent) throws CmsException {
 
             List<CmsResource> resources;
             if ((dragEvent.getTransferable().getSourceComponent() instanceof Table)
@@ -322,13 +323,13 @@ I_CmsContextProvider, CmsFileTable.I_FolderSelectHandler {
         private String m_folder;
 
         /** Project id. */
-        private String m_projectId;
+        private @RUntainted String m_projectId;
 
         /**selected resource.*/
         private String m_selectedResource;
 
         /** The site root. */
-        private String m_siteRoot;
+        private @RUntainted String m_siteRoot;
 
         /**
          * Creates a new state bean.<p>
@@ -337,7 +338,7 @@ I_CmsContextProvider, CmsFileTable.I_FolderSelectHandler {
          * @param folder the folder
          * @param projectId the project id
          */
-        public StateBean(String siteRoot, String folder, String projectId) {
+        public StateBean(@RUntainted String siteRoot, String folder, @RUntainted String projectId) {
 
             m_siteRoot = siteRoot;
             m_folder = folder;
@@ -355,7 +356,7 @@ I_CmsContextProvider, CmsFileTable.I_FolderSelectHandler {
          */
         public static StateBean parse(String state) {
 
-            List<String> fields = CmsStringUtil.splitAsList(state, A_CmsWorkplaceApp.PARAM_SEPARATOR);
+            List<@RUntainted String> fields = CmsStringUtil.splitAsList(state, A_CmsWorkplaceApp.PARAM_SEPARATOR);
             if (fields.size() >= 3) {
                 String projectId = fields.get(0);
                 String siteRoot = fields.get(1);
@@ -401,7 +402,7 @@ I_CmsContextProvider, CmsFileTable.I_FolderSelectHandler {
          *
          * @return the projectId
          */
-        public String getProjectId() {
+        public @RUntainted String getProjectId() {
 
             return m_projectId;
         }
@@ -421,7 +422,7 @@ I_CmsContextProvider, CmsFileTable.I_FolderSelectHandler {
          *
          * @return the siteRoot
          */
-        public String getSiteRoot() {
+        public @RUntainted String getSiteRoot() {
 
             return m_siteRoot;
         }
@@ -539,7 +540,7 @@ I_CmsContextProvider, CmsFileTable.I_FolderSelectHandler {
     private CssLayout m_crumbs;
 
     /** The currently viewed folder. */
-    private CmsUUID m_currentFolder;
+    private @RUntainted CmsUUID m_currentFolder;
 
     /** The current app state. */
     private String m_currentState;
@@ -578,10 +579,10 @@ I_CmsContextProvider, CmsFileTable.I_FolderSelectHandler {
     private Button m_specialUploadButton;
 
     /** The folder tree data container. */
-    private HierarchicalContainer m_treeContainer;
+    private @RUntainted HierarchicalContainer m_treeContainer;
 
     /** Upload action for the current folder. */
-    private String m_uploadAction;
+    private @RUntainted String m_uploadAction;
 
     /** The upload drop area extension. */
     private CmsUploadAreaExtension m_uploadArea;
@@ -839,7 +840,7 @@ I_CmsContextProvider, CmsFileTable.I_FolderSelectHandler {
      * @param siteRoot the site root
      * @param path the path inside the site
      */
-    public void changeSite(String siteRoot, String path) {
+    public void changeSite(@RUntainted String siteRoot, String path) {
 
         changeSite(siteRoot, path, false);
 
@@ -852,7 +853,7 @@ I_CmsContextProvider, CmsFileTable.I_FolderSelectHandler {
      * @param path the folder path to open
      * @param force force the path change, even if we are currently in the same site
      */
-    public void changeSite(String siteRoot, String path, boolean force) {
+    public void changeSite(@RUntainted String siteRoot, String path, boolean force) {
 
         CmsObject cms = A_CmsUI.getCmsObject();
         String currentSiteRoot = cms.getRequestContext().getSiteRoot();
@@ -907,7 +908,7 @@ I_CmsContextProvider, CmsFileTable.I_FolderSelectHandler {
      *
      * @return the current folder structure id
      */
-    public CmsUUID getCurrentFolder() {
+    public @RUntainted CmsUUID getCurrentFolder() {
 
         return m_currentFolder;
     }
@@ -999,7 +1000,7 @@ I_CmsContextProvider, CmsFileTable.I_FolderSelectHandler {
     /**
      * @see org.opencms.ui.components.CmsFileTable.I_FolderSelectHandler#onFolderSelect(org.opencms.util.CmsUUID)
      */
-    public void onFolderSelect(CmsUUID itemId) {
+    public void onFolderSelect(@RUntainted CmsUUID itemId) {
 
         expandCurrentFolder();
         if (m_fileTree.getItem(itemId) != null) {
@@ -1036,7 +1037,7 @@ I_CmsContextProvider, CmsFileTable.I_FolderSelectHandler {
      * @param project the project
      * @param siteRoot the site root
      */
-    public void onSiteOrProjectChange(CmsProject project, String siteRoot) {
+    public void onSiteOrProjectChange(CmsProject project, @RUntainted String siteRoot) {
 
         if ((siteRoot != null) && !siteRoot.equals(getSiteRootFromState())) {
             changeSite(siteRoot, null, true);
@@ -1108,7 +1109,7 @@ I_CmsContextProvider, CmsFileTable.I_FolderSelectHandler {
         m_searchField.clear();
         m_firstVisibleTableItemIndex = 0;
         try {
-            List<CmsResource> folderResources = cms.readResources(sitePath, FILES_N_FOLDERS, false);
+            List<@RUntainted CmsResource> folderResources = cms.readResources(sitePath, FILES_N_FOLDERS, false);
             m_fileTable.fillTable(cms, folderResources);
         } catch (CmsException e) {
             CmsErrorDialog.showErrorDialog(e);
@@ -1275,7 +1276,7 @@ I_CmsContextProvider, CmsFileTable.I_FolderSelectHandler {
      *
      * @throws CmsException in case reading the folder fails
      */
-    protected void readFolder(CmsUUID folderId) throws CmsException {
+    protected void readFolder(@RUntainted CmsUUID folderId) throws CmsException {
 
         readFolder(folderId, true);
     }
@@ -1288,7 +1289,7 @@ I_CmsContextProvider, CmsFileTable.I_FolderSelectHandler {
      *
      * @throws CmsException in case reading the folder fails
      */
-    protected void readFolder(CmsUUID folderId, boolean clearFilter) throws CmsException {
+    protected void readFolder(@RUntainted CmsUUID folderId, boolean clearFilter) throws CmsException {
 
         CmsObject cms = A_CmsUI.getCmsObject();
         if (clearFilter) {
@@ -1355,7 +1356,7 @@ I_CmsContextProvider, CmsFileTable.I_FolderSelectHandler {
             m_fileTable.saveFilters();
             m_fileTable.clearFilters();
             CmsResource folder = cms.readResource(m_currentFolder, FOLDERS);
-            List<CmsResource> childResources = cms.readResources(cms.getSitePath(folder), FILES_N_FOLDERS, false);
+            List<@RUntainted CmsResource> childResources = cms.readResources(cms.getSitePath(folder), FILES_N_FOLDERS, false);
             Set<CmsUUID> ids = new HashSet<CmsUUID>();
             for (CmsResource child : childResources) {
                 ids.add(child.getStructureId());
@@ -1395,7 +1396,7 @@ I_CmsContextProvider, CmsFileTable.I_FolderSelectHandler {
      *
      * @param event the event
      */
-    void handleFileTreeClick(ItemClickEvent event) {
+    void handleFileTreeClick(@RUntainted ItemClickEvent event) {
 
         Item resourceItem = m_treeContainer.getItem(event.getItemId());
         if ((resourceItem.getItemProperty(CmsResourceTableProperty.PROPERTY_DISABLED).getValue() == null)
@@ -1469,7 +1470,7 @@ I_CmsContextProvider, CmsFileTable.I_FolderSelectHandler {
      * @param path the path
      * @param initTree <code>true</code> in case the tree needs to be initialized
      */
-    void openPath(String path, boolean initTree) {
+    void openPath(@RUntainted String path, boolean initTree) {
 
         CmsObject cms = A_CmsUI.getCmsObject();
         if (path == null) {
@@ -1575,7 +1576,7 @@ I_CmsContextProvider, CmsFileTable.I_FolderSelectHandler {
         try {
             CmsResource parent = cms.readResource(parentId, CmsResourceFilter.IGNORE_EXPIRATION);
             String folderPath = cms.getSitePath(parent);
-            List<CmsResource> folderResources = cms.readResources(folderPath, FOLDERS, false);
+            List<@RUntainted CmsResource> folderResources = cms.readResources(folderPath, FOLDERS, false);
 
             // sets the parent to leaf mode, in case no child folders are present
             m_treeContainer.setChildrenAllowed(parentId, !folderResources.isEmpty());
@@ -1854,7 +1855,7 @@ I_CmsContextProvider, CmsFileTable.I_FolderSelectHandler {
      *
      * @return the site root
      */
-    private String getSiteRootFromState() {
+    private @RUntainted String getSiteRootFromState() {
 
         String siteRoot = StateBean.parse(m_currentState).getSiteRoot();
         return siteRoot;

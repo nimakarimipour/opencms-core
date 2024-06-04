@@ -56,6 +56,8 @@ import org.apache.commons.logging.Log;
 
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Resolves XML entities (e.g. external DTDs) in the OpenCms VFS.<p>
@@ -79,7 +81,7 @@ public class CmsXmlEntityResolver implements EntityResolver, I_CmsEventListener 
      * A list of string pairs used to translate legacy system ids to a new form. The first component of each pair
      * is the prefix which should be replaced by the second component of that pair.
      */
-    private static final String[][] LEGACY_TRANSLATIONS = {
+    private static final @RUntainted String[][] LEGACY_TRANSLATIONS = {
         {"opencms://system/modules/org.opencms.ade.config/schemas/", "internal://org/opencms/xml/adeconfig/"},
         {
             "opencms://system/modules/org.opencms.ade.containerpage/schemas/",
@@ -169,7 +171,7 @@ public class CmsXmlEntityResolver implements EntityResolver, I_CmsEventListener 
      * @param schema the schema id
      * @return true if the given schema id is an internal schema id or translated to an internal schema id
      */
-    public static boolean isInternalId(String schema) {
+    public static boolean isInternalId(@RUntainted String schema) {
 
         String translatedId = translateLegacySystemId(schema);
         if (translatedId.startsWith(INTERNAL_SCHEME)) {
@@ -252,10 +254,10 @@ public class CmsXmlEntityResolver implements EntityResolver, I_CmsEventListener 
      * @param systemId the original system id
      * @return the new system id
      */
-    private static String translateLegacySystemId(String systemId) {
+    private static @RUntainted String translateLegacySystemId(@RUntainted String systemId) {
 
         String result = systemId;
-        for (String[] translation : LEGACY_TRANSLATIONS) {
+        for (@RUntainted String[] translation : LEGACY_TRANSLATIONS) {
             if (systemId.startsWith(translation[0])) {
                 // replace prefix with second component if it matches the first component
                 result = translation[1] + systemId.substring(translation[0].length());
@@ -353,7 +355,7 @@ public class CmsXmlEntityResolver implements EntityResolver, I_CmsEventListener 
     /**
      * @see org.xml.sax.EntityResolver#resolveEntity(java.lang.String, java.lang.String)
      */
-    public InputSource resolveEntity(String publicId, String systemId) throws IOException {
+    public InputSource resolveEntity(String publicId, @RUntainted String systemId) throws IOException {
 
         // lookup the system id caches first
         byte[] content;
@@ -507,7 +509,7 @@ public class CmsXmlEntityResolver implements EntityResolver, I_CmsEventListener 
      *
      * @return the cache key for the system id
      */
-    private String getCacheKey(String systemId, boolean online) {
+    private @RUntainted String getCacheKey(String systemId, boolean online) {
 
         if (online) {
             return "online_".concat(systemId);
@@ -523,7 +525,7 @@ public class CmsXmlEntityResolver implements EntityResolver, I_CmsEventListener 
      *
      * @return the cache key for the system id
      */
-    private String getCacheKeyForCurrentProject(String systemId) {
+    private @RUntainted String getCacheKeyForCurrentProject(String systemId) {
 
         // check the project
         boolean project = (m_cms != null) ? m_cms.getRequestContext().getCurrentProject().isOnlineProject() : false;

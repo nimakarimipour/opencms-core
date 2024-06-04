@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.Transformer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * One container of a container page.<p>
@@ -67,7 +68,7 @@ public class CmsContainerBean {
     private int m_maxElements;
 
     /** The container name. */
-    private final String m_name;
+    private final @RUntainted String m_name;
 
     /** The optional container parameter. */
     private String m_param;
@@ -76,7 +77,7 @@ public class CmsContainerBean {
     private String m_parentInstanceId;
 
     /** The container type. */
-    private String m_type;
+    private @RUntainted String m_type;
 
     /** The container width set by the rendering container tag. */
     private String m_width;
@@ -92,8 +93,8 @@ public class CmsContainerBean {
      * @param elements the elements
      **/
     public CmsContainerBean(
-        String name,
-        String type,
+        @RUntainted String name,
+        @RUntainted String type,
         String parentInstanceId,
         boolean isRootContainer,
         int maxElements,
@@ -119,8 +120,8 @@ public class CmsContainerBean {
      * @param elements the elements
      **/
     public CmsContainerBean(
-        String name,
-        String type,
+        @RUntainted String name,
+        @RUntainted String type,
         String parentInstanceId,
         boolean isRootContainer,
         List<CmsContainerElementBean> elements) {
@@ -217,7 +218,7 @@ public class CmsContainerBean {
      *
      * @return the name of this container
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_name;
     }
@@ -252,7 +253,7 @@ public class CmsContainerBean {
      *
      * @return the type of this container
      */
-    public String getType() {
+    public @RUntainted String getType() {
 
         return m_type;
     }
@@ -336,7 +337,7 @@ public class CmsContainerBean {
      *
      * @param type the container type
      */
-    public void setType(String type) {
+    public void setType(@RUntainted String type) {
 
         m_type = type;
     }

@@ -37,6 +37,7 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class used for matching rewrite aliases to incoming request URIs.<p>
@@ -52,7 +53,7 @@ public class CmsRewriteAliasMatcher {
         private CmsRewriteAlias m_alias;
 
         /** The path resulting from the rewrite. */
-        private String m_newPath;
+        private @RUntainted String m_newPath;
 
         /**
          * Creates a new instance.<p>
@@ -60,7 +61,7 @@ public class CmsRewriteAliasMatcher {
          * @param newPath the path resulting from the rewrite
          * @param alias the alias that matched the path
          */
-        public RewriteResult(String newPath, CmsRewriteAlias alias) {
+        public RewriteResult(@RUntainted String newPath, CmsRewriteAlias alias) {
 
             m_newPath = newPath;
             m_alias = alias;
@@ -82,7 +83,7 @@ public class CmsRewriteAliasMatcher {
          *
          * @return the new path
          */
-        public String getNewPath() {
+        public @RUntainted String getNewPath() {
 
             return m_newPath;
         }
@@ -112,7 +113,7 @@ public class CmsRewriteAliasMatcher {
      * @param path the path to match
      * @return the rewrite result or null if no rewrite alias matched
      */
-    public RewriteResult match(String path) {
+    public RewriteResult match(@RUntainted String path) {
 
         for (CmsRewriteAlias alias : m_aliases) {
             try {

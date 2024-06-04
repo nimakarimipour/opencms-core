@@ -39,6 +39,8 @@ import org.opencms.util.CmsUUID;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Base class for all OpenCms VFS resources like <code>{@link CmsFile}</code> or <code>{@link CmsFolder}</code>.<p>
@@ -364,28 +366,28 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
     private static final long serialVersionUID = 257325098790850498L;
 
     /** The date of the last modification of the content of this resource. */
-    protected long m_dateContent = System.currentTimeMillis();
+    protected @RUntainted long m_dateContent = System.currentTimeMillis();
 
     /** The size of the content. */
-    protected int m_length;
+    protected @RUntainted int m_length;
 
     /** The creation date of this resource. */
-    private long m_dateCreated;
+    private @RUntainted long m_dateCreated;
 
     /** The expiration date of this resource. */
-    private long m_dateExpired;
+    private @RUntainted long m_dateExpired;
 
     /** The date of the last modification of this resource. */
-    private long m_dateLastModified;
+    private @RUntainted long m_dateLastModified;
 
     /** The release date of this resource. */
-    private long m_dateReleased;
+    private @RUntainted long m_dateReleased;
 
     /** The flags of this resource. */
-    private int m_flags;
+    private @RUntainted int m_flags;
 
     /** Indicates if this resource is a folder or not. */
-    private boolean m_isFolder;
+    private @RUntainted boolean m_isFolder;
 
     /** Boolean flag whether the timestamp of this resource was modified by a touch command. */
     private boolean m_isTouched;
@@ -397,19 +399,19 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
     private CmsUUID m_resourceId;
 
     /** The name of a resource with it's full path from the root folder including the current site root. */
-    private String m_rootPath;
+    private @RUntainted String m_rootPath;
 
     /** The number of links that point to this resource. */
-    private int m_siblingCount;
+    private @RUntainted int m_siblingCount;
 
     /** The state of this resource. */
-    private CmsResourceState m_state;
+    private @RUntainted CmsResourceState m_state;
 
     /** The id of the structure database record. */
-    private CmsUUID m_structureId;
+    private @RUntainted CmsUUID m_structureId;
 
     /** The resource type id of this resource. */
-    private int m_typeId;
+    private @RUntainted int m_typeId;
 
     /** The id of the user who created this resource. */
     private CmsUUID m_userCreated;
@@ -418,7 +420,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
     private CmsUUID m_userLastModified;
 
     /** The version number of this resource. */
-    private int m_version;
+    private @RUntainted int m_version;
 
     /**
      * Creates a new CmsRecource object.<p>
@@ -442,23 +444,23 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      * @param version the version number of this resource
      */
     public CmsResource(
-        CmsUUID structureId,
+        @RUntainted CmsUUID structureId,
         CmsUUID resourceId,
-        String rootPath,
+        @RUntainted String rootPath,
         I_CmsResourceType type,
-        int flags,
+        @RUntainted int flags,
         CmsUUID projectId,
-        CmsResourceState state,
-        long dateCreated,
+        @RUntainted CmsResourceState state,
+        @RUntainted long dateCreated,
         CmsUUID userCreated,
-        long dateLastModified,
+        @RUntainted long dateLastModified,
         CmsUUID userLastModified,
-        long dateReleased,
-        long dateExpired,
-        int linkCount,
-        int size,
-        long dateContent,
-        int version) {
+        @RUntainted long dateReleased,
+        @RUntainted long dateExpired,
+        @RUntainted int linkCount,
+        @RUntainted int size,
+        @RUntainted long dateContent,
+        @RUntainted int version) {
 
         this(
             structureId,
@@ -504,24 +506,24 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      * @param version the version number of this resource
      */
     public CmsResource(
-        CmsUUID structureId,
+        @RUntainted CmsUUID structureId,
         CmsUUID resourceId,
-        String rootPath,
-        int type,
-        boolean isFolder,
-        int flags,
+        @RUntainted String rootPath,
+        @RUntainted int type,
+        @RUntainted boolean isFolder,
+        @RUntainted int flags,
         CmsUUID projectId,
-        CmsResourceState state,
-        long dateCreated,
+        @RUntainted CmsResourceState state,
+        @RUntainted long dateCreated,
         CmsUUID userCreated,
-        long dateLastModified,
+        @RUntainted long dateLastModified,
         CmsUUID userLastModified,
-        long dateReleased,
-        long dateExpired,
-        int linkCount,
-        int size,
-        long dateContent,
-        int version) {
+        @RUntainted long dateReleased,
+        @RUntainted long dateExpired,
+        @RUntainted int linkCount,
+        @RUntainted int size,
+        @RUntainted long dateContent,
+        @RUntainted int version) {
 
         m_structureId = structureId;
         m_resourceId = resourceId;
@@ -622,7 +624,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      * @param resource the name of a resource
      * @return the folder of the given resource
      */
-    public static String getFolderPath(String resource) {
+    public static @RPolyTainted String getFolderPath(@RPolyTainted String resource) {
 
         return resource.substring(0, resource.lastIndexOf('/') + 1);
     }
@@ -639,7 +641,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      * @param resource the resource to get the name for
      * @return the name of a resource without the path information
      */
-    public static String getName(String resource) {
+    public static @RPolyTainted String getName(@RPolyTainted String resource) {
 
         if ("/".equals(resource)) {
             return "/";
@@ -662,7 +664,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      * @param resource the resource to find the parent folder for
      * @return the calculated parent absolute folder path, or <code>null</code> for the root folder
      */
-    public static String getParentFolder(String resource) {
+    public static @RUntainted String getParentFolder(@RPolyTainted String resource) {
 
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(resource) || "/".equals(resource)) {
             return null;
@@ -683,7 +685,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      * @param resource the resource to determine the directory level for
      * @return the directory level of a resource
      */
-    public static int getPathLevel(String resource) {
+    public static @RUntainted int getPathLevel(String resource) {
 
         int level = -1;
         int pos = 0;
@@ -704,7 +706,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      * @param level of levels to walk up or down
      * @return the name of a parent folder of the given resource
      */
-    public static String getPathPart(String resource, int level) {
+    public static @RPolyTainted String getPathPart(@RPolyTainted String resource, int level) {
 
         resource = getFolderPath(resource);
         String result = null;
@@ -867,7 +869,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      *
      * @since 7.0.0
      */
-    public long getDateContent() {
+    public @RUntainted long getDateContent() {
 
         return m_dateContent;
     }
@@ -877,7 +879,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      *
      * @return the date of the creation of this resource
      */
-    public long getDateCreated() {
+    public @RUntainted long getDateCreated() {
 
         return m_dateCreated;
     }
@@ -890,7 +892,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      *
      * @return the expiration date of this resource
      */
-    public long getDateExpired() {
+    public @RUntainted long getDateExpired() {
 
         return m_dateExpired;
     }
@@ -900,7 +902,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      *
      * @return the date of the last modification of this resource
      */
-    public long getDateLastModified() {
+    public @RUntainted long getDateLastModified() {
 
         return m_dateLastModified;
     }
@@ -913,7 +915,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      *
      * @return the release date of this resource
      */
-    public long getDateReleased() {
+    public @RUntainted long getDateReleased() {
 
         return m_dateReleased;
     }
@@ -925,7 +927,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      *
      * @see #setFlags(int) for an explanation of the resource flags
      */
-    public int getFlags() {
+    public @RUntainted int getFlags() {
 
         return m_flags;
     }
@@ -938,7 +940,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      *
      * @return the content length of the content
      */
-    public int getLength() {
+    public @RUntainted int getLength() {
 
         // make sure folders always have a -1 size
         return m_isFolder ? -1 : m_length;
@@ -949,7 +951,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      *
      * @return the file name of this resource without parent folders
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         String name = getName(m_rootPath);
         if (name.charAt(name.length() - 1) == '/') {
@@ -964,7 +966,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      *
      * @return the id of the {@link CmsProject} where this resource has been last modified, or <code>null</code>
      */
-    public CmsUUID getProjectLastModified() {
+    public @RUntainted CmsUUID getProjectLastModified() {
 
         return m_projectLastModified;
     }
@@ -974,7 +976,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      *
      * @return the id of the database content record of this resource
      */
-    public CmsUUID getResourceId() {
+    public @RUntainted CmsUUID getResourceId() {
 
         return m_resourceId;
     }
@@ -993,7 +995,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      * @see CmsRequestContext#getSitePath(CmsResource)
      * @see CmsRequestContext#removeSiteRoot(String)
      */
-    public String getRootPath() {
+    public @RUntainted String getRootPath() {
 
         return m_rootPath;
     }
@@ -1006,7 +1008,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      *
      * @return the number of siblings of this resource, also counting this resource
      */
-    public int getSiblingCount() {
+    public @RUntainted int getSiblingCount() {
 
         return m_siblingCount;
     }
@@ -1020,7 +1022,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      *
      * @return the state of this resource
      */
-    public CmsResourceState getState() {
+    public @RUntainted CmsResourceState getState() {
 
         return m_state;
     }
@@ -1030,7 +1032,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      *
      * @return the id of the database structure record of this resource
      */
-    public CmsUUID getStructureId() {
+    public @RUntainted CmsUUID getStructureId() {
 
         return m_structureId;
     }
@@ -1040,7 +1042,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      *
      * @return the resource type id of this resource
      */
-    public int getTypeId() {
+    public @RUntainted int getTypeId() {
 
         return m_typeId;
     }
@@ -1050,7 +1052,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      *
      * @return the user id of the {@link CmsUser} who created this resource
      */
-    public CmsUUID getUserCreated() {
+    public @RUntainted CmsUUID getUserCreated() {
 
         return m_userCreated;
     }
@@ -1060,7 +1062,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      *
      * @return the id of the {@link CmsUser} who made the last modification on this resource
      */
-    public CmsUUID getUserLastModified() {
+    public @RUntainted CmsUUID getUserLastModified() {
 
         return m_userLastModified;
     }
@@ -1070,7 +1072,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      *
      * @return the current version number of this resource
      */
-    public int getVersion() {
+    public @RUntainted int getVersion() {
 
         return m_version;
     }
@@ -1122,7 +1124,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      *
      * @return true if this resource is a folder, false otherwise
      */
-    public boolean isFolder() {
+    public @RUntainted boolean isFolder() {
 
         return m_isFolder;
     }
@@ -1248,7 +1250,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      *
      * @param time the expiration date to set
      */
-    public void setDateExpired(long time) {
+    public void setDateExpired(@RUntainted long time) {
 
         m_dateExpired = time;
     }
@@ -1258,7 +1260,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      *
      * @param time the last modification date to set
      */
-    public void setDateLastModified(long time) {
+    public void setDateLastModified(@RUntainted long time) {
 
         m_isTouched = true;
         m_dateLastModified = time;
@@ -1269,7 +1271,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      *
      * @param time the release date to set
      */
-    public void setDateReleased(long time) {
+    public void setDateReleased(@RUntainted long time) {
 
         m_dateReleased = time;
     }
@@ -1285,7 +1287,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      *
      * @param flags the flags value to set
      */
-    public void setFlags(int flags) {
+    public void setFlags(@RUntainted int flags) {
 
         m_flags = flags;
     }
@@ -1305,7 +1307,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      *
      * @param state the state to set
      */
-    public void setState(CmsResourceState state) {
+    public void setState(@RUntainted CmsResourceState state) {
 
         m_state = state;
     }
@@ -1315,7 +1317,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      *
      * @param type the type to set
      */
-    public void setType(int type) {
+    public void setType(@RUntainted int type) {
 
         m_typeId = type;
     }
@@ -1334,7 +1336,7 @@ public class CmsResource implements I_CmsResource, Cloneable, Serializable, Comp
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString() {
+    public @RUntainted String toString() {
 
         StringBuffer result = new StringBuffer();
 

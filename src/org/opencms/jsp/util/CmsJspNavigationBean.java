@@ -41,6 +41,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.collections.Transformer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Allows access to the OpenCms navigation information in combination with the
@@ -61,7 +62,7 @@ public class CmsJspNavigationBean {
         /**
          * @see org.apache.commons.collections.Transformer#transform(java.lang.Object)
          */
-        public Object transform(Object input) {
+        public Object transform(@RUntainted Object input) {
 
             String resourceName = (String)input;
             Boolean result = Boolean.FALSE;

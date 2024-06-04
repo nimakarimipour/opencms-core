@@ -45,6 +45,7 @@ import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Serializable entity implementation.<p>
@@ -73,7 +74,7 @@ public class CmsEntity implements HasValueChangeHandlers<CmsEntity>, Serializabl
     private Map<String, List<CmsEntity>> m_entityAttributes;
 
     /** The entity id. */
-    private String m_id;
+    private @RUntainted String m_id;
 
     /** The simple attribute values. */
     private Map<String, List<String>> m_simpleAttributes;
@@ -96,7 +97,7 @@ public class CmsEntity implements HasValueChangeHandlers<CmsEntity>, Serializabl
      * @param id the entity id/URI
      * @param typeName the entity type name
      */
-    public CmsEntity(String id, String typeName) {
+    public CmsEntity(@RUntainted String id, String typeName) {
 
         this();
         m_id = id;
@@ -121,7 +122,7 @@ public class CmsEntity implements HasValueChangeHandlers<CmsEntity>, Serializabl
      *
      * @return the value
      */
-    public static String getValueForPath(CmsEntity entity, String[] pathElements) {
+    public static @RUntainted String getValueForPath(CmsEntity entity, String[] pathElements) {
 
         String result = null;
         if ((pathElements != null) && (pathElements.length >= 1)) {
@@ -143,7 +144,7 @@ public class CmsEntity implements HasValueChangeHandlers<CmsEntity>, Serializabl
                     for (int i = 1; i < pathElements.length; i++) {
                         childPathElements[i - 1] = pathElements[i];
                     }
-                    List<CmsEntity> values = attribute.getComplexValues();
+                    List<@RUntainted CmsEntity> values = attribute.getComplexValues();
                     result = getValueForPath(values.get(index), childPathElements);
                 }
             }
@@ -287,7 +288,7 @@ public class CmsEntity implements HasValueChangeHandlers<CmsEntity>, Serializabl
                     clone.addAttributeValue(attribute.getAttributeName(), value);
                 }
             } else {
-                List<CmsEntity> values = attribute.getComplexValues();
+                List<@RUntainted CmsEntity> values = attribute.getComplexValues();
                 for (CmsEntity value : values) {
                     clone.addAttributeValue(attribute.getAttributeName(), value.cloneEntity());
                 }
@@ -303,7 +304,7 @@ public class CmsEntity implements HasValueChangeHandlers<CmsEntity>, Serializabl
      *
      * @return the entity copy
      */
-    public CmsEntity createDeepCopy(String entityId) {
+    public CmsEntity createDeepCopy(@RUntainted String entityId) {
 
         CmsEntity result = new CmsEntity(entityId, getTypeName());
         for (CmsEntityAttribute attribute : getAttributes()) {
@@ -313,7 +314,7 @@ public class CmsEntity implements HasValueChangeHandlers<CmsEntity>, Serializabl
                     result.addAttributeValue(attribute.getAttributeName(), value);
                 }
             } else {
-                List<CmsEntity> values = attribute.getComplexValues();
+                List<@RUntainted CmsEntity> values = attribute.getComplexValues();
                 for (CmsEntity value : values) {
                     result.addAttributeValue(attribute.getAttributeName(), value.createDeepCopy(null));
                 }
@@ -449,7 +450,7 @@ public class CmsEntity implements HasValueChangeHandlers<CmsEntity>, Serializabl
      *
      * @return the id
      */
-    public String getId() {
+    public @RUntainted String getId() {
 
         return m_id;
     }

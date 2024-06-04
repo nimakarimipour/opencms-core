@@ -29,6 +29,7 @@ package org.opencms.main;
 
 import java.util.HashMap;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Event class for OpenCms for system wide events that are thrown by various
@@ -42,7 +43,7 @@ import java.util.Map;
 public class CmsEvent {
 
     /** The event data associated with this event. */
-    private Map<String, Object> m_data;
+    private Map<String, @RUntainted Object> m_data;
 
     /** The event type this instance represents. */
     private Integer m_type;
@@ -62,7 +63,7 @@ public class CmsEvent {
      *
      * @see I_CmsEventListener
      */
-    public CmsEvent(int type, Map<String, Object> data) {
+    public CmsEvent(int type, Map<String, @RUntainted Object> data) {
 
         m_type = Integer.valueOf(type);
         m_data = data;
@@ -91,7 +92,7 @@ public class CmsEvent {
      *
      * @return the event data of this event
      */
-    public Map<String, Object> getData() {
+    public @RUntainted Map<@RUntainted String, @RUntainted Object> getData() {
 
         return m_data;
     }
@@ -108,7 +109,7 @@ public class CmsEvent {
      *
      * @see I_CmsEventListener
      */
-    public int getType() {
+    public @RUntainted int getType() {
 
         return m_type.intValue();
     }
@@ -138,7 +139,7 @@ public class CmsEvent {
      * @return a String representation of this event
      */
     @Override
-    public String toString() {
+    public @RUntainted String toString() {
 
         return "CmsEvent['" + m_type + "']";
     }

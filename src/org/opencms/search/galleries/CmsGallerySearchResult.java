@@ -53,6 +53,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains a single search result from the gallery search index.<p>
@@ -95,10 +96,10 @@ public class CmsGallerySearchResult implements Comparable<CmsGallerySearchResult
     protected int m_length;
 
     /** The locales in which the content is available. */
-    protected List<String> m_locales;
+    protected List<@RUntainted String> m_locales;
 
     /** The resource path of this search result. */
-    protected String m_path;
+    protected @RUntainted String m_path;
 
     /** The resource type of the search result. */
     protected String m_resourceType;
@@ -110,7 +111,7 @@ public class CmsGallerySearchResult implements Comparable<CmsGallerySearchResult
     protected int m_state;
 
     /** The structure UUID of the resource. */
-    protected String m_structureId;
+    protected @RUntainted String m_structureId;
 
     /** The title of this search result. */
     protected String m_title;
@@ -132,7 +133,7 @@ public class CmsGallerySearchResult implements Comparable<CmsGallerySearchResult
 
         m_title = title;
         try {
-            Map<String, String> props = CmsProperty.toMap(
+            Map<String, @RUntainted String> props = CmsProperty.toMap(
                 cms.readPropertyObjects(res, CmsResourceTypeXmlContainerPage.isContainerPage(res)));
             if (m_title == null) {
                 m_title = props.get(CmsPropertyDefinition.PROPERTY_TITLE);
@@ -291,7 +292,7 @@ public class CmsGallerySearchResult implements Comparable<CmsGallerySearchResult
     public static final String[] getRequiredSolrFields() {
 
         if (null == m_requiredSolrFields) {
-            List<Locale> locales = OpenCms.getLocaleManager().getAvailableLocales();
+            List<@RUntainted Locale> locales = OpenCms.getLocaleManager().getAvailableLocales();
             m_requiredSolrFields = new String[14 + (locales.size() * 6)];
             int count = 0;
             m_requiredSolrFields[count++] = CmsSearchField.FIELD_PATH;
@@ -453,7 +454,7 @@ public class CmsGallerySearchResult implements Comparable<CmsGallerySearchResult
      *
      * @return the list of locales this search result is available for
      */
-    public List<String> getLocales() {
+    public List<@RUntainted String> getLocales() {
 
         return m_locales;
     }
@@ -465,7 +466,7 @@ public class CmsGallerySearchResult implements Comparable<CmsGallerySearchResult
      *
      * @see org.opencms.file.CmsResource#getRootPath()
      */
-    public String getPath() {
+    public @RUntainted String getPath() {
 
         return m_path;
     }
@@ -509,7 +510,7 @@ public class CmsGallerySearchResult implements Comparable<CmsGallerySearchResult
      *
      * @return the structure id of the resource
      */
-    public String getStructureId() {
+    public @RUntainted String getStructureId() {
 
         return m_structureId;
     }

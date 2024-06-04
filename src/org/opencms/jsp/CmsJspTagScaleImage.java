@@ -18,6 +18,7 @@ import javax.servlet.jsp.JspException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This tag allows using the OpenCms native image scaling mechanism within JSP.<p>

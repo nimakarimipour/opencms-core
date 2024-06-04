@@ -42,6 +42,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.util.CmsStringUtil;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor for the type "folder".<p>
@@ -87,7 +88,7 @@ public abstract class A_CmsResourceTypeFolderBase extends A_CmsResourceType {
         CmsObject cms,
         CmsSecurityManager securityManager,
         CmsResource source,
-        String destination,
+        @RUntainted String destination,
         CmsResource.CmsResourceCopyMode siblingMode)
     throws CmsIllegalArgumentException, CmsException {
 
@@ -121,10 +122,10 @@ public abstract class A_CmsResourceTypeFolderBase extends A_CmsResourceType {
      * @see org.opencms.file.types.I_CmsResourceType#createResource(org.opencms.file.CmsObject, CmsSecurityManager, java.lang.String, byte[], List)
      */
     @Override
-    public CmsResource createResource(
+    public @RUntainted CmsResource createResource(
         CmsObject cms,
         CmsSecurityManager securityManager,
-        String resourcename,
+        @RUntainted String resourcename,
         byte[] content,
         List<CmsProperty> properties)
     throws CmsException {
@@ -147,7 +148,7 @@ public abstract class A_CmsResourceTypeFolderBase extends A_CmsResourceType {
      * @see org.opencms.file.types.A_CmsResourceType#isFolder()
      */
     @Override
-    public boolean isFolder() {
+    public @RUntainted boolean isFolder() {
 
         return true;
     }
@@ -458,7 +459,7 @@ public abstract class A_CmsResourceTypeFolderBase extends A_CmsResourceType {
      *
      * @throws CmsIllegalArgumentException if the folder name is empty or <code>null</code>
      */
-    private String validateFoldername(String resourcename) throws CmsIllegalArgumentException {
+    private @RUntainted String validateFoldername(@RUntainted String resourcename) throws CmsIllegalArgumentException {
 
         if (CmsStringUtil.isEmpty(resourcename)) {
             throw new CmsIllegalArgumentException(

@@ -55,6 +55,7 @@ import com.vaadin.v7.shared.ui.combobox.FilteringMode;
 import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog to change OU of given user.<p>
@@ -116,7 +117,7 @@ public class CmsMoveUserToOU extends CmsBasicDialog {
     private Button m_ok;
 
     /**Vaadin component. */
-    private ComboBox m_ou;
+    private @RUntainted ComboBox m_ou;
 
     /**Vaadin component. */
     private CheckBox m_removeAll;

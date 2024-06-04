@@ -36,6 +36,7 @@ import org.opencms.jsp.CmsJspNavElement;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for building a filtered sitemap tree for the gallery dialog's 'Sitemap' tab.<p>

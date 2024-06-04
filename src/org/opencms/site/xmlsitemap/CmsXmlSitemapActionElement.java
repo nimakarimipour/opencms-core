@@ -46,6 +46,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Action element class for displaying the XML sitemap from a JSP.<p>
@@ -69,9 +70,9 @@ public class CmsXmlSitemapActionElement extends CmsJspActionElement {
      * @param response the JSP response
      */
     public CmsXmlSitemapActionElement(
-        PageContext pageContext,
-        HttpServletRequest request,
-        HttpServletResponse response) {
+        @RUntainted PageContext pageContext,
+        @RUntainted HttpServletRequest request,
+        @RUntainted HttpServletResponse response) {
 
         super(pageContext, request, response);
     }
@@ -85,7 +86,7 @@ public class CmsXmlSitemapActionElement extends CmsJspActionElement {
      *
      * @throws CmsException if something goes wrong
      */
-    public static CmsXmlSitemapGenerator createSitemapGenerator(String className, String folderRootPath)
+    public static CmsXmlSitemapGenerator createSitemapGenerator(String className, @RUntainted String folderRootPath)
     throws CmsException {
 
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(className)) {
@@ -197,7 +198,7 @@ public class CmsXmlSitemapActionElement extends CmsJspActionElement {
         StringBuffer buffer = new StringBuffer();
         I_CmsResourceType seoFileType = OpenCms.getResourceManager().getResourceType(
             CmsXmlSeoConfiguration.SEO_FILE_TYPE);
-        List<CmsResource> seoFiles = cms.readResources(
+        List<@RUntainted CmsResource> seoFiles = cms.readResources(
             "/",
             CmsResourceFilter.DEFAULT_FILES.addRequireVisible().addRequireType(seoFileType));
         for (CmsResource seoFile : seoFiles) {

@@ -100,6 +100,7 @@ import com.vaadin.v7.ui.Field;
 import com.vaadin.v7.ui.TextArea;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Form for editing a module.<p>
@@ -223,7 +224,7 @@ public class CmsEditModuleForm extends CmsBasicDialog {
     private TextArea m_importScript;
 
     /** Select box for the module site. */
-    private CmsAutoItemCreatingComboBox m_importSite;
+    private @RUntainted CmsAutoItemCreatingComboBox m_importSite;
 
     /** Contains the widget used to display the module site information. */
     private CmsComponentField<CmsResourceInfo> m_info = new CmsComponentField<CmsResourceInfo>();
@@ -479,7 +480,7 @@ public class CmsEditModuleForm extends CmsBasicDialog {
             private static final long serialVersionUID = 1L;
 
             @SuppressWarnings("synthetic-access")
-            public void valueChange(ValueChangeEvent event) {
+            public void valueChange(@RUntainted ValueChangeEvent event) {
 
                 String siteRoot = (String)(event.getProperty().getValue());
                 updateSiteInfo(siteRoot);
@@ -775,7 +776,7 @@ public class CmsEditModuleForm extends CmsBasicDialog {
      *
      * @return the currently selected module site
      */
-    String getSelectedSite() {
+    @RUntainted String getSelectedSite() {
 
         return (String)(m_importSite.getValue());
     }
@@ -975,7 +976,7 @@ public class CmsEditModuleForm extends CmsBasicDialog {
      *
      * @param siteRoot the new module site root
      */
-    private void updateSiteInfo(final String siteRoot) {
+    private void updateSiteInfo(final @RUntainted String siteRoot) {
 
         String top = "";
         String bottom = "";

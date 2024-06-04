@@ -26,6 +26,7 @@
  */
 
 package org.opencms.util;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents a single HTML converter configuration as defined in the OpenCms configuration file <code>opencms-vfs.xml</code>.<p>

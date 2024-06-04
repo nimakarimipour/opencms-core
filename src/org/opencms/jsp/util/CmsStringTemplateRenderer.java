@@ -60,6 +60,7 @@ import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroup;
 import org.stringtemplate.v4.compiler.CompiledST;
 import org.stringtemplate.v4.compiler.FormalArgument;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Renderer for string templates.<p>
@@ -102,7 +103,7 @@ public class CmsStringTemplateRenderer {
     private CmsContainerElementBean m_element;
 
     /** The request. */
-    private HttpServletRequest m_request;
+    private @RUntainted HttpServletRequest m_request;
 
     /**
      * Constructor.<p>
@@ -110,7 +111,7 @@ public class CmsStringTemplateRenderer {
      * @param context the page context
      * @param req the request
      */
-    public CmsStringTemplateRenderer(PageContext context, HttpServletRequest req) {
+    public CmsStringTemplateRenderer(PageContext context, @RUntainted HttpServletRequest req) {
 
         m_context = context;
         m_request = req;
@@ -213,12 +214,12 @@ public class CmsStringTemplateRenderer {
      *
      * @return the element settings wrapped in access wrappers
      */
-    public static Map<String, CmsJspObjectValueWrapper> wrapSettings(CmsObject cms, Map<String, String> settings) {
+    public static Map<String, CmsJspObjectValueWrapper> wrapSettings(CmsObject cms, Map<@RUntainted String, @RUntainted String> settings) {
 
         Map<String, CmsJspObjectValueWrapper> wrappedSettings = null;
         if (settings != null) {
             wrappedSettings = new HashMap<String, CmsJspObjectValueWrapper>(settings.size());
-            for (Entry<String, String> setting : settings.entrySet()) {
+            for (Entry<String, @RUntainted String> setting : settings.entrySet()) {
                 wrappedSettings.put(setting.getKey(), CmsJspObjectValueWrapper.createWrapper(cms, setting.getValue()));
             }
         }

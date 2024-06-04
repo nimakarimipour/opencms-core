@@ -28,6 +28,7 @@
 package org.opencms.flex;
 
 import org.opencms.file.CmsResource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains information about the OpenCms request context required by the

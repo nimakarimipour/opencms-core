@@ -66,6 +66,7 @@ import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.TextArea;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the ou edit and new dialog.<p>
@@ -130,7 +131,7 @@ public class CmsOUEditDialog extends CmsBasicDialog {
     static Log LOG = CmsLog.getLog(CmsOUEditDialog.class.getName());
 
     /**CmsObject. */
-    protected CmsObject m_cms;
+    protected @RUntainted CmsObject m_cms;
 
     /**OU to be edited, null if new one should be created. */
     private CmsOrganizationalUnit m_ou;
@@ -145,7 +146,7 @@ public class CmsOUEditDialog extends CmsBasicDialog {
     private Button m_cancel;
 
     /**vaadin component.*/
-    private TextArea m_description;
+    private @RUntainted TextArea m_description;
 
     /**vaadin component.*/
     Label m_parentOu;

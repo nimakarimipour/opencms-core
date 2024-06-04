@@ -68,6 +68,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Visitor to read all types and attribute configurations within a content definition.<p>
@@ -268,7 +269,7 @@ public class CmsContentTypeVisitor {
     private boolean m_hasInvisible;
 
     /** The content locale. */
-    private Locale m_locale;
+    private @RUntainted Locale m_locale;
 
     /** The locale synchronized attribute names. */
     private List<String> m_localeSynchronizations;
@@ -298,7 +299,7 @@ public class CmsContentTypeVisitor {
      * @param file the content file
      * @param locale the content locale
      */
-    public CmsContentTypeVisitor(CmsObject cms, CmsFile file, Locale locale) {
+    public CmsContentTypeVisitor(CmsObject cms, CmsFile file, @RUntainted Locale locale) {
 
         m_file = file;
         m_cms = cms;
@@ -342,7 +343,7 @@ public class CmsContentTypeVisitor {
      *
      * @return the label
      */
-    public String getLabel(I_CmsXmlSchemaType value, String defaultValue) {
+    public String getLabel(I_CmsXmlSchemaType value, @RUntainted String defaultValue) {
 
         I_CmsXmlContentHandler handler = value.getContentDefinition().getContentHandler();
         if (handler instanceof CmsDefaultXmlContentHandler) {
@@ -440,7 +441,7 @@ public class CmsContentTypeVisitor {
      * @param xmlContentDefinition the content definition
      * @param messageLocale the locale
      */
-    public void visitTypes(CmsXmlContentDefinition xmlContentDefinition, Locale messageLocale) {
+    public void visitTypes(CmsXmlContentDefinition xmlContentDefinition, @RUntainted Locale messageLocale) {
 
         m_rootContentDefinition = xmlContentDefinition;
         m_contentHandler = xmlContentDefinition.getContentHandler();

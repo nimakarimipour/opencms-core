@@ -41,6 +41,7 @@ import org.opencms.util.CmsUUID;
 
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Definitions of all required user driver methods. <p>
@@ -113,10 +114,10 @@ public interface I_CmsUserDriver extends I_CmsDriver {
      */
     CmsGroup createGroup(
         CmsDbContext dbc,
-        CmsUUID groupId,
-        String groupFqn,
-        String description,
-        int flags,
+        @RUntainted CmsUUID groupId,
+        @RUntainted String groupFqn,
+        @RUntainted String description,
+        @RUntainted int flags,
         String parentGroupName) throws CmsDataAccessException;
 
     /**
@@ -136,8 +137,8 @@ public interface I_CmsUserDriver extends I_CmsDriver {
      */
     CmsOrganizationalUnit createOrganizationalUnit(
         CmsDbContext dbc,
-        String name,
-        String description,
+        @RUntainted String name,
+        @RUntainted String description,
         int flags,
         CmsOrganizationalUnit parent,
         String associationRootPath) throws CmsDataAccessException;
@@ -179,7 +180,7 @@ public interface I_CmsUserDriver extends I_CmsDriver {
         long lastlogin,
         int flags,
         long dateCreated,
-        Map<String, Object> additionalInfos) throws CmsDataAccessException;
+        @RUntainted Map<String, Object> additionalInfos) throws CmsDataAccessException;
 
     /**
      * Adds a user to a group.<p>
@@ -650,7 +651,7 @@ public interface I_CmsUserDriver extends I_CmsDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    Map<String, Object> readUserInfos(CmsDbContext dbc, CmsUUID userId) throws CmsDataAccessException;
+    Map<String, @RUntainted Object> readUserInfos(CmsDbContext dbc, CmsUUID userId) throws CmsDataAccessException;
 
     /**
      * Reads all users that are members of the given group.<p>

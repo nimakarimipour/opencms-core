@@ -75,6 +75,7 @@ import com.vaadin.v7.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the Export dialog.<p>
@@ -139,7 +140,7 @@ public class CmsDbExportView extends VerticalLayout {
     private static final long serialVersionUID = -2571459807662862053L;
 
     /**Copy of current CmsObject.*/
-    protected CmsObject m_cms;
+    protected @RUntainted CmsObject m_cms;
 
     /** Button to add a list of resources through a text area. */
     private Button m_addResources;
@@ -188,13 +189,13 @@ public class CmsDbExportView extends VerticalLayout {
     private CmsEditableGroup m_resourcesGroup;
 
     /**vaadin component.*/
-    private ComboBox m_site;
+    private @RUntainted ComboBox m_site;
 
     /**vaadin component.*/
     private CheckBox m_skipParentFolders;
 
     /**vaadin component.*/
-    private ComboBox m_target;
+    private @RUntainted ComboBox m_target;
 
     /**
      * public constructor.<p>

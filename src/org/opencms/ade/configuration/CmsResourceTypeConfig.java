@@ -57,6 +57,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The configuration for a single resource type.<p>
@@ -105,7 +106,7 @@ public class CmsResourceTypeConfig implements I_CmsConfigurationObject<CmsResour
     private boolean m_availabilityNotSet;
 
     /** Elements of this type when used in models should be copied instead of reused. */
-    private Boolean m_copyInModels;
+    private @RUntainted Boolean m_copyInModels;
 
     /** Flag which controls whether creating elements of this type using ADE is disabled. */
     private boolean m_createDisabled;
@@ -123,7 +124,7 @@ public class CmsResourceTypeConfig implements I_CmsConfigurationObject<CmsResour
     private ElementDeleteMode m_elementDeleteMode;
 
     /** The element view id. */
-    private CmsUUID m_elementView;
+    private @RUntainted CmsUUID m_elementView;
 
     /** True if this creating/editing for this type should be enabled in lists (e.g. search or contentload tags). */
     private boolean m_enableInLists;
@@ -135,7 +136,7 @@ public class CmsResourceTypeConfig implements I_CmsConfigurationObject<CmsResour
     private String m_localization;
 
     /** The name pattern .*/
-    private String m_namePattern;
+    private @RUntainted String m_namePattern;
 
     /** The number used for sorting the resource type configurations. */
     private Integer m_order;
@@ -147,7 +148,7 @@ public class CmsResourceTypeConfig implements I_CmsConfigurationObject<CmsResour
     private Set<String> m_templates = new HashSet<>();
 
     /** The name of the resource type. */
-    private String m_typeName;
+    private @RUntainted String m_typeName;
 
     /**
      * Creates a new resource type configuration.<p>
@@ -210,7 +211,7 @@ public class CmsResourceTypeConfig implements I_CmsConfigurationObject<CmsResour
         boolean editDisabled,
         boolean enableInLists,
         boolean availabilityNotSet,
-        CmsUUID elementView,
+        @RUntainted CmsUUID elementView,
         String localization,
         Boolean showInDefaultView,
         Boolean copyInModels,
@@ -245,7 +246,7 @@ public class CmsResourceTypeConfig implements I_CmsConfigurationObject<CmsResour
      *
      * @throws CmsException if something goes wrong
      */
-    public boolean checkCreatable(CmsObject cms, String pageFolderRootPath) throws CmsException {
+    public boolean checkCreatable(CmsObject cms, @RUntainted String pageFolderRootPath) throws CmsException {
 
         if (cms.getRequestContext().getCurrentProject().isOnlineProject()) {
             return false;
@@ -366,7 +367,7 @@ public class CmsResourceTypeConfig implements I_CmsConfigurationObject<CmsResour
      *
      * @throws CmsException if something goes wrong
      */
-    public void configureCreateNewElement(CmsObject cms, String pageFolderRootPath, CmsNewResourceBuilder builder)
+    public void configureCreateNewElement(CmsObject cms, @RUntainted String pageFolderRootPath, CmsNewResourceBuilder builder)
     throws CmsException {
 
         checkOffline(cms);
@@ -391,7 +392,7 @@ public class CmsResourceTypeConfig implements I_CmsConfigurationObject<CmsResour
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsResource createNewElement(CmsObject userCms, CmsResource modelResource, String pageFolderRootPath)
+    public @RUntainted CmsResource createNewElement(CmsObject userCms, CmsResource modelResource, @RUntainted String pageFolderRootPath)
     throws CmsException {
 
         checkOffline(userCms);
@@ -439,7 +440,7 @@ public class CmsResourceTypeConfig implements I_CmsConfigurationObject<CmsResour
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsResource createNewElement(CmsObject userCms, String pageFolderRootPath) throws CmsException {
+    public @RUntainted CmsResource createNewElement(CmsObject userCms, @RUntainted String pageFolderRootPath) throws CmsException {
 
         return createNewElement(userCms, null, pageFolderRootPath);
     }
@@ -496,7 +497,7 @@ public class CmsResourceTypeConfig implements I_CmsConfigurationObject<CmsResour
      *
      * @return the element view id
      */
-    public CmsUUID getElementView() {
+    public @RUntainted CmsUUID getElementView() {
 
         return m_elementView == null ? CmsElementView.DEFAULT_ELEMENT_VIEW.getId() : m_elementView;
     }
@@ -509,7 +510,7 @@ public class CmsResourceTypeConfig implements I_CmsConfigurationObject<CmsResour
      *
      * @return the folder root path for this resource type
      */
-    public String getFolderPath(CmsObject cms, String pageFolderRootPath) {
+    public @RUntainted String getFolderPath(CmsObject cms, @RUntainted String pageFolderRootPath) {
 
         checkInitialized();
         if (m_folderOrName != null) {
@@ -541,7 +542,7 @@ public class CmsResourceTypeConfig implements I_CmsConfigurationObject<CmsResour
      *
      * @return the name pattern
      */
-    public String getNamePattern(boolean useDefaultIfEmpty) {
+    public @RUntainted String getNamePattern(boolean useDefaultIfEmpty) {
 
         if (m_namePattern != null) {
             return m_namePattern;
@@ -638,7 +639,7 @@ public class CmsResourceTypeConfig implements I_CmsConfigurationObject<CmsResour
      *
      * @return if elements of this type when used in models should be copied instead of reused
      */
-    public boolean isCopyInModels() {
+    public @RUntainted boolean isCopyInModels() {
 
         return (m_copyInModels == null) || m_copyInModels.booleanValue();
     }

@@ -63,6 +63,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Base implementation for resource type classes.<p>
@@ -141,10 +142,10 @@ public abstract class A_CmsResourceType implements I_CmsResourceType {
     protected int m_typeId;
 
     /** The configured name of this resource type. */
-    protected String m_typeName;
+    protected @RUntainted String m_typeName;
 
     /** The folder for which links should be adjusted after copying the copy-resources. */
-    private String m_adjustLinksFolder;
+    private @RUntainted String m_adjustLinksFolder;
 
     /** The gallery type name for this resource type. */
     private String m_galleryTypeNames;
@@ -170,7 +171,7 @@ public abstract class A_CmsResourceType implements I_CmsResourceType {
     /**
      * @see org.opencms.configuration.I_CmsConfigurationParameterHandler#addConfigurationParameter(java.lang.String, java.lang.String)
      */
-    public void addConfigurationParameter(String paramName, String paramValue) {
+    public void addConfigurationParameter(String paramName, @RUntainted String paramValue) {
 
         m_configuration.add(paramName, paramValue);
         if (CmsStringUtil.isNotEmpty(paramName) && CmsStringUtil.isNotEmpty(paramValue)) {
@@ -200,7 +201,7 @@ public abstract class A_CmsResourceType implements I_CmsResourceType {
      *
      * @throws CmsConfigurationException if the configuration is already frozen
      */
-    public void addCopyResource(String source, String target, String type) throws CmsConfigurationException {
+    public void addCopyResource(@RUntainted String source, @RUntainted String target, @RUntainted String type) throws CmsConfigurationException {
 
         if (LOG.isDebugEnabled()) {
             LOG.debug(
@@ -232,7 +233,7 @@ public abstract class A_CmsResourceType implements I_CmsResourceType {
      *
      * @throws CmsConfigurationException if the configuration is already frozen
      */
-    public void addDefaultProperty(CmsProperty property) throws CmsConfigurationException {
+    public void addDefaultProperty(@RUntainted CmsProperty property) throws CmsConfigurationException {
 
         if (LOG.isDebugEnabled()) {
             LOG.debug(Messages.get().getBundle().key(Messages.LOG_ADD_DFLT_PROP_2, this, property));
@@ -254,7 +255,7 @@ public abstract class A_CmsResourceType implements I_CmsResourceType {
     /**
      * @see org.opencms.file.types.I_CmsResourceType#addMappingType(java.lang.String)
      */
-    public void addMappingType(String mapping) {
+    public void addMappingType(@RUntainted String mapping) {
 
         // this configuration does not support parameters
         if (LOG.isDebugEnabled()) {
@@ -319,7 +320,7 @@ public abstract class A_CmsResourceType implements I_CmsResourceType {
         CmsObject cms,
         CmsSecurityManager securityManager,
         CmsResource source,
-        String destination,
+        @RUntainted String destination,
         CmsResource.CmsResourceCopyMode siblingMode)
     throws CmsException {
 
@@ -344,10 +345,10 @@ public abstract class A_CmsResourceType implements I_CmsResourceType {
     /**
      * @see org.opencms.file.types.I_CmsResourceType#createResource(org.opencms.file.CmsObject, CmsSecurityManager, java.lang.String, byte[], List)
      */
-    public CmsResource createResource(
+    public @RUntainted CmsResource createResource(
         CmsObject cms,
         CmsSecurityManager securityManager,
-        String resourcename,
+        @RUntainted String resourcename,
         byte[] content,
         List<CmsProperty> properties)
     throws CmsException {
@@ -583,7 +584,7 @@ public abstract class A_CmsResourceType implements I_CmsResourceType {
      * Use of int based resource type references will be discontinued in a future OpenCms release.
      */
     @Deprecated
-    public int getTypeId() {
+    public @RUntainted int getTypeId() {
 
         return m_typeId;
     }
@@ -591,7 +592,7 @@ public abstract class A_CmsResourceType implements I_CmsResourceType {
     /**
      * @see org.opencms.file.types.I_CmsResourceType#getTypeName()
      */
-    public String getTypeName() {
+    public @RUntainted String getTypeName() {
 
         return m_typeName;
     }
@@ -649,7 +650,7 @@ public abstract class A_CmsResourceType implements I_CmsResourceType {
     /**
      * @see org.opencms.file.types.I_CmsResourceType#initConfiguration(java.lang.String, java.lang.String, java.lang.String)
      */
-    public void initConfiguration(String name, String id, String className) throws CmsConfigurationException {
+    public void initConfiguration(@RUntainted String name, @RUntainted String id, @RUntainted String className) throws CmsConfigurationException {
 
         if (LOG.isDebugEnabled()) {
             LOG.debug(Messages.get().getBundle().key(Messages.LOG_INIT_CONFIGURATION_3, this, name, id));
@@ -729,7 +730,7 @@ public abstract class A_CmsResourceType implements I_CmsResourceType {
     /**
      * @see org.opencms.file.types.I_CmsResourceType#isFolder()
      */
-    public boolean isFolder() {
+    public @RUntainted boolean isFolder() {
 
         return false;
     }
@@ -858,7 +859,7 @@ public abstract class A_CmsResourceType implements I_CmsResourceType {
     /**
      * @see org.opencms.file.types.I_CmsResourceType#setAdjustLinksFolder(String)
      */
-    public void setAdjustLinksFolder(String adjustLinksFolder) {
+    public void setAdjustLinksFolder(@RUntainted String adjustLinksFolder) {
 
         m_adjustLinksFolder = adjustLinksFolder;
     }
@@ -884,7 +885,7 @@ public abstract class A_CmsResourceType implements I_CmsResourceType {
         CmsObject cms,
         CmsSecurityManager securityManager,
         CmsResource resource,
-        long dateLastModified,
+        @RUntainted long dateLastModified,
         boolean recursive)
     throws CmsException {
 
@@ -1023,7 +1024,7 @@ public abstract class A_CmsResourceType implements I_CmsResourceType {
      *
      * @throws CmsException if something goes wrong
      */
-    protected CmsResource createRelations(CmsObject cms, CmsSecurityManager securityManager, String resourceName)
+    protected CmsResource createRelations(CmsObject cms, CmsSecurityManager securityManager, @RUntainted String resourceName)
     throws CmsException {
 
         CmsResource resource = securityManager.readResource(
@@ -1049,7 +1050,7 @@ public abstract class A_CmsResourceType implements I_CmsResourceType {
      *
      * @return the copy resources to use
      */
-    protected List<CmsConfigurationCopyResource> getCopyResources(
+    protected List<@RUntainted CmsConfigurationCopyResource> getCopyResources(
         CmsObject cms,
         String resourcename,
         CmsMacroResolver resolver) {
@@ -1105,7 +1106,7 @@ public abstract class A_CmsResourceType implements I_CmsResourceType {
      * @param resourcename the name of the base resource
      * @param resolver the resolver used for resolving target macro names
      */
-    protected void processCopyResources(CmsObject cms, String resourcename, CmsMacroResolver resolver) {
+    protected void processCopyResources(CmsObject cms, @RUntainted String resourcename, CmsMacroResolver resolver) {
 
         Map<String, String> copiedResources = new HashMap<String, String>();
         for (CmsConfigurationCopyResource oriCopyResource : getCopyResources(cms, resourcename, resolver)) {
@@ -1120,7 +1121,7 @@ public abstract class A_CmsResourceType implements I_CmsResourceType {
                 if (oriCopyResource.getSource().endsWith("*")) {
                     // add all sub resources of the specified source folder to the set of resources to copy
                     String source = oriCopyResource.getSource().substring(0, oriCopyResource.getSource().length() - 1);
-                    List<CmsResource> sources = cms.readResources(source, CmsResourceFilter.IGNORE_EXPIRATION, false);
+                    List<@RUntainted CmsResource> sources = cms.readResources(source, CmsResourceFilter.IGNORE_EXPIRATION, false);
                     for (CmsResource sourceRes : sources) {
                         copyResources.add(
                             new CmsConfigurationCopyResource(
@@ -1161,7 +1162,7 @@ public abstract class A_CmsResourceType implements I_CmsResourceType {
                             cms.writeFile(file);
                         } else {
                             // folder, get all sub resources that are files
-                            Iterator<CmsResource> it = cms.readResources(
+                            Iterator<@RUntainted CmsResource> it = cms.readResources(
                                 target,
                                 CmsResourceFilter.DEFAULT_FILES,
                                 true).iterator();

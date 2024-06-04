@@ -40,6 +40,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The OpenCms "Grim Reaper" thread store were all system Threads are maintained.<p>
@@ -74,7 +75,7 @@ public final class CmsThreadStore extends Thread {
     private CmsSecurityManager m_securityManager;
 
     /** A map to store all system Threads in. */
-    private Map<CmsUUID, A_CmsReportThread> m_threads;
+    private @RUntainted Map<CmsUUID, @RUntainted A_CmsReportThread> m_threads;
 
     /**
      * Hides the public constructor.<p>

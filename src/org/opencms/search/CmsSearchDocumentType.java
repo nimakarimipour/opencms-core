@@ -29,6 +29,7 @@ package org.opencms.search;
 
 import java.util.ArrayList;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A document type specifies which document factory class is used to pull the
@@ -88,7 +89,7 @@ public class CmsSearchDocumentType {
      *
      * @return the name of the document factory class
      */
-    public String getClassName() {
+    public @RUntainted String getClassName() {
 
         return m_className;
     }
@@ -108,7 +109,7 @@ public class CmsSearchDocumentType {
      *
      * @return the logical key/name of this document type
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_name;
     }

@@ -40,6 +40,7 @@ import org.opencms.ui.components.OpenCmsTheme;
 import java.util.Locale;
 
 import com.vaadin.server.Resource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Unused content finder configuration.

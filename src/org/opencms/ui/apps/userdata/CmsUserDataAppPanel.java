@@ -78,6 +78,7 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The GUI form for the user data app.
@@ -174,7 +175,7 @@ public class CmsUserDataAppPanel extends VerticalLayout {
     protected Button m_pickUserButton;
 
     /** The field containing the name of the user for whom to generate the report. */
-    protected TextField m_user;
+    protected @RUntainted TextField m_user;
 
     /** The button which generates the report for the selected OpenCms user. */
     protected Button m_searchByUser;

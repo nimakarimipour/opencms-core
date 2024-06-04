@@ -59,6 +59,7 @@ import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract class for dialogs to change role or groups of a given user.<p>
@@ -126,7 +127,7 @@ public abstract class A_CmsEditUserGroupRoleDialog extends CmsBasicDialog {
      *
      * @param data data containing information about item to add (see getStringSetValue())
      */
-    public abstract void addItem(Set<String> data);
+    public abstract void addItem(Set<@RUntainted String> data);
 
     /**
      * Caption for the add action.<p>

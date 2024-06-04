@@ -70,6 +70,7 @@ import org.xml.sax.Attributes;
 import com.google.common.base.Function;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Import/Export master configuration class.<p>

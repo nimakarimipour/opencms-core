@@ -28,6 +28,7 @@
 package org.opencms.widgets;
 
 import org.opencms.file.CmsObject;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a http upload widget, for use on a widget dialog.<p>
@@ -50,7 +51,7 @@ public class CmsHttpUploadWidget extends A_CmsWidget {
      *
      * @param configuration the configuration to use
      */
-    public CmsHttpUploadWidget(String configuration) {
+    public CmsHttpUploadWidget(@RUntainted String configuration) {
 
         super(configuration);
     }

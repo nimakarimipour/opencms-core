@@ -35,6 +35,7 @@ import org.opencms.i18n.CmsMessages;
 import org.opencms.json.JSONException;
 import org.opencms.json.JSONObject;
 import org.opencms.main.OpenCms;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * ADE download gallery widget implementations.<p>
@@ -59,7 +60,7 @@ public class CmsAdeDownloadGalleryWidget extends A_CmsAdeGalleryWidget {
      *
      * @param configuration the configuration to use
      */
-    protected CmsAdeDownloadGalleryWidget(String configuration) {
+    protected CmsAdeDownloadGalleryWidget(@RUntainted String configuration) {
 
         super(configuration);
     }
@@ -68,7 +69,7 @@ public class CmsAdeDownloadGalleryWidget extends A_CmsAdeGalleryWidget {
      * @see org.opencms.widgets.A_CmsAdeGalleryWidget#getGalleryName()
      */
     @Override
-    public String getGalleryName() {
+    public @RUntainted String getGalleryName() {
 
         return GALLERY_NAME;
     }
@@ -116,7 +117,7 @@ public class CmsAdeDownloadGalleryWidget extends A_CmsAdeGalleryWidget {
      * @see org.opencms.widgets.A_CmsAdeGalleryWidget#getGalleryStoragePrefix()
      */
     @Override
-    protected String getGalleryStoragePrefix() {
+    protected @RUntainted String getGalleryStoragePrefix() {
 
         return "binary";
     }
@@ -125,7 +126,7 @@ public class CmsAdeDownloadGalleryWidget extends A_CmsAdeGalleryWidget {
      * @see org.opencms.widgets.A_CmsAdeGalleryWidget#getGalleryTypes()
      */
     @Override
-    protected String getGalleryTypes() {
+    protected @RUntainted String getGalleryTypes() {
 
         return CmsResourceTypeBinary.getStaticTypeName() + "," + CmsResourceTypeImage.getStaticTypeName();
     }

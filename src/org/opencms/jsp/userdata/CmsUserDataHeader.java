@@ -34,6 +34,7 @@ import org.opencms.file.CmsUser;
 import java.util.List;
 
 import org.jsoup.nodes.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Shows email address / user name as a header.
@@ -46,7 +47,7 @@ public class CmsUserDataHeader implements I_CmsUserDataDomain {
     /**
      * @see org.opencms.configuration.I_CmsConfigurationParameterHandler#addConfigurationParameter(java.lang.String, java.lang.String)
      */
-    public void addConfigurationParameter(String paramName, String paramValue) {
+    public void addConfigurationParameter(String paramName, @RUntainted String paramValue) {
 
         m_config.add(paramName, paramValue);
     }

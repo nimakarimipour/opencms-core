@@ -54,6 +54,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog used to set up two-factor authentication for a user.
@@ -87,7 +88,7 @@ public class CmsSecondFactorSetupDialog extends CmsBasicDialog {
     private Image m_qrCodeImage;
 
     /** The shared secret. */
-    private String m_secret;
+    private @RUntainted String m_secret;
 
     /** The label to display the shared secret. */
     private Label m_secretLabel;

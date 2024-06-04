@@ -45,6 +45,8 @@ import javax.servlet.jsp.tagext.TagSupport;
 
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Provides access to the properties of a resource in the OpenCms VFS .<p>
@@ -273,12 +275,12 @@ public class CmsJspTagProperty extends TagSupport {
      *
      * @throws CmsException if something goes wrong
      */
-    public static Map<String, String> propertiesTagAction(String action, ServletRequest req) throws CmsException {
+    public static Map<String, @RUntainted String> propertiesTagAction(String action, ServletRequest req) throws CmsException {
 
         CmsFlexController controller = CmsFlexController.getController(req);
 
         // now read the property from the VFS
-        Map<String, String> value = new HashMap<String, String>();
+        Map<String, @RUntainted String> value = new HashMap<String, @RUntainted String>();
         CmsPropertyAction propertyAction = new CmsPropertyAction(req, action);
         if (null != propertyAction.getVfsUri()) {
             value = CmsProperty.toMap(
@@ -300,10 +302,10 @@ public class CmsJspTagProperty extends TagSupport {
      *
      * @throws CmsException if something goes wrong
      */
-    public static String propertyTagAction(
+    public static @RPolyTainted String propertyTagAction(
         String property,
         String action,
-        String defaultValue,
+        @RPolyTainted String defaultValue,
         boolean escape,
         ServletRequest req)
     throws CmsException {
@@ -325,10 +327,10 @@ public class CmsJspTagProperty extends TagSupport {
      *
      * @throws CmsException if something goes wrong
      */
-    public static String propertyTagAction(
+    public static @RPolyTainted String propertyTagAction(
         String property,
         String action,
-        String defaultValue,
+        @RPolyTainted String defaultValue,
         boolean escape,
         ServletRequest req,
         Locale locale)

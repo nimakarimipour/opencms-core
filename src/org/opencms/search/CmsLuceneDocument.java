@@ -45,6 +45,7 @@ import org.opencms.search.fields.CmsSearchFieldConfiguration;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.*;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A Lucene search document implementation.<p>
@@ -103,7 +104,7 @@ public class CmsLuceneDocument implements I_CmsSearchDocument {
     }
 
     /** The Lucene document. */
-    private Document m_doc;
+    private @RUntainted Document m_doc;
 
     /** The fields stored in this document. */
     private Map<String, Field> m_fields;
@@ -337,7 +338,7 @@ public class CmsLuceneDocument implements I_CmsSearchDocument {
     /**
      * @see org.opencms.search.I_CmsSearchDocument#getFieldValueAsString(java.lang.String)
      */
-    public String getFieldValueAsString(String fieldName) {
+    public @RUntainted String getFieldValueAsString(@RUntainted String fieldName) {
 
         IndexableField fieldValue = m_doc.getField(fieldName);
         if (fieldValue != null) {

@@ -64,6 +64,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A JSONObject is an unordered collection of name/value pairs. Its
@@ -182,7 +184,7 @@ public class JSONObject {
     /**
      * The map where the JSONObject's properties are kept.
      */
-    private Map<String, Object> m_map;
+    private Map<@RUntainted String, @RUntainted Object> m_map;
 
     /**
      * Construct an empty JSONObject.<p>
@@ -216,7 +218,7 @@ public class JSONObject {
      * @param names an array of strings
      * @exception JSONException if a value is a non-finite number
      */
-    public JSONObject(JSONObject jo, String[] names)
+    public JSONObject(JSONObject jo, @RUntainted String[] names)
     throws JSONException {
 
         this();
@@ -305,7 +307,7 @@ public class JSONObject {
      *
      * @param map a map object that can be used to initialize the contents of the JSONObject
      */
-    public JSONObject(Map<String, Object> map) {
+    public JSONObject(@RUntainted Map<String, Object> map) {
 
         m_map = (map == null) ? new HashMap<String, Object>() : map;
     }
@@ -318,12 +320,12 @@ public class JSONObject {
      * @param map a map with Key-Bean data
      * @param includeSuperClass tell whether to include the super class properties.
      */
-    public JSONObject(Map<String, Object> map, boolean includeSuperClass) {
+    public JSONObject(Map<@RUntainted String, @RUntainted Object> map, @RUntainted boolean includeSuperClass) {
 
         m_map = new HashMap<String, Object>();
         if (map != null) {
-            for (Iterator<Map.Entry<String, Object>> i = map.entrySet().iterator(); i.hasNext();) {
-                Map.Entry<String, Object> e = i.next();
+            for (Iterator<Map.Entry<@RUntainted String, @RUntainted Object>> i = map.entrySet().iterator(); i.hasNext();) {
+                Map.Entry<@RUntainted String, @RUntainted Object> e = i.next();
                 m_map.put(e.getKey(), new JSONObject(e.getValue(), includeSuperClass));
             }
         }
@@ -347,7 +349,7 @@ public class JSONObject {
      *
      * @param bean an object that has getter methods that should be used to make a JSONObject
      */
-    public JSONObject(Object bean) {
+    public JSONObject(@RUntainted Object bean) {
 
         this();
         populateInternalMap(bean, false);
@@ -363,7 +365,7 @@ public class JSONObject {
      * @param bean an object that has getter methods that should be used to make a JSONObject
      * @param includeSuperClass tell whether to include the super class properties.
      */
-    public JSONObject(Object bean, boolean includeSuperClass) {
+    public JSONObject(@RUntainted Object bean, @RUntainted boolean includeSuperClass) {
 
         this();
         populateInternalMap(bean, includeSuperClass);
@@ -381,7 +383,7 @@ public class JSONObject {
     * @param object an object that has fields that should be used to make a JSONObject
     * @param names an array of strings, the names of the fields to be obtained from the object
     */
-    public JSONObject(Object object, String[] names) {
+    public JSONObject(@RUntainted Object object, @RUntainted String[] names) {
 
         this();
         Class<?> c = object.getClass();
@@ -510,7 +512,7 @@ public class JSONObject {
      * @return a String
      * @throws JSONException if n is a non-finite number
      */
-    public static String numberToString(Number n) throws JSONException {
+    public static @RPolyTainted String numberToString(@RPolyTainted Number n) throws JSONException {
 
         if (n == null) {
             throw new JSONException("Null pointer");
@@ -542,7 +544,7 @@ public class JSONObject {
      * @param string a String
      * @return  a String correctly formatted for insertion in a JSON text
      */
-    public static String quote(String string) {
+    public static @RPolyTainted String quote(@RPolyTainted String string) {
 
         if ((string == null) || (string.length() == 0)) {
             return "\"\"";
@@ -625,7 +627,7 @@ public class JSONObject {
      * @throws JSONException if the value is or contains an invalid number
      */
     @SuppressWarnings("unchecked")
-    public static String valueToString(Object value) throws JSONException {
+    public static @RPolyTainted String valueToString(@RPolyTainted Object value) throws JSONException {
 
         if ((value == null) || value.equals(null)) {
             return "null";
@@ -676,7 +678,7 @@ public class JSONObject {
      * @throws JSONException if the object contains an invalid number
      */
     @SuppressWarnings("unchecked")
-    public static String valueToString(Object value, int indentFactor, int indent) throws JSONException {
+    public static @RUntainted String valueToString(@RUntainted Object value, int indentFactor, int indent) throws JSONException {
 
         if ((value == null) || value.equals(null)) {
             return "null";
@@ -750,7 +752,7 @@ public class JSONObject {
      * @return this
      * @throws JSONException if the value is an invalid number or if the key is null
      */
-    public JSONObject accumulate(String key, Object value) throws JSONException {
+    public JSONObject accumulate(@RUntainted String key, @RUntainted Object value) throws JSONException {
 
         testValidity(value);
         Object o = opt(key);
@@ -778,7 +780,7 @@ public class JSONObject {
      * @throws JSONException if the key is null or if the current value
      *  associated with the key is not a JSONArray
      */
-    public JSONObject append(String key, Object value) throws JSONException {
+    public JSONObject append(@RUntainted String key, @RUntainted Object value) throws JSONException {
 
         testValidity(value);
         Object o = opt(key);
@@ -799,7 +801,7 @@ public class JSONObject {
      * @return      the object associated with the key
      * @throws   JSONException if the key is not found
      */
-    public Object get(String key) throws JSONException {
+    public @RUntainted Object get(String key) throws JSONException {
 
         Object o = opt(key);
         if (o == null) {
@@ -834,7 +836,7 @@ public class JSONObject {
      * @throws JSONException if the key is not found or
      *  if the value is not a Number object and cannot be converted to a number
      */
-    public double getDouble(String key) throws JSONException {
+    public @RUntainted double getDouble(String key) throws JSONException {
 
         Object o = get(key);
         try {
@@ -854,7 +856,7 @@ public class JSONObject {
      * @throws   JSONException if the key is not found or if the value cannot
      *  be converted to an integer
      */
-    public int getInt(String key) throws JSONException {
+    public @RUntainted int getInt(String key) throws JSONException {
 
         Object o = get(key);
         return o instanceof Number ? ((Number)o).intValue() : (int)getDouble(key);
@@ -917,7 +919,7 @@ public class JSONObject {
      * @return      a string which is the value
      * @throws   JSONException if the key is not found
      */
-    public String getString(String key) throws JSONException {
+    public @RUntainted String getString(String key) throws JSONException {
 
         return get(key).toString();
     }
@@ -950,7 +952,7 @@ public class JSONObject {
      *
      * @return an iterator of the keys
      */
-    public Iterator<String> keys() {
+    public Iterator<@RUntainted String> keys() {
 
         return m_map.keySet().iterator();
     }
@@ -960,7 +962,7 @@ public class JSONObject {
      *
      * @return the set of keys
      */
-    public Set<String> keySet() {
+    public Set<@RUntainted String> keySet() {
 
         return m_map.keySet();
     }
@@ -988,7 +990,7 @@ public class JSONObject {
      */
     public void merge(JSONObject jo, boolean overwrite, boolean deep) throws JSONException {
 
-        Iterator<String> it = jo.keys();
+        Iterator<@RUntainted String> it = jo.keys();
         while (it.hasNext()) {
             String key = it.next();
             if (!has(key)) {
@@ -1014,7 +1016,7 @@ public class JSONObject {
     public JSONArray names() {
 
         JSONArray ja = new JSONArray();
-        Iterator<String> keys = keys();
+        Iterator<@RUntainted String> keys = keys();
         while (keys.hasNext()) {
             ja.put(keys.next());
         }
@@ -1027,7 +1029,7 @@ public class JSONObject {
      * @param key   a key string
      * @return      an object which is the value, or null if there is no value
      */
-    public Object opt(String key) {
+    public @RUntainted Object opt(String key) {
 
         return key == null ? null : m_map.get(key);
     }
@@ -1210,7 +1212,7 @@ public class JSONObject {
      * @param key   a key string
      * @return      a string which is the value
      */
-    public String optString(String key) {
+    public @RUntainted String optString(String key) {
 
         return optString(key, "");
     }
@@ -1223,7 +1225,7 @@ public class JSONObject {
      * @param defaultValue     the default
      * @return      a string which is the value
      */
-    public String optString(String key, String defaultValue) {
+    public @RUntainted String optString(String key, @RUntainted String defaultValue) {
 
         Object o = opt(key);
         return o != null ? o.toString() : defaultValue;
@@ -1237,7 +1239,7 @@ public class JSONObject {
      * @return this
      * @throws JSONException if the key is null
      */
-    public JSONObject put(String key, boolean value) throws JSONException {
+    public JSONObject put(@RUntainted String key, boolean value) throws JSONException {
 
         put(key, value ? Boolean.TRUE : Boolean.FALSE);
         return this;
@@ -1252,7 +1254,7 @@ public class JSONObject {
      * @return      this
      * @throws JSONException if something goes wrong
      */
-    public JSONObject put(String key, Collection<Object> value) throws JSONException {
+    public JSONObject put(@RUntainted String key, @RUntainted Collection<Object> value) throws JSONException {
 
         put(key, new JSONArray(value));
         return this;
@@ -1266,7 +1268,7 @@ public class JSONObject {
      * @return this
      * @throws JSONException if the key is null or if the number is invalid.
      */
-    public JSONObject put(String key, double value) throws JSONException {
+    public JSONObject put(@RUntainted String key, @RUntainted double value) throws JSONException {
 
         put(key, Double.valueOf(value));
         return this;
@@ -1280,7 +1282,7 @@ public class JSONObject {
      * @return this
      * @throws JSONException if the key is null
      */
-    public JSONObject put(String key, int value) throws JSONException {
+    public JSONObject put(@RUntainted String key, @RUntainted int value) throws JSONException {
 
         put(key, Integer.valueOf(value));
         return this;
@@ -1294,7 +1296,7 @@ public class JSONObject {
      * @return this
      * @throws JSONException If the key is null
      */
-    public JSONObject put(String key, long value) throws JSONException {
+    public JSONObject put(@RUntainted String key, @RUntainted long value) throws JSONException {
 
         put(key, Long.valueOf(value));
         return this;
@@ -1309,7 +1311,7 @@ public class JSONObject {
      * @return      this
      * @throws JSONException if something goes wrong
      */
-    public JSONObject put(String key, Map<String, Object> value) throws JSONException {
+    public JSONObject put(@RUntainted String key, @RUntainted Map<String, Object> value) throws JSONException {
 
         put(key, new JSONObject(value));
         return this;
@@ -1329,7 +1331,7 @@ public class JSONObject {
      * @throws JSONException if the value is non-finite number
      *  or if the key is null.
      */
-    public JSONObject put(String key, Object value) throws JSONException {
+    public JSONObject put(@RUntainted String key, @RUntainted Object value) throws JSONException {
 
         if (key == null) {
             throw new JSONException("Null key.");
@@ -1354,7 +1356,7 @@ public class JSONObject {
      * @return this
      * @throws JSONException if the value is a non-finite number.
      */
-    public JSONObject putOpt(String key, Object value) throws JSONException {
+    public JSONObject putOpt(@RUntainted String key, @RUntainted Object value) throws JSONException {
 
         if ((key != null) && (value != null)) {
             put(key, value);
@@ -1422,7 +1424,7 @@ public class JSONObject {
      *  with <code>}</code>&nbsp;<small>(right brace)</small>.
      */
     @Override
-    public String toString() {
+    public @RUntainted String toString() {
 
         try {
             Iterator<String> keys = keys();
@@ -1476,7 +1478,7 @@ public class JSONObject {
 
         try {
             boolean b = false;
-            Iterator<String> keys = keys();
+            Iterator<@RUntainted String> keys = keys();
             writer.write('{');
 
             while (keys.hasNext()) {
@@ -1517,7 +1519,7 @@ public class JSONObject {
      *  with <code>}</code>&nbsp;<small>(right brace)</small>
      * @throws JSONException if the object contains an invalid number
      */
-    String toString(int indentFactor, int indent) throws JSONException {
+    @RUntainted String toString(int indentFactor, int indent) throws JSONException {
 
         int j;
         int n = length();
@@ -1587,7 +1589,7 @@ public class JSONObject {
      * @param includeSuperClass flag indicating if super class properties should be included
      */
     @SuppressWarnings("unchecked")
-    private void populateInternalMap(Object bean, boolean includeSuperClass) {
+    private void populateInternalMap(@RUntainted Object bean, @RUntainted boolean includeSuperClass) {
 
         Class<?> klass = bean.getClass();
 
@@ -1597,7 +1599,7 @@ public class JSONObject {
             includeSuperClass = false;
         }
 
-        Method[] methods = (includeSuperClass) ? klass.getMethods() : klass.getDeclaredMethods();
+        @RUntainted Method[] methods = (includeSuperClass) ? klass.getMethods() : klass.getDeclaredMethods();
         for (int i = 0; i < methods.length; i += 1) {
             try {
                 Method method = methods[i];

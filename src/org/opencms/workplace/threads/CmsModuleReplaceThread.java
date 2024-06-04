@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Replaces a module.<p>
@@ -72,7 +73,7 @@ public class CmsModuleReplaceThread extends A_CmsReportThread {
      * @param moduleName the name of the module
      * @param zipName the name of the module ZIP file
      */
-    public CmsModuleReplaceThread(CmsObject cms, String moduleName, String zipName) {
+    public CmsModuleReplaceThread(CmsObject cms, @RUntainted String moduleName, String zipName) {
 
         super(cms, Messages.get().getBundle().key(Messages.GUI_REPLACE_MODULE_THREAD_NAME_1, moduleName));
         m_moduleName = moduleName;

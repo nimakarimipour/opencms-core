@@ -56,6 +56,7 @@ import org.apache.commons.logging.Log;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.common.SolrInputDocument;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helping class for manipulating the Solr spellchecker indices.
@@ -125,7 +126,7 @@ public final class CmsSpellcheckDictionaryIndexer {
 
         try {
             // Get all file resources in the default dictionary directory
-            final List<CmsResource> resources = cms.getResourcesInFolder(
+            final List<@RUntainted CmsResource> resources = cms.getResourcesInFolder(
                 DEFAULT_DICTIONARY_DIRECTORY,
                 CmsResourceFilter.DEFAULT_FILES);
 
@@ -176,7 +177,7 @@ public final class CmsSpellcheckDictionaryIndexer {
     public static void parseAndAddZippedDictionaries(SolrClient client, CmsObject cms) {
 
         try {
-            final List<CmsResource> resources = cms.getResourcesInFolder(
+            final List<@RUntainted CmsResource> resources = cms.getResourcesInFolder(
                 DEFAULT_DICTIONARY_DIRECTORY,
                 CmsResourceFilter.DEFAULT_FILES);
 
@@ -334,7 +335,7 @@ public final class CmsSpellcheckDictionaryIndexer {
         long mostRecentDate = Long.MIN_VALUE;
 
         try {
-            final List<CmsResource> resources = cms.getResourcesInFolder(
+            final List<@RUntainted CmsResource> resources = cms.getResourcesInFolder(
                 DEFAULT_DICTIONARY_DIRECTORY,
                 CmsResourceFilter.DEFAULT_FILES);
 
@@ -393,7 +394,7 @@ public final class CmsSpellcheckDictionaryIndexer {
      * Returns the path in the RFS where the Solr spellcheck files reside.
      * @return String representation of Solrs spellcheck RFS path.
      */
-    private static String getSolrSpellcheckRfsPath() {
+    private static @RUntainted String getSolrSpellcheckRfsPath() {
 
         String sPath = OpenCms.getSystemInfo().getWebInfRfsPath();
 

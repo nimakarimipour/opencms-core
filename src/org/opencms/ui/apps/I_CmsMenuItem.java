@@ -30,6 +30,7 @@ package org.opencms.ui.apps;
 import java.util.Locale;
 
 import com.vaadin.ui.Component;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Workplace view menu item.<p>

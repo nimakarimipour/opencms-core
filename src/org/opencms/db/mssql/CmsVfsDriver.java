@@ -28,6 +28,7 @@
 package org.opencms.db.mssql;
 
 import org.opencms.db.generic.CmsSqlManager;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * MS SQL implementation of the VFS driver methods.<p>

@@ -42,6 +42,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Action "Steal lock".<p>
@@ -93,7 +94,7 @@ public class CmsStealLockAction extends A_CmsWorkplaceAction {
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
      */
     @Override
-    protected String getTitleKey() {
+    protected @RUntainted String getTitleKey() {
 
         return "GUI_EXPLORER_CONTEXT_OVERRIDELOCK_0";
     }

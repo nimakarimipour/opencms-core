@@ -32,6 +32,7 @@ import org.opencms.file.CmsResource;
 import org.opencms.main.OpenCms;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Set of workflow resources, and an optional workflow.<p>
@@ -69,7 +70,7 @@ public class CmsWorkflowResources {
      *
      * @return a lower bound for the number of publish resources
      */
-    public int getLowerBoundForSize() {
+    public @RUntainted int getLowerBoundForSize() {
 
         if (m_tooManyCount != null) {
             return m_tooManyCount.intValue();

@@ -28,6 +28,7 @@
 package org.opencms.main;
 
 import org.opencms.file.CmsObject;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides scriptable access to a class from the CmsShell.<p>

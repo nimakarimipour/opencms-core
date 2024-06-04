@@ -49,6 +49,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides methods to show a configurable user agreement dialog after a successful workplace login.<p>
@@ -100,7 +101,7 @@ public class CmsLoginUserAgreement extends CmsDialog {
     private static final Log LOG = CmsLog.getLog(CmsLoginUserAgreement.class);
 
     /** The number of times the user accepted the agreement. */
-    private int m_acceptedCount;
+    private @RUntainted int m_acceptedCount;
 
     /** The version of the user accepted agreement. */
     private double m_acceptedVersion;
@@ -112,7 +113,7 @@ public class CmsLoginUserAgreement extends CmsDialog {
     private String m_paramWpres;
 
     /** The required version of the user accepted agreement. */
-    private double m_requiredVersion;
+    private @RUntainted double m_requiredVersion;
 
     /**
      * Public constructor with JSP action element.<p>
@@ -131,7 +132,7 @@ public class CmsLoginUserAgreement extends CmsDialog {
      * @param req the JSP request
      * @param res the JSP response
      */
-    public CmsLoginUserAgreement(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsLoginUserAgreement(@RUntainted PageContext context, @RUntainted HttpServletRequest req, @RUntainted HttpServletResponse res) {
 
         this(new CmsJspActionElement(context, req, res));
     }
@@ -234,7 +235,7 @@ public class CmsLoginUserAgreement extends CmsDialog {
      *
      * @return the number of times the user accepted the agreement
      */
-    public int getAcceptedCount() {
+    public @RUntainted int getAcceptedCount() {
 
         return m_acceptedCount;
     }
@@ -256,7 +257,7 @@ public class CmsLoginUserAgreement extends CmsDialog {
      *
      * @return the content value of the given path as String
      */
-    public String getConfigurationContentStringValue(String path) {
+    public @RUntainted String getConfigurationContentStringValue(String path) {
 
         if (getConfigurationContent() != null) {
             return getConfigurationContent().getStringValue(getCms(), path, getLocale());
@@ -269,7 +270,7 @@ public class CmsLoginUserAgreement extends CmsDialog {
      *
      * @return the absolute path in the OpenCms VFS to the user agreement configuration file
      */
-    public String getConfigurationVfsPath() {
+    public @RUntainted String getConfigurationVfsPath() {
 
         return VFS_PATH_CONFIGFOLDER + getLocale().toString() + "/configuration.html";
     }
@@ -292,7 +293,7 @@ public class CmsLoginUserAgreement extends CmsDialog {
      *
      * @return the required version of the user accepted agreement
      */
-    public double getRequiredVersion() {
+    public @RUntainted double getRequiredVersion() {
 
         if (m_requiredVersion == 0) {
             String versionStr = getConfigurationContentStringValue(NODE_VERSION);
@@ -366,7 +367,7 @@ public class CmsLoginUserAgreement extends CmsDialog {
      *
      * @param acceptedCount the number of times the user accepted the agreement
      */
-    public void setAcceptedCount(int acceptedCount) {
+    public void setAcceptedCount(@RUntainted int acceptedCount) {
 
         m_acceptedCount = acceptedCount;
     }
@@ -396,7 +397,7 @@ public class CmsLoginUserAgreement extends CmsDialog {
      *
      * @param requiredVersion the required version of the user accepted agreement
      */
-    public void setRequiredVersion(double requiredVersion) {
+    public void setRequiredVersion(@RUntainted double requiredVersion) {
 
         m_requiredVersion = requiredVersion;
     }

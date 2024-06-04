@@ -51,6 +51,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A collector to fetch XML contents in a folder or the current site filtered by one or more given category types.<p>
@@ -101,7 +102,7 @@ public class CmsCategoryResourceCollector extends A_CmsResourceCollector {
         public static final String PARAM_KEY_SUB_TREE = "subTree";
 
         /** The list of category types. */
-        private List<String> m_categoryTypes;
+        private List<@RUntainted String> m_categoryTypes;
 
         /** Indicates if the returned list will be sorted ascending or not (descending). */
         private boolean m_sortAsc;
@@ -133,7 +134,7 @@ public class CmsCategoryResourceCollector extends A_CmsResourceCollector {
          *
          * @return the list of requested categories
          */
-        public List<String> getCategoryTypes() {
+        public List<@RUntainted String> getCategoryTypes() {
 
             return m_categoryTypes;
         }
@@ -295,7 +296,7 @@ public class CmsCategoryResourceCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getCreateLink(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String getCreateLink(CmsObject cms, String collectorName, String param)
+    public @RUntainted String getCreateLink(CmsObject cms, String collectorName, String param)
     throws CmsException, CmsDataAccessException {
 
         // if action is not set, use default action
@@ -316,7 +317,7 @@ public class CmsCategoryResourceCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getCreateParam(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String getCreateParam(CmsObject cms, String collectorName, String param) throws CmsDataAccessException {
+    public @RUntainted String getCreateParam(CmsObject cms, String collectorName, String param) throws CmsDataAccessException {
 
         // if action is not set, use default action
         if (collectorName == null) {
@@ -402,7 +403,7 @@ public class CmsCategoryResourceCollector extends A_CmsResourceCollector {
                 filter = filter.addExcludeTimerange();
             }
 
-            List<CmsResource> resources = cms.readResources(foldername, filter, includeSubTree);
+            List<@RUntainted CmsResource> resources = cms.readResources(foldername, filter, includeSubTree);
             List<String> categoryTypes = data.getCategoryTypes();
             Iterator<CmsResource> itResources = resources.iterator();
             CmsResource resource;

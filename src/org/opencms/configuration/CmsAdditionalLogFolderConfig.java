@@ -28,6 +28,7 @@
 package org.opencms.configuration;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean containing additional log folders available for the log file viewer.<p>
@@ -55,7 +56,7 @@ public class CmsAdditionalLogFolderConfig implements I_CmsConfigurationParameter
     /**
      * @see org.opencms.configuration.I_CmsConfigurationParameterHandler#addConfigurationParameter(java.lang.String, java.lang.String)
      */
-    public void addConfigurationParameter(String paramName, String paramValue) {
+    public void addConfigurationParameter(String paramName, @RUntainted String paramValue) {
 
         m_params.add(paramName, paramValue.trim());
     }
@@ -74,7 +75,7 @@ public class CmsAdditionalLogFolderConfig implements I_CmsConfigurationParameter
      *
      * @return the log folders
      */
-    public List<String> getLogFolders() {
+    public List<@RUntainted String> getLogFolders() {
 
         return m_params.getList(N_LOG_FOLDER);
 

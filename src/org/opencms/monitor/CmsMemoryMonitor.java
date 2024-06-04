@@ -94,6 +94,8 @@ import org.apache.commons.logging.Log;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Monitors OpenCms memory consumption.<p>
@@ -186,13 +188,13 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
     private Map<String, Boolean> m_cacheHasRoles;
 
     /** A cache for accelerated locale lookup. */
-    private Map<String, Locale> m_cacheLocale;
+    private Map<String, @RUntainted Locale> m_cacheLocale;
 
     /** Cache for the resource locks. */
     private Map<String, CmsLock> m_cacheLock;
 
     /** The memory object cache map. */
-    private Map<String, Object> m_cacheMemObject;
+    private Map<String, @RUntainted Object> m_cacheMemObject;
 
     /** Cache for organizational units. */
     private Map<String, CmsOrganizationalUnit> m_cacheOrgUnit;
@@ -201,7 +203,7 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
     private Map<String, I_CmsPermissionHandler.CmsPermissionCheckResult> m_cachePermission;
 
     /** Cache for offline projects. */
-    private Map<String, CmsProject> m_cacheProject;
+    private Map<String, @RUntainted CmsProject> m_cacheProject;
 
     /** Cache for project resources. */
     private Map<String, List<CmsResource>> m_cacheProjectResources;
@@ -249,13 +251,13 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
     private Map<CacheType, Boolean> m_disabled = new HashMap<CacheType, Boolean>();
 
     /** Interval in which emails are send. */
-    private int m_intervalEmail;
+    private @RUntainted int m_intervalEmail;
 
     /** Interval in which the log is written. */
-    private int m_intervalLog;
+    private @RUntainted int m_intervalLog;
 
     /** Interval between 2 warnings. */
-    private int m_intervalWarning;
+    private @RUntainted int m_intervalWarning;
 
     /** The time the caches were last cleared. */
     private long m_lastClearCache;
@@ -273,10 +275,10 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
     private long m_lastLogWarning;
 
     /** The number of times the log entry was written. */
-    private int m_logCount;
+    private @RUntainted int m_logCount;
 
     /** Memory percentage to reach to go to warning level. */
-    private int m_maxUsagePercent;
+    private @RUntainted int m_maxUsagePercent;
 
     /** The average memory status. */
     private CmsMemoryStatus m_memoryAverage;
@@ -285,7 +287,7 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
     private CmsMemoryStatus m_memoryCurrent;
 
     /** Contains the object to be monitored. */
-    private Map<String, Object> m_monitoredObjects;
+    private Map<String, @RUntainted Object> m_monitoredObjects;
 
     /** Buffer for publish history. */
     private Buffer m_publishHistory;
@@ -347,7 +349,7 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
      * @param obj the object
      * @return the size of the object
      */
-    public static int getMemorySize(Object obj) {
+    public static @RPolyTainted int getMemorySize(@RPolyTainted Object obj) {
 
         if (obj instanceof I_CmsMemoryMonitorable) {
             return ((I_CmsMemoryMonitorable)obj).getMemorySize();
@@ -446,7 +448,7 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
      *
      * @return the size of the list object
      */
-    public static long getValueSize(List<?> listValue, int depth) {
+    public static @RUntainted long getValueSize(List<?> listValue, int depth) {
 
         long totalSize = 0;
         try {
@@ -495,7 +497,7 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
      *
      * @return the size of the map object
      */
-    public static long getValueSize(Map<?, ?> mapValue, int depth) {
+    public static @RUntainted long getValueSize(Map<?, ?> mapValue, int depth) {
 
         long totalSize = 0;
         try {
@@ -543,7 +545,7 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
      *
      * @return the value sizes of value objects or "-"-fields
      */
-    public static long getValueSize(Object obj) {
+    public static @RPolyTainted long getValueSize(@RPolyTainted Object obj) {
 
         if (obj instanceof CmsLruCache) {
             return ((CmsLruCache)obj).size();
@@ -612,7 +614,7 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
      * @param key the cache key
      * @param locale the locale to cache
      */
-    public void cacheLocale(String key, Locale locale) {
+    public void cacheLocale(String key, @RUntainted Locale locale) {
 
         if (m_cacheLocale != null) {
             if (m_disabled.get(CacheType.LOCALE) != null) {
@@ -644,7 +646,7 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
      * @param key the cache key
      * @param obj the object to cache
      */
-    public void cacheMemObject(String key, Object obj) {
+    public void cacheMemObject(String key, @RUntainted Object obj) {
 
         if (m_disabled.get(CacheType.MEMORY_OBJECT) != null) {
             return;
@@ -685,7 +687,7 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
      *
      * @param project the project to cache
      */
-    public void cacheProject(CmsProject project) {
+    public void cacheProject(@RUntainted CmsProject project) {
 
         if (m_disabled.get(CacheType.PROJECT) != null) {
             return;
@@ -1497,7 +1499,7 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
      *
      * @return the locale cached with the given cache key
      */
-    public Locale getCachedLocale(String key) {
+    public @RUntainted Locale getCachedLocale(String key) {
 
         if (m_cacheLocale == null) {
             // this may be accessed before initialization
@@ -1525,7 +1527,7 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
      *
      * @return the memory object cached with the given cache key
      */
-    public Object getCachedMemObject(String key) {
+    public @RUntainted Object getCachedMemObject(String key) {
 
         return m_cacheMemObject.get(key);
     }
@@ -1561,7 +1563,7 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
      *
      * @return the project cached with the given cache key
      */
-    public CmsProject getCachedProject(String key) {
+    public @RUntainted CmsProject getCachedProject(String key) {
 
         return m_cacheProject.get(key);
     }
@@ -1894,7 +1896,7 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
             } else {
                 CmsLog.INIT.info(
                     Messages.get().getBundle().key(Messages.LOG_MM_EMAIL_SENDER_1, m_configuration.getEmailSender()));
-                Iterator<String> i = m_configuration.getEmailReceiver().iterator();
+                Iterator<@RUntainted String> i = m_configuration.getEmailReceiver().iterator();
                 int n = 0;
                 while (i.hasNext()) {
                     CmsLog.INIT.info(
@@ -2393,7 +2395,7 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
      *
      * @return the cache costs or "-"
      */
-    protected long getCosts(Object obj) {
+    protected @RUntainted long getCosts(Object obj) {
 
         long costs = 0;
         if (obj instanceof CmsLruCache) {
@@ -2486,7 +2488,7 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
      *
      * @return the total size of key strings
      */
-    protected long getKeySize(Object obj) {
+    protected @RUntainted long getKeySize(Object obj) {
 
         if (obj instanceof Map) {
             return getKeySize((Map<?, ?>)obj, 1);
@@ -2773,7 +2775,7 @@ public class CmsMemoryMonitor implements I_CmsScheduledJob {
             }
             sm = null;
 
-            for (Iterator<String> i = OpenCms.getSqlManager().getDbPoolUrls().iterator(); i.hasNext();) {
+            for (Iterator<@RUntainted String> i = OpenCms.getSqlManager().getDbPoolUrls().iterator(); i.hasNext();) {
                 String poolname = i.next();
                 try {
                     LOG.info(

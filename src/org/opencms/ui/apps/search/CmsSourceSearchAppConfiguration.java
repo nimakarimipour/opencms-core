@@ -37,6 +37,7 @@ import org.opencms.ui.apps.Messages;
 import java.util.Locale;
 
 import com.vaadin.server.Resource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The source search app configuration.<p>

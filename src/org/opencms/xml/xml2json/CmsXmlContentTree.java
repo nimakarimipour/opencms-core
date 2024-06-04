@@ -47,6 +47,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Tree representation of CmsXmlContent which is suitable for XML-to-JSON transformations.
@@ -103,7 +104,7 @@ public class CmsXmlContentTree {
          *
          * @return the field name
          */
-        public String getName() {
+        public @RUntainted String getName() {
 
             return m_fieldDef.getName();
         }

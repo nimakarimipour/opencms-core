@@ -34,6 +34,7 @@ import org.opencms.file.CmsObject;
 import org.opencms.xml.content.CmsXmlContentProperty;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Subclass for user-defined preferences.<p>
@@ -84,7 +85,7 @@ public class CmsUserDefinedPreference extends A_CmsPreference {
     /**
      * @see org.opencms.configuration.preferences.I_CmsPreference#getDefaultValue()
      */
-    public String getDefaultValue() {
+    public @RUntainted String getDefaultValue() {
 
         return m_preferenceData.getDefaultValue();
     }
@@ -125,7 +126,7 @@ public class CmsUserDefinedPreference extends A_CmsPreference {
     /**
      * @see org.opencms.configuration.preferences.I_CmsPreference#setValue(org.opencms.configuration.CmsDefaultUserSettings, java.lang.String)
      */
-    public void setValue(CmsDefaultUserSettings settings, String value) {
+    public void setValue(CmsDefaultUserSettings settings, @RUntainted String value) {
 
         settings.setAdditionalPreference(getName(), value);
     }

@@ -48,6 +48,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Basic implementation of the interface {@link I_CmsNewsletter}.
@@ -59,7 +60,7 @@ public class CmsNewsletter implements I_CmsNewsletter {
     private static final Log LOG = CmsLog.getLog(CmsNewsletter.class);
 
     /** The attachments, a list of {@link org.opencms.file.CmsResource} objects. */
-    private List<CmsResource> m_attachments;
+    private List<@RUntainted CmsResource> m_attachments;
 
     /** The contents, a list of {@link I_CmsNewsletterContent} objects. */
     private List<I_CmsNewsletterContent> m_contents;
@@ -123,7 +124,7 @@ public class CmsNewsletter implements I_CmsNewsletter {
                 // we need to create a HTML mail
                 CmsHtmlMail htmlMail = new CmsHtmlMail();
                 htmlMail.setHtmlMsg(replaceMacros(htmlMsg.toString(), recipient));
-                Iterator<CmsResource> attachments = m_attachments.iterator();
+                Iterator<@RUntainted CmsResource> attachments = m_attachments.iterator();
                 while (attachments.hasNext()) {
                     CmsResource resource = attachments.next();
                     // set the description of the attachment either to the
@@ -177,7 +178,7 @@ public class CmsNewsletter implements I_CmsNewsletter {
      *
      * @return the message with the macros replaced
      */
-    private String replaceMacros(String msg, I_CmsNewsletterRecipient recipient) {
+    private String replaceMacros(@RUntainted String msg, I_CmsNewsletterRecipient recipient) {
 
         CmsMacroResolver resolver = CmsMacroResolver.newInstance();
         resolver.addMacro(MACRO_USER_FIRSTNAME, recipient.getFirstname());

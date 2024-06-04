@@ -49,6 +49,7 @@ import org.xhtmlrenderer.resource.ImageResource;
 import org.xhtmlrenderer.swing.NaiveUserAgent;
 
 import com.lowagie.text.Image;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class is responsible for loading external resources while generating PDF from XHTML.

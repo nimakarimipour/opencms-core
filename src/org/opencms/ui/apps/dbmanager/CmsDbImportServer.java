@@ -35,6 +35,7 @@ import org.opencms.workplace.threads.CmsDatabaseImportThread;
 import com.vaadin.ui.Button;
 import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.ComboBox;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the import from server option.<p>
@@ -54,7 +55,7 @@ public class CmsDbImportServer extends A_CmsServerImportForm {
     private Button m_ok;
 
     /**vaadin component.*/
-    private ComboBox m_siteSelect;
+    private @RUntainted ComboBox m_siteSelect;
 
     /**vaadin component.*/
     private ComboBox m_projectSelect;
@@ -128,7 +129,7 @@ public class CmsDbImportServer extends A_CmsServerImportForm {
      * @see org.opencms.ui.apps.dbmanager.A_CmsImportForm#getSiteSelector()
      */
     @Override
-    protected ComboBox getSiteSelector() {
+    protected @RUntainted ComboBox getSiteSelector() {
 
         return m_siteSelect;
     }

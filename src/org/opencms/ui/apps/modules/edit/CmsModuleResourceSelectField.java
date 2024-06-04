@@ -54,6 +54,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.v7.data.Item;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.IndexedContainer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A widget for selecting a module resource.<p>
@@ -89,7 +90,7 @@ public class CmsModuleResourceSelectField extends CmsPathSelectField {
      * @see org.opencms.ui.components.fileselect.A_CmsFileSelectField#setCmsObject(org.opencms.file.CmsObject)
      */
     @Override
-    public void setCmsObject(CmsObject cms) {
+    public void setCmsObject(@RUntainted CmsObject cms) {
 
         m_cms = cms;
     }
@@ -99,7 +100,7 @@ public class CmsModuleResourceSelectField extends CmsPathSelectField {
      *
      * @param siteRoot the site root
      */
-    public void updateSite(String siteRoot) {
+    public void updateSite(@RUntainted String siteRoot) {
 
         try {
             CmsObject cloneCms = OpenCms.initCmsObject(m_cms);

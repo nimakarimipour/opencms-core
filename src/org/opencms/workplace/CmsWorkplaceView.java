@@ -26,6 +26,7 @@
  */
 
 package org.opencms.workplace;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains the data of a single workplace view.<p>
@@ -108,7 +109,7 @@ public class CmsWorkplaceView implements Comparable<CmsWorkplaceView> {
      *
      * @return the uri
      */
-    public String getUri() {
+    public @RUntainted String getUri() {
 
         return m_uri;
     }

@@ -29,6 +29,7 @@ package org.opencms.ui.components;
 
 import com.vaadin.v7.data.Validator;
 import com.vaadin.v7.event.FieldEvents.TextChangeListener;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * File table inline edit handler.<p>
@@ -45,7 +46,7 @@ public interface I_CmsFilePropertyEditHandler extends Validator, TextChangeListe
      *
      * @param value the value to save
      */
-    void save(String value);
+    void save(@RUntainted String value);
 
     /**
      * Starts the edit process.<p>

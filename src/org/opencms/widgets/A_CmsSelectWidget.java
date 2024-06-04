@@ -41,6 +41,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Base class for select widgets.<p>
@@ -94,7 +95,7 @@ public abstract class A_CmsSelectWidget extends A_CmsWidget implements I_CmsADEW
      *
      * @see CmsSelectWidgetOption
      */
-    public A_CmsSelectWidget(String configuration) {
+    public A_CmsSelectWidget(@RUntainted String configuration) {
 
         super(configuration);
     }
@@ -116,7 +117,7 @@ public abstract class A_CmsSelectWidget extends A_CmsWidget implements I_CmsADEW
      * @see org.opencms.widgets.A_CmsWidget#getConfiguration()
      */
     @Override
-    public String getConfiguration() {
+    public @RUntainted String getConfiguration() {
 
         if (super.getConfiguration() != null) {
             return super.getConfiguration();
@@ -206,7 +207,7 @@ public abstract class A_CmsSelectWidget extends A_CmsWidget implements I_CmsADEW
      * @see org.opencms.widgets.A_CmsWidget#setConfiguration(java.lang.String)
      */
     @Override
-    public void setConfiguration(String configuration) {
+    public void setConfiguration(@RUntainted String configuration) {
 
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(configuration)) {
             int heightIndex = configuration.indexOf(CONFIGURATION_HEIGHT);

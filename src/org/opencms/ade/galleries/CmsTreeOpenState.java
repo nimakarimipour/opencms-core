@@ -31,6 +31,7 @@ import org.opencms.util.CmsUUID;
 
 import java.io.Serializable;
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The tree open state of a gallery tree tab.<p>

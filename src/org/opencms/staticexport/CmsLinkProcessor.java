@@ -50,6 +50,8 @@ import org.htmlparser.tags.LinkTag;
 import org.htmlparser.tags.ObjectTag;
 import org.htmlparser.util.ParserException;
 import org.htmlparser.util.SimpleNodeIterator;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Implements the HTML parser node visitor pattern to
@@ -216,7 +218,7 @@ public class CmsLinkProcessor extends CmsHtmlParser {
      *
      * @throws ParserException if something goes wrong
      */
-    public String processLinks(String content) throws ParserException {
+    public @RUntainted String processLinks(String content) throws ParserException {
 
         m_mode = PROCESS_LINKS;
         return process(content, m_encoding);
@@ -311,7 +313,7 @@ public class CmsLinkProcessor extends CmsHtmlParser {
      * @param attr the attribute
      * @param type the link type
      */
-    protected void processLink(Tag tag, String attr, CmsRelationType type) {
+    protected void processLink(@RUntainted Tag tag, @RUntainted String attr, CmsRelationType type) {
 
         if (tag.getAttribute(attr) == null) {
             return;
@@ -459,7 +461,7 @@ public class CmsLinkProcessor extends CmsHtmlParser {
      *
      * @return the restored URI
      */
-    private String rewriteUri(String internalUri) {
+    private @RUntainted String rewriteUri(@RUntainted String internalUri) {
 
         // if an object wrapper is used, rewrite the uri
         if (m_cms != null) {

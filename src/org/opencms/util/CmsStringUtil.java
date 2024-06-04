@@ -68,6 +68,8 @@ import com.cybozu.labs.langdetect.Detector;
 import com.cybozu.labs.langdetect.DetectorFactory;
 import com.cybozu.labs.langdetect.LangDetectException;
 import com.google.common.base.Optional;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides String utility functions.<p>
@@ -304,7 +306,7 @@ public final class CmsStringUtil {
      *
      * @return the string representation for the given collection
      */
-    public static String collectionAsString(Collection<?> collection, String separator) {
+    public static @RUntainted String collectionAsString(Collection<?> collection, String separator) {
 
         StringBuffer string = new StringBuffer(128);
         Iterator<?> it = collection.iterator();
@@ -403,7 +405,7 @@ public final class CmsStringUtil {
      *
      * @return the escaped String
      */
-    public static String escapeJavaScript(String source) {
+    public static @RPolyTainted String escapeJavaScript(@RPolyTainted String source) {
 
         source = CmsStringUtil.substitute(source, "\\", "\\\\");
         source = CmsStringUtil.substitute(source, "\"", "\\\"");
@@ -671,7 +673,7 @@ public final class CmsStringUtil {
      *
      * @return the formatted runtime
      */
-    public static String formatRuntime(long runtime) {
+    public static @RUntainted String formatRuntime(long runtime) {
 
         long seconds = (runtime / SECONDS) % 60;
         long minutes = (runtime / MINUTES) % 60;
@@ -718,7 +720,7 @@ public final class CmsStringUtil {
      *
      * @return the int value for the given parameter value String
      */
-    public static Color getColorValue(String value, Color defaultValue, String key) {
+    public static Color getColorValue(@RUntainted String value, Color defaultValue, @RUntainted String key) {
 
         Color result;
         try {
@@ -775,7 +777,7 @@ public final class CmsStringUtil {
      *
      * @return the Ethernet-Address
      */
-    public static String getEthernetAddress() {
+    public static @RUntainted String getEthernetAddress() {
 
         try {
             InetAddress ip = InetAddress.getLocalHost();
@@ -806,7 +808,7 @@ public final class CmsStringUtil {
      *
      * @return the int value for the given parameter value String
      */
-    public static int getIntValue(String value, int defaultValue, String key) {
+    public static @RPolyTainted int getIntValue(@RUntainted String value, @RPolyTainted int defaultValue, @RUntainted String key) {
 
         int result;
         try {
@@ -831,7 +833,7 @@ public final class CmsStringUtil {
      *
      * @return the closest int value for the given parameter value String
      */
-    public static int getIntValueRounded(String value, int defaultValue, String key) {
+    public static @RPolyTainted int getIntValueRounded(@RUntainted String value, @RPolyTainted int defaultValue, @RUntainted String key) {
 
         int result;
         try {
@@ -860,7 +862,7 @@ public final class CmsStringUtil {
      *
      * @see #getLocaleSuffixForName(String)
      */
-    public static Locale getLocaleForName(String name) {
+    public static @RPolyTainted Locale getLocaleForName(@RPolyTainted String name) {
 
         String suffix = getLocaleSuffixForName(CmsResource.getName(name));
         if (suffix != null) {
@@ -880,7 +882,7 @@ public final class CmsStringUtil {
      *
      * @return the detected locale for the given text
      */
-    public static Locale getLocaleForText(String text) {
+    public static @RUntainted Locale getLocaleForText(String text) {
 
         // try to detect locale by language detector
         if (isNotEmptyOrWhitespaceOnly(text)) {
@@ -923,7 +925,7 @@ public final class CmsStringUtil {
      *
      * @return the locale suffix if found, <code>null</code> otherwise
      */
-    public static String getLocaleSuffixForName(String name) {
+    public static @RPolyTainted String getLocaleSuffixForName(@RPolyTainted String name) {
 
         Matcher matcher = PATTERN_LOCALE_SUFFIX.matcher(name);
         if (matcher.find()) {
@@ -943,7 +945,7 @@ public final class CmsStringUtil {
      *
      * @return the long value for the given parameter value String
      */
-    public static long getLongValue(String value, long defaultValue, String key) {
+    public static long getLongValue(@RUntainted String value, long defaultValue, @RUntainted String key) {
 
         long result;
         try {
@@ -968,9 +970,9 @@ public final class CmsStringUtil {
      *
      * @return the list of non-empty path components
      */
-    public static List<String> getPathComponents(String path) {
+    public static List<@RUntainted String> getPathComponents(String path) {
 
-        List<String> result = CmsStringUtil.splitAsList(path, "/");
+        List<@RUntainted String> result = CmsStringUtil.splitAsList(path, "/");
         Iterator<String> iter = result.iterator();
         while (iter.hasNext()) {
             String token = iter.next();
@@ -1207,7 +1209,7 @@ public final class CmsStringUtil {
      *
      * @return the joined path
      */
-    public static String joinPaths(String... paths) {
+    public static @RUntainted String joinPaths(String... paths) {
 
         StringBuffer result = new StringBuffer(paths.length * 32);
         boolean noSlash = true;
@@ -1286,7 +1288,7 @@ public final class CmsStringUtil {
      *
      * @return the string representation for the given map
      */
-    public static String listAsString(List<?> list, String separator) {
+    public static @RUntainted String listAsString(List<?> list, String separator) {
 
         StringBuffer string = new StringBuffer(128);
         Iterator<?> it = list.iterator();
@@ -1305,10 +1307,10 @@ public final class CmsStringUtil {
      * @param map the input map
      * @return the JSON data containing the map entries
      */
-    public static String mapAsJson(Map<String, String> map) {
+    public static String mapAsJson(Map<@RUntainted String, @RUntainted String> map) {
 
         JSONObject obj = new JSONObject();
-        for (Map.Entry<String, String> entry : map.entrySet()) {
+        for (Map.Entry<@RUntainted String, @RUntainted String> entry : map.entrySet()) {
             try {
                 obj.put(entry.getKey(), entry.getValue());
             } catch (JSONException e) {
@@ -1473,7 +1475,7 @@ public final class CmsStringUtil {
      *
      * @return an Optional containing either the string with the replaced prefix, or an absent value if the prefix could not be replaced
      */
-    public static Optional<String> replacePrefix(String text, String origPrefix, String newPrefix, boolean ignoreCase) {
+    public static Optional<@RPolyTainted String> replacePrefix(@RPolyTainted String text, @RPolyTainted String origPrefix, @RPolyTainted String newPrefix, boolean ignoreCase) {
 
         String prefixTestString = ignoreCase ? text.toLowerCase() : text;
         origPrefix = ignoreCase ? origPrefix.toLowerCase() : origPrefix;
@@ -1495,7 +1497,7 @@ public final class CmsStringUtil {
      */
     public static String[] splitAsArray(String source, char delimiter) {
 
-        List<String> result = splitAsList(source, delimiter);
+        List<@RUntainted String> result = splitAsList(source, delimiter);
         return result.toArray(new String[result.size()]);
     }
 
@@ -1510,7 +1512,7 @@ public final class CmsStringUtil {
      */
     public static String[] splitAsArray(String source, String delimiter) {
 
-        List<String> result = splitAsList(source, delimiter);
+        List<@RUntainted String> result = splitAsList(source, delimiter);
         return result.toArray(new String[result.size()]);
     }
 
@@ -1523,7 +1525,7 @@ public final class CmsStringUtil {
      *
      * @return the List of splitted Substrings
      */
-    public static List<String> splitAsList(String source, char delimiter) {
+    public static List<@RUntainted String> splitAsList(String source, char delimiter) {
 
         return splitAsList(source, delimiter, false);
     }
@@ -1538,9 +1540,9 @@ public final class CmsStringUtil {
      *
      * @return the List of splitted Substrings
      */
-    public static List<String> splitAsList(String source, char delimiter, boolean trim) {
+    public static List<@RUntainted String> splitAsList(String source, char delimiter, boolean trim) {
 
-        List<String> result = new ArrayList<String>();
+        List<@RUntainted String> result = new ArrayList<@RUntainted String>();
         int i = 0;
         int l = source.length();
         int n = source.indexOf(delimiter);
@@ -1571,7 +1573,7 @@ public final class CmsStringUtil {
      *
      * @return the Array of splitted Substrings
      */
-    public static List<String> splitAsList(String source, String delimiter) {
+    public static @RUntainted List<@RUntainted String> splitAsList(String source, String delimiter) {
 
         return splitAsList(source, delimiter, false);
     }
@@ -1586,7 +1588,7 @@ public final class CmsStringUtil {
      *
      * @return the Array of splitted Substrings
      */
-    public static List<String> splitAsList(String source, String delimiter, boolean trim) {
+    public static List<@RUntainted String> splitAsList(@RUntainted String source, @RUntainted String delimiter, boolean trim) {
 
         int dl = delimiter.length();
         if (dl == 1) {
@@ -1594,7 +1596,7 @@ public final class CmsStringUtil {
             return splitAsList(source, delimiter.charAt(0), trim);
         }
 
-        List<String> result = new ArrayList<String>();
+        List<@RUntainted String> result = new ArrayList<@RUntainted String>();
         int i = 0;
         int l = source.length();
         int n = source.indexOf(delimiter);
@@ -1626,7 +1628,7 @@ public final class CmsStringUtil {
      *
      * @return a map of splitted key-value pairs
      */
-    public static Map<String, String> splitAsMap(String source, String paramDelim, String keyValDelim) {
+    public static @RUntainted Map<@RUntainted String, @RUntainted String> splitAsMap(String source, String paramDelim, String keyValDelim) {
 
         int keyValLen = keyValDelim.length();
         // use LinkedHashMap to preserve the order of items
@@ -1761,7 +1763,7 @@ public final class CmsStringUtil {
      *
      * @return the transformed string
      */
-    public static String substitute(Pattern pattern, String text, I_CmsRegexSubstitution sub) {
+    public static @RUntainted String substitute(@RUntainted Pattern pattern, @RUntainted String text, I_CmsRegexSubstitution sub) {
 
         if (text == null) {
             return null;
@@ -1810,7 +1812,7 @@ public final class CmsStringUtil {
      *
      * @return the substituted String
      */
-    public static String substitute(String source, String searchString, String replaceString) {
+    public static @RPolyTainted String substitute(@RPolyTainted String source, @RPolyTainted String searchString, @RPolyTainted String replaceString) {
 
         if (source == null) {
             return null;
@@ -1888,7 +1890,7 @@ public final class CmsStringUtil {
      *
      * @return String the substituted String
      */
-    public static String substitutePerl(String content, String searchString, String replaceItem, String occurences) {
+    public static String substitutePerl(String content, @RUntainted String searchString, @RUntainted String replaceItem, @RUntainted String occurences) {
 
         String translationRule = "s#" + searchString + "#" + replaceItem + "#" + occurences;
         Perl5Util perlUtil = new Perl5Util();
@@ -1945,7 +1947,7 @@ public final class CmsStringUtil {
      *
      * @return the new value with the filled place holder with the information in the parameter value
      */
-    public static String transformValues(String oldFormat, String newFormat, String value) {
+    public static @RPolyTainted String transformValues(String oldFormat, @RPolyTainted String newFormat, @RPolyTainted String value) {
 
         if (!oldFormat.contains(CmsStringUtil.PLACEHOLDER_START)
             || !oldFormat.contains(CmsStringUtil.PLACEHOLDER_END)
@@ -2218,7 +2220,7 @@ public final class CmsStringUtil {
      * @param path the path to translate
      * @return the translated path
      */
-    public static String translatePathComponents(CmsResourceTranslator translator, String path) {
+    public static String translatePathComponents(CmsResourceTranslator translator, @RUntainted String path) {
 
         String result = substitute(NOT_SLASHES, path, (text, matcher) -> {
             return translator.translateResource(matcher.group());

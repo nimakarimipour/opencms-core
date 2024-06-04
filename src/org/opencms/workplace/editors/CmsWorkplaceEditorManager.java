@@ -56,6 +56,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The editor manager stores information about all available configured editors in OpenCms.<p>
@@ -148,7 +149,7 @@ public class CmsWorkplaceEditorManager {
      *
      * @return false if for some fields the new Acacia widgets are not available
      */
-    public static boolean checkAcaciaEditorAvailable(CmsObject cms, CmsResource resource) {
+    public static boolean checkAcaciaEditorAvailable(CmsObject cms, @RUntainted CmsResource resource) {
 
         boolean result = false;
         if (resource == null) {
@@ -248,7 +249,7 @@ public class CmsWorkplaceEditorManager {
      *
      * @return the editor parameter value
      */
-    public String getEditorParameter(CmsObject cms, String editor, String param) {
+    public @RUntainted String getEditorParameter(CmsObject cms, String editor, String param) {
 
         String path = OpenCms.getSystemInfo().getConfigFilePath(cms, "editors/" + editor + ".properties");
         CmsVfsMemoryObjectCache cache = CmsVfsMemoryObjectCache.getVfsMemoryObjectCache();

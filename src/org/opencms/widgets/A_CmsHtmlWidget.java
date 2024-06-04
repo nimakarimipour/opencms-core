@@ -32,6 +32,7 @@ import org.opencms.i18n.CmsEncoder;
 import org.opencms.util.CmsMacroResolver;
 
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a widget that creates a rich input field using the matching component, for use on a widget dialog.<p>
@@ -56,7 +57,7 @@ public abstract class A_CmsHtmlWidget extends A_CmsWidget {
      *
      * @param configuration the configuration to use
      */
-    public A_CmsHtmlWidget(String configuration) {
+    public A_CmsHtmlWidget(@RUntainted String configuration) {
 
         super(configuration);
     }
@@ -65,7 +66,7 @@ public abstract class A_CmsHtmlWidget extends A_CmsWidget {
      * @see org.opencms.widgets.A_CmsWidget#getConfiguration()
      */
     @Override
-    public String getConfiguration() {
+    public @RUntainted String getConfiguration() {
 
         return super.getConfiguration();
     }
@@ -92,7 +93,7 @@ public abstract class A_CmsHtmlWidget extends A_CmsWidget {
      * @see org.opencms.widgets.I_CmsWidget#setConfiguration(java.lang.String)
      */
     @Override
-    public void setConfiguration(String configuration) {
+    public void setConfiguration(@RUntainted String configuration) {
 
         super.setConfiguration(configuration);
     }

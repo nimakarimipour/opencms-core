@@ -40,6 +40,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class represents the changes which can be made to formatters in a sitemap configuration file.<p>
@@ -94,8 +95,8 @@ public class CmsFormatterChangeSet implements Cloneable {
      * @param functionsToRemove the set of functions to remove
      */
     public CmsFormatterChangeSet(
-        Collection<String> toRemove,
-        Collection<String> toAdd,
+        Collection<@RUntainted String> toRemove,
+        Collection<@RUntainted String> toAdd,
         String siteRoot,
         boolean removeAllNonExplicitlyAdded,
         boolean removeFunctions,
@@ -235,8 +236,8 @@ public class CmsFormatterChangeSet implements Cloneable {
      * @param removeAllNonExplicitlyAdded flag, indicating if all formatters that are not explicitly added should be removed
      */
     private void initialize(
-        Collection<String> toRemove,
-        Collection<String> toAdd,
+        Collection<@RUntainted String> toRemove,
+        Collection<@RUntainted String> toAdd,
         String siteRoot,
         boolean removeAllNonExplicitlyAdded) {
 

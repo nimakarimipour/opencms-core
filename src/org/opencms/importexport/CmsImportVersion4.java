@@ -66,6 +66,7 @@ import org.apache.commons.logging.Log;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.Node;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the OpenCms Import Interface ({@link org.opencms.importexport.I_CmsImport}) for
@@ -89,7 +90,7 @@ public class CmsImportVersion4 extends A_CmsImport {
     private static final Log LOG = CmsLog.getLog(CmsImportVersion4.class);
 
     /** Stores all resource of type that implements the {@link I_CmsLinkParseable} interface. */
-    private List<CmsResource> m_parseables;
+    private List<@RUntainted CmsResource> m_parseables;
 
     /**
      * Creates a new CmsImportVerion4 object.<p>
@@ -192,7 +193,7 @@ public class CmsImportVersion4 extends A_CmsImport {
         String lastname,
         String email,
         long dateCreated,
-        Map<String, Object> userInfo,
+        Map<String, @RUntainted Object> userInfo,
         List<String> userGroups)
     throws CmsImportExportException {
 
@@ -222,7 +223,7 @@ public class CmsImportVersion4 extends A_CmsImport {
         m_report.println(Messages.get().container(Messages.RPT_START_PARSE_LINKS_0), I_CmsReport.FORMAT_HEADLINE);
 
         int i = 0;
-        Iterator<CmsResource> it = m_parseables.iterator();
+        Iterator<@RUntainted CmsResource> it = m_parseables.iterator();
         while (it.hasNext()) {
             CmsResource res = it.next();
 
@@ -274,7 +275,7 @@ public class CmsImportVersion4 extends A_CmsImport {
      * @param timestamp timestamp to convert
      * @return long value of the timestamp
      */
-    private long convertTimestamp(String timestamp) {
+    private @RUntainted long convertTimestamp(@RUntainted String timestamp) {
 
         long value = 0;
         // try to parse the timestamp string
@@ -311,18 +312,18 @@ public class CmsImportVersion4 extends A_CmsImport {
      *
      * @return imported resource
      */
-    private CmsResource importResource(
+    private @RUntainted CmsResource importResource(
         String source,
-        String destination,
+        @RUntainted String destination,
         I_CmsResourceType type,
-        String uuidresource,
-        long datelastmodified,
+        @RUntainted String uuidresource,
+        @RUntainted long datelastmodified,
         String userlastmodified,
-        long datecreated,
+        @RUntainted long datecreated,
         String usercreated,
-        long datereleased,
-        long dateexpired,
-        String flags,
+        @RUntainted long datereleased,
+        @RUntainted long dateexpired,
+        @RUntainted String flags,
         List<CmsProperty> properties) {
 
         byte[] content = null;
@@ -422,8 +423,8 @@ public class CmsImportVersion4 extends A_CmsImport {
         flags = null, timestamp = null;
         long datelastmodified = 0, datecreated = 0, datereleased = 0, dateexpired = 0;
 
-        List<Node> fileNodes = null;
-        List<Node> acentryNodes = null;
+        List<@RUntainted Node> fileNodes = null;
+        List<@RUntainted Node> acentryNodes = null;
         Element currentElement = null, currentEntry = null;
         List<CmsProperty> properties = null;
 

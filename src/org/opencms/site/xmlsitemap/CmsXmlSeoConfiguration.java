@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Configuration bean which represents the options which are configurable from a 'seo-file' resource.<p>
@@ -185,7 +186,7 @@ public class CmsXmlSeoConfiguration {
      *
      * @throws CmsException if something goes wrong
      */
-    public void load(CmsObject cms, CmsResource resource) throws CmsException {
+    public void load(CmsObject cms, @RUntainted CmsResource resource) throws CmsException {
 
         CmsFile file = cms.readFile(resource);
         CmsObject rootCms = OpenCms.initCmsObject(cms);

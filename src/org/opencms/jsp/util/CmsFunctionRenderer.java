@@ -60,6 +60,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class used for rendering dynamic functions (v2).<p>
@@ -73,7 +74,7 @@ public class CmsFunctionRenderer {
     private CmsObject m_cms;
 
     /** The page context. */
-    private PageContext m_context;
+    private @RUntainted PageContext m_context;
 
     /** The JSP context bean. */
     private CmsJspStandardContextBean m_contextBean;
@@ -82,10 +83,10 @@ public class CmsFunctionRenderer {
     private CmsContainerElementBean m_element;
 
     /** The request. */
-    private HttpServletRequest m_request;
+    private @RUntainted HttpServletRequest m_request;
 
     /** The response. */
-    private HttpServletResponse m_response;
+    private @RUntainted HttpServletResponse m_response;
 
     /**
      * Constructor.<p>
@@ -94,7 +95,7 @@ public class CmsFunctionRenderer {
      * @param req the request
      * @param res the response
      */
-    public CmsFunctionRenderer(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsFunctionRenderer(@RUntainted PageContext context, @RUntainted HttpServletRequest req, @RUntainted HttpServletResponse res) {
 
         m_context = context;
         m_request = req;

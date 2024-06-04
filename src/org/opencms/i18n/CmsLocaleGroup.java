@@ -52,6 +52,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents a group of resources which are locale variants of each other.<p>
@@ -135,7 +136,7 @@ public class CmsLocaleGroup {
      *
      * @return the map of resources by locale
      */
-    public Map<Locale, CmsResource> getResourcesByLocale() {
+    public Map<@RUntainted Locale, CmsResource> getResourcesByLocale() {
 
         List<CmsResource> resources = Lists.newArrayList();
         resources.add(m_primaryResource);
@@ -213,7 +214,7 @@ public class CmsLocaleGroup {
         if (m_noTranslation == null) {
             return false;
         }
-        List<Locale> noTranslationLocales = CmsLocaleManager.getLocales(m_noTranslation);
+        List<@RUntainted Locale> noTranslationLocales = CmsLocaleManager.getLocales(m_noTranslation);
         for (Locale locale : noTranslationLocales) {
             if (locales.contains(locale)) {
                 return true;

@@ -32,6 +32,7 @@ import org.opencms.file.CmsObject;
 import org.opencms.xml.content.CmsXmlContentProperty;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper used for built-in preferene which have also been configured in opencms-workplace.xml.<p>
@@ -70,7 +71,7 @@ public class CmsWrapperPreference implements I_CmsPreference {
     /**
      * @see org.opencms.configuration.preferences.I_CmsPreference#getDefaultValue()
      */
-    public String getDefaultValue() {
+    public @RUntainted String getDefaultValue() {
 
         return firstNotNull(m_prefData.getDefaultValue(), m_wrappedPreference.getDefaultValue());
     }
@@ -149,7 +150,7 @@ public class CmsWrapperPreference implements I_CmsPreference {
      *
      * @return the first non-null value
      */
-    String firstNotNull(String a, String b) {
+    @RUntainted String firstNotNull(String a, String b) {
 
         return a != null ? a : b;
     }

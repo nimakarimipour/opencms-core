@@ -120,6 +120,7 @@ import com.vaadin.v7.ui.Upload.Receiver;
 import com.vaadin.v7.ui.Upload.SucceededEvent;
 import com.vaadin.v7.ui.Upload.SucceededListener;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the Form to edit or add a site.<p>
@@ -181,7 +182,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
         /**
          * @see com.vaadin.v7.data.Validator#validate(java.lang.Object)
          */
-        public void validate(Object value) throws InvalidValueException {
+        public void validate(@RUntainted Object value) throws InvalidValueException {
 
             String enteredServer = (String)value;
             if (enteredServer == null) {
@@ -261,7 +262,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
         /**
          * @see com.vaadin.data.Validator#validate(java.lang.Object)
          */
-        public void validate(Object value) throws InvalidValueException {
+        public void validate(@RUntainted Object value) throws InvalidValueException {
 
             String enteredName = (String)value;
             if (FORBIDDEN_FOLDER_NAMES.contains(enteredName)) {
@@ -432,7 +433,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
         /**
          * @see com.vaadin.data.Validator#validate(java.lang.Object)
          */
-        public void validate(Object value) throws InvalidValueException {
+        public void validate(@RUntainted Object value) throws InvalidValueException {
 
             String enteredServer = (String)value;
             if (enteredServer.isEmpty()) {
@@ -457,7 +458,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
          * @see com.vaadin.v7.data.Validator#validate(java.lang.Object)
          */
         @Deprecated
-        public void validate(Object value) throws InvalidValueException {
+        public void validate(@RUntainted Object value) throws InvalidValueException {
 
             CmsSite parentSite = m_manager.getElement(CmsFileUtil.removeTrailingSeparator((String)value));
             if (parentSite != null) {
@@ -588,7 +589,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
     Set<CmsSiteMatcher> m_alreadyUsedURL = new HashSet<CmsSiteMatcher>();
 
     /**cloned cms obejct.*/
-    CmsObject m_clonedCms;
+    @RUntainted CmsObject m_clonedCms;
 
     /**vaadin component.*/
     ComboBox m_fieldSelectOU;
@@ -709,7 +710,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
     private ComboBox m_subsiteSelectionEnabled;
 
     /**List of templates. */
-    private List<CmsResource> m_templates;
+    private List<@RUntainted CmsResource> m_templates;
 
     /**Layout for the report widget. */
     private FormLayout m_threadReport;
@@ -1178,7 +1179,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
      * @return the validated folder name
      * @throws CmsIllegalArgumentException if the folder name is empty or <code>null</code>
      */
-    String ensureFoldername(String resourcename) {
+    @RUntainted String ensureFoldername(@RUntainted String resourcename) {
 
         if (CmsStringUtil.isEmpty(resourcename)) {
             return "";
@@ -1207,7 +1208,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
      *
      * @return title as string.
      */
-    String getFieldTitle() {
+    @RUntainted String getFieldTitle() {
 
         return m_simpleFieldTitle.getValue();
     }
@@ -1217,7 +1218,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
      *
      * @return parent folder as string
      */
-    String getParentFolder() {
+    @RUntainted String getParentFolder() {
 
         return m_simpleFieldParentFolderName.getValue();
     }
@@ -1729,7 +1730,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
      * @param baseName of the resource
      * @return localized name of resource
      */
-    private String getAvailableLocalVariant(String path, String baseName) {
+    private String getAvailableLocalVariant(String path, @RUntainted String baseName) {
 
         //First look for a bundle with the locale of the folder..
         try {
@@ -1745,7 +1746,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
 
         //If no bundle was found with the locale of the folder, or the property was not set, search for other locales
         A_CmsUI.get();
-        List<String> localVariations = CmsLocaleManager.getLocaleVariants(
+        List<@RUntainted String> localVariations = CmsLocaleManager.getLocaleVariants(
             baseName,
             UI.getCurrent().getLocale(),
             false,
@@ -1932,7 +1933,7 @@ public class CmsEditSiteForm extends CmsBasicDialog {
      *
      * @return site root string
      */
-    private String getSiteRoot() {
+    private @RUntainted String getSiteRoot() {
 
         String res;
 

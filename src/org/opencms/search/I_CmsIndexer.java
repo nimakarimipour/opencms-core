@@ -32,6 +32,7 @@ import org.opencms.file.CmsObject;
 import org.opencms.report.I_CmsReport;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Indexes resources for the OpenCms search.<p>

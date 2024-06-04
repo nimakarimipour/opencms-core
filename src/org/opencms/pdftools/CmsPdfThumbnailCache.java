@@ -32,6 +32,7 @@ import org.opencms.file.CmsResource;
 import org.opencms.file.wrapper.CmsWrappedResource;
 import org.opencms.main.OpenCms;
 import org.opencms.util.CmsFileUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Cache for PDF thumbnails.<p>
@@ -53,7 +54,7 @@ public class CmsPdfThumbnailCache extends CmsVfsNameBasedDiskCache {
      * @see org.opencms.cache.CmsVfsNameBasedDiskCache#getCacheName(org.opencms.file.CmsResource, java.lang.String)
      */
     @Override
-    public String getCacheName(CmsResource resource, String parameters) {
+    public @RUntainted String getCacheName(CmsResource resource, String parameters) {
 
         String extension = CmsFileUtil.getExtension(resource.getRootPath());
         CmsWrappedResource wrapper = new CmsWrappedResource(resource);

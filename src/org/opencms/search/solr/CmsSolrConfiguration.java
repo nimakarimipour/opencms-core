@@ -49,6 +49,7 @@ import org.apache.solr.core.SolrConfig;
 import org.apache.solr.core.SolrResourceLoader;
 import org.apache.solr.schema.IndexSchema;
 import org.apache.solr.schema.IndexSchemaFactory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The Solr configuration class.<p>
@@ -100,25 +101,25 @@ public class CmsSolrConfiguration {
     private boolean m_enabled;
 
     /** The Solr home. */
-    private String m_home;
+    private @RUntainted String m_home;
 
     /** The configured path to the Solr home. */
-    private String m_homeFolderPath;
+    private @RUntainted String m_homeFolderPath;
 
     /** The schema file. */
     private IndexSchema m_schema;
 
     /** The servers URL, must be set if embedded is false. */
-    private String m_serverUrl;
+    private @RUntainted String m_serverUrl;
 
     /** The Solr configuration. */
     private SolrConfig m_solrConfig;
 
     /** The Solr configuration file "solr.xml". */
-    private File m_solrFile;
+    private @RUntainted File m_solrFile;
 
     /** The file name of the Solr configuration. */
-    private String m_solrFileName;
+    private @RUntainted String m_solrFileName;
 
     /** The maximal number of results to be processed in a search request to a Solr index. */
     private int m_maxProcessedResults = DEFAULT_MAX_PROCESSED_RESULTS;
@@ -136,7 +137,7 @@ public class CmsSolrConfiguration {
      *
      * @return the home directory of Solr as String
      */
-    public String getHome() {
+    public @RUntainted String getHome() {
 
         if (m_homeFolderPath == null) {
             if (CmsStringUtil.isNotEmpty(System.getProperty(SOLR_HOME_PROPERTY))) {
@@ -180,7 +181,7 @@ public class CmsSolrConfiguration {
      *
      * @return the external servers URL
      */
-    public String getServerUrl() {
+    public @RUntainted String getServerUrl() {
 
         return m_serverUrl;
     }
@@ -244,7 +245,7 @@ public class CmsSolrConfiguration {
      *
      * @return the Solr xml file
      */
-    public File getSolrFile() {
+    public @RUntainted File getSolrFile() {
 
         if (m_solrFile == null) {
             String solrFileName = m_solrFileName != null ? m_solrFileName : SOLR_CONFIG_FILE;
@@ -376,7 +377,7 @@ public class CmsSolrConfiguration {
      *
      * @param url the URL
      */
-    public void setServerUrl(String url) {
+    public void setServerUrl(@RUntainted String url) {
 
         m_serverUrl = url;
     }
@@ -396,7 +397,7 @@ public class CmsSolrConfiguration {
      *
      * @param name the file name to set
      */
-    public void setSolrFileName(String name) {
+    public void setSolrFileName(@RUntainted String name) {
 
         m_solrFileName = name;
     }

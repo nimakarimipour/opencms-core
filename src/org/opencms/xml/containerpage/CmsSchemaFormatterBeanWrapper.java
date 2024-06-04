@@ -48,6 +48,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper class for formatter beans which delegates all methods to the wrapped formatter bean except those
@@ -138,7 +139,7 @@ public class CmsSchemaFormatterBeanWrapper implements I_CmsFormatterBean {
     /**
      * @see org.opencms.xml.containerpage.I_CmsFormatterBean#getDescription(Locale)
      */
-    public String getDescription(Locale locale) {
+    public @RUntainted String getDescription(Locale locale) {
 
         return m_wrappedFormatter.getDescription(locale);
     }
@@ -146,7 +147,7 @@ public class CmsSchemaFormatterBeanWrapper implements I_CmsFormatterBean {
     /**
      * @see org.opencms.xml.containerpage.I_CmsFormatterBean#getDisplayType()
      */
-    public String getDisplayType() {
+    public @RUntainted String getDisplayType() {
 
         return null;
     }
@@ -154,7 +155,7 @@ public class CmsSchemaFormatterBeanWrapper implements I_CmsFormatterBean {
     /**
      * @see org.opencms.xml.containerpage.I_CmsFormatterBean#getId()
      */
-    public String getId() {
+    public @RUntainted String getId() {
 
         return m_wrappedFormatter.getId();
     }
@@ -191,7 +192,7 @@ public class CmsSchemaFormatterBeanWrapper implements I_CmsFormatterBean {
     /**
      * @see org.opencms.xml.containerpage.I_CmsFormatterBean#getJspRootPath()
      */
-    public String getJspRootPath() {
+    public @RUntainted String getJspRootPath() {
 
         return m_wrappedFormatter.getJspRootPath();
     }
@@ -207,7 +208,7 @@ public class CmsSchemaFormatterBeanWrapper implements I_CmsFormatterBean {
     /**
      * @see org.opencms.xml.containerpage.I_CmsFormatterBean#getKey()
      */
-    public String getKey() {
+    public @RUntainted String getKey() {
 
         return null;
     }
@@ -247,7 +248,7 @@ public class CmsSchemaFormatterBeanWrapper implements I_CmsFormatterBean {
     /**
      * @see org.opencms.xml.containerpage.I_CmsFormatterBean#getNiceName(Locale)
      */
-    public String getNiceName(Locale locale) {
+    public @RUntainted String getNiceName(Locale locale) {
 
         return m_wrappedFormatter.getNiceName(locale);
     }
@@ -265,7 +266,7 @@ public class CmsSchemaFormatterBeanWrapper implements I_CmsFormatterBean {
      *
      * @see org.opencms.xml.containerpage.I_CmsFormatterBean#getResourceTypeNames()
      */
-    public Collection<String> getResourceTypeNames() {
+    public Collection<@RUntainted String> getResourceTypeNames() {
 
         try {
             return Collections.singleton(OpenCms.getResourceManager().getResourceType(m_elementResource).getTypeName());

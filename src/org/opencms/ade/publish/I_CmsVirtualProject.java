@@ -36,6 +36,7 @@ import org.opencms.util.CmsUUID;
 
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This interface can be used to implement a new option in the publish dialog's project selector.
@@ -54,7 +55,7 @@ public interface I_CmsVirtualProject {
      *
      * @return the project bean
      */
-    CmsProjectBean getProjectBean(CmsObject cms, Map<String, String> params);
+    CmsProjectBean getProjectBean(CmsObject cms, @RUntainted Map<@RUntainted String, @RUntainted String> params);
 
     /**
      * Gets the project id.<p>
@@ -84,7 +85,7 @@ public interface I_CmsVirtualProject {
      *
      * @throws CmsException if something goes wrong
      */
-    List<CmsResource> getResources(CmsObject cms, Map<String, String> params, String workflowId) throws CmsException;
+    List<CmsResource> getResources(CmsObject cms, @RUntainted Map<@RUntainted String, @RUntainted String> params, String workflowId) throws CmsException;
 
     /**
      * Returns true if in this virtual project, resource groups should be able to be automatically selected by the GUI.<p>

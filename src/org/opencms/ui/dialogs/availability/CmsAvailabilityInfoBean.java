@@ -32,6 +32,7 @@ import org.opencms.gwt.shared.CmsPrincipalBean;
 
 import java.io.Serializable;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A bean that holds the informations of the availability dialog.<p>
@@ -75,7 +76,7 @@ public class CmsAvailabilityInfoBean implements Serializable {
     private CmsListInfoBean m_pageInfo;
 
     /** A Map with all responsible users. */
-    private Map<CmsPrincipalBean, String> m_responsibles;
+    private Map<CmsPrincipalBean, @RUntainted String> m_responsibles;
 
     /** The current resource type. */
     private String m_resType;
@@ -111,7 +112,7 @@ public class CmsAvailabilityInfoBean implements Serializable {
         boolean notificationEnabled,
         boolean hasSiblings,
         boolean modifySiblings,
-        Map<CmsPrincipalBean, String> responsibles,
+        Map<CmsPrincipalBean, @RUntainted String> responsibles,
         CmsListInfoBean pageInfo) {
 
         m_resType = resType;
@@ -181,7 +182,7 @@ public class CmsAvailabilityInfoBean implements Serializable {
      *
      * @return the responsibles
      */
-    public Map<CmsPrincipalBean, String> getResponsibles() {
+    public Map<CmsPrincipalBean, @RUntainted String> getResponsibles() {
 
         return m_responsibles;
     }
@@ -311,7 +312,7 @@ public class CmsAvailabilityInfoBean implements Serializable {
      *
      * @param responsibles the responsibles to set
      */
-    public void setResponsibles(Map<CmsPrincipalBean, String> responsibles) {
+    public void setResponsibles(Map<CmsPrincipalBean, @RUntainted String> responsibles) {
 
         m_responsibles = responsibles;
     }

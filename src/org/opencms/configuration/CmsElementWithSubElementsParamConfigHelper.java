@@ -32,6 +32,7 @@ import org.apache.commons.digester3.Rule;
 
 import org.dom4j.Element;
 import org.xml.sax.Attributes;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
 * Helper class for parsing an element with several sub-elements which are text-valued (i.e. have no nested sub-elements).

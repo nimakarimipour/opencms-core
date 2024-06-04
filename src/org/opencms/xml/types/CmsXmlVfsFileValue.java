@@ -51,6 +51,7 @@ import org.apache.commons.logging.Log;
 
 import org.dom4j.Attribute;
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes the XML content type "OpenCmsVfsFile".<p>
@@ -77,7 +78,7 @@ public class CmsXmlVfsFileValue extends A_CmsXmlContentValue implements I_CmsJso
     private static String m_schemaDefinition;
 
     /** The String value of the element node. */
-    private String m_stringValue;
+    private @RUntainted String m_stringValue;
 
     /**
      * Creates a new, empty schema type descriptor of type "OpenCmsVfsFile".<p>
@@ -95,7 +96,7 @@ public class CmsXmlVfsFileValue extends A_CmsXmlContentValue implements I_CmsJso
      * @param locale the locale this value is created for
      * @param type the type instance to create the value for
      */
-    public CmsXmlVfsFileValue(I_CmsXmlDocument document, Element element, Locale locale, I_CmsXmlSchemaType type) {
+    public CmsXmlVfsFileValue(I_CmsXmlDocument document, @RUntainted Element element, Locale locale, I_CmsXmlSchemaType type) {
 
         super(document, element, locale, type);
     }
@@ -107,7 +108,7 @@ public class CmsXmlVfsFileValue extends A_CmsXmlContentValue implements I_CmsJso
      * @param minOccurs minimum number of occurrences of this type according to the XML schema
      * @param maxOccurs maximum number of occurrences of this type according to the XML schema
      */
-    public CmsXmlVfsFileValue(String name, String minOccurs, String maxOccurs) {
+    public CmsXmlVfsFileValue(@RUntainted String name, String minOccurs, String maxOccurs) {
 
         super(name, minOccurs, maxOccurs);
     }
@@ -120,7 +121,7 @@ public class CmsXmlVfsFileValue extends A_CmsXmlContentValue implements I_CmsJso
      * @param rootPath the path to use
      * @param type the relation type to use
      */
-    public static void fillEntry(Element element, CmsUUID id, String rootPath, CmsRelationType type) {
+    public static void fillEntry(Element element, CmsUUID id, @RUntainted String rootPath, CmsRelationType type) {
 
         CmsLink link = new CmsLink(CmsXmlVfsFileValue.TYPE_VFS_LINK, type, id, rootPath, true);
         // get xml node
@@ -136,7 +137,7 @@ public class CmsXmlVfsFileValue extends A_CmsXmlContentValue implements I_CmsJso
     /**
      * @see org.opencms.xml.types.A_CmsXmlContentValue#createValue(I_CmsXmlDocument, org.dom4j.Element, Locale)
      */
-    public I_CmsXmlContentValue createValue(I_CmsXmlDocument document, Element element, Locale locale) {
+    public I_CmsXmlContentValue createValue(I_CmsXmlDocument document, @RUntainted Element element, Locale locale) {
 
         return new CmsXmlVfsFileValue(document, element, locale, this);
     }
@@ -145,7 +146,7 @@ public class CmsXmlVfsFileValue extends A_CmsXmlContentValue implements I_CmsJso
      * @see org.opencms.xml.types.I_CmsXmlSchemaType#generateXml(org.opencms.file.CmsObject, org.opencms.xml.I_CmsXmlDocument, org.dom4j.Element, java.util.Locale)
      */
     @Override
-    public Element generateXml(CmsObject cms, I_CmsXmlDocument document, Element root, Locale locale) {
+    public Element generateXml(CmsObject cms, I_CmsXmlDocument document, @RUntainted Element root, Locale locale) {
 
         Element element = root.addElement(getName());
 
@@ -195,7 +196,7 @@ public class CmsXmlVfsFileValue extends A_CmsXmlContentValue implements I_CmsJso
      * @see org.opencms.xml.types.I_CmsXmlContentValue#getPlainText(org.opencms.file.CmsObject)
      */
     @Override
-    public String getPlainText(CmsObject cms) {
+    public @RUntainted String getPlainText(CmsObject cms) {
 
         return getStringValue(cms);
     }
@@ -215,7 +216,7 @@ public class CmsXmlVfsFileValue extends A_CmsXmlContentValue implements I_CmsJso
     /**
      * @see org.opencms.xml.types.I_CmsXmlContentValue#getStringValue(CmsObject)
      */
-    public String getStringValue(CmsObject cms) throws CmsRuntimeException {
+    public @RUntainted String getStringValue(CmsObject cms) throws CmsRuntimeException {
 
         if (m_stringValue == null) {
             m_stringValue = createStringValue(cms);
@@ -259,7 +260,7 @@ public class CmsXmlVfsFileValue extends A_CmsXmlContentValue implements I_CmsJso
     /**
      * @see org.opencms.xml.types.A_CmsXmlContentValue#newInstance(java.lang.String, java.lang.String, java.lang.String)
      */
-    public I_CmsXmlSchemaType newInstance(String name, String minOccurs, String maxOccurs) {
+    public I_CmsXmlSchemaType newInstance(@RUntainted String name, String minOccurs, String maxOccurs) {
 
         return new CmsXmlVfsFileValue(name, minOccurs, maxOccurs);
     }
@@ -284,7 +285,7 @@ public class CmsXmlVfsFileValue extends A_CmsXmlContentValue implements I_CmsJso
     /**
      * @see org.opencms.xml.types.A_CmsXmlContentValue#setStringValue(org.opencms.file.CmsObject, java.lang.String)
      */
-    public void setStringValue(CmsObject cms, String value) throws CmsIllegalArgumentException {
+    public void setStringValue(CmsObject cms, @RUntainted String value) throws CmsIllegalArgumentException {
 
         m_element.clearContent();
         // ensure the String value is re-calculated next time it's needed
@@ -350,7 +351,7 @@ public class CmsXmlVfsFileValue extends A_CmsXmlContentValue implements I_CmsJso
     /**
      * @see org.opencms.xml.xml2json.I_CmsJsonFormattableValue#toJson(org.opencms.file.CmsObject)
      */
-    public Object toJson(CmsObject cms) {
+    public @RUntainted Object toJson(CmsObject cms) {
 
         try {
             String link = null;
@@ -376,7 +377,7 @@ public class CmsXmlVfsFileValue extends A_CmsXmlContentValue implements I_CmsJso
      *
      * @return the String value for this vfs file value element
      */
-    private String createStringValue(CmsObject cms) {
+    private @RUntainted String createStringValue(CmsObject cms) {
 
         Attribute enabled = m_element.attribute(CmsXmlPage.ATTRIBUTE_ENABLED);
 

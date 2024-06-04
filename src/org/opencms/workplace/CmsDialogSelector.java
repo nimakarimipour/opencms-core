@@ -33,6 +33,7 @@ import org.opencms.main.CmsLog;
 import org.opencms.main.OpenCms;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Selects the dialog which should be displayed by OpenCms depending on the configuration value.<p>
@@ -121,7 +122,7 @@ public class CmsDialogSelector {
      *
      * @return the key name of the dialog handler
      */
-    private String getHandler() {
+    private @RUntainted String getHandler() {
 
         return m_handler;
     }
@@ -141,7 +142,7 @@ public class CmsDialogSelector {
      *
      * @return the resource parameter String
      */
-    private String getParamResource() {
+    private @RUntainted String getParamResource() {
 
         return m_paramResource;
     }

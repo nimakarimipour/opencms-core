@@ -70,6 +70,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generic (ANSI-SQL) database server implementation of the history driver methods.<p>
@@ -846,7 +847,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
     /**
      * @see org.opencms.db.I_CmsHistoryDriver#readPrincipal(org.opencms.db.CmsDbContext, org.opencms.util.CmsUUID)
      */
-    public CmsHistoryPrincipal readPrincipal(CmsDbContext dbc, CmsUUID principalId) throws CmsDataAccessException {
+    public CmsHistoryPrincipal readPrincipal(CmsDbContext dbc, @RUntainted CmsUUID principalId) throws CmsDataAccessException {
 
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -972,7 +973,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
     /**
      * @see org.opencms.db.I_CmsHistoryDriver#readProjectResources(org.opencms.db.CmsDbContext, int)
      */
-    public List<String> readProjectResources(CmsDbContext dbc, int publishTag) throws CmsDataAccessException {
+    public @RUntainted List<String> readProjectResources(CmsDbContext dbc, int publishTag) throws CmsDataAccessException {
 
         PreparedStatement stmt = null;
         Connection conn = null;
@@ -1543,8 +1544,8 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
     protected void internalAddToPropMap(
         Map<String, CmsProperty> propertyMap,
         I_CmsHistoryResource resource,
-        String propertyKey,
-        String propertyValue,
+        @RUntainted String propertyKey,
+        @RUntainted String propertyValue,
         int mappingType) throws CmsDbConsistencyException {
 
         CmsProperty property = propertyMap.get(propertyKey);
@@ -1695,7 +1696,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
      *
      * @throws SQLException if something goes wrong
      */
-    protected CmsHistoryProject internalCreateProject(ResultSet res, List<String> resources) throws SQLException {
+    protected CmsHistoryProject internalCreateProject(@RUntainted ResultSet res, @RUntainted List<String> resources) throws SQLException {
 
         String ou = CmsOrganizationalUnit.removeLeadingSeparator(
             res.getString(m_sqlManager.readQuery("C_PROJECTS_PROJECT_OU_0")));
@@ -1725,7 +1726,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
      *
      * @throws SQLException if a requested attribute was not found in the result set
      */
-    protected I_CmsHistoryResource internalCreateResource(ResultSet res) throws SQLException {
+    protected I_CmsHistoryResource internalCreateResource(@RUntainted ResultSet res) throws SQLException {
 
         int resourceVersion = res.getInt(m_sqlManager.readQuery("C_RESOURCES_VERSION"));
         int structureVersion = res.getInt(m_sqlManager.readQuery("C_RESOURCES_STRUCTURE_VERSION"));
@@ -1809,7 +1810,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
      *
      * @throws SQLException if something goes wrong
      */
-    protected I_CmsHistoryResource internalMergeResource(I_CmsHistoryResource histRes, ResultSet res, int versionOffset)
+    protected I_CmsHistoryResource internalMergeResource(I_CmsHistoryResource histRes, @RUntainted ResultSet res, int versionOffset)
     throws SQLException {
 
         int resourceVersion = res.getInt(m_sqlManager.readQuery("C_RESOURCES_VERSION"));

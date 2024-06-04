@@ -37,6 +37,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.workplace.editors.CmsWorkplaceEditorManager;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The acacia XML content editor.<p>
@@ -61,7 +62,7 @@ public class CmsAcaciaEditor extends A_CmsFrameEditor {
      * @see org.opencms.ui.editors.A_CmsFrameEditor#matchesResource(org.opencms.file.CmsObject, org.opencms.file.CmsResource, boolean)
      */
     @Override
-    public boolean matchesResource(CmsObject cms, CmsResource resource, boolean plainText) {
+    public boolean matchesResource(CmsObject cms, @RUntainted CmsResource resource, boolean plainText) {
 
         I_CmsResourceType type = OpenCms.getResourceManager().getResourceType(resource);
         boolean result = false;

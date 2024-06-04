@@ -46,6 +46,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper class for accessing formatter information from JSPs.
@@ -359,9 +360,9 @@ public class CmsFormatterInfoWrapper implements I_CmsFormatterInfo {
      *
      * @return the resource types
      */
-    public List<String> getTypes() {
+    public List<@RUntainted String> getTypes() {
 
-        List<String> result = new ArrayList<>(m_formatter.getResourceTypeNames());
+        List<@RUntainted String> result = new ArrayList<>(m_formatter.getResourceTypeNames());
         Collections.sort(result);
         return result;
     }

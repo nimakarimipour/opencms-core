@@ -53,6 +53,7 @@ import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides some helpful base implementations for resource collector classes.<p>
@@ -103,12 +104,12 @@ public abstract class A_CmsResourceCollector implements I_CmsResourceCollector {
      *
      * @throws CmsException if something goes wrong
      */
-    public static String createResourceForCollector(
+    public static @RUntainted String createResourceForCollector(
         CmsObject cms,
         String newLink,
         Locale locale,
-        String referenceResource,
-        String modelFile,
+        @RUntainted String referenceResource,
+        @RUntainted String modelFile,
         String mode,
         String postCreateHandler)
     throws CmsException {
@@ -176,7 +177,7 @@ public abstract class A_CmsResourceCollector implements I_CmsResourceCollector {
             // write the file with the updated content
             cloneCms.writeFile(newFile);
         }
-        CmsPair<String, String> handlerParameter = I_CmsCollectorPostCreateHandler.splitClassAndConfig(
+        CmsPair<String, @RUntainted String> handlerParameter = I_CmsCollectorPostCreateHandler.splitClassAndConfig(
             postCreateHandler);
         I_CmsCollectorPostCreateHandler handler = getPostCreateHandler(handlerParameter.getFirst());
         handler.onCreate(cms, newFile, isCopy, handlerParameter.getSecond());
@@ -312,7 +313,7 @@ public abstract class A_CmsResourceCollector implements I_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getResults(org.opencms.file.CmsObject)
      */
-    public List<CmsResource> getResults(CmsObject cms) throws CmsDataAccessException, CmsException {
+    public List<CmsResource> getResults(@RUntainted CmsObject cms) throws CmsDataAccessException, CmsException {
 
         checkParams();
         return getResults(cms, getDefaultCollectorName(), getDefaultCollectorParam());
@@ -380,7 +381,7 @@ public abstract class A_CmsResourceCollector implements I_CmsResourceCollector {
      *
      * @since 7.0.2
      */
-    protected String getCreateInFolder(CmsObject cms, CmsCollectorData data) throws CmsException {
+    protected @RUntainted String getCreateInFolder(CmsObject cms, CmsCollectorData data) throws CmsException {
 
         return OpenCms.getResourceManager().getNameGenerator().getNewFileName(cms, data.getFileName(), 4);
     }
@@ -395,7 +396,7 @@ public abstract class A_CmsResourceCollector implements I_CmsResourceCollector {
      *
      * @throws CmsException if something goes wrong
      */
-    protected String getCreateInFolder(CmsObject cms, String param) throws CmsException {
+    protected @RUntainted String getCreateInFolder(CmsObject cms, String param) throws CmsException {
 
         return getCreateInFolder(cms, new CmsCollectorData(param));
     }

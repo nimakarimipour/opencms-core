@@ -45,6 +45,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides functions used to check the validity of a user login.<p>
@@ -413,7 +414,7 @@ public class CmsLoginManager {
      *
      * @return the logout URI
      */
-    public String getLogoutUri() {
+    public @RUntainted String getLogoutUri() {
 
         return m_logoutUri;
     }

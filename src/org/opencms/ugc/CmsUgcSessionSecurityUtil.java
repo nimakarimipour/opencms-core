@@ -36,6 +36,7 @@ import org.opencms.ugc.shared.CmsUgcException;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class which implements some of the security checks for user generated content creation.<p>

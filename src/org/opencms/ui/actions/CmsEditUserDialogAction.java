@@ -36,6 +36,7 @@ import org.opencms.ui.contextmenu.I_CmsHasMenuItemVisibility;
 import org.opencms.ui.dialogs.CmsUserDataDialog;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The delete dialog action.<p>
@@ -61,7 +62,7 @@ public class CmsEditUserDialogAction extends A_CmsWorkplaceAction {
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getDialogTitleKey()
      */
     @Override
-    public String getDialogTitleKey() {
+    public @RUntainted String getDialogTitleKey() {
 
         return org.opencms.ui.components.Messages.GUI_USER_EDIT_0;
     }
@@ -88,7 +89,7 @@ public class CmsEditUserDialogAction extends A_CmsWorkplaceAction {
      * @see org.opencms.ui.actions.A_CmsWorkplaceAction#getTitleKey()
      */
     @Override
-    protected String getTitleKey() {
+    protected @RUntainted String getTitleKey() {
 
         return org.opencms.ui.components.Messages.GUI_USER_EDIT_0;
     }

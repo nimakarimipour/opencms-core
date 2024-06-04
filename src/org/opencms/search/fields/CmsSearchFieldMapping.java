@@ -55,6 +55,7 @@ import java.util.TreeMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.lucene.document.DateTools;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes a mapping of a piece of content from an OpenCms VFS resource to a field of a search index.<p>
@@ -76,13 +77,13 @@ public class CmsSearchFieldMapping implements I_CmsSearchFieldMapping {
     private static final long serialVersionUID = 3016384419639743033L;
 
     /** The configured default value. */
-    private String m_defaultValue;
+    private @RUntainted String m_defaultValue;
 
     /** Pre-calculated hash value. */
     private int m_hashCode;
 
     /** The locale to extract content items in. */
-    protected Locale m_locale;
+    protected @RUntainted Locale m_locale;
 
     /** The parameter for the mapping type. */
     private String m_param;
@@ -175,7 +176,7 @@ public class CmsSearchFieldMapping implements I_CmsSearchFieldMapping {
     /**
      * @see org.opencms.search.fields.I_CmsSearchFieldMapping#getDefaultValue()
      */
-    public String getDefaultValue() {
+    public @RUntainted String getDefaultValue() {
 
         return m_defaultValue;
     }
@@ -191,9 +192,9 @@ public class CmsSearchFieldMapping implements I_CmsSearchFieldMapping {
     /**
      * @see org.opencms.search.fields.I_CmsSearchFieldMapping#getStringValue(org.opencms.file.CmsObject, org.opencms.file.CmsResource, org.opencms.search.extractors.I_CmsExtractionResult, java.util.List, java.util.List)
      */
-    public String getStringValue(
+    public @RUntainted String getStringValue(
         CmsObject cms,
-        CmsResource res,
+        @RUntainted CmsResource res,
         I_CmsExtractionResult extractionResult,
         List<CmsProperty> properties,
         List<CmsProperty> propertiesSearched) {
@@ -219,7 +220,7 @@ public class CmsSearchFieldMapping implements I_CmsSearchFieldMapping {
                 break;
             case 3: // item (retrieve value for the given XPath from the content items)
                 if ((extractionResult != null) && CmsStringUtil.isNotEmptyOrWhitespaceOnly(getParam())) {
-                    Map<String, String> localizedContentItems = m_locale == null
+                    Map<String, @RUntainted String> localizedContentItems = m_locale == null
                     ? extractionResult.getContentItems()
                     : extractionResult.getContentItems(m_locale);
                     content = getContentItemForXPath(localizedContentItems, getParam().trim());
@@ -370,7 +371,7 @@ public class CmsSearchFieldMapping implements I_CmsSearchFieldMapping {
     /**
      * @see org.opencms.search.fields.I_CmsSearchFieldMapping#setDefaultValue(java.lang.String)
      */
-    public void setDefaultValue(String defaultValue) {
+    public void setDefaultValue(@RUntainted String defaultValue) {
 
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(defaultValue)) {
             m_defaultValue = defaultValue.trim();
@@ -382,7 +383,7 @@ public class CmsSearchFieldMapping implements I_CmsSearchFieldMapping {
     /**
      * @see org.opencms.search.fields.I_CmsSearchFieldMapping#setLocale(java.util.Locale)
      */
-    public void setLocale(Locale locale) {
+    public void setLocale(@RUntainted Locale locale) {
 
         m_locale = locale;
     }
@@ -429,7 +430,7 @@ public class CmsSearchFieldMapping implements I_CmsSearchFieldMapping {
      *
      * @return a "\n" separated String of element values found in the content items for the given XPath
      */
-    private String getContentItemForXPath(Map<String, String> contentItems, String xpath) {
+    private @RUntainted String getContentItemForXPath(Map<String, @RUntainted String> contentItems, String xpath) {
 
         if (contentItems.get(xpath) != null) { // content item found for XPath
             return contentItems.get(xpath);
@@ -449,7 +450,7 @@ public class CmsSearchFieldMapping implements I_CmsSearchFieldMapping {
                     return 0;
                 }
             });
-            for (Map.Entry<String, String> entry : contentItems.entrySet()) {
+            for (Map.Entry<String, @RUntainted String> entry : contentItems.entrySet()) {
                 if (CmsXmlUtils.removeXpath(entry.getKey()).equals(xpath)) { // the removed path refers an item
 
                     String[] xPathParts = entry.getKey().split("/");

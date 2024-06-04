@@ -30,6 +30,7 @@ package org.opencms.cache;
 import org.opencms.main.CmsLog;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements an LRU (last recently used) cache.<p>
@@ -70,7 +71,7 @@ public class CmsLruCache extends java.lang.Object {
     private long m_maxCacheCosts;
 
     /** The maximum costs of cacheable objects. */
-    private int m_maxObjectCosts;
+    private @RUntainted int m_maxObjectCosts;
 
     /** The costs of all cached objects. */
     private int m_objectCosts;
@@ -240,7 +241,7 @@ public class CmsLruCache extends java.lang.Object {
      *
      * @return the count of all cached objects
      */
-    public int size() {
+    public @RUntainted int size() {
 
         return m_objectCount;
     }

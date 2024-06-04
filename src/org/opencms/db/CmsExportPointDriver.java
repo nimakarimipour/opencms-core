@@ -38,6 +38,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides methods to write export points to the "real" file system.<p>
@@ -185,7 +186,7 @@ public class CmsExportPointDriver implements I_CmsExportPointDriver {
      * @param file the RFS file location
      * @param content the file content
      */
-    protected void writeResource(File file, byte[] content) {
+    protected void writeResource(@RUntainted File file, byte[] content) {
 
         try {
             File folder;

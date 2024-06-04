@@ -49,6 +49,7 @@ import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.common.SolrException;
 import org.apache.solr.common.SolrInputDocument;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements the index writer for the Solr server used by OpenCms.<p>
@@ -198,7 +199,7 @@ public class CmsSolrIndexWriter implements I_CmsSolrIndexWriter {
     /**
      * @see org.opencms.search.I_CmsIndexWriter#updateDocument(java.lang.String, org.opencms.search.I_CmsSearchDocument)
      */
-    public void updateDocument(String rootPath, I_CmsSearchDocument document) throws IOException {
+    public void updateDocument(@RUntainted String rootPath, I_CmsSearchDocument document) throws IOException {
 
         if ((m_server != null) && (m_index != null)) {
 

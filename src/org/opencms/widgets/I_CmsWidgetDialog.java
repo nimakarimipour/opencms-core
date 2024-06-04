@@ -31,6 +31,7 @@ import org.opencms.i18n.CmsMessages;
 
 import java.util.Locale;
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes a widget enabled dialog.<p>

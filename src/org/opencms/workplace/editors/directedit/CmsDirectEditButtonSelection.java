@@ -26,6 +26,7 @@
  */
 
 package org.opencms.workplace.editors.directedit;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Constants to indicate which direct edit buttons should be displayed for a direct edit resource

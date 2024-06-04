@@ -50,6 +50,8 @@ import java.util.Map;
 
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.common.params.CommonParams;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * A Solr search query.<p>
@@ -233,7 +235,7 @@ public class CmsSolrQuery extends SolrQuery {
      * @see java.lang.Object#clone()
      */
     @Override
-    public CmsSolrQuery clone() {
+    public @RUntainted CmsSolrQuery clone() {
 
         CmsSolrQuery sq = new CmsSolrQuery(null, CmsRequestUtil.createParameterMap(toString(), true, null));
         if (m_ignoreExpiration) {
@@ -670,7 +672,7 @@ public class CmsSolrQuery extends SolrQuery {
             List<String> result = new ArrayList<String>();
             for (String field : requestedReturnFields) {
                 String commasep = field.replaceAll(" ", ",");
-                List<String> list = CmsStringUtil.splitAsList(commasep, ',');
+                List<@RUntainted String> list = CmsStringUtil.splitAsList(commasep, ',');
                 if (!list.contains("*")) {
                     for (String reqField : CmsStringUtil.splitAsList(MINIMUM_FIELDS, ",")) {
                         if (!list.contains(reqField)) {

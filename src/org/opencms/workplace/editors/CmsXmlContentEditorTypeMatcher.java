@@ -34,6 +34,7 @@ import org.opencms.workplace.explorer.CmsExplorerTypeSettings;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of an additionional editor resource type matcher for xmlcontent resources.<p>

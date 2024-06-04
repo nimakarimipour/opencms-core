@@ -46,6 +46,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean to provide a convenient way to build navigation structures based on the
@@ -200,7 +201,7 @@ public class CmsJspNavBuilder {
      * @deprecated use {@link CmsObject#readDefaultFile(String)} instead
      */
     @Deprecated
-    public static String getDefaultFile(CmsObject cms, String folder) {
+    public static String getDefaultFile(CmsObject cms, @RUntainted String folder) {
 
         if (folder.endsWith("/")) {
             try {
@@ -542,7 +543,7 @@ public class CmsJspNavBuilder {
         folder = CmsFileUtil.removeTrailingSeparator(folder);
         List<CmsJspNavElement> result = new ArrayList<CmsJspNavElement>();
 
-        List<CmsResource> resources = null;
+        List<@RUntainted CmsResource> resources = null;
         try {
 
             resources = m_cms.getResourcesInFolder(folder, resourceFilter);
@@ -801,7 +802,7 @@ public class CmsJspNavBuilder {
         folder = CmsResource.getFolderPath(folder);
         List<CmsJspNavElement> result = new ArrayList<CmsJspNavElement>();
 
-        List<CmsResource> resources;
+        List<@RUntainted CmsResource> resources;
         try {
             resources = m_cms.getResourcesInFolder(folder, resourceFilter);
         } catch (Exception e) {
@@ -836,7 +837,7 @@ public class CmsJspNavBuilder {
         boolean shallow) {
 
         CmsResource resource;
-        Map<String, String> propertiesMap;
+        Map<String, @RUntainted String> propertiesMap;
         int level = CmsResource.getPathLevel(sitePath);
         if (sitePath.endsWith("/")) {
             level--;

@@ -59,6 +59,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This servlet filter post-processes the response output for requests with the parameter '__json=true'.<p>
@@ -152,7 +153,7 @@ public class CmsJsonPartFilter implements Filter {
          *
          * @return the bytes written
          */
-        public byte[] getBytes() {
+        public @RUntainted byte[] getBytes() {
 
             if (m_printWriter != null) {
                 m_printWriter.flush();
@@ -272,7 +273,7 @@ public class CmsJsonPartFilter implements Filter {
     /**
      * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)
      */
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+    public void doFilter(ServletRequest request, @RUntainted ServletResponse response, FilterChain chain)
     throws IOException, ServletException {
 
         if (isJsonRequest(request)) {
@@ -282,7 +283,7 @@ public class CmsJsonPartFilter implements Filter {
                     RequestWrapper reqWrapper = new RequestWrapper((HttpServletRequest)request);
                     ResponseWrapper resWrapper = new ResponseWrapper((HttpServletResponse)response);
                     chain.doFilter(reqWrapper, resWrapper);
-                    byte[] data = resWrapper.getBytes();
+                    @RUntainted byte[] data = resWrapper.getBytes();
                     String content = new String(data, resWrapper.getCharacterEncoding());
                     String transformedContent = transformContent(content);
                     byte[] transformedData = transformedContent.getBytes("UTF-8");
@@ -312,7 +313,7 @@ public class CmsJsonPartFilter implements Filter {
      * @param content the content
      * @return the transformed content
      */
-    private String transformContent(String content) {
+    private String transformContent(@RUntainted String content) {
 
         try {
             List<CmsJsonPart> parts = CmsJsonPart.parseJsonParts(content);

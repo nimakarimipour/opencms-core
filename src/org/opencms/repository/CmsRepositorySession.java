@@ -57,6 +57,8 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 
 import com.google.common.io.BaseEncoding;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * This is the session class to work with the {@link CmsRepository}.<p>
@@ -128,7 +130,7 @@ public class CmsRepositorySession extends A_CmsRepositorySession {
      *
      * @throws Exception if something goes wrong
      */
-    public static String encodeNamespace(String data) throws Exception {
+    public static @RPolyTainted String encodeNamespace(@RPolyTainted String data) throws Exception {
 
         String s = BaseEncoding.base64Url().withPadChar('$').encode(data.getBytes("UTF-8"));
         s = s.replace('_', '~');
@@ -138,7 +140,7 @@ public class CmsRepositorySession extends A_CmsRepositorySession {
     /**
      * @see org.opencms.repository.I_CmsRepositorySession#copy(java.lang.String, java.lang.String, boolean)
      */
-    public void copy(String src, String dest, boolean overwrite, boolean shallow) throws CmsException {
+    public void copy(@RUntainted String src, @RUntainted String dest, boolean overwrite, boolean shallow) throws CmsException {
 
         src = validatePath(src);
         dest = validatePath(dest);
@@ -199,7 +201,7 @@ public class CmsRepositorySession extends A_CmsRepositorySession {
     /**
      * @see org.opencms.repository.I_CmsRepositorySession#create(java.lang.String)
      */
-    public void create(String path) throws CmsException {
+    public void create(@RUntainted String path) throws CmsException {
 
         path = validatePath(path);
 
@@ -219,7 +221,7 @@ public class CmsRepositorySession extends A_CmsRepositorySession {
     /**
      * @see org.opencms.repository.I_CmsRepositorySession#delete(java.lang.String)
      */
-    public void delete(String path) throws CmsException {
+    public void delete(@RUntainted String path) throws CmsException {
 
         path = validatePath(path);
 
@@ -261,7 +263,7 @@ public class CmsRepositorySession extends A_CmsRepositorySession {
     /**
      * @see org.opencms.repository.I_CmsRepositorySession#getItem(java.lang.String)
      */
-    public I_CmsRepositoryItem getItem(String path) throws CmsException {
+    public I_CmsRepositoryItem getItem(@RUntainted String path) throws CmsException {
 
         path = validatePath(path);
 
@@ -348,7 +350,7 @@ public class CmsRepositorySession extends A_CmsRepositorySession {
     /**
      * @see org.opencms.repository.I_CmsRepositorySession#list(java.lang.String)
      */
-    public List<I_CmsRepositoryItem> list(String path) throws CmsException {
+    public List<I_CmsRepositoryItem> list(@RUntainted String path) throws CmsException {
 
         List<I_CmsRepositoryItem> ret = new ArrayList<I_CmsRepositoryItem>();
 
@@ -391,7 +393,7 @@ public class CmsRepositorySession extends A_CmsRepositorySession {
     /**
      * @see org.opencms.repository.I_CmsRepositorySession#lock(java.lang.String, org.opencms.repository.CmsRepositoryLockInfo)
      */
-    public boolean lock(String path, CmsRepositoryLockInfo lock) throws CmsException {
+    public boolean lock(@RUntainted String path, CmsRepositoryLockInfo lock) throws CmsException {
 
         path = validatePath(path);
 
@@ -406,7 +408,7 @@ public class CmsRepositorySession extends A_CmsRepositorySession {
     /**
      * @see org.opencms.repository.I_CmsRepositorySession#move(java.lang.String, java.lang.String, boolean)
      */
-    public void move(String src, String dest, boolean overwrite) throws CmsException {
+    public void move(@RUntainted String src, @RUntainted String dest, boolean overwrite) throws CmsException {
 
         src = validatePath(src);
         dest = validatePath(dest);
@@ -462,7 +464,7 @@ public class CmsRepositorySession extends A_CmsRepositorySession {
     /**
      * @see org.opencms.repository.I_CmsRepositorySession#save(java.lang.String, java.io.InputStream, boolean)
      */
-    public void save(String path, InputStream inputStream, boolean overwrite) throws CmsException, IOException {
+    public void save(@RUntainted String path, InputStream inputStream, boolean overwrite) throws CmsException, IOException {
 
         path = validatePath(path);
         byte[] content = CmsFileUtil.readFully(inputStream);
@@ -521,7 +523,7 @@ public class CmsRepositorySession extends A_CmsRepositorySession {
     /**
      * @see org.opencms.repository.I_CmsRepositorySession#unlock(java.lang.String)
      */
-    public void unlock(String path) {
+    public void unlock(@RUntainted String path) {
 
         try {
             path = validatePath(path);
@@ -542,10 +544,10 @@ public class CmsRepositorySession extends A_CmsRepositorySession {
     /**
      * @see org.opencms.repository.I_CmsRepositorySession#updateProperties(java.lang.String, java.util.Map)
      */
-    public void updateProperties(String path, Map<CmsPropertyName, String> properties) throws CmsException {
+    public void updateProperties(String path, Map<CmsPropertyName, @RUntainted String> properties) throws CmsException {
 
         Map<String, CmsProperty> propsToWrite = new HashMap<>();
-        for (Map.Entry<CmsPropertyName, String> entry : properties.entrySet()) {
+        for (Map.Entry<CmsPropertyName, @RUntainted String> entry : properties.entrySet()) {
             CmsPropertyName pn = entry.getKey();
             String value = entry.getValue();
             if (pn.getNamespace().equals(PROPERTY_NAMESPACE)) {
@@ -594,7 +596,7 @@ public class CmsRepositorySession extends A_CmsRepositorySession {
      * @see org.opencms.repository.A_CmsRepositorySession#isFiltered(java.lang.String)
      */
     @Override
-    protected boolean isFiltered(String name) {
+    protected boolean isFiltered(@RUntainted String name) {
 
         boolean ret = super.isFiltered(m_cms.getRequestContext().addSiteRoot(name));
         if (ret) {

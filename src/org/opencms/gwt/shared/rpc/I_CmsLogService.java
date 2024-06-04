@@ -28,6 +28,7 @@
 package org.opencms.gwt.shared.rpc;
 
 import com.google.gwt.user.client.rpc.RemoteService;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles client side logging.<p>
@@ -46,5 +47,5 @@ public interface I_CmsLogService extends RemoteService {
      * @param ticket the optional client-side generated ticket
      * @param message the message to log
      */
-    void log(String ticket, String message);
+    void log(@RUntainted String ticket, @RUntainted String message);
 }

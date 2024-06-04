@@ -30,6 +30,7 @@ package org.opencms.xml.xml2json;
 import org.opencms.file.CmsResource;
 
 import javax.servlet.http.HttpServletResponse;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Result of rendering JSON.
@@ -39,7 +40,7 @@ import javax.servlet.http.HttpServletResponse;
 public class CmsJsonResult {
 
     /** The JSON result data. */
-    private Object m_json;
+    private @RUntainted Object m_json;
 
     /** The HTTP status. */
     private int m_status = HttpServletResponse.SC_OK;
@@ -63,7 +64,7 @@ public class CmsJsonResult {
      * @param json the JSON data
      * @param status the result
      */
-    public CmsJsonResult(Object json, int status) {
+    public CmsJsonResult(@RUntainted Object json, int status) {
 
         m_json = json;
         m_status = status;
@@ -73,7 +74,7 @@ public class CmsJsonResult {
      * Gets the JSON data.
      * @return the JSON data
      */
-    public Object getJson() {
+    public @RUntainted Object getJson() {
 
         return m_json;
 

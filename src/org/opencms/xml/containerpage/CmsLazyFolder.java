@@ -33,6 +33,7 @@ import org.opencms.file.CmsVfsResourceNotFoundException;
 import org.opencms.file.types.CmsResourceTypeFolder;
 import org.opencms.main.CmsException;
 import org.opencms.main.OpenCms;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for creating a folder if it doesn'T already exist.<p>
@@ -45,7 +46,7 @@ public class CmsLazyFolder {
     private CmsResource m_folder;
 
     /** The path at which the folder should be created if it doesn'T exist. */
-    private String m_path;
+    private @RUntainted String m_path;
 
     /**
      * Initializes this object with an existing folder.<p>
@@ -64,7 +65,7 @@ public class CmsLazyFolder {
      *
      * @param path the path at which the folder should be created
      */
-    public CmsLazyFolder(String path) {
+    public CmsLazyFolder(@RUntainted String path) {
 
         assert path != null;
         m_path = path;

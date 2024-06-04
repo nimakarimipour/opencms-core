@@ -47,6 +47,7 @@ import org.apache.commons.logging.Log;
 
 import org.dom4j.io.SAXWriter;
 import org.xml.sax.SAXException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper to write exported OpenCms resources either to a .ZIP file or to the file system.<p>
@@ -61,7 +62,7 @@ public class CmsExportHelper {
     private static final Log LOG = CmsLog.getLog(CmsExportHelper.class);
 
     /** The main export path. */
-    private String m_exportPath;
+    private @RUntainted String m_exportPath;
 
     /** The export ZIP stream to write resources to. */
     private ZipOutputStream m_exportZipStream;
@@ -193,7 +194,7 @@ public class CmsExportHelper {
      *
      * @return the RFS file name for the given OpenCms VFS file name
      */
-    protected String getRfsFileName(String name) {
+    protected @RUntainted String getRfsFileName(String name) {
 
         return m_exportPath + name;
     }
@@ -203,7 +204,7 @@ public class CmsExportHelper {
      *
      * @param exportPath the export output path
      */
-    protected void removeOldExport(String exportPath) {
+    protected void removeOldExport(@RUntainted String exportPath) {
 
         File output = new File(exportPath);
         if (output.exists()) {

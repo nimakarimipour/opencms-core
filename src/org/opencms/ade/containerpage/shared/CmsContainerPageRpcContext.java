@@ -30,6 +30,7 @@ package org.opencms.ade.containerpage.shared;
 import org.opencms.util.CmsUUID;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean containing the 'context' of the edited container page for use in RPC calls.<p>

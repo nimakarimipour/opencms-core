@@ -41,6 +41,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains a set of attribute definitions for the sitemap attribute editor.
@@ -73,7 +74,7 @@ public class CmsSitemapAttributeEditorConfiguration {
      * @return the sitemap attribute editor configuration which was read from the file
      * @throws CmsException if something goes wrong
      */
-    public static CmsSitemapAttributeEditorConfiguration read(CmsObject cms, CmsResource res) throws CmsException {
+    public static CmsSitemapAttributeEditorConfiguration read(CmsObject cms, @RUntainted CmsResource res) throws CmsException {
 
         Map<String, CmsXmlContentProperty> resultMap = new LinkedHashMap<>();
         CmsXmlContent content = CmsXmlContentFactory.unmarshal(cms, cms.readFile(res));

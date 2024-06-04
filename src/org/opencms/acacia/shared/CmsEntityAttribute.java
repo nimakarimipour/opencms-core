@@ -31,6 +31,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Serializable entity attribute implementation.<p>
@@ -47,7 +48,7 @@ public class CmsEntityAttribute implements Serializable {
     private String m_name;
 
     /** The simple type values. */
-    private List<String> m_simpleValues;
+    private List<@RUntainted String> m_simpleValues;
 
     /**
      * Constructor. For serialization only.<p>
@@ -80,7 +81,7 @@ public class CmsEntityAttribute implements Serializable {
      *
      * @return the newly created attribute
      */
-    public static CmsEntityAttribute createSimpleAttribute(String name, List<String> values) {
+    public static CmsEntityAttribute createSimpleAttribute(String name, List<@RUntainted String> values) {
 
         CmsEntityAttribute result = new CmsEntityAttribute();
         result.m_name = name;
@@ -113,7 +114,7 @@ public class CmsEntityAttribute implements Serializable {
      *
      * @return the list of complex values
      */
-    public List<CmsEntity> getComplexValues() {
+    public List<@RUntainted CmsEntity> getComplexValues() {
 
         List<CmsEntity> result = new ArrayList<CmsEntity>();
         result.addAll(m_entityValues);
@@ -125,7 +126,7 @@ public class CmsEntityAttribute implements Serializable {
      *
      * @return the first simple value
      */
-    public String getSimpleValue() {
+    public @RUntainted String getSimpleValue() {
 
         return m_simpleValues.get(0);
     }
@@ -135,7 +136,7 @@ public class CmsEntityAttribute implements Serializable {
      *
      * @return the list of simple values
      */
-    public List<String> getSimpleValues() {
+    public List<@RUntainted String> getSimpleValues() {
 
         return Collections.unmodifiableList(m_simpleValues);
     }

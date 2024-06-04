@@ -92,6 +92,8 @@ import com.vaadin.server.VaadinServletResponse;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Controller class which actually handles the login dialog logic.<p>
@@ -349,7 +351,7 @@ public class CmsLoginController {
      *
      * @return the login form link
      */
-    public static String getFormLink(CmsObject cms) {
+    public static @RUntainted String getFormLink(CmsObject cms) {
 
         return OpenCms.getLinkManager().substituteLinkForUnknownTarget(
             cms,
@@ -368,7 +370,7 @@ public class CmsLoginController {
      *
      * @throws CmsException in case the user has insufficient permissions to access the login target
      */
-    public static String getLoginTarget(CmsObject currentCms, CmsWorkplaceSettings settings, String requestedResource)
+    public static @RPolyTainted String getLoginTarget(CmsObject currentCms, CmsWorkplaceSettings settings, @RPolyTainted String requestedResource)
     throws CmsException {
 
         String directEditPath = CmsLoginHelper.getDirectEditPath(currentCms, settings.getUserSettings(), false);
@@ -696,7 +698,7 @@ public class CmsLoginController {
                         }
 
                         @Override
-                        public CmsObject getCms() {
+                        public @RUntainted CmsObject getCms() {
 
                             return loginCms;
                         }
@@ -810,7 +812,7 @@ public class CmsLoginController {
      * @param user the user being logged in
      * @param e the error
      */
-    protected void handleError(CmsObject currentCms, String user, Exception e) {
+    protected void handleError(CmsObject currentCms, @RUntainted String user, Exception e) {
 
         CmsMessageContainer message = null;
 

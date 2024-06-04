@@ -76,6 +76,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Collects all available resource loaders, resource types and resource collectors at startup and provides
@@ -138,7 +139,7 @@ public class CmsResourceManager {
     static final class CmsResourceManagerConfiguration {
 
         /** The mappings of file extensions to resource types. */
-        protected Map<String, String> m_extensionMappings;
+        protected Map<String, @RUntainted String> m_extensionMappings;
 
         /** A list that contains all initialized resource types. */
         protected List<I_CmsResourceType> m_resourceTypeList;
@@ -258,10 +259,10 @@ public class CmsResourceManager {
     private List<CmsRelationType> m_configuredRelationTypes;
 
     /** Filename translator, used only for the creation of new files. */
-    private CmsResourceTranslator m_fileTranslator;
+    private @RUntainted CmsResourceTranslator m_fileTranslator;
 
     /** Folder translator, used to translate all accesses to resources. */
-    private CmsResourceTranslator m_folderTranslator;
+    private @RUntainted CmsResourceTranslator m_folderTranslator;
 
     /** Indicates if the configuration is finalized (frozen). */
     private boolean m_frozen;
@@ -276,13 +277,13 @@ public class CmsResourceManager {
     private I_CmsResourceLoader[] m_loaders;
 
     /** The OpenCms map of configured MIME types. */
-    private Map<String, String> m_mimeTypes;
+    private @RUntainted Map<String, String> m_mimeTypes;
 
     /** The URL name generator for XML contents. */
     private I_CmsFileNameGenerator m_nameGenerator = new CmsDefaultFileNameGenerator();
 
     /** A list that contains all resource types added from the XML configuration. */
-    private List<I_CmsResourceType> m_resourceTypesFromXml;
+    private @RUntainted List<I_CmsResourceType> m_resourceTypesFromXml;
 
     /** The configured default type for files when the resource type is missing. */
     private I_CmsResourceType m_restypeUnknownFile;
@@ -324,7 +325,7 @@ public class CmsResourceManager {
      *
      * @throws CmsConfigurationException in case the collector could not be properly initialized
      */
-    public synchronized I_CmsResourceCollector addContentCollector(String className, String order)
+    public synchronized I_CmsResourceCollector addContentCollector(@RUntainted String className, @RUntainted String order)
     throws CmsConfigurationException {
 
         Class<?> classClazz;
@@ -376,7 +377,7 @@ public class CmsResourceManager {
             // this is a collector not currently configured
             m_collectors.add(collector);
 
-            Iterator<String> i = collector.getCollectorNames().iterator();
+            Iterator<@RUntainted String> i = collector.getCollectorNames().iterator();
             while (i.hasNext()) {
                 String name = i.next();
                 if (m_collectorNameMappings.containsKey(name)) {
@@ -422,7 +423,7 @@ public class CmsResourceManager {
      *
      * @throws CmsConfigurationException in case the HTML converter could not be properly initialized
      */
-    public I_CmsHtmlConverter addHtmlConverter(String name, String className) throws CmsConfigurationException {
+    public I_CmsHtmlConverter addHtmlConverter(@RUntainted String name, @RUntainted String className) throws CmsConfigurationException {
 
         // check if new conversion option can still be added
         if (m_frozen) {
@@ -660,7 +661,7 @@ public class CmsResourceManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public I_CmsResourceType getDefaultTypeForName(String resourcename) throws CmsException {
+    public I_CmsResourceType getDefaultTypeForName(@RUntainted String resourcename) throws CmsException {
 
         String typeName = null;
         String suffix = null;
@@ -703,7 +704,7 @@ public class CmsResourceManager {
      *
      * @return the file translator
      */
-    public CmsResourceTranslator getFileTranslator() {
+    public @RUntainted CmsResourceTranslator getFileTranslator() {
 
         return m_fileTranslator;
     }
@@ -713,7 +714,7 @@ public class CmsResourceManager {
      *
      * @return the folder translator
      */
-    public CmsResourceTranslator getFolderTranslator() {
+    public @RUntainted CmsResourceTranslator getFolderTranslator() {
 
         return m_folderTranslator;
     }
@@ -787,7 +788,7 @@ public class CmsResourceManager {
      *
      * @return the MIME type for a specified file
      */
-    public String getMimeType(String filename, String encoding) {
+    public @RUntainted String getMimeType(String filename, String encoding) {
 
         return getMimeType(filename, encoding, MIMETYPE_HTML);
     }
@@ -1011,7 +1012,7 @@ public class CmsResourceManager {
     public CmsTemplateLoaderFacade getTemplateLoaderFacade(
         CmsObject cms,
         HttpServletRequest request,
-        CmsResource resource,
+        @RUntainted CmsResource resource,
         String templateProperty)
     throws CmsException {
 
@@ -1186,7 +1187,7 @@ public class CmsResourceManager {
      * @throws IOException if something goes wrong
      * @throws CmsException if something goes wrong
      */
-    public void loadResource(CmsObject cms, CmsResource resource, HttpServletRequest req, HttpServletResponse res)
+    public void loadResource(@RUntainted CmsObject cms, @RUntainted CmsResource resource, @RUntainted HttpServletRequest req, @RUntainted HttpServletResponse res)
     throws ServletException, IOException, CmsException {
 
         res.setContentType(getMimeType(resource.getName(), cms.getRequestContext().getEncoding()));
@@ -1248,8 +1249,8 @@ public class CmsResourceManager {
      * @param xsdTranslator the XSD translator to set
      */
     public void setTranslators(
-        CmsResourceTranslator folderTranslator,
-        CmsResourceTranslator fileTranslator,
+        @RUntainted CmsResourceTranslator folderTranslator,
+        @RUntainted CmsResourceTranslator fileTranslator,
         CmsResourceTranslator xsdTranslator) {
 
         m_folderTranslator = folderTranslator;
@@ -1427,8 +1428,8 @@ public class CmsResourceManager {
         }
 
         // add the mappings
-        List<String> mappings = resourceType.getConfiguredMappings();
-        Iterator<String> i = mappings.iterator();
+        List<@RUntainted String> mappings = resourceType.getConfiguredMappings();
+        Iterator<@RUntainted String> i = mappings.iterator();
         while (i.hasNext()) {
             String mapping = i.next();
             // only add this mapping if a mapping with this file extension does not

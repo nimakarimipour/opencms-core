@@ -37,6 +37,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface for template context providers.<p>
@@ -199,7 +200,7 @@ public interface I_CmsTemplateContextProvider {
      *
      * @throws CmsException if something goes wrong
      */
-    String readCommonProperty(CmsObject cms, String propertyName, String fallbackValue) throws CmsException;
+    String readCommonProperty(CmsObject cms, String propertyName, @RUntainted String fallbackValue) throws CmsException;
 
     /**
      * Checks if the context menu option for switching the template should be shown for the given user context.

@@ -36,6 +36,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class is a filter for the repositories.<p>
@@ -53,10 +54,10 @@ public class CmsRepositoryFilter {
     private static final String TYPE_INCLUDE = "include";
 
     /** The rules to be used of the filter. */
-    private List<Pattern> m_filterRules;
+    private List<@RUntainted Pattern> m_filterRules;
 
     /** The type of the filter: include or exclude. */
-    private String m_type;
+    private @RUntainted String m_type;
 
     /**
      * Default constructor initializing member variables.
@@ -109,7 +110,7 @@ public class CmsRepositoryFilter {
 
         if (CmsLog.INIT.isInfoEnabled()) {
 
-            Iterator<Pattern> iter = m_filterRules.iterator();
+            Iterator<@RUntainted Pattern> iter = m_filterRules.iterator();
             while (iter.hasNext()) {
                 Pattern rule = iter.next();
 

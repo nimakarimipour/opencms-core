@@ -29,6 +29,7 @@ package org.opencms.relations;
 
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface used to inject custom link handling behavior into HTML/link content fields.
@@ -45,7 +46,7 @@ public interface I_CmsCustomLinkRenderer {
      *
      * @return the link for the link object
      */
-    String getLink(CmsObject cms, CmsLink link);
+    @RUntainted String getLink(CmsObject cms, CmsLink link);
 
     /**
      * Returns the link for the given link resource.<p>
@@ -57,6 +58,6 @@ public interface I_CmsCustomLinkRenderer {
      *
      * @return the link for the link object
      */
-    String getLink(CmsObject cms, CmsResource resource);
+    @RUntainted String getLink(CmsObject cms, CmsResource resource);
 
 }

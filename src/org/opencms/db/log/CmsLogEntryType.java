@@ -31,6 +31,7 @@ import org.opencms.i18n.CmsMessages;
 import org.opencms.main.CmsIllegalArgumentException;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper class for the different types of log entries.<p>
@@ -186,7 +187,7 @@ public enum CmsLogEntryType {
      *
      * @return localization key for detail formatting
      */
-    public String getDetailKey() {
+    public @RUntainted String getDetailKey() {
 
         return m_detailKey;
     }

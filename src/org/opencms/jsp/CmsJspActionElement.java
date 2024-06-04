@@ -54,6 +54,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean to be used in JSP scriptlet code that provides direct
@@ -105,7 +106,7 @@ public class CmsJspActionElement extends CmsJspBean {
      * @param req the JSP request
      * @param res the JSP response
      */
-    public CmsJspActionElement(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsJspActionElement(@RUntainted PageContext context, @RUntainted HttpServletRequest req, @RUntainted HttpServletResponse res) {
 
         super();
         init(context, req, res);
@@ -270,7 +271,7 @@ public class CmsJspActionElement extends CmsJspBean {
      *
      * @return CmsMessages a message bundle initialized with the provided values
      */
-    public CmsMessages getMessages(String bundleName, Locale locale) {
+    public CmsMessages getMessages(@RUntainted String bundleName, @RUntainted Locale locale) {
 
         return new CmsMessages(bundleName, locale);
     }
@@ -319,10 +320,10 @@ public class CmsJspActionElement extends CmsJspBean {
      * @see org.opencms.i18n.CmsMessages
      */
     public CmsMessages getMessages(
-        String bundleName,
-        String language,
-        String country,
-        String variant,
+        @RUntainted String bundleName,
+        @RUntainted String language,
+        @RUntainted String country,
+        @RUntainted String variant,
         String defaultLanguage) {
 
         try {
@@ -420,7 +421,7 @@ public class CmsJspActionElement extends CmsJspBean {
      *
      * @see org.opencms.jsp.CmsJspTagInclude
      */
-    public void include(String target) throws JspException {
+    public void include(@RUntainted String target) throws JspException {
 
         include(target, null, null);
     }
@@ -435,7 +436,7 @@ public class CmsJspActionElement extends CmsJspBean {
      *
      * @see org.opencms.jsp.CmsJspTagInclude
      */
-    public void include(String target, String element) throws JspException {
+    public void include(@RUntainted String target, String element) throws JspException {
 
         include(target, element, null);
     }
@@ -451,7 +452,7 @@ public class CmsJspActionElement extends CmsJspBean {
      *
      * @see org.opencms.jsp.CmsJspTagInclude
      */
-    public void include(String target, String element, boolean editable) throws JspException {
+    public void include(@RUntainted String target, String element, boolean editable) throws JspException {
 
         include(target, element, editable, null);
     }
@@ -482,7 +483,7 @@ public class CmsJspActionElement extends CmsJspBean {
      *
      * @see org.opencms.jsp.CmsJspTagInclude
      */
-    public void include(String target, String element, boolean editable, boolean cacheable, Map<String, ?> parameterMap)
+    public void include(@RUntainted String target, @RUntainted String element, boolean editable, boolean cacheable, Map<String, ?> parameterMap)
     throws JspException {
 
         if (isNotInitialized()) {
@@ -550,7 +551,7 @@ public class CmsJspActionElement extends CmsJspBean {
      *
      * @see org.opencms.jsp.CmsJspTagInclude
      */
-    public void include(String target, String element, boolean editable, Map<String, ?> parameterMap)
+    public void include(@RUntainted String target, @RUntainted String element, boolean editable, Map<String, ?> parameterMap)
     throws JspException {
 
         include(target, element, editable, true, parameterMap);
@@ -568,7 +569,7 @@ public class CmsJspActionElement extends CmsJspBean {
      *
      * @see org.opencms.jsp.CmsJspTagInclude
      */
-    public void include(String target, String element, Map<String, ?> parameterMap) throws JspException {
+    public void include(@RUntainted String target, String element, Map<String, ?> parameterMap) throws JspException {
 
         include(target, element, false, parameterMap);
     }
@@ -584,7 +585,7 @@ public class CmsJspActionElement extends CmsJspBean {
      * @param target the target URI of the file in the OpenCms VFS (can be relative or absolute)
      * @param element the element (template selector) to display from the target
      */
-    public void includeSilent(String target, String element) {
+    public void includeSilent(@RUntainted String target, String element) {
 
         try {
             include(target, element, null);
@@ -605,7 +606,7 @@ public class CmsJspActionElement extends CmsJspBean {
      * @param element the element (template selector) to display from the target
      * @param editable flag to indicate if direct edit should be enabled for the element
      */
-    public void includeSilent(String target, String element, boolean editable) {
+    public void includeSilent(@RUntainted String target, String element, boolean editable) {
 
         try {
             include(target, element, editable, null);
@@ -627,7 +628,7 @@ public class CmsJspActionElement extends CmsJspBean {
      * @param editable flag to indicate if direct edit should be enabled for the element
      * @param parameterMap a map of the request parameters
      */
-    public void includeSilent(String target, String element, boolean editable, Map<String, Object> parameterMap) {
+    public void includeSilent(@RUntainted String target, String element, boolean editable, Map<String, Object> parameterMap) {
 
         try {
             include(target, element, editable, parameterMap);
@@ -648,7 +649,7 @@ public class CmsJspActionElement extends CmsJspBean {
      * @param element the element (template selector) to display from the target
      * @param parameterMap a map of the request parameters
      */
-    public void includeSilent(String target, String element, Map<String, Object> parameterMap) {
+    public void includeSilent(@RUntainted String target, String element, Map<String, Object> parameterMap) {
 
         try {
             include(target, element, parameterMap);
@@ -691,7 +692,7 @@ public class CmsJspActionElement extends CmsJspBean {
      *
      * @see org.opencms.jsp.CmsJspTagLabel
      */
-    public String label(String label) {
+    public String label(@RUntainted String label) {
 
         if (isNotInitialized()) {
             return getMessage(NOT_INITIALIZED);
@@ -724,7 +725,7 @@ public class CmsJspActionElement extends CmsJspBean {
      * @see org.opencms.jsp.CmsJspTagLink
      * @see #link(String, String)
      */
-    public String link(String target) {
+    public @RUntainted String link(String target) {
 
         return link(target, null);
     }
@@ -749,7 +750,7 @@ public class CmsJspActionElement extends CmsJspBean {
      * @see org.opencms.jsp.CmsJspTagLink
      * @see #link(String)
      */
-    public String link(String target, String baseUri) {
+    public @RUntainted String link(String target, @RUntainted String baseUri) {
 
         if (isNotInitialized()) {
             return getMessage(NOT_INITIALIZED);
@@ -785,9 +786,9 @@ public class CmsJspActionElement extends CmsJspBean {
      *
      * @see org.opencms.jsp.CmsJspTagProperty
      */
-    public Map<String, String> properties(String file) {
+    public Map<String, @RUntainted String> properties(String file) {
 
-        Map<String, String> props = new HashMap<String, String>();
+        Map<String, @RUntainted String> props = new HashMap<String, @RUntainted String>();
         if (isNotInitialized()) {
             return props;
         }
@@ -846,7 +847,7 @@ public class CmsJspActionElement extends CmsJspBean {
      * @see #property(String, String, String, boolean)
      * @see org.opencms.jsp.CmsJspTagProperty
      */
-    public String property(String name, String file, String defaultValue) {
+    public @RUntainted String property(String name, String file, @RUntainted String defaultValue) {
 
         return property(name, file, defaultValue, false);
     }
@@ -868,7 +869,7 @@ public class CmsJspActionElement extends CmsJspBean {
      *
      * @see org.opencms.jsp.CmsJspTagProperty
      */
-    public String property(String name, String file, String defaultValue, boolean escapeHtml) {
+    public @RUntainted String property(String name, String file, @RUntainted String defaultValue, boolean escapeHtml) {
 
         if (isNotInitialized()) {
             return getMessage(NOT_INITIALIZED);

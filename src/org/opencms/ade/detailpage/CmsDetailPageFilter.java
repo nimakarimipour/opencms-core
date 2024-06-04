@@ -46,6 +46,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Filters and sorts a list of detail pages based on whether they are suitable detail pages for a fixed detail content.
@@ -170,7 +171,7 @@ public class CmsDetailPageFilter {
      * @param qualifier the qualifier to check
      * @return true if the qualifier matches the detail resource
      */
-    protected boolean checkQualifier(String qualifier) {
+    protected boolean checkQualifier(@RUntainted String qualifier) {
 
         // shouldn't happen, test anyway
         if (qualifier == null) {

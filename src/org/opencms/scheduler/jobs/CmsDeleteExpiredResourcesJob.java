@@ -49,6 +49,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A schedulable OpenCms job to delete expired resources.<p>
@@ -147,7 +148,7 @@ public class CmsDeleteExpiredResourcesJob implements I_CmsScheduledJob {
             report.println(Messages.get().container(Messages.RPT_DELETE_EXPIRED_START_0), I_CmsReport.FORMAT_HEADLINE);
 
             // collect all resources:
-            List<CmsResource> resources = Collections.emptyList();
+            List<@RUntainted CmsResource> resources = Collections.emptyList();
             CmsResourceFilter filter = CmsResourceFilter.ALL.addExcludeState(CmsResourceState.STATE_DELETED);
             filter = filter.addRequireExpireBefore(currenttime);
 

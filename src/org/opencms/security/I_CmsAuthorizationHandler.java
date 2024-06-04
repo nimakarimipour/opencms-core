@@ -35,6 +35,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Defines general authorization methods.<p>
@@ -73,7 +74,7 @@ public interface I_CmsAuthorizationHandler {
          * @return a cms object initialized for the principal
          * @throws CmsException if the login action fails
          */
-        CmsObject doLogin(HttpServletRequest request, String principal) throws CmsException;
+        @RUntainted CmsObject doLogin(HttpServletRequest request, @RUntainted String principal) throws CmsException;
     }
 
     /**
@@ -110,7 +111,7 @@ public interface I_CmsAuthorizationHandler {
      *
      * @return the cms context object associated to the current session
      */
-    CmsObject initCmsObject(HttpServletRequest request, I_PrivilegedLoginAction loginAction);
+    @RUntainted CmsObject initCmsObject(HttpServletRequest request, I_PrivilegedLoginAction loginAction);
 
     /**
      * Authenticates the current request with additional user information.<p>
@@ -144,5 +145,5 @@ public interface I_CmsAuthorizationHandler {
      *
      * @param parameters the map of parameters
      */
-    void setParameters(Map<String, String> parameters);
+    void setParameters(Map<String, @RUntainted String> parameters);
 }

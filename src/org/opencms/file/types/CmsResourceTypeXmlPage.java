@@ -56,6 +56,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor for the type "xmlpage".<p>
@@ -74,7 +75,7 @@ public class CmsResourceTypeXmlPage extends A_CmsResourceTypeLinkParseable {
     private static final Log LOG = CmsLog.getLog(CmsResourceTypeXmlPage.class);
 
     /** The static type id of this resource type. */
-    private static int m_staticTypeId;
+    private static @RUntainted int m_staticTypeId;
 
     /** The type id of this resource type. */
     private static final int RESOURCE_TYPE_ID = 6;
@@ -100,7 +101,7 @@ public class CmsResourceTypeXmlPage extends A_CmsResourceTypeLinkParseable {
      *
      * @return the static type id of this (default) resource type
      */
-    public static int getStaticTypeId() {
+    public static @RUntainted int getStaticTypeId() {
 
         return m_staticTypeId;
     }
@@ -140,10 +141,10 @@ public class CmsResourceTypeXmlPage extends A_CmsResourceTypeLinkParseable {
      * @see org.opencms.file.types.A_CmsResourceType#createResource(org.opencms.file.CmsObject, org.opencms.db.CmsSecurityManager, java.lang.String, byte[], java.util.List)
      */
     @Override
-    public CmsResource createResource(
+    public @RUntainted CmsResource createResource(
         CmsObject cms,
         CmsSecurityManager securityManager,
-        String resourcename,
+        @RUntainted String resourcename,
         byte[] content,
         List<CmsProperty> properties)
     throws CmsException {
@@ -183,7 +184,7 @@ public class CmsResourceTypeXmlPage extends A_CmsResourceTypeLinkParseable {
      * @see org.opencms.file.types.A_CmsResourceType#initConfiguration(java.lang.String, java.lang.String, String)
      */
     @Override
-    public void initConfiguration(String name, String id, String className) throws CmsConfigurationException {
+    public void initConfiguration(@RUntainted String name, String id, String className) throws CmsConfigurationException {
 
         super.initConfiguration(name, id, className);
         m_staticTypeId = m_typeId;
@@ -198,13 +199,13 @@ public class CmsResourceTypeXmlPage extends A_CmsResourceTypeLinkParseable {
         Set<CmsLink> links = new LinkedHashSet<CmsLink>();
         try {
             CmsXmlPage xmlPage = CmsXmlPageFactory.unmarshal(cms, file);
-            List<Locale> locales = xmlPage.getLocales();
+            List<@RUntainted Locale> locales = xmlPage.getLocales();
 
             // iterate over all languages
             Iterator<Locale> i = locales.iterator();
             while (i.hasNext()) {
                 Locale locale = i.next();
-                List<String> elementNames = xmlPage.getNames(locale);
+                List<@RUntainted String> elementNames = xmlPage.getNames(locale);
 
                 // iterate over all body elements per language
                 Iterator<String> j = elementNames.iterator();

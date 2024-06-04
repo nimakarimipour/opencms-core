@@ -28,6 +28,7 @@
 package org.opencms.gwt.shared.property;
 
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A bean which represents a value together with a path which indicates from where the value has been read.<p>

@@ -31,6 +31,7 @@ import org.opencms.file.I_CmsResource;
 import org.opencms.util.CmsUUID;
 
 import java.io.Serializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A historical version of a resource in the OpenCms VFS resource history.<p>
@@ -54,7 +55,7 @@ public interface I_CmsHistoryResource extends I_CmsResource, Cloneable, Serializ
      *
      * @return the structure id of the parent resource
      */
-    CmsUUID getParentId();
+    @RUntainted CmsUUID getParentId();
 
     /**
      * Returns the publish tag of this historical resource.<p>
@@ -82,5 +83,5 @@ public interface I_CmsHistoryResource extends I_CmsResource, Cloneable, Serializ
      *
      * @return the version number of this historical resource
      */
-    int getVersion();
+    @RUntainted int getVersion();
 }

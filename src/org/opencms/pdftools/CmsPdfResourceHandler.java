@@ -51,6 +51,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This resource handler handles URLs of the form /pdflink/{locale}/{formatter-id}/{detailname} and format
@@ -66,7 +67,7 @@ public class CmsPdfResourceHandler implements I_CmsResourceInit {
     public static final String IMAGE_MIMETYPECONFIG = "png:image/png|gif:image/gif|jpg:image/jpeg";
 
     /** Map of mime types for different file extensions. */
-    public static final Map<String, String> IMAGE_MIMETYPES = Collections.unmodifiableMap(
+    public static final Map<String, @RUntainted String> IMAGE_MIMETYPES = Collections.unmodifiableMap(
         CmsStringUtil.splitAsMap(IMAGE_MIMETYPECONFIG, "|", ":"));
 
     /** The logger instance for this class. */
@@ -91,11 +92,11 @@ public class CmsPdfResourceHandler implements I_CmsResourceInit {
     /**
      * @see org.opencms.main.I_CmsResourceInit#initResource(org.opencms.file.CmsResource, org.opencms.file.CmsObject, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-    public CmsResource initResource(
+    public @RUntainted CmsResource initResource(
         CmsResource resource,
         CmsObject cms,
-        HttpServletRequest request,
-        HttpServletResponse response)
+        @RUntainted HttpServletRequest request,
+        @RUntainted HttpServletResponse response)
     throws CmsResourceInitException, CmsSecurityException {
 
         // check if the resource was already found or the path starts with '/system/'
@@ -157,7 +158,7 @@ public class CmsPdfResourceHandler implements I_CmsResourceInit {
      * @throws Exception if something goes wrong
      * @throws CmsResourceInitException if the resource initialization is cancelled
      */
-    protected void handlePdfLink(CmsObject cms, HttpServletRequest request, HttpServletResponse response, String uri)
+    protected void handlePdfLink(CmsObject cms, @RUntainted HttpServletRequest request, @RUntainted HttpServletResponse response, @RUntainted String uri)
     throws Exception {
 
         CmsPdfLink linkObj = new CmsPdfLink(cms, uri);
@@ -248,7 +249,7 @@ public class CmsPdfResourceHandler implements I_CmsResourceInit {
         CmsObject cms,
         HttpServletRequest request,
         HttpServletResponse response,
-        String uri)
+        @RUntainted String uri)
     throws Exception {
 
         String options = request.getParameter(CmsPdfThumbnailLink.PARAM_OPTIONS);

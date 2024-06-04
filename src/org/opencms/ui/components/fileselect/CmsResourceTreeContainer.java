@@ -59,6 +59,7 @@ import com.google.common.collect.Lists;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Item;
 import com.vaadin.v7.data.util.HierarchicalContainer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The data container for the sitmeap folder selection tree.<p>
@@ -154,7 +155,7 @@ public class CmsResourceTreeContainer extends HierarchicalContainer {
      * @param cms the CMS context
      * @param parentId the parent id
      */
-    public void readTreeLevel(CmsObject cms, CmsUUID parentId) {
+    public void readTreeLevel(CmsObject cms, @RUntainted CmsUUID parentId) {
 
         try {
             CmsResource parent = cms.readResource(parentId, m_filter);

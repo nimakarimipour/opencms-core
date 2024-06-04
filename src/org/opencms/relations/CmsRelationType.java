@@ -40,6 +40,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper class for
@@ -204,7 +205,7 @@ public final class CmsRelationType implements Serializable {
     private final int m_id;
 
     /** Some name for this relation type, ie. for &lt;link&gt; tag representation. */
-    private final String m_name;
+    private final @RUntainted String m_name;
 
     /** Flag to indicate if the relations of this type are strong or weak. */
     private final boolean m_strong;
@@ -633,7 +634,7 @@ public final class CmsRelationType implements Serializable {
      *
      * @see CmsRelationType#valueOf(String)
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_name;
     }

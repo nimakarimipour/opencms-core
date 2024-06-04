@@ -58,6 +58,7 @@ import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents a formatter configuration.<p>
@@ -451,7 +452,7 @@ public final class CmsFormatterConfiguration {
      * @param key a formatter key or id
      * @return the list of formatters for the given key
      */
-    public List<I_CmsFormatterBean> getFormattersForKey(String key) {
+    public List<I_CmsFormatterBean> getFormattersForKey(@RUntainted String key) {
 
         if (key == null) {
             return new ArrayList<>();

@@ -26,6 +26,7 @@
  */
 
 package org.opencms.workplace.editors.directedit;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Constants to indicate the direct edit permissions of a user for a VFS resource,

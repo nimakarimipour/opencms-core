@@ -30,6 +30,7 @@ package org.opencms.file;
 import org.opencms.db.CmsResourceState;
 import org.opencms.file.types.I_CmsResourceType;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class allows the developer to build a CmsResource object by filling out individual fields one after the
@@ -38,25 +39,25 @@ import org.opencms.util.CmsUUID;
 public class CmsResourceBuilder {
 
     /** The date of the last modification of the content of this resource. */
-    protected long m_dateContent = System.currentTimeMillis();
+    protected @RUntainted long m_dateContent = System.currentTimeMillis();
 
     /** The size of the content. */
-    protected int m_length;
+    protected @RUntainted int m_length;
 
     /** The creation date of this resource. */
-    private long m_dateCreated;
+    private @RUntainted long m_dateCreated;
 
     /** The expiration date of this resource. */
-    private long m_dateExpired;
+    private @RUntainted long m_dateExpired;
 
     /** The date of the last modification of this resource. */
-    private long m_dateLastModified;
+    private @RUntainted long m_dateLastModified;
 
     /** The release date of this resource. */
-    private long m_dateReleased;
+    private @RUntainted long m_dateReleased;
 
     /** The flags of this resource. */
-    private int m_flags;
+    private @RUntainted int m_flags;
 
     /** Indicates if this resource is a folder or not. */
     private boolean m_isFolder;
@@ -71,16 +72,16 @@ public class CmsResourceBuilder {
     private CmsUUID m_resourceId;
 
     /** The name of a resource with it's full path from the root folder including the current site root. */
-    private String m_rootPath;
+    private @RUntainted String m_rootPath;
 
     /** The number of links that point to this resource. */
     private int m_siblingCount;
 
     /** The state of this resource. */
-    private CmsResourceState m_state;
+    private @RUntainted CmsResourceState m_state;
 
     /** The id of the structure database record. */
-    private CmsUUID m_structureId;
+    private @RUntainted CmsUUID m_structureId;
 
     /** The m type. */
     private I_CmsResourceType m_type;
@@ -92,7 +93,7 @@ public class CmsResourceBuilder {
     private CmsUUID m_userLastModified;
 
     /** The version number of this resource. */
-    private int m_version;
+    private @RUntainted int m_version;
 
     /**
      * Builds the resource.
@@ -346,7 +347,7 @@ public class CmsResourceBuilder {
      *
      * @param dateLastModified the new date last modified
      */
-    public void setDateLastModified(long dateLastModified) {
+    public void setDateLastModified(@RUntainted long dateLastModified) {
 
         m_dateLastModified = dateLastModified;
     }
@@ -366,7 +367,7 @@ public class CmsResourceBuilder {
      *
      * @param flags the new flags
      */
-    public void setFlags(int flags) {
+    public void setFlags(@RUntainted int flags) {
 
         m_flags = flags;
     }
@@ -416,7 +417,7 @@ public class CmsResourceBuilder {
      *
      * @param rootPath the new root path
      */
-    public void setRootPath(String rootPath) {
+    public void setRootPath(@RUntainted String rootPath) {
 
         m_rootPath = rootPath;
     }
@@ -436,7 +437,7 @@ public class CmsResourceBuilder {
      *
      * @param state the new state
      */
-    public void setState(CmsResourceState state) {
+    public void setState(@RUntainted CmsResourceState state) {
 
         m_state = state;
     }
@@ -446,7 +447,7 @@ public class CmsResourceBuilder {
      *
      * @param structureId the new structure id
      */
-    public void setStructureId(CmsUUID structureId) {
+    public void setStructureId(@RUntainted CmsUUID structureId) {
 
         m_structureId = structureId;
     }

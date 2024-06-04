@@ -61,6 +61,7 @@ import org.apache.commons.collections.Buffer;
 import org.apache.commons.collections.BufferUtils;
 import org.apache.commons.collections.buffer.CircularFifoBuffer;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Keeps track of the sessions running on the OpenCms server and
@@ -110,10 +111,10 @@ public class CmsSessionManager {
     private Object m_lockSessionCount;
 
     /** Counter for the currently active sessions. */
-    private int m_sessionCountCurrent;
+    private @RUntainted int m_sessionCountCurrent;
 
     /** Counter for all sessions created so far. */
-    private int m_sessionCountTotal;
+    private @RUntainted int m_sessionCountTotal;
 
     /** Session storage provider instance. */
     private I_CmsSessionStorageProvider m_sessionStorageProvider;
@@ -159,7 +160,7 @@ public class CmsSessionManager {
      *
      * @return the broadcast queue for the given OpenCms session id
      */
-    public Buffer getBroadcastQueue(String sessionId) {
+    public Buffer getBroadcastQueue(@RUntainted String sessionId) {
 
         CmsSessionInfo sessionInfo = getSessionInfo(getSessionUUID(sessionId));
         if (sessionInfo == null) {
@@ -174,7 +175,7 @@ public class CmsSessionManager {
      *
      * @return the number of sessions currently authenticated in the OpenCms security system
      */
-    public int getSessionCountAuthenticated() {
+    public @RUntainted int getSessionCountAuthenticated() {
 
         // since this method could be called from another thread
         // we have to prevent access before initialization
@@ -189,7 +190,7 @@ public class CmsSessionManager {
      *
      * @return the number of current sessions, including the sessions of not authenticated guest users
      */
-    public int getSessionCountCurrent() {
+    public @RUntainted int getSessionCountCurrent() {
 
         return m_sessionCountCurrent;
     }
@@ -199,7 +200,7 @@ public class CmsSessionManager {
      *
      * @return the number of total sessions generated so far, including already destroyed sessions
      */
-    public int getSessionCountTotal() {
+    public @RUntainted int getSessionCountTotal() {
 
         return m_sessionCountTotal;
     }
@@ -269,7 +270,7 @@ public class CmsSessionManager {
      *
      * @see #getSessionInfo(CmsUUID)
      */
-    public CmsSessionInfo getSessionInfo(String sessionId) {
+    public CmsSessionInfo getSessionInfo(@RUntainted String sessionId) {
 
         return getSessionInfo(getSessionUUID(sessionId));
     }
@@ -449,7 +450,7 @@ public class CmsSessionManager {
      * @param sessionId the OpenCms session uuid target (receiver) of the broadcast
      */
     @Deprecated
-    public void sendBroadcast(CmsObject cms, String message, String sessionId) {
+    public void sendBroadcast(CmsObject cms, String message, @RUntainted String sessionId) {
 
         sendBroadcast(cms, message, sessionId, false);
 
@@ -465,7 +466,7 @@ public class CmsSessionManager {
      * @param repeat repeat this message
      */
     @Deprecated
-    public void sendBroadcast(CmsObject cms, String message, String sessionId, boolean repeat) {
+    public void sendBroadcast(CmsObject cms, String message, @RUntainted String sessionId, boolean repeat) {
 
         sendBroadcast(cms, message, sessionId, repeat, ContentMode.plain);
 
@@ -481,7 +482,7 @@ public class CmsSessionManager {
      * @param repeat repeat this message
      * @param mode the content mode to use
      */
-    public void sendBroadcast(CmsObject cms, String message, String sessionId, boolean repeat, ContentMode mode) {
+    public void sendBroadcast(CmsObject cms, String message, @RUntainted String sessionId, boolean repeat, ContentMode mode) {
 
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(message)) {
             // don't broadcast empty messages
@@ -505,7 +506,7 @@ public class CmsSessionManager {
      * @param sessionId the OpenCms session uuid target (receiver) of the broadcast
      * @param mode the content mode to use
      */
-    public void sendBroadcast(CmsObject cms, String message, String sessionId, ContentMode mode) {
+    public void sendBroadcast(CmsObject cms, String message, @RUntainted String sessionId, ContentMode mode) {
 
         sendBroadcast(cms, message, sessionId, false, mode);
     }
@@ -858,7 +859,7 @@ public class CmsSessionManager {
      *
      * @return the UUID representation for the given session id String
      */
-    protected CmsUUID getSessionUUID(String sessionId) {
+    protected CmsUUID getSessionUUID(@RUntainted String sessionId) {
 
         return new CmsUUID(sessionId);
     }
@@ -884,7 +885,7 @@ public class CmsSessionManager {
      * @see javax.servlet.http.HttpSessionListener#sessionCreated(javax.servlet.http.HttpSessionEvent)
      * @see OpenCmsListener#sessionCreated(HttpSessionEvent)
      */
-    protected void sessionCreated(HttpSessionEvent event) {
+    protected void sessionCreated(@RUntainted HttpSessionEvent event) {
 
         HttpServletRequest request = OpenCmsServlet.currentRequestStack.top();
         String tid = "[" + Thread.currentThread().getId() + "] ";
@@ -921,7 +922,7 @@ public class CmsSessionManager {
      * @see javax.servlet.http.HttpSessionListener#sessionDestroyed(javax.servlet.http.HttpSessionEvent)
      * @see OpenCmsListener#sessionDestroyed(HttpSessionEvent)
      */
-    protected void sessionDestroyed(HttpSessionEvent event) {
+    protected void sessionDestroyed(@RUntainted HttpSessionEvent event) {
 
         synchronized (m_lockSessionCount) {
             m_sessionCountCurrent = (m_sessionCountCurrent <= 0) ? 0 : (m_sessionCountCurrent - 1);
@@ -1009,7 +1010,7 @@ public class CmsSessionManager {
      *
      * @return the client token
      */
-    private String generateClientToken(HttpServletRequest request) {
+    private @RUntainted String generateClientToken(HttpServletRequest request) {
 
         String ip = request.getHeader(HEADER_TRUE_CLIENT_IP);
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(ip)) {

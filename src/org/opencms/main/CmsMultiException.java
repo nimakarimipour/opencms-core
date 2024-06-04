@@ -34,6 +34,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A multi exception is a container for several exception messages that may be caused by an internal operation.<p>
@@ -137,7 +138,7 @@ public class CmsMultiException extends CmsException {
      * @see java.lang.Throwable#getLocalizedMessage()
      */
     @Override
-    public String getLocalizedMessage() {
+    public @RUntainted String getLocalizedMessage() {
 
         if (m_exceptions.isEmpty()) {
             return null;

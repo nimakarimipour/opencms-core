@@ -31,6 +31,7 @@ import org.opencms.file.CmsObject;
 import org.opencms.i18n.CmsMessages;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Enables a dynamic configuration of values for the {@link CmsVfsImageWidget}.<p>
@@ -62,7 +63,7 @@ public interface I_CmsImageWidgetDynamicConfiguration {
      * @param formatValues the list of predefined format values for the widget
      * @return  the matching format values for the given format select options
      */
-    List<String> getFormatValues(
+    @RUntainted List<String> getFormatValues(
         CmsObject cms,
         CmsMessages widgetDialog,
         I_CmsWidgetParameter param,
@@ -80,7 +81,7 @@ public interface I_CmsImageWidgetDynamicConfiguration {
      * @param param the widget parameter to generate the widget for
      * @return the required information for the initial image list to load
      */
-    String getStartup(CmsObject cms, CmsMessages widgetDialog, I_CmsWidgetParameter param);
+    @RUntainted String getStartup(CmsObject cms, CmsMessages widgetDialog, I_CmsWidgetParameter param);
 
     /**
      * Returns the type of the initial image list to load, either gallery or category.<p>
@@ -90,5 +91,5 @@ public interface I_CmsImageWidgetDynamicConfiguration {
      * @param param the widget parameter to generate the widget for
      * @return the type of the initial image list to load, either gallery or category
      */
-    String getType(CmsObject cms, CmsMessages widgetDialog, I_CmsWidgetParameter param);
+    @RUntainted String getType(CmsObject cms, CmsMessages widgetDialog, I_CmsWidgetParameter param);
 }

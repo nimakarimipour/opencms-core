@@ -35,6 +35,7 @@ import org.opencms.search.CmsIndexException;
 import org.opencms.search.I_CmsSearchIndex;
 import org.opencms.search.extractors.CmsExtractorRtf;
 import org.opencms.search.extractors.I_CmsExtractionResult;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Lucene document factory class to extract index data from a cms resource
@@ -60,7 +61,7 @@ public class CmsDocumentRtf extends A_CmsVfsDocument {
      *
      * @see org.opencms.search.documents.I_CmsSearchExtractor#extractContent(CmsObject, CmsResource, I_CmsSearchIndex)
      */
-    public I_CmsExtractionResult extractContent(CmsObject cms, CmsResource resource, I_CmsSearchIndex index)
+    public I_CmsExtractionResult extractContent(CmsObject cms, @RUntainted CmsResource resource, I_CmsSearchIndex index)
     throws CmsException {
 
         logContentExtraction(resource, index);

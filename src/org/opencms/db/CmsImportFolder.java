@@ -53,6 +53,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Allows to import resources from the filesystem or a ZIP file into the OpenCms VFS.<p>
@@ -71,19 +72,19 @@ public class CmsImportFolder {
     private List<CmsResource> m_importedResources = new ArrayList<CmsResource>();
 
     /** The name of the import folder to load resources from. */
-    private String m_importFolderName;
+    private @RUntainted String m_importFolderName;
 
     /** The import path in the OpenCms VFS. */
-    private String m_importPath;
+    private @RUntainted String m_importPath;
 
     /** The resource (folder or ZIP file) to import from in the real file system. */
-    private File m_importResource;
+    private @RUntainted File m_importResource;
 
     /** Will be true if the import resource is a valid ZIP file. */
     private boolean m_validZipFile;
 
     /** The import resource ZIP stream to load resources from. */
-    private ZipInputStream m_zipStreamIn;
+    private @RUntainted ZipInputStream m_zipStreamIn;
 
     /**
      * Default Constructor.<p>
@@ -188,7 +189,7 @@ public class CmsImportFolder {
      *
      * @throws CmsException if something goes wrong
      */
-    public void importZip(byte[] content, String importPath, CmsObject cms, boolean noSubFolder) throws CmsException {
+    public void importZip(@RUntainted byte[] content, String importPath, CmsObject cms, boolean noSubFolder) throws CmsException {
 
         m_importPath = importPath;
         m_cms = cms;
@@ -250,9 +251,9 @@ public class CmsImportFolder {
      * @param importPath the OpenCms VFS import path to import to
      * @throws Exception if something goes wrong during file IO
      */
-    private void importResources(File folder, String importPath) throws Exception {
+    private void importResources(@RUntainted File folder, @RUntainted String importPath) throws Exception {
 
-        String[] diskFiles = folder.list();
+        @RUntainted String[] diskFiles = folder.list();
         File currentFile;
 
         for (int i = 0; i < diskFiles.length; i++) {
@@ -293,7 +294,7 @@ public class CmsImportFolder {
      *
      * @throws Exception if something goes wrong during file IO
      */
-    private void importZipResource(ZipInputStream zipStreamIn, String importPath, boolean noSubFolder)
+    private void importZipResource(@RUntainted ZipInputStream zipStreamIn, @RUntainted String importPath, boolean noSubFolder)
     throws Exception {
 
         // HACK: this method looks very crude, it should be re-written sometime...
@@ -320,7 +321,7 @@ public class CmsImportFolder {
             // separate path in directories an file name ...
             StringTokenizer st = new StringTokenizer(filename, "/\\");
             int count = st.countTokens();
-            String[] path = new String[count];
+            @RUntainted String[] path = new String[count];
 
             if (filename.endsWith("\\") || filename.endsWith("/")) {
                 isFolder = true; // last entry is a folder

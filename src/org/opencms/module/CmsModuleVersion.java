@@ -32,6 +32,7 @@ import org.opencms.main.CmsRuntimeException;
 import org.opencms.util.CmsStringUtil;
 
 import java.io.Serializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A version number for an OpenCms module.<p>
@@ -129,7 +130,7 @@ public class CmsModuleVersion implements Comparable<Object>, Serializable {
      *
      * @return the current version String
      */
-    public String getVersion() {
+    public @RUntainted String getVersion() {
 
         return m_version;
     }
@@ -192,7 +193,7 @@ public class CmsModuleVersion implements Comparable<Object>, Serializable {
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString() {
+    public @RUntainted String toString() {
 
         return getVersion();
     }

@@ -58,6 +58,7 @@ import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the Additional User info dialog.<p>
@@ -280,7 +281,7 @@ public class CmsAdditionalInfosDialog extends CmsBasicDialog {
      * @param key string
      * @param value string
      */
-    private void saveAddInfo(String key, String value) {
+    private void saveAddInfo(String key, @RUntainted String value) {
 
         int pos = key.indexOf("@");
 
@@ -322,9 +323,9 @@ public class CmsAdditionalInfosDialog extends CmsBasicDialog {
 
         m_addInfoEditable = new TreeMap<String, Object>();
         m_addInfoReadOnly = new TreeMap<String, Object>();
-        Iterator<Entry<String, Object>> itEntries = m_user.getAdditionalInfo().entrySet().iterator();
+        Iterator<Entry<String, @RUntainted Object>> itEntries = m_user.getAdditionalInfo().entrySet().iterator();
         while (itEntries.hasNext()) {
-            Entry<String, Object> entry = itEntries.next();
+            Entry<String, @RUntainted Object> entry = itEntries.next();
             String key = entry.getKey().toString();
             if ((entry.getValue() == null) || CmsStringUtil.isEmptyOrWhitespaceOnly(entry.getValue().toString())) {
                 // skip empty entries

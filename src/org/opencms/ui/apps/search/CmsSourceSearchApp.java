@@ -74,6 +74,7 @@ import com.vaadin.v7.event.FieldEvents.TextChangeEvent;
 import com.vaadin.v7.event.FieldEvents.TextChangeListener;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The source search app.<p>
@@ -183,7 +184,7 @@ public class CmsSourceSearchApp extends A_CmsWorkplaceApp implements I_CmsCachab
      *
      * @return the search settings
      */
-    static CmsSearchReplaceSettings getSettingsFromState(String state) {
+    static CmsSearchReplaceSettings getSettingsFromState(@RUntainted String state) {
 
         try {
             state = new URLCodec().decode(state);
@@ -323,7 +324,7 @@ public class CmsSourceSearchApp extends A_CmsWorkplaceApp implements I_CmsCachab
      * @see org.opencms.ui.apps.A_CmsWorkplaceApp#getComponentForState(java.lang.String)
      */
     @Override
-    protected Component getComponentForState(String state) {
+    protected Component getComponentForState(@RUntainted String state) {
 
         m_rootLayout.setMainHeightFull(true);
         HorizontalSplitPanel sp = new HorizontalSplitPanel();

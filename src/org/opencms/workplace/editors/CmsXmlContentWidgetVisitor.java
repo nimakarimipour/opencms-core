@@ -42,6 +42,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Visitor implementation that collects the different widgets for all visited values and all widgets for the found values.<p>
@@ -141,7 +142,7 @@ public class CmsXmlContentWidgetVisitor implements I_CmsXmlContentValueVisitor {
     /**
      * @see org.opencms.xml.content.I_CmsXmlContentValueVisitor#visit(org.opencms.xml.types.I_CmsXmlContentValue)
      */
-    public void visit(I_CmsXmlContentValue value) {
+    public void visit(@RUntainted I_CmsXmlContentValue value) {
 
         if (LOG.isDebugEnabled()) {
             LOG.debug(

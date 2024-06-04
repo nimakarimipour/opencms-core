@@ -92,6 +92,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 
 import com.google.common.base.Splitter;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The JSP loader which enables the execution of JSP in OpenCms.<p>
@@ -177,19 +178,19 @@ public class CmsJspLoader implements I_CmsResourceLoader, I_CmsFlexCacheEnabledL
     private static Map<String, ReentrantReadWriteLock> m_fileLocks = CmsMemoryMonitor.createLRUCacheMap(10000);
 
     /** The directory to store the generated JSP pages in (absolute path). */
-    private static String m_jspRepository;
+    private static @RUntainted String m_jspRepository;
 
     /** The directory to store the generated JSP pages in (relative path in web application). */
-    private static String m_jspWebAppRepository;
+    private static @RUntainted String m_jspWebAppRepository;
 
     /** The CmsFlexCache used to store generated cache entries in. */
-    private CmsFlexCache m_cache;
+    private @RUntainted CmsFlexCache m_cache;
 
     /** The resource loader configuration. */
     private CmsParameterConfiguration m_configuration;
 
     /** Flag to indicate if error pages are marked as "committed". */
-    private boolean m_errorPagesAreNotCommitted;
+    private @RUntainted boolean m_errorPagesAreNotCommitted;
 
     /** The offline JSPs. */
     private Map<String, Boolean> m_offlineJsps;
@@ -222,7 +223,7 @@ public class CmsJspLoader implements I_CmsResourceLoader, I_CmsFlexCacheEnabledL
     /**
      * @see org.opencms.configuration.I_CmsConfigurationParameterHandler#addConfigurationParameter(java.lang.String, java.lang.String)
      */
-    public void addConfigurationParameter(String paramName, String paramValue) {
+    public void addConfigurationParameter(String paramName, @RUntainted String paramValue) {
 
         m_configuration.add(paramName, paramValue);
         if (paramName.startsWith("taglib.")) {
@@ -263,12 +264,12 @@ public class CmsJspLoader implements I_CmsResourceLoader, I_CmsFlexCacheEnabledL
      * @see org.opencms.loader.I_CmsResourceLoader#dump(org.opencms.file.CmsObject, org.opencms.file.CmsResource, java.lang.String, java.util.Locale, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public byte[] dump(
-        CmsObject cms,
-        CmsResource file,
+        @RUntainted CmsObject cms,
+        @RUntainted CmsResource file,
         String element,
         Locale locale,
-        HttpServletRequest req,
-        HttpServletResponse res)
+        @RUntainted HttpServletRequest req,
+        @RUntainted HttpServletResponse res)
     throws ServletException, IOException {
 
         // get the current Flex controller
@@ -323,7 +324,7 @@ public class CmsJspLoader implements I_CmsResourceLoader, I_CmsFlexCacheEnabledL
     /**
      * @see org.opencms.loader.I_CmsResourceLoader#export(org.opencms.file.CmsObject, org.opencms.file.CmsResource, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-    public byte[] export(CmsObject cms, CmsResource resource, HttpServletRequest req, HttpServletResponse res)
+    public byte[] export(@RUntainted CmsObject cms, @RUntainted CmsResource resource, @RUntainted HttpServletRequest req, @RUntainted HttpServletResponse res)
     throws ServletException, IOException {
 
         // get the Flex controller
@@ -354,7 +355,7 @@ public class CmsJspLoader implements I_CmsResourceLoader, I_CmsFlexCacheEnabledL
      *
      * @return The full path to the JSP repository
      */
-    public String getJspRepository() {
+    public @RUntainted String getJspRepository() {
 
         return m_jspRepository;
     }
@@ -497,7 +498,7 @@ public class CmsJspLoader implements I_CmsResourceLoader, I_CmsFlexCacheEnabledL
     /**
      * @see org.opencms.loader.I_CmsResourceLoader#load(org.opencms.file.CmsObject, org.opencms.file.CmsResource, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-    public void load(CmsObject cms, CmsResource file, HttpServletRequest req, HttpServletResponse res)
+    public void load(@RUntainted CmsObject cms, @RUntainted CmsResource file, @RUntainted HttpServletRequest req, @RUntainted HttpServletResponse res)
     throws ServletException, IOException, CmsException {
 
         CmsRequestContext context = cms.getRequestContext();
@@ -559,7 +560,7 @@ public class CmsJspLoader implements I_CmsResourceLoader, I_CmsFlexCacheEnabledL
      * @return the transformed JSP text
      */
     @Deprecated
-    public String processTaglibAttributes(String content) {
+    public @RUntainted String processTaglibAttributes(@RUntainted String content) {
 
         // matches a whole page directive
         final Pattern directivePattern = Pattern.compile("(?sm)<%@\\s*page.*?%>");
@@ -573,7 +574,7 @@ public class CmsJspLoader implements I_CmsResourceLoader, I_CmsFlexCacheEnabledL
 
             private boolean m_first = true;
 
-            public String substituteMatch(String string, Matcher matcher) {
+            public String substituteMatch(@RUntainted String string, @RUntainted Matcher matcher) {
 
                 String match = string.substring(matcher.start(), matcher.end());
                 I_CmsRegexSubstitution taglibSub = new I_CmsRegexSubstitution() {
@@ -651,7 +652,7 @@ public class CmsJspLoader implements I_CmsResourceLoader, I_CmsFlexCacheEnabledL
     /**
      * @see org.opencms.loader.I_CmsResourceLoader#service(org.opencms.file.CmsObject, org.opencms.file.CmsResource, javax.servlet.ServletRequest, javax.servlet.ServletResponse)
      */
-    public void service(CmsObject cms, CmsResource resource, ServletRequest req, ServletResponse res)
+    public void service(CmsObject cms, @RUntainted CmsResource resource, @RUntainted ServletRequest req, ServletResponse res)
     throws ServletException, IOException, CmsLoaderException {
 
         CmsFlexController controller = CmsFlexController.getController(req);
@@ -670,7 +671,7 @@ public class CmsJspLoader implements I_CmsResourceLoader, I_CmsFlexCacheEnabledL
     /**
      * @see org.opencms.loader.I_CmsFlexCacheEnabledLoader#setFlexCache(org.opencms.flex.CmsFlexCache)
      */
-    public void setFlexCache(CmsFlexCache cache) {
+    public void setFlexCache(@RUntainted CmsFlexCache cache) {
 
         m_cache = cache;
         // output setup information
@@ -733,7 +734,7 @@ public class CmsJspLoader implements I_CmsResourceLoader, I_CmsFlexCacheEnabledL
      * @throws IOException might be thrown in the process of including the JSP
      * @throws CmsLoaderException if the resource type can not be read
      */
-    public String updateJsp(CmsResource resource, CmsFlexController controller, Set<String> updatedFiles)
+    public @RUntainted String updateJsp(@RUntainted CmsResource resource, CmsFlexController controller, Set<String> updatedFiles)
     throws IOException, ServletException, CmsLoaderException {
 
         String jspVfsName = resource.getRootPath();
@@ -834,7 +835,7 @@ public class CmsJspLoader implements I_CmsResourceLoader, I_CmsFlexCacheEnabledL
                     // check again if updating is still necessary as this might have happened while waiting for the write lock
                     if (!jspFile.exists() || (jspModificationDate == jspFile.lastModified())) {
                         updatedFiles.add(jspTargetName);
-                        byte[] contents;
+                        @RUntainted byte[] contents;
                         String encoding;
                         try {
                             CmsObject cms = controller.getCmsObject();
@@ -1145,12 +1146,12 @@ public class CmsJspLoader implements I_CmsResourceLoader, I_CmsFlexCacheEnabledL
      * @return a Flex controller
      */
     protected CmsFlexController getController(
-        CmsObject cms,
-        CmsResource resource,
-        HttpServletRequest req,
-        HttpServletResponse res,
-        boolean streaming,
-        boolean top) {
+        @RUntainted CmsObject cms,
+        @RUntainted CmsResource resource,
+        @RUntainted HttpServletRequest req,
+        @RUntainted HttpServletResponse res,
+        @RUntainted boolean streaming,
+        @RUntainted boolean top) {
 
         CmsFlexController controller = null;
         if (top) {
@@ -1198,9 +1199,9 @@ public class CmsJspLoader implements I_CmsResourceLoader, I_CmsFlexCacheEnabledL
      *
      * @return the modified JSP content
      */
-    protected byte[] parseJsp(
-        byte[] byteContent,
-        String encoding,
+    protected @RUntainted byte[] parseJsp(
+        @RUntainted byte[] byteContent,
+        @RUntainted String encoding,
         CmsFlexController controller,
         Set<String> updatedFiles,
         boolean isHardInclude) {
@@ -1253,7 +1254,7 @@ public class CmsJspLoader implements I_CmsResourceLoader, I_CmsFlexCacheEnabledL
      *
      * @return the parsed JSP content
      */
-    protected String parseJspCmsTag(String content, CmsFlexController controller, Set<String> updatedFiles) {
+    protected @RUntainted String parseJspCmsTag(@RUntainted String content, CmsFlexController controller, Set<String> updatedFiles) {
 
         // check if a JSP directive occurs in the file
         int i1 = content.indexOf(DIRECTIVE_START);
@@ -1360,7 +1361,7 @@ public class CmsJspLoader implements I_CmsResourceLoader, I_CmsFlexCacheEnabledL
      *
      * @return the parsed JSP content
      */
-    protected String parseJspEncoding(String content, String encoding, boolean isHardInclude) {
+    protected @RUntainted String parseJspEncoding(@RUntainted String content, @RUntainted String encoding, boolean isHardInclude) {
 
         // check if a JSP directive occurs in the file
         int i1 = content.indexOf(DIRECTIVE_START);
@@ -1485,7 +1486,7 @@ public class CmsJspLoader implements I_CmsResourceLoader, I_CmsFlexCacheEnabledL
      *
      * @return the parsed JSP content
      */
-    protected String parseJspIncludes(String content, CmsFlexController controller, Set<String> updatedFiles) {
+    protected @RUntainted String parseJspIncludes(@RUntainted String content, CmsFlexController controller, Set<String> updatedFiles) {
 
         // check if a JSP directive occurs in the file
         int i1 = content.indexOf(DIRECTIVE_START);
@@ -1593,7 +1594,7 @@ public class CmsJspLoader implements I_CmsResourceLoader, I_CmsFlexCacheEnabledL
      *
      * @return the parsed content
      */
-    protected String parseJspLinkMacros(String content, CmsFlexController controller) {
+    protected @RUntainted String parseJspLinkMacros(@RUntainted String content, CmsFlexController controller) {
 
         CmsJspLinkMacroResolver macroResolver = new CmsJspLinkMacroResolver(controller.getCmsObject(), null, true);
         return macroResolver.resolveMacros(content);
@@ -1609,7 +1610,7 @@ public class CmsJspLoader implements I_CmsResourceLoader, I_CmsFlexCacheEnabledL
      *
      * @throws CmsException if something goes wrong
      */
-    protected CmsResource readJspResource(CmsFlexController controller, String jspName) throws CmsException {
+    protected @RUntainted CmsResource readJspResource(CmsFlexController controller, String jspName) throws CmsException {
 
         // create an OpenCms user context that operates in the root site
         CmsObject cms = OpenCms.initCmsObject(controller.getCmsObject());
@@ -1633,7 +1634,7 @@ public class CmsJspLoader implements I_CmsResourceLoader, I_CmsFlexCacheEnabledL
      * @throws IOException might be thrown by the servlet environment
      * @throws CmsException in case of errors accessing OpenCms functions
      */
-    protected void showSource(CmsObject cms, CmsResource file, HttpServletRequest req, HttpServletResponse res)
+    protected void showSource(CmsObject cms, @RUntainted CmsResource file, @RUntainted HttpServletRequest req, HttpServletResponse res)
     throws CmsException, IOException {
 
         CmsResource historyResource = (CmsResource)CmsHistoryResourceHandler.getHistoryResource(req);
@@ -1662,7 +1663,7 @@ public class CmsJspLoader implements I_CmsResourceLoader, I_CmsFlexCacheEnabledL
      *
      * @return the file name of the updated JSP in the "real" FS
      */
-    protected String updateJsp(String vfsName, CmsFlexController controller, Set<String> updatedFiles) {
+    protected @RUntainted String updateJsp(@RUntainted String vfsName, CmsFlexController controller, Set<String> updatedFiles) {
 
         String jspVfsName = CmsLinkManager.getAbsoluteUri(vfsName, controller.getCurrentRequest().getElementRootPath());
         if (LOG.isDebugEnabled()) {
@@ -1785,7 +1786,7 @@ public class CmsJspLoader implements I_CmsResourceLoader, I_CmsFlexCacheEnabledL
      *
      * @throws CmsLoaderException if accessing the resource loader fails
      */
-    private String getJspRfsPath(CmsResource resource, boolean online) throws CmsLoaderException {
+    private @RUntainted String getJspRfsPath(CmsResource resource, boolean online) throws CmsLoaderException {
 
         String jspVfsName = resource.getRootPath();
         String extension;

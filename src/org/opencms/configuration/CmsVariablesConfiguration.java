@@ -34,6 +34,7 @@ import org.opencms.main.OpenCms;
 import org.apache.commons.digester3.Digester;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class to read and write the OpenCms site configuration.<p>

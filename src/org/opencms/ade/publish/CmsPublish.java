@@ -64,6 +64,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * ADE publishing features.<p>
@@ -177,7 +178,7 @@ public class CmsPublish {
      * @param cms the current cms context
      * @param params the additional publish parameters
      */
-    public CmsPublish(CmsObject cms, Map<String, String> params) {
+    public CmsPublish(CmsObject cms, Map<String, @RUntainted String> params) {
 
         this(cms, new CmsPublishOptions(params));
     }

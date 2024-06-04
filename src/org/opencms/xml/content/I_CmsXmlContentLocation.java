@@ -31,6 +31,7 @@ import org.opencms.xml.I_CmsXmlDocument;
 
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class represents a location in an XML content for a specific locale.<p>

@@ -51,6 +51,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * JSP tag to generate a link to a PDF produced from a given XML content.<p>
@@ -73,7 +74,7 @@ public class CmsJspTagPdf extends BodyTagSupport implements I_CmsJspTagParamPare
     private String m_format;
 
     /** The locale attribute. */
-    private String m_locale;
+    private @RUntainted String m_locale;
 
     /** Parameter encoding. */
     private String m_paramEncoding;
@@ -99,7 +100,7 @@ public class CmsJspTagPdf extends BodyTagSupport implements I_CmsJspTagParamPare
         ServletRequest request,
         String format,
         String content,
-        String localeStr,
+        @RUntainted String localeStr,
         String filename,
         SortedMap<String, String> params,
         String paramEncoding)
@@ -210,7 +211,7 @@ public class CmsJspTagPdf extends BodyTagSupport implements I_CmsJspTagParamPare
      *
      * @param locale the locale to use
      */
-    public void setLocale(String locale) {
+    public void setLocale(@RUntainted String locale) {
 
         m_locale = locale;
     }

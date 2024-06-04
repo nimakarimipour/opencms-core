@@ -31,6 +31,7 @@ import org.opencms.util.CmsUUID;
 
 import java.util.Date;
 import java.util.SortedSet;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Interface to access serial date values easily. Used on client and server. */
 public interface I_CmsSerialDateValue {
@@ -302,13 +303,13 @@ public interface I_CmsSerialDateValue {
      * Returns the dates, where the event should not take place.
      * @return the dates, where the event should not take place.
      */
-    SortedSet<Date> getExceptions();
+    SortedSet<@RUntainted Date> getExceptions();
 
     /**
      * Returns the dates of an individual date series.
      * @return the dates of an individual date series.
      */
-    SortedSet<Date> getIndividualDates();
+    SortedSet<@RUntainted Date> getIndividualDates();
 
     /**
      * Returns the pattern type specific interval of the event.
@@ -364,7 +365,7 @@ public interface I_CmsSerialDateValue {
      * Returns the week days where the event should take place.
      * @return the week days where the event should take place.
      */
-    SortedSet<WeekDay> getWeekDays();
+    SortedSet<@RUntainted WeekDay> getWeekDays();
 
     /**
      * Returns the week of the month, the event should take place.
@@ -376,7 +377,7 @@ public interface I_CmsSerialDateValue {
      * Returns the weeks of the month, the event should take place.
      * @return the weeks of the month, the event should take place.
      */
-    SortedSet<WeekOfMonth> getWeeksOfMonth();
+    SortedSet<@RUntainted WeekOfMonth> getWeeksOfMonth();
 
     /**
      * Returns a flag, indicating if the events should be treated as "current" till they end (or only till they start).

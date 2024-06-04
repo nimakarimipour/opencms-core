@@ -49,6 +49,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A lookup table used to find out which VFS based message bundles (XML/property bundles) contain a given key.

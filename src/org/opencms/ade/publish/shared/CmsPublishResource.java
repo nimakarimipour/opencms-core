@@ -35,6 +35,7 @@ import org.opencms.util.CmsUUID;
 
 import java.util.ArrayList;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A publish resource.<p>

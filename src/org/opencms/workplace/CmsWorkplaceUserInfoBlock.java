@@ -29,6 +29,7 @@ package org.opencms.workplace;
 
 import java.util.ArrayList;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents an user additional information block.<p>

@@ -63,6 +63,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for preparing the resource type lists for gallery and new dialog.<p>
@@ -122,9 +123,9 @@ public class CmsAddDialogTypeHelper {
      * @throws CmsException if something goes wrong
      */
     public List<CmsResourceTypeBean> getResourceTypes(
-        CmsObject cms,
-        String folderRootPath,
-        String createContextPath,
+        @RUntainted CmsObject cms,
+        @RUntainted String folderRootPath,
+        @RUntainted String createContextPath,
         String checkViewableReferenceUri,
         CmsElementView elementView,
         I_CmsResourceTypeEnabledCheck checkEnabled)
@@ -183,7 +184,7 @@ public class CmsAddDialogTypeHelper {
      * @param check object to check whether resource types should be enabled
      */
     public void precomputeTypeLists(
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         String folderRootPath,
         String checkViewableReferenceUri,
         List<CmsElementView> views,
@@ -241,9 +242,9 @@ public class CmsAddDialogTypeHelper {
      * @throws CmsException if something goes wrong
      */
     private List<CmsResourceTypeBean> internalGetResourceTypesFromConfig(
-        CmsObject cms,
-        String folderRootPath,
-        String createContextPath,
+        @RUntainted CmsObject cms,
+        @RUntainted String folderRootPath,
+        @RUntainted String createContextPath,
         String checkViewableReferenceUri,
         CmsElementView elementView,
         List<I_CmsResourceType> additionalTypes,
@@ -259,7 +260,7 @@ public class CmsAddDialogTypeHelper {
         Set<String> disabledTypes = new HashSet<String>();
         final Set<String> typesAtTheEndOfTheList = Sets.newHashSet();
         Set<String> typesFromConfig = Sets.newHashSet();
-        Map<String, String> createPaths = Maps.newHashMap();
+        Map<String, @RUntainted String> createPaths = Maps.newHashMap();
         Map<String, String> namePatterns = Maps.newHashMap();
         for (CmsResourceTypeConfig typeConfig : config.getResourceTypes()) {
             m_allAdeTypes.add(typeConfig.getTypeName());

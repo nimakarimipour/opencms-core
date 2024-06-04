@@ -26,6 +26,7 @@
  */
 
 package org.opencms.configuration.preferences;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Explorer element view preference.<p>

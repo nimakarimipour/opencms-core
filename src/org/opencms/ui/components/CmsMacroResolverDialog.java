@@ -53,6 +53,7 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.ui.UI;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for a dialog to show macros of a sitemap folder and allow the user to edit them.<p>
@@ -177,10 +178,10 @@ public class CmsMacroResolverDialog extends CmsBasicDialog {
      * @param baseName of the resource
      * @return localized name of resource
      */
-    private String getAvailableLocalVariant(CmsObject cms, String path, String baseName) {
+    private String getAvailableLocalVariant(CmsObject cms, String path, @RUntainted String baseName) {
 
         A_CmsUI.get();
-        List<String> localVariations = CmsLocaleManager.getLocaleVariants(
+        List<@RUntainted String> localVariations = CmsLocaleManager.getLocaleVariants(
             baseName,
             UI.getCurrent().getLocale(),
             false,

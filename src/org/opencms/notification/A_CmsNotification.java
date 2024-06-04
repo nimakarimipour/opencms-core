@@ -51,6 +51,7 @@ import javax.mail.MessagingException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.mail.EmailException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract class to create a notfication which will be send as a html mail to
@@ -169,7 +170,7 @@ public abstract class A_CmsNotification extends CmsHtmlMail {
             m_mailContent = CmsXmlContentFactory.unmarshal(m_cms, m_cms.readFile(getNotificationContent()));
 
             // detect locale
-            List<Locale> locales = m_mailContent.getLocales();
+            List<@RUntainted Locale> locales = m_mailContent.getLocales();
             Locale userLocale = new CmsUserSettings(m_receiver).getLocale();
             if (locales.contains(userLocale)) {
                 // mail is localized in the user locale, use that

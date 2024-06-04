@@ -35,6 +35,7 @@ import org.opencms.xml.content.CmsXmlContent;
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Configuration for user data requests.<p>
@@ -62,7 +63,7 @@ public class CmsUserDataRequestConfig {
      * @param content the content with the configuration
      * @param locale the locale
      */
-    public CmsUserDataRequestConfig(CmsObject cms, CmsXmlContent content, Locale locale) {
+    public CmsUserDataRequestConfig(CmsObject cms, CmsXmlContent content, @RUntainted Locale locale) {
 
         m_content = content;
         m_cms = cms;
@@ -95,7 +96,7 @@ public class CmsUserDataRequestConfig {
      *
      * @return the time for which user data requests are valid
      */
-    public long getRequestLifetime() {
+    public @RUntainted long getRequestLifetime() {
 
         String lifetimeStr = getText("LinkHoursValid");
         long hours = 24;
@@ -114,7 +115,7 @@ public class CmsUserDataRequestConfig {
      *
      * @return the text for that key
      */
-    public String getText(String key) {
+    public @RUntainted String getText(@RUntainted String key) {
 
         if (m_content.hasValue(key, m_locale)) {
             try {

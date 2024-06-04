@@ -36,6 +36,7 @@ import org.opencms.relations.CmsLinkInfo;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper around template plugin objects for use in JSP EL expressions.

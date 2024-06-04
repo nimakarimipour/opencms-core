@@ -43,6 +43,7 @@ import org.opencms.workplace.CmsWorkplace;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Utility class for getting information about available templates.<p>
@@ -83,7 +84,7 @@ public class CmsTemplateFinder {
         // find current site templates
         int templateId = OpenCms.getResourceManager().getResourceType(
             CmsResourceTypeJsp.getContainerPageTemplateTypeName()).getTypeId();
-        List<CmsResource> templates = cms.readResources(
+        List<@RUntainted CmsResource> templates = cms.readResources(
             "/",
             CmsResourceFilter.ONLY_VISIBLE_NO_DELETED.addRequireType(templateId),
             true);

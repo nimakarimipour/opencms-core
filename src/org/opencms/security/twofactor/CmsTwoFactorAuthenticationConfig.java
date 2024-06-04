@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents the configuration for the two-factor authentication feature.
@@ -55,14 +56,14 @@ public class CmsTwoFactorAuthenticationConfig {
     private String m_secret;
 
     /** The setup message. */
-    private String m_setupMessage;
+    private @RUntainted String m_setupMessage;
 
     /**
      * Creates a new configuration from the given XML configuration element.
      *
      * @param element the element from which to read the configuration
      */
-    public CmsTwoFactorAuthenticationConfig(Element element) {
+    public CmsTwoFactorAuthenticationConfig(@RUntainted Element element) {
 
         m_element = element;
         Element issuerElem = (Element)(element.selectSingleNode("issuer"));
@@ -122,7 +123,7 @@ public class CmsTwoFactorAuthenticationConfig {
      *
      * @return the setup message
      */
-    public String getSetupMessage() {
+    public @RUntainted String getSetupMessage() {
 
         return m_setupMessage;
 

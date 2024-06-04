@@ -36,6 +36,7 @@ import org.opencms.report.A_CmsReportThread;
 import org.opencms.report.I_CmsReport;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Report thread for importing a module.<p>

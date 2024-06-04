@@ -69,6 +69,7 @@ import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Displays the current user info.<p>
@@ -316,7 +317,7 @@ public class CmsUserInfo extends VerticalLayout {
      *
      * @return the user info details
      */
-    private String generateInfoDetails(CmsObject cms, Locale locale) {
+    private String generateInfoDetails(CmsObject cms, @RUntainted Locale locale) {
 
         StringBuffer infoHtml = new StringBuffer(128);
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(m_user.getEmail())) {

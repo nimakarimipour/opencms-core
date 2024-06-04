@@ -61,6 +61,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.collections.Transformer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Allows access to the individual elements of an XML content, usually used inside a loop of a
@@ -424,7 +425,7 @@ public class CmsJspContentAccessBean {
     private CmsJspCategoryAccessBean m_categories;
 
     /** The OpenCms context of the current user. */
-    private CmsObject m_cms;
+    private @RUntainted CmsObject m_cms;
 
     /** The XML content to access. */
     private I_CmsXmlDocument m_content;
@@ -460,10 +461,10 @@ public class CmsJspContentAccessBean {
     private Map<String, Map<String, List<CmsJspContentAccessValueWrapper>>> m_localeValueList;
 
     /** The original locale requested for accessing entries from the XML content. */
-    private Locale m_requestedLocale;
+    private @RUntainted Locale m_requestedLocale;
 
     /** Resource the XML content is created from. */
-    private CmsResource m_resource;
+    private @RUntainted CmsResource m_resource;
 
     /** JSP EL access wrapped version of the resource the XML content is created from. */
     private CmsJspResourceWrapper m_resourceWrapper;
@@ -499,7 +500,7 @@ public class CmsJspContentAccessBean {
      * @param locale the Locale to use when accessing the content
      * @param resource the resource to create the content from
      */
-    public CmsJspContentAccessBean(CmsObject cms, Locale locale, CmsResource resource) {
+    public CmsJspContentAccessBean(CmsObject cms, @RUntainted Locale locale, CmsResource resource) {
 
         init(cms, locale, null, resource);
     }
@@ -511,7 +512,7 @@ public class CmsJspContentAccessBean {
      * @param locale the Locale to use when accessing the content
      * @param content the content to access
      */
-    public CmsJspContentAccessBean(CmsObject cms, Locale locale, I_CmsXmlDocument content) {
+    public CmsJspContentAccessBean(CmsObject cms, @RUntainted Locale locale, I_CmsXmlDocument content) {
 
         init(cms, locale, content, content.getFile());
     }
@@ -1230,7 +1231,7 @@ public class CmsJspContentAccessBean {
      * @param content the XML content to access
      * @param resource the resource to create the content from
      */
-    public void init(CmsObject cms, Locale locale, I_CmsXmlDocument content, CmsResource resource) {
+    public void init(CmsObject cms, @RUntainted Locale locale, I_CmsXmlDocument content, @RUntainted CmsResource resource) {
 
         m_cms = cms;
         m_requestedLocale = locale;

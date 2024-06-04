@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A repository session which provides basic file and folder operations
@@ -177,5 +178,5 @@ public interface I_CmsRepositorySession {
      *
      * @throws CmsException if something goes wrong
      */
-    void updateProperties(String path, Map<CmsPropertyName, String> properties) throws CmsException;
+    void updateProperties(String path, @RUntainted Map<CmsPropertyName, @RUntainted String> properties) throws CmsException;
 }

@@ -29,6 +29,7 @@ package org.opencms.file.types;
 
 import org.opencms.configuration.CmsParameterConfiguration;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor for extended folder types (like for example the workplace galleries).<p>
@@ -97,7 +98,7 @@ public class CmsResourceTypeFolderExtended extends A_CmsResourceTypeFolderBase {
      *
      * @return the (optional) configured folder class name for this folder
      */
-    public String getFolderClassName() {
+    public @RUntainted String getFolderClassName() {
 
         return m_folderClassName;
     }
@@ -107,7 +108,7 @@ public class CmsResourceTypeFolderExtended extends A_CmsResourceTypeFolderBase {
      *
      * @return the (optional) configured folder class parameters for this folder
      */
-    public String getFolderClassParams() {
+    public @RUntainted String getFolderClassParams() {
 
         return m_folderClassParams;
     }

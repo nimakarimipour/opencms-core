@@ -48,6 +48,7 @@ import org.apache.commons.logging.Log;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.search.Sort;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class to access the search facility within a jsp.<p>
@@ -681,7 +682,7 @@ public class CmsSearch {
      */
     public void setCategories(String[] categories) {
 
-        List<String> setCategories = new ArrayList<String>();
+        List<@RUntainted String> setCategories = new ArrayList<@RUntainted String>();
         if (categories != null) {
             if (categories.length != 0) {
                 // ensure all categories are not null, trimmed, not-empty and lowercased
@@ -755,7 +756,7 @@ public class CmsSearch {
      *
      * @param indexName the name of the index
      */
-    public void setIndex(String indexName) {
+    public void setIndex(@RUntainted String indexName) {
 
         resetLastResult();
         if (CmsStringUtil.isNotEmpty(indexName)) {

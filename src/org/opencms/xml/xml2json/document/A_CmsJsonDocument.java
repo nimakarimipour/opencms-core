@@ -30,6 +30,7 @@ package org.opencms.xml.xml2json.document;
 import org.opencms.json.JSONObject;
 import org.opencms.xml.xml2json.CmsJsonRequest;
 import org.opencms.xml.xml2json.handler.CmsJsonHandlerContext;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract class representing a JSON document.
@@ -43,7 +44,7 @@ public abstract class A_CmsJsonDocument {
     protected CmsJsonHandlerContext m_context;
 
     /** The JSON document. */
-    protected JSONObject m_json = new JSONObject(true);
+    protected @RUntainted JSONObject m_json = new JSONObject(true);
 
     /** The JSON request. */
     protected CmsJsonRequest m_jsonRequest;

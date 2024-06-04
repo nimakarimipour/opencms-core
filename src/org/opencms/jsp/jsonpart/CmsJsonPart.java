@@ -32,6 +32,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class used to translate key/value pairs from and to the format which can be processed by the
@@ -43,15 +45,15 @@ public class CmsJsonPart {
     public static final String END = "\u0007ENDJSONPART";
 
     /** Pattern used to detect the parts of the content which should be transformed to JSON. */
-    private static Pattern FORMAT_PATTERN = Pattern.compile(
+    private static @RUntainted Pattern FORMAT_PATTERN = Pattern.compile(
         "BEGINJSONPART\u0007(.*?)\u0007(.*?)\u0007ENDJSONPART",
         Pattern.DOTALL);
 
     /** The key. */
-    private String m_key;
+    private @RUntainted String m_key;
 
     /** The value. */
-    private String m_value;
+    private @RUntainted String m_value;
 
     /**
      * Creates a new instance.<p>
@@ -59,7 +61,7 @@ public class CmsJsonPart {
      * @param key the key
      * @param value the value
      */
-    public CmsJsonPart(String key, String value) {
+    public CmsJsonPart(@RUntainted String key, @RUntainted String value) {
         super();
         m_key = key;
         m_value = value;
@@ -71,7 +73,7 @@ public class CmsJsonPart {
      * @param key the JSON key for the part
      * @return the header section for the given key
      */
-    public static final String getHeader(String key) {
+    public static final @RPolyTainted String getHeader(@RPolyTainted String key) {
 
         return "BEGINJSONPART\u0007" + key + "\u0007";
     }
@@ -82,7 +84,7 @@ public class CmsJsonPart {
      * @param text the text containing the encoded JSON parts
      * @return the decoded JSON parts
      */
-    public static List<CmsJsonPart> parseJsonParts(String text) {
+    public static List<CmsJsonPart> parseJsonParts(@RUntainted String text) {
 
         List<CmsJsonPart> result = Lists.newArrayList();
         Matcher matcher = FORMAT_PATTERN.matcher(text);
@@ -100,7 +102,7 @@ public class CmsJsonPart {
      *
      * @return the key
      */
-    public String getKey() {
+    public @RUntainted String getKey() {
 
         return m_key;
     }
@@ -110,7 +112,7 @@ public class CmsJsonPart {
      *
      * @return the value
      */
-    public String getValue() {
+    public @RUntainted String getValue() {
 
         return m_value;
     }

@@ -38,6 +38,7 @@ import org.opencms.main.OpenCms;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrInputDocument;
 import org.opencms.search.CmsSearchUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This Solr post processor generates for each found document the corresponding link and

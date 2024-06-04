@@ -28,6 +28,7 @@
 package org.opencms.ui.shared.rpc;
 
 import com.vaadin.shared.communication.ServerRpc;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Rpc -interface for handling results from JSP displayed on an extended BrowserFrame.<p>
@@ -39,5 +40,5 @@ public interface I_CmsJSPBrowserFrameRpc extends ServerRpc {
      *
      * @param resources which are returned
      */
-    void cancelParentWindow(String[] resources);
+    void cancelParentWindow(@RUntainted String[] resources);
 }

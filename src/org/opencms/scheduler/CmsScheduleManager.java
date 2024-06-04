@@ -59,6 +59,7 @@ import org.quartz.TriggerBuilder;
 import org.quartz.TriggerKey;
 import org.quartz.impl.JobDetailImpl;
 import org.quartz.impl.StdSchedulerFactory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manages the OpenCms scheduled jobs.<p>
@@ -90,10 +91,10 @@ public class CmsScheduleManager implements Job {
     private CmsObject m_adminCms;
 
     /** The list of job entries from the configuration. */
-    private List<CmsScheduledJobInfo> m_configuredJobs;
+    private @RUntainted List<CmsScheduledJobInfo> m_configuredJobs;
 
     /** The list of scheduled jobs. */
-    private List<CmsScheduledJobInfo> m_jobs;
+    private @RUntainted List<CmsScheduledJobInfo> m_jobs;
 
     /** The initialized scheduler. */
     private Scheduler m_scheduler;
@@ -136,7 +137,7 @@ public class CmsScheduleManager implements Job {
      *
      * @see org.quartz.Job#execute(org.quartz.JobExecutionContext)
      */
-    public void execute(JobExecutionContext context) {
+    public void execute(@RUntainted JobExecutionContext context) {
 
         JobDataMap jobData = context.getJobDetail().getJobDataMap();
 
@@ -520,7 +521,7 @@ public class CmsScheduleManager implements Job {
      *
      * @throws CmsRoleViolationException if the user has insufficient role permissions
      */
-    public synchronized CmsScheduledJobInfo unscheduleJob(CmsObject cms, String jobId)
+    public synchronized CmsScheduledJobInfo unscheduleJob(CmsObject cms, @RUntainted String jobId)
     throws CmsRoleViolationException {
 
         if (OpenCms.getRunLevel() > OpenCms.RUNLEVEL_1_CORE_OBJECT) {

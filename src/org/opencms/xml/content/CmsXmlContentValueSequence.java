@@ -34,6 +34,7 @@ import org.opencms.xml.types.I_CmsXmlSchemaType;
 
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes the sequence of XML content values of a specific type in an XML content instance.<p>

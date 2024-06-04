@@ -45,6 +45,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * An option of a HTML type widget.<p>
@@ -114,7 +115,7 @@ public class CmsHtmlWidgetOption {
         + "[;print;-;spellcheck;-;fitwindow;-;source;];";
 
     /** The default button bar configuration as List. */
-    public static final List<String> BUTTONBAR_DEFAULT_LIST = CmsStringUtil.splitAsList(BUTTONBAR_DEFAULT, ';');
+    public static final List<@RUntainted String> BUTTONBAR_DEFAULT_LIST = CmsStringUtil.splitAsList(BUTTONBAR_DEFAULT, ';');
 
     /** The button bar separator. */
     public static final String BUTTONBAR_SEPARATOR = "-";
@@ -370,10 +371,10 @@ public class CmsHtmlWidgetOption {
     private boolean m_allowScripts;
 
     /** The button bar items. */
-    private List<String> m_buttonBar;
+    private @RUntainted List<String> m_buttonBar;
 
     /** The button bar configuration options. */
-    private List<String> m_buttonBarOption;
+    private List<@RUntainted String> m_buttonBarOption;
 
     /** The button bar options. */
     private String m_buttonBarOptionString;
@@ -388,7 +389,7 @@ public class CmsHtmlWidgetOption {
     private String m_editorHeight;
 
     /** The embedded configuration  strings for galleries, if available. */
-    private Map<String, String> m_embeddedConfigurations = Maps.newHashMap();
+    private Map<String, @RUntainted String> m_embeddedConfigurations = Maps.newHashMap();
 
     /** The format select options. */
     private String m_formatSelectOptions;
@@ -415,7 +416,7 @@ public class CmsHtmlWidgetOption {
     private String m_editorConfigPath;
 
     /** The link default protocol */
-    private String m_linkDefaultProtocol;
+    private @RUntainted String m_linkDefaultProtocol;
 
     /**
      * Creates a new empty HTML widget object object.<p>
@@ -540,7 +541,7 @@ public class CmsHtmlWidgetOption {
      *
      * @return a map containing both the string resulting from removing the embedded configurations, and the embedded configurations as a a map
      */
-    public static CmsPair<String, Map<String, String>> parseEmbeddedGalleryOptions(String configuration) {
+    public static CmsPair<String, @RUntainted Map<String, String>> parseEmbeddedGalleryOptions(@RUntainted String configuration) {
 
         final Map<String, String> galleryOptions = Maps.newHashMap();
         String resultConfig = CmsStringUtil.substitute(
@@ -683,11 +684,11 @@ public class CmsHtmlWidgetOption {
      *
      * @return the calculated button bar items
      */
-    public List<String> getButtonBarShownItems() {
+    public @RUntainted List<String> getButtonBarShownItems() {
 
         if (m_buttonBar == null) {
             // first get individual button bar configuration
-            List<String> buttonBar = getButtonBarOption();
+            List<@RUntainted String> buttonBar = getButtonBarOption();
             if (buttonBar.isEmpty()) {
                 // no specific button bar defined, try to get global configuration first
                 if (m_globalButtonBarOption == null) {
@@ -852,7 +853,7 @@ public class CmsHtmlWidgetOption {
      *
      * @return the embedded gallery configurations
      */
-    public Map<String, String> getEmbeddedConfigurations() {
+    public Map<String, @RUntainted String> getEmbeddedConfigurations() {
 
         return m_embeddedConfigurations;
     }
@@ -882,7 +883,7 @@ public class CmsHtmlWidgetOption {
      *
      * @return the link default protocol to use when inserting/editing links via the link dialog
      */
-    public String getLinkDefaultProtocol() {
+    public @RUntainted String getLinkDefaultProtocol() {
 
         return m_linkDefaultProtocol;
     }
@@ -1074,7 +1075,7 @@ public class CmsHtmlWidgetOption {
      *
      * @param buttons the buttons to hide as list with button names
      */
-    public void setHiddenButtons(List<String> buttons) {
+    public void setHiddenButtons(List<@RUntainted String> buttons) {
 
         m_hiddenButtons = buttons;
     }
@@ -1085,7 +1086,7 @@ public class CmsHtmlWidgetOption {
      * @param linkDefaultProtocol
      *            the link default protocol to use when inserting/editing links via the link dialog
      */
-    public void setLinkDefaultProtocol(String linkDefaultProtocol) {
+    public void setLinkDefaultProtocol(@RUntainted String linkDefaultProtocol) {
 
         m_linkDefaultProtocol = linkDefaultProtocol;
     }
@@ -1251,13 +1252,13 @@ public class CmsHtmlWidgetOption {
 
         if (CmsStringUtil.isNotEmpty(configuration)) {
 
-            CmsPair<String, Map<String, String>> simplifiedStringAndGalleryOptions = parseEmbeddedGalleryOptions(
+            CmsPair<String, Map<String, @RUntainted String>> simplifiedStringAndGalleryOptions = parseEmbeddedGalleryOptions(
                 configuration);
             configuration = simplifiedStringAndGalleryOptions.getFirst();
             m_embeddedConfigurations = simplifiedStringAndGalleryOptions.getSecond();
 
-            List<String> options = CmsStringUtil.splitAsList(configuration, DELIMITER_OPTION, true);
-            Iterator<String> i = options.iterator();
+            List<@RUntainted String> options = CmsStringUtil.splitAsList(configuration, DELIMITER_OPTION, true);
+            Iterator<@RUntainted String> i = options.iterator();
             while (i.hasNext()) {
                 String option = i.next();
                 // check which option is defined

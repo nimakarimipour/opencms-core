@@ -32,6 +32,7 @@ import org.opencms.file.CmsResource;
 import org.opencms.xml.types.I_CmsXmlSchemaType;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles the visibility of fields in the XML content editor.<p>
@@ -54,7 +55,7 @@ public interface I_CmsXmlContentVisibilityHandler {
         CmsObject cms,
         I_CmsXmlSchemaType value,
         String elementPath,
-        String params,
+        @RUntainted String params,
         CmsResource resource,
         Locale contentLocale);
 }

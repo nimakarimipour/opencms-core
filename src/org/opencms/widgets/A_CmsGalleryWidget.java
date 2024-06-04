@@ -42,6 +42,7 @@ import org.opencms.xml.types.A_CmsXmlContentValue;
 
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Base class for all gallery widget implementations.<p>
@@ -64,7 +65,7 @@ public abstract class A_CmsGalleryWidget extends A_CmsWidget implements I_CmsADE
      *
      * @param configuration the configuration to use
      */
-    protected A_CmsGalleryWidget(String configuration) {
+    protected A_CmsGalleryWidget(@RUntainted String configuration) {
 
         super(configuration);
     }

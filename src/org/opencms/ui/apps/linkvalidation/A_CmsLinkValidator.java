@@ -39,6 +39,7 @@ import java.util.Map;
 
 import com.vaadin.v7.data.Item;
 import com.vaadin.v7.event.ItemClickEvent.ItemClickListener;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Validator for links.<p>

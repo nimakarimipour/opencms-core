@@ -76,6 +76,7 @@ import org.apache.commons.logging.Log;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The implementation of the publish service. <p>
@@ -136,7 +137,7 @@ public class CmsPublishService extends CmsGwtService implements I_CmsPublishServ
      *
      * @return the message for the given project name
      */
-    public static String wrapProjectName(CmsObject cms, String name) {
+    public static String wrapProjectName(CmsObject cms, @RUntainted String name) {
 
         return Messages.get().getBundle(OpenCms.getWorkplaceManager().getWorkplaceLocale(cms)).key(
             Messages.GUI_NORMAL_PROJECT_1,
@@ -187,7 +188,7 @@ public class CmsPublishService extends CmsGwtService implements I_CmsPublishServ
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(filesParam)) {
             filesParam = getRequest().getParameter(CmsDialog.PARAM_RESOURCE);
         }
-        List<String> pathList = Lists.newArrayList();
+        List<@RUntainted String> pathList = Lists.newArrayList();
         if (!CmsStringUtil.isEmptyOrWhitespaceOnly(filesParam)) {
             pathList = CmsStringUtil.splitAsList(filesParam, "|");
         }
@@ -217,9 +218,9 @@ public class CmsPublishService extends CmsGwtService implements I_CmsPublishServ
     public CmsPublishData getPublishData(
         CmsObject cms,
         HashMap<String, String> params,
-        String workflowId,
-        String projectParam,
-        List<String> pathList,
+        @RUntainted String workflowId,
+        @RUntainted String projectParam,
+        List<@RUntainted String> pathList,
         String closeLink,
         boolean confirm)
     throws Exception {
@@ -469,7 +470,7 @@ public class CmsPublishService extends CmsGwtService implements I_CmsPublishServ
      *
      * @return the workflow id
      */
-    private String getLastWorkflowForUser() {
+    private @RUntainted String getLastWorkflowForUser() {
 
         CmsUser user = getCmsObject().getRequestContext().getCurrentUser();
         return (String)user.getAdditionalInfo(PARAM_WORKFLOW_ID);
@@ -552,7 +553,7 @@ public class CmsPublishService extends CmsGwtService implements I_CmsPublishServ
      *
      * @param options the options to save
      */
-    private void setCachedOptions(CmsPublishOptions options) {
+    private void setCachedOptions(@RUntainted CmsPublishOptions options) {
 
         getRequest().getSession().setAttribute(SESSION_ATTR_ADE_PUB_OPTS_CACHE, options);
     }
@@ -564,7 +565,7 @@ public class CmsPublishService extends CmsGwtService implements I_CmsPublishServ
      *
      * @throws CmsException if something goes wrong writing the user object
      */
-    private void setLastWorkflowForUser(String workflowId) throws CmsException {
+    private void setLastWorkflowForUser(@RUntainted String workflowId) throws CmsException {
 
         CmsUser user = getCmsObject().getRequestContext().getCurrentUser();
         user.setAdditionalInfo(PARAM_WORKFLOW_ID, workflowId);

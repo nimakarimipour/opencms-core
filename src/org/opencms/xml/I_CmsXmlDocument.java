@@ -37,6 +37,7 @@ import org.opencms.xml.types.I_CmsXmlContentValue;
 
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes the API to access the values of a XML content document.<p>
@@ -70,7 +71,7 @@ public interface I_CmsXmlDocument {
      * @throws CmsXmlException in case non of the source locales did not exist,
      *      or the destination locale already exists in the document, or if something else goes wrong
      */
-    void copyLocale(List<Locale> possibleSources, Locale destination) throws CmsXmlException;
+    void copyLocale(List<@RUntainted Locale> possibleSources, Locale destination) throws CmsXmlException;
 
     /**
      * Copies the content of the given source locale to the given destination locale in this XML document.<p>
@@ -159,7 +160,7 @@ public interface I_CmsXmlDocument {
      *
      * @return a List of all locales that have at last one value in this XML document
      */
-    List<Locale> getLocales();
+    List<@RUntainted Locale> getLocales();
 
     /**
      * Returns a List of all locales that have at least one element with the given path in this XML document.<p>
@@ -169,7 +170,7 @@ public interface I_CmsXmlDocument {
      * @param path the path to look up the locale List for
      * @return a List of all locales that have at least one element with the given path in this XML document
      */
-    List<Locale> getLocales(String path);
+    List<@RUntainted Locale> getLocales(String path);
 
     /**
      * Returns a List of all available elements paths (Strings) used in this document for the given locale.<p>
@@ -181,7 +182,7 @@ public interface I_CmsXmlDocument {
      *
      * @see #getValues(Locale)
      */
-    List<String> getNames(Locale locale);
+    List<@RUntainted String> getNames(Locale locale);
 
     /**
      * Returns the first content value for the given path as a String,

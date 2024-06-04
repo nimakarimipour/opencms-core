@@ -30,6 +30,7 @@ package org.opencms.search;
 import org.opencms.db.CmsPublishedResource;
 
 import java.io.IOException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstracts the index writer implementation for the most important index manipulation operations.

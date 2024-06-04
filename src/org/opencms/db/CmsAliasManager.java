@@ -60,6 +60,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
 import au.com.bytecode.opencsv.CSVParser;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The alias manager provides access to the aliases stored in the database.<p>
@@ -182,7 +183,7 @@ public class CmsAliasManager {
      * @param siteRoot the site root to check
      * @return true if the user from the CMS context is allowed to mass edit the alias table
      */
-    public boolean hasPermissionsForMassEdit(CmsObject cms, String siteRoot) {
+    public boolean hasPermissionsForMassEdit(CmsObject cms, @RUntainted String siteRoot) {
 
         String originalSiteRoot = cms.getRequestContext().getSiteRoot();
         try {
@@ -208,7 +209,7 @@ public class CmsAliasManager {
     public synchronized List<CmsAliasImportResult> importAliases(
         CmsObject cms,
         byte[] aliasData,
-        String siteRoot,
+        @RUntainted String siteRoot,
         String separator)
     throws Exception {
 
@@ -253,7 +254,7 @@ public class CmsAliasManager {
      *
      * @throws CmsException if something goes wrong
      */
-    public void saveRewriteAliases(CmsObject cms, String siteRoot, List<CmsRewriteAlias> newAliases)
+    public void saveRewriteAliases(CmsObject cms, @RUntainted String siteRoot, List<CmsRewriteAlias> newAliases)
     throws CmsException {
 
         checkPermissionsForMassEdit(cms, siteRoot);
@@ -335,7 +336,7 @@ public class CmsAliasManager {
      */
     protected synchronized CmsAliasImportResult importAlias(
         CmsObject cms,
-        String siteRoot,
+        @RUntainted String siteRoot,
         String aliasPath,
         String vfsPath,
         CmsAliasMode mode)
@@ -408,7 +409,7 @@ public class CmsAliasManager {
      */
     protected CmsAliasImportResult processAliasImport(
         CmsObject cms,
-        String siteRoot,
+        @RUntainted String siteRoot,
         String aliasPath,
         String vfsPath,
         CmsAliasMode mode) {
@@ -435,7 +436,7 @@ public class CmsAliasManager {
      *
      * @return the import result
      */
-    protected CmsAliasImportResult processAliasLine(CmsObject cms, String siteRoot, String line, String separator) {
+    protected CmsAliasImportResult processAliasLine(CmsObject cms, @RUntainted String siteRoot, String line, String separator) {
 
         Locale locale = OpenCms.getWorkplaceManager().getWorkplaceLocale(cms);
         line = line.trim();
@@ -509,7 +510,7 @@ public class CmsAliasManager {
      *
      * @throws CmsException if something goes wrong
      */
-    private void checkPermissionsForMassEdit(CmsObject cms, String siteRoot) throws CmsException {
+    private void checkPermissionsForMassEdit(CmsObject cms, @RUntainted String siteRoot) throws CmsException {
 
         String originalSiteRoot = cms.getRequestContext().getSiteRoot();
         try {

@@ -35,6 +35,8 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Helper class for formatter-related functionality.
@@ -66,9 +68,9 @@ public class CmsFormatterUtils {
      *
      * @return the formatter key
      */
-    public static String getFormatterKey(String containerName, CmsContainerElementBean element) {
+    public static @RUntainted String getFormatterKey(String containerName, CmsContainerElementBean element) {
 
-        Map<String, String> settings = element.getSettings();
+        Map<@RUntainted String, @RUntainted String> settings = element.getSettings();
         return getFormatterKey(containerName, settings);
     }
 
@@ -80,7 +82,7 @@ public class CmsFormatterUtils {
      *
      * @return the formatter key
      */
-    public static String getFormatterKey(String containerName, Map<String, String> settings) {
+    public static @RPolyTainted String getFormatterKey(String containerName, Map<@RUntainted String, @RUntainted String> settings) {
 
         String key1 = settings.get(CmsFormatterConfig.FORMATTER_SETTINGS_KEY + containerName);
         String key2 = settings.get(CmsFormatterConfig.FORMATTER_SETTINGS_KEY);
@@ -100,7 +102,7 @@ public class CmsFormatterUtils {
      *
      * @return the formatter key
      */
-    public static String removeFormatterKey(String containerName, Map<String, String> settings) {
+    public static @RPolyTainted String removeFormatterKey(String containerName, Map<String, @RPolyTainted String> settings) {
 
         String result = null;
         for (String mapKey : Arrays.asList(

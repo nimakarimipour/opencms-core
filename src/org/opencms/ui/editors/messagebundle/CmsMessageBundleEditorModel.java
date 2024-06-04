@@ -98,6 +98,7 @@ import com.vaadin.v7.data.Item;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.DefaultItemSorter;
 import com.vaadin.v7.data.util.IndexedContainer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The class contains the logic behind the message translation editor.
@@ -179,7 +180,7 @@ public class CmsMessageBundleEditorModel {
          * @param locale the locale in which the messages are requested.
          * @param configuredBundle the base name of the configured message bundle (can be <code>null</code>).
          */
-        public ConfigurableMessages(CmsMessages defaultMessages, Locale locale, String configuredBundle) {
+        public ConfigurableMessages(CmsMessages defaultMessages, @RUntainted Locale locale, @RUntainted String configuredBundle) {
 
             m_defaultMessages = defaultMessages;
             if (null != configuredBundle) {
@@ -320,7 +321,7 @@ public class CmsMessageBundleEditorModel {
          * @param escapeUnicode flag, indicating if unicode signs should be escaped
          * @return the converted string
          */
-        private String saveConvert(String theString, boolean escapeSpace, boolean escapeUnicode) {
+        private @RUntainted String saveConvert(String theString, boolean escapeSpace, boolean escapeUnicode) {
 
             int len = theString.length();
             int bufLen = len * 2;
@@ -403,7 +404,7 @@ public class CmsMessageBundleEditorModel {
         private void store0(BufferedWriter bw, boolean escUnicode) throws IOException {
 
             synchronized (this) {
-                List<Object> keys = new ArrayList<Object>(super.keySet());
+                List<@RUntainted Object> keys = new ArrayList<@RUntainted Object>(super.keySet());
                 Collections.sort(keys, CmsCaseInsensitiveStringComparator.getInstance());
                 for (Object k : keys) {
                     String key = (String)k;
@@ -442,23 +443,23 @@ public class CmsMessageBundleEditorModel {
     /** The files currently edited. */
     private Map<Locale, LockedFile> m_lockedBundleFiles;
     /** The files of the bundle. */
-    private Map<Locale, CmsResource> m_bundleFiles;
+    private Map<Locale, @RUntainted CmsResource> m_bundleFiles;
     /** The resource that was opened with the editor. */
-    private CmsResource m_resource;
+    private @RUntainted CmsResource m_resource;
     /** The bundle descriptor resource. */
-    private CmsResource m_desc;
+    private @RUntainted CmsResource m_desc;
     /** The bundle descriptor as unmarshalled XML Content. */
     private CmsXmlContent m_descContent;
     /** The xml bundle edited (or null, if a property bundle is edited). */
     private CmsXmlContent m_xmlBundle;
     /** The already loaded localizations. */
-    private Map<Locale, SortedProperties> m_localizations;
+    private Map<@RUntainted Locale, @RUntainted SortedProperties> m_localizations;
     /** The bundle's base name. */
-    private String m_basename;
+    private @RUntainted String m_basename;
     /** The site path to the folder where the edited resource is in. */
-    private String m_sitepath;
+    private @RUntainted String m_sitepath;
     /** The currently edited locale. */
-    private Locale m_locale;
+    private @RUntainted Locale m_locale;
     /** The type of the loaded bundle. */
     private CmsMessageBundleEditorTypes.BundleType m_bundleType;
 
@@ -466,9 +467,9 @@ public class CmsMessageBundleEditorModel {
     CmsMessageBundleEditorTypes.KeySet m_keyset;
 
     /** Containers holding the keys for each locale. */
-    private IndexedContainer m_container;
+    private @RUntainted IndexedContainer m_container;
     /** The available locales. */
-    private Collection<Locale> m_locales;
+    private Collection<@RUntainted Locale> m_locales;
     /** Map from edit mode to the editor state. */
     private Map<CmsMessageBundleEditorTypes.EditMode, EditorState> m_editorState;
     /** Flag, indicating if a master edit mode is available. */
@@ -480,7 +481,7 @@ public class CmsMessageBundleEditorModel {
     private LockedFile m_descFile;
 
     /** The configured resource bundle used for the column headings of the bundle descriptor. */
-    private String m_configuredBundle;
+    private @RUntainted String m_configuredBundle;
 
     /** Flag, indicating if the locale of the bundle that is edited has switched on opening. */
     private boolean m_switchedLocaleOnOpening;
@@ -510,7 +511,7 @@ public class CmsMessageBundleEditorModel {
      * @throws CmsException thrown if reading some of the involved {@link CmsResource}s is not possible.
      * @throws IOException initialization of a property bundle fails
      */
-    public CmsMessageBundleEditorModel(CmsObject cms, CmsResource resource)
+    public CmsMessageBundleEditorModel(CmsObject cms, @RUntainted CmsResource resource)
     throws CmsException, IOException {
 
         if (cms == null) {
@@ -639,7 +640,7 @@ public class CmsMessageBundleEditorModel {
      * @param locale the preferred locale
      * @return the configured bundle or, if not found, the default bundle.
      */
-    public ConfigurableMessages getConfigurableMessages(CmsMessages defaultMessages, Locale locale) {
+    public ConfigurableMessages getConfigurableMessages(CmsMessages defaultMessages, @RUntainted Locale locale) {
 
         return new ConfigurableMessages(defaultMessages, locale, m_configuredBundle);
 
@@ -771,7 +772,7 @@ public class CmsMessageBundleEditorModel {
      *
      * @return the locales available for the specific resource.
      */
-    public Collection<Locale> getLocales() {
+    public Collection<@RUntainted Locale> getLocales() {
 
         return m_locales;
     }
@@ -1253,9 +1254,9 @@ public class CmsMessageBundleEditorModel {
      *
      * @return HashMap
      */
-    private Map<String, Item> getKeyItemMap() {
+    private Map<@RUntainted String, @RUntainted Item> getKeyItemMap() {
 
-        Map<String, Item> ret = new HashMap<String, Item>();
+        Map<@RUntainted String, @RUntainted Item> ret = new HashMap<@RUntainted String, @RUntainted Item>();
         for (Object itemId : m_container.getItemIds()) {
             ret.put(
                 m_container.getItem(itemId).getItemProperty(TableProperty.KEY).getValue().toString(),
@@ -1272,7 +1273,7 @@ public class CmsMessageBundleEditorModel {
      * @throws IOException thrown if reading the properties from a file fails.
      * @throws CmsException thrown if reading the properties from a file fails.
      */
-    private SortedProperties getLocalization(Locale locale) throws IOException, CmsException {
+    private SortedProperties getLocalization(@RUntainted Locale locale) throws IOException, CmsException {
 
         if (null == m_localizations.get(locale)) {
             switch (m_bundleType) {
@@ -1408,9 +1409,9 @@ public class CmsMessageBundleEditorModel {
      * Initializes the locales that can be selected via the language switcher in the bundle editor.
      * @return the locales for which keys can be edited.
      */
-    private Collection<Locale> initLocales() {
+    private Collection<@RUntainted Locale> initLocales() {
 
-        Collection<Locale> locales = null;
+        Collection<@RUntainted Locale> locales = null;
         switch (m_bundleType) {
             case DESCRIPTOR:
                 locales = new ArrayList<Locale>(1);
@@ -1541,7 +1542,7 @@ public class CmsMessageBundleEditorModel {
      * @throws IOException thrown if loading fails.
      * @throws CmsException thrown if reading or creation fails.
      */
-    private void loadLocalizationFromPropertyBundle(Locale locale) throws IOException, CmsException {
+    private void loadLocalizationFromPropertyBundle(@RUntainted Locale locale) throws IOException, CmsException {
 
         // may throw exception again
         String sitePath = m_sitepath + m_basename + "_" + locale.toString();
@@ -1581,7 +1582,7 @@ public class CmsMessageBundleEditorModel {
      * It assumes, the content has already been unmarshalled before.
      * @param locale the locale for which the localization should be loaded
      */
-    private void loadLocalizationFromXmlBundle(Locale locale) {
+    private void loadLocalizationFromXmlBundle(@RUntainted Locale locale) {
 
         CmsXmlContentValueSequence messages = m_xmlBundle.getValueSequence("Message", locale);
         SortedProperties props = new SortedProperties();
@@ -1671,7 +1672,7 @@ public class CmsMessageBundleEditorModel {
         }
         if (!hasDescriptor()) {
 
-            for (Entry<Locale, SortedProperties> entry : m_localizations.entrySet()) {
+            for (Entry<Locale, @RUntainted SortedProperties> entry : m_localizations.entrySet()) {
                 SortedProperties localization = entry.getValue();
                 if (localization.containsKey(key)) {
                     localization.remove(key);
@@ -1700,7 +1701,7 @@ public class CmsMessageBundleEditorModel {
      * @param newKey the new key name
      * @return <code>true</code> if renaming was successful, <code>false</code> otherwise.
      */
-    private boolean renameKeyForAllLanguages(String oldKey, String newKey) {
+    private boolean renameKeyForAllLanguages(String oldKey, @RUntainted String newKey) {
 
         try {
             loadAllRemainingLocalizations();
@@ -1712,7 +1713,7 @@ public class CmsMessageBundleEditorModel {
             LOG.error(e.getLocalizedMessage(), e);
             return false;
         }
-        for (Entry<Locale, SortedProperties> entry : m_localizations.entrySet()) {
+        for (Entry<Locale, @RUntainted SortedProperties> entry : m_localizations.entrySet()) {
             SortedProperties localization = entry.getValue();
             if (localization.containsKey(oldKey)) {
                 String value = localization.getProperty(oldKey);
@@ -1882,7 +1883,7 @@ public class CmsMessageBundleEditorModel {
                     }
                     m_xmlBundle.addLocale(m_cms, l);
                     int i = 0;
-                    List<Object> keys = new ArrayList<Object>(props.keySet());
+                    List<@RUntainted Object> keys = new ArrayList<@RUntainted Object>(props.keySet());
                     Collections.sort(keys, CmsCaseInsensitiveStringComparator.getInstance());
                     for (Object key : keys) {
                         if ((null != key) && !key.toString().isEmpty()) {
@@ -1982,12 +1983,12 @@ public class CmsMessageBundleEditorModel {
         m_descContent.addLocale(m_cms, Descriptor.LOCALE);
 
         int i = 0;
-        Property<Object> descProp;
+        Property<@RUntainted Object> descProp;
         String desc;
-        Property<Object> defaultValueProp;
+        Property<@RUntainted Object> defaultValueProp;
         String defaultValue;
-        Map<String, Item> keyItemMap = getKeyItemMap();
-        List<String> keys = new ArrayList<String>(keyItemMap.keySet());
+        Map<@RUntainted String, @RUntainted Item> keyItemMap = getKeyItemMap();
+        List<@RUntainted String> keys = new ArrayList<@RUntainted String>(keyItemMap.keySet());
         Collections.sort(keys, CmsCaseInsensitiveStringComparator.getInstance());
         for (Object key : keys) {
             if ((null != key) && !key.toString().isEmpty()) {

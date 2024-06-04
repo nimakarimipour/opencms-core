@@ -32,6 +32,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /** Helper with methods commonly used in editor widgets. */
 public class CmsWidgetUtil {
@@ -42,7 +44,7 @@ public class CmsWidgetUtil {
      * @param options the map with the config options.
      * @return the options as pipe separated string.
      */
-    public static String generatePipeSeparatedConfigString(Map<String, String> options) {
+    public static @RUntainted String generatePipeSeparatedConfigString(Map<String, String> options) {
 
         StringBuffer result = new StringBuffer();
         for (Entry<String, String> option : options.entrySet()) {

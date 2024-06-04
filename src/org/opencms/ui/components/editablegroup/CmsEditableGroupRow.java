@@ -29,6 +29,7 @@ package org.opencms.ui.components.editablegroup;
 
 import com.vaadin.ui.Component;
 import com.vaadin.v7.ui.HorizontalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Default implementation for row for multivalue field lists.<p>

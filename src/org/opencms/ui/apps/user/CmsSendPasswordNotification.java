@@ -37,6 +37,7 @@ import org.opencms.notification.CmsNotificationMacroResolver;
 import org.opencms.ui.login.CmsLoginHelper;
 import org.opencms.util.CmsMacroResolver;
 import org.opencms.workplace.CmsWorkplaceLoginHandler;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class to send email to user in case of password reset or creating new user.<p>

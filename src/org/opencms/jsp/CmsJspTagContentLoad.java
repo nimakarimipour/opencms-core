@@ -51,6 +51,7 @@ import java.util.Locale;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the <code>&lt;cms:contentload/&gt;</code> tag,
@@ -86,7 +87,7 @@ public class CmsJspTagContentLoad extends CmsJspTagResourceLoad implements I_Cms
     private CmsDirectEditButtonSelection m_directEditFollowButtons;
 
     /** The link for creation of a new element, specified by the selected collector. */
-    private String m_directEditLinkForNew;
+    private @RUntainted String m_directEditLinkForNew;
 
     /** The direct edit mode. */
     private CmsDirectEditMode m_directEditMode;
@@ -104,7 +105,7 @@ public class CmsJspTagContentLoad extends CmsJspTagResourceLoad implements I_Cms
     private Locale m_locale;
 
     /** Post-create handler class. */
-    private String m_postCreateHandler;
+    private @RUntainted String m_postCreateHandler;
 
     /**
      * Empty constructor, required for JSP tags.<p>
@@ -129,8 +130,8 @@ public class CmsJspTagContentLoad extends CmsJspTagResourceLoad implements I_Cms
     public CmsJspTagContentLoad(
         I_CmsXmlContentContainer container,
         PageContext context,
-        String collectorName,
-        String collectorParam,
+        @RUntainted String collectorName,
+        @RUntainted String collectorParam,
         Locale locale,
         boolean editable)
         throws JspException {
@@ -155,10 +156,10 @@ public class CmsJspTagContentLoad extends CmsJspTagResourceLoad implements I_Cms
     public CmsJspTagContentLoad(
         I_CmsXmlContentContainer container,
         PageContext context,
-        String collectorName,
-        String collectorParam,
-        String pageIndex,
-        String pageSize,
+        @RUntainted String collectorName,
+        @RUntainted String collectorParam,
+        @RUntainted String pageIndex,
+        @RUntainted String pageSize,
         Locale locale,
         boolean editable)
         throws JspException {
@@ -191,10 +192,10 @@ public class CmsJspTagContentLoad extends CmsJspTagResourceLoad implements I_Cms
     public CmsJspTagContentLoad(
         I_CmsXmlContentContainer container,
         PageContext context,
-        String collectorName,
-        String collectorParam,
-        String pageIndex,
-        String pageSize,
+        @RUntainted String collectorName,
+        @RUntainted String collectorParam,
+        @RUntainted String pageIndex,
+        @RUntainted String pageSize,
         Locale locale,
         CmsDirectEditMode editMode)
         throws JspException {
@@ -270,7 +271,7 @@ public class CmsJspTagContentLoad extends CmsJspTagResourceLoad implements I_Cms
     /**
      * @see org.opencms.jsp.I_CmsXmlContentContainer#getXmlDocumentElement()
      */
-    public String getXmlDocumentElement() {
+    public @RUntainted String getXmlDocumentElement() {
 
         // value must be set in "loop" or "show" class
         return null;
@@ -445,7 +446,7 @@ public class CmsJspTagContentLoad extends CmsJspTagResourceLoad implements I_Cms
      *
      * @param postCreateHandler the post-create handler class name
      */
-    public void setPostCreateHandler(String postCreateHandler) {
+    public void setPostCreateHandler(@RUntainted String postCreateHandler) {
 
         m_postCreateHandler = postCreateHandler;
     }

@@ -35,6 +35,7 @@ import org.opencms.util.CmsUUID;
 
 import java.io.Serializable;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes an OpenCms project,
@@ -78,7 +79,7 @@ public class CmsProject implements Cloneable, Comparable<CmsProject>, Serializab
          *
          * @return the copy mode object
          */
-        public static CmsProjectType valueOf(int mode) {
+        public static @RUntainted CmsProjectType valueOf(int mode) {
 
             switch (mode) {
                 case 0:
@@ -97,7 +98,7 @@ public class CmsProject implements Cloneable, Comparable<CmsProject>, Serializab
          *
          * @return the default flags for the project type
          */
-        public int getDefaultFlags() {
+        public @RUntainted int getDefaultFlags() {
 
             //            if (getMode() == CmsProjectType.MODE_PROJECT_WORKFLOW.getMode()) {
             //                return PROJECT_FLAG_HIDDEN;
@@ -110,7 +111,7 @@ public class CmsProject implements Cloneable, Comparable<CmsProject>, Serializab
     public static final String ONLINE_PROJECT_NAME = "Online";
 
     /** The id of the online project. */
-    public static final CmsUUID ONLINE_PROJECT_ID = CmsUUID.getConstantUUID(ONLINE_PROJECT_NAME);
+    public static final @RUntainted CmsUUID ONLINE_PROJECT_ID = CmsUUID.getConstantUUID(ONLINE_PROJECT_NAME);
 
     /** Indicates that a project is invisible in the workplace. */
     public static final int PROJECT_FLAG_HIDDEN = 4;
@@ -134,31 +135,31 @@ public class CmsProject implements Cloneable, Comparable<CmsProject>, Serializab
     private static final long serialVersionUID = -4552095577282894706L;
 
     /** The creation date of this project. */
-    private long m_dateCreated;
+    private @RUntainted long m_dateCreated;
 
     /** The description of this project. */
-    private String m_description;
+    private @RUntainted String m_description;
 
     /** The state of this project. */
-    private int m_flags;
+    private @RUntainted int m_flags;
 
     /** The manager group id of this project. */
-    private CmsUUID m_groupManagersId;
+    private @RUntainted CmsUUID m_groupManagersId;
 
     /** The id of the user group of this project. */
-    private CmsUUID m_groupUsersId;
+    private @RUntainted CmsUUID m_groupUsersId;
 
     /** The id of this project. */
-    private CmsUUID m_id;
+    private @RUntainted CmsUUID m_id;
 
     /** The name of this project. */
-    private String m_name;
+    private @RUntainted String m_name;
 
     /** The id of this projects owner. */
-    private CmsUUID m_ownerId;
+    private @RUntainted CmsUUID m_ownerId;
 
     /** The type of this project. */
-    private CmsProjectType m_type;
+    private @RUntainted CmsProjectType m_type;
 
     /**
      * Default constructor for gui usage.<p>
@@ -182,15 +183,15 @@ public class CmsProject implements Cloneable, Comparable<CmsProject>, Serializab
      * @param type the type of this project
      */
     public CmsProject(
-        CmsUUID projectId,
-        String projectFqn,
-        String description,
-        CmsUUID ownerId,
-        CmsUUID groupId,
-        CmsUUID managerGroupId,
-        int flags,
-        long dateCreated,
-        CmsProjectType type) {
+        @RUntainted CmsUUID projectId,
+        @RUntainted String projectFqn,
+        @RUntainted String description,
+        @RUntainted CmsUUID ownerId,
+        @RUntainted CmsUUID groupId,
+        @RUntainted CmsUUID managerGroupId,
+        @RUntainted int flags,
+        @RUntainted long dateCreated,
+        @RUntainted CmsProjectType type) {
 
         m_id = projectId;
         m_name = projectFqn;
@@ -271,7 +272,7 @@ public class CmsProject implements Cloneable, Comparable<CmsProject>, Serializab
      * @see java.lang.Object#clone()
      */
     @Override
-    public Object clone() {
+    public @RUntainted Object clone() {
 
         return new CmsProject(
             m_id,
@@ -321,7 +322,7 @@ public class CmsProject implements Cloneable, Comparable<CmsProject>, Serializab
      *
      * @return the creation date of this project
      */
-    public long getDateCreated() {
+    public @RUntainted long getDateCreated() {
 
         return m_dateCreated;
     }
@@ -331,7 +332,7 @@ public class CmsProject implements Cloneable, Comparable<CmsProject>, Serializab
      *
      * @return the description of this project
      */
-    public String getDescription() {
+    public @RUntainted String getDescription() {
 
         return m_description;
     }
@@ -341,7 +342,7 @@ public class CmsProject implements Cloneable, Comparable<CmsProject>, Serializab
      *
      * @return the state of this project
      */
-    public int getFlags() {
+    public @RUntainted int getFlags() {
 
         return m_flags;
     }
@@ -351,7 +352,7 @@ public class CmsProject implements Cloneable, Comparable<CmsProject>, Serializab
      *
      * @return the user group id of this project
      */
-    public CmsUUID getGroupId() {
+    public @RUntainted CmsUUID getGroupId() {
 
         return m_groupUsersId;
     }
@@ -361,7 +362,7 @@ public class CmsProject implements Cloneable, Comparable<CmsProject>, Serializab
      *
      * @return the id of this project
      */
-    public CmsUUID getId() {
+    public @RUntainted CmsUUID getId() {
 
         return m_id;
     }
@@ -371,7 +372,7 @@ public class CmsProject implements Cloneable, Comparable<CmsProject>, Serializab
      *
      * @return the manager group id of this project
      */
-    public CmsUUID getManagerGroupId() {
+    public @RUntainted CmsUUID getManagerGroupId() {
 
         return m_groupManagersId;
     }
@@ -381,7 +382,7 @@ public class CmsProject implements Cloneable, Comparable<CmsProject>, Serializab
      *
      * @return the name of this project
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_name;
     }
@@ -401,7 +402,7 @@ public class CmsProject implements Cloneable, Comparable<CmsProject>, Serializab
      *
      * @return the user id of the project owner
      */
-    public CmsUUID getOwnerId() {
+    public @RUntainted CmsUUID getOwnerId() {
 
         return m_ownerId;
     }
@@ -421,7 +422,7 @@ public class CmsProject implements Cloneable, Comparable<CmsProject>, Serializab
      *
      * @return the type of this project
      */
-    public CmsProjectType getType() {
+    public @RUntainted CmsProjectType getType() {
 
         return m_type;
     }
@@ -431,7 +432,7 @@ public class CmsProject implements Cloneable, Comparable<CmsProject>, Serializab
      *
      * @return the id of this project
      */
-    public CmsUUID getUuid() {
+    public @RUntainted CmsUUID getUuid() {
 
         return m_id;
     }
@@ -517,7 +518,7 @@ public class CmsProject implements Cloneable, Comparable<CmsProject>, Serializab
      *
      * @param description the description to set
      */
-    public void setDescription(String description) {
+    public void setDescription(@RUntainted String description) {
 
         m_description = description;
     }
@@ -527,7 +528,7 @@ public class CmsProject implements Cloneable, Comparable<CmsProject>, Serializab
      *
      * @param flags the flag to set
      */
-    public void setFlags(int flags) {
+    public void setFlags(@RUntainted int flags) {
 
         m_flags = flags;
     }
@@ -537,7 +538,7 @@ public class CmsProject implements Cloneable, Comparable<CmsProject>, Serializab
      *
      * @param id the user group id of this project
      */
-    public void setGroupId(CmsUUID id) {
+    public void setGroupId(@RUntainted CmsUUID id) {
 
         CmsUUID.checkId(id, false);
         m_groupUsersId = id;
@@ -560,7 +561,7 @@ public class CmsProject implements Cloneable, Comparable<CmsProject>, Serializab
      *
      * @param id the manager group id of this project
      */
-    public void setManagerGroupId(CmsUUID id) {
+    public void setManagerGroupId(@RUntainted CmsUUID id) {
 
         CmsUUID.checkId(id, false);
         m_groupManagersId = id;
@@ -571,7 +572,7 @@ public class CmsProject implements Cloneable, Comparable<CmsProject>, Serializab
      *
      * @param name the name to set
      */
-    public void setName(String name) {
+    public void setName(@RUntainted String name) {
 
         checkProjectName(name);
         m_name = name;
@@ -582,7 +583,7 @@ public class CmsProject implements Cloneable, Comparable<CmsProject>, Serializab
      *
      * @param id the id of the new owner
      */
-    public void setOwnerId(CmsUUID id) {
+    public void setOwnerId(@RUntainted CmsUUID id) {
 
         CmsUUID.checkId(id, false);
         m_ownerId = id;
@@ -609,7 +610,7 @@ public class CmsProject implements Cloneable, Comparable<CmsProject>, Serializab
      *
      * @param type the type to set
      */
-    void setType(CmsProjectType type) {
+    void setType(@RUntainted CmsProjectType type) {
 
         m_type = type;
     }

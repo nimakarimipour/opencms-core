@@ -49,6 +49,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A collector that allows to collect resources within a time range based upon
@@ -254,7 +255,7 @@ public class CmsTimeFrameCategoryCollector extends A_CmsResourceCollector {
         public static final String PARAM_KEY_TIMEFRAME_START = "timeStart";
 
         /** The List &lt;String&gt; containing the categories to allow. */
-        private List<String> m_categories = Collections.emptyList();
+        private List<@RUntainted String> m_categories = Collections.emptyList();
 
         /** The display count. */
         private int m_count;
@@ -307,7 +308,7 @@ public class CmsTimeFrameCategoryCollector extends A_CmsResourceCollector {
          *
          * @return The List &lt;String&gt; containing the categories to allow.
          */
-        public List<String> getCategories() {
+        public List<@RUntainted String> getCategories() {
 
             return m_categories;
         }
@@ -330,7 +331,7 @@ public class CmsTimeFrameCategoryCollector extends A_CmsResourceCollector {
          * @return the file name
          */
         @Override
-        public String getFileName() {
+        public @RUntainted String getFileName() {
 
             return m_fileName;
         }
@@ -421,8 +422,8 @@ public class CmsTimeFrameCategoryCollector extends A_CmsResourceCollector {
          */
         private void parseParam(final String param) throws CmsLoaderException, ParseException {
 
-            List<String> keyValuePairs = CmsStringUtil.splitAsList(param, '|');
-            String[] keyValuePair;
+            List<@RUntainted String> keyValuePairs = CmsStringUtil.splitAsList(param, '|');
+            @RUntainted String[] keyValuePair;
             Iterator<String> itKeyValuePairs = keyValuePairs.iterator();
             String keyValuePairStr;
             String key;
@@ -498,7 +499,7 @@ public class CmsTimeFrameCategoryCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getCreateLink(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String getCreateLink(CmsObject cms, String collectorName, String param)
+    public @RUntainted String getCreateLink(CmsObject cms, String collectorName, String param)
     throws CmsException, CmsDataAccessException {
 
         // if action is not set, use default action
@@ -518,7 +519,7 @@ public class CmsTimeFrameCategoryCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getCreateParam(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String getCreateParam(CmsObject cms, String collectorName, String param) {
+    public @RUntainted String getCreateParam(CmsObject cms, String collectorName, String param) {
 
         return null;
     }
@@ -580,7 +581,7 @@ public class CmsTimeFrameCategoryCollector extends A_CmsResourceCollector {
     private List<CmsResource> getTimeFrameAndCategories(CmsObject cms, String param, int numResults)
     throws CmsException {
 
-        List<CmsResource> result = null;
+        List<@RUntainted CmsResource> result = null;
         CollectorDataPropertyBased data = new CollectorDataPropertyBased(param);
 
         // Step 1: Read from DB, expiration is respected.
@@ -617,7 +618,7 @@ public class CmsTimeFrameCategoryCollector extends A_CmsResourceCollector {
         if ((categories != null) && !categories.isEmpty()) {
             itResults = result.iterator();
             String categoriesProperty = data.getPropertyCategories().getName();
-            List<String> categoriesFound;
+            List<@RUntainted String> categoriesFound;
             while (itResults.hasNext()) {
                 res = itResults.next();
                 prop = cms.readPropertyObject(res, categoriesProperty, true);

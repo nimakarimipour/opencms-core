@@ -75,6 +75,7 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Searches in sources.
@@ -294,7 +295,7 @@ public class CmsSearchReplaceThread extends A_CmsReportThread {
 
         // search the resources and replace the patterns
         if (!isError) {
-            List<CmsResource> resources = searchResources();
+            List<@RUntainted CmsResource> resources = searchResources();
 
             if (resources.isEmpty()) {
                 // no resources found, so search is not possible
@@ -341,7 +342,7 @@ public class CmsSearchReplaceThread extends A_CmsReportThread {
      *
      * @param resources the relevant resources
      */
-    protected void searchAndReplace(List<CmsResource> resources) {
+    protected void searchAndReplace(List<@RUntainted CmsResource> resources) {
 
         // the file counter
         int counter = 0;
@@ -595,7 +596,7 @@ public class CmsSearchReplaceThread extends A_CmsReportThread {
                 continue;
             }
             // loop over the available element paths of the current content locale
-            List<String> paths = xmlContent.getNames(locale);
+            List<@RUntainted String> paths = xmlContent.getNames(locale);
             for (String xpath : paths) {
                 // try to get the value extraction for the current element path
                 I_CmsXmlContentValue value = xmlContent.getValue(xpath, locale);
@@ -841,7 +842,7 @@ public class CmsSearchReplaceThread extends A_CmsReportThread {
      * @return the relevant resources
      */
     @SuppressWarnings("deprecation")
-    private List<CmsResource> searchResources() {
+    private List<@RUntainted CmsResource> searchResources() {
 
         getReport().println(
             Messages.get().container(Messages.RPT_SOURCESEARCH_START_COLLECTING_FILES_TO_SEARCH_IN_0),
@@ -921,7 +922,7 @@ public class CmsSearchReplaceThread extends A_CmsReportThread {
                         // only read resources which are files and not deleted, which are in the current time range window and where the current
                         // user has the sufficient permissions to read them
 
-                        List<CmsResource> tmpResources = getCms().readResources(path, filter);
+                        List<@RUntainted CmsResource> tmpResources = getCms().readResources(path, filter);
                         List<String> subsites = null;
                         if (m_settings.ignoreSubSites()) {
                             subsites = OpenCms.getADEManager().getSubSitePaths(getCms(), path);

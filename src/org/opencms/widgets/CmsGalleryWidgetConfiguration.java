@@ -33,6 +33,7 @@ import org.opencms.json.JSONException;
 import org.opencms.json.JSONObject;
 import org.opencms.util.CmsMacroResolver;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Configuration options for the gallery widget (e.g. DownloadGalleryWidget).<p>
@@ -76,13 +77,13 @@ public class CmsGalleryWidgetConfiguration {
     protected String m_className;
 
     /** The required information for the initial item list to load. */
-    protected String m_startup;
+    protected @RUntainted String m_startup;
 
     /** The type of the initial item list to load, either gallery or category. */
-    protected String m_type;
+    protected @RUntainted String m_type;
 
     /** The configured gallery types. */
-    private String m_galleryTypes;
+    private @RUntainted String m_galleryTypes;
 
     /**
      * Generates an initialized configuration for the gallery item widget using the given configuration string.<p>
@@ -96,7 +97,7 @@ public class CmsGalleryWidgetConfiguration {
         CmsObject cms,
         CmsMessages widgetDialog,
         I_CmsWidgetParameter param,
-        String configuration) {
+        @RUntainted String configuration) {
 
         init(cms, widgetDialog, param, configuration);
     }
@@ -124,7 +125,7 @@ public class CmsGalleryWidgetConfiguration {
      *
      * @return the configured gallery types
      */
-    public String getGalleryTypes() {
+    public @RUntainted String getGalleryTypes() {
 
         return m_galleryTypes;
     }
@@ -137,7 +138,7 @@ public class CmsGalleryWidgetConfiguration {
      *
      * @return the required information for the initial item list to load
      */
-    public String getStartup() {
+    public @RUntainted String getStartup() {
 
         return m_startup;
     }
@@ -147,7 +148,7 @@ public class CmsGalleryWidgetConfiguration {
      *
      * @return the type of the initial image list to load
      */
-    public String getType() {
+    public @RUntainted String getType() {
 
         return m_type;
     }
@@ -160,7 +161,7 @@ public class CmsGalleryWidgetConfiguration {
      * @param param the widget parameter to generate the widget for
      * @param configuration the widget configuration string
      */
-    protected void init(CmsObject cms, CmsMessages messages, I_CmsWidgetParameter param, String configuration) {
+    protected void init(CmsObject cms, CmsMessages messages, I_CmsWidgetParameter param, @RUntainted String configuration) {
 
         if (configuration == null) {
             // no configuration String found, return
@@ -211,7 +212,7 @@ public class CmsGalleryWidgetConfiguration {
      *
      * @param galleryTypes the configured gallery types
      */
-    protected void setGalleryTypes(String galleryTypes) {
+    protected void setGalleryTypes(@RUntainted String galleryTypes) {
 
         m_galleryTypes = galleryTypes;
     }
@@ -224,7 +225,7 @@ public class CmsGalleryWidgetConfiguration {
      *
      * @param startup the required information for the initial item list to load
      */
-    protected void setStartup(String startup) {
+    protected void setStartup(@RUntainted String startup) {
 
         m_startup = startup;
     }
@@ -234,7 +235,7 @@ public class CmsGalleryWidgetConfiguration {
      *
      * @param type the type of the initial item list to load
      */
-    protected void setType(String type) {
+    protected void setType(@RUntainted String type) {
 
         m_type = type;
     }

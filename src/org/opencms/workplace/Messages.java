@@ -30,6 +30,7 @@ package org.opencms.workplace;
 import org.opencms.db.CmsResourceState;
 import org.opencms.i18n.A_CmsMessageBundle;
 import org.opencms.i18n.I_CmsMessageBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenience class to access the localized messages of this OpenCms package.<p>
@@ -512,7 +513,7 @@ public final class Messages extends A_CmsMessageBundle {
      * @param state  STATE_UNCHANGED, STATE_CHANGED, STATE_NEW or STATE_DELETED.
      * @return cconstanname as String
      */
-    public static String getStateKey(CmsResourceState state) {
+    public static @RUntainted String getStateKey(CmsResourceState state) {
 
         StringBuffer sb = new StringBuffer(STATE_PREFIX);
         sb.append(state);
@@ -534,7 +535,7 @@ public final class Messages extends A_CmsMessageBundle {
      *
      * @return the bundle name for this OpenCms package
      */
-    public String getBundleName() {
+    public @RUntainted String getBundleName() {
 
         return BUNDLE_NAME;
     }

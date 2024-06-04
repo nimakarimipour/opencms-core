@@ -33,6 +33,7 @@ import java.util.Collection;
 import java.util.Date;
 
 import com.google.gwt.user.client.rpc.RemoteService;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Synchronous interface for the serial date service. */
 public interface I_CmsSerialDateService extends RemoteService {

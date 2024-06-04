@@ -101,6 +101,7 @@ import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.TextArea;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for the dialog to edit user settings.<p>
@@ -326,7 +327,7 @@ public class CmsUserEditDialog extends CmsBasicDialog implements I_CmsPasswordFe
     CmsPasswordForm m_pw;
 
     /**vaadin component.*/
-    ComboBox m_site;
+    @RUntainted ComboBox m_site;
 
     /**vaadin component.*/
     CmsPathSelectField m_startfolder;
@@ -341,7 +342,7 @@ public class CmsUserEditDialog extends CmsBasicDialog implements I_CmsPasswordFe
     private CmsObject m_cms;
 
     /**vaadin component.*/
-    private TextArea m_description;
+    private @RUntainted TextArea m_description;
 
     /** Label containing invisible dummy password fields to dissuade Firefox from saving the password *after* the user edit dialog. */
     private Label m_dummyPasswordLabel;
@@ -362,7 +363,7 @@ public class CmsUserEditDialog extends CmsBasicDialog implements I_CmsPasswordFe
     private CmsPrincipalSelect m_group;
 
     /**vaadin component.*/
-    private ComboBox m_language;
+    private @RUntainted ComboBox m_language;
 
     /**vaadin component.*/
     private TextField m_loginname;
@@ -377,7 +378,7 @@ public class CmsUserEditDialog extends CmsBasicDialog implements I_CmsPasswordFe
     private Button m_ok;
 
     /**vaadin component.*/
-    private Label m_ou;
+    private @RUntainted Label m_ou;
 
     private PasswordValidator m_passwordValidator = new PasswordValidator();
 
@@ -501,7 +502,7 @@ public class CmsUserEditDialog extends CmsBasicDialog implements I_CmsPasswordFe
      * @param ou organizational unit
      * @param app accounts app instance
      */
-    public CmsUserEditDialog(CmsObject cms, final Window window, String ou, final CmsAccountsApp app) {
+    public CmsUserEditDialog(CmsObject cms, final Window window, @RUntainted String ou, final CmsAccountsApp app) {
 
         CmsVaadinUtils.readAndLocalizeDesign(this, CmsVaadinUtils.getWpMessagesForCurrentLocale(), null);
         CmsOrganizationalUnit myOu = null;
@@ -1031,7 +1032,7 @@ public class CmsUserEditDialog extends CmsBasicDialog implements I_CmsPasswordFe
      * @param siteRoot to be used
      * @return CmsObject
      */
-    CmsObject getCmsObjectWithSite(String siteRoot) {
+    @RUntainted CmsObject getCmsObjectWithSite(@RUntainted String siteRoot) {
 
         if (siteRoot == null) {
             siteRoot = "/";

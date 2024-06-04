@@ -54,6 +54,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract base class for search indexes. It provides default implementations that should fit most use
@@ -98,10 +99,10 @@ public abstract class A_CmsSearchIndex implements I_CmsSearchIndex {
     private boolean m_languageDetection;
 
     /** The locale of this index. */
-    private Locale m_locale;
+    private @RUntainted Locale m_locale;
 
     /** The name of this index. */
-    private String m_name;
+    private @RUntainted String m_name;
 
     /** The path where this index stores it's data in the "real" file system. */
     private String m_path;
@@ -139,7 +140,7 @@ public abstract class A_CmsSearchIndex implements I_CmsSearchIndex {
      *
      * @throws CmsIllegalArgumentException if the given name is null, empty or already taken by another search index
      */
-    public A_CmsSearchIndex(String name)
+    public A_CmsSearchIndex(@RUntainted String name)
     throws CmsIllegalArgumentException {
 
         this();
@@ -149,7 +150,7 @@ public abstract class A_CmsSearchIndex implements I_CmsSearchIndex {
     /**
      * @see org.opencms.search.I_CmsSearchIndex#addConfigurationParameter(java.lang.String, java.lang.String)
      */
-    public void addConfigurationParameter(String key, String value) {
+    public void addConfigurationParameter(String key, @RUntainted String value) {
 
         // by default no parameters are excepted
 
@@ -250,7 +251,7 @@ public abstract class A_CmsSearchIndex implements I_CmsSearchIndex {
         }
         if (!excludeFromIndex && !USE_ALL_LOCALE.equalsIgnoreCase(getLocale().getLanguage())) {
             // check if any resource default locale has a match with the index locale, if not skip resource
-            List<Locale> locales = OpenCms.getLocaleManager().getDefaultLocales(cms, resource);
+            List<@RUntainted Locale> locales = OpenCms.getLocaleManager().getDefaultLocales(cms, resource);
             Locale match = OpenCms.getLocaleManager().getFirstMatchingLocale(
                 Collections.singletonList(getLocale()),
                 locales);
@@ -378,7 +379,7 @@ public abstract class A_CmsSearchIndex implements I_CmsSearchIndex {
      *
      * @return the language locale of this index, for example "en"
      */
-    public Locale getLocale() {
+    public @RUntainted Locale getLocale() {
 
         return m_locale;
     }
@@ -392,10 +393,10 @@ public abstract class A_CmsSearchIndex implements I_CmsSearchIndex {
      *
      * @return the language locale for the given resource in this index
      */
-    public Locale getLocaleForResource(CmsObject cms, CmsResource resource, List<Locale> availableLocales) {
+    public Locale getLocaleForResource(CmsObject cms, CmsResource resource, List<@RUntainted Locale> availableLocales) {
 
         Locale result = null;
-        List<Locale> defaultLocales = OpenCms.getLocaleManager().getDefaultLocales(cms, resource);
+        List<@RUntainted Locale> defaultLocales = OpenCms.getLocaleManager().getDefaultLocales(cms, resource);
         if ((availableLocales != null) && (availableLocales.size() > 0)) {
             result = OpenCms.getLocaleManager().getBestMatchingLocale(
                 defaultLocales.get(0),
@@ -413,7 +414,7 @@ public abstract class A_CmsSearchIndex implements I_CmsSearchIndex {
     /**
      * @see org.opencms.search.I_CmsSearchIndex#getName()
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_name;
     }
@@ -421,7 +422,7 @@ public abstract class A_CmsSearchIndex implements I_CmsSearchIndex {
     /**
      * @see org.opencms.search.I_CmsSearchIndex#getPath()
      */
-    public String getPath() {
+    public @RUntainted String getPath() {
 
         return m_path;
     }
@@ -429,7 +430,7 @@ public abstract class A_CmsSearchIndex implements I_CmsSearchIndex {
     /**
      * @see org.opencms.search.I_CmsSearchIndex#getProject()
      */
-    public String getProject() {
+    public @RUntainted String getProject() {
 
         return m_project;
     }
@@ -548,7 +549,7 @@ public abstract class A_CmsSearchIndex implements I_CmsSearchIndex {
     /**
     * @see org.opencms.search.I_CmsSearchIndex#isExtractingContent()
     */
-    public boolean isExtractingContent() {
+    public @RUntainted boolean isExtractingContent() {
 
         return m_extractContent;
     }
@@ -564,7 +565,7 @@ public abstract class A_CmsSearchIndex implements I_CmsSearchIndex {
     /**
      * @see org.opencms.search.I_CmsSearchIndex#isLanguageDetection()
      */
-    public boolean isLanguageDetection() {
+    public @RUntainted boolean isLanguageDetection() {
 
         return m_languageDetection;
     }
@@ -649,7 +650,7 @@ public abstract class A_CmsSearchIndex implements I_CmsSearchIndex {
     /**
      * @see org.opencms.search.I_CmsSearchIndex#setLocale(java.util.Locale)
      */
-    public void setLocale(Locale locale) {
+    public void setLocale(@RUntainted Locale locale) {
 
         m_locale = locale;
     }
@@ -657,7 +658,7 @@ public abstract class A_CmsSearchIndex implements I_CmsSearchIndex {
     /**
      * @see org.opencms.search.I_CmsSearchIndex#setLocaleString(java.lang.String)
      */
-    public void setLocaleString(String locale) {
+    public void setLocaleString(@RUntainted String locale) {
 
         setLocale(CmsLocaleManager.getLocale(locale));
     }
@@ -665,7 +666,7 @@ public abstract class A_CmsSearchIndex implements I_CmsSearchIndex {
     /**
     * @see org.opencms.search.I_CmsSearchIndex#setName(java.lang.String)
     */
-    public void setName(String name) throws CmsIllegalArgumentException {
+    public void setName(@RUntainted String name) throws CmsIllegalArgumentException {
 
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(name)) {
             throw new CmsIllegalArgumentException(

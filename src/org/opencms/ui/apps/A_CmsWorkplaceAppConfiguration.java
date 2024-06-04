@@ -32,6 +32,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.security.CmsRole;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract superclass for workplace apps.<p>

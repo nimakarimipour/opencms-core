@@ -47,6 +47,7 @@ import org.owasp.validator.html.CleanResults;
 import org.owasp.validator.html.Policy;
 import org.owasp.validator.html.PolicyException;
 import org.owasp.validator.html.ScanException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class is responsible for automatically escaping parameters in Flex requests. It keeps track
@@ -159,7 +160,7 @@ public class CmsParameterEscaper {
      * @param policyPath the policy site path in the VFS
      * @param params the parameters for which HTML cleaning should be  enabled
      */
-    public void enableAntiSamy(CmsObject cms, String policyPath, Set<String> params) {
+    public void enableAntiSamy(CmsObject cms, String policyPath, Set<@RUntainted String> params) {
 
         m_antiSamy = createAntiSamy(cms, policyPath);
         m_cleanHtml = params;
@@ -265,7 +266,7 @@ public class CmsParameterEscaper {
      *
      * @param escapeInvalidList the collection of parameters which should be escaped even if the dummy value is set
      */
-    public void setEscapeInvalid(Collection<String> escapeInvalidList) {
+    public void setEscapeInvalid(Collection<@RUntainted String> escapeInvalidList) {
 
         m_escapeInvalid = new HashSet<>(escapeInvalidList);
     }
@@ -275,7 +276,7 @@ public class CmsParameterEscaper {
      *
      * @param exceptions a set of parameter names
      */
-    public void setExceptions(Collection<String> exceptions) {
+    public void setExceptions(Collection<@RUntainted String> exceptions) {
 
         m_exceptions = new HashSet<String>(exceptions);
     }

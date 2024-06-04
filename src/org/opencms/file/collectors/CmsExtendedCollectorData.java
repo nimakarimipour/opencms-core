@@ -38,6 +38,7 @@ import org.opencms.util.CmsStringUtil;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Extended data structure for the collector, parsed from the collector parameters.<p>
@@ -85,7 +86,7 @@ public class CmsExtendedCollectorData extends CmsCollectorData {
         if (data == null) {
             throw new CmsIllegalArgumentException(Messages.get().container(Messages.ERR_COLLECTOR_PARAM_EMPTY_0));
         }
-        List<String> args = CmsStringUtil.splitAsList(data, '|', true);
+        List<@RUntainted String> args = CmsStringUtil.splitAsList(data, '|', true);
         if (args.size() < 3) {
             // we need at least 2 arguments: VFS URI and Resource Type
             throw new CmsIllegalArgumentException(

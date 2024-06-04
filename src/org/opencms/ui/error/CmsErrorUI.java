@@ -52,6 +52,7 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.WrappedSession;
 import com.vaadin.shared.Version;
 import com.vaadin.ui.JavaScript;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Displays the error page.<p>
@@ -90,12 +91,12 @@ public class CmsErrorUI extends A_CmsUI {
      *
      * @return the error bootstrap page HTML
      */
-    public static String getBootstrapPage(CmsObject cms, Throwable throwable, HttpServletRequest request) {
+    public static String getBootstrapPage(CmsObject cms, @RUntainted Throwable throwable, HttpServletRequest request) {
 
         try {
             setErrorAttributes(cms, throwable, request);
 
-            byte[] pageBytes = CmsFileUtil.readFully(
+            @RUntainted byte[] pageBytes = CmsFileUtil.readFully(
                 Thread.currentThread().getContextClassLoader().getResourceAsStream(
                     "org/opencms/ui/error/error-page.html"));
             String page = new String(pageBytes, "UTF-8");
@@ -128,7 +129,7 @@ public class CmsErrorUI extends A_CmsUI {
      * @param throwable the throwable
      * @param request the current request
      */
-    private static void setErrorAttributes(CmsObject cms, Throwable throwable, HttpServletRequest request) {
+    private static void setErrorAttributes(CmsObject cms, @RUntainted Throwable throwable, HttpServletRequest request) {
 
         String errorUri = CmsFlexController.getThrowableResourceUri(request);
         if (errorUri == null) {

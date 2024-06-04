@@ -54,6 +54,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.user.client.rpc.RemoteService;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A service interface for retrieving information about the VFS tree.<p>
@@ -72,7 +73,7 @@ public interface I_CmsVfsService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    void createNewExternalLink(String title, String link, String resourceName, String parentFolderPath)
+    void createNewExternalLink(@RUntainted String title, String link, String resourceName, String parentFolderPath)
     throws CmsRpcException;
 
     /**
@@ -219,7 +220,7 @@ public interface I_CmsVfsService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    CmsPreviewInfo getHistoryPreviewInfo(CmsUUID structureId, String locale, CmsHistoryVersion version)
+    CmsPreviewInfo getHistoryPreviewInfo(CmsUUID structureId, @RUntainted String locale, CmsHistoryVersion version)
     throws CmsRpcException;
 
     /**
@@ -265,7 +266,7 @@ public interface I_CmsVfsService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    CmsPreviewInfo getPreviewInfo(CmsUUID structureId, String locale) throws CmsRpcException;
+    CmsPreviewInfo getPreviewInfo(CmsUUID structureId, @RUntainted String locale) throws CmsRpcException;
 
     /**
      * Returns the preview info for the given resource.<p>
@@ -277,7 +278,7 @@ public interface I_CmsVfsService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    CmsPreviewInfo getPreviewInfo(String sitePath, String locale) throws CmsRpcException;
+    CmsPreviewInfo getPreviewInfo(String sitePath, @RUntainted String locale) throws CmsRpcException;
 
     /***
      * Gets the information necessary for the rename dialog.<p>
@@ -409,7 +410,7 @@ public interface I_CmsVfsService extends RemoteService {
      * @return a bean with more information about the file to edit
      * @throws CmsRpcException if something goes wrong
      */
-    CmsPrepareEditResponse prepareEdit(CmsUUID currentPage, String fileNameWithMacros) throws CmsRpcException;
+    CmsPrepareEditResponse prepareEdit(CmsUUID currentPage, @RUntainted String fileNameWithMacros) throws CmsRpcException;
 
     /**
      * Renames a resource.<p>
@@ -453,7 +454,7 @@ public interface I_CmsVfsService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    void saveExternalLink(CmsUUID structureId, String title, String link, String fileName) throws CmsRpcException;
+    void saveExternalLink(CmsUUID structureId, @RUntainted String title, String link, String fileName) throws CmsRpcException;
 
     /**
      * Saves  a set of property changes.<p>
@@ -475,7 +476,7 @@ public interface I_CmsVfsService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong processing the request
      */
-    String substituteLinkForRootPath(String currentSiteRoot, String rootPath) throws CmsRpcException;
+    String substituteLinkForRootPath(@RUntainted String currentSiteRoot, String rootPath) throws CmsRpcException;
 
     /**
      * Deletes a resource from the VFS.<p>

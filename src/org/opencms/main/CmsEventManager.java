@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manager that controls the OpenCms event system.
@@ -161,7 +162,7 @@ public class CmsEventManager {
      * @param listeners the listeners to fire
      * @param event the event to fire
      */
-    protected void fireEventHandler(List<I_CmsEventListener> listeners, CmsEvent event) {
+    protected void fireEventHandler(List<@RUntainted I_CmsEventListener> listeners, CmsEvent event) {
 
         if (!LOG.isDebugEnabled()) {
             // no logging required
@@ -189,7 +190,7 @@ public class CmsEventManager {
             LOG.debug(Messages.get().getBundle().key(Messages.LOG_DEBUG_EVENT_1, event.toString()));
             if ((listeners != null) && (listeners.size() > 0)) {
                 // handle all event listeners that listen to this event type
-                I_CmsEventListener[] list = listeners.toArray(EVENT_LIST);
+                @RUntainted I_CmsEventListener[] list = listeners.toArray(EVENT_LIST);
                 // log the event data
                 if (event.getData() != null) {
                     Iterator<String> i = event.getData().keySet().iterator();

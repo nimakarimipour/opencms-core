@@ -53,6 +53,7 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a widget for group selection multi select boxes.<p>
@@ -308,7 +309,7 @@ public class CmsMultiSelectGroupWidget extends CmsSelectGroupWidget {
      * @see org.opencms.widgets.A_CmsWidget#setConfiguration(java.lang.String)
      */
     @Override
-    public void setConfiguration(String configuration) {
+    public void setConfiguration(@RUntainted String configuration) {
 
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(configuration)) {
             int asCheckBoxesIndex = configuration.indexOf(CmsMultiSelectWidget.CONFIGURATION_ASCHECKBOXES);
@@ -495,7 +496,7 @@ public class CmsMultiSelectGroupWidget extends CmsSelectGroupWidget {
     private void parseConfiguration(CmsObject cms, CmsMessages widgetDialog) {
 
         String configString = CmsMacroResolver.resolveMacros(getConfiguration(), cms, widgetDialog);
-        Map<String, String> config = CmsStringUtil.splitAsMap(configString, "|", "=");
+        Map<String, @RUntainted String> config = CmsStringUtil.splitAsMap(configString, "|", "=");
         // get the list of group names to show
         String groups = config.get(CONFIGURATION_GROUPS);
         if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(groups)) {

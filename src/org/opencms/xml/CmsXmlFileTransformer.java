@@ -63,6 +63,7 @@ import javax.xml.transform.stream.StreamSource;
 import org.apache.commons.logging.Log;
 
 import org.w3c.dom.Document;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Transforms all resources of a given type by
@@ -111,7 +112,7 @@ public class CmsXmlFileTransformer {
      */
     public CmsXmlFileTransformer(
         CmsObject cms,
-        String path,
+        @RUntainted String path,
         String type,
         String xslName,
         InputStream xslStream,
@@ -144,7 +145,7 @@ public class CmsXmlFileTransformer {
         m_report.println(message("Path: " + m_path));
         m_report.println(message("Type: " + m_type));
         try {
-            List<CmsResource> resources = m_offlineCms.readResources(
+            List<@RUntainted CmsResource> resources = m_offlineCms.readResources(
                 m_path,
                 CmsResourceFilter.ALL.addRequireType(OpenCms.getResourceManager().getResourceType(m_type)),
                 true);
@@ -221,7 +222,7 @@ public class CmsXmlFileTransformer {
      *
      * @param resources the resources to process
      */
-    private void processResources(List<CmsResource> resources) {
+    private void processResources(List<@RUntainted CmsResource> resources) {
 
         List<String> changedPaths = new ArrayList<>();
         for (CmsResource resource : resources) {
@@ -329,7 +330,7 @@ public class CmsXmlFileTransformer {
      *
      * @throws CmsException if something goes wrong
      */
-    private byte[] readOfflineContent(CmsResource res) throws CmsException {
+    private byte[] readOfflineContent(@RUntainted CmsResource res) throws CmsException {
 
         return m_offlineCms.readFile(res).getContents();
     }
@@ -356,7 +357,7 @@ public class CmsXmlFileTransformer {
      * @return true if the XML is equivalent
      *
      */
-    private boolean sameXml(byte[] xml1, byte[] xml2) {
+    private boolean sameXml(@RUntainted byte[] xml1, @RUntainted byte[] xml2) {
 
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         dbf.setNamespaceAware(true);
@@ -408,7 +409,7 @@ public class CmsXmlFileTransformer {
      *
      * @throws CmsException if something goes wrong
      */
-    private boolean writeContent(CmsResource res, byte[] content) throws CmsException {
+    private boolean writeContent(@RUntainted CmsResource res, byte[] content) throws CmsException {
 
         CmsFile file = m_offlineCms.readFile(res);
         file.setContents(content);

@@ -93,6 +93,7 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Parses the HTTP <code>Accept-Language</code> header as per section 14.4 of RFC 2068
@@ -108,7 +109,7 @@ public class CmsAcceptLanguageHeaderParser {
     protected static class AcceptLanguage implements Comparable<AcceptLanguage> {
 
         /** The language and country. */
-        Locale m_locale;
+        @RUntainted Locale m_locale;
 
         /**  The m_quality of our m_locale (as values approach <code>1.0</code>, they indicate increased user preference). */
         Float m_quality = DEFAULT_QUALITY;
@@ -163,7 +164,7 @@ public class CmsAcceptLanguageHeaderParser {
     private List<AcceptLanguage> m_acceptLanguage = new ArrayList<AcceptLanguage>(3);
 
     /** The parsed locales. */
-    private List<Locale> m_locales;
+    private List<@RUntainted Locale> m_locales;
 
     /**
      * Parses the <code>Accept-Language</code> header from the provided request.<p>
@@ -171,7 +172,7 @@ public class CmsAcceptLanguageHeaderParser {
      * @param req the request to parse
      * @param defaultLocale the default locale to use
      */
-    public CmsAcceptLanguageHeaderParser(HttpServletRequest req, Locale defaultLocale) {
+    public CmsAcceptLanguageHeaderParser(HttpServletRequest req, @RUntainted Locale defaultLocale) {
 
         this(req.getHeader(ACCEPT_LANGUAGE), defaultLocale);
     }
@@ -182,7 +183,7 @@ public class CmsAcceptLanguageHeaderParser {
      * @param header the <code>Accept-Language</code> header (i.e. <code>en, es;q=0.8, zh-TW;q=0.1</code>)
      * @param defaultLocale the default locale to use
      */
-    public CmsAcceptLanguageHeaderParser(String header, Locale defaultLocale) {
+    public CmsAcceptLanguageHeaderParser(String header, @RUntainted Locale defaultLocale) {
 
         // check if there was a locale foud in the HTTP header.
         // if not, use the default locale.
@@ -190,8 +191,8 @@ public class CmsAcceptLanguageHeaderParser {
             m_locales = new ArrayList<Locale>();
             m_locales.add(defaultLocale);
         } else {
-            List<String> tokens = CmsStringUtil.splitAsList(header, LOCALE_SEPARATOR, true);
-            Iterator<String> it = tokens.iterator();
+            List<@RUntainted String> tokens = CmsStringUtil.splitAsList(header, LOCALE_SEPARATOR, true);
+            Iterator<@RUntainted String> it = tokens.iterator();
             while (it.hasNext()) {
                 AcceptLanguage acceptLang = new AcceptLanguage();
                 String element = it.next();
@@ -250,7 +251,7 @@ public class CmsAcceptLanguageHeaderParser {
         String header;
 
         // get the default accept-language header value
-        List<Locale> defaultLocales = OpenCms.getLocaleManager().getDefaultLocales();
+        List<@RUntainted Locale> defaultLocales = OpenCms.getLocaleManager().getDefaultLocales();
         Iterator<Locale> i = defaultLocales.iterator();
         header = "";
         while (i.hasNext()) {
@@ -266,7 +267,7 @@ public class CmsAcceptLanguageHeaderParser {
      *
      * @return the sorted list of accepted Locales
      */
-    public List<Locale> getAcceptedLocales() {
+    public @RUntainted List<@RUntainted Locale> getAcceptedLocales() {
 
         return m_locales;
     }

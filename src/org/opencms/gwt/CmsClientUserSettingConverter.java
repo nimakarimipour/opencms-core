@@ -48,6 +48,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class to deal with loading and saving user preferences from the ADE user interface.<p>
@@ -60,7 +61,7 @@ public class CmsClientUserSettingConverter {
     class NoJspActionElement extends CmsJspActionElement {
 
         /** The CMS object to use. */
-        private CmsObject m_setCms;
+        private @RUntainted CmsObject m_setCms;
 
         /**
          * Creates a new instance.<p>
@@ -69,7 +70,7 @@ public class CmsClientUserSettingConverter {
          * @param req the current request
          * @param res the current response
          */
-        public NoJspActionElement(CmsObject cms, HttpServletRequest req, HttpServletResponse res) {
+        public NoJspActionElement(@RUntainted CmsObject cms, @RUntainted HttpServletRequest req, @RUntainted HttpServletResponse res) {
 
             super(null, req, res);
             m_setCms = cms;
@@ -80,7 +81,7 @@ public class CmsClientUserSettingConverter {
          * @see org.opencms.jsp.CmsJspBean#getCmsObject()
          */
         @Override
-        public CmsObject getCmsObject() {
+        public @RUntainted CmsObject getCmsObject() {
 
             return m_setCms;
         }

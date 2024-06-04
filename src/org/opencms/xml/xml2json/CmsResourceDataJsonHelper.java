@@ -37,6 +37,7 @@ import org.opencms.main.OpenCms;
 
 import java.util.List;
 import java.util.function.Predicate;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for formatting resource data as JSON.
@@ -99,7 +100,7 @@ public class CmsResourceDataJsonHelper {
      * @return the JSON for the attributes
      * @throws JSONException if something goes wrong
      */
-    public JSONObject attributes() throws JSONException {
+    public @RUntainted JSONObject attributes() throws JSONException {
 
         JSONObject attributes = new JSONObject();
         attributes.put("type", OpenCms.getResourceManager().getResourceType(m_resource).getTypeName());
@@ -116,7 +117,7 @@ public class CmsResourceDataJsonHelper {
      * @throws CmsException if something goes wrong
      * @throws JSONException if something goes wrong
      */
-    public JSONObject properties(boolean inherited) throws CmsException, JSONException {
+    public @RUntainted JSONObject properties(boolean inherited) throws CmsException, JSONException {
 
         List<CmsProperty> props = m_cms.readPropertyObjects(m_resource, inherited);
         JSONObject propJson = new JSONObject(true);

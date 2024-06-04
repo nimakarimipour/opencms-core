@@ -93,6 +93,7 @@ import com.google.common.base.Optional;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class to generate all the data which is necessary for the resource status dialog(s).<p>
@@ -300,7 +301,7 @@ public class CmsDefaultResourceStatusProvider {
      */
     public CmsResourceStatusBean getResourceStatus(
         HttpServletRequest request,
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         CmsUUID structureId,
         String contentLocale,
         boolean includeTargets,
@@ -385,7 +386,7 @@ public class CmsDefaultResourceStatusProvider {
         if (resType instanceof CmsResourceTypeXmlContent) {
             CmsFile file = cms.readFile(resource);
             CmsXmlContent content = CmsXmlContentFactory.unmarshal(cms, file);
-            List<Locale> locales = content.getLocales();
+            List<@RUntainted Locale> locales = content.getLocales();
             List<String> localeStrings = new ArrayList<String>();
             for (Locale l : locales) {
                 localeStrings.add(l.toString());
@@ -756,10 +757,10 @@ public class CmsDefaultResourceStatusProvider {
      *
      */
     private Map<String, String> createContextInfos(
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         HttpServletRequest request,
         CmsResource resource,
-        Map<String, String> context) {
+        Map<String, @RUntainted String> context) {
 
         CmsADEConfigData config = OpenCms.getADEManager().lookupConfiguration(
             cms,
@@ -796,7 +797,7 @@ public class CmsDefaultResourceStatusProvider {
                 pageService.setCms(cms);
                 pageService.setRequest(request);
                 CmsContainerElementBean elementBean = pageService.getCachedElement(elementId, pageRootPath);
-                for (Map.Entry<String, String> entry : elementBean.getSettings().entrySet()) {
+                for (Map.Entry<String, @RUntainted String> entry : elementBean.getSettings().entrySet()) {
                     if (entry.getKey().contains(containr)) {
                         String formatterId = entry.getValue();
                         I_CmsFormatterBean formatter = config.findFormatter(formatterId);

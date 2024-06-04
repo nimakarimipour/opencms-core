@@ -28,6 +28,7 @@
 package org.opencms.workplace.tools;
 
 import org.opencms.file.CmsObject;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Admin tool handler for tool roots.<p>
@@ -46,7 +47,7 @@ public class CmsToolRootHandler extends A_CmsToolHandler {
      *
      * @return the key
      */
-    public String getKey() {
+    public @RUntainted String getKey() {
 
         return m_key;
     }
@@ -56,7 +57,7 @@ public class CmsToolRootHandler extends A_CmsToolHandler {
      *
      * @return the uri
      */
-    public String getUri() {
+    public @RUntainted String getUri() {
 
         return m_uri;
     }

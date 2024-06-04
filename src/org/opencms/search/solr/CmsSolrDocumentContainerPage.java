@@ -56,6 +56,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Lucene document factory class to extract index data from a resource
@@ -108,9 +109,9 @@ public class CmsSolrDocumentContainerPage extends CmsSolrDocumentXmlContent {
      */
     public I_CmsExtractionResult extractContent(
         CmsObject cms,
-        CmsResource resource,
+        @RUntainted CmsResource resource,
         I_CmsSearchIndex index,
-        Locale forceLocale)
+        @RUntainted Locale forceLocale)
     throws CmsException {
 
         logContentExtraction(resource, index);
@@ -178,7 +179,7 @@ public class CmsSolrDocumentContainerPage extends CmsSolrDocumentXmlContent {
             Map<String, String> fieldMappings = new HashMap<String, String>(1);
             // Add to each container page the contents in all available locales,
             // in case one containerpage is used in multiple languages.
-            List<Locale> localesAvailable = OpenCms.getLocaleManager().getAvailableLocales(cms, resource);
+            List<@RUntainted Locale> localesAvailable = OpenCms.getLocaleManager().getAvailableLocales(cms, resource);
             Map<Locale, LinkedHashMap<String, String>> multilingualValues = new HashMap<Locale, LinkedHashMap<String, String>>(
                 localesAvailable.size());
             for (Locale localeAvailable : localesAvailable) {

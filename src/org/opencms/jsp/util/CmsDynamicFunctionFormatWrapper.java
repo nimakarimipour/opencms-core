@@ -37,6 +37,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper class for dynamic function formats which can be used from JSP EL.<p>

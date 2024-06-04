@@ -43,6 +43,8 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Resource bundle loader for property based resource bundles from OpenCms that has a flushable cache.<p>
@@ -150,10 +152,10 @@ public final class CmsResourceBundleLoader {
     }
 
     /**  The resource bundle cache. */
-    private static Map<BundleKey, ResourceBundle> m_bundleCache;
+    private static Map<BundleKey, @RUntainted ResourceBundle> m_bundleCache;
 
     /** The last default Locale we saw, if this ever changes then we have to reset our caches. */
-    private static Locale m_lastDefaultLocale;
+    private static @RUntainted Locale m_lastDefaultLocale;
 
     /** Cache lookup key to avoid having to a new one for every getBundle() call. */
     // private static BundleKey m_lookupKey = new BundleKey();
@@ -226,9 +228,9 @@ public final class CmsResourceBundleLoader {
             synchronized (m_bundleCache) {
 
                 // first check and clear the bundle cache
-                Map<BundleKey, ResourceBundle> bundleCacheNew = new ConcurrentHashMap<BundleKey, ResourceBundle>(
+                Map<BundleKey, @RUntainted ResourceBundle> bundleCacheNew = new ConcurrentHashMap<BundleKey, @RUntainted ResourceBundle>(
                     m_bundleCache.size());
-                for (Map.Entry<BundleKey, ResourceBundle> entry : m_bundleCache.entrySet()) {
+                for (Map.Entry<BundleKey, @RUntainted ResourceBundle> entry : m_bundleCache.entrySet()) {
                     if (!entry.getKey().isSameBase(baseName)) {
                         // entry has a different base name, keep it
                         bundleCacheNew.put(entry.getKey(), entry.getValue());
@@ -302,7 +304,7 @@ public final class CmsResourceBundleLoader {
      */
     // This method is synchronized so that the cache is properly
     // handled.
-    public static ResourceBundle getBundle(String baseName, Locale locale) {
+    public static @RPolyTainted ResourceBundle getBundle(@RUntainted String baseName, @RUntainted Locale locale) {
 
         // If the default locale changed since the last time we were called,
         // all cache entries are invalidated.
@@ -362,7 +364,7 @@ public final class CmsResourceBundleLoader {
      * @param localizedName the name
      * @return the resource bundle if it was loaded, otherwise the backup
      */
-    private static I_CmsResourceBundle tryBundle(String localizedName) {
+    private static @RPolyTainted I_CmsResourceBundle tryBundle(@RUntainted String localizedName) {
 
         I_CmsResourceBundle result = null;
 
@@ -421,12 +423,12 @@ public final class CmsResourceBundleLoader {
      *        (with no locale information attached) should be returned.
      * @return the resource bundle if it was loaded, otherwise the backup
      */
-    private static ResourceBundle tryBundle(String baseName, Locale locale, boolean wantBase) {
+    private static @RUntainted ResourceBundle tryBundle(@RUntainted String baseName, @RUntainted Locale locale, boolean wantBase) {
 
         I_CmsResourceBundle first = null; // The most specialized bundle.
         I_CmsResourceBundle last = null; // The least specialized bundle.
 
-        List<String> bundleNames = CmsLocaleManager.getLocaleVariants(baseName, locale, true, true);
+        List<@RUntainted String> bundleNames = CmsLocaleManager.getLocaleVariants(baseName, locale, true, true);
         for (String bundleName : bundleNames) {
             // break if we would try the base bundle, but we do not want it directly
             if (bundleName.equals(baseName) && !wantBase && (first == null)) {

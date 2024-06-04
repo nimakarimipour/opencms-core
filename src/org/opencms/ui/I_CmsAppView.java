@@ -29,6 +29,7 @@ package org.opencms.ui;
 
 import com.vaadin.navigator.View;
 import com.vaadin.ui.Component;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Factory to create components.<p>

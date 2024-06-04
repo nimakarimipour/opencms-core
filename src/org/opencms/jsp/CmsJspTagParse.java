@@ -48,6 +48,7 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 import org.apache.commons.logging.Log;
 
 import org.htmlparser.util.ParserException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements the <code>&lt;cms:parse&gt;&lt;/cms:parse&gt;</code> tag to allow parsing of nested
@@ -80,7 +81,7 @@ public class CmsJspTagParse extends BodyTagSupport {
     private String m_configuredParserClassname;
 
     /** List of upper case tag name strings of tags that should not be auto-corrected if closing divs are missing. */
-    private List<String> m_noAutoCloseTags;
+    private List<@RUntainted String> m_noAutoCloseTags;
 
     /** The attribute value of the param attribute. */
     private String m_param = "";

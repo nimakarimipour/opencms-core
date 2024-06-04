@@ -72,6 +72,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for generating XML sitemaps for SEO purposes, as described in
@@ -138,7 +139,7 @@ public class CmsXmlSitemapGenerator {
     private static final Log LOG = CmsLog.getLog(CmsXmlSitemapGenerator.class);
 
     /** The root path for the sitemap root folder. */
-    protected String m_baseFolderRootPath;
+    protected @RUntainted String m_baseFolderRootPath;
 
     /** The site path of the base folder. */
     protected String m_baseFolderSitePath;
@@ -171,7 +172,7 @@ public class CmsXmlSitemapGenerator {
     protected CmsObject m_siteGuestCms;
 
     /** The site root of the base folder. */
-    protected String m_siteRoot;
+    protected @RUntainted String m_siteRoot;
 
     /** A link to the site root. */
     protected String m_siteRootLink;
@@ -186,7 +187,7 @@ public class CmsXmlSitemapGenerator {
      *
      * @throws CmsException if something goes wrong
      */
-    public CmsXmlSitemapGenerator(String folderRootPath)
+    public CmsXmlSitemapGenerator(@RUntainted String folderRootPath)
     throws CmsException {
 
         m_baseFolderRootPath = CmsFileUtil.removeTrailingSeparator(folderRootPath);
@@ -403,7 +404,7 @@ public class CmsXmlSitemapGenerator {
      *
      * @throws CmsException if something goes wrong
      */
-    protected void addDetailLinks(CmsResource containerPage, Locale locale) throws CmsException {
+    protected void addDetailLinks(CmsResource containerPage, @RUntainted Locale locale) throws CmsException {
 
         List<I_CmsResourceType> types = getDetailTypesForPage(containerPage);
         for (I_CmsResourceType type : types) {
@@ -497,7 +498,7 @@ public class CmsXmlSitemapGenerator {
      *
      * @return the detail page link
      */
-    protected String getDetailLink(CmsResource pageRes, CmsResource detailRes, Locale locale) {
+    protected String getDetailLink(CmsResource pageRes, CmsResource detailRes, @RUntainted Locale locale) {
 
         String pageSitePath = m_siteGuestCms.getSitePath(pageRes);
         String detailSitePath = m_siteGuestCms.getSitePath(detailRes);
@@ -563,7 +564,7 @@ public class CmsXmlSitemapGenerator {
                 if (resource.isFile()) {
                     result.add(resource);
                 } else {
-                    List<CmsResource> subtreeFiles = m_guestCms.readResources(
+                    List<@RUntainted CmsResource> subtreeFiles = m_guestCms.readResources(
                         includeRoot,
                         CmsResourceFilter.DEFAULT_FILES,
                         true);
@@ -750,11 +751,11 @@ public class CmsXmlSitemapGenerator {
         if (!m_detailResources.containsKey(typeName)) {
             List<CmsResource> result = new ArrayList<CmsResource>();
             CmsResourceFilter filter = CmsResourceFilter.DEFAULT_FILES.addRequireType(type);
-            List<CmsResource> siteFiles = m_guestCms.readResources(m_siteRoot, filter, true);
+            List<@RUntainted CmsResource> siteFiles = m_guestCms.readResources(m_siteRoot, filter, true);
             result.addAll(siteFiles);
             String shared = CmsFileUtil.removeTrailingSeparator(OpenCms.getSiteManager().getSharedFolder());
             if (shared != null) {
-                List<CmsResource> sharedFiles = m_guestCms.readResources(shared, filter, true);
+                List<@RUntainted CmsResource> sharedFiles = m_guestCms.readResources(shared, filter, true);
                 result.addAll(sharedFiles);
             }
             m_detailResources.put(typeName, result);
@@ -770,7 +771,7 @@ public class CmsXmlSitemapGenerator {
      *
      * @return the locale to use for the given resource
      */
-    private Locale getLocale(CmsResource resource, List<CmsProperty> propertyList) {
+    private @RUntainted Locale getLocale(CmsResource resource, List<CmsProperty> propertyList) {
 
         return OpenCms.getLocaleManager().getDefaultLocale(m_guestCms, m_guestCms.getSitePath(resource));
     }

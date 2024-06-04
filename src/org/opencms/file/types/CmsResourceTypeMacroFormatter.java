@@ -28,6 +28,7 @@
 package org.opencms.file.types;
 
 import org.opencms.loader.CmsMacroFormatterLoader;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The macro formatter resource type.<p>

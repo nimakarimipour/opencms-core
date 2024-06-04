@@ -32,6 +32,7 @@ import org.opencms.util.CmsUUID;
 import org.opencms.xml.containerpage.CmsXmlDynamicFunctionHandler;
 
 import java.io.Serializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Data bean containing the information for a detail page.<p>
@@ -177,7 +178,7 @@ public class CmsDetailPageInfo implements Serializable {
      *
      * @return the id of the detail page
      */
-    public CmsUUID getId() {
+    public @RUntainted CmsUUID getId() {
 
         return m_id;
     }
@@ -189,7 +190,7 @@ public class CmsDetailPageInfo implements Serializable {
      *
      * @return the qualified type
      */
-    public String getQualifiedType() {
+    public @RUntainted String getQualifiedType() {
 
         if (m_qualifier != null) {
             return getType() + CmsDetailPageInfo.QUALIFIER_SEPARATOR + getQualifier();
@@ -205,7 +206,7 @@ public class CmsDetailPageInfo implements Serializable {
      *
      * @return the qualifier string
      */
-    public String getQualifier() {
+    public @RUntainted String getQualifier() {
 
         return m_qualifier;
     }
@@ -215,7 +216,7 @@ public class CmsDetailPageInfo implements Serializable {
      *
      * @return the type for which the detail page is used
      */
-    public String getType() {
+    public @RUntainted String getType() {
 
         return m_type;
     }

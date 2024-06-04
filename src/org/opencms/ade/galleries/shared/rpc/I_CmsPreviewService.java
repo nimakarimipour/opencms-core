@@ -34,6 +34,7 @@ import org.opencms.gwt.CmsRpcException;
 import java.util.Map;
 
 import com.google.gwt.user.client.rpc.RemoteService;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles the common RPC services related to the gallery preview dialog.<p>
@@ -56,7 +57,7 @@ public interface I_CmsPreviewService extends RemoteService {
      *
      * @throws CmsRpcException  if something goes wrong
      */
-    CmsImageInfoBean getImageInfo(String resourcePath, String locale) throws CmsRpcException;
+    CmsImageInfoBean getImageInfo(String resourcePath, @RUntainted String locale) throws CmsRpcException;
 
     /**
      * Returns the data to be displayed in the preview dialog.<p>
@@ -68,7 +69,7 @@ public interface I_CmsPreviewService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    CmsResourceInfoBean getResourceInfo(String resourcePath, String locale) throws CmsRpcException;
+    CmsResourceInfoBean getResourceInfo(String resourcePath, @RUntainted String locale) throws CmsRpcException;
 
     /**
      * Saves the given properties to the resource and returns the data to be displayed in the preview dialog.<p>
@@ -81,7 +82,7 @@ public interface I_CmsPreviewService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    CmsImageInfoBean updateImageProperties(String resourcePath, String locale, Map<String, String> properties)
+    CmsImageInfoBean updateImageProperties(String resourcePath, @RUntainted String locale, Map<String, @RUntainted String> properties)
     throws CmsRpcException;
 
     /**
@@ -95,7 +96,7 @@ public interface I_CmsPreviewService extends RemoteService {
      *
      * @throws CmsRpcException if something goes wrong
      */
-    CmsResourceInfoBean updateResourceProperties(String resourcePath, String locale, Map<String, String> properties)
+    CmsResourceInfoBean updateResourceProperties(String resourcePath, @RUntainted String locale, Map<String, @RUntainted String> properties)
     throws CmsRpcException;
 
 }

@@ -39,6 +39,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 
 import org.htmlparser.util.ParserException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * {@link org.opencms.widgets.CmsTextareaWidget} that strips HTML Tags from the input before storing values.<p>
@@ -73,11 +74,11 @@ public final class CmsTextareaWidgetPlaintext extends CmsTextareaWidget {
     @Override
     public void setEditorValue(
         CmsObject cms,
-        Map<String, String[]> formParameters,
+        Map<String, @RUntainted String[]> formParameters,
         I_CmsWidgetDialog widgetDialog,
         I_CmsWidgetParameter param) {
 
-        String[] values = formParameters.get(param.getId());
+        @RUntainted String[] values = formParameters.get(param.getId());
         if ((values != null) && (values.length > 0)) {
             String value = values[0];
             if (CmsStringUtil.isNotEmptyOrWhitespaceOnly(value)) {

@@ -36,6 +36,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.BodyTagSupport;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract superclass that handles the common behavior of the jsonarray/jsonobject/jsonvalue tags.
@@ -69,7 +70,7 @@ public abstract class A_CmsJspJsonTag extends BodyTagSupport {
     private static final long serialVersionUID = -4536413263964718943L;
 
     /** The key attribute. */
-    protected String m_key;
+    protected @RUntainted String m_key;
 
     /** The mode attribute. */
     protected String m_mode;
@@ -158,7 +159,7 @@ public abstract class A_CmsJspJsonTag extends BodyTagSupport {
      * @return the value to add/store
      * @throws JspTagException if getting the value fails
      */
-    public abstract Object getJsonValue() throws JspTagException;
+    public abstract @RUntainted Object getJsonValue() throws JspTagException;
 
     /**
      * Releases the resources used by this tag.<p>
@@ -175,7 +176,7 @@ public abstract class A_CmsJspJsonTag extends BodyTagSupport {
      *
      * @param key the key under which to store the value in the surrounding JSON object
      */
-    public void setKey(String key) {
+    public void setKey(@RUntainted String key) {
 
         m_key = key;
     }
@@ -231,7 +232,7 @@ public abstract class A_CmsJspJsonTag extends BodyTagSupport {
      *
      * @throws JspException in case the value could not be added to the target
      */
-    protected void addToTarget(Object target, Object val, String key) throws JspException {
+    protected void addToTarget(Object target, @RUntainted Object val, @RUntainted String key) throws JspException {
 
         if (target instanceof JSONObject) {
             if (key == null) {

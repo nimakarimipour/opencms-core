@@ -28,6 +28,7 @@
 package org.opencms.xml.content;
 
 import org.opencms.xml.types.I_CmsXmlContentValue;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Visitor interface that allows looping through all the values in a XML content document.<p>

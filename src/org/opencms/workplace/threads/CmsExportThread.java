@@ -34,6 +34,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.report.A_CmsReportThread;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Exports selected resources of the OpenCms into an OpenCms export file.<p>

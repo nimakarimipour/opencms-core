@@ -29,6 +29,7 @@ package org.opencms.ui.editors;
 
 import org.opencms.file.types.CmsResourceTypeXmlPage;
 import org.opencms.file.types.I_CmsResourceType;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The acacia XML content editor.<p>

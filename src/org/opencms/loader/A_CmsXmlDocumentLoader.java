@@ -46,6 +46,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * OpenCms base loader implementation for resources of type <code>{@link org.opencms.xml.I_CmsXmlDocument}</code>.<p>
@@ -77,7 +78,7 @@ abstract class A_CmsXmlDocumentLoader implements I_CmsResourceLoader, I_CmsResou
         CmsObject cms,
         CmsResource resource,
         String element,
-        Locale selectedLocale,
+        @RUntainted Locale selectedLocale,
         HttpServletRequest req,
         HttpServletResponse res)
     throws CmsException, IOException {
@@ -107,7 +108,7 @@ abstract class A_CmsXmlDocumentLoader implements I_CmsResourceLoader, I_CmsResou
         CmsObject cms,
         CmsResource resource,
         String element,
-        Locale selectedLocale,
+        @RUntainted Locale selectedLocale,
         ServletRequest req,
         ServletResponse res)
     throws CmsException {
@@ -116,7 +117,7 @@ abstract class A_CmsXmlDocumentLoader implements I_CmsResourceLoader, I_CmsResou
         I_CmsXmlDocument doc = unmarshalXmlDocument(cms, resource, req);
 
         // check the page locales
-        List<Locale> locales = doc.getLocales(element);
+        List<@RUntainted Locale> locales = doc.getLocales(element);
         if (locales.isEmpty()) {
             // selected element is not available in any locale
             return null;
@@ -146,7 +147,7 @@ abstract class A_CmsXmlDocumentLoader implements I_CmsResourceLoader, I_CmsResou
     /**
      * @see org.opencms.loader.I_CmsResourceLoader#export(org.opencms.file.CmsObject, org.opencms.file.CmsResource, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-    public byte[] export(CmsObject cms, CmsResource resource, HttpServletRequest req, HttpServletResponse res)
+    public byte[] export(@RUntainted CmsObject cms, CmsResource resource, @RUntainted HttpServletRequest req, @RUntainted HttpServletResponse res)
     throws ServletException, IOException, CmsException {
 
         CmsTemplateLoaderFacade loaderFacade = getTemplateLoaderFacade(cms, resource, req);
@@ -209,7 +210,7 @@ abstract class A_CmsXmlDocumentLoader implements I_CmsResourceLoader, I_CmsResou
     /**
      * @see org.opencms.loader.I_CmsResourceLoader#load(org.opencms.file.CmsObject, org.opencms.file.CmsResource, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-    public void load(CmsObject cms, CmsResource resource, HttpServletRequest req, HttpServletResponse res)
+    public void load(@RUntainted CmsObject cms, CmsResource resource, @RUntainted HttpServletRequest req, @RUntainted HttpServletResponse res)
     throws ServletException, IOException, CmsException {
 
         // ensure the requested XML document gets cached in the request attributes

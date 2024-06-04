@@ -46,6 +46,7 @@ import java.util.Iterator;
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Container page handler to validate consistency.<p>
@@ -78,7 +79,7 @@ public class CmsXmlContainerPageHandler extends CmsDefaultXmlContentHandler {
      * @see org.opencms.xml.content.CmsDefaultXmlContentHandler#prepareForWrite(org.opencms.file.CmsObject, org.opencms.xml.content.CmsXmlContent, org.opencms.file.CmsFile)
      */
     @Override
-    public CmsFile prepareForWrite(CmsObject cms, CmsXmlContent content, CmsFile file) throws CmsException {
+    public CmsFile prepareForWrite(CmsObject cms, @RUntainted CmsXmlContent content, CmsFile file) throws CmsException {
 
         Object attribute = cms.getRequestContext().getAttribute(CmsXmlContent.AUTO_CORRECTION_ATTRIBUTE);
         boolean autoCorrectionEnabled = (attribute != null) && ((Boolean)attribute).booleanValue();

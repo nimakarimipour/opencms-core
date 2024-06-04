@@ -28,6 +28,7 @@
 package org.opencms.main;
 
 import org.opencms.workplace.CmsWorkplace;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains the settings to handle HTTP basic authentication.<p>
@@ -79,7 +80,7 @@ public class CmsHttpAuthenticationSettings {
      *
      * @return "BASIC" in case of browser based basic authentication, "FORM" in case of form based authentication or the alternative mechanism or <code>null</code> if unused.
      */
-    public String getBrowserBasedAuthenticationMechanism() {
+    public @RUntainted String getBrowserBasedAuthenticationMechanism() {
 
         if (m_useBrowserBasedHttpAuthentication) {
             return AUTHENTICATION_BASIC;

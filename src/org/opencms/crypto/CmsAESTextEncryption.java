@@ -44,6 +44,7 @@ import org.bouncycastle.crypto.generators.HKDFBytesGenerator;
 import org.bouncycastle.crypto.params.HKDFParameters;
 
 import com.google.common.io.BaseEncoding;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Default text encryption class using AES, where the encryption key is generated from a string passed in as a parameter.
@@ -108,7 +109,7 @@ public class CmsAESTextEncryption implements I_CmsTextEncryption {
     /**
      * @see org.opencms.configuration.I_CmsConfigurationParameterHandler#addConfigurationParameter(java.lang.String, java.lang.String)
      */
-    public void addConfigurationParameter(String paramName, String paramValue) {
+    public void addConfigurationParameter(String paramName, @RUntainted String paramValue) {
 
         m_config.add(paramName, paramValue);
     }
@@ -116,13 +117,13 @@ public class CmsAESTextEncryption implements I_CmsTextEncryption {
     /**
      * @see org.opencms.crypto.I_CmsTextEncryption#decrypt(java.lang.String)
      */
-    public String decrypt(String input) throws CmsEncryptionException {
+    public @RUntainted String decrypt(@RUntainted String input) throws CmsEncryptionException {
 
-        byte[] encryptedBytes = BASE64.decode(input);
+        @RUntainted byte[] encryptedBytes = BASE64.decode(input);
         try {
             Cipher cipher = Cipher.getInstance(AES);
             cipher.init(Cipher.DECRYPT_MODE, m_key);
-            byte[] decData = cipher.doFinal(encryptedBytes);
+            @RUntainted byte[] decData = cipher.doFinal(encryptedBytes);
             String result = new String(decData, StandardCharsets.UTF_8);
             return result;
         } catch (Exception e) {
@@ -133,12 +134,12 @@ public class CmsAESTextEncryption implements I_CmsTextEncryption {
     /**
      * @see org.opencms.crypto.I_CmsTextEncryption#encrypt(java.lang.String)
      */
-    public String encrypt(String input) throws CmsEncryptionException {
+    public @RUntainted String encrypt(@RUntainted String input) throws CmsEncryptionException {
 
         try {
             Cipher cipher = Cipher.getInstance(AES);
             cipher.init(Cipher.ENCRYPT_MODE, m_key);
-            byte[] encData = cipher.doFinal(input.getBytes(StandardCharsets.UTF_8));
+            @RUntainted byte[] encData = cipher.doFinal(input.getBytes(StandardCharsets.UTF_8));
             String lit = BASE64.encode(encData);
             return lit;
         } catch (Exception e) {

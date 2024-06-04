@@ -45,6 +45,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Loader for macro formatter.<p>
@@ -80,12 +81,12 @@ public class CmsMacroFormatterLoader implements I_CmsResourceLoader {
      * @see org.opencms.loader.I_CmsResourceLoader#dump(org.opencms.file.CmsObject, org.opencms.file.CmsResource, java.lang.String, java.util.Locale, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public byte[] dump(
-        CmsObject cms,
+        @RUntainted CmsObject cms,
         CmsResource resource,
         String element,
         Locale selectedLocale,
-        HttpServletRequest req,
-        HttpServletResponse res)
+        @RUntainted HttpServletRequest req,
+        @RUntainted HttpServletResponse res)
     throws CmsException, IOException, ServletException {
 
         CmsResource renderer = null;
@@ -108,7 +109,7 @@ public class CmsMacroFormatterLoader implements I_CmsResourceLoader {
     /**
      * @see org.opencms.loader.I_CmsResourceLoader#export(org.opencms.file.CmsObject, org.opencms.file.CmsResource, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-    public byte[] export(CmsObject cms, CmsResource resource, HttpServletRequest req, HttpServletResponse res)
+    public byte[] export(@RUntainted CmsObject cms, CmsResource resource, @RUntainted HttpServletRequest req, @RUntainted HttpServletResponse res)
     throws ServletException, IOException, CmsException {
 
         CmsResource renderer = null;
@@ -200,7 +201,7 @@ public class CmsMacroFormatterLoader implements I_CmsResourceLoader {
     /**
      * @see org.opencms.loader.I_CmsResourceLoader#load(org.opencms.file.CmsObject, org.opencms.file.CmsResource, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-    public void load(CmsObject cms, CmsResource resource, HttpServletRequest req, HttpServletResponse res)
+    public void load(@RUntainted CmsObject cms, CmsResource resource, @RUntainted HttpServletRequest req, @RUntainted HttpServletResponse res)
     throws ServletException, IOException, CmsException {
 
         CmsResource renderer = null;
@@ -221,7 +222,7 @@ public class CmsMacroFormatterLoader implements I_CmsResourceLoader {
     /**
      * @see org.opencms.loader.I_CmsResourceLoader#service(org.opencms.file.CmsObject, org.opencms.file.CmsResource, javax.servlet.ServletRequest, javax.servlet.ServletResponse)
      */
-    public void service(CmsObject cms, CmsResource resource, ServletRequest req, ServletResponse res)
+    public void service(CmsObject cms, CmsResource resource, @RUntainted ServletRequest req, ServletResponse res)
     throws IOException, CmsException, ServletException {
 
         CmsResource renderer = null;
@@ -244,7 +245,7 @@ public class CmsMacroFormatterLoader implements I_CmsResourceLoader {
      * @param resource the formatter resource
      * @param req the request
      */
-    private void ensureElementFormatter(CmsResource resource, HttpServletRequest req) {
+    private void ensureElementFormatter(CmsResource resource, @RUntainted HttpServletRequest req) {
 
         CmsJspStandardContextBean contextBean = CmsJspStandardContextBean.getInstance(req);
         CmsContainerElementBean element = contextBean.getElement();

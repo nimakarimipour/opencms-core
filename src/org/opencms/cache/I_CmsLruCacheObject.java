@@ -26,6 +26,7 @@
  */
 
 package org.opencms.cache;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Defines the methods which an object being cached by CmsFlexLruCache must implement.<p>
@@ -82,7 +83,7 @@ public interface I_CmsLruCacheObject {
      *
      * @return the cache costs of this object
      */
-    int getLruCacheCosts();
+    @RUntainted int getLruCacheCosts();
 
     /**
      * Returns the Object value.<p>

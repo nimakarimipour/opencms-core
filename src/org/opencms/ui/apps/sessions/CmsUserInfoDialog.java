@@ -60,6 +60,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dialog to show user information and to switch to user session.<p>
@@ -220,7 +221,7 @@ public class CmsUserInfoDialog extends CmsBasicDialog {
             inacTime = Long.valueOf(System.currentTimeMillis() - currentSession.getTimeLastAction());
         }
 
-        String[] inactiveTime = CmsSessionInfo.getHourMinuteSecondTimeString(inacTime.longValue());
+        @RUntainted String[] inactiveTime = CmsSessionInfo.getHourMinuteSecondTimeString(inacTime.longValue());
 
         if (!neverActive) {
             if (currentSession != null) {
@@ -263,7 +264,7 @@ public class CmsUserInfoDialog extends CmsBasicDialog {
      * @param inacTime time since last login in milli sec
      * @return HTML String
      */
-    private String getLastLoginMessage(Long inacTime) {
+    private String getLastLoginMessage(@RUntainted Long inacTime) {
 
         int days = (int)(inacTime.longValue() / (1000 * 60 * 60 * 24));
         if (days == 0) {

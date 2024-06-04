@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Locale;
 
 import com.google.common.base.Joiner;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A widget for selecting resource types which are direct editable.
@@ -140,7 +141,7 @@ public class CmsTypeComboWidget extends CmsComboWidget {
      *
      * @return the configuration string
      */
-    private String createConfiguration() {
+    private @RUntainted String createConfiguration() {
 
         CmsResourceManager resManager = OpenCms.getResourceManager();
         if (resManager == null) {

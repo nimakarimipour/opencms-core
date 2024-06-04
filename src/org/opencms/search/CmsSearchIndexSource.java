@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A search index source is a description of a list of Cms resources
@@ -67,7 +68,7 @@ public class CmsSearchIndexSource implements Comparable<CmsSearchIndexSource>, S
     private transient I_CmsIndexer m_indexer;
 
     /** The class name of the indexer. */
-    private String m_indexerClassName;
+    private @RUntainted String m_indexerClassName;
 
     /** The logical key/name of this index. */
     private String m_name;
@@ -195,7 +196,7 @@ public class CmsSearchIndexSource implements Comparable<CmsSearchIndexSource>, S
      *
      * @return the class name of the indexer
      */
-    public String getIndexerClassName() {
+    public @RUntainted String getIndexerClassName() {
 
         return m_indexerClassName;
     }
@@ -205,7 +206,7 @@ public class CmsSearchIndexSource implements Comparable<CmsSearchIndexSource>, S
      *
      * @return the logical key/name of this search index source
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_name;
     }
@@ -236,7 +237,7 @@ public class CmsSearchIndexSource implements Comparable<CmsSearchIndexSource>, S
      *
      * @return the list of VFS resources to be indexed
      */
-    public List<String> getResourcesNames() {
+    public List<@RUntainted String> getResourcesNames() {
 
         return m_resourcesNames;
     }

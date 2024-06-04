@@ -35,6 +35,7 @@ import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Preference subclass for built-in preferences accessed with a getter/setter pair via reflection.<p>
@@ -104,7 +105,7 @@ public class CmsBuiltinPreference extends A_CmsPreference {
          *
          * @return the widget configuration string
          */
-        public String toClientSelectWidgetConfiguration() {
+        public @RUntainted String toClientSelectWidgetConfiguration() {
 
             StringBuffer resultBuffer = new StringBuffer();
             for (int i = 0; i < m_values.size(); i++) {
@@ -146,7 +147,7 @@ public class CmsBuiltinPreference extends A_CmsPreference {
     /**
      * @see org.opencms.configuration.preferences.I_CmsPreference#getDefaultValue()
      */
-    public String getDefaultValue() {
+    public @RUntainted String getDefaultValue() {
 
         CmsUserSettingsStringPropertyWrapper wrapper = new CmsUserSettingsStringPropertyWrapper(
             CmsDefaultUserSettings.CURRENT_DEFAULT_SETTINGS);

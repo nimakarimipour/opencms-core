@@ -62,6 +62,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Template context provider that can be used to migrate from one template to another.

@@ -82,6 +82,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Creates the editor for XML content definitions.<p>
@@ -223,7 +224,7 @@ public class CmsXmlContentEditor extends CmsEditor implements I_CmsWidgetDialog 
     private String m_paramModelFile;
 
     /** Parameter to indicate if a new XML content resource should be created. */
-    private String m_paramNewLink;
+    private @RUntainted String m_paramNewLink;
 
     /** The post-create handler class. */
     private String m_postCreateHandler;
@@ -262,7 +263,7 @@ public class CmsXmlContentEditor extends CmsEditor implements I_CmsWidgetDialog 
                 if (!m_content.hasLocale(newLocale)) {
                     // check if we should copy the content from a default locale
                     boolean addNew = true;
-                    List<Locale> locales = OpenCms.getLocaleManager().getDefaultLocales(getCms(), getParamResource());
+                    List<@RUntainted Locale> locales = OpenCms.getLocaleManager().getDefaultLocales(getCms(), getParamResource());
                     if (locales.size() > 1) {
                         // default locales have been set, try to find a match
                         try {
@@ -363,7 +364,7 @@ public class CmsXmlContentEditor extends CmsEditor implements I_CmsWidgetDialog 
             m_content.removeLocale(loc);
             //write the modified xml content
             writeContent();
-            List<Locale> locales = m_content.getLocales();
+            List<@RUntainted Locale> locales = m_content.getLocales();
             if (locales.size() > 0) {
                 // set first locale as new display locale
                 Locale newLoc = locales.get(0);
@@ -914,7 +915,7 @@ public class CmsXmlContentEditor extends CmsEditor implements I_CmsWidgetDialog 
      *
      * @return the parameter that specifies the model file name
      */
-    public String getParamModelFile() {
+    public @RUntainted String getParamModelFile() {
 
         return m_paramModelFile;
     }
@@ -1208,7 +1209,7 @@ public class CmsXmlContentEditor extends CmsEditor implements I_CmsWidgetDialog 
      */
     public void setEditorValues(Locale locale) throws CmsXmlException {
 
-        List<String> names = m_content.getNames(locale);
+        List<@RUntainted String> names = m_content.getNames(locale);
         Iterator<String> i = names.iterator();
         while (i.hasNext()) {
             String path = i.next();
@@ -1251,7 +1252,7 @@ public class CmsXmlContentEditor extends CmsEditor implements I_CmsWidgetDialog 
      *
      * @param editContext the edit context URI.
      */
-    public void setParamEditContext(String editContext) {
+    public void setParamEditContext(@RUntainted String editContext) {
 
         m_paramEditContext = editContext;
         CmsObject cms = getCms();
@@ -1327,7 +1328,7 @@ public class CmsXmlContentEditor extends CmsEditor implements I_CmsWidgetDialog 
      */
     public boolean showElementLanguageSelector() {
 
-        List<Locale> locales = OpenCms.getLocaleManager().getAvailableLocales(getCms(), getParamResource());
+        List<@RUntainted Locale> locales = OpenCms.getLocaleManager().getAvailableLocales(getCms(), getParamResource());
         if ((locales == null) || (locales.size() < 2)) {
             // for less than two available locales, do not create language selector
             return false;
@@ -1363,10 +1364,10 @@ public class CmsXmlContentEditor extends CmsEditor implements I_CmsWidgetDialog 
      *
      * @return the locale
      */
-    protected Locale ensureLocale(Locale locale) {
+    protected @RUntainted Locale ensureLocale(@RUntainted Locale locale) {
 
         // get the default locale for the resource
-        List<Locale> locales = OpenCms.getLocaleManager().getDefaultLocales(getCms(), getParamResource());
+        List<@RUntainted Locale> locales = OpenCms.getLocaleManager().getDefaultLocales(getCms(), getParamResource());
         if (m_content != null) {
             if (!m_content.hasLocale(locale)) {
                 try {
@@ -1416,7 +1417,7 @@ public class CmsXmlContentEditor extends CmsEditor implements I_CmsWidgetDialog 
     protected void initElementLanguage() {
 
         // get the default locale for the resource
-        List<Locale> locales = OpenCms.getLocaleManager().getDefaultLocales(getCms(), getParamResource());
+        List<@RUntainted Locale> locales = OpenCms.getLocaleManager().getDefaultLocales(getCms(), getParamResource());
         Locale locale = locales.get(0);
         locale = ensureLocale(locale);
         setParamElementlanguage(locale.toString());
@@ -1813,10 +1814,10 @@ public class CmsXmlContentEditor extends CmsEditor implements I_CmsWidgetDialog 
 
                     result.append("<div id=\"xmlerrordialog\" style=\"display: none;\">");
                     // iterate through all found errors
-                    Map<Locale, Map<String, String>> locErrors = getValidationHandler().getErrors();
-                    Iterator<Map.Entry<Locale, Map<String, String>>> locErrorsIter = locErrors.entrySet().iterator();
+                    Map<@RUntainted Locale, Map<String, @RUntainted String>> locErrors = getValidationHandler().getErrors();
+                    Iterator<Map.Entry<@RUntainted Locale, Map<String, @RUntainted String>>> locErrorsIter = locErrors.entrySet().iterator();
                     while (locErrorsIter.hasNext()) {
-                        Map.Entry<Locale, Map<String, String>> locEntry = locErrorsIter.next();
+                        Map.Entry<@RUntainted Locale, Map<String, String>> locEntry = locErrorsIter.next();
                         Locale locale = locEntry.getKey();
 
                         // skip errors in the actual locale

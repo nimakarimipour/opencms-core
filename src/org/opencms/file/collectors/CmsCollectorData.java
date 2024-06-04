@@ -38,6 +38,7 @@ import org.opencms.util.CmsStringUtil;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Data structure for the collector, parsed from the collector parameters.<p>
@@ -67,7 +68,7 @@ public class CmsCollectorData {
     private boolean m_excludeTimerange;
 
     /** The absolute file name. */
-    private String m_fileName;
+    private @RUntainted String m_fileName;
 
     /** The file type id. */
     private int m_type;
@@ -92,7 +93,7 @@ public class CmsCollectorData {
                 Messages.get().container(Messages.ERR_COLLECTOR_PARAM_INVALID_1, data));
         }
 
-        List<String> args = CmsStringUtil.splitAsList(data, '|', true);
+        List<@RUntainted String> args = CmsStringUtil.splitAsList(data, '|', true);
 
         m_fileName = args.get(0);
         String type = args.get(1);
@@ -165,7 +166,7 @@ public class CmsCollectorData {
      *
      * @return the file name
      */
-    public String getFileName() {
+    public @RUntainted String getFileName() {
 
         return m_fileName;
     }

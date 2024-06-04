@@ -39,6 +39,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.codec.binary.Base64;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  *
@@ -67,7 +69,7 @@ public final class CmsDataTypeUtil {
      * @throws IOException if the inputstream fails
      * @throws ClassNotFoundException if the serialized object fails
      */
-    public static Object dataDeserialize(byte[] data, String type) throws IOException, ClassNotFoundException {
+    public static @RPolyTainted Object dataDeserialize(@RUntainted byte[] data, String type) throws IOException, ClassNotFoundException {
 
         // check the type of the stored data
         Class<?> clazz = Class.forName(type);
@@ -117,7 +119,7 @@ public final class CmsDataTypeUtil {
      * @throws ClassNotFoundException if something goes wrong
      * @throws IOException if something goes wrong
      */
-    public static Object dataImport(String value, String type) throws ClassNotFoundException, IOException {
+    public static @RPolyTainted Object dataImport(@RPolyTainted String value, String type) throws ClassNotFoundException, IOException {
 
         Class<?> clazz = Class.forName(type);
         if (CmsDataTypeUtil.isParseable(clazz)) {
@@ -343,7 +345,7 @@ public final class CmsDataTypeUtil {
      *
      * @return the value of the given data
      */
-    public static Object parse(String data, Class<?> clazz) {
+    public static @RPolyTainted Object parse(@RUntainted String data, Class<?> clazz) {
 
         if (data == null) {
             return null;
@@ -388,7 +390,7 @@ public final class CmsDataTypeUtil {
      *
      * @return the converted data value
      */
-    public static Boolean parseBoolean(String data) {
+    public static @RPolyTainted Boolean parseBoolean(@RPolyTainted String data) {
 
         return Boolean.valueOf(data);
     }
@@ -400,7 +402,7 @@ public final class CmsDataTypeUtil {
      *
      * @return the converted data value
      */
-    public static Byte parseByte(String data) {
+    public static @RPolyTainted Byte parseByte(@RPolyTainted String data) {
 
         return Byte.valueOf(data);
     }
@@ -412,7 +414,7 @@ public final class CmsDataTypeUtil {
      *
      * @return the converted data value
      */
-    public static Character parseChar(String data) {
+    public static @RPolyTainted Character parseChar(@RPolyTainted String data) {
 
         return Character.valueOf(data.charAt(0));
     }
@@ -424,7 +426,7 @@ public final class CmsDataTypeUtil {
      *
      * @return the converted data value
      */
-    public static Date parseDate(String data) {
+    public static @RUntainted Date parseDate(@RUntainted String data) {
 
         return new Date(parseLong(data).longValue());
     }
@@ -436,7 +438,7 @@ public final class CmsDataTypeUtil {
      *
      * @return the converted data value
      */
-    public static Double parseDouble(String data) {
+    public static @RPolyTainted Double parseDouble(@RPolyTainted String data) {
 
         return Double.valueOf(data);
     }
@@ -448,7 +450,7 @@ public final class CmsDataTypeUtil {
      *
      * @return the converted data value
      */
-    public static Float parseFloat(String data) {
+    public static @RPolyTainted Float parseFloat(@RPolyTainted String data) {
 
         return Float.valueOf(data);
     }
@@ -460,7 +462,7 @@ public final class CmsDataTypeUtil {
      *
      * @return the converted data value
      */
-    public static Integer parseInt(String data) {
+    public static @RPolyTainted Integer parseInt(@RPolyTainted String data) {
 
         return Integer.valueOf(data);
     }
@@ -472,7 +474,7 @@ public final class CmsDataTypeUtil {
      *
      * @return the converted data value
      */
-    public static Long parseLong(String data) {
+    public static @RPolyTainted Long parseLong(@RPolyTainted String data) {
 
         return Long.valueOf(data);
     }
@@ -484,7 +486,7 @@ public final class CmsDataTypeUtil {
      *
      * @return the converted data value
      */
-    public static Short parseShort(String data) {
+    public static @RPolyTainted Short parseShort(@RPolyTainted String data) {
 
         return Short.valueOf(data);
     }
@@ -496,7 +498,7 @@ public final class CmsDataTypeUtil {
      *
      * @return the converted data value
      */
-    public static CmsUUID parseUUID(String data) {
+    public static @RPolyTainted CmsUUID parseUUID(@RPolyTainted String data) {
 
         return new CmsUUID(data);
     }

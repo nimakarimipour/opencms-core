@@ -35,6 +35,7 @@ import java.io.Serializable;
 import org.apache.commons.collections.Buffer;
 import org.apache.commons.collections.BufferUtils;
 import org.apache.commons.collections.buffer.UnboundedFifoBuffer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Stores information about a user that has authenticated himself the OpenCms security system.<p>
@@ -76,7 +77,7 @@ public class CmsSessionInfo implements Comparable<CmsSessionInfo>, Serializable 
     private CmsUUID m_sessionId;
 
     /** The current site of the user. */
-    private String m_siteRoot;
+    private @RUntainted String m_siteRoot;
 
     /** The time this session info was created. */
     private long m_timeCreated;
@@ -206,7 +207,7 @@ public class CmsSessionInfo implements Comparable<CmsSessionInfo>, Serializable 
      *
      * @return the fully qualified name of the organizational unit for this session
      */
-    public String getOrganizationalUnitFqn() {
+    public @RUntainted String getOrganizationalUnitFqn() {
 
         return m_ouFqn;
     }
@@ -238,7 +239,7 @@ public class CmsSessionInfo implements Comparable<CmsSessionInfo>, Serializable 
      *
      * @return the current site root of the user
      */
-    public String getSiteRoot() {
+    public @RUntainted String getSiteRoot() {
 
         return m_siteRoot;
     }

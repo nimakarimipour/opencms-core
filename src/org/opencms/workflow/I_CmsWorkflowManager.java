@@ -41,6 +41,7 @@ import org.opencms.util.CmsUUID;
 
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Workflow manager interface.<p>
@@ -105,7 +106,7 @@ public interface I_CmsWorkflowManager {
      *
      * @return the configuration parameters of the workflow manager
      */
-    Map<String, String> getParameters();
+    Map<String, @RUntainted String> getParameters();
 
     /**
      * Gets a publish list token for the given parameters which can be used later to reconstruct the publish list.<p>
@@ -133,7 +134,7 @@ public interface I_CmsWorkflowManager {
      *
      * @return the resource limit
      */
-    int getResourceLimit();
+    @RUntainted int getResourceLimit();
 
     /**
      * Gets the workflow id which should be used for a given workflow project.<p>
@@ -142,7 +143,7 @@ public interface I_CmsWorkflowManager {
      *
      * @return the workflow id for the project
      */
-    String getWorkflowForWorkflowProject(CmsUUID projectId);
+    @RUntainted String getWorkflowForWorkflowProject(CmsUUID projectId);
 
     /**
      * Returns the resources for the given workflow and project.<p>

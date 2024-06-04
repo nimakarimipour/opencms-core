@@ -33,6 +33,7 @@ import org.opencms.ade.publish.shared.CmsPublishResource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Publish group helper which only puts all publish resources into a single group.<p>

@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.htmlparser.Tag;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The CmsDecoratorConfiguration initalizes and stores the text decorations.<p>

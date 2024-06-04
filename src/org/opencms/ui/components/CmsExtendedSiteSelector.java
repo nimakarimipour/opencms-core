@@ -57,6 +57,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.ui.ComboBox;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Site selector widget which also optionally offers subsite options.
@@ -75,7 +76,7 @@ public class CmsExtendedSiteSelector extends ComboBox<SiteSelectorOption> {
         private String m_path;
 
         /** The site root. */
-        private String m_site;
+        private @RUntainted String m_site;
 
         /**
          * Creates a new instance.
@@ -84,7 +85,7 @@ public class CmsExtendedSiteSelector extends ComboBox<SiteSelectorOption> {
          * @param path the path in the site (may be null)
          * @param label the option label
          */
-        public SiteSelectorOption(String site, String path, String label) {
+        public SiteSelectorOption(@RUntainted String site, @RUntainted String path, String label) {
 
             m_site = normalizePath(site);
             m_path = normalizePath(path);
@@ -125,7 +126,7 @@ public class CmsExtendedSiteSelector extends ComboBox<SiteSelectorOption> {
          *
          * @return the path to jump to
          */
-        public String getPath() {
+        public @RUntainted String getPath() {
 
             return m_path;
         }
@@ -135,7 +136,7 @@ public class CmsExtendedSiteSelector extends ComboBox<SiteSelectorOption> {
          *
          * @return the site root
          */
-        public String getSite() {
+        public @RUntainted String getSite() {
 
             return m_site;
         }
@@ -159,7 +160,7 @@ public class CmsExtendedSiteSelector extends ComboBox<SiteSelectorOption> {
          * @param path a path
          * @return the normalized path
          */
-        private String normalizePath(String path) {
+        private @RUntainted String normalizePath(@RUntainted String path) {
 
             if (path == null) {
                 return null;
@@ -217,7 +218,7 @@ public class CmsExtendedSiteSelector extends ComboBox<SiteSelectorOption> {
         boolean addSubsites) {
 
         LinkedHashMap<String, String> siteOptions = CmsVaadinUtils.getAvailableSitesMap(cms);
-        List<String> subsites = new ArrayList<>(
+        List<@RUntainted String> subsites = new ArrayList<>(
             OpenCms.getADEManager().getSubsitesForSiteSelector(
                 cms.getRequestContext().getCurrentProject().isOnlineProject()));
         Collections.sort(subsites);
@@ -231,7 +232,7 @@ public class CmsExtendedSiteSelector extends ComboBox<SiteSelectorOption> {
                     if ((site != null) && site.isSubsiteSelectionEnabled()) { // only use subsites that are in an actual site; also, subsite selection must be enabled on the site
                         CmsPath siteRootPath = new CmsPath(site.getSiteRoot());
                         if (!siteRootPath.equals(new CmsPath(subsite))) { // Don't allow the site itself as a subsite
-                            Optional<String> remainingPath = CmsStringUtil.removePrefixPath(
+                            Optional<@RUntainted String> remainingPath = CmsStringUtil.removePrefixPath(
                                 site.getSiteRoot(),
                                 subsite);
                             if (remainingPath.isPresent()) {
@@ -263,7 +264,7 @@ public class CmsExtendedSiteSelector extends ComboBox<SiteSelectorOption> {
             }
         }
         List<SiteSelectorOption> result = new ArrayList<>();
-        for (Map.Entry<String, String> entry : siteOptions.entrySet()) {
+        for (Map.Entry<@RUntainted String, String> entry : siteOptions.entrySet()) {
             result.add(new SiteSelectorOption(entry.getKey(), null, entry.getValue()));
             result.addAll(subsitesForSite.get(new CmsPath(entry.getKey())));
         }

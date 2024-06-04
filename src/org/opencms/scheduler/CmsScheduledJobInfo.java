@@ -49,6 +49,7 @@ import org.apache.commons.logging.Log;
 
 import org.quartz.CronExpression;
 import org.quartz.Trigger;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes a scheduled job for the OpenCms scheduler.<p>
@@ -356,7 +357,7 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
     private boolean m_active;
 
     /** The name of the class to schedule. */
-    private String m_className;
+    private @RUntainted String m_className;
 
     /** The context information for the user to execute the job with. */
     private CmsContextInfo m_context;
@@ -374,7 +375,7 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
     private transient I_CmsScheduledJob m_jobInstance;
 
     /** The name of the job (for information purposes). */
-    private String m_jobName;
+    private @RUntainted String m_jobName;
 
     /** Stores the next execution time. */
     private Date m_nextFireTime;
@@ -443,7 +444,7 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
     /**
      * @see org.opencms.configuration.I_CmsConfigurationParameterHandler#addConfigurationParameter(java.lang.String, java.lang.String)
      */
-    public void addConfigurationParameter(String paramName, String paramValue) {
+    public void addConfigurationParameter(@RUntainted String paramName, @RUntainted String paramValue) {
 
         checkFrozen();
         // add the configured parameter
@@ -509,7 +510,7 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
      *
      * @return the name of the class to schedule
      */
-    public String getClassName() {
+    public @RUntainted String getClassName() {
 
         return m_className;
     }
@@ -581,7 +582,7 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
      *
      * @return the next time at which this job will be executed
      */
-    public Date getExecutionTimeNext() {
+    public @RUntainted Date getExecutionTimeNext() {
 
         if (!m_active || (m_trigger == null)) {
             // if the job is not active, no time can be calculated
@@ -687,7 +688,7 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
      *
      * @return the job name
      */
-    public String getJobName() {
+    public @RUntainted String getJobName() {
 
         return m_jobName;
     }
@@ -697,7 +698,7 @@ public class CmsScheduledJobInfo implements I_CmsConfigurationParameterHandler, 
      *
      * @return the parameters
      */
-    public SortedMap<String, String> getParameters() {
+    public SortedMap<String, @RUntainted String> getParameters() {
 
         return m_parameters;
     }

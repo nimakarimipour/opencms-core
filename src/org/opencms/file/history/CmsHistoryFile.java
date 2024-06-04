@@ -34,6 +34,7 @@ import org.opencms.file.CmsResource;
 import org.opencms.main.CmsException;
 import org.opencms.security.CmsPrincipal;
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A historical version of a file in the OpenCms VFS resource history.<p>
@@ -127,24 +128,24 @@ public class CmsHistoryFile extends CmsFile implements I_CmsHistoryResource {
      */
     public CmsHistoryFile(
         int publishTag,
-        CmsUUID structureId,
+        @RUntainted CmsUUID structureId,
         CmsUUID resourceId,
-        String path,
-        int type,
-        int flags,
+        @RUntainted String path,
+        @RUntainted int type,
+        @RUntainted int flags,
         CmsUUID projectId,
-        CmsResourceState state,
-        long dateCreated,
+        @RUntainted CmsResourceState state,
+        @RUntainted long dateCreated,
         CmsUUID userCreated,
-        long dateLastModified,
+        @RUntainted long dateLastModified,
         CmsUUID userLastModified,
-        long dateReleased,
-        long dateExpired,
-        int size,
-        long dateContent,
-        int version,
+        @RUntainted long dateReleased,
+        @RUntainted long dateExpired,
+        @RUntainted int size,
+        @RUntainted long dateContent,
+        @RUntainted int version,
         CmsUUID parentId,
-        byte[] content,
+        @RUntainted byte[] content,
         int resourceVersion,
         int structureVersion) {
 
@@ -209,7 +210,7 @@ public class CmsHistoryFile extends CmsFile implements I_CmsHistoryResource {
     /**
      * @see org.opencms.file.history.I_CmsHistoryResource#getParentId()
      */
-    public CmsUUID getParentId() {
+    public @RUntainted CmsUUID getParentId() {
 
         return m_parentId;
     }
@@ -217,7 +218,7 @@ public class CmsHistoryFile extends CmsFile implements I_CmsHistoryResource {
     /**
      * @see org.opencms.file.history.I_CmsHistoryResource#getPublishTag()
      */
-    public int getPublishTag() {
+    public @RUntainted int getPublishTag() {
 
         return m_publishTag;
     }
@@ -257,7 +258,7 @@ public class CmsHistoryFile extends CmsFile implements I_CmsHistoryResource {
     /**
      * @see org.opencms.file.history.I_CmsHistoryResource#getResourceVersion()
      */
-    public int getResourceVersion() {
+    public @RUntainted int getResourceVersion() {
 
         return m_resourceVersion;
     }
@@ -265,7 +266,7 @@ public class CmsHistoryFile extends CmsFile implements I_CmsHistoryResource {
     /**
      * @see org.opencms.file.history.I_CmsHistoryResource#getStructureVersion()
      */
-    public int getStructureVersion() {
+    public @RUntainted int getStructureVersion() {
 
         return m_structureVersion;
     }

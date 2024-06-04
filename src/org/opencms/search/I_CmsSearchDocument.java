@@ -34,6 +34,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The interface for search documents.<p>
@@ -74,7 +75,7 @@ public interface I_CmsSearchDocument {
      *
      * @param locales the locales of the content
      */
-    void addContentLocales(Collection<Locale> locales);
+    void addContentLocales(Collection<@RUntainted Locale> locales);
 
     /**
      * Puts the given date into the field with the given name.<p>
@@ -104,7 +105,7 @@ public interface I_CmsSearchDocument {
      *
      * @param locales the locales of the resource
      */
-    void addResourceLocales(Collection<Locale> locales);
+    void addResourceLocales(@RUntainted Collection<@RUntainted Locale> locales);
 
     /**
      * Puts the given root path into its default field.<p>
@@ -175,7 +176,7 @@ public interface I_CmsSearchDocument {
      *
      * @return the String value or <code>null</code> if empty
      */
-    String getFieldValueAsString(String fieldName);
+    @RUntainted String getFieldValueAsString(String fieldName);
 
     /**
      * Returns the values of a multi-valued field as list of strings.

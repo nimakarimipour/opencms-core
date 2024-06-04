@@ -30,6 +30,7 @@ package org.opencms.jsp.decorator;
 import org.opencms.util.CmsMacroResolver;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The CmsDecorationObject defines a single text decoration.<p>
@@ -98,7 +99,7 @@ public class CmsDecorationObject {
      * @param contentLocale the locale of the content to be decorated
      * @return decorated content
      */
-    public String getContentDecoration(I_CmsDecoratorConfiguration config, String text, String contentLocale) {
+    public @RUntainted String getContentDecoration(I_CmsDecoratorConfiguration config, String text, String contentLocale) {
 
         StringBuffer content = new StringBuffer();
         // TODO: we have to handle with word phrases, too
@@ -182,7 +183,7 @@ public class CmsDecorationObject {
      *
      * @return the message with the macros replaced
      */
-    private String replaceMacros(String msg, String contentLocale) {
+    private String replaceMacros(@RUntainted String msg, String contentLocale) {
 
         CmsMacroResolver resolver = CmsMacroResolver.newInstance();
         resolver.addMacro(MACRO_DECORATION, m_decoration);

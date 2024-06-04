@@ -59,6 +59,7 @@ import com.google.common.base.Suppliers;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * An immutable object which represents the complete ADE configuration (sitemap and module configurations)
@@ -462,7 +463,7 @@ public class CmsADEConfigCacheState {
      *
      * @return the detail pages for that type
      */
-    protected List<String> getDetailPages(String type) {
+    protected List<@RUntainted String> getDetailPages(String type) {
 
         List<String> result = m_detailPageCache.get(type);
         if (result == null) {

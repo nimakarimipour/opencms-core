@@ -70,6 +70,8 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Default formatter class for publish  resources.<p>
@@ -329,7 +331,7 @@ public class CmsDefaultPublishResourceFormatter implements I_CmsPublishResourceF
      *
      * @return the simple name if the ou is the same as the current user's ou
      */
-    public static String getOuAwareName(CmsObject cms, String name) {
+    public static @RPolyTainted String getOuAwareName(CmsObject cms, @RPolyTainted String name) {
 
         String ou = CmsOrganizationalUnit.getParentFqn(name);
         if (ou.equals(cms.getRequestContext().getCurrentUser().getOuFqn())) {

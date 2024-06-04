@@ -73,6 +73,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A helper class for writing inherited container configuration back to a VFS file.<p>
@@ -225,7 +226,7 @@ public class CmsContainerConfigurationWriter {
                 cms,
                 elementBean.getResource());
             CmsUUID structureId = elementBean.getId();
-            Map<String, String> settings = elementBean.getIndividualSettings();
+            Map<@RUntainted String, @RUntainted String> settings = elementBean.getIndividualSettings();
             Element newElementElement = root.addElement(N_NEWELEMENT);
             newElementElement.addElement(N_KEY).addCDATA(key);
             Element elementElement = newElementElement.addElement(N_ELEMENT);

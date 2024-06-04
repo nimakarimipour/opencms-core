@@ -35,6 +35,7 @@ import org.opencms.util.CmsUUID;
 
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Project wrapper which specially handles the 'release' workflow by reading resources of a project regardless of publish permissions.

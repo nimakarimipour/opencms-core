@@ -55,6 +55,7 @@ import org.apache.commons.fileupload.servlet.ServletRequestContext;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The form editing service.<p>
@@ -131,10 +132,10 @@ public class CmsUgcEditService extends CmsGwtService implements I_CmsUgcEditServ
     /**
      * @see org.opencms.ugc.shared.rpc.I_CmsUgcEditService#saveContent(org.opencms.util.CmsUUID, java.util.Map)
      */
-    public Map<String, String> saveContent(CmsUUID sessionId, Map<String, String> contentValues)
+    public Map<String, @RUntainted String> saveContent(CmsUUID sessionId, Map<String, String> contentValues)
     throws CmsUgcException {
 
-        Map<String, String> result = null;
+        Map<String, @RUntainted String> result = null;
         try {
             CmsUgcSession session = getFormSession(sessionId);
             if ((session != null) && sessionId.equals(session.getId())) {
@@ -199,10 +200,10 @@ public class CmsUgcEditService extends CmsGwtService implements I_CmsUgcEditServ
     /**
      * @see org.opencms.ugc.shared.rpc.I_CmsUgcEditService#validateContent(org.opencms.util.CmsUUID, java.util.Map)
      */
-    public Map<String, String> validateContent(CmsUUID sessionId, Map<String, String> contentValues)
+    public Map<String, @RUntainted String> validateContent(CmsUUID sessionId, Map<String, String> contentValues)
     throws CmsUgcException {
 
-        Map<String, String> result = Maps.newHashMap();
+        Map<String, @RUntainted String> result = Maps.newHashMap();
         try {
             CmsUgcSession session = getFormSession(sessionId);
             if ((session != null) && sessionId.equals(session.getId())) {
@@ -224,7 +225,7 @@ public class CmsUgcEditService extends CmsGwtService implements I_CmsUgcEditServ
      * @param request the request
      * @param response the response
      */
-    protected void handleUpload(HttpServletRequest request, HttpServletResponse response) {
+    protected void handleUpload(@RUntainted HttpServletRequest request, HttpServletResponse response) {
 
         String sessionIdStr = request.getParameter(CmsUgcConstants.PARAM_SESSION_ID);
         CmsUUID sessionId = new CmsUUID(sessionIdStr);
@@ -236,7 +237,7 @@ public class CmsUgcEditService extends CmsGwtService implements I_CmsUgcEditServ
      * @see javax.servlet.http.HttpServlet#service(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
-    protected void service(HttpServletRequest request, HttpServletResponse response)
+    protected void service(@RUntainted HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
 
         boolean isMultiPart = FileUploadBase.isMultipartContent(new ServletRequestContext(request));

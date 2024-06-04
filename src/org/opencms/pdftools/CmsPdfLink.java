@@ -39,6 +39,7 @@ import org.opencms.util.CmsUUID;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class is responsbile for creating and parsing links to generated PDFs.<p>
@@ -87,7 +88,7 @@ public class CmsPdfLink {
     private String m_link;
 
     /** The locale of the PDF link. */
-    private Locale m_locale;
+    private @RUntainted Locale m_locale;
 
     /**
      * Creates a new PDF link object based on the formatter and content resources and the locale of the current CMS context.<p>
@@ -131,7 +132,7 @@ public class CmsPdfLink {
      * @throws CmsPdfLinkParseException if the given link is not a PDF link
      * @throws CmsException if something else goes wrong
      */
-    public CmsPdfLink(CmsObject cms, String link)
+    public CmsPdfLink(CmsObject cms, @RUntainted String link)
     throws CmsPdfLinkParseException, CmsException {
 
         Matcher matcher = PDF_LINK_REGEX_COMPILED.matcher(link);
@@ -190,7 +191,7 @@ public class CmsPdfLink {
      *
      * @return the locale
      */
-    public Locale getLocale() {
+    public @RUntainted Locale getLocale() {
 
         return m_locale;
     }

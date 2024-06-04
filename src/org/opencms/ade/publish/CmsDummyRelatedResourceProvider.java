@@ -32,6 +32,7 @@ import org.opencms.file.CmsResource;
 
 import java.util.Collections;
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dummy implementation of the I_CmsRelatedResourceProvider interface which doesn't actually add any related resources.<p>

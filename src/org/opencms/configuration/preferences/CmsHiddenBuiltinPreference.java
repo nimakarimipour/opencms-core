@@ -26,6 +26,7 @@
  */
 
 package org.opencms.configuration.preferences;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for preferences that are not meant to be displayed in the preference dialog.<p>

@@ -31,6 +31,7 @@ import org.opencms.widgets.CmsInputWidget;
 import org.opencms.widgets.I_CmsWidget;
 
 import java.lang.reflect.Constructor;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents an user additional information entry.<p>
@@ -52,7 +53,7 @@ public final class CmsWorkplaceUserInfoEntry {
     private String m_type;
 
     /** The widget parameters. */
-    private String m_params;
+    private @RUntainted String m_params;
 
     /**
      * Default constructor.<p>

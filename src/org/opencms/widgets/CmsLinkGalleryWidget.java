@@ -28,6 +28,7 @@
 package org.opencms.widgets;
 
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a widget that allows access to the available OpenCms external link galleries, for use on a widget dialog.<p>
@@ -50,7 +51,7 @@ public class CmsLinkGalleryWidget extends A_CmsGalleryWidget {
      *
      * @param configuration the configuration to use
      */
-    public CmsLinkGalleryWidget(String configuration) {
+    public CmsLinkGalleryWidget(@RUntainted String configuration) {
 
         super(configuration);
     }

@@ -5,6 +5,7 @@ import org.opencms.loader.CmsImageScaler;
 import org.opencms.util.CmsStringUtil;
 
 import javax.servlet.jsp.tagext.BodyTagSupport;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract parent for all JSP tags dealing with image scaling, defines some common image scaler
@@ -43,7 +44,7 @@ public abstract class CmsJspImageScalerTagSupport extends BodyTagSupport {
     protected transient CmsImageScaler m_scaler;
 
     /** The image source. */
-    protected String m_src;
+    protected @RUntainted String m_src;
 
     /**
      * Initializes a CmsImageScaler to be used by derived classes. The CmsImageScaler is recreated
@@ -185,7 +186,7 @@ public abstract class CmsJspImageScalerTagSupport extends BodyTagSupport {
      *
      * @param value the scaling height for the image to set
      */
-    public void setHeight(String value) {
+    public void setHeight(@RUntainted String value) {
 
         m_scaler.setHeight(CmsStringUtil.getIntValueRounded(value, 0, SCALE_ATTR_HEIGHT));
     }
@@ -296,7 +297,7 @@ public abstract class CmsJspImageScalerTagSupport extends BodyTagSupport {
      *
      * @param value the scaling width for the image to set
      */
-    public void setWidth(String value) {
+    public void setWidth(@RUntainted String value) {
 
         m_scaler.setWidth(CmsStringUtil.getIntValueRounded(value, 0, SCALE_ATTR_WIDTH));
     }

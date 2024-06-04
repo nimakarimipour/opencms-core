@@ -33,6 +33,7 @@ import org.opencms.main.CmsLog;
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Report for shell which writes to LOG.<p>

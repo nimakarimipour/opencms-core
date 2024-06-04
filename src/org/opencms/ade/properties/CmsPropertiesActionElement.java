@@ -38,6 +38,7 @@ import org.opencms.main.OpenCms;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Action element class for opening the ADE properties dialog.<p>
@@ -57,7 +58,7 @@ public class CmsPropertiesActionElement extends CmsGwtActionElement {
      * @param req the request
      * @param res the response
      */
-    public CmsPropertiesActionElement(PageContext context, HttpServletRequest req, HttpServletResponse res) {
+    public CmsPropertiesActionElement(@RUntainted PageContext context, @RUntainted HttpServletRequest req, @RUntainted HttpServletResponse res) {
 
         super(context, req, res);
     }

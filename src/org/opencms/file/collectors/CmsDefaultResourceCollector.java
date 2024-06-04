@@ -46,6 +46,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A default resource collector to generate some example list of resources from the VFS.<p>
@@ -81,7 +82,7 @@ public class CmsDefaultResourceCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getCreateLink(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String getCreateLink(CmsObject cms, String collectorName, String param)
+    public @RUntainted String getCreateLink(CmsObject cms, String collectorName, String param)
     throws CmsDataAccessException, CmsException {
 
         // if action is not set, use default action
@@ -116,7 +117,7 @@ public class CmsDefaultResourceCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getCreateParam(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String getCreateParam(CmsObject cms, String collectorName, String param) throws CmsDataAccessException {
+    public @RUntainted String getCreateParam(CmsObject cms, String collectorName, @RUntainted String param) throws CmsDataAccessException {
 
         // if action is not set, use default action
         if (collectorName == null) {
@@ -234,7 +235,7 @@ public class CmsDefaultResourceCollector extends A_CmsResourceCollector {
             // include all not yet released and expired resources in an offline project
             filter = filter.addExcludeTimerange();
         }
-        List<CmsResource> result = cms.readResources(foldername, filter, tree);
+        List<@RUntainted CmsResource> result = cms.readResources(foldername, filter, tree);
 
         Collections.sort(result, I_CmsResource.COMPARE_DATE_RELEASED);
 
@@ -264,7 +265,7 @@ public class CmsDefaultResourceCollector extends A_CmsResourceCollector {
             // include all not yet released and expired resources in an offline project
             filter = filter.addExcludeTimerange();
         }
-        List<CmsResource> foundResources = cms.readResources(foldername, filter, readSubTree);
+        List<@RUntainted CmsResource> foundResources = cms.readResources(foldername, filter, readSubTree);
 
         // the Cms resources are saved in a map keyed by their nav elements
         // to save time sorting the resources by the value of their NavPos property
@@ -329,7 +330,7 @@ public class CmsDefaultResourceCollector extends A_CmsResourceCollector {
             // include all not yet released and expired resources in an offline project
             filter = filter.addExcludeTimerange();
         }
-        List<CmsResource> result = cms.readResources(foldername, filter, tree);
+        List<@RUntainted CmsResource> result = cms.readResources(foldername, filter, tree);
 
         Collections.sort(result, I_CmsResource.COMPARE_ROOT_PATH);
         Collections.reverse(result);

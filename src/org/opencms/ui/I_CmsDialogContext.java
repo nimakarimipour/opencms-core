@@ -40,6 +40,7 @@ import java.util.Map;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Window;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Context for dialogs opened from the context menu.<p>
@@ -80,7 +81,7 @@ public interface I_CmsDialogContext {
      * @param project changed project
      * @param siteRoot changed site root
      */
-    void finish(CmsProject project, String siteRoot);
+    void finish(CmsProject project, @RUntainted String siteRoot);
 
     /**
      * Signals that the dialog has finished.<p>
@@ -115,7 +116,7 @@ public interface I_CmsDialogContext {
      *
      * @return the CMS context
      */
-    CmsObject getCms();
+    @RUntainted CmsObject getCms();
 
     /**
      * Returns the context type.<p>
@@ -130,7 +131,7 @@ public interface I_CmsDialogContext {
      *
      * @return the map of additional parameters
      */
-    default Map<String, String> getParameters() {
+    default Map<String, @RUntainted String> getParameters() {
 
         return Collections.emptyMap();
     }
@@ -140,7 +141,7 @@ public interface I_CmsDialogContext {
      *
      * @return the list of resources
      */
-    List<CmsResource> getResources();
+    List<@RUntainted CmsResource> getResources();
 
     /**
      * Navigates to the given app.<p>

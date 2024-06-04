@@ -46,6 +46,7 @@ import java.util.Set;
 import com.vaadin.ui.Component;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.Table.CellStyleGenerator;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Result table for broken internal relations.<p>

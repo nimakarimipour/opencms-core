@@ -67,6 +67,8 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Maps;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * This is the internal cache class used for storing configuration data. It is not public because it is only meant
@@ -322,7 +324,7 @@ class CmsConfigurationCache implements I_CmsGlobalConfigurationCache {
         if (m_cms.existsResource("/")) {
             try {
                 @SuppressWarnings("deprecation")
-                List<CmsResource> configFileCandidates = m_cms.readResources(
+                List<@RUntainted CmsResource> configFileCandidates = m_cms.readResources(
                     "/",
                     CmsResourceFilter.DEFAULT.addRequireType(m_configType.getTypeId()));
                 CmsLog.INIT.info(
@@ -334,7 +336,7 @@ class CmsConfigurationCache implements I_CmsGlobalConfigurationCache {
                         + (m_cms.getRequestContext().getCurrentProject().isOnlineProject() ? "online" : "offline")
                         + " project.");
                 if (OpenCms.getResourceManager().hasResourceType(TYPE_SITEMAP_MASTER_CONFIG)) {
-                    List<CmsResource> masterCandidates = m_cms.readResources(
+                    List<@RUntainted CmsResource> masterCandidates = m_cms.readResources(
                         "/",
                         CmsResourceFilter.DEFAULT.addRequireType(
                             OpenCms.getResourceManager().getResourceType(TYPE_SITEMAP_MASTER_CONFIG)));
@@ -519,7 +521,7 @@ class CmsConfigurationCache implements I_CmsGlobalConfigurationCache {
                 @SuppressWarnings("deprecation")
                 CmsResourceFilter filter = CmsResourceFilter.ONLY_VISIBLE_NO_DELETED.addRequireType(
                     m_elementViewType.getTypeId());
-                List<CmsResource> groups = m_cms.readResources("/", filter);
+                List<@RUntainted CmsResource> groups = m_cms.readResources("/", filter);
                 for (CmsResource res : groups) {
                     try {
                         views.add(new CmsElementView(m_cms, res));
@@ -774,7 +776,7 @@ class CmsConfigurationCache implements I_CmsGlobalConfigurationCache {
                 @SuppressWarnings("deprecation")
                 CmsResourceFilter filter = CmsResourceFilter.ONLY_VISIBLE_NO_DELETED.addRequireType(
                     OpenCms.getResourceManager().getResourceType(TYPE_ATTRIBUTE_EDITOR_CONFIG).getTypeId());
-                List<CmsResource> configResources = m_cms.readResources("/", filter);
+                List<@RUntainted CmsResource> configResources = m_cms.readResources("/", filter);
                 for (CmsResource res : configResources) {
                     try {
                         CmsSitemapAttributeEditorConfiguration config = CmsSitemapAttributeEditorConfiguration.read(
@@ -808,7 +810,7 @@ class CmsConfigurationCache implements I_CmsGlobalConfigurationCache {
                 @SuppressWarnings("deprecation")
                 CmsResourceFilter filter = CmsResourceFilter.ONLY_VISIBLE_NO_DELETED.addRequireType(
                     OpenCms.getResourceManager().getResourceType(TYPE_SITE_PLUGIN).getTypeId());
-                List<CmsResource> pluginResources = m_cms.readResources("/", filter);
+                List<@RUntainted CmsResource> pluginResources = m_cms.readResources("/", filter);
                 for (CmsResource res : pluginResources) {
                     try {
                         CmsSitePlugin sitePlugin = CmsSitePlugin.read(m_cms, res);

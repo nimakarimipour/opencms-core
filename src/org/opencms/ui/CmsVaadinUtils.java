@@ -121,6 +121,8 @@ import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Vaadin utility functions.<p>
@@ -393,7 +395,7 @@ public final class CmsVaadinUtils {
      */
     public static IndexedContainer getAvailableGroupsContainerWithout(
         CmsObject cms,
-        String ouFqn,
+        @RUntainted String ouFqn,
         String propCaption,
         String propIcon,
         String propOu,
@@ -648,7 +650,7 @@ public final class CmsVaadinUtils {
      *
      * @return the message text for the current locale
      */
-    public static String getMessageText(I_CmsMessageBundle messages, String key, Object... args) {
+    public static String getMessageText(I_CmsMessageBundle messages, @RUntainted String key, @RUntainted Object... args) {
 
         return messages.getBundle(A_CmsUI.get().getLocale()).key(key, args);
     }
@@ -661,7 +663,7 @@ public final class CmsVaadinUtils {
      *
      * @return the message text for the current locale
      */
-    public static String getMessageText(String key, Object... args) {
+    public static @RUntainted String getMessageText(@RUntainted String key, @RUntainted Object... args) {
 
         return getWpMessagesForCurrentLocale().key(key, args);
     }
@@ -968,7 +970,7 @@ public final class CmsVaadinUtils {
      *
      * @return the link to the workplace
      */
-    public static String getWorkplaceLink() {
+    public static @RUntainted String getWorkplaceLink() {
 
         return OpenCms.getSystemInfo().getWorkplaceContext();
     }
@@ -980,7 +982,7 @@ public final class CmsVaadinUtils {
      *
      * @return the workplace link
      */
-    public static String getWorkplaceLink(String appId) {
+    public static @RPolyTainted String getWorkplaceLink(@RPolyTainted String appId) {
 
         return getWorkplaceLink() + CmsAppWorkplaceUi.WORKPLACE_APP_ID_SEPARATOR + appId;
     }
@@ -1103,7 +1105,7 @@ public final class CmsVaadinUtils {
      *
      * @return the localized string
      */
-    public static String localizeString(String baseString) {
+    public static String localizeString(@RUntainted String baseString) {
 
         if (baseString == null) {
             return null;
@@ -1213,7 +1215,7 @@ public final class CmsVaadinUtils {
         CmsMacroResolver resolver = new CmsMacroResolver() {
 
             @Override
-            public String getMacroValue(String macro) {
+            public String getMacroValue(@RUntainted String macro) {
 
                 return CmsEncoder.escapeXml(super.getMacroValue(macro));
             }
@@ -1449,13 +1451,13 @@ public final class CmsVaadinUtils {
         Map<String, String> macros) {
 
         try {
-            byte[] designBytes = CmsFileUtil.readFully(designStream, true);
+            @RUntainted byte[] designBytes = CmsFileUtil.readFully(designStream, true);
             final String encoding = "UTF-8";
             String design = new String(designBytes, encoding);
             CmsMacroResolver resolver = new CmsMacroResolver() {
 
                 @Override
-                public String getMacroValue(String macro) {
+                public String getMacroValue(@RUntainted String macro) {
 
                     String result = super.getMacroValue(macro);
                     // The macro may contain quotes or angle brackets, so we need to escape the values for insertion into the design file

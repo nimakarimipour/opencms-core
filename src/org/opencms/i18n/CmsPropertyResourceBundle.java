@@ -32,6 +32,7 @@ import java.io.InputStream;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A property based resource bundle with increased visibility of some key methods.<p>
@@ -61,7 +62,7 @@ public class CmsPropertyResourceBundle extends PropertyResourceBundle implements
     /**
      * @see org.opencms.i18n.I_CmsResourceBundle#getClone()
      */
-    public I_CmsResourceBundle getClone() {
+    public @RUntainted I_CmsResourceBundle getClone() {
 
         // doesn't need to be cloned
         return this;

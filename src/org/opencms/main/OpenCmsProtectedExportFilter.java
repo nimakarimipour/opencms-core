@@ -41,6 +41,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Filter access to statically exported resources while checking permissions.<p>
@@ -64,7 +65,7 @@ public class OpenCmsProtectedExportFilter implements Filter {
     /**
     * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)
     */
-    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
+    public void doFilter(@RUntainted ServletRequest req, ServletResponse res, FilterChain chain)
     throws IOException, ServletException {
 
         if ((OpenCms.getStaticExportManager().getProtectedExportPath() != null)

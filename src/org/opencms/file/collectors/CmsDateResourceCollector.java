@@ -36,6 +36,7 @@ import org.opencms.main.CmsException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A default resource collector that supports flexible sorting based on resource dates.<p>
@@ -65,7 +66,7 @@ public class CmsDateResourceCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getCreateLink(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String getCreateLink(CmsObject cms, String collectorName, String param)
+    public @RUntainted String getCreateLink(CmsObject cms, String collectorName, String param)
     throws CmsDataAccessException, CmsException {
 
         // if action is not set, use default action
@@ -93,7 +94,7 @@ public class CmsDateResourceCollector extends A_CmsResourceCollector {
     /**
      * @see org.opencms.file.collectors.I_CmsResourceCollector#getCreateParam(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String getCreateParam(CmsObject cms, String collectorName, String param) throws CmsDataAccessException {
+    public @RUntainted String getCreateParam(CmsObject cms, String collectorName, @RUntainted String param) throws CmsDataAccessException {
 
         // if action is not set, use default action
         if (collectorName == null) {
@@ -197,7 +198,7 @@ public class CmsDateResourceCollector extends A_CmsResourceCollector {
             // include all not yet released and expired resources in an offline project
             filter = filter.addExcludeTimerange();
         }
-        List<CmsResource> result = cms.readResources(foldername, filter, tree);
+        List<@RUntainted CmsResource> result = cms.readResources(foldername, filter, tree);
 
         // a special date comparator is used to sort the resources
         CmsDateResourceComparator comparator = new CmsDateResourceComparator(cms, dateIdentifiers, asc);

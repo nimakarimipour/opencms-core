@@ -40,6 +40,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Performs attribute changes in a sitemap configuration file CmsXmlContent instance.
@@ -135,13 +136,13 @@ public class CmsSitemapAttributeUpdater {
      *
      * @param allValues the new sitemap attributes that should replace the existing ones
      */
-    public void replaceAttributes(Map<String, String> allValues) {
+    public void replaceAttributes(Map<@RUntainted String, @RUntainted String> allValues) {
 
         while (m_sitemapConfig.hasValue(CmsConfigurationReader.N_ATTRIBUTE, Locale.ENGLISH)) {
             m_sitemapConfig.removeValue(CmsConfigurationReader.N_ATTRIBUTE, Locale.ENGLISH, 0);
         }
         CmsObject cms = m_cms;
-        for (Map.Entry<String, String> entry : allValues.entrySet()) {
+        for (Map.Entry<@RUntainted String, @RUntainted String> entry : allValues.entrySet()) {
             I_CmsXmlContentValue newAttrValue = m_sitemapConfig.addValue(
                 cms,
                 CmsConfigurationReader.N_ATTRIBUTE,
@@ -187,7 +188,7 @@ public class CmsSitemapAttributeUpdater {
     public boolean updateAttributes(Map<String, String> attributeUpdates) {
 
         Map<String, String> oldValues = getAttributesFromContent();
-        Map<String, String> newValues = new LinkedHashMap<>(oldValues);
+        Map<@RUntainted String, @RUntainted String> newValues = new LinkedHashMap<>(oldValues);
         for (Map.Entry<String, String> entry : attributeUpdates.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();

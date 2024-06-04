@@ -30,6 +30,7 @@ package org.opencms.cmis;
 import java.math.BigInteger;
 import java.util.Iterator;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class to ease implementation of CMIS service methods which support paging.<p>

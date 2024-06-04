@@ -30,6 +30,7 @@ package org.opencms.file.types;
 import org.opencms.configuration.CmsConfigurationException;
 import org.opencms.loader.CmsDumpLoader;
 import org.opencms.main.OpenCms;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor for the type "binary".<p>
@@ -78,7 +79,7 @@ public class CmsResourceTypeBinary extends A_CmsResourceType {
      *
      * @return the static type name of this (default) resource type
      */
-    public static String getStaticTypeName() {
+    public static @RUntainted String getStaticTypeName() {
 
         return RESOURCE_TYPE_NAME;
     }

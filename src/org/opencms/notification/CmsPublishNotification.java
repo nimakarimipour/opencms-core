@@ -35,6 +35,7 @@ import org.opencms.report.I_CmsReport;
 
 import java.util.Iterator;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class to send a notification to an OpenCms user with a summary of warnings and

@@ -30,6 +30,7 @@ package org.opencms.xml.content;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Geo-coordinate mapping configuration for an XML content schema.

@@ -35,6 +35,7 @@ import org.opencms.xml.content.CmsXmlContentProperty;
 import java.util.Map;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A bean representing the state of a single resource to be edited in the upload property dialog.<p>

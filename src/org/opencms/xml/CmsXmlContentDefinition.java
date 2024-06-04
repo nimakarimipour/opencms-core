@@ -76,6 +76,8 @@ import org.dom4j.QName;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Describes the structure definition of an XML content object.<p>
@@ -193,7 +195,7 @@ public class CmsXmlContentDefinition implements Cloneable {
     private Set<CmsXmlContentDefinition> m_includes;
 
     /** The inner element name of the content definition (type sequence). */
-    private String m_innerName;
+    private @RUntainted String m_innerName;
 
     /** The outer element name of the content definition (language sequence). */
     private String m_outerName;
@@ -202,7 +204,7 @@ public class CmsXmlContentDefinition implements Cloneable {
     private Document m_schemaDocument;
 
     /** The location from which the XML schema was read (XML system id). */
-    private String m_schemaLocation;
+    private @RUntainted String m_schemaLocation;
 
     /** Indicates the sequence type of this content definition. */
     private SequenceType m_sequenceType;
@@ -222,7 +224,7 @@ public class CmsXmlContentDefinition implements Cloneable {
      * @param innerName the inner element name to use for the content definiton
      * @param schemaLocation the location from which the XML schema was read (system id)
      */
-    public CmsXmlContentDefinition(String innerName, String schemaLocation) {
+    public CmsXmlContentDefinition(String innerName, @RUntainted String schemaLocation) {
 
         this(innerName + "s", innerName, schemaLocation);
     }
@@ -234,7 +236,7 @@ public class CmsXmlContentDefinition implements Cloneable {
      * @param innerName the inner element name to use for the content definition
      * @param schemaLocation the location from which the XML schema was read (system id)
      */
-    public CmsXmlContentDefinition(String outerName, String innerName, String schemaLocation) {
+    public CmsXmlContentDefinition(String outerName, String innerName, @RUntainted String schemaLocation) {
 
         m_outerName = outerName;
         m_innerName = innerName;
@@ -266,7 +268,7 @@ public class CmsXmlContentDefinition implements Cloneable {
      *
      * @throws CmsException if something goes wrong
      */
-    public static CmsXmlContentDefinition getContentDefinitionForResource(CmsObject cms, CmsResource resource)
+    public static CmsXmlContentDefinition getContentDefinitionForResource(CmsObject cms, @RUntainted CmsResource resource)
     throws CmsException {
 
         CmsXmlContentDefinition contentDef = null;
@@ -339,7 +341,7 @@ public class CmsXmlContentDefinition implements Cloneable {
      *
      * @throws CmsException if something goes wrong
      */
-    public static I_CmsXmlContentHandler getContentHandlerForResource(CmsObject cms, CmsResource resource)
+    public static I_CmsXmlContentHandler getContentHandlerForResource(CmsObject cms, @RUntainted CmsResource resource)
     throws CmsException {
 
         return getContentDefinitionForResource(cms, resource).getContentHandler();
@@ -357,7 +359,7 @@ public class CmsXmlContentDefinition implements Cloneable {
      *
      * @throws CmsXmlException if something goes wrong
      */
-    public static CmsXmlContentDefinition unmarshal(byte[] xmlData, String schemaLocation, EntityResolver resolver)
+    public static CmsXmlContentDefinition unmarshal(byte[] xmlData, @RUntainted String schemaLocation, EntityResolver resolver)
     throws CmsXmlException {
 
         schemaLocation = translateSchema(schemaLocation);
@@ -379,7 +381,7 @@ public class CmsXmlContentDefinition implements Cloneable {
      *
      * @throws CmsXmlException if something goes wrong
      */
-    public static CmsXmlContentDefinition unmarshal(CmsObject cms, String resourcename) throws CmsXmlException {
+    public static CmsXmlContentDefinition unmarshal(CmsObject cms, @RUntainted String resourcename) throws CmsXmlException {
 
         CmsXmlEntityResolver resolver = new CmsXmlEntityResolver(cms);
         String schemaLocation = CmsXmlEntityResolver.OPENCMS_SCHEME.concat(resourcename.substring(1));
@@ -415,7 +417,7 @@ public class CmsXmlContentDefinition implements Cloneable {
      *
      * @throws CmsXmlException if something goes wrong
      */
-    public static CmsXmlContentDefinition unmarshal(Document document, String schemaLocation) throws CmsXmlException {
+    public static CmsXmlContentDefinition unmarshal(Document document, @RUntainted String schemaLocation) throws CmsXmlException {
 
         schemaLocation = translateSchema(schemaLocation);
         EntityResolver resolver = document.getEntityResolver();
@@ -438,7 +440,7 @@ public class CmsXmlContentDefinition implements Cloneable {
      *
      * @throws CmsXmlException if something goes wrong
      */
-    public static CmsXmlContentDefinition unmarshal(InputSource source, String schemaLocation, EntityResolver resolver)
+    public static CmsXmlContentDefinition unmarshal(InputSource source, @RUntainted String schemaLocation, EntityResolver resolver)
     throws CmsXmlException {
 
         schemaLocation = translateSchema(schemaLocation);
@@ -472,7 +474,7 @@ public class CmsXmlContentDefinition implements Cloneable {
      * @throws SAXException if the XML schema location could not be converted to an XML InputSource
      * @throws IOException if the XML schema location could not be converted to an XML InputSource
      */
-    public static CmsXmlContentDefinition unmarshal(String schemaLocation, EntityResolver resolver)
+    public static CmsXmlContentDefinition unmarshal(@RUntainted String schemaLocation, EntityResolver resolver)
     throws CmsXmlException, SAXException, IOException {
 
         schemaLocation = translateSchema(schemaLocation);
@@ -497,7 +499,7 @@ public class CmsXmlContentDefinition implements Cloneable {
      *
      * @throws CmsXmlException if something goes wrong
      */
-    public static CmsXmlContentDefinition unmarshal(String xmlData, String schemaLocation, EntityResolver resolver)
+    public static CmsXmlContentDefinition unmarshal(String xmlData, @RUntainted String schemaLocation, EntityResolver resolver)
     throws CmsXmlException {
 
         schemaLocation = translateSchema(schemaLocation);
@@ -553,7 +555,7 @@ public class CmsXmlContentDefinition implements Cloneable {
      *
      * @throws CmsXmlException if the element does not have the required attribute set, or if the validation fails
      */
-    protected static String validateAttribute(Element element, String attributeName, String requiredValue)
+    protected static @RPolyTainted String validateAttribute(@RPolyTainted Element element, @RPolyTainted String attributeName, String requiredValue)
     throws CmsXmlException {
 
         Attribute attribute = element.attribute(attributeName);
@@ -653,7 +655,7 @@ public class CmsXmlContentDefinition implements Cloneable {
      * @throws CmsXmlException if the validation fails
      */
     protected static CmsXmlComplexTypeSequence validateComplexTypeSequence(
-        Element element,
+        @RUntainted Element element,
         Set<CmsXmlContentDefinition> includes)
     throws CmsXmlException {
 
@@ -662,7 +664,7 @@ public class CmsXmlContentDefinition implements Cloneable {
         String name = validateAttribute(element, XSD_ATTRIBUTE_NAME, null);
 
         // now check the type definition list
-        List<Element> mainElements = CmsXmlGenericWrapper.elements(element);
+        List<@RUntainted Element> mainElements = CmsXmlGenericWrapper.elements(element);
         List<Element> attributes = mainElements.stream().filter(
             elem -> XSD_NODE_ATTRIBUTE.equals(elem.getQName())).collect(Collectors.toList());
 
@@ -757,7 +759,7 @@ public class CmsXmlContentDefinition implements Cloneable {
         }
 
         // check the type definition sequence
-        List<Element> typeSequenceElements = CmsXmlGenericWrapper.elements(typeSequenceElement);
+        List<@RUntainted Element> typeSequenceElements = CmsXmlGenericWrapper.elements(typeSequenceElement);
         if (typeSequenceElements.size() < 1) {
             throw new CmsXmlException(
                 Messages.get().container(
@@ -774,7 +776,7 @@ public class CmsXmlContentDefinition implements Cloneable {
             // only generate types for sequence node with language attribute
 
             CmsXmlContentTypeManager typeManager = OpenCms.getXmlContentTypeManager();
-            Iterator<Element> i = typeSequenceElements.iterator();
+            Iterator<@RUntainted Element> i = typeSequenceElements.iterator();
             while (i.hasNext()) {
                 Element typeElement = i.next();
                 if (sequenceType != SequenceType.SEQUENCE) {
@@ -866,7 +868,7 @@ public class CmsXmlContentDefinition implements Cloneable {
      *
      * @return the translated schema location
      */
-    private static String translateSchema(String schemaLocation) {
+    private static @RUntainted String translateSchema(@RUntainted String schemaLocation) {
 
         if (OpenCms.getRepositoryManager() != null) {
             return OpenCms.getResourceManager().getXsdTranslator().translateResource(schemaLocation);
@@ -890,8 +892,8 @@ public class CmsXmlContentDefinition implements Cloneable {
      * @throws CmsXmlException if something goes wrong
      */
     private static CmsXmlContentDefinition unmarshalInternal(
-        Document document,
-        String schemaLocation,
+        @RUntainted Document document,
+        @RUntainted String schemaLocation,
         EntityResolver resolver)
     throws CmsXmlException {
 
@@ -902,7 +904,7 @@ public class CmsXmlContentDefinition implements Cloneable {
             throw new CmsXmlException(Messages.get().container(Messages.ERR_CD_NO_SCHEMA_NODE_0));
         }
 
-        List<Element> includes = CmsXmlGenericWrapper.elements(root, XSD_NODE_INCLUDE);
+        List<@RUntainted Element> includes = CmsXmlGenericWrapper.elements(root, XSD_NODE_INCLUDE);
         if (includes.size() < 1) {
             // one include is required
             throw new CmsXmlException(Messages.get().container(Messages.ERR_CD_ONE_INCLUDE_REQUIRED_0));
@@ -1016,12 +1018,12 @@ public class CmsXmlContentDefinition implements Cloneable {
         result.m_choiceMaxOccurs = innerSequence.getChoiceMaxOccurs();
 
         // resolve the XML content handler information
-        List<Element> annotations = CmsXmlGenericWrapper.elements(root, XSD_NODE_ANNOTATION);
+        List<@RUntainted Element> annotations = CmsXmlGenericWrapper.elements(root, XSD_NODE_ANNOTATION);
         I_CmsXmlContentHandler contentHandler = null;
         Element appInfoElement = null;
 
         if (annotations.size() > 0) {
-            List<Element> appinfos = CmsXmlGenericWrapper.elements(annotations.get(0), XSD_NODE_APPINFO);
+            List<@RUntainted Element> appinfos = CmsXmlGenericWrapper.elements(annotations.get(0), XSD_NODE_APPINFO);
 
             if (appinfos.size() > 0) {
                 // the first appinfo node contains the specific XML content data
@@ -1203,7 +1205,7 @@ public class CmsXmlContentDefinition implements Cloneable {
      *
      * @return a valid XML document according to the XML schema of this content definition
      */
-    public Document createDocument(CmsObject cms, I_CmsXmlDocument document, Locale locale) {
+    public @RUntainted Document createDocument(CmsObject cms, I_CmsXmlDocument document, Locale locale) {
 
         Document doc = DocumentHelper.createDocument();
 
@@ -1352,7 +1354,7 @@ public class CmsXmlContentDefinition implements Cloneable {
      *
      * @return the inner element name of this content definition
      */
-    public String getInnerName() {
+    public @RUntainted String getInnerName() {
 
         return m_innerName;
     }
@@ -1448,7 +1450,7 @@ public class CmsXmlContentDefinition implements Cloneable {
      *
      * @return the location from which the XML schema was read (XML system id)
      */
-    public String getSchemaLocation() {
+    public @RUntainted String getSchemaLocation() {
 
         return m_schemaLocation;
     }

@@ -36,6 +36,7 @@ import java.util.Locale;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Exports the register client messages into a single JavaScript resource.<p>
@@ -61,7 +62,7 @@ public class CmsMessagesService extends CmsGwtService {
      * @see org.opencms.gwt.CmsGwtService#service(javax.servlet.ServletRequest, javax.servlet.ServletResponse)
      */
     @Override
-    public void service(ServletRequest request, ServletResponse response) throws IOException {
+    public void service(@RUntainted ServletRequest request, ServletResponse response) throws IOException {
 
         try {
             // Set response's character encoding to the default(*) to avoid ambiguous

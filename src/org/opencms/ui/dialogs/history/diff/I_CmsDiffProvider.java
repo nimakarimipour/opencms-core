@@ -33,6 +33,7 @@ import org.opencms.main.CmsException;
 
 import com.google.common.base.Optional;
 import com.vaadin.ui.Component;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface for classes which display a comparison widget in the comparison view of the history dialog.

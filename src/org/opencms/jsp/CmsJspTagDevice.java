@@ -39,6 +39,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class provides a <code>&lt;cms:device type="..."&gt;</code>-Tag
@@ -92,7 +93,7 @@ public class CmsJspTagDevice extends BodyTagSupport {
         I_CmsJspDeviceSelector selector = OpenCms.getSystemInfo().getDeviceSelector();
 
         List<String> supportedDevices = selector.getDeviceTypes();
-        List<String> selectedDevices = CmsStringUtil.splitAsList(m_type, ",", true);
+        List<@RUntainted String> selectedDevices = CmsStringUtil.splitAsList(m_type, ",", true);
 
         // check if the selected device is in the list of supported devices
         for (String selectedDevice : selectedDevices) {

@@ -28,6 +28,7 @@
 package org.opencms.jsp;
 
 import org.opencms.gwt.shared.I_CmsContentLoadCollectorInfo;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean containing the data needed to call a collector.<p>

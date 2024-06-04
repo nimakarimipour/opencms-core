@@ -48,6 +48,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Search configuration parser reading a configuration containing a plain Solr query.
  * Only fl might be added additionally. */

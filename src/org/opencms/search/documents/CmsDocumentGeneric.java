@@ -33,6 +33,7 @@ import org.opencms.search.CmsIndexException;
 import org.opencms.search.I_CmsSearchIndex;
 import org.opencms.search.extractors.CmsExtractionResult;
 import org.opencms.search.extractors.I_CmsExtractionResult;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Lucene document factory class for indexing data from a generic <code>{@link CmsResource}</code>.<p>

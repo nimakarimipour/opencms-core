@@ -37,6 +37,7 @@ import org.opencms.xml.content.CmsXmlContentValueLocation;
 import java.util.Date;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Parses date restrictions in a list configuration.<p>

@@ -26,6 +26,7 @@
  */
 
 package org.opencms.mail;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains the configuration of an individual mail host.<p>

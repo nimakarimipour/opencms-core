@@ -34,6 +34,7 @@ import org.opencms.report.I_CmsReport;
 import org.opencms.synchronize.CmsSynchronize;
 import org.opencms.synchronize.CmsSynchronizeSettings;
 import org.opencms.ui.apps.Messages;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Synchronizes a VFS folder with a folder form the "real" file system.<p>

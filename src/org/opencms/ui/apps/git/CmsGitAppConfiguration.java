@@ -43,6 +43,7 @@ import java.util.Locale;
 
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Component;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * App configuration for the Git checkin tool.<p>
