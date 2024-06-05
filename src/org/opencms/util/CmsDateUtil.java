@@ -37,6 +37,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  *
@@ -147,7 +149,7 @@ public final class CmsDateUtil {
      * @param time the time value to format as date
      * @return the formatted date
      */
-    synchronized public static String getHeaderDate(long time) {
+    synchronized public static @RPolyTainted String getHeaderDate(@RPolyTainted long time) {
 
         if (HEADER_DEFAULT.getTimeZone() != GMT_TIMEZONE) {
             // ensure GMT is used as time zone for the header generation

@@ -75,6 +75,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This pivotal class provides all authorized access to the OpenCms VFS resources.<p>
@@ -1430,7 +1431,7 @@ public final class CmsObject {
      * @return the detail name
      * @throws CmsException if something goes wrong
      */
-    public String getDetailName(CmsResource res, Locale locale, List<Locale> defaultLocales) throws CmsException {
+    public @RUntainted String getDetailName(CmsResource res, Locale locale, List<Locale> defaultLocales) throws CmsException {
 
         String urlName = readBestUrlName(res.getStructureId(), locale, defaultLocales);
         if (urlName == null) {
@@ -1848,7 +1849,7 @@ public final class CmsObject {
      * @see CmsRequestContext#getSitePath(CmsResource)
      * @see CmsResource#getRootPath()
      */
-    public String getSitePath(CmsResource resource) {
+    public @RUntainted String getSitePath(CmsResource resource) {
 
         return m_context.getSitePath(resource);
     }
@@ -2472,7 +2473,7 @@ public final class CmsObject {
      * @return an URL name or null
      * @throws CmsException if something goes wrong
      */
-    public String readBestUrlName(CmsUUID id, Locale locale, List<Locale> defaultLocales) throws CmsException {
+    public @RUntainted String readBestUrlName(CmsUUID id, Locale locale, List<Locale> defaultLocales) throws CmsException {
 
         return m_securityManager.readBestUrlName(m_context, id, locale, defaultLocales);
     }

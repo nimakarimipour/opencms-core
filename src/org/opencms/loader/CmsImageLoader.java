@@ -48,6 +48,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Loader for images from the OpenCms VSF with integrated image scaling and processing capabilities.<p>
@@ -121,7 +122,7 @@ public class CmsImageLoader extends CmsDumpLoader implements I_CmsEventListener 
      *
      * @return the path of the image cache repository folder in the RFS
      */
-    public static String getImageRepositoryPath() {
+    public static @RUntainted String getImageRepositoryPath() {
 
         return m_vfsDiskCache.getRepositoryPath();
     }
@@ -160,7 +161,7 @@ public class CmsImageLoader extends CmsDumpLoader implements I_CmsEventListener 
     }
 
     /** The name of the configured image cache repository. */
-    protected String m_imageRepositoryFolder;
+    protected @RUntainted String m_imageRepositoryFolder;
 
     /** The maximum image size (width or height) to allow when up scaling an image using request parameters. */
     protected int m_maxScaleSize = CmsImageScaler.SCALE_DEFAULT_MAX_SIZE;
@@ -177,7 +178,7 @@ public class CmsImageLoader extends CmsDumpLoader implements I_CmsEventListener 
      * @see org.opencms.configuration.I_CmsConfigurationParameterHandler#addConfigurationParameter(java.lang.String, java.lang.String)
      */
     @Override
-    public void addConfigurationParameter(String paramName, String paramValue) {
+    public void addConfigurationParameter(String paramName, @RUntainted String paramValue) {
 
         if (CmsStringUtil.isNotEmpty(paramName) && CmsStringUtil.isNotEmpty(paramValue)) {
             if (CONFIGURATION_SCALING_ENABLED.equals(paramName)) {

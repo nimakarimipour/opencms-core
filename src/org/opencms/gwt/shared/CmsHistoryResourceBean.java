@@ -30,6 +30,7 @@ package org.opencms.gwt.shared;
 import org.opencms.util.CmsUUID;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A bean representing the data to be displayed in the history dialog for a single resource version.<p>

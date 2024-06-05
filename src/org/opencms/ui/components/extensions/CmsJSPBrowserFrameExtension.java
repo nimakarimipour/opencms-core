@@ -39,6 +39,7 @@ import com.vaadin.server.AbstractExtension;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.BrowserFrame;
 import com.vaadin.ui.Window;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Vaadin extension class for a BrowserFrame to display a JSP.<p>

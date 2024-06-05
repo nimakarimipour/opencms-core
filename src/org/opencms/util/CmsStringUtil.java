@@ -68,6 +68,8 @@ import com.cybozu.labs.langdetect.Detector;
 import com.cybozu.labs.langdetect.DetectorFactory;
 import com.cybozu.labs.langdetect.LangDetectException;
 import com.google.common.base.Optional;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Provides String utility functions.<p>
@@ -775,7 +777,7 @@ public final class CmsStringUtil {
      *
      * @return the Ethernet-Address
      */
-    public static String getEthernetAddress() {
+    public static @RUntainted String getEthernetAddress() {
 
         try {
             InetAddress ip = InetAddress.getLocalHost();
@@ -1207,7 +1209,7 @@ public final class CmsStringUtil {
      *
      * @return the joined path
      */
-    public static String joinPaths(String... paths) {
+    public static @RUntainted String joinPaths(String... paths) {
 
         StringBuffer result = new StringBuffer(paths.length * 32);
         boolean noSlash = true;
@@ -1810,7 +1812,7 @@ public final class CmsStringUtil {
      *
      * @return the substituted String
      */
-    public static String substitute(String source, String searchString, String replaceString) {
+    public static @RPolyTainted String substitute(@RPolyTainted String source, @RPolyTainted String searchString, @RPolyTainted String replaceString) {
 
         if (source == null) {
             return null;

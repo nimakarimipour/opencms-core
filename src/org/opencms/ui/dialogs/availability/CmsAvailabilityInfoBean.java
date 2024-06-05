@@ -32,6 +32,7 @@ import org.opencms.gwt.shared.CmsPrincipalBean;
 
 import java.io.Serializable;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A bean that holds the informations of the availability dialog.<p>

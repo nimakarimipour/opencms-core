@@ -95,6 +95,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generic (ANSI-SQL) database server implementation of the VFS driver methods.<p>
@@ -295,7 +296,7 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
     /**
      * @see org.opencms.db.I_CmsVfsDriver#createFile(java.sql.ResultSet, CmsUUID)
      */
-    public CmsFile createFile(ResultSet res, CmsUUID projectId) throws SQLException {
+    public CmsFile createFile(@RUntainted ResultSet res, CmsUUID projectId) throws SQLException {
 
         CmsUUID structureId = new CmsUUID(res.getString(m_sqlManager.readQuery("C_RESOURCES_STRUCTURE_ID")));
         CmsUUID resourceId = new CmsUUID(res.getString(m_sqlManager.readQuery("C_RESOURCES_RESOURCE_ID")));
@@ -311,7 +312,7 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
         int resourceSize = res.getInt(m_sqlManager.readQuery("C_RESOURCES_SIZE"));
         CmsUUID userCreated = new CmsUUID(res.getString(m_sqlManager.readQuery("C_RESOURCES_USER_CREATED")));
         CmsUUID userLastModified = new CmsUUID(res.getString(m_sqlManager.readQuery("C_RESOURCES_USER_LASTMODIFIED")));
-        byte[] content = m_sqlManager.getBytes(res, m_sqlManager.readQuery("C_RESOURCES_FILE_CONTENT"));
+        @RUntainted byte[] content = m_sqlManager.getBytes(res, m_sqlManager.readQuery("C_RESOURCES_FILE_CONTENT"));
         int siblingCount = res.getInt(m_sqlManager.readQuery("C_RESOURCES_SIBLING_COUNT"));
         long dateContent = res.getLong(m_sqlManager.readQuery("C_RESOURCES_DATE_CONTENT"));
         int resourceVersion = res.getInt(m_sqlManager.readQuery("C_RESOURCES_VERSION"));
@@ -349,9 +350,9 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
     /**
      * @see org.opencms.db.I_CmsVfsDriver#createFile(java.sql.ResultSet, CmsUUID, boolean)
      */
-    public CmsFile createFile(ResultSet res, CmsUUID projectId, boolean hasFileContentInResultSet) throws SQLException {
+    public CmsFile createFile(@RUntainted ResultSet res, CmsUUID projectId, boolean hasFileContentInResultSet) throws SQLException {
 
-        byte[] content = null;
+        @RUntainted byte[] content = null;
 
         CmsUUID resProjectId = null;
 
@@ -1857,12 +1858,12 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
     /**
      * @see org.opencms.db.I_CmsVfsDriver#readContent(org.opencms.db.CmsDbContext, CmsUUID, org.opencms.util.CmsUUID)
      */
-    public byte[] readContent(CmsDbContext dbc, CmsUUID projectId, CmsUUID resourceId) throws CmsDataAccessException {
+    public @RUntainted byte[] readContent(CmsDbContext dbc, CmsUUID projectId, CmsUUID resourceId) throws CmsDataAccessException {
 
         PreparedStatement stmt = null;
         ResultSet res = null;
         Connection conn = null;
-        byte[] byteRes = null;
+        @RUntainted byte[] byteRes = null;
 
         try {
             conn = m_sqlManager.getConnection(dbc);
@@ -3738,7 +3739,7 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
      *
      * @throws SQLException if something goes wrong
      */
-    protected CmsUrlNameMappingEntry internalCreateUrlNameMappingEntry(ResultSet resultSet) throws SQLException {
+    protected CmsUrlNameMappingEntry internalCreateUrlNameMappingEntry(@RUntainted ResultSet resultSet) throws SQLException {
 
         String name = resultSet.getString(1);
         CmsUUID structureId = new CmsUUID(resultSet.getString(2));
@@ -4741,7 +4742,7 @@ public class CmsVfsDriver implements I_CmsDriver, I_CmsVfsDriver {
      *
      * @throws SQLException if something goes wrong
      */
-    PreparedStatement getPreparedStatementForFilter(Connection conn, String baseQuery, CmsUrlNameMappingFilter filter)
+    @RUntainted PreparedStatement getPreparedStatementForFilter(Connection conn, String baseQuery, CmsUrlNameMappingFilter filter)
     throws SQLException {
 
         CmsPair<String, List<I_CmsPreparedStatementParameter>> conditionData = prepareUrlNameMappingConditions(filter);

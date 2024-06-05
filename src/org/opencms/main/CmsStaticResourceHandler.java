@@ -41,6 +41,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles the requests for static resources located in the classpath.<p>
@@ -94,7 +95,7 @@ public class CmsStaticResourceHandler implements I_CmsRequestHandler {
      *
      * @return the resource URL
      */
-    public static URL getStaticResourceURL(String resourcePath) {
+    public static @RUntainted URL getStaticResourceURL(String resourcePath) {
 
         URL resourceURL = null;
         if (isStaticResourceUri(resourcePath)) {
@@ -337,7 +338,7 @@ public class CmsStaticResourceHandler implements I_CmsRequestHandler {
     protected void writeStaticResourceResponse(
         HttpServletRequest request,
         HttpServletResponse response,
-        URL resourceUrl)
+        @RUntainted URL resourceUrl)
     throws IOException {
 
         URLConnection connection = null;

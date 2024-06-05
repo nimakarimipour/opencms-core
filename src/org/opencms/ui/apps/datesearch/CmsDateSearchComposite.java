@@ -102,6 +102,7 @@ import com.vaadin.v7.event.FieldEvents.TextChangeListener;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.Table.CellStyleGenerator;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Component that realizes a content finder.

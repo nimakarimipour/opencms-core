@@ -42,6 +42,7 @@ import java.io.IOException;
 import javax.servlet.http.Cookie;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Login bean which sets a cookie that can be used by {@link CmsPersistentLoginAuthorizationHandler} to automatically
@@ -69,7 +70,7 @@ public class CmsJspLoginPersistingBean extends CmsJspLoginBean {
      * @param resolveMacros if true, macros should be resolved
      * @return the authorization cookie path
      */
-    public String getCookiePath(boolean resolveMacros) {
+    public @RUntainted String getCookiePath(boolean resolveMacros) {
 
         String result = m_cookiePath;
         if (resolveMacros) {

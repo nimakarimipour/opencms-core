@@ -49,6 +49,7 @@ import org.apache.commons.collections.Transformer;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.RangeFacet;
 import org.apache.solr.client.solrj.response.SpellCheckResponse.Suggestion;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Wrapper for the whole search result. Also allowing to access the search form controller. */
 public class CmsSearchResultWrapper implements I_CmsSearchResultWrapper {

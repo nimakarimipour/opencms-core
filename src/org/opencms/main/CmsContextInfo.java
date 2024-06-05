@@ -38,6 +38,7 @@ import org.opencms.site.CmsSiteMatcher;
 
 import java.io.Serializable;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains user information for automated creation of a

@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Extended after publish static export handler, supporting multi-language exports.<p>
@@ -53,10 +54,10 @@ public class CmsAfterPublishMultiLanguageStaticExportHandler extends CmsAfterPub
      * @see org.opencms.staticexport.CmsAfterPublishStaticExportHandler#getRelatedFilesToPurge(java.lang.String, java.lang.String)
      */
     @Override
-    protected List<File> getRelatedFilesToPurge(String exportFileName, String vfsName) {
+    protected List<@RUntainted File> getRelatedFilesToPurge(@RUntainted String exportFileName, String vfsName) {
 
         CmsStaticExportManager manager = OpenCms.getStaticExportManager();
-        List<File> result = new ArrayList<File>();
+        List<@RUntainted File> result = new ArrayList<@RUntainted File>();
         if (m_rules == null) {
             // get the locale matching rules
             CmsLocaleManager locManager = OpenCms.getLocaleManager();

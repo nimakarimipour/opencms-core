@@ -54,6 +54,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean to be used in JSP scriptlet code that provides direct
@@ -382,7 +383,7 @@ public class CmsJspActionElement extends CmsJspBean {
      *
      * @return the HTML for an <code>&lt;img src&gt;</code> tag that includes the given image scaling parameters
      */
-    public String img(String target, CmsImageScaler scaler, Map<String, String> attributes) {
+    public String img(@RUntainted String target, CmsImageScaler scaler, Map<String, String> attributes) {
 
         return img(target, scaler, attributes, false);
     }
@@ -397,7 +398,7 @@ public class CmsJspActionElement extends CmsJspBean {
      *
      * @return the HTML for an <code>&lt;img src&gt;</code> tag that includes the given image scaling parameters
      */
-    public String img(String target, CmsImageScaler scaler, Map<String, String> attributes, boolean partialTag) {
+    public String img(@RUntainted String target, CmsImageScaler scaler, Map<String, String> attributes, boolean partialTag) {
 
         try {
             return CmsJspTagImage.imageTagAction(target, scaler, attributes, partialTag, getRequest());
@@ -724,7 +725,7 @@ public class CmsJspActionElement extends CmsJspBean {
      * @see org.opencms.jsp.CmsJspTagLink
      * @see #link(String, String)
      */
-    public String link(String target) {
+    public @RUntainted String link(String target) {
 
         return link(target, null);
     }
@@ -749,7 +750,7 @@ public class CmsJspActionElement extends CmsJspBean {
      * @see org.opencms.jsp.CmsJspTagLink
      * @see #link(String)
      */
-    public String link(String target, String baseUri) {
+    public @RUntainted String link(String target, String baseUri) {
 
         if (isNotInitialized()) {
             return getMessage(NOT_INITIALIZED);
@@ -956,7 +957,7 @@ public class CmsJspActionElement extends CmsJspBean {
      * @param target the relative URI to convert
      * @return the target URI converted to an absolute one
      */
-    public String toAbsolute(String target) {
+    public String toAbsolute(@RUntainted String target) {
 
         if (isNotInitialized()) {
             return getMessage(NOT_INITIALIZED);

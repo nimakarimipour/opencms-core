@@ -44,6 +44,7 @@ import java.util.TreeMap;
 
 import org.apache.commons.collections.Transformer;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean containing image information for the use in JSP (for example formatters).

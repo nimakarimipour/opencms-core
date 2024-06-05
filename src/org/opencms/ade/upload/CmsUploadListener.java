@@ -36,6 +36,7 @@ import java.io.Serializable;
 
 import org.apache.commons.fileupload.ProgressListener;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides the upload listener for the upload widget.<p>
@@ -63,13 +64,13 @@ public class CmsUploadListener implements ProgressListener, Serializable {
     private long m_bytesRead;
 
     /** The upload delay. */
-    private int m_delay;
+    private @RUntainted int m_delay;
 
     /** A flag that signals if the upload is finished. */
     private boolean m_finished;
 
     /** The UUID for this listener. */
-    private CmsUUID m_id;
+    private @RUntainted CmsUUID m_id;
 
     /** Stores the current item. */
     private int m_item;
@@ -134,7 +135,7 @@ public class CmsUploadListener implements ProgressListener, Serializable {
      *
      * @return the listeners UUID
      */
-    public CmsUUID getId() {
+    public @RUntainted CmsUUID getId() {
 
         return m_id;
     }
@@ -211,7 +212,7 @@ public class CmsUploadListener implements ProgressListener, Serializable {
      *
      * @param delay the delay to set
      */
-    public void setDelay(int delay) {
+    public void setDelay(@RUntainted int delay) {
 
         m_delay = delay;
     }

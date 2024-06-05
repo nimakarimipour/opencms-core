@@ -30,6 +30,7 @@ package org.opencms.gwt;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Convenient client message bundle interface.<p>

@@ -38,6 +38,7 @@ import org.opencms.util.CmsStringUtil;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Data structure for the collector, parsed from the collector parameters.<p>

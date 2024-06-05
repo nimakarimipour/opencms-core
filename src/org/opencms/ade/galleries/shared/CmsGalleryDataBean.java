@@ -38,6 +38,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This bean holding the gallery dialog information required for displaying the content of the gallery tabs.<p>

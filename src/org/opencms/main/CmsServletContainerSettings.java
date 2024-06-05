@@ -38,6 +38,7 @@ import java.net.URL;
 import javax.servlet.ServletContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Stores specific servlet container options, that might influence OpenCms behavior.<p>
@@ -163,7 +164,7 @@ public class CmsServletContainerSettings {
     private static final String SERVLET_CONTAINER_WEBSPHERE = "IBM WebSphere Application Server";
 
     /** The context path of the web application. */
-    private String m_contextPath;
+    private @RUntainted String m_contextPath;
 
     /** The default web application (usually "ROOT"). */
     private String m_defaultWebApplicationName;
@@ -172,7 +173,7 @@ public class CmsServletContainerSettings {
     private CmsServletContainerCfgMode m_mode = CFG_MODE_NONE;
 
     /** The OpenCms context and servlet path, e.g. <code>/opencms/opencms</code>. */
-    private String m_openCmsContext;
+    private @RUntainted String m_openCmsContext;
 
     /** If the flex response has to prevent buffer flushing, for instance, Websphere does not allow to set headers afterwards, so we have to prevent it. */
     private boolean m_preventResponseFlush;
@@ -193,20 +194,20 @@ public class CmsServletContainerSettings {
     private String m_servletPath;
 
     /** The web application name. */
-    private String m_webApplicationName;
+    private @RUntainted String m_webApplicationName;
 
     /** The OpenCms web application servlet container folder path (in the "real" file system). */
-    private String m_webApplicationRfsPath;
+    private @RUntainted String m_webApplicationRfsPath;
 
     /** The OpenCms web application "WEB-INF" path (in the "real" file system). */
-    private String m_webInfRfsPath;
+    private @RUntainted String m_webInfRfsPath;
 
     /**
      * Creates a new object.<p>
      *
      * @param context used to find out specifics of the servlet container
      */
-    public CmsServletContainerSettings(ServletContext context) {
+    public CmsServletContainerSettings(@RUntainted ServletContext context) {
 
         // CmsSystemInfo<init> has to call this with null (for setup)
         if (context != null) {
@@ -241,7 +242,7 @@ public class CmsServletContainerSettings {
                 try {
                     URL contextRelativeUrl = context.getResource("/");
                     webApplicationContext = contextRelativeUrl.getPath();
-                    String[] pathTokens = CmsStringUtil.splitAsArray(webApplicationContext, '/');
+                    @RUntainted String[] pathTokens = CmsStringUtil.splitAsArray(webApplicationContext, '/');
                     if (pathTokens.length == 1) {
                         /*
                          * There may be a "" context configured (e.g. in GlassFish).
@@ -275,11 +276,11 @@ public class CmsServletContainerSettings {
      * @param servletContainerName the name of the servlet container running OpenCms
      */
     protected CmsServletContainerSettings(
-        String webInfRfsPath,
+        @RUntainted String webInfRfsPath,
         String defaultWebApplication,
         String servletMapping,
         String servletContainerName,
-        String webApplicationContext) {
+        @RUntainted String webApplicationContext) {
 
         init(webInfRfsPath, defaultWebApplication, servletMapping, servletContainerName, webApplicationContext);
     }
@@ -311,7 +312,7 @@ public class CmsServletContainerSettings {
      * @see #getServletPath()
      * @see #getOpenCmsContext()
      */
-    public String getContextPath() {
+    public @RUntainted String getContextPath() {
 
         return m_contextPath;
     }
@@ -346,7 +347,7 @@ public class CmsServletContainerSettings {
      * @see #getContextPath()
      * @see #getServletPath()
      */
-    public String getOpenCmsContext() {
+    public @RUntainted String getOpenCmsContext() {
 
         return m_openCmsContext;
     }
@@ -412,7 +413,7 @@ public class CmsServletContainerSettings {
      *
      * @return the OpenCms web application folder in the servlet container
      */
-    public String getWebApplicationRfsPath() {
+    public @RUntainted String getWebApplicationRfsPath() {
 
         return m_webApplicationRfsPath;
     }
@@ -422,7 +423,7 @@ public class CmsServletContainerSettings {
      *
      * @return the OpenCms web application "WEB-INF" directory path
      */
-    public String getWebInfRfsPath() {
+    public @RUntainted String getWebInfRfsPath() {
 
         return m_webInfRfsPath;
     }
@@ -511,11 +512,11 @@ public class CmsServletContainerSettings {
      * @param servletContainerName the name of the servlet container running OpenCms
      */
     private void init(
-        String webInfRfsPath,
+        @RUntainted String webInfRfsPath,
         String defaultWebApplication,
         String servletMapping,
         String servletContainerName,
-        String webApplicationContext) {
+        @RUntainted String webApplicationContext) {
 
         // WEB-INF RFS path
 

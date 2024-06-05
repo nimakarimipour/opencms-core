@@ -30,6 +30,7 @@ package org.opencms.jsp;
 import org.opencms.xml.I_CmsXmlDocument;
 
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides access to a <code>{@link org.opencms.xml.I_CmsXmlDocument}</code> document that was previously loaded by a parent tag.<p>

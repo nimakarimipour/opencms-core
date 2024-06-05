@@ -33,6 +33,7 @@ import org.opencms.gwt.shared.I_CmsContentLoadCollectorInfo;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides the methods to generate the "direct edit" HTML fragments that are inserted

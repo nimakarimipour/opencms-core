@@ -59,6 +59,7 @@ import java.util.Set;
 import javax.servlet.ServletRequest;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Handles special XML content livetime events, and also provides XML content editor rendering hints.<p>
@@ -93,7 +94,7 @@ public interface I_CmsXmlContentHandler {
         private String m_className;
 
         /** The parameters for the renderer. */
-        private Map<String, String> m_params;
+        private Map<String, @RUntainted String> m_params;
 
         /**
          * Creates a new instance.
@@ -101,7 +102,7 @@ public interface I_CmsXmlContentHandler {
          * @param className the class name
          * @param params the parameters
          */
-        public JsonRendererSettings(String className, Map<String, String> params) {
+        public JsonRendererSettings(String className, Map<String, @RUntainted String> params) {
 
             m_className = className;
             m_params = params;
@@ -122,7 +123,7 @@ public interface I_CmsXmlContentHandler {
          *
          * @return the parameters
          */
-        public Map<String, String> getParameters() {
+        public Map<String, @RUntainted String> getParameters() {
 
             if (m_params == null) {
                 return Collections.emptyMap();

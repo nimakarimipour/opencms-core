@@ -29,6 +29,7 @@ package org.opencms.relations;
 
 import org.opencms.file.CmsObject;
 import org.opencms.file.CmsResource;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface used to inject custom link handling behavior into HTML/link content fields.

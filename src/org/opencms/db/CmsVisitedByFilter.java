@@ -33,6 +33,7 @@ import org.opencms.file.CmsUser;
 import org.opencms.util.CmsStringUtil;
 
 import java.util.Date;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides filters for getting resources visited by a user in a specified time range.<p>

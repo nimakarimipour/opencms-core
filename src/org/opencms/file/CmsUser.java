@@ -43,6 +43,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A user principal in the OpenCms permission system.<p>
@@ -89,7 +90,7 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
     private long m_dateCreated;
 
     /**  The email of the user. */
-    private String m_email;
+    private @RUntainted String m_email;
 
     /** The first name of this user. */
     private String m_firstname;
@@ -146,7 +147,7 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
         String password,
         String firstname,
         String lastname,
-        String email,
+        @RUntainted String email,
         long lastlogin,
         int flags,
         long dateCreated,
@@ -367,7 +368,7 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
      *
      * @see #getAdditionalInfo()
      */
-    public Object getAdditionalInfo(String key) {
+    public @RUntainted Object getAdditionalInfo(String key) {
 
         return m_additionalInfo.get(key);
     }
@@ -489,7 +490,7 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
      *
      * @return the email address of this user
      */
-    public String getEmail() {
+    public @RUntainted String getEmail() {
 
         return m_email;
     }
@@ -715,7 +716,7 @@ public class CmsUser extends CmsPrincipal implements Cloneable {
      *
      * @param email the email address to set
      */
-    public void setEmail(String email) {
+    public void setEmail(@RUntainted String email) {
 
         checkEmail(email);
         if (email != null) {

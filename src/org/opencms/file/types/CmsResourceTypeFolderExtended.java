@@ -29,6 +29,7 @@ package org.opencms.file.types;
 
 import org.opencms.configuration.CmsParameterConfiguration;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptor for extended folder types (like for example the workplace galleries).<p>

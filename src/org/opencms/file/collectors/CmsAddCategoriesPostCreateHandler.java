@@ -36,6 +36,7 @@ import org.opencms.relations.CmsCategoryService;
 
 import java.util.Arrays;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A post create handler that adds categories to newly created resources (that are not a copy of an existing resource).<p>

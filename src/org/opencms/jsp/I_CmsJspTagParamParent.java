@@ -83,6 +83,7 @@
  */
 
 package org.opencms.jsp;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface for tag handlers implementing valid parent tags for
@@ -104,6 +105,6 @@ public interface I_CmsJspTagParamParent {
      *
      * @see CmsJspTagParam
      */
-    void addParameter(String name, String value);
+    void addParameter(String name, @RUntainted String value);
 
 }

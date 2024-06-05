@@ -54,6 +54,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URIBuilder;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource init handler that provides an alternative way of serving static files like images or binary files, using the API authorization mechanism

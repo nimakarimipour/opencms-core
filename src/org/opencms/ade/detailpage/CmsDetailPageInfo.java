@@ -32,6 +32,7 @@ import org.opencms.util.CmsUUID;
 import org.opencms.xml.containerpage.CmsXmlDynamicFunctionHandler;
 
 import java.io.Serializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Data bean containing the information for a detail page.<p>

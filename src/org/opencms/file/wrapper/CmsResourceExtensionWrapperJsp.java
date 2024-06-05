@@ -28,6 +28,7 @@
 package org.opencms.file.wrapper;
 
 import org.opencms.file.types.CmsResourceTypeJsp;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A resource type wrapper for jsp files, which adds the correct file extension "jsp"

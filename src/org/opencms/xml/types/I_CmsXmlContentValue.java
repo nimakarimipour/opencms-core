@@ -33,6 +33,7 @@ import org.opencms.xml.I_CmsXmlDocument;
 import java.util.Locale;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides access to the value of a specific XML content node.<p>

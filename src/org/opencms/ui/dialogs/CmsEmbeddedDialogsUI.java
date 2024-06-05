@@ -63,6 +63,7 @@ import com.google.web.bindery.autobean.shared.AutoBeanCodex;
 import com.google.web.bindery.autobean.vm.AutoBeanFactorySource;
 import com.vaadin.annotations.Theme;
 import com.vaadin.server.VaadinRequest;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Separate UI for VAADIN based dialog embedded into a GWT module.<p>
@@ -237,7 +238,7 @@ public class CmsEmbeddedDialogsUI extends A_CmsUI implements I_CmsEmbeddingServe
      *
      * @throws Exception in case instantiating the action fails
      */
-    private I_CmsWorkplaceAction getAction(String dialogId) throws Exception {
+    private I_CmsWorkplaceAction getAction(@RUntainted String dialogId) throws Exception {
 
         @SuppressWarnings("unchecked")
         Class<I_CmsWorkplaceAction> actionClass = (Class<I_CmsWorkplaceAction>)getClass().getClassLoader().loadClass(

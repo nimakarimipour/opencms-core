@@ -113,6 +113,7 @@ import org.apache.solr.client.solrj.impl.HttpSolrClient.Builder;
 import org.apache.solr.core.CoreContainer;
 import org.apache.solr.core.CoreDescriptor;
 import org.apache.solr.core.SolrCore;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements the general management and configuration of the search and
@@ -703,7 +704,7 @@ public class CmsSearchManager implements I_CmsScheduledJob, I_CmsEventListener {
     private HashMap<Locale, CmsSearchAnalyzer> m_analyzers;
 
     /** Stores the offline update frequency while indexing is paused. */
-    private long m_configuredOfflineIndexingFrequency;
+    private @RUntainted long m_configuredOfflineIndexingFrequency;
 
     /** The Solr core container. */
     private CoreContainer m_coreContainer;
@@ -751,13 +752,13 @@ public class CmsSearchManager implements I_CmsScheduledJob, I_CmsEventListener {
     private CmsSearchOfflineHandler m_offlineHandler;
 
     /** The update frequency of the offline indexer in milliseconds. */
-    private long m_offlineUpdateFrequency;
+    private @RUntainted long m_offlineUpdateFrequency;
 
     /** The maximal time to wait for re-indexing after a content is edited (in milliseconds). */
     private long m_maxIndexWaitTime;
 
     /** Path to index files below WEB-INF/. */
-    private String m_path;
+    private @RUntainted String m_path;
 
     /** The Solr configuration. */
     private CmsSolrConfiguration m_solrConfig;
@@ -1216,7 +1217,7 @@ public class CmsSearchManager implements I_CmsScheduledJob, I_CmsEventListener {
      *
      * @return the name of the directory below WEB-INF/ where the search indexes are stored
      */
-    public String getDirectory() {
+    public @RUntainted String getDirectory() {
 
         return m_path;
     }
@@ -1610,7 +1611,7 @@ public class CmsSearchManager implements I_CmsScheduledJob, I_CmsEventListener {
      *
      * @return the update frequency of the offline indexer in milliseconds
      */
-    public long getOfflineUpdateFrequency() {
+    public @RUntainted long getOfflineUpdateFrequency() {
 
         return m_offlineUpdateFrequency;
     }
@@ -2327,7 +2328,7 @@ public class CmsSearchManager implements I_CmsScheduledJob, I_CmsEventListener {
      *
      * @param value the name of the directory below WEB-INF/ where the search indexes are stored
      */
-    public void setDirectory(String value) {
+    public void setDirectory(@RUntainted String value) {
 
         m_path = value;
     }
@@ -2494,7 +2495,7 @@ public class CmsSearchManager implements I_CmsScheduledJob, I_CmsEventListener {
      *
      * @param offlineUpdateFrequency the update frequency in milliseconds to set
      */
-    public void setOfflineUpdateFrequency(long offlineUpdateFrequency) {
+    public void setOfflineUpdateFrequency(@RUntainted long offlineUpdateFrequency) {
 
         m_offlineUpdateFrequency = offlineUpdateFrequency;
         updateOfflineIndexes(0);
@@ -2505,7 +2506,7 @@ public class CmsSearchManager implements I_CmsScheduledJob, I_CmsEventListener {
      *
      * @param offlineUpdateFrequency the update frequency in milliseconds to set
      */
-    public void setOfflineUpdateFrequency(String offlineUpdateFrequency) {
+    public void setOfflineUpdateFrequency(@RUntainted String offlineUpdateFrequency) {
 
         try {
             setOfflineUpdateFrequency(Long.parseLong(offlineUpdateFrequency));
@@ -3496,7 +3497,7 @@ public class CmsSearchManager implements I_CmsScheduledJob, I_CmsEventListener {
      * Remove write.lock file in the data directory to ensure the index is unlocked.
      * @param dataDir the data directory of the Solr index that should be unlocked.
      */
-    private void ensureIndexIsUnlocked(String dataDir) {
+    private void ensureIndexIsUnlocked(@RUntainted String dataDir) {
 
         Collection<File> lockFiles = new ArrayList<File>(2);
         lockFiles.add(

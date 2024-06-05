@@ -55,6 +55,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Default link substitution behavior.<p>
@@ -397,7 +398,7 @@ public class CmsDefaultLinkSubstitutionHandler implements I_CmsLinkSubstitutionH
     /**
      * @see org.opencms.staticexport.I_CmsLinkSubstitutionHandler#getRootPath(org.opencms.file.CmsObject, java.lang.String, java.lang.String)
      */
-    public String getRootPath(CmsObject cms, String targetUri, String basePath) {
+    public String getRootPath(CmsObject cms, @RUntainted String targetUri, String basePath) {
 
         String result = getSimpleRootPath(cms, targetUri, basePath);
         String detailRootPath = getDetailRootPath(cms, result);
@@ -486,7 +487,7 @@ public class CmsDefaultLinkSubstitutionHandler implements I_CmsLinkSubstitutionH
      * @param basePath - see the getRootPath() method
      * @return - see the getRootPath() method
      */
-    protected String getSimpleRootPath(CmsObject cms, String targetUri, String basePath) {
+    protected String getSimpleRootPath(CmsObject cms, @RUntainted String targetUri, String basePath) {
 
         if (cms == null) {
             // required by unit test cases

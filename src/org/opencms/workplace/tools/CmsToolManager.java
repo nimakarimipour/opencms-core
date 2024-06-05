@@ -49,6 +49,7 @@ import java.util.Map;
 import javax.servlet.ServletException;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manages the registered tools, actualizing its state every time the workplace is reinitialize.<p>
@@ -111,7 +112,7 @@ public class CmsToolManager {
      *
      * @return the OpenCms link for the given tool path which requires parameters
      */
-    public static String linkForToolPath(CmsJspActionElement jsp, String toolPath) {
+    public static @RUntainted String linkForToolPath(CmsJspActionElement jsp, String toolPath) {
 
         StringBuffer result = new StringBuffer();
         result.append(jsp.link(VIEW_JSPPAGE_LOCATION));
@@ -135,7 +136,7 @@ public class CmsToolManager {
      *
      * @return the OpenCms link for the given tool path which requires parameters
      */
-    public static String linkForToolPath(CmsJspActionElement jsp, String toolPath, Map<String, String[]> params) {
+    public static @RUntainted String linkForToolPath(CmsJspActionElement jsp, String toolPath, Map<String, String[]> params) {
 
         if (params == null) {
             // no parameters - take the shortcut

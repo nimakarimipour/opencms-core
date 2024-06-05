@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.TreeSet;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides log files which should be available as options in the OpenCms log file viewer.<p>
@@ -60,7 +61,7 @@ public final class CmsLogFileOptionProvider {
      *
      * @return the additional configured log folders
      */
-    public static List<String> getAdditionalLogDirectories() {
+    public static List<@RUntainted String> getAdditionalLogDirectories() {
 
         return OpenCms.getWorkplaceManager().getAdditionalLogFolderConfiguration().getLogFolders();
 

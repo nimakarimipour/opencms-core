@@ -31,6 +31,7 @@ import org.opencms.ade.galleries.CmsGalleryService;
 import org.opencms.configuration.CmsDefaultUserSettings;
 import org.opencms.i18n.CmsLocaleManager;
 import org.opencms.main.CmsContextInfo;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean used to access the built-in preferences via reflection.<p>
@@ -1125,7 +1126,7 @@ public class CmsUserSettingsStringPropertyWrapper {
      *
      * @param l the new time warp
      */
-    public void setTimeWarp(String l) {
+    public void setTimeWarp(@RUntainted String l) {
 
         long warp = CmsContextInfo.CURRENT_TIME;
         try {

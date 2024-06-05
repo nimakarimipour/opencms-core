@@ -104,6 +104,7 @@ import org.xml.sax.SAXException;
 import com.google.common.base.Objects;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Adds the XML handler rules for import and export of resources and accounts.<p>
@@ -534,7 +535,7 @@ public class CmsImportVersion10 implements I_CmsImport {
     protected CmsResourceBuilder m_resourceBuilder;
 
     /** The source value. */
-    protected String m_source;
+    protected @RUntainted String m_source;
 
     /** Possible exception during xml parsing. */
     protected Throwable m_throwable;
@@ -755,7 +756,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      *
      * @param resourceId the resource id
      */
-    public void addContentFile(String source, String resourceId) {
+    public void addContentFile(@RUntainted String source, String resourceId) {
 
         if ((source != null) && (resourceId != null)) {
             try {
@@ -2207,7 +2208,7 @@ public class CmsImportVersion10 implements I_CmsImport {
         CmsObject cms,
         String importPath,
         I_CmsReport report,
-        File importResource,
+        @RUntainted File importResource,
         ZipFile importZip,
         Document docXml) {
 
@@ -3014,7 +3015,7 @@ public class CmsImportVersion10 implements I_CmsImport {
      * @see #N_SOURCE
      * @see #addResourceAttributesRules(Digester, String)
      */
-    public void setSource(String source) {
+    public void setSource(@RUntainted String source) {
 
         m_source = source;
     }

@@ -59,6 +59,7 @@ import org.apache.solr.client.solrj.response.SpellCheckResponse.Suggestion;
 import org.apache.solr.common.params.ModifiableSolrParams;
 import org.apache.solr.core.CoreContainer;
 import org.apache.solr.core.SolrCore;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * CmsSolrSpellchecker is used to perform spellchecking in OpenCms by using Solr. The JSON-formatted result of the

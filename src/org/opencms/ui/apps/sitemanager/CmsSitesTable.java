@@ -79,6 +79,7 @@ import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  *  Class to create Vaadin Table object with all available sites.<p>
@@ -145,7 +146,7 @@ public class CmsSitesTable extends Table implements I_CmsFilterableTable {
         /**
          * @see org.opencms.ui.contextmenu.I_CmsSimpleContextMenuEntry#executeAction(java.lang.Object)
          */
-        public void executeAction(Set<String> context) {
+        public void executeAction(Set<@RUntainted String> context) {
 
             CmsExportSiteForm form = new CmsExportSiteForm(
                 A_CmsUI.getCmsObject(),

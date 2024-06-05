@@ -32,6 +32,7 @@ import org.opencms.i18n.CmsEncoder;
 import org.opencms.util.CmsMacroResolver;
 
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a widget that creates a rich input field using the matching component, for use on a widget dialog.<p>

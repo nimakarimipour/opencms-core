@@ -62,6 +62,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation for the <code>{@link I_CmsStaticExportHandler}</code> interface.<p>
@@ -724,7 +725,7 @@ public class CmsAfterPublishStaticExportHandler extends A_CmsStaticExportHandler
      * @see org.opencms.staticexport.A_CmsStaticExportHandler#getRelatedFilesToPurge(java.lang.String, java.lang.String)
      */
     @Override
-    protected List<File> getRelatedFilesToPurge(String exportFileName, String vfsName) {
+    protected List<@RUntainted File> getRelatedFilesToPurge(@RUntainted String exportFileName, String vfsName) {
 
         return Collections.emptyList();
     }

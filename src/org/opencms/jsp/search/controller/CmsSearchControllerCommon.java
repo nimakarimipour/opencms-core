@@ -45,6 +45,7 @@ import java.util.regex.Pattern;
 
 import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.params.CommonParams;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Search controller for the common search options. */
 public class CmsSearchControllerCommon implements I_CmsSearchControllerCommon {
@@ -242,7 +243,7 @@ public class CmsSearchControllerCommon implements I_CmsSearchControllerCommon {
      *
      * @return The original String with %(value) macros replaced.
      */
-    private String resolveMacro(final String string, final String macroName, final String value) {
+    private String resolveMacro(final String string, final @RUntainted String macroName, final String value) {
 
         return null != value ? string.replaceAll("\\%\\(" + Pattern.quote(macroName) + "\\)", value) : string;
     }

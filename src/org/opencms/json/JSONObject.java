@@ -64,6 +64,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A JSONObject is an unordered collection of name/value pairs. Its
@@ -510,7 +512,7 @@ public class JSONObject {
      * @return a String
      * @throws JSONException if n is a non-finite number
      */
-    public static String numberToString(Number n) throws JSONException {
+    public static @RPolyTainted String numberToString(@RPolyTainted Number n) throws JSONException {
 
         if (n == null) {
             throw new JSONException("Null pointer");
@@ -542,7 +544,7 @@ public class JSONObject {
      * @param string a String
      * @return  a String correctly formatted for insertion in a JSON text
      */
-    public static String quote(String string) {
+    public static @RPolyTainted @RUntainted String quote(@RPolyTainted String string) {
 
         if ((string == null) || (string.length() == 0)) {
             return "\"\"";
@@ -676,7 +678,7 @@ public class JSONObject {
      * @throws JSONException if the object contains an invalid number
      */
     @SuppressWarnings("unchecked")
-    public static String valueToString(Object value, int indentFactor, int indent) throws JSONException {
+    public static @RPolyTainted String valueToString(@RPolyTainted Object value, int indentFactor, int indent) throws JSONException {
 
         if ((value == null) || value.equals(null)) {
             return "null";
@@ -950,7 +952,7 @@ public class JSONObject {
      *
      * @return an iterator of the keys
      */
-    public Iterator<String> keys() {
+    public Iterator<@RUntainted String> keys() {
 
         return m_map.keySet().iterator();
     }
@@ -1027,7 +1029,7 @@ public class JSONObject {
      * @param key   a key string
      * @return      an object which is the value, or null if there is no value
      */
-    public Object opt(String key) {
+    public @RUntainted Object opt(String key) {
 
         return key == null ? null : m_map.get(key);
     }
@@ -1210,7 +1212,7 @@ public class JSONObject {
      * @param key   a key string
      * @return      a string which is the value
      */
-    public String optString(String key) {
+    public @RUntainted String optString(String key) {
 
         return optString(key, "");
     }
@@ -1223,7 +1225,7 @@ public class JSONObject {
      * @param defaultValue     the default
      * @return      a string which is the value
      */
-    public String optString(String key, String defaultValue) {
+    public @RUntainted String optString(String key, @RUntainted String defaultValue) {
 
         Object o = opt(key);
         return o != null ? o.toString() : defaultValue;
@@ -1422,7 +1424,7 @@ public class JSONObject {
      *  with <code>}</code>&nbsp;<small>(right brace)</small>.
      */
     @Override
-    public String toString() {
+    public @RUntainted String toString() {
 
         try {
             Iterator<String> keys = keys();
@@ -1476,7 +1478,7 @@ public class JSONObject {
 
         try {
             boolean b = false;
-            Iterator<String> keys = keys();
+            Iterator<@RUntainted String> keys = keys();
             writer.write('{');
 
             while (keys.hasNext()) {
@@ -1517,7 +1519,7 @@ public class JSONObject {
      *  with <code>}</code>&nbsp;<small>(right brace)</small>
      * @throws JSONException if the object contains an invalid number
      */
-    String toString(int indentFactor, int indent) throws JSONException {
+    @RUntainted String toString(int indentFactor, int indent) throws JSONException {
 
         int j;
         int n = length();

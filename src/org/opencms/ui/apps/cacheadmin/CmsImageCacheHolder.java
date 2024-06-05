@@ -45,6 +45,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for getting information about cached images.<p>
@@ -76,7 +77,7 @@ public class CmsImageCacheHolder {
      * public constructor.<p>
      * @param search
      */
-    public CmsImageCacheHolder(final String search) {
+    public CmsImageCacheHolder(final @RUntainted String search) {
 
         try {
             m_clonedCms = getClonedCmsObject(A_CmsUI.getCmsObject());
@@ -85,7 +86,7 @@ public class CmsImageCacheHolder {
         }
         m_filter = new FilenameFilter() {
 
-            public boolean accept(File dir, String name) {
+            public boolean accept(@RUntainted File dir, @RUntainted String name) {
 
                 String spatt = search.replace("*", "");
                 if (new File(dir, name).isDirectory()) {
@@ -223,7 +224,7 @@ public class CmsImageCacheHolder {
         return clonedCms;
     }
 
-    private String getRootFromPattern(String pattern) {
+    private @RUntainted String getRootFromPattern(@RUntainted String pattern) {
 
         String res = pattern.substring(0, pattern.lastIndexOf("/"));
 
@@ -233,7 +234,7 @@ public class CmsImageCacheHolder {
     /**
      * Fille the list m_variations and m_filePaths.<p>
      */
-    private void readAllImagesAndVariations(String root) {
+    private void readAllImagesAndVariations(@RUntainted String root) {
 
         File basedir = new File(CmsImageLoader.getImageRepositoryPath() + root);
         visitImages(m_clonedCms, basedir);

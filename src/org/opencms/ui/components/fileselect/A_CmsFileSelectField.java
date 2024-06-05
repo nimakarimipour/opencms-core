@@ -54,6 +54,7 @@ import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.v7.ui.CustomField;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.TextField;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract file select field. Used by {@link org.opencms.ui.components.fileselect.CmsPathSelectField}.<p>
@@ -78,7 +79,7 @@ public abstract class A_CmsFileSelectField<T> extends CustomField<T> implements 
     protected boolean m_startWithSitemapView;
 
     /** The text field containing the selected path. */
-    protected TextField m_textField;
+    protected @RUntainted TextField m_textField;
 
     /**Button for open file select dialog. */
     Button m_fileSelectButton;

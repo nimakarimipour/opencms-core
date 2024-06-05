@@ -37,6 +37,7 @@ import org.opencms.main.OpenCms;
 
 import java.util.List;
 import java.util.function.Predicate;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for formatting resource data as JSON.

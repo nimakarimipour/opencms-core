@@ -65,6 +65,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Utility to login users to the OpenCms workplace.<p>
@@ -506,7 +508,7 @@ public class CmsLoginHelper extends CmsJspLoginBean {
      * @param cms the CMS context which should be initialized
      * @return the workplace set
      */
-    public static CmsWorkplaceSettings initSiteAndProject(CmsObject cms) {
+    public static @RUntainted CmsWorkplaceSettings initSiteAndProject(CmsObject cms) {
 
         CmsWorkplaceSettings workplaceSettings = CmsWorkplace.initWorkplaceSettings(cms, null, false);
         String startSite = CmsWorkplace.getStartSiteRoot(cms, workplaceSettings);
@@ -548,9 +550,9 @@ public class CmsLoginHelper extends CmsJspLoginBean {
      * @param response the current response
      */
     public static void setCookieData(
-        String pcType,
-        String username,
-        String oufqn,
+        @RUntainted String pcType,
+        @RUntainted String username,
+        @RUntainted String oufqn,
         HttpServletRequest request,
         HttpServletResponse response) {
 
@@ -617,7 +619,7 @@ public class CmsLoginHelper extends CmsJspLoginBean {
      *
      * @return the cookie
      */
-    protected static Cookie getCookie(HttpServletRequest request, String name) {
+    protected static @RPolyTainted Cookie getCookie(HttpServletRequest request, @RPolyTainted String name) {
 
         Cookie[] cookies = request.getCookies();
         for (int i = 0; (cookies != null) && (i < cookies.length); i++) {
@@ -637,7 +639,7 @@ public class CmsLoginHelper extends CmsJspLoginBean {
      * @param response the current response
      */
     protected static void setCookie(
-        Cookie cookie,
+        @RUntainted Cookie cookie,
         boolean delete,
         HttpServletRequest request,
         HttpServletResponse response) {

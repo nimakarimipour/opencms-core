@@ -37,6 +37,7 @@ import javax.servlet.jsp.tagext.TagSupport;
 import javax.servlet.jsp.tagext.TryCatchFinally;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Tag used to convert the HTML output of this tag's contents to encoded JSON.<p>
@@ -55,7 +56,7 @@ public class CmsJspTagJsonPart extends TagSupport implements TryCatchFinally {
     private static final Log LOG = CmsLog.getLog(CmsJspTagJsonPart.class);
 
     /** The name to be used as a key for the JSON part. */
-    private String m_element;
+    private @RUntainted String m_element;
 
     /** Variable to keep track of whether we still need to write the end marker. */
     private boolean m_needEnd;
@@ -128,7 +129,7 @@ public class CmsJspTagJsonPart extends TagSupport implements TryCatchFinally {
      *
      * @return the name to be used as a JSON key
      */
-    public String getElement() {
+    public @RUntainted String getElement() {
 
         return m_element;
     }
@@ -138,7 +139,7 @@ public class CmsJspTagJsonPart extends TagSupport implements TryCatchFinally {
      *
      * @param elementName the name to be used as a JSON key
      */
-    public void setElement(String elementName) {
+    public void setElement(@RUntainted String elementName) {
 
         m_element = elementName;
     }

@@ -61,6 +61,7 @@ import org.dom4j.Document;
 import org.dom4j.io.SAXReader;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides information about how to handle imported resources.<p>
@@ -929,7 +930,7 @@ public class CmsImportExportManager {
      * @deprecated use {@link #importData(CmsObject, I_CmsReport, CmsImportParameters)} instead
      */
     @Deprecated
-    public void importData(CmsObject cms, String importFile, String importPath, I_CmsReport report)
+    public void importData(CmsObject cms, @RUntainted String importFile, String importPath, I_CmsReport report)
     throws CmsImportExportException, CmsXmlException, CmsRoleViolationException, CmsException {
 
         CmsImportParameters parameters = new CmsImportParameters(importFile, importPath, false);

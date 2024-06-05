@@ -31,6 +31,7 @@ import org.opencms.util.CmsUUID;
 
 import java.io.Serializable;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Bean encapsulating all ADE publish options.<p>

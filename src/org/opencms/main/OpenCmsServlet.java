@@ -55,6 +55,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This the main servlet of the OpenCms system.<p>
@@ -313,7 +314,7 @@ public class OpenCmsServlet extends HttpServlet implements I_CmsRequestHandler {
      * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+    public void doGet(@RUntainted HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
 
         // we are using stacks for these because the doGet method may be called reentrantly, e.g. when using servlet forwarding.
         currentRequestStack.push(req);
@@ -376,7 +377,7 @@ public class OpenCmsServlet extends HttpServlet implements I_CmsRequestHandler {
      * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
-    public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+    public void doPost(@RUntainted HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
 
         doGet(req, res);
     }
@@ -447,7 +448,7 @@ public class OpenCmsServlet extends HttpServlet implements I_CmsRequestHandler {
      * @see javax.servlet.Servlet#init(javax.servlet.ServletConfig)
      */
     @Override
-    public synchronized void init(ServletConfig config) throws ServletException {
+    public synchronized void init(@RUntainted ServletConfig config) throws ServletException {
 
         super.init(config);
         try {

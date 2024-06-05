@@ -66,6 +66,8 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Provides utility functions for dealing with values a <code>{@link HttpServletRequest}</code>.<p>
@@ -816,7 +818,7 @@ public final class CmsRequestUtil {
      * @return the list of <code>{@link FileItem}</code> extracted from the multipart request,
      *      or <code>null</code> if the request was not of type <code>multipart/form-data</code>
      */
-    public static List<FileItem> readMultipartFileItems(HttpServletRequest request, String tempFolderPath) {
+    public static List<FileItem> readMultipartFileItems(HttpServletRequest request, @RUntainted String tempFolderPath) {
 
         if (!ServletFileUpload.isMultipartContent(request)) {
             return null;
@@ -895,7 +897,7 @@ public final class CmsRequestUtil {
      * @param jsp the OpenCms JSP context
      * @param target the target link
      */
-    public static void redirectPermanently(CmsJspActionElement jsp, String target) {
+    public static void redirectPermanently(CmsJspActionElement jsp, @RUntainted String target) {
 
         target = OpenCms.getLinkManager().substituteLink(jsp.getCmsObject(), target);
         jsp.getResponse().setHeader(HEADER_CONNECTION, "close");
@@ -951,7 +953,7 @@ public final class CmsRequestUtil {
      * @param name the name of the cookie
      * @param value the value of the cookie
      */
-    public static void setCookieValue(CmsJspActionElement jsp, String name, String value) {
+    public static void setCookieValue(CmsJspActionElement jsp, @RUntainted String name, @RUntainted String value) {
 
         Cookie[] cookies = jsp.getRequest().getCookies();
         for (int i = 0; (cookies != null) && (i < cookies.length); i++) {
@@ -995,7 +997,7 @@ public final class CmsRequestUtil {
      * @param key the key of the object to be stored in the session
      * @param value the object to be stored in the session
      */
-    public static void setSessionValue(HttpServletRequest request, String key, Object value) {
+    public static void setSessionValue(HttpServletRequest request, @RUntainted String key, @RUntainted Object value) {
 
         HttpSession session = request.getSession(true);
         session.setAttribute(key, value);

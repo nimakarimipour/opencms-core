@@ -48,6 +48,7 @@ import java.util.Optional;
 
 import org.apache.commons.collections.Transformer;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Common value wrapper class that provides generic functions.<p>
@@ -179,7 +180,7 @@ abstract class A_CmsJspValueWrapper extends AbstractCollection<String> {
      *
      * @return the substituted link
      */
-    public static String substituteLink(CmsObject cms, String target) {
+    public static String substituteLink(CmsObject cms, @RUntainted String target) {
 
         if (cms != null) {
             return OpenCms.getLinkManager().substituteLinkForUnknownTarget(

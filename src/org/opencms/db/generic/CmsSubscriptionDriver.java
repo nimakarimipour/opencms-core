@@ -68,6 +68,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generic implementation of the user tracking and subscription driver interface.<p>
@@ -309,7 +310,7 @@ public class CmsSubscriptionDriver implements I_CmsDriver, I_CmsSubscriptionDriv
     /**
      * @see org.opencms.db.I_CmsSubscriptionDriver#readResourcesVisitedBy(org.opencms.db.CmsDbContext, java.lang.String, org.opencms.db.CmsVisitedByFilter)
      */
-    public List<CmsResource> readResourcesVisitedBy(CmsDbContext dbc, String poolName, CmsVisitedByFilter filter)
+    public @RUntainted List<CmsResource> readResourcesVisitedBy(CmsDbContext dbc, String poolName, CmsVisitedByFilter filter)
     throws CmsDataAccessException {
 
         PreparedStatement stmt = null;
@@ -480,7 +481,7 @@ public class CmsSubscriptionDriver implements I_CmsDriver, I_CmsSubscriptionDriv
     /**
      * @see org.opencms.db.I_CmsSubscriptionDriver#readSubscribedResources(org.opencms.db.CmsDbContext, java.lang.String, org.opencms.db.CmsSubscriptionFilter)
      */
-    public List<CmsResource> readSubscribedResources(CmsDbContext dbc, String poolName, CmsSubscriptionFilter filter)
+    public @RUntainted List<CmsResource> readSubscribedResources(CmsDbContext dbc, String poolName, CmsSubscriptionFilter filter)
     throws CmsDataAccessException {
 
         PreparedStatement stmt = null;

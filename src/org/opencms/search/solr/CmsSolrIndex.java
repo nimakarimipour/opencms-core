@@ -104,6 +104,7 @@ import org.apache.solr.response.QueryResponseWriter;
 import org.apache.solr.response.SolrQueryResponse;
 
 import com.google.common.base.Objects;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implements the search within an Solr index.<p>
@@ -265,7 +266,7 @@ public class CmsSolrIndex extends CmsSearchIndex {
      *
      * @throws CmsIllegalArgumentException if something goes wrong
      */
-    public CmsSolrIndex(String name)
+    public CmsSolrIndex(@RUntainted String name)
     throws CmsIllegalArgumentException {
 
         super(name);
@@ -1332,7 +1333,7 @@ public class CmsSolrIndex extends CmsSearchIndex {
      * @throws CmsIllegalArgumentException if the given name is null, empty or already taken by another search index
      */
     @Override
-    public void setName(String name) throws CmsIllegalArgumentException {
+    public void setName(@RUntainted String name) throws CmsIllegalArgumentException {
 
         super.setName(name);
         updateCoreName();
@@ -1443,7 +1444,7 @@ public class CmsSolrIndex extends CmsSearchIndex {
      * @see org.opencms.search.CmsSearchIndex#createIndexBackup()
      */
     @Override
-    protected String createIndexBackup() {
+    protected @RUntainted String createIndexBackup() {
 
         if (!isBackupReindexing()) {
             // if no backup is generated we don't need to do anything

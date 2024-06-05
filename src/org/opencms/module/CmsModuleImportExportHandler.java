@@ -78,6 +78,7 @@ import org.apache.commons.logging.Log;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.xml.sax.SAXException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Import/export handler implementation for Cms modules.<p>
@@ -184,7 +185,7 @@ public class CmsModuleImportExportHandler implements I_CmsImportExportHandler {
      *
      * @throws CmsConfigurationException if the module could not be imported
      */
-    public static CmsModule readModuleFromImport(String importResource) throws CmsConfigurationException {
+    public static CmsModule readModuleFromImport(@RUntainted String importResource) throws CmsConfigurationException {
 
         // instantiate Digester and enable XML validation
         Digester digester = new Digester();
@@ -575,7 +576,7 @@ public class CmsModuleImportExportHandler implements I_CmsImportExportHandler {
      * @deprecated use {@link #importData(CmsObject, I_CmsReport)} instead
      */
     @Deprecated
-    public void importData(CmsObject cms, String importFile, String importPath, I_CmsReport report)
+    public void importData(CmsObject cms, @RUntainted String importFile, String importPath, I_CmsReport report)
     throws CmsXmlException, CmsImportExportException, CmsRoleViolationException, CmsException {
 
         CmsImportParameters parameters = new CmsImportParameters(importFile, importPath, true);

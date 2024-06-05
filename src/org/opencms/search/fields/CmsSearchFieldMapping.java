@@ -55,6 +55,7 @@ import java.util.TreeMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.lucene.document.DateTools;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes a mapping of a piece of content from an OpenCms VFS resource to a field of a search index.<p>

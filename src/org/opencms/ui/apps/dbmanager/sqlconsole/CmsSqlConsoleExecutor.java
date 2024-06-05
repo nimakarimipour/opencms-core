@@ -47,6 +47,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manages the SQL console.<p>

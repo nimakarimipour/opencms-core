@@ -56,6 +56,7 @@ import java.util.Map;
 
 import org.apache.commons.collections.Transformer;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides utility methods that allow convenient access to the OpenCms VFS,
@@ -292,7 +293,7 @@ public final class CmsJspVfsAccessBean {
         /**
          * @see org.apache.commons.collections.Transformer#transform(java.lang.Object)
          */
-        public Object transform(Object input) {
+        public Object transform(@RUntainted Object input) {
 
             return A_CmsJspValueWrapper.substituteLink(getCmsObject(), String.valueOf(input));
         }

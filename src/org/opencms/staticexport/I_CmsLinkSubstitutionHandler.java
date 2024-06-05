@@ -28,6 +28,7 @@
 package org.opencms.staticexport;
 
 import org.opencms.file.CmsObject;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Allows to configure customized link substitution behavior.<p>
@@ -171,5 +172,5 @@ public interface I_CmsLinkSubstitutionHandler {
      * @see #getLink(CmsObject, String, String, boolean) for the reverse function, which creates a link
      *      form a VFS resource path
      */
-    String getRootPath(CmsObject cms, String targetUri, String basePath);
+    String getRootPath(CmsObject cms, @RUntainted String targetUri, String basePath);
 }

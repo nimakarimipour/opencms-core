@@ -37,6 +37,7 @@ import org.opencms.xml.xml2json.I_CmsJsonFormattableValue;
 import java.util.Locale;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes the XML content type "OpenCmsSerialDate".<p>

@@ -46,6 +46,7 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper for handling links in template/formatter JSP EL.
@@ -59,7 +60,7 @@ public class CmsJspLinkWrapper extends AbstractCollection<String> {
     protected CmsObject m_cms;
 
     /** The link literal from which this wrapper was created. */
-    protected String m_link;
+    protected @RUntainted String m_link;
 
     /** Cached internal/external state. */
     protected Boolean m_internal;
@@ -82,7 +83,7 @@ public class CmsJspLinkWrapper extends AbstractCollection<String> {
      * @param cms the CMS context
      * @param link the link to wrap
      */
-    public CmsJspLinkWrapper(CmsObject cms, String link) {
+    public CmsJspLinkWrapper(CmsObject cms, @RUntainted String link) {
 
         this(cms, link, false);
     }
@@ -97,7 +98,7 @@ public class CmsJspLinkWrapper extends AbstractCollection<String> {
      * @param link the link to wrap
      * @param allowEmpty if <code>true</code> then empty links are allowed
      */
-    public CmsJspLinkWrapper(CmsObject cms, String link, boolean allowEmpty) {
+    public CmsJspLinkWrapper(CmsObject cms, @RUntainted String link, boolean allowEmpty) {
 
         m_cms = cms;
         m_link = link;

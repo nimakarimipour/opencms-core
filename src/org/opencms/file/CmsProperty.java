@@ -43,6 +43,7 @@ import java.util.Map;
 import java.util.RandomAccess;
 
 import org.apache.commons.collections.Transformer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Represents a property (meta-information) mapped to a VFS resource.<p>
@@ -773,7 +774,7 @@ public class CmsProperty implements Serializable, Cloneable, Comparable<CmsPrope
      *
      * @return the compound value of this property
      */
-    public String getValue() {
+    public @RUntainted String getValue() {
 
         return (m_structureValue != null) ? m_structureValue : m_resourceValue;
     }

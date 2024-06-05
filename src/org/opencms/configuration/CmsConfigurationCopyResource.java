@@ -33,6 +33,7 @@ import org.opencms.file.types.A_CmsResourceType;
 import org.opencms.util.CmsMacroResolver;
 
 import java.io.Serializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes a resource to copy during the creation of a new resource.<p>

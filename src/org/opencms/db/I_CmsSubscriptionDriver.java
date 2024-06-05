@@ -36,6 +36,7 @@ import org.opencms.main.CmsException;
 import org.opencms.security.CmsPrincipal;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The interface for drivers handling subscriptions and user tracking.<p>
@@ -130,7 +131,7 @@ public interface I_CmsSubscriptionDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    List<CmsResource> readResourcesVisitedBy(CmsDbContext dbc, String poolName, CmsVisitedByFilter filter)
+    @RUntainted List<CmsResource> readResourcesVisitedBy(CmsDbContext dbc, String poolName, CmsVisitedByFilter filter)
     throws CmsDataAccessException;
 
     /**
@@ -168,7 +169,7 @@ public interface I_CmsSubscriptionDriver {
      *
      * @throws CmsDataAccessException if something goes wrong
      */
-    List<CmsResource> readSubscribedResources(CmsDbContext dbc, String poolName, CmsSubscriptionFilter filter)
+    @RUntainted List<CmsResource> readSubscribedResources(CmsDbContext dbc, String poolName, CmsSubscriptionFilter filter)
     throws CmsDataAccessException;
 
     /**

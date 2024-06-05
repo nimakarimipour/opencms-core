@@ -66,6 +66,8 @@ import org.xml.sax.SAXNotRecognizedException;
 import org.xml.sax.SAXNotSupportedException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Provides some basic XML handling utilities.<p>
@@ -138,7 +140,7 @@ public final class CmsXmlUtils {
      *
      * @return the concatenated Xpath build from prefix and suffix
      */
-    public static String concatXpath(String prefix, String suffix) {
+    public static @RPolyTainted String concatXpath(String prefix, @RPolyTainted String suffix) {
 
         if (suffix == null) {
             // ensure suffix is not null
@@ -481,7 +483,7 @@ public final class CmsXmlUtils {
      * @return the output stream with the xml content
      * @throws CmsXmlException if something goes wrong
      */
-    public static OutputStream marshal(Document document, OutputStream out, String encoding) throws CmsXmlException {
+    public static @RPolyTainted OutputStream marshal(Document document, @RPolyTainted OutputStream out, String encoding) throws CmsXmlException {
 
         try {
             OutputFormat format = OutputFormat.createPrettyPrint();
@@ -896,7 +898,7 @@ public final class CmsXmlUtils {
      *
      * @throws CmsXmlException if the validation fails
      */
-    public static void validateXmlStructure(byte[] xmlData, EntityResolver resolver) throws CmsXmlException {
+    public static void validateXmlStructure(@RUntainted byte[] xmlData, EntityResolver resolver) throws CmsXmlException {
 
         validateXmlStructure(new ByteArrayInputStream(xmlData), resolver);
     }
@@ -915,7 +917,7 @@ public final class CmsXmlUtils {
     throws CmsXmlException {
 
         // generate bytes from document
-        byte[] xmlData = ((ByteArrayOutputStream)marshal(
+        @RUntainted byte[] xmlData = ((ByteArrayOutputStream)marshal(
             document,
             new ByteArrayOutputStream(512),
             encoding)).toByteArray();
@@ -931,7 +933,7 @@ public final class CmsXmlUtils {
      *
      * @throws CmsXmlException if the validation fails
      */
-    public static void validateXmlStructure(InputStream xmlStream, EntityResolver resolver) throws CmsXmlException {
+    public static void validateXmlStructure(@RUntainted InputStream xmlStream, EntityResolver resolver) throws CmsXmlException {
 
         XMLReader reader;
         try {

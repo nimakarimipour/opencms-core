@@ -74,6 +74,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class used for updating modules.<p>
@@ -150,7 +151,7 @@ public class CmsModuleUpdater {
      *
      * @throws CmsException if something goes wrong
      */
-    public static Optional<CmsModuleUpdater> create(CmsObject cms, String importFile, I_CmsReport report)
+    public static Optional<CmsModuleUpdater> create(CmsObject cms, @RUntainted String importFile, I_CmsReport report)
     throws CmsException {
 
         CmsModuleImportData moduleData = readModuleData(cms, importFile, report);
@@ -207,7 +208,7 @@ public class CmsModuleUpdater {
      * @return the module data
      * @throws CmsException if something goes wrong
      */
-    public static CmsModuleImportData readModuleData(CmsObject cms, String importFile, I_CmsReport report)
+    public static CmsModuleImportData readModuleData(CmsObject cms, @RUntainted String importFile, I_CmsReport report)
     throws CmsException {
 
         CmsModuleImportData result = new CmsModuleImportData();

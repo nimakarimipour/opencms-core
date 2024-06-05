@@ -77,6 +77,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The OpenCms "operating system" that provides
@@ -593,7 +594,7 @@ public final class OpenCms {
      *
      * @return the system information storage
      */
-    public static CmsSystemInfo getSystemInfo() {
+    public static @RUntainted CmsSystemInfo getSystemInfo() {
 
         return OpenCmsCore.getInstance().getSystemInfo();
     }

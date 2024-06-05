@@ -43,6 +43,7 @@ import org.opencms.xml.containerpage.CmsFormatterConfiguration;
 
 import java.io.Serializable;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Resource type descriptors for all resources in the VFS.<p>

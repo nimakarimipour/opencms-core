@@ -32,6 +32,7 @@ import java.io.InputStream;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A property based resource bundle with increased visibility of some key methods.<p>

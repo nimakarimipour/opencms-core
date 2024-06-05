@@ -56,6 +56,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides the dependency information about one search result document,

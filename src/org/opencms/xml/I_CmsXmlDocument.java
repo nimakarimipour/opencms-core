@@ -37,6 +37,7 @@ import org.opencms.xml.types.I_CmsXmlContentValue;
 
 import java.util.List;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes the API to access the values of a XML content document.<p>

@@ -51,6 +51,8 @@ import java.net.URL;
 import org.apache.commons.logging.Log;
 
 import com.google.common.base.Optional;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Does the link replacement for the &lg;link&gt; tags.<p>
@@ -112,7 +114,7 @@ public class CmsLinkManager {
      *
      * @return an absolute URI calculated from "relativeUri" and "baseUri"
      */
-    public static String getAbsoluteUri(String relativeUri, String baseUri) {
+    public static String getAbsoluteUri(@RUntainted String relativeUri, String baseUri) {
 
         if (isAbsoluteUri(relativeUri)) {
             // URI is null or already absolute
@@ -360,7 +362,7 @@ public class CmsLinkManager {
      *
      * @see #getServerLink(CmsObject, String)
      */
-    public String getOnlineLink(CmsObject cms, String resourceName) {
+    public @RUntainted String getOnlineLink(CmsObject cms, String resourceName) {
 
         return getOnlineLink(cms, resourceName, false);
     }
@@ -385,7 +387,7 @@ public class CmsLinkManager {
      *
      * @see #getServerLink(CmsObject, String)
      */
-    public String getOnlineLink(CmsObject cms, String resourceName, boolean forceSecure) {
+    public @RUntainted String getOnlineLink(CmsObject cms, String resourceName, boolean forceSecure) {
 
         String result = "";
         try {
@@ -704,7 +706,7 @@ public class CmsLinkManager {
      * @return a link <i>from</i> the URI stored in the provided OpenCms user context
      *      <i>to</i> the given VFS resource, for use on web pages
      */
-    public String substituteLink(CmsObject cms, CmsResource resource) {
+    public @RUntainted String substituteLink(CmsObject cms, CmsResource resource) {
 
         return substituteLinkForRootPath(cms, resource.getRootPath());
     }
@@ -734,7 +736,7 @@ public class CmsLinkManager {
      * @return a link <i>from</i> the URI stored in the provided OpenCms user context
      *      <i>to</i> the VFS resource indicated by the given <code>link</code> in the current site
      */
-    public String substituteLink(CmsObject cms, String link) {
+    public @RUntainted String substituteLink(CmsObject cms, String link) {
 
         return substituteLink(cms, link, null, false);
     }
@@ -807,7 +809,7 @@ public class CmsLinkManager {
      * @see I_CmsLinkSubstitutionHandler for the interface that can be used to fully customize the link substitution
      * @see CmsDefaultLinkSubstitutionHandler for the default link substitution handler
      */
-    public String substituteLink(CmsObject cms, String link, String siteRoot, boolean forceSecure) {
+    public @RUntainted String substituteLink(CmsObject cms, String link, String siteRoot, boolean forceSecure) {
 
         return substituteLink(cms, link, siteRoot, null, forceSecure);
     }
@@ -882,7 +884,7 @@ public class CmsLinkManager {
      * @return a link <i>from</i> the URI stored in the provided OpenCms user context
      *      <i>to</i> the VFS resource indicated by the given root path
      */
-    public String substituteLinkForRootPath(CmsObject cms, String rootPath) {
+    public @RUntainted String substituteLinkForRootPath(CmsObject cms, String rootPath) {
 
         String siteRoot = OpenCms.getSiteManager().getSiteRoot(rootPath);
         if (siteRoot == null) {
@@ -947,7 +949,7 @@ public class CmsLinkManager {
      * @return a link <i>from</i> the URI stored in the provided OpenCms user context
      *      <i>to</i> the given <code>link</code>
      */
-    public String substituteLinkForUnknownTarget(CmsObject cms, String link, boolean forceSecure) {
+    public @RUntainted String substituteLinkForUnknownTarget(CmsObject cms, String link, boolean forceSecure) {
 
         return substituteLinkForUnknownTarget(cms, link, null, forceSecure);
     }

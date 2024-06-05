@@ -51,6 +51,7 @@ import org.opencms.util.CmsUUID;
 import java.nio.ByteBuffer;
 import java.text.ParseException;
 import java.util.*;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A search document implementation for Solr indexes.<p>

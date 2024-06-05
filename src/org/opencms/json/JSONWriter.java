@@ -55,6 +55,7 @@ package org.opencms.json;
 
 import java.io.IOException;
 import java.io.Writer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * JSONWriter provides a quick and convenient way of producing JSON text.
@@ -192,7 +193,7 @@ public class JSONWriter {
      * @throws JSONException if the key is out of place. For example, keys
      *  do not belong in arrays or if the key is null
      */
-    public JSONWriter key(String s) throws JSONException {
+    public JSONWriter key(@RUntainted String s) throws JSONException {
 
         if (s == null) {
             throw new JSONException("Null key.");
@@ -330,7 +331,7 @@ public class JSONWriter {
      * @return this
      * @throws JSONException if unbalanced
      */
-    private JSONWriter end(char m, char c) throws JSONException {
+    private JSONWriter end(char m, @RUntainted char c) throws JSONException {
 
         if (m_mode != m) {
             throw new JSONException(m == 'o' ? "Misplaced endObject." : "Misplaced endArray.");

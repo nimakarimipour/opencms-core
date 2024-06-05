@@ -36,6 +36,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.widgets.dataview.I_CmsDataView;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Complex widget for opening selecting data from a data source implementing the I_CmsDataView interface.<p>

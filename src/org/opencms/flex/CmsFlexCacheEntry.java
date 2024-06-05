@@ -50,6 +50,7 @@ import javax.servlet.ServletException;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Contains the contents of a cached resource.<p>
@@ -113,7 +114,7 @@ public class CmsFlexCacheEntry implements I_CmsLruCacheObject, I_CmsMemoryMonito
     private boolean m_redirectPermanent;
 
     /** A redirection target (if redirection is set). */
-    private String m_redirectTarget;
+    private @RUntainted String m_redirectTarget;
 
     /** The key under which this cache entry is stored in the variation map. */
     private String m_variationKey;
@@ -541,7 +542,7 @@ public class CmsFlexCacheEntry implements I_CmsLruCacheObject, I_CmsMemoryMonito
      * @param target The redirect target (must be a valid URL).
      * @param permanent true if this is a permanent redirect
      */
-    public void setRedirect(String target, boolean permanent) {
+    public void setRedirect(@RUntainted String target, boolean permanent) {
 
         if (m_completed || (target == null)) {
             return;

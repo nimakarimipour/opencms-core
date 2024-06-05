@@ -32,6 +32,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class used to translate key/value pairs from and to the format which can be processed by the
@@ -71,7 +73,7 @@ public class CmsJsonPart {
      * @param key the JSON key for the part
      * @return the header section for the given key
      */
-    public static final String getHeader(String key) {
+    public static final @RPolyTainted String getHeader(@RPolyTainted String key) {
 
         return "BEGINJSONPART\u0007" + key + "\u0007";
     }

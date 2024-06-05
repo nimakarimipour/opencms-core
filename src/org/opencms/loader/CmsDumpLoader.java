@@ -47,6 +47,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Dump loader for binary or other unprocessed resource types.<p>
@@ -78,7 +79,7 @@ public class CmsDumpLoader implements I_CmsResourceLoader {
     /**
      * @see org.opencms.configuration.I_CmsConfigurationParameterHandler#addConfigurationParameter(java.lang.String, java.lang.String)
      */
-    public void addConfigurationParameter(String paramName, String paramValue) {
+    public void addConfigurationParameter(String paramName, @RUntainted String paramValue) {
 
         m_configuration.put(paramName, paramValue);
     }
@@ -108,7 +109,7 @@ public class CmsDumpLoader implements I_CmsResourceLoader {
     /**
      * @see org.opencms.loader.I_CmsResourceLoader#export(org.opencms.file.CmsObject, org.opencms.file.CmsResource, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-    public byte[] export(CmsObject cms, CmsResource resource, HttpServletRequest req, HttpServletResponse res)
+    public @RUntainted byte[] export(CmsObject cms, CmsResource resource, HttpServletRequest req, HttpServletResponse res)
     throws IOException, CmsException {
 
         CmsFile file = cms.readFile(resource);
@@ -121,7 +122,7 @@ public class CmsDumpLoader implements I_CmsResourceLoader {
                 String header = i.next();
 
                 // set header only if format is "key: value"
-                String[] parts = CmsStringUtil.splitAsArray(header, ':');
+                @RUntainted String[] parts = CmsStringUtil.splitAsArray(header, ':');
                 if (parts.length == 2) {
                     res.setHeader(parts[0], parts[1]);
                 }

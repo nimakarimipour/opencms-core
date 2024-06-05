@@ -55,6 +55,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This bean provides methods to generate customized http status error pages, e.g. to handle 404 (not found) errors.<p>

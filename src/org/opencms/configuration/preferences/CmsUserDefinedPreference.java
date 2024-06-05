@@ -34,6 +34,7 @@ import org.opencms.file.CmsObject;
 import org.opencms.xml.content.CmsXmlContentProperty;
 
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Subclass for user-defined preferences.<p>

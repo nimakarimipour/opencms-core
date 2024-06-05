@@ -34,6 +34,7 @@ import org.opencms.main.OpenCms;
 import org.opencms.monitor.CmsMemoryMonitor;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A singleton memory cache, that stores objects related with keys.<p>
