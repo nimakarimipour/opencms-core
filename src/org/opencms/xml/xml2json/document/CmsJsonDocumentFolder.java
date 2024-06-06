@@ -44,6 +44,7 @@ import org.opencms.xml.xml2json.handler.CmsJsonHandlerXmlContent.PathNotFoundExc
 import java.util.List;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class representing a JSON document for a folder.

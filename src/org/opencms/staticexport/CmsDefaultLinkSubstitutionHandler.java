@@ -55,6 +55,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Default link substitution behavior.<p>
@@ -137,7 +138,7 @@ public class CmsDefaultLinkSubstitutionHandler implements I_CmsLinkSubstitutionH
         String absoluteLink = CmsLinkManager.getAbsoluteUri(link, cms.getRequestContext().getUri());
         String overrideSiteRoot = null;
 
-        String vfsName;
+        @RUntainted String vfsName;
 
         CmsUriSplitter splitter = new CmsUriSplitter(absoluteLink, true);
         String parameters = null;

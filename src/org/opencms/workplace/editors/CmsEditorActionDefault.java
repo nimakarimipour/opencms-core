@@ -41,6 +41,7 @@ import org.opencms.workplace.CmsWorkplace;
 import java.io.IOException;
 
 import javax.servlet.jsp.JspException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides a method to perform a user defined action when editing a page.<p>
@@ -67,7 +68,7 @@ public class CmsEditorActionDefault implements I_CmsEditorActionHandler {
         // delete temporary file and unlock resource in direct edit mode
         editor.actionClear(true);
         // create the publish link to redirect to
-        String publishLink = jsp.link(CmsWorkplace.PATH_DIALOGS + "publishresource.jsp");
+        @RUntainted String publishLink = jsp.link(CmsWorkplace.PATH_DIALOGS + "publishresource.jsp");
         // define the parameters which are necessary for publishing the resource
         StringBuffer params = new StringBuffer(256);
         params.append("?").append(CmsDialog.PARAM_RESOURCE).append("=").append(editor.getParamResource());

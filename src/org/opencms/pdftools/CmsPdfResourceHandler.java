@@ -51,6 +51,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This resource handler handles URLs of the form /pdflink/{locale}/{formatter-id}/{detailname} and format
@@ -66,7 +67,7 @@ public class CmsPdfResourceHandler implements I_CmsResourceInit {
     public static final String IMAGE_MIMETYPECONFIG = "png:image/png|gif:image/gif|jpg:image/jpeg";
 
     /** Map of mime types for different file extensions. */
-    public static final Map<String, String> IMAGE_MIMETYPES = Collections.unmodifiableMap(
+    public static final Map<String, @RUntainted String> IMAGE_MIMETYPES = Collections.unmodifiableMap(
         CmsStringUtil.splitAsMap(IMAGE_MIMETYPECONFIG, "|", ":"));
 
     /** The logger instance for this class. */
@@ -176,13 +177,13 @@ public class CmsPdfResourceHandler implements I_CmsResourceInit {
             + locale
             + ";"
             + request.getQueryString();
-        String cacheName = m_pdfCache.getCacheName(content, cacheParams);
+        @RUntainted String cacheName = m_pdfCache.getCacheName(content, cacheParams);
         if (cms.getRequestContext().getCurrentProject().isOnlineProject()) {
             result = m_pdfCache.getCacheContent(cacheName);
         }
         if (result == null) {
             cmsForJspExecution.getRequestContext().setUri(content.getRootPath());
-            byte[] xhtmlData = CmsPdfFormatterUtils.executeJsp(
+            @RUntainted byte[] xhtmlData = CmsPdfFormatterUtils.executeJsp(
                 cmsForJspExecution,
                 request,
                 response,
@@ -262,7 +263,7 @@ public class CmsPdfResourceHandler implements I_CmsResourceInit {
         // use a wrapped resource because we want the cache to store files with the correct (image file) extensions
         CmsWrappedResource wrapperWithImageExtension = new CmsWrappedResource(pdfFile);
         wrapperWithImageExtension.setRootPath(pdfFile.getRootPath() + "." + linkObj.getFormat());
-        String cacheName = m_thumbnailCache.getCacheName(
+        @RUntainted String cacheName = m_thumbnailCache.getCacheName(
             wrapperWithImageExtension.getResource(),
             options + ";" + linkObj.getFormat());
         byte[] imageData = m_thumbnailCache.getCacheContent(cacheName);

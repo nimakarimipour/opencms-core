@@ -31,6 +31,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import org.apache.http.client.utils.URIBuilder;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Splits an URI String into separate components.<p>
@@ -224,7 +225,7 @@ public class CmsUriSplitter {
      *
      * @return the prefix part of the uri
      */
-    public String getPrefix() {
+    public @RUntainted String getPrefix() {
 
         return m_prefix;
     }

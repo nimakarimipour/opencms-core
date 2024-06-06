@@ -44,6 +44,7 @@ import org.xhtmlrenderer.pdf.ITextRenderer;
 import org.xhtmlrenderer.util.XRLog;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.SAXException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class uses the flying-saucer library to convert an XHTML document to a PDF document.<p>
@@ -79,7 +80,7 @@ public class CmsPdfConverter {
      *
      * @throws Exception if something goes wrong
      */
-    public byte[] convertXhtmlToPdf(CmsObject cms, byte[] xhtmlData, String uri) throws Exception {
+    public byte[] convertXhtmlToPdf(CmsObject cms, @RUntainted byte[] xhtmlData, String uri) throws Exception {
 
         Document doc = readDocument(xhtmlData);
         ITextRenderer renderer = new ITextRenderer();
@@ -103,7 +104,7 @@ public class CmsPdfConverter {
      * @throws SAXException
      * @throws IOException
      */
-    private Document readDocument(byte[] xhtmlData) throws ParserConfigurationException, SAXException, IOException {
+    private Document readDocument(@RUntainted byte[] xhtmlData) throws ParserConfigurationException, SAXException, IOException {
 
         DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
         docBuilderFactory.setValidating(false);

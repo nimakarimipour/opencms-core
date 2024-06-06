@@ -29,6 +29,7 @@ package org.opencms.main;
 
 import java.util.HashMap;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Event class for OpenCms for system wide events that are thrown by various

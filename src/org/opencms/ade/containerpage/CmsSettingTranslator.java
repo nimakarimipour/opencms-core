@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class for transforming a map of element settings based on the aliases/replacement rules in the setting definitions for a given formatter.

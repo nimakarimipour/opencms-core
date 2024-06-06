@@ -36,6 +36,7 @@ import com.vaadin.v7.data.Property.ValueChangeListener;
 import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.v7.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.v7.ui.ComboBox;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract class for the import from a folder on the server.<p>
@@ -52,7 +53,7 @@ public abstract class A_CmsServerImportForm extends A_CmsImportForm {
      * @param pathToServer path where the files should be read
      * @param validate indicates if file gets validated (only possible for modules)
      */
-    public A_CmsServerImportForm(I_CmsReportApp app, String pathToServer, final boolean validate) {
+    public A_CmsServerImportForm(I_CmsReportApp app, @RUntainted String pathToServer, final boolean validate) {
         super(app);
         IndexedContainer options = new IndexedContainer();
         options.addContainerProperty("label", String.class, "");
@@ -60,7 +61,7 @@ public abstract class A_CmsServerImportForm extends A_CmsImportForm {
         getImportSelect().setItemCaptionMode(ItemCaptionMode.PROPERTY);
         getImportSelect().setItemCaptionPropertyId("label");
         getImportSelect().setNullSelectionAllowed(false);
-        String moduleDir = OpenCms.getSystemInfo().getAbsoluteRfsPathRelativeToWebInf(pathToServer);
+        @RUntainted String moduleDir = OpenCms.getSystemInfo().getAbsoluteRfsPathRelativeToWebInf(pathToServer);
         File moduleDirFile = new File(moduleDir);
         if (moduleDirFile.exists()) {
             for (File file : moduleDirFile.listFiles()) {
@@ -74,9 +75,9 @@ public abstract class A_CmsServerImportForm extends A_CmsImportForm {
 
             private static final long serialVersionUID = -8550460711407604364L;
 
-            public void valueChange(ValueChangeEvent event) {
+            public void valueChange(@RUntainted ValueChangeEvent event) {
 
-                String path = (String)(event.getProperty().getValue());
+                @RUntainted String path = (String)(event.getProperty().getValue());
                 m_importFile = new CmsImportFile(path);
                 if (validate) {
                     getOkButton().setEnabled(false);

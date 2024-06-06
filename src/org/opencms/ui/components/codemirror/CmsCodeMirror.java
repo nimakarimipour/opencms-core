@@ -48,6 +48,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.v7.data.Property;
 
 import elemental.json.JsonArray;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Code mirror input component.<p>

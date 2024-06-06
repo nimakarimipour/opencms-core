@@ -45,6 +45,7 @@ import org.apache.pdfbox.tools.imageio.ImageIOUtil;
 import org.jpedal.PdfDecoder;
 import org.jpedal.fonts.FontMappings;
 import org.jpedal.objects.PdfPageData;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class for generating thumbnails from PDF documents using the PDFBox library.<p>

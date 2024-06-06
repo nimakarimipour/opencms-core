@@ -49,6 +49,7 @@ import org.apache.solr.core.SolrConfig;
 import org.apache.solr.core.SolrResourceLoader;
 import org.apache.solr.schema.IndexSchema;
 import org.apache.solr.schema.IndexSchemaFactory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The Solr configuration class.<p>
@@ -100,10 +101,10 @@ public class CmsSolrConfiguration {
     private boolean m_enabled;
 
     /** The Solr home. */
-    private String m_home;
+    private @RUntainted String m_home;
 
     /** The configured path to the Solr home. */
-    private String m_homeFolderPath;
+    private @RUntainted String m_homeFolderPath;
 
     /** The schema file. */
     private IndexSchema m_schema;
@@ -118,7 +119,7 @@ public class CmsSolrConfiguration {
     private File m_solrFile;
 
     /** The file name of the Solr configuration. */
-    private String m_solrFileName;
+    private @RUntainted String m_solrFileName;
 
     /** The maximal number of results to be processed in a search request to a Solr index. */
     private int m_maxProcessedResults = DEFAULT_MAX_PROCESSED_RESULTS;
@@ -136,7 +137,7 @@ public class CmsSolrConfiguration {
      *
      * @return the home directory of Solr as String
      */
-    public String getHome() {
+    public @RUntainted String getHome() {
 
         if (m_homeFolderPath == null) {
             if (CmsStringUtil.isNotEmpty(System.getProperty(SOLR_HOME_PROPERTY))) {
@@ -247,7 +248,7 @@ public class CmsSolrConfiguration {
     public File getSolrFile() {
 
         if (m_solrFile == null) {
-            String solrFileName = m_solrFileName != null ? m_solrFileName : SOLR_CONFIG_FILE;
+            @RUntainted String solrFileName = m_solrFileName != null ? m_solrFileName : SOLR_CONFIG_FILE;
             m_solrFile = new File(getHome() + File.separator + solrFileName);
         }
         return m_solrFile;
@@ -303,7 +304,7 @@ public class CmsSolrConfiguration {
      */
     public File getSolrSchemaFile() {
 
-        final String dir = getHome() + DEFAULT_CONFIGSET_FOLDER + CONF_FOLDER;
+        final @RUntainted String dir = getHome() + DEFAULT_CONFIGSET_FOLDER + CONF_FOLDER;
         //SOLR7 Schema took a new name, also removed the file extension.
         File file = new File(dir, "managed-schema");
         if (file.exists()) {
@@ -340,7 +341,7 @@ public class CmsSolrConfiguration {
      *
      * @param homeFolderPath the Solr home folder to set
      */
-    public void setHomeFolderPath(String homeFolderPath) {
+    public void setHomeFolderPath(@RUntainted String homeFolderPath) {
 
         m_homeFolderPath = homeFolderPath;
     }
@@ -396,7 +397,7 @@ public class CmsSolrConfiguration {
      *
      * @param name the file name to set
      */
-    public void setSolrFileName(String name) {
+    public void setSolrFileName(@RUntainted String name) {
 
         m_solrFileName = name;
     }

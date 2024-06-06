@@ -37,6 +37,7 @@ import org.opencms.workplace.CmsWorkplaceSettings;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Helper class to create the editor frameset.<p>

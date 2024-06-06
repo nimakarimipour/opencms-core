@@ -55,6 +55,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.ServletRequest;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * One element of a container in a container page.<p>
@@ -288,7 +289,7 @@ public class CmsContainerElementBean implements Cloneable {
             throw new IllegalArgumentException();
         }
 
-        byte[] content = new byte[0];
+        @RUntainted byte[] content = new byte[0];
         String schema = ((CmsResourceTypeXmlContent)resourceType).getSchema();
         if (schema != null) {
             // must set URI of OpenCms user context to parent folder of created resource,

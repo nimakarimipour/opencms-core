@@ -63,6 +63,8 @@ import java.util.Locale;
 
 import org.apache.commons.collections.Closure;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Provides File utility functions.<p>
@@ -82,10 +84,10 @@ public final class CmsFileUtil {
         private File m_currentDir;
 
         /** List of subdirectories of the current directory. */
-        private List<File> m_directories;
+        private List<@RUntainted File> m_directories;
 
         /** List of files of the current directory. */
-        private List<File> m_files;
+        private List<@RUntainted File> m_files;
 
         /**
          * Creates a new file walk state.<P>
@@ -94,7 +96,7 @@ public final class CmsFileUtil {
          * @param dirs the list of subdirectories
          * @param files the list of files
          */
-        public FileWalkState(File currentDir, List<File> dirs, List<File> files) {
+        public FileWalkState(File currentDir, List<@RUntainted File> dirs, List<@RUntainted File> files) {
 
             m_currentDir = currentDir;
             m_directories = dirs;
@@ -116,7 +118,7 @@ public final class CmsFileUtil {
          *
          * @return the list of subdirectories
          */
-        public List<File> getDirectories() {
+        public List<@RUntainted File> getDirectories() {
 
             return m_directories;
         }
@@ -126,7 +128,7 @@ public final class CmsFileUtil {
          *
          * @return the list of files
          */
-        public List<File> getFiles() {
+        public List<@RUntainted File> getFiles() {
 
             return m_files;
         }
@@ -149,7 +151,7 @@ public final class CmsFileUtil {
      * @param path the path to add the trailing separator to
      * @return the path with a trailing separator
      */
-    public static String addTrailingSeparator(String path) {
+    public static @RPolyTainted String addTrailingSeparator(@RPolyTainted String path) {
 
         int l = path.length();
         if ((l == 0) || (path.charAt(l - 1) != '/')) {
@@ -197,7 +199,7 @@ public final class CmsFileUtil {
      * @param toFile the name of the target file
      * @throws IOException if any IO error occurs during the copy operation
      */
-    public static void copy(String fromFile, String toFile) throws IOException {
+    public static void copy(@RUntainted String fromFile, @RUntainted String toFile) throws IOException {
 
         File inputFile = new File(fromFile);
         File outputFile = new File(toFile);
@@ -208,7 +210,7 @@ public final class CmsFileUtil {
         FileOutputStream out = new FileOutputStream(outputFile);
 
         // transfer bytes from in to out
-        byte[] buf = new byte[1024];
+        @RUntainted byte[] buf = new byte[1024];
         int len;
         while ((len = in.read(buf)) > 0) {
             out.write(buf, 0, len);
@@ -380,20 +382,20 @@ public final class CmsFileUtil {
      *
      * @return a list of filtered <code>{@link File}</code> objects
      */
-    public static List<File> getFiles(String name, FileFilter filter, boolean includeSubtree) {
+    public static List<@RUntainted File> getFiles(@RUntainted String name, FileFilter filter, boolean includeSubtree) {
 
-        List<File> ret = new ArrayList<File>();
+        List<@RUntainted File> ret = new ArrayList<@RUntainted File>();
 
-        File file = new File(name);
+        @RUntainted File file = new File(name);
         if (!file.isDirectory()) {
             file = new File(file.getParent());
             if (!file.isDirectory()) {
                 return ret;
             }
         }
-        File[] dirContent = file.listFiles();
+        @RUntainted File[] dirContent = file.listFiles();
         for (int i = 0; i < dirContent.length; i++) {
-            File f = dirContent[i];
+            @RUntainted File f = dirContent[i];
             if (filter.accept(f)) {
                 ret.add(f);
             }
@@ -416,7 +418,7 @@ public final class CmsFileUtil {
      *
      * @return The full uri to the JSP
      */
-    public static String getRepositoryName(String repository, String vfspath, boolean online) {
+    public static @RUntainted String getRepositoryName(String repository, String vfspath, boolean online) {
 
         StringBuffer result = new StringBuffer(64);
         result.append(repository);
@@ -462,7 +464,7 @@ public final class CmsFileUtil {
      *
      * @see #normalizePath(String, char)
      */
-    public static String normalizePath(String path) {
+    public static @RPolyTainted String normalizePath(@RPolyTainted String path) {
 
         return normalizePath(path, File.separatorChar);
     }
@@ -531,7 +533,7 @@ public final class CmsFileUtil {
      *
      * @see #normalizePath(URL, char)
      */
-    public static String normalizePath(URL url) {
+    public static @RPolyTainted String normalizePath(@RPolyTainted @RUntainted URL url) {
 
         return normalizePath(url, File.separatorChar);
     }
@@ -547,7 +549,7 @@ public final class CmsFileUtil {
      *
      * @return the normalized file path created from the given URL
      */
-    public static String normalizePath(URL url, char separatorChar) {
+    public static @RPolyTainted String normalizePath(@RUntainted URL url, @RPolyTainted char separatorChar) {
 
         // get the path part from the URL
         String path = new File(url.getPath()).getAbsolutePath();
@@ -588,7 +590,7 @@ public final class CmsFileUtil {
      * @throws IOException in case of file access errors
      */
     @SuppressWarnings("resource")
-    public static byte[] readFile(File file) throws IOException {
+    public static @RUntainted byte[] readFile(File file) throws IOException {
 
         // create input and output stream
         FileInputStream in = new FileInputStream(file);
@@ -639,7 +641,7 @@ public final class CmsFileUtil {
      *
      * @throws IOException in case of errors in the underlying java.io methods used
      */
-    public static byte[] readFully(InputStream in) throws IOException {
+    public static @RUntainted byte[] readFully(InputStream in) throws IOException {
 
         return readFully(in, true);
     }
@@ -654,7 +656,7 @@ public final class CmsFileUtil {
      *
      * @throws IOException in case of errors in the underlying java.io methods used
      */
-    public static byte[] readFully(InputStream in, boolean closeInputStream) throws IOException {
+    public static @RUntainted byte[] readFully(InputStream in, boolean closeInputStream) throws IOException {
 
         if (in instanceof ByteArrayInputStream) {
             // content can be read in one pass
@@ -689,7 +691,7 @@ public final class CmsFileUtil {
      *
      * @throws IOException in case of errors in the underlying java.io methods used
      */
-    public static byte[] readFully(InputStream in, int size) throws IOException {
+    public static @RUntainted byte[] readFully(InputStream in, int size) throws IOException {
 
         return readFully(in, size, true);
     }
@@ -706,10 +708,10 @@ public final class CmsFileUtil {
      *
      * @throws IOException in case of errors in the underlying java.io methods used
      */
-    public static byte[] readFully(InputStream in, int size, boolean closeStream) throws IOException {
+    public static @RUntainted byte[] readFully(InputStream in, int size, boolean closeStream) throws IOException {
 
         // create the byte array to hold the data
-        byte[] bytes = new byte[size];
+        @RUntainted byte[] bytes = new byte[size];
 
         // read in the bytes
         int offset = 0;
@@ -745,7 +747,7 @@ public final class CmsFileUtil {
      * @param path the path to remove the leading separator from
      * @return the path without a trailing separator
      */
-    public static String removeLeadingSeparator(String path) {
+    public static @RPolyTainted String removeLeadingSeparator(@RPolyTainted String path) {
 
         int l = path.length();
         if (l == 0) {
@@ -882,13 +884,13 @@ public final class CmsFileUtil {
      *
      * @return String the path of the 'WEB-INF' folder in the 'real' file system, or <code>null</code>
      */
-    public static String searchWebInfFolder(String startFolder) {
+    public static @RUntainted String searchWebInfFolder(@RUntainted String startFolder) {
 
         if (CmsStringUtil.isEmpty(startFolder)) {
             return null;
         }
 
-        File f = new File(startFolder);
+        @RUntainted File f = new File(startFolder);
         if (!f.exists() || !f.isDirectory()) {
             return null;
         }
@@ -900,7 +902,7 @@ public final class CmsFileUtil {
 
         String webInfFolder = null;
         File[] subFiles = f.listFiles();
-        List<File> fileList = new ArrayList<File>(Arrays.asList(subFiles));
+        List<@RUntainted File> fileList = new ArrayList<@RUntainted File>(Arrays.asList(subFiles));
         Collections.sort(fileList, new Comparator<File>() {
 
             public int compare(File arg0, File arg1) {
@@ -913,7 +915,7 @@ public final class CmsFileUtil {
             }
         });
 
-        for (File file : fileList) {
+        for (@RUntainted File file : fileList) {
             if (file.isDirectory()) {
                 webInfFolder = searchWebInfFolder(file.getAbsolutePath());
                 if (webInfFolder != null) {
@@ -940,7 +942,7 @@ public final class CmsFileUtil {
      * @param base the base folder
      * @param action a callback which will be passed a FileWalkState object for every directory encountered
      */
-    public static void walkFileSystem(File base, Closure action) {
+    public static void walkFileSystem(@RUntainted File base, Closure action) {
 
         List<FileWalkState> m_states = new ArrayList<FileWalkState>();
         m_states.add(createFileWalkState(base));
@@ -948,7 +950,7 @@ public final class CmsFileUtil {
             // pop the top off the state stack, process it, then push states for all subdirectories onto it
             FileWalkState last = m_states.remove(m_states.size() - 1);
             action.execute(last);
-            for (File dir : last.getDirectories()) {
+            for (@RUntainted File dir : last.getDirectories()) {
                 m_states.add(createFileWalkState(dir));
             }
         }
@@ -961,12 +963,12 @@ public final class CmsFileUtil {
      *
      * @return the file walk state
      */
-    private static FileWalkState createFileWalkState(File file) {
+    private static FileWalkState createFileWalkState(@RUntainted File file) {
 
-        File[] contents = file.listFiles();
-        List<File> dirs = new ArrayList<File>();
-        List<File> files = new ArrayList<File>();
-        for (File subFile : contents) {
+        @RUntainted File[] contents = file.listFiles();
+        List<@RUntainted File> dirs = new ArrayList<@RUntainted File>();
+        List<@RUntainted File> files = new ArrayList<@RUntainted File>();
+        for (@RUntainted File subFile : contents) {
             if (subFile.isDirectory()) {
                 dirs.add(subFile);
             } else {

@@ -34,6 +34,7 @@ import org.opencms.security.CmsPrincipal;
 import org.opencms.util.CmsUUID;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes an OpenCms historical project entry.<p>
@@ -72,7 +73,7 @@ public class CmsHistoryProject extends CmsProject {
      */
     public CmsHistoryProject(
         int publishTag,
-        CmsUUID projectId,
+        @RUntainted CmsUUID projectId,
         String name,
         String description,
         CmsUUID ownerId,

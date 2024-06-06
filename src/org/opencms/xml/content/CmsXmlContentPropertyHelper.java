@@ -80,6 +80,7 @@ import org.dom4j.Element;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Supplier;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides common methods on XML property configuration.<p>

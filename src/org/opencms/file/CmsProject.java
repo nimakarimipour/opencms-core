@@ -35,6 +35,7 @@ import org.opencms.util.CmsUUID;
 
 import java.io.Serializable;
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Describes an OpenCms project,
@@ -110,7 +111,7 @@ public class CmsProject implements Cloneable, Comparable<CmsProject>, Serializab
     public static final String ONLINE_PROJECT_NAME = "Online";
 
     /** The id of the online project. */
-    public static final CmsUUID ONLINE_PROJECT_ID = CmsUUID.getConstantUUID(ONLINE_PROJECT_NAME);
+    public static final @RUntainted CmsUUID ONLINE_PROJECT_ID = CmsUUID.getConstantUUID(ONLINE_PROJECT_NAME);
 
     /** Indicates that a project is invisible in the workplace. */
     public static final int PROJECT_FLAG_HIDDEN = 4;
@@ -149,7 +150,7 @@ public class CmsProject implements Cloneable, Comparable<CmsProject>, Serializab
     private CmsUUID m_groupUsersId;
 
     /** The id of this project. */
-    private CmsUUID m_id;
+    private @RUntainted CmsUUID m_id;
 
     /** The name of this project. */
     private String m_name;
@@ -182,7 +183,7 @@ public class CmsProject implements Cloneable, Comparable<CmsProject>, Serializab
      * @param type the type of this project
      */
     public CmsProject(
-        CmsUUID projectId,
+        @RUntainted CmsUUID projectId,
         String projectFqn,
         String description,
         CmsUUID ownerId,
@@ -431,7 +432,7 @@ public class CmsProject implements Cloneable, Comparable<CmsProject>, Serializab
      *
      * @return the id of this project
      */
-    public CmsUUID getUuid() {
+    public @RUntainted CmsUUID getUuid() {
 
         return m_id;
     }

@@ -41,6 +41,8 @@ import org.apache.commons.logging.Log;
 import org.safehaus.uuid.EthernetAddress;
 import org.safehaus.uuid.UUID;
 import org.safehaus.uuid.UUIDGenerator;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Generates a UUID using spatial and temporal uniqueness.<p>
@@ -72,7 +74,7 @@ public final class CmsUUID extends Object implements Cloneable, Comparable<CmsUU
     private static EthernetAddress m_ethernetAddress;
 
     /** OpenCms UUID (name based uuid of "www.opencms.org" in the dns name space). */
-    private static UUID m_opencmsUUID = UUIDGenerator.getInstance().generateNameBasedUUID(
+    private static @RUntainted UUID m_opencmsUUID = UUIDGenerator.getInstance().generateNameBasedUUID(
         new UUID(UUID.NAMESPACE_DNS),
         "www.opencms.org");
 
@@ -159,7 +161,7 @@ public final class CmsUUID extends Object implements Cloneable, Comparable<CmsUU
      * @param name the name to derive the uuid from
      * @return name based UUID of the given name
      */
-    public static CmsUUID getConstantUUID(String name) {
+    public static @RPolyTainted CmsUUID getConstantUUID(@RPolyTainted String name) {
 
         return new CmsUUID(UUIDGenerator.getInstance().generateNameBasedUUID(m_opencmsUUID, name));
     }
@@ -169,7 +171,7 @@ public final class CmsUUID extends Object implements Cloneable, Comparable<CmsUU
      *
      * @return a String representing a dummy (random based) ethernet address
      */
-    public static String getDummyEthernetAddress() {
+    public static @RUntainted String getDummyEthernetAddress() {
 
         return UUIDGenerator.getInstance().getDummyAddress().toString();
     }
@@ -252,7 +254,7 @@ public final class CmsUUID extends Object implements Cloneable, Comparable<CmsUU
      * @return a clone of this CmsUUID
      */
     @Override
-    public Object clone() {
+    public @RUntainted Object clone() {
 
         if (this == NULL_UUID) {
             return NULL_UUID;
@@ -290,7 +292,7 @@ public final class CmsUUID extends Object implements Cloneable, Comparable<CmsUU
      *
      * @return the String representation of this UUID
      */
-    public String getStringValue() {
+    public @RUntainted String getStringValue() {
 
         return toString();
     }
@@ -372,7 +374,7 @@ public final class CmsUUID extends Object implements Cloneable, Comparable<CmsUU
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString() {
+    public @RUntainted String toString() {
 
         return m_uuid.toString();
     }

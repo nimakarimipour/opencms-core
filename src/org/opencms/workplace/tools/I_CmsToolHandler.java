@@ -31,6 +31,7 @@ import org.opencms.file.CmsObject;
 import org.opencms.workplace.CmsWorkplace;
 
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Interface for an admin tool handler.<p>

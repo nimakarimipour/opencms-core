@@ -31,6 +31,7 @@ import org.opencms.json.JSONArray;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Tag for defining a JSON array.

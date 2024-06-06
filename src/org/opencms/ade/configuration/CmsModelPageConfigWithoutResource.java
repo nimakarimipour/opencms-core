@@ -28,6 +28,7 @@
 package org.opencms.ade.configuration;
 
 import org.opencms.util.CmsUUID;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class contains the model page configuration for a sitemap region, without the actual resource.

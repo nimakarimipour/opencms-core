@@ -50,6 +50,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.v7.ui.CustomField;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.ui.Window;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The category select field.<p>

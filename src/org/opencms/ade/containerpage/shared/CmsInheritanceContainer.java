@@ -30,6 +30,7 @@ package org.opencms.ade.containerpage.shared;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The inheritance container data.<p>

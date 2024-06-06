@@ -44,6 +44,7 @@ import org.opencms.xml.containerpage.CmsXmlContainerPageFactory;
 import org.opencms.xml.containerpage.mutable.CmsMutableContainerPage;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Pre-fills the page by adding contents from a template page into a specific container of the page to fill.

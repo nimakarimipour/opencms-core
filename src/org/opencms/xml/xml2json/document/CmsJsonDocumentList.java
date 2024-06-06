@@ -55,6 +55,7 @@ import org.opencms.xml.xml2json.handler.CmsJsonHandlerXmlContent.PathNotFoundExc
 
 import java.util.Collections;
 import java.util.Locale;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class representing a JSON document for a CMS list.

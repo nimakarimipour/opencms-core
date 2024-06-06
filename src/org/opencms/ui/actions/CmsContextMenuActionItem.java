@@ -37,6 +37,7 @@ import org.opencms.ui.contextmenu.I_CmsContextMenuItem;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * A workplace action context menu item.<p>

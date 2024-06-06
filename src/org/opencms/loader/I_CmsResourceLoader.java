@@ -40,6 +40,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This interface describes a resource loader for OpenCms,
@@ -125,7 +126,7 @@ public interface I_CmsResourceLoader extends I_CmsConfigurationParameterHandler 
      * @throws CmsException in case something goes wrong
      * @return the contents to export, or <code>null</code> if no export is required
      */
-    byte[] export(CmsObject cms, CmsResource resource, HttpServletRequest req, HttpServletResponse res)
+    @RUntainted byte[] export(CmsObject cms, CmsResource resource, HttpServletRequest req, HttpServletResponse res)
     throws ServletException, IOException, CmsException;
 
     /**

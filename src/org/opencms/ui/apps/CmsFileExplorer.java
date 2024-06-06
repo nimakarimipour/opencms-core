@@ -127,6 +127,7 @@ import com.vaadin.v7.ui.Tree.ExpandEvent;
 import com.vaadin.v7.ui.Tree.ExpandListener;
 import com.vaadin.v7.ui.Tree.ItemStyleGenerator;
 import com.vaadin.v7.ui.Tree.TreeDragMode;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The file explorer app.<p>
@@ -581,7 +582,7 @@ I_CmsContextProvider, CmsFileTable.I_FolderSelectHandler {
     private HierarchicalContainer m_treeContainer;
 
     /** Upload action for the current folder. */
-    private String m_uploadAction;
+    private @RUntainted String m_uploadAction;
 
     /** The upload drop area extension. */
     private CmsUploadAreaExtension m_uploadArea;
@@ -2045,7 +2046,7 @@ I_CmsContextProvider, CmsFileTable.I_FolderSelectHandler {
      */
     private void updateUploadButton(CmsResource folder) {
 
-        String uploadAction = null;
+        @RUntainted String uploadAction = null;
         m_uploadFolder = folder;
         try {
             uploadAction = OpenCms.getResourceManager().getResourceType(folder).getConfiguration().get(

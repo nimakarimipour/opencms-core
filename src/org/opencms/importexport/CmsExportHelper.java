@@ -47,6 +47,7 @@ import org.apache.commons.logging.Log;
 
 import org.dom4j.io.SAXWriter;
 import org.xml.sax.SAXException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Wrapper to write exported OpenCms resources either to a .ZIP file or to the file system.<p>
@@ -61,7 +62,7 @@ public class CmsExportHelper {
     private static final Log LOG = CmsLog.getLog(CmsExportHelper.class);
 
     /** The main export path. */
-    private String m_exportPath;
+    private @RUntainted String m_exportPath;
 
     /** The export ZIP stream to write resources to. */
     private ZipOutputStream m_exportZipStream;
@@ -82,7 +83,7 @@ public class CmsExportHelper {
      * @throws SAXException in case of issues creating the manifest.xml
      * @throws IOException in case of file access issues
      */
-    public CmsExportHelper(String exportPath, boolean exportAsFiles, boolean validateXml)
+    public CmsExportHelper(@RUntainted String exportPath, boolean exportAsFiles, boolean validateXml)
     throws SAXException, IOException {
 
         m_exportPath = exportPath;
@@ -94,14 +95,14 @@ public class CmsExportHelper {
         if (m_isExportAsFiles) {
             m_exportPath = m_exportPath + "/";
             // write to file system directly
-            String fileName = getRfsFileName(CmsImportExportManager.EXPORT_MANIFEST);
+            @RUntainted String fileName = getRfsFileName(CmsImportExportManager.EXPORT_MANIFEST);
             File rfsFile = new File(fileName);
             rfsFile.getParentFile().mkdirs();
             rfsFile.createNewFile();
             writer = new FileWriter(rfsFile);
         } else {
             // make sure parent folders exist
-            File rfsFile = new File(m_exportPath);
+            @RUntainted File rfsFile = new File(m_exportPath);
             rfsFile.getParentFile().mkdirs();
             // create the export ZIP stream
             m_exportZipStream = new ZipOutputStream(new FileOutputStream(m_exportPath));
@@ -160,7 +161,7 @@ public class CmsExportHelper {
      *
      * @throws IOException in case of file access issues
      */
-    public void writeFile(CmsFile file, String name) throws IOException {
+    public void writeFile(CmsFile file, @RUntainted String name) throws IOException {
 
         if (m_isExportAsFiles) {
             writeFile2Rfs(file, name);
@@ -193,7 +194,7 @@ public class CmsExportHelper {
      *
      * @return the RFS file name for the given OpenCms VFS file name
      */
-    protected String getRfsFileName(String name) {
+    protected @RUntainted String getRfsFileName(@RUntainted String name) {
 
         return m_exportPath + name;
     }
@@ -203,7 +204,7 @@ public class CmsExportHelper {
      *
      * @param exportPath the export output path
      */
-    protected void removeOldExport(String exportPath) {
+    protected void removeOldExport(@RUntainted String exportPath) {
 
         File output = new File(exportPath);
         if (output.exists()) {
@@ -230,9 +231,9 @@ public class CmsExportHelper {
      *
      * @throws IOException in case of file access issues
      */
-    protected void writeFile2Rfs(CmsFile file, String name) throws IOException {
+    protected void writeFile2Rfs(CmsFile file, @RUntainted String name) throws IOException {
 
-        String fileName = getRfsFileName(name);
+        @RUntainted String fileName = getRfsFileName(name);
         File rfsFile = new File(fileName);
         if (!rfsFile.getParentFile().exists()) {
             rfsFile.getParentFile().mkdirs();

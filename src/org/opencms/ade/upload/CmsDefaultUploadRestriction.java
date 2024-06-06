@@ -37,6 +37,7 @@ import org.opencms.security.CmsRole;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Default implementation for upload restrictions uses restriction entries from opencms-workplace.xml.

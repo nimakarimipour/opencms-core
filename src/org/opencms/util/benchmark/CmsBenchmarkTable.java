@@ -28,6 +28,7 @@
 package org.opencms.util.benchmark;
 
 import java.util.concurrent.ConcurrentHashMap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manages a set of benchmark timers.<p>
@@ -49,14 +50,14 @@ public class CmsBenchmarkTable {
          * @param sampleName the sample name
          * @param sampleTime the sample time
          */
-        void receiveSample(String sampleName, long sampleTime);
+        void receiveSample(@RUntainted String sampleName, @RUntainted long sampleTime);
     }
 
     /** The benchmark sample receiver. */
     private Receiver m_receiver;
 
     /** Records start times for each benchmark timer. */
-    private ConcurrentHashMap<String, Long> m_startTimes = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, @RUntainted Long> m_startTimes = new ConcurrentHashMap<>();
 
     /**
      * Creates a new instance.
@@ -88,12 +89,12 @@ public class CmsBenchmarkTable {
      *
      * @param name the name of the timer
      */
-    public void stop(String name) {
+    public void stop(@RUntainted String name) {
 
         if (!m_startTimes.containsKey(name)) {
             throw new IllegalStateException("Can't stop a timer that wasn't started: " + name);
         }
-        long duration = System.currentTimeMillis() - m_startTimes.get(name).longValue();
+        @RUntainted long duration = System.currentTimeMillis() - m_startTimes.get(name).longValue();
         m_receiver.receiveSample(name, duration);
         m_startTimes.remove(name);
     }

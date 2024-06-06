@@ -41,6 +41,7 @@ import org.opencms.report.I_CmsReport;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Subclass which doesn't actually import anything, but just reads the module data into a
@@ -124,7 +125,7 @@ public class CmsImportResourceDataReader extends CmsImportVersion10 {
             boolean resourceImmutable = checkImmutable(translatedName);
             translatedName = getRequestContext().removeSiteRoot(translatedName);
             if (!resourceImmutable) {
-                byte[] content = null;
+                @RUntainted byte[] content = null;
                 if (m_source != null) {
                     content = m_helper.getFileBytes(m_source);
                 }

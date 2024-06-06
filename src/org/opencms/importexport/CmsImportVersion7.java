@@ -91,6 +91,7 @@ import org.dom4j.Document;
 import org.xml.sax.SAXException;
 
 import com.google.common.collect.ComparisonChain;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Adds the XML handler rules for import and export of resources and accounts.<p>
@@ -420,7 +421,7 @@ public class CmsImportVersion7 implements I_CmsImport {
     private CmsUUID m_resourceId;
 
     /** The source value. */
-    private String m_source;
+    private @RUntainted String m_source;
 
     /** The structure id value. */
     private CmsUUID m_structureId;
@@ -530,7 +531,7 @@ public class CmsImportVersion7 implements I_CmsImport {
      *
      * @param resourceId
      */
-    public void addContentFile(String source, String resourceId) {
+    public void addContentFile(@RUntainted String source, String resourceId) {
 
         if ((source != null) && (resourceId != null)) {
             try {
@@ -1954,7 +1955,7 @@ public class CmsImportVersion7 implements I_CmsImport {
         CmsObject cms,
         String importPath,
         I_CmsReport report,
-        File importResource,
+        @RUntainted File importResource,
         ZipFile importZip,
         Document docXml) {
 
@@ -2747,7 +2748,7 @@ public class CmsImportVersion7 implements I_CmsImport {
      * @see #N_SOURCE
      * @see #addResourceAttributesRules(Digester, String)
      */
-    public void setSource(String source) {
+    public void setSource(@RUntainted String source) {
 
         m_source = source;
     }

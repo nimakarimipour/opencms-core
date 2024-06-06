@@ -40,6 +40,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class which handles loading/saving user data requests.
@@ -57,7 +58,7 @@ public class CmsUserDataRequestStore {
     private CmsObject m_adminCms;
 
     /** Folder to store requests in. */
-    private File m_folder;
+    private @RUntainted File m_folder;
 
     /**
      * Creates a new instance.
@@ -84,10 +85,10 @@ public class CmsUserDataRequestStore {
      */
     public void cleanup() {
 
-        File[] files = m_folder.listFiles();
+        @RUntainted File[] files = m_folder.listFiles();
         if (files != null) {
-            for (File file : files) {
-                String key = file.getName();
+            for (@RUntainted File file : files) {
+                @RUntainted String key = file.getName();
                 try {
                     CmsUserDataRequestInfo info = load(key).orElse(null);
                     if ((info != null) && info.isExpired()) {
@@ -124,7 +125,7 @@ public class CmsUserDataRequestStore {
      * @param key the id
      * @return the user data request with the id, or null if it was not found
      */
-    public Optional<CmsUserDataRequestInfo> load(String key) {
+    public Optional<CmsUserDataRequestInfo> load(@RUntainted String key) {
 
         if (!isValidKey(key)) {
             return Optional.empty();

@@ -53,6 +53,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Allows to import resources from the filesystem or a ZIP file into the OpenCms VFS.<p>
@@ -71,13 +72,13 @@ public class CmsImportFolder {
     private List<CmsResource> m_importedResources = new ArrayList<CmsResource>();
 
     /** The name of the import folder to load resources from. */
-    private String m_importFolderName;
+    private @RUntainted String m_importFolderName;
 
     /** The import path in the OpenCms VFS. */
     private String m_importPath;
 
     /** The resource (folder or ZIP file) to import from in the real file system. */
-    private File m_importResource;
+    private @RUntainted File m_importResource;
 
     /** Will be true if the import resource is a valid ZIP file. */
     private boolean m_validZipFile;
@@ -118,7 +119,7 @@ public class CmsImportFolder {
      * @param cms a OpenCms context to provide the permissions
      * @throws CmsException if something goes wrong
      */
-    public CmsImportFolder(String importFolderName, String importPath, CmsObject cms)
+    public CmsImportFolder(@RUntainted String importFolderName, String importPath, CmsObject cms)
     throws CmsException {
 
         importFolder(importFolderName, importPath, cms);
@@ -142,7 +143,7 @@ public class CmsImportFolder {
      * @param cms a OpenCms context to provide the permissions
      * @throws CmsException if something goes wrong
      */
-    public void importFolder(String importFolderName, String importPath, CmsObject cms) throws CmsException {
+    public void importFolder(@RUntainted String importFolderName, String importPath, CmsObject cms) throws CmsException {
 
         try {
             m_importedResources = new ArrayList<CmsResource>();
@@ -250,10 +251,10 @@ public class CmsImportFolder {
      * @param importPath the OpenCms VFS import path to import to
      * @throws Exception if something goes wrong during file IO
      */
-    private void importResources(File folder, String importPath) throws Exception {
+    private void importResources(@RUntainted File folder, String importPath) throws Exception {
 
-        String[] diskFiles = folder.list();
-        File currentFile;
+        @RUntainted String[] diskFiles = folder.list();
+        @RUntainted File currentFile;
 
         for (int i = 0; i < diskFiles.length; i++) {
             currentFile = new File(folder, diskFiles[i]);

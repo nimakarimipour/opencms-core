@@ -74,6 +74,7 @@ import org.dom4j.io.XMLWriter;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Configuration manager for digesting the OpenCms XML configuration.<p>
@@ -122,10 +123,10 @@ public class CmsConfigurationManager implements I_CmsXmlConfiguration {
     private static final long MAX_BACKUP_DAYS = 15;
 
     /** The folder where to store the backup files of the configuration. */
-    private File m_backupFolder;
+    private @RUntainted File m_backupFolder;
 
     /** The base folder where the configuration files are located. */
-    private File m_baseFolder;
+    private @RUntainted File m_baseFolder;
 
     /** The initialized configuration classes. */
     private List<I_CmsXmlConfiguration> m_configurations;
@@ -144,7 +145,7 @@ public class CmsConfigurationManager implements I_CmsXmlConfiguration {
      *
      * @param baseFolder base folder where XML configurations to load are located
      */
-    public CmsConfigurationManager(String baseFolder) {
+    public CmsConfigurationManager(@RUntainted String baseFolder) {
 
         m_baseFolder = new File(baseFolder);
         if (!m_baseFolder.exists()) {
@@ -327,7 +328,7 @@ public class CmsConfigurationManager implements I_CmsXmlConfiguration {
     /**
      * @see org.opencms.configuration.I_CmsXmlConfiguration#getXmlFileName()
      */
-    public String getXmlFileName() {
+    public @RUntainted String getXmlFileName() {
 
         return DEFAULT_XML_FILE_NAME;
     }
@@ -471,7 +472,7 @@ public class CmsConfigurationManager implements I_CmsXmlConfiguration {
      *
      * @return the path to the XSLT transformation
      */
-    String getTransformationPath() {
+    @RUntainted String getTransformationPath() {
 
         String path = System.getProperty("opencms.config.transform");
         if (path == null) {
@@ -487,7 +488,7 @@ public class CmsConfigurationManager implements I_CmsXmlConfiguration {
      */
     boolean hasTransformation() {
 
-        String transformationPath = getTransformationPath();
+        @RUntainted String transformationPath = getTransformationPath();
         boolean result = (transformationPath != null) && new File(transformationPath).exists();
         if (result) {
             CmsLog.INIT.info(Messages.get().getBundle().key(Messages.INIT_XSLT_CONFIG_ENABLED_1, transformationPath));
@@ -514,7 +515,7 @@ public class CmsConfigurationManager implements I_CmsXmlConfiguration {
     throws TransformerException, IOException, SAXException, ParserConfigurationException {
 
         String configPath = CmsStringUtil.joinPaths(url.getFile(), config.getXmlFileName());
-        String transformPath = getTransformationPath();
+        @RUntainted String transformPath = getTransformationPath();
         TransformerFactory factory = TransformerFactory.newInstance();
 
         ByteArrayOutputStream errBaos = new ByteArrayOutputStream();
@@ -574,7 +575,7 @@ public class CmsConfigurationManager implements I_CmsXmlConfiguration {
 
         String fromName = m_baseFolder.getAbsolutePath() + File.separatorChar + configuration.getXmlFileName();
         String toDatePrefix = BACKUP_DATE_FORMAT.format(new Date());
-        String toName = m_backupFolder.getAbsolutePath()
+        @RUntainted String toName = m_backupFolder.getAbsolutePath()
             + File.separatorChar
             + toDatePrefix
             + configuration.getXmlFileName();

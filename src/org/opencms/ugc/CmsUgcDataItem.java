@@ -28,6 +28,7 @@
 package org.opencms.ugc;
 
 import org.apache.commons.fileupload.FileItem;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Implementation of the I_CmsFormDataItem which delegates its methods to a FileItem from Apache Commons Upload.<p>

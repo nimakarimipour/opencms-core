@@ -70,6 +70,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generic (ANSI-SQL) database server implementation of the history driver methods.<p>
@@ -585,8 +586,8 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
     public byte[] readContent(CmsDbContext dbc, CmsUUID resourceId, int publishTag) throws CmsDataAccessException {
 
         Connection conn = null;
-        PreparedStatement stmt = null;
-        ResultSet res = null;
+        @RUntainted PreparedStatement stmt = null;
+        @RUntainted ResultSet res = null;
         byte[] content = null;
 
         try {
@@ -1695,7 +1696,7 @@ public class CmsHistoryDriver implements I_CmsDriver, I_CmsHistoryDriver {
      *
      * @throws SQLException if something goes wrong
      */
-    protected CmsHistoryProject internalCreateProject(ResultSet res, List<String> resources) throws SQLException {
+    protected CmsHistoryProject internalCreateProject(@RUntainted ResultSet res, List<String> resources) throws SQLException {
 
         String ou = CmsOrganizationalUnit.removeLeadingSeparator(
             res.getString(m_sqlManager.readQuery("C_PROJECTS_PROJECT_OU_0")));

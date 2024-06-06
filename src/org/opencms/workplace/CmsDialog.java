@@ -56,6 +56,7 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides methods for building the dialog windows of OpenCms.<p>
@@ -248,7 +249,7 @@ public class CmsDialog extends CmsToolDialog {
     private String m_paramAction;
 
     /** The close link parameter. */
-    private String m_paramCloseLink;
+    private @RUntainted String m_paramCloseLink;
 
     /** The dialog type. */
     private String m_paramDialogtype;
@@ -1163,7 +1164,7 @@ public class CmsDialog extends CmsToolDialog {
      *
      * @return the value of the close link parameter
      */
-    public String getParamCloseLink() {
+    public @RUntainted String getParamCloseLink() {
 
         if ((m_paramCloseLink == null) || "null".equals(m_paramCloseLink)) {
             return null;
@@ -1543,7 +1544,7 @@ public class CmsDialog extends CmsToolDialog {
      *
      * @param value the value to set
      */
-    public void setParamCloseLink(String value) {
+    public void setParamCloseLink(@RUntainted String value) {
 
         // ensure decoded chars are re-encoded again properly
 
@@ -1933,7 +1934,7 @@ public class CmsDialog extends CmsToolDialog {
      *
      * @throws IOException in case writing to the JSP output stream fails
      */
-    protected void openWorkplaceLink(String workplaceLink) throws IOException {
+    protected void openWorkplaceLink(@RUntainted String workplaceLink) throws IOException {
 
         // in case the close link points to the new workplace, make sure to set the new location on the top frame
         JspWriter out = getJsp().getJspContext().getOut();

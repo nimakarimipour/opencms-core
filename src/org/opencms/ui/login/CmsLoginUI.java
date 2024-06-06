@@ -81,6 +81,7 @@ import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.Window.CloseListener;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.VerticalLayout;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The UI class for the Vaadin-based login dialog.<p>
@@ -370,9 +371,9 @@ public class CmsLoginUI extends A_CmsUI {
      *
      * @return the settings
      */
-    private static CmsWorkplaceSettings getWorkplaceSettings(CmsObject cms, HttpSession session) {
+    private static CmsWorkplaceSettings getWorkplaceSettings(CmsObject cms, @RUntainted HttpSession session) {
 
-        CmsWorkplaceSettings settings = (CmsWorkplaceSettings)session.getAttribute(
+        @RUntainted CmsWorkplaceSettings settings = (CmsWorkplaceSettings)session.getAttribute(
             CmsWorkplaceManager.SESSION_WORKPLACE_SETTINGS);
         if (settings == null) {
             settings = CmsLoginHelper.initSiteAndProject(cms);
@@ -397,9 +398,9 @@ public class CmsLoginUI extends A_CmsUI {
      *
      * @return the selected org unit
      */
-    public String getOrgUnit() {
+    public @RUntainted String getOrgUnit() {
 
-        String result = m_loginForm.getOrgUnit();
+        @RUntainted String result = m_loginForm.getOrgUnit();
         if (result == null) {
             result = "";
         }
@@ -422,9 +423,9 @@ public class CmsLoginUI extends A_CmsUI {
      *
      * @return the PC type
      */
-    public String getPcType() {
+    public @RUntainted String getPcType() {
 
-        String result = m_loginForm.getPcType();
+        @RUntainted String result = m_loginForm.getPcType();
         if (result == null) {
             result = CmsLoginForm.PC_TYPE_PUBLIC;
         }
@@ -436,7 +437,7 @@ public class CmsLoginUI extends A_CmsUI {
      *
      * @return the user name
      */
-    public String getUser() {
+    public @RUntainted String getUser() {
 
         return m_loginForm.getUser();
     }

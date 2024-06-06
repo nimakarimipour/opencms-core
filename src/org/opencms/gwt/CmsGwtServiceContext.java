@@ -53,6 +53,7 @@ import org.apache.commons.logging.Log;
 
 import com.google.gwt.user.server.rpc.SerializationPolicy;
 import com.google.gwt.user.server.rpc.SerializationPolicyLoader;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * This class contains the data that should be cached for a specific service class.<p>
@@ -73,7 +74,7 @@ public class CmsGwtServiceContext implements I_CmsEventListener {
     private String m_name;
 
     /** The serialization policy path. */
-    private String m_serializationPolicyPath;
+    private @RUntainted String m_serializationPolicyPath;
 
     /** The offline serialization policy. */
     private SerializationPolicy m_serPolicyOffline;
@@ -180,7 +181,7 @@ public class CmsGwtServiceContext implements I_CmsEventListener {
      *
      * @return the serialization policy for the given service
      */
-    protected SerializationPolicy getSerializationPolicy(CmsObject cms, String moduleBaseURL, String strongName) {
+    protected SerializationPolicy getSerializationPolicy(CmsObject cms, @RUntainted String moduleBaseURL, @RUntainted String strongName) {
 
         if (m_serializationPolicyPath == null) {
             m_serializationPolicyPath = getSerializationPolicyPath(moduleBaseURL, strongName);
@@ -196,7 +197,7 @@ public class CmsGwtServiceContext implements I_CmsEventListener {
      *
      * @return the serialization policy path
      */
-    protected String getSerializationPolicyPath(String moduleBaseURL, String strongName) {
+    protected @RUntainted String getSerializationPolicyPath(@RUntainted String moduleBaseURL, @RUntainted String strongName) {
 
         // locate the serialization policy file in OpenCms
         String modulePath = null;
@@ -243,7 +244,7 @@ public class CmsGwtServiceContext implements I_CmsEventListener {
                 is = connection.getInputStream();
             } else {
                 // try reading from the RFS
-                String rfsPath = m_serializationPolicyPath;
+                @RUntainted String rfsPath = m_serializationPolicyPath;
                 if (rfsPath.startsWith(OpenCms.getSystemInfo().getContextPath())) {
                     rfsPath = rfsPath.substring(OpenCms.getSystemInfo().getContextPath().length());
                 }

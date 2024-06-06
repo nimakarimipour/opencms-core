@@ -36,6 +36,7 @@ import java.util.Locale;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Exports the register client messages into a single JavaScript resource.<p>
@@ -75,7 +76,7 @@ public class CmsMessagesService extends CmsGwtService {
             // the default ISO-8859-1 is used."
             // (*): the OpenCms configured encoding (defaulting to UTF-8) is favoured over
             // ISO-8859-1 to allow for a wider charset support.
-            String characterEncoding = OpenCms.getSystemInfo().getDefaultEncoding();
+            @RUntainted String characterEncoding = OpenCms.getSystemInfo().getDefaultEncoding();
             response.setCharacterEncoding(characterEncoding);
             response.setContentType("text/javascript");
             Locale locale;

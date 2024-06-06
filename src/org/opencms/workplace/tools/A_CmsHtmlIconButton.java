@@ -33,6 +33,7 @@ import org.opencms.util.CmsStringUtil;
 import org.opencms.workplace.CmsWorkplace;
 
 import java.io.File;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Default skeleton for an html icon button.<p>
@@ -220,7 +221,7 @@ public abstract class A_CmsHtmlIconButton implements I_CmsHtmlIconButton {
                 icon.append(iconPath.substring(0, iconPath.lastIndexOf('.')));
                 icon.append("_disabled");
                 icon.append(iconPath.substring(iconPath.lastIndexOf('.')));
-                String resourcesRoot = OpenCms.getSystemInfo().getWebApplicationRfsPath() + "resources/";
+                @RUntainted String resourcesRoot = OpenCms.getSystemInfo().getWebApplicationRfsPath() + "resources/";
                 File test = new File(resourcesRoot + icon.toString());
                 if (test.exists()) {
                     html.append(icon);

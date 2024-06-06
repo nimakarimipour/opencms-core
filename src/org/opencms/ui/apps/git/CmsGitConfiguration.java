@@ -38,12 +38,13 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map.Entry;
 import java.util.Properties;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /** Access to a single git configuration file. */
 public class CmsGitConfiguration {
 
     /** The system module export path. */
-    private static final String SYSTEM_MODULE_EXPORTPATH = OpenCms.getSystemInfo().getPackagesRfsPath()
+    private static final @RUntainted String SYSTEM_MODULE_EXPORTPATH = OpenCms.getSystemInfo().getPackagesRfsPath()
         + CmsSystemInfo.FOLDER_MODULES;
 
     /** The variable under which the default commit message is set. */
@@ -88,7 +89,7 @@ public class CmsGitConfiguration {
     /** Flag, indicating if the lib/ folders of the modules should be removed before the commit. */
     private boolean m_defaultExcludeLibs;
     /** The export mode as configured - is ignored if the system export folder is chosen. */
-    private int m_defaultExportMode;
+    private @RUntainted int m_defaultExportMode;
     /** The git user email as configured. */
     private String m_defaultGitUserEmail;
     /** The git user name as configured. */
@@ -96,7 +97,7 @@ public class CmsGitConfiguration {
     /** Flag, indicating if execution of the script should go on for an unclean repository. */
     private boolean m_defaultIgnoreUnclean;
     /** The default module export path as configured. */
-    private String m_defaultModuleExportPath = "";
+    private @RUntainted String m_defaultModuleExportPath = "";
     /** The pull mode as configured. */
     private boolean m_defaultPullModeAfter;
     /** The pull mode as configured. */
@@ -116,13 +117,13 @@ public class CmsGitConfiguration {
     private boolean m_isValid;
 
     /** The configuration file. */
-    private File m_configFile;
+    private @RUntainted File m_configFile;
 
     /**
      * Default constructor to wrap a configuration file.
      * @param configFile the configuration file.
      */
-    CmsGitConfiguration(final File configFile) {
+    CmsGitConfiguration(final @RUntainted File configFile) {
         m_configFile = configFile;
         readConfigFile();
     }
@@ -227,7 +228,7 @@ public class CmsGitConfiguration {
     /** Returns the export mode.
      * @return the export mode.
      */
-    public int getExportMode() {
+    public @RUntainted int getExportMode() {
 
         return m_defaultModuleExportPath.isEmpty() ? 1 : m_defaultExportMode;
     }
@@ -236,7 +237,7 @@ public class CmsGitConfiguration {
      * Returns the path to the config file that is wrapped.
      * @return the path to the config file that is wrapped.
      */
-    public String getFilePath() {
+    public @RUntainted String getFilePath() {
 
         if (null != m_configFile) {
             return m_configFile.getAbsolutePath();
@@ -247,7 +248,7 @@ public class CmsGitConfiguration {
     /** Returns the RFS path where module .zip-files are read before check in.
      * @return the RFS path where module .zip-files are read before check in.
      */
-    public String getModuleExportPath() {
+    public @RUntainted String getModuleExportPath() {
 
         return m_defaultModuleExportPath.isEmpty() ? SYSTEM_MODULE_EXPORTPATH : m_defaultModuleExportPath;
     }
@@ -301,9 +302,9 @@ public class CmsGitConfiguration {
      * @param propValue the property value
      * @return the value of the variable set at this line.
      */
-    private String getValueFromProp(final String propValue) {
+    private @RUntainted String getValueFromProp(final @RUntainted String propValue) {
 
-        String value = propValue;
+        @RUntainted String value = propValue;
         // remove quotes
         value = value.trim();
         if ((value.startsWith("\"") && value.endsWith("\"")) || (value.startsWith("'") && value.endsWith("'"))) {
@@ -321,9 +322,9 @@ public class CmsGitConfiguration {
                 Properties props = new Properties();
                 try (FileInputStream input = new FileInputStream(m_configFile)) {
                     props.load(input);
-                    for (Entry<Object, Object> entry : props.entrySet()) {
+                    for (Entry<Object, @RUntainted Object> entry : props.entrySet()) {
                         String key = (String)entry.getKey();
-                        String propValue = (String)entry.getValue();
+                        @RUntainted String propValue = (String)entry.getValue();
                         if (key.equals(DEFAULT_MODULES_TO_EXPORT)) {
                             String value = getValueFromProp(propValue).trim();
                             if (value.contains(",")) {
@@ -399,7 +400,7 @@ public class CmsGitConfiguration {
                             m_defaultIgnoreUnclean = (value.trim().equals("1")) ? true : false;
                         }
                         if (key.equals(DEFAULT_COPY_AND_UNZIP)) {
-                            String value = getValueFromProp(propValue);
+                            @RUntainted String value = getValueFromProp(propValue);
                             m_defaultCopyAndUnzip = (value.trim().equals("1")) ? true : false;
                         }
                     }

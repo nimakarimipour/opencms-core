@@ -66,6 +66,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Manages the modules of an OpenCms installation.<p>
@@ -141,7 +142,7 @@ public class CmsModuleManager {
      *
      * @throws CmsConfigurationException if something goes wrong
      */
-    public static Map<String, List<String>> buildDepsForAllModules(String rfsAbsPath, boolean mode)
+    public static Map<String, List<String>> buildDepsForAllModules(@RUntainted String rfsAbsPath, boolean mode)
     throws CmsConfigurationException {
 
         Map<String, List<String>> ret = new HashMap<String, List<String>>();
@@ -216,7 +217,7 @@ public class CmsModuleManager {
      */
     public static Map<String, List<String>> buildDepsForModulelist(
         List<String> moduleNames,
-        String rfsAbsPath,
+        @RUntainted String rfsAbsPath,
         boolean mode)
     throws CmsConfigurationException {
 
@@ -250,19 +251,19 @@ public class CmsModuleManager {
      *
      * @throws CmsConfigurationException if something goes wrong
      */
-    public static Map<CmsModule, String> getAllModulesFromPath(String rfsAbsPath) throws CmsConfigurationException {
+    public static Map<CmsModule, String> getAllModulesFromPath(@RUntainted String rfsAbsPath) throws CmsConfigurationException {
 
         Map<CmsModule, String> modules = new HashMap<CmsModule, String>();
         if (rfsAbsPath == null) {
             return modules;
         }
-        File folder = new File(rfsAbsPath);
+        @RUntainted File folder = new File(rfsAbsPath);
         if (folder.exists()) {
             // list all child resources in the given folder
-            File[] folderFiles = folder.listFiles();
+            @RUntainted File[] folderFiles = folder.listFiles();
             if (folderFiles != null) {
                 for (int i = 0; i < folderFiles.length; i++) {
-                    File moduleFile = folderFiles[i];
+                    @RUntainted File moduleFile = folderFiles[i];
                     if (moduleFile.isFile() && !(moduleFile.getAbsolutePath().toLowerCase().endsWith(".zip"))) {
                         // skip non-ZIP files
                         continue;
@@ -298,7 +299,7 @@ public class CmsModuleManager {
      *
      * @throws CmsConfigurationException if something goes wrong
      */
-    public static List<String> topologicalSort(List<String> moduleNames, String rfsAbsPath)
+    public static List<String> topologicalSort(List<String> moduleNames, @RUntainted String rfsAbsPath)
     throws CmsConfigurationException {
 
         List<String> modules = new ArrayList<String>(moduleNames);
@@ -460,7 +461,7 @@ public class CmsModuleManager {
      * @throws CmsIllegalArgumentException if the module list is not consistent
      * @throws CmsConfigurationException if something goes wrong
      */
-    public void checkModuleSelectionList(List<String> moduleNames, String rfsAbsPath, boolean forDeletion)
+    public void checkModuleSelectionList(List<String> moduleNames, @RUntainted String rfsAbsPath, boolean forDeletion)
     throws CmsIllegalArgumentException, CmsConfigurationException {
 
         Map<String, List<String>> moduleDependencies = buildDepsForAllModules(rfsAbsPath, forDeletion);
@@ -917,7 +918,7 @@ public class CmsModuleManager {
      * @return the module replacement status
      * @throws CmsException if something goes wrong
      */
-    public CmsReplaceModuleInfo replaceModule(CmsObject cms, String importFile, I_CmsReport report)
+    public CmsReplaceModuleInfo replaceModule(CmsObject cms, @RUntainted String importFile, I_CmsReport report)
     throws CmsException {
 
         CmsModule module = CmsModuleImportExportHandler.readModuleFromImport(importFile);

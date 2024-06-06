@@ -66,6 +66,7 @@ import com.google.common.base.Objects;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class which manages import/export of modules from repositories configured in opencms-importexport.xml.<p>
@@ -210,7 +211,7 @@ public class CmsModuleImportExportRepository {
             String moduleName = module.getName();
             ensureFoldersExist();
 
-            String moduleFilePath = OpenCms.getSystemInfo().getAbsoluteRfsPathRelativeToWebInf(
+            @RUntainted String moduleFilePath = OpenCms.getSystemInfo().getAbsoluteRfsPathRelativeToWebInf(
                 CmsStringUtil.joinPaths(EXPORT_FOLDER_PATH, moduleName + ".zip"));
             File moduleFile = new File(moduleFilePath);
 
@@ -225,7 +226,7 @@ public class CmsModuleImportExportRepository {
                 handler.setAdditionalResources(moduleResources.toArray(new String[] {}));
                 // the import/export handler adds the zip extension if it is not there, so we append it here
                 String tempFileName = RandomStringUtils.randomAlphanumeric(8) + ".zip";
-                String tempFilePath = OpenCms.getSystemInfo().getAbsoluteRfsPathRelativeToWebInf(
+                @RUntainted String tempFilePath = OpenCms.getSystemInfo().getAbsoluteRfsPathRelativeToWebInf(
                     CmsStringUtil.joinPaths(EXPORT_FOLDER_PATH, tempFileName));
                 handler.setFileName(tempFilePath);
                 handler.setModuleName(moduleName);
@@ -285,7 +286,7 @@ public class CmsModuleImportExportRepository {
      * @param content the module ZIP file data
      * @throws CmsException if something goes wrong
      */
-    public synchronized void importModule(String name, byte[] content) throws CmsException {
+    public synchronized void importModule(String name, @RUntainted byte[] content) throws CmsException {
 
         String moduleName = null;
         boolean ok = true;
@@ -295,7 +296,7 @@ public class CmsModuleImportExportRepository {
                 LOG.debug("Zero-length module import content, ignoring it...");
             } else {
                 ensureFoldersExist();
-                String targetFilePath = createImportZipPath(name);
+                @RUntainted String targetFilePath = createImportZipPath(name);
                 try {
                     FileOutputStream out = new FileOutputStream(new File(targetFilePath));
                     out.write(content);
@@ -402,9 +403,9 @@ public class CmsModuleImportExportRepository {
      *
      * @return the generated path
      */
-    private String createImportZipPath(String name) {
+    private @RUntainted String createImportZipPath(String name) {
 
-        String path = "";
+        @RUntainted String path = "";
         do {
             String prefix = RandomStringUtils.randomAlphanumeric(6) + "-";
             path = OpenCms.getSystemInfo().getAbsoluteRfsPathRelativeToWebInf(
@@ -429,7 +430,7 @@ public class CmsModuleImportExportRepository {
     private void ensureFoldersExist() {
 
         for (String path : Arrays.asList(IMPORT_FOLDER_PATH, EXPORT_FOLDER_PATH)) {
-            String folderPath = OpenCms.getSystemInfo().getAbsoluteRfsPathRelativeToWebInf(path);
+            @RUntainted String folderPath = OpenCms.getSystemInfo().getAbsoluteRfsPathRelativeToWebInf(path);
             File folder = new File(folderPath);
             if (!folder.exists()) {
                 folder.mkdirs();

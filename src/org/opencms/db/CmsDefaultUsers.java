@@ -30,6 +30,7 @@ package org.opencms.db;
 import org.opencms.main.CmsRuntimeException;
 import org.opencms.security.CmsOrganizationalUnit;
 import org.opencms.util.CmsStringUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Provides access to the names of the OpenCms default users and groups.<p>

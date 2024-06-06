@@ -170,6 +170,8 @@ import org.antlr.stringtemplate.StringTemplate;
 import com.google.common.base.Optional;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gwt.user.client.rpc.core.java.util.LinkedHashMap_CustomFieldSerializer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * The internal implementation of the core OpenCms "operating system" functions.<p>
@@ -335,7 +337,7 @@ public final class OpenCmsCore {
     private CmsSubscriptionManager m_subscriptionManager;
 
     /** The system information container for "read only" system settings. */
-    private CmsSystemInfo m_systemInfo;
+    private @RUntainted CmsSystemInfo m_systemInfo;
 
     /** The template context manager. */
     private CmsTemplateContextManager m_templateContextManager;
@@ -960,7 +962,7 @@ public final class OpenCmsCore {
      *
      * @return the system information storage
      */
-    protected CmsSystemInfo getSystemInfo() {
+    protected @RUntainted CmsSystemInfo getSystemInfo() {
 
         return m_systemInfo;
     }
@@ -1247,7 +1249,7 @@ public final class OpenCmsCore {
                             || request.getRequestURI().startsWith(OpenCms.getSystemInfo().getWorkplaceContext()))
                             && getRoleManager().hasRole(newCms, CmsRole.ELEMENT_AUTHOR)) {
                             LOG.debug("Handling workplace login for user " + principal);
-                            CmsWorkplaceSettings settings = CmsLoginHelper.initSiteAndProject(newCms);
+                            @RUntainted CmsWorkplaceSettings settings = CmsLoginHelper.initSiteAndProject(newCms);
                             request.getSession(true).setAttribute(
                                 CmsWorkplaceManager.SESSION_WORKPLACE_SETTINGS,
                                 settings);
@@ -1532,8 +1534,8 @@ public final class OpenCmsCore {
         m_eventManager = configuredEventManager;
 
         // check if the encoding setting is valid
-        String setEncoding = systemConfiguration.getDefaultContentEncoding();
-        String defaultEncoding = CmsEncoder.lookupEncoding(setEncoding, null);
+        @RUntainted String setEncoding = systemConfiguration.getDefaultContentEncoding();
+        @RUntainted String defaultEncoding = CmsEncoder.lookupEncoding(setEncoding, null);
         if (defaultEncoding == null) {
             // we can not start without a valid encoding setting
             throw new CmsInitException(Messages.get().container(Messages.ERR_CRITICAL_INIT_ENCODING_1, setEncoding));
@@ -1874,7 +1876,7 @@ public final class OpenCmsCore {
      * @param context configuration of OpenCms from <code>web.xml</code>
      * @throws CmsInitException in case OpenCms can not be initialized
      */
-    protected synchronized void initContext(ServletContext context) throws CmsInitException {
+    protected synchronized void initContext(@RUntainted ServletContext context) throws CmsInitException {
 
         m_gwtServiceContexts = new HashMap<String, CmsGwtServiceContext>();
 
@@ -2125,7 +2127,7 @@ public final class OpenCmsCore {
      */
     protected void invokeGwtService(
         String serviceName,
-        HttpServletRequest req,
+        @RUntainted HttpServletRequest req,
         HttpServletResponse res,
         ServletConfig servletConfig) {
 
@@ -2235,7 +2237,7 @@ public final class OpenCmsCore {
                     if (OpenCms.getStaticExportManager().isExportLink(cms, uri)) {
                         // if we used the request's query string for getRfsName, clients could cause an unlimited number
                         // of files to be exported just by varying the request parameters!
-                        String url = m_linkManager.getOnlineLink(cms, uri);
+                        @RUntainted String url = m_linkManager.getOnlineLink(cms, uri);
                         res.sendRedirect(url);
                         return;
                     }
@@ -2596,7 +2598,7 @@ public final class OpenCmsCore {
      * @throws CmsInitException in case OpenCms can not be initialized
      * @return the initialized OpenCmsCore
      */
-    protected OpenCmsCore upgradeRunlevel(ServletContext context) throws CmsInitException {
+    protected OpenCmsCore upgradeRunlevel(@RUntainted ServletContext context) throws CmsInitException {
 
         synchronized (LOCK) {
             if ((m_instance != null) && (getRunLevel() >= OpenCms.RUNLEVEL_4_SERVLET_ACCESS)) {
@@ -2686,7 +2688,7 @@ public final class OpenCmsCore {
             } finally {
                 CmsDefaultProfilingHandler.INSTANCE.removeHandler(stats);
                 if (stats.hasData()) {
-                    String adeInitData = stats.dump();
+                    @RUntainted String adeInitData = stats.dump();
                     String prefix = String.format("%010X", Long.valueOf(System.currentTimeMillis() / 1000));
                     String path = OpenCms.getSystemInfo().getAbsoluteRfsPathRelativeToWebInf(
                         "logs/" + prefix + "_startup-ade-driver-report.xml");
@@ -2789,7 +2791,7 @@ public final class OpenCmsCore {
      * @param res the client response
      * @param t the exception that occurred
      */
-    private void errorHandling(CmsObject cms, HttpServletRequest req, HttpServletResponse res, Throwable t) {
+    private void errorHandling(CmsObject cms, HttpServletRequest req, HttpServletResponse res, @RUntainted Throwable t) {
 
         // remove the controller attribute from the request
         CmsFlexController.removeController(req);

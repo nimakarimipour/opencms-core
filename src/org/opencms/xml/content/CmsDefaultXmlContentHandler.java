@@ -147,6 +147,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Default implementation for the XML content handler, will be used by all XML contents that do not
@@ -3251,7 +3252,7 @@ public class CmsDefaultXmlContentHandler implements I_CmsXmlContentHandler, I_Cm
     protected void initJsonRenderer(Element element) {
 
         String cls = element.attributeValue(APPINFO_ATTR_CLASS);
-        Map<String, String> params = new HashMap<>();
+        Map<String, @RUntainted String> params = new HashMap<>();
         for (Element paramElement : element.elements(APPINFO_PARAM)) {
             String name = paramElement.attributeValue(APPINFO_ATTR_NAME);
             String value = paramElement.getText();

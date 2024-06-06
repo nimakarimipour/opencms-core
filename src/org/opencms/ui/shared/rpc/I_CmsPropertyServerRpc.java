@@ -28,6 +28,7 @@
 package org.opencms.ui.shared.rpc;
 
 import com.vaadin.shared.communication.ServerRpc;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Client-to-server rpc interface for the GWT dialog extension.<p>
@@ -39,7 +40,7 @@ public interface I_CmsPropertyServerRpc extends ServerRpc {
      *
      * @param delayMillis time to delay the RPC (for allowing short background operations to finish)
      */
-    void onClose(long delayMillis);
+    void onClose(@RUntainted long delayMillis);
 
     /**
      * Removes the extension on the server side.<p>

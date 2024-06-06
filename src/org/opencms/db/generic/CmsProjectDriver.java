@@ -105,6 +105,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 
 import com.google.common.collect.Sets;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Generic (ANSI-SQL) implementation of the project driver methods.<p>
@@ -256,7 +257,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
      */
     public CmsProject createProject(
         CmsDbContext dbc,
-        CmsUUID id,
+        @RUntainted CmsUUID id,
         CmsUser owner,
         CmsGroup group,
         CmsGroup managergroup,
@@ -2534,8 +2535,8 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
     public CmsPublishList readPublishList(CmsDbContext dbc, CmsUUID publishHistoryId) throws CmsDataAccessException {
 
         Connection conn = null;
-        PreparedStatement stmt = null;
-        ResultSet res = null;
+        @RUntainted PreparedStatement stmt = null;
+        @RUntainted ResultSet res = null;
         CmsPublishList publishList = null;
 
         try {
@@ -2574,8 +2575,8 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
      */
     public byte[] readPublishReportContents(CmsDbContext dbc, CmsUUID publishHistoryId) throws CmsDataAccessException {
 
-        PreparedStatement stmt = null;
-        ResultSet res = null;
+        @RUntainted PreparedStatement stmt = null;
+        @RUntainted ResultSet res = null;
         Connection conn = null;
         byte[] bytes = null;
 
@@ -3145,7 +3146,7 @@ public class CmsProjectDriver implements I_CmsDriver, I_CmsProjectDriver {
      *
      * @throws SQLException is something goes wrong
      */
-    protected CmsProject internalCreateProject(ResultSet res) throws SQLException {
+    protected CmsProject internalCreateProject(@RUntainted ResultSet res) throws SQLException {
 
         String ou = CmsOrganizationalUnit.removeLeadingSeparator(
             res.getString(m_sqlManager.readQuery("C_PROJECTS_PROJECT_OU_0")));

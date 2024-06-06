@@ -43,6 +43,8 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Resource bundle loader for property based resource bundles from OpenCms that has a flushable cache.<p>
@@ -362,14 +364,14 @@ public final class CmsResourceBundleLoader {
      * @param localizedName the name
      * @return the resource bundle if it was loaded, otherwise the backup
      */
-    private static I_CmsResourceBundle tryBundle(String localizedName) {
+    private static I_CmsResourceBundle tryBundle(@RUntainted String localizedName) {
 
         I_CmsResourceBundle result = null;
 
         try {
 
-            String resourceName = localizedName.replace('.', '/') + ".properties";
-            URL url = CmsResourceBundleLoader.class.getClassLoader().getResource(resourceName);
+            @RUntainted String resourceName = localizedName.replace('.', '/') + ".properties";
+            @RUntainted URL url = CmsResourceBundleLoader.class.getClassLoader().getResource(resourceName);
 
             I_CmsResourceBundle additionalBundle = m_permanentCache.get(localizedName);
             if (additionalBundle != null) {
@@ -377,7 +379,7 @@ public final class CmsResourceBundleLoader {
             } else if (url != null) {
                 // the resource was found on the file system
                 InputStream is = null;
-                String path = CmsFileUtil.normalizePath(url);
+                @RUntainted String path = CmsFileUtil.normalizePath(url);
                 File file = new File(path);
                 try {
                     // try to load the resource bundle from a file, NOT with the resource loader first

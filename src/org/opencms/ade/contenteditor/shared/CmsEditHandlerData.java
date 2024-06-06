@@ -30,6 +30,7 @@ package org.opencms.ade.contenteditor.shared;
 import org.opencms.util.CmsUUID;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Data which needs to be passed to the edit handler when using the 'new' button for an editable list element.<p>

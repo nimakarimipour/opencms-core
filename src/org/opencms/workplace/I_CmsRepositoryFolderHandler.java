@@ -28,6 +28,7 @@
 package org.opencms.workplace;
 
 import org.opencms.file.CmsObject;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Evaluates the repository folder.<p>

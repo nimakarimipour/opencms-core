@@ -98,6 +98,7 @@ import com.vaadin.v7.data.Item;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.DefaultItemSorter;
 import com.vaadin.v7.data.util.IndexedContainer;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * The class contains the logic behind the message translation editor.
@@ -320,14 +321,14 @@ public class CmsMessageBundleEditorModel {
          * @param escapeUnicode flag, indicating if unicode signs should be escaped
          * @return the converted string
          */
-        private String saveConvert(String theString, boolean escapeSpace, boolean escapeUnicode) {
+        private @RUntainted String saveConvert(@RUntainted String theString, boolean escapeSpace, boolean escapeUnicode) {
 
-            int len = theString.length();
-            int bufLen = len * 2;
+            @RUntainted int len = theString.length();
+            @RUntainted int bufLen = len * 2;
             if (bufLen < 0) {
                 bufLen = Integer.MAX_VALUE;
             }
-            StringBuffer outBuffer = new StringBuffer(bufLen);
+            @RUntainted StringBuffer outBuffer = new StringBuffer(bufLen);
 
             for (int x = 0; x < len; x++) {
                 char aChar = theString.charAt(x);
@@ -403,11 +404,11 @@ public class CmsMessageBundleEditorModel {
         private void store0(BufferedWriter bw, boolean escUnicode) throws IOException {
 
             synchronized (this) {
-                List<Object> keys = new ArrayList<Object>(super.keySet());
+                List<@RUntainted Object> keys = new ArrayList<@RUntainted Object>(super.keySet());
                 Collections.sort(keys, CmsCaseInsensitiveStringComparator.getInstance());
-                for (Object k : keys) {
-                    String key = (String)k;
-                    String val = (String)get(key);
+                for (@RUntainted Object k : keys) {
+                    @RUntainted String key = (String)k;
+                    @RUntainted String val = (String)get(key);
                     key = saveConvert(key, true, escUnicode);
                     /* No need to escape embedded and trailing spaces for value, hence
                      * pass false to flag.

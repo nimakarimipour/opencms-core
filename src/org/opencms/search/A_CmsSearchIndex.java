@@ -54,6 +54,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.apache.commons.logging.Log;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Abstract base class for search indexes. It provides default implementations that should fit most use
@@ -101,10 +102,10 @@ public abstract class A_CmsSearchIndex implements I_CmsSearchIndex {
     private Locale m_locale;
 
     /** The name of this index. */
-    private String m_name;
+    private @RUntainted String m_name;
 
     /** The path where this index stores it's data in the "real" file system. */
-    private String m_path;
+    private @RUntainted String m_path;
 
     /** The project of this index. */
     private String m_project;
@@ -139,7 +140,7 @@ public abstract class A_CmsSearchIndex implements I_CmsSearchIndex {
      *
      * @throws CmsIllegalArgumentException if the given name is null, empty or already taken by another search index
      */
-    public A_CmsSearchIndex(String name)
+    public A_CmsSearchIndex(@RUntainted String name)
     throws CmsIllegalArgumentException {
 
         this();
@@ -413,7 +414,7 @@ public abstract class A_CmsSearchIndex implements I_CmsSearchIndex {
     /**
      * @see org.opencms.search.I_CmsSearchIndex#getName()
      */
-    public String getName() {
+    public @RUntainted String getName() {
 
         return m_name;
     }
@@ -421,7 +422,7 @@ public abstract class A_CmsSearchIndex implements I_CmsSearchIndex {
     /**
      * @see org.opencms.search.I_CmsSearchIndex#getPath()
      */
-    public String getPath() {
+    public @RUntainted String getPath() {
 
         return m_path;
     }
@@ -665,7 +666,7 @@ public abstract class A_CmsSearchIndex implements I_CmsSearchIndex {
     /**
     * @see org.opencms.search.I_CmsSearchIndex#setName(java.lang.String)
     */
-    public void setName(String name) throws CmsIllegalArgumentException {
+    public void setName(@RUntainted String name) throws CmsIllegalArgumentException {
 
         if (CmsStringUtil.isEmptyOrWhitespaceOnly(name)) {
             throw new CmsIllegalArgumentException(
@@ -695,7 +696,7 @@ public abstract class A_CmsSearchIndex implements I_CmsSearchIndex {
      * index is stored or the URL where the index/core is reached.
      * @param path to the index/core.
      */
-    public void setPath(String path) {
+    public void setPath(@RUntainted String path) {
 
         m_path = path;
     }

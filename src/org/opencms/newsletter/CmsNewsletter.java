@@ -48,6 +48,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Basic implementation of the interface {@link I_CmsNewsletter}.

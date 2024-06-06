@@ -61,6 +61,7 @@ import com.google.common.collect.Sets;
 
 import de.malkusch.whoisServerList.publicSuffixList.PublicSuffixList;
 import de.malkusch.whoisServerList.publicSuffixList.PublicSuffixListFactory;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Class which converts the OpenCms site configuration to a certificate configuration for the LetsEncrypt docker instance.
@@ -92,7 +93,7 @@ public class CmsSiteConfigToLetsEncryptConfigConverter {
          *
          * @return the JSON configuration corresponding to the domain grouping
          */
-        public String generateCertJson() {
+        public @RUntainted String generateCertJson() {
 
             try {
                 JSONObject result = new JSONObject();
@@ -503,7 +504,7 @@ public class CmsSiteConfigToLetsEncryptConfigConverter {
                         org.opencms.ui.apps.Messages.RPT_LETSENCRYPT_NO_DOMAINS_0));
                 return false;
             }
-            String certConfig = domainGrouping.generateCertJson();
+            @RUntainted String certConfig = domainGrouping.generateCertJson();
             if (!m_configUpdater.update(certConfig)) {
                 report.println(
                     org.opencms.ui.apps.Messages.get().container(

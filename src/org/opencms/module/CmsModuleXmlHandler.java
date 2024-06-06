@@ -56,6 +56,8 @@ import org.apache.commons.logging.Log;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RPolyTainted;
 
 /**
  * Adds the XML handler rules for import and export of a single module.<p>
@@ -478,7 +480,7 @@ public class CmsModuleXmlHandler {
      *
      * @return a valid Java class name from an invalid class name
      */
-    public static String makeValidJavaClassName(String className) {
+    public static @RPolyTainted String makeValidJavaClassName(@RPolyTainted String className) {
 
         StringBuffer result = new StringBuffer(className.length());
         int length = className.length();
@@ -589,7 +591,7 @@ public class CmsModuleXmlHandler {
      * @param uri the export point uri
      * @param destination the export point destination
      */
-    public void addExportPoint(String uri, String destination) {
+    public void addExportPoint(String uri, @RUntainted String destination) {
 
         CmsExportPoint point = new CmsExportPoint(uri, destination);
         m_exportPoints.add(point);
@@ -668,7 +670,7 @@ public class CmsModuleXmlHandler {
      * @param dateInstalled the date this module was uploaded
      */
     public void createdModule(
-        String name,
+        @RUntainted String name,
         String niceName,
         String group,
         String actionClass,
@@ -684,7 +686,7 @@ public class CmsModuleXmlHandler {
         String userInstalled,
         String dateInstalled) {
 
-        String moduleName;
+        @RUntainted String moduleName;
 
         if (!CmsStringUtil.isValidJavaClassName(name)) {
             // ensure backward compatibility with old (5.0) module names

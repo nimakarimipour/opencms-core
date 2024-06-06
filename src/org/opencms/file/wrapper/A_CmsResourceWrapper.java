@@ -39,6 +39,7 @@ import org.opencms.main.CmsException;
 import org.opencms.main.CmsIllegalArgumentException;
 
 import java.util.List;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Default abstract implementation of the interface {@link I_CmsResourceWrapper}.<p>
@@ -98,7 +99,7 @@ public abstract class A_CmsResourceWrapper implements I_CmsResourceWrapper {
         CmsObject cms,
         String resourcename,
         int type,
-        byte[] content,
+        @RUntainted byte[] content,
         List<CmsProperty> properties) throws CmsException, CmsIllegalArgumentException {
 
         if (m_isWrappedResource) {

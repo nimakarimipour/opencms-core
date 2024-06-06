@@ -43,6 +43,7 @@ import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
 
 import com.google.common.collect.Lists;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 
 /**
  * Builds up a tree whose nodes correspond to stack trace lines of the threads calling this
@@ -224,7 +225,7 @@ public class CmsThreadStatsTreeProfilingHandler implements I_CmsProfilingHandler
      *
      * @return the tree in XML format
      */
-    public String dump() {
+    public @RUntainted String dump() {
 
         try {
             Document doc = Node.dumpTree(m_root);
