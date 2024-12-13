@@ -1,0 +1,33 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:cms="urn:import:org.opencms.gwt.client.ui">
+	<ui:with field="resources" type="org.opencms.gwt.client.ui.css.I_CmsLayoutBundle" />
+	<ui:style>
+		.list{
+			overflow: auto;
+			max-height: 250px;
+			margin: 0 2px;
+		}
+		
+		.root * {
+			zoom: 1;
+		}
+		
+		.root {
+			padding: 10px;
+		}
+		
+		.root .list {
+	        border: 1px solid rgb(217,217,217);
+	        padding: 2px;
+	        border-radius: 4px;
+	        margin-top: 5px;
+	    }
+		
+	</ui:style>
+	<g:FlowPanel styleName="{style.root}" addStyleNames="{resources.generalCss.border} {resources.generalCss.cornerAll}" >
+		<g:Label ui:field="m_label"  styleName="{resources.generalCss.textMedium}" />
+		<cms:CmsList ui:field="m_linkPanel" addStyleNames="{style.list}" />
+	</g:FlowPanel>
+</ui:UiBinder> 

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to="editprovider">
+	<inherits name="org.opencms.ade.publish.PublishDialog" />
+	<source path="client" />
+	<source path="shared" />
+</module>

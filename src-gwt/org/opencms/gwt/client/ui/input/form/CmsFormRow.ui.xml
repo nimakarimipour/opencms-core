@@ -1,0 +1,17 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:cms="urn:import:org.opencms.gwt.client.ui">
+	<ui:with field="inputstyle" type="org.opencms.gwt.client.ui.css.I_CmsInputLayoutBundle" />
+	<ui:with field="mainStyle" type="org.opencms.gwt.client.ui.css.I_CmsLayoutBundle" />
+	<ui:style>
+		.additionalIcon {
+            margin-left: 5px;
+		}
+	</ui:style>
+	<g:FlowPanel styleName="{inputstyle.inputCss.formRow}">
+		<g:Label ui:field="m_label"  styleName="{inputstyle.inputCss.formLabel}"/>
+		<g:SimplePanel ui:field="m_widgetContainer"  styleName="{inputstyle.inputCss.formWidgetContainer}" />
+        <g:FlowPanel styleName="{style.additionalIcon}" ui:field="m_icon" />
+	</g:FlowPanel>
+</ui:UiBinder> 

@@ -1,0 +1,102 @@
+<!--
+# PLEASE NOTE - PLEASE NOTE - PLEASE NOTE - PLEASE NOTE
+# 
+# The following nodes describe the explorer type configuration.
+# Since it is possible to set explorer types in the workplace configuration as 
+# well as in a module, this DTD has to be included in the following two files:
+#
+#    opencms-workplace.xml
+#    opencms-modules.xml
+-->
+	
+<!--
+# The resource type name, the key of the localized name and the used icon are required.
+-->
+<!ELEMENT explorertype (
+	newresource,
+	accesscontrol?,
+	editoptions?, iconrules?)>
+<!ATTLIST explorertype name CDATA #REQUIRED key CDATA #REQUIRED icon CDATA #IMPLIED bigicon CDATA #IMPLIED smalliconstyle CDATA #IMPLIED bigiconstyle CDATA #IMPLIED reference CDATA #IMPLIED elementview CDATA #IMPLIED isview CDATA #IMPLIED name-pattern CDATA #IMPLIED view-order CDATA #IMPLIED>
+
+
+<!--
+# A list of icon rules which map file extensions (e.g. 'doc') to icon file names.
+# The normal icon file name is required, while the file name for the big icon is optional.
+#
+-->
+<!ELEMENT iconrules (iconrule*)>
+<!ELEMENT iconrule EMPTY>
+<!ATTLIST iconrule extension CDATA #REQUIRED icon CDATA #IMPLIED bigicon CDATA #IMPLIED smalliconstyle CDATA #IMPLIED bigiconstyle CDATA #IMPLIED> 
+
+<!--
+# The order is required.
+# All handler. page and uri settings are DEPRECATED.
+-->
+<!ELEMENT newresource EMPTY>
+<!ATTLIST newresource handler CDATA #IMPLIED page CDATA #IMPLIED uri CDATA #IMPLIED creatable (true|false) #IMPLIED order CDATA #REQUIRED autosetnavigation (true|false) #IMPLIED autosettitle (true|false) #IMPLIED info CDATA #IMPLIED icon CDATA #IMPLIED key CDATA #IMPLIED>
+
+<!--
+# Enter the permissions for OpenCms groups. The flags have the following meaning:
+# +w: the context menu for editing the resource is shown
+# +c: this entry is shown in the new resource dialog for this group
+# +v: resources of the current type are visible in the explorer view
+-->
+<!ELEMENT accesscontrol (accessentry*)>
+<!ELEMENT accessentry EMPTY>
+<!ATTLIST accessentry principal CDATA #REQUIRED permissions CDATA #REQUIRED>
+
+<!--
+# The edit options of the current explorer type. 
+# Don't specify them for the file upload and new link types.
+-->
+<!ELEMENT editoptions (
+	defaultproperties,
+	contextmenu?)>
+
+<!--
+# Define here the properties which can be edited in the new resource dialog.
+# If the enabled attribute is false, the special property dialog will not be used.
+# If the shownavigation attribute is true, navigation properties can be editied in the special property dialog.
+#
+# Use the defaultproperty element to define the shown default properties for the special property dialog.
+# Note: property element still supported for backward compatibility, but should not longer be used
+-->
+<!ELEMENT defaultproperties (property|defaultproperty)*>
+<!ATTLIST defaultproperties 
+    enabled (true|false|TRUE|FALSE) #REQUIRED
+	shownavigation (true|false|TRUE|FALSE) #IMPLIED>
+	
+<!ELEMENT defaultproperty EMPTY>
+<!ATTLIST defaultproperty 
+	name CDATA #REQUIRED
+	requiredOnUpload (true|false|TRUE|FALSE) #IMPLIED>
+	
+	
+
+
+<!--
+# DEPRECATED: This setting is no longer evaluated
+-->
+<!ELEMENT contextmenu (
+	entry*,
+	separator*)*>
+	
+<!ELEMENT entry (
+	entry*,
+	separator*)*>
+
+<!ATTLIST entry 
+	key CDATA #REQUIRED 
+	uri CDATA #IMPLIED 
+	rules CDATA #IMPLIED 
+	rule CDATA #IMPLIED
+	order CDATA #IMPLIED 
+	target CDATA #IMPLIED
+	name CDATA #IMPLIED
+	params CDATA #IMPLIED
+	parent CDATA #IMPLIED
+	icon CDATA #IMPLIED
+	isxml (true|false|TRUE|FALSE) #IMPLIED>
+	
+<!ELEMENT separator EMPTY>
+<!ATTLIST separator order CDATA #IMPLIED>

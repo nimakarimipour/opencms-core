@@ -1,0 +1,1820 @@
+
+> Configure project :
+Using internal version properties file
+No explicit dependency on the Checker Framework found, using default version 3.42.0
+
+> Task :createCheckerFrameworkManifest
+
+> Task :compileJava
+Configuration: Annotated Packages: [org.opencms], Unannotated Code Handling: true, Poly: true, Type Argument: true, Validation: false, Side Effect: false
+Local Variable Optimization: true
+Max Heap Size: 32.00 GB
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/monitor/CmsMemoryMonitor.java:358: warning: [cast.unsafe] cast from "@RTainted Object" to "@RTainted byte @RUntainted []" cannot be statically verified
+            return 8 + (int)(Math.ceil(((byte[])obj).length / 16.0) * 16.0);
+                                        ^
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/db/CmsDriverManager.java:11421: warning: [cast.unsafe] cast from "@RTainted Object" to "@RTainted boolean @RUntainted []" cannot be statically verified
+                boolean[] nocache = (boolean[])dbc.getAttribute(ATTR_PERMISSION_NOCACHE);
+                                    ^
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/db/CmsDbPoolV11.java:169: error: [argument] incompatible argument for parameter arg0 of Thread.sleep.
+                Thread.sleep(connectionsWait);
+                             ^
+  found   : @RTainted int
+  required: @RUntainted long, index: 1
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/publish/CmsPublishEngine.java:347: error: [argument] incompatible argument for parameter arg0 of Thread.sleep.
+                        Thread.sleep(m_publishQueueShutdowntime * 1000);
+                                                                ^
+  found   : @RTainted int
+  required: @RUntainted long, index: 2
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/configuration/CmsConfigurationManager.java:149: error: [argument] incompatible argument for parameter pathname of File constructor.
+        m_baseFolder = new File(baseFolder);
+                                ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 3
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/configuration/CmsConfigurationManager.java:158: error: [argument] incompatible argument for parameter pathname of File constructor.
+        m_backupFolder = new File(m_baseFolder.getAbsolutePath() + File.separatorChar + "backup");
+                                                                                      ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 4
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/configuration/CmsConfigurationManager.java:419: error: [argument] incompatible argument for parameter parent of File constructor.
+        File file = new File(m_baseFolder, configuration.getXmlFileName());
+                             ^
+  found   : @RTainted File
+  required: @RUntainted File, index: 5
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/configuration/CmsConfigurationManager.java:419: error: [argument] incompatible argument for parameter child of File constructor.
+        File file = new File(m_baseFolder, configuration.getXmlFileName());
+                                                                       ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 6
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/configuration/CmsConfigurationManager.java:491: error: [argument] incompatible argument for parameter pathname of File constructor.
+        boolean result = (transformationPath != null) && new File(transformationPath).exists();
+                                                                  ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 7
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/configuration/CmsConfigurationManager.java:525: error: [argument] incompatible argument for parameter pathname of File constructor.
+            Transformer transformer = factory.newTransformer(new StreamSource(new File(transformPath)));
+                                                                                       ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 8
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/configuration/CmsConfigurationManager.java:639: error: [argument] incompatible argument for parameter spec of URL constructor.
+        URL fileUrl = new URL(url, configuration.getXmlFileName());
+                                                               ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 9
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/loader/CmsJspLoader.java:644: error: [argument] incompatible argument for parameter pathname of File constructor.
+            File jspFile = new File(jspName);
+                                    ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 10
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/loader/CmsJspLoader.java:770: error: [argument] incompatible argument for parameter pathname of File constructor.
+        File d = new File(jspPath).getParentFile();
+                          ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 11
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/loader/CmsJspLoader.java:786: error: [argument] incompatible argument for parameter pathname of File constructor.
+            File jspFile = new File(jspPath);
+                                    ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 12
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/loader/CmsJspLoader.java:877: error: [argument] incompatible argument for parameter b of FileOutputStream.write.
+                                fs.write(contents);
+                                         ^
+  found   : @RTainted byte @RUntainted []
+  required: @RUntainted byte @RUntainted [], index: 13
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/loader/CmsJspLoader.java:1099: error: [argument] incompatible argument for parameter pathname of File constructor.
+        d = new File(getJspRepository() + CmsFlexCache.REPOSITORY_ONLINE + File.separator);
+                                                                         ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 14
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/loader/CmsJspLoader.java:1102: error: [argument] incompatible argument for parameter pathname of File constructor.
+        d = new File(getJspRepository() + CmsFlexCache.REPOSITORY_OFFLINE + File.separator);
+                                                                          ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 15
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/loader/CmsJspLoader.java:1650: error: [argument] incompatible argument for parameter str of Writer.write.
+        out.write(content);
+                  ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 16
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/CmsSystemInfo.java:259: error: [argument] incompatible argument for parameter pathname of File constructor.
+        File f = new File(path);
+                          ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 17
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/CmsSystemInfo.java:287: error: [argument] incompatible argument for parameter pathname of File constructor.
+        File f = new File(path);
+                          ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 18
+error: Error in AnnotatedTypeMirror.fromExpression(ReturnsReceiverAnnotatedTypeFactory, Arrays.asList(new String[]{ATTRIBUTE_DATERELEASED, ATTRIBUTE_DATEEXPIRED})): null
+  ; The Checker Framework crashed.  Please report the crash.  Version: Checker Framework 3.42.0. 
+  Compilation unit: /home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/xml/content/I_CmsXmlContentHandler.java
+  Last visited tree at line 68 column 1:
+  public interface I_CmsXmlContentHandler {
+  Exception: java.lang.NullPointerException; java.lang.NullPointerException
+  	at org.checkerframework.javacutil.TreePathUtil.getAssignmentContext(TreePathUtil.java:275)
+  	at org.checkerframework.framework.util.typeinference.TypeArgInferenceUtil.assignedTo(TypeArgInferenceUtil.java:147)
+  	at org.checkerframework.framework.util.typeinference.DefaultTypeArgumentInference.inferTypeArgs(DefaultTypeArgumentInference.java:124)
+  	at org.checkerframework.framework.util.AnnotatedTypes.findTypeArguments(AnnotatedTypes.java:752)
+  	at org.checkerframework.framework.type.AnnotatedTypeFactory.methodFromUse(AnnotatedTypeFactory.java:2392)
+  	at org.checkerframework.framework.type.AnnotatedTypeFactory.methodFromUse(AnnotatedTypeFactory.java:2338)
+  	at org.checkerframework.framework.type.GenericAnnotatedTypeFactory.methodFromUse(GenericAnnotatedTypeFactory.java:2187)
+  	at org.checkerframework.framework.type.TypeFromExpressionVisitor.visitMethodInvocation(TypeFromExpressionVisitor.java:390)
+  	at org.checkerframework.framework.type.TypeFromExpressionVisitor.visitMethodInvocation(TypeFromExpressionVisitor.java:77)
+  	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCMethodInvocation.accept(JCTree.java:1666)
+  	at jdk.compiler/com.sun.source.util.SimpleTreeVisitor.visit(SimpleTreeVisitor.java:80)
+  	at org.checkerframework.framework.type.TypeFromTree.fromExpression(TypeFromTree.java:40)
+  	at org.checkerframework.framework.type.AnnotatedTypeFactory.fromExpression(AnnotatedTypeFactory.java:1700)
+  	at org.checkerframework.framework.type.AnnotatedTypeFactory.getAnnotatedType(AnnotatedTypeFactory.java:1370)
+  	at org.checkerframework.framework.flow.CFAbstractTransfer.getValueFromFactory(CFAbstractTransfer.java:211)
+  	at org.checkerframework.framework.flow.CFAbstractTransfer.visitMethodInvocation(CFAbstractTransfer.java:957)
+  	at org.checkerframework.framework.flow.CFAbstractTransfer.visitMethodInvocation(CFAbstractTransfer.java:98)
+  	at org.checkerframework.dataflow.cfg.node.MethodInvocationNode.accept(MethodInvocationNode.java:122)
+  	at org.checkerframework.dataflow.analysis.AbstractAnalysis.callTransferFunction(AbstractAnalysis.java:349)
+  	at org.checkerframework.dataflow.analysis.ForwardAnalysisImpl.callTransferFunction(ForwardAnalysisImpl.java:377)
+  	at org.checkerframework.dataflow.analysis.ForwardAnalysisImpl.performAnalysisBlock(ForwardAnalysisImpl.java:151)
+  	at org.checkerframework.dataflow.analysis.ForwardAnalysisImpl.performAnalysis(ForwardAnalysisImpl.java:105)
+  	at org.checkerframework.framework.flow.CFAbstractAnalysis.performAnalysis(CFAbstractAnalysis.java:147)
+  	at org.checkerframework.framework.type.GenericAnnotatedTypeFactory.analyze(GenericAnnotatedTypeFactory.java:1592)
+  	at org.checkerframework.framework.type.GenericAnnotatedTypeFactory.performFlowAnalysis(GenericAnnotatedTypeFactory.java:1444)
+  	at org.checkerframework.framework.type.GenericAnnotatedTypeFactory.checkAndPerformFlowAnalysis(GenericAnnotatedTypeFactory.java:1991)
+  	at org.checkerframework.framework.type.GenericAnnotatedTypeFactory.preProcessClassTree(GenericAnnotatedTypeFactory.java:426)
+  	at org.checkerframework.common.basetype.BaseTypeVisitor.visitClass(BaseTypeVisitor.java:553)
+  	at org.checkerframework.common.basetype.BaseTypeVisitor.visitClass(BaseTypeVisitor.java:187)
+  	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCClassDecl.accept(JCTree.java:808)
+  	at jdk.compiler/com.sun.source.util.TreePathScanner.scan(TreePathScanner.java:56)
+  	at org.checkerframework.framework.source.SourceVisitor.visit(SourceVisitor.java:86)
+  	at org.checkerframework.framework.source.SourceChecker.typeProcess(SourceChecker.java:1050)
+  	at org.checkerframework.common.basetype.BaseTypeChecker.typeProcess(BaseTypeChecker.java:558)
+  	at org.checkerframework.common.basetype.BaseTypeChecker.typeProcess(BaseTypeChecker.java:551)
+  	at org.checkerframework.javacutil.AbstractTypeProcessor$AttributionTaskListener.finished(AbstractTypeProcessor.java:188)
+  	at jdk.compiler/com.sun.tools.javac.api.ClientCodeWrapper$WrappedTaskListener.finished(ClientCodeWrapper.java:828)
+  	at jdk.compiler/com.sun.tools.javac.api.MultiTaskListener.finished(MultiTaskListener.java:132)
+  	at jdk.compiler/com.sun.tools.javac.main.JavaCompiler.flow(JavaCompiler.java:1417)
+  	at jdk.compiler/com.sun.tools.javac.main.JavaCompiler.flow(JavaCompiler.java:1364)
+  	at jdk.compiler/com.sun.tools.javac.main.JavaCompiler.compile(JavaCompiler.java:960)
+  	at jdk.compiler/com.sun.tools.javac.api.JavacTaskImpl.lambda$doCall$0(JavacTaskImpl.java:104)
+  	at jdk.compiler/com.sun.tools.javac.api.JavacTaskImpl.handleExceptions(JavacTaskImpl.java:147)
+  	at jdk.compiler/com.sun.tools.javac.api.JavacTaskImpl.doCall(JavacTaskImpl.java:100)
+  	at jdk.compiler/com.sun.tools.javac.api.JavacTaskImpl.call(JavacTaskImpl.java:94)
+  	at org.gradle.internal.compiler.java.IncrementalCompileTask.call(IncrementalCompileTask.java:92)
+  	at org.gradle.api.internal.tasks.compile.AnnotationProcessingCompileTask.call(AnnotationProcessingCompileTask.java:94)
+  	at org.gradle.api.internal.tasks.compile.ResourceCleaningCompilationTask.call(ResourceCleaningCompilationTask.java:57)
+  	at org.gradle.api.internal.tasks.compile.JdkJavaCompiler.execute(JdkJavaCompiler.java:55)
+  	at org.gradle.api.internal.tasks.compile.JdkJavaCompiler.execute(JdkJavaCompiler.java:39)
+  	at org.gradle.api.internal.tasks.compile.daemon.AbstractIsolatedCompilerWorkerExecutor$CompilerWorkAction.execute(AbstractIsolatedCompilerWorkerExecutor.java:78)
+  	at org.gradle.workers.internal.DefaultWorkerServer.execute(DefaultWorkerServer.java:63)
+  	at org.gradle.workers.internal.AbstractClassLoaderWorker$1.create(AbstractClassLoaderWorker.java:54)
+  	at org.gradle.workers.internal.AbstractClassLoaderWorker$1.create(AbstractClassLoaderWorker.java:48)
+  	at org.gradle.internal.classloader.ClassLoaderUtils.executeInClassloader(ClassLoaderUtils.java:100)
+  	at org.gradle.workers.internal.AbstractClassLoaderWorker.executeInClassLoader(AbstractClassLoaderWorker.java:48)
+  	at org.gradle.workers.internal.FlatClassLoaderWorker.run(FlatClassLoaderWorker.java:32)
+  	at org.gradle.workers.internal.FlatClassLoaderWorker.run(FlatClassLoaderWorker.java:22)
+  	at org.gradle.workers.internal.WorkerDaemonServer.run(WorkerDaemonServer.java:96)
+  	at org.gradle.workers.internal.WorkerDaemonServer.run(WorkerDaemonServer.java:65)
+  	at org.gradle.process.internal.worker.request.WorkerAction$1.call(WorkerAction.java:138)
+  	at org.gradle.process.internal.worker.child.WorkerLogEventListener.withWorkerLoggingProtocol(WorkerLogEventListener.java:41)
+  	at org.gradle.process.internal.worker.request.WorkerAction.lambda$run$0(WorkerAction.java:135)
+  	at org.gradle.internal.operations.CurrentBuildOperationRef.with(CurrentBuildOperationRef.java:80)
+  	at org.gradle.process.internal.worker.request.WorkerAction.run(WorkerAction.java:127)
+  	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+  	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+  	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+  	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+  	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)
+  	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+  	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:182)
+  	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:164)
+  	at org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:414)
+  	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+  	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+  	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+  	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+  	at java.base/java.lang.Thread.run(Thread.java:829)
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/CmsServletContainerSettings.java:557: error: [argument] incompatible argument for parameter pathname of File constructor.
+        File path = new File(m_webInfRfsPath);
+                             ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 19
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/flex/CmsFlexResponse.java:339: error: [argument] incompatible argument for parameter arg0 of HttpServletResponse.setHeader.
+                        res.setHeader(key, s.substring(SET_HEADER.length()));
+                                      ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 20
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/flex/CmsFlexResponse.java:341: error: [argument] incompatible argument for parameter arg0 of HttpServletResponse.addHeader.
+                        res.addHeader(key, l.get(j));
+                                      ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 21
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/flex/CmsFlexResponse.java:341: error: [argument] incompatible argument for parameter arg1 of HttpServletResponse.addHeader.
+                        res.addHeader(key, l.get(j));
+                                                ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 22
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/flex/CmsFlexResponse.java:473: error: [argument] incompatible argument for parameter arg0 of HttpServletResponse.addHeader.
+            m_res.addHeader(name, value);
+                            ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 23
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/flex/CmsFlexResponse.java:473: error: [argument] incompatible argument for parameter arg1 of HttpServletResponse.addHeader.
+            m_res.addHeader(name, value);
+                                  ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 24
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/flex/CmsFlexResponse.java:709: error: [argument] incompatible argument for parameter arg0 of HttpServletResponse.sendRedirect.
+                topRes.sendRedirect(location);
+                                    ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 25
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/flex/CmsFlexResponse.java:789: error: [argument] incompatible argument for parameter arg0 of HttpServletResponse.setHeader.
+            m_res.setHeader(name, value);
+                            ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 26
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/flex/CmsFlexResponse.java:1221: warning: [cast.unsafe] cast from "@RTainted Object" to "@RTainted byte @RUntainted []" cannot be statically verified
+                    res.getOutputStream().write((byte[])o);
+                                                ^
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/flex/CmsFlexCacheEntry.java:420: warning: [cast.unsafe] cast from "@RTainted Object" to "@RTainted byte @RUntainted []" cannot be statically verified
+                        res.writeToOutputStream((byte[])o, hasNoSubElements);
+                                                ^
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/flex/CmsFlexCacheEntry.java:590: warning: [cast.unsafe] cast from "@RTainted Object" to "@RTainted byte @RUntainted []" cannot be statically verified
+                    str += "" + count + " - <![CDATA[" + new String((byte[])o) + "]]>\n";
+                                                                    ^
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/userdata/CmsUserDataRequestManager.java:594: error: [argument] incompatible argument for parameter addresslist of InternetAddress.parse.
+        mail.setTo(Arrays.asList(InternetAddress.parse(email)));
+                                                       ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 27
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/userdata/CmsUserDataRequestStore.java:112: error: [argument] incompatible argument for parameter pathname of File constructor.
+        m_folder = new File(OpenCms.getSystemInfo().getAbsoluteRfsPathRelativeToWebInf("userdata-requests"));
+                                                                                      ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 28
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/userdata/CmsUserDataRequestStore.java:132: error: [argument] incompatible argument for parameter parent of File constructor.
+        File child = new File(m_folder, key);
+                              ^
+  found   : @RTainted File
+  required: @RUntainted File, index: 29
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/userdata/CmsUserDataRequestStore.java:132: error: [argument] incompatible argument for parameter child of File constructor.
+        File child = new File(m_folder, key);
+                                        ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 30
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/userdata/CmsUserDataRequestStore.java:157: error: [argument] incompatible argument for parameter parent of File constructor.
+        File child = new File(m_folder, info.getId());
+                              ^
+  found   : @RTainted File
+  required: @RUntainted File, index: 31
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/userdata/CmsUserDataRequestStore.java:157: error: [argument] incompatible argument for parameter child of File constructor.
+        File child = new File(m_folder, info.getId());
+                                                  ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 32
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/userdata/CmsUserDataRequestStore.java:159: error: [argument] incompatible argument for parameter b of FileOutputStream.write.
+            out.write(info.toJson().getBytes("UTF-8"));
+                                            ^
+  found   : @RTainted byte @RUntainted []
+  required: @RUntainted byte @RUntainted [], index: 33
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/json/JSONObject.java:1487: error: [argument] incompatible argument for parameter str of Writer.write.
+                writer.write(quote(k.toString()));
+                                  ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 34
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/json/JSONObject.java:1495: error: [argument] incompatible argument for parameter str of Writer.write.
+                    writer.write(valueToString(v));
+                                              ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 35
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/json/JSONArray.java:965: error: [argument] incompatible argument for parameter str of Writer.write.
+                    writer.write(JSONObject.valueToString(v));
+                                                         ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 36
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/security/CmsDefaultAuthorizationHandler.java:301: error: [argument] incompatible argument for parameter arg0 of HttpServletResponse.sendRedirect.
+        res.sendRedirect(loginFormURL);
+                         ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 37
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/security/CmsDefaultAuthorizationHandler.java:361: error: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+                session.setAttribute(CmsWorkplaceManager.SESSION_WORKPLACE_SETTINGS, settings);
+                                                                                     ^
+  found   : @RTainted CmsWorkplaceSettings
+  required: @RUntainted Object, index: 38
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/security/CmsDefaultPermissionHandler.java:226: warning: [cast.unsafe] cast from "@RTainted Object" to "@RTainted boolean @RUntainted []" cannot be statically verified
+            boolean[] nocacheArray = (boolean[])dbc.getAttribute(CmsDriverManager.ATTR_PERMISSION_NOCACHE);
+                                     ^
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/OpenCmsServlet.java:540: error: [argument] incompatible argument for parameter arg1 of HttpServletResponse.sendError.
+                res.sendError(errorCode, e.getLocalizedMessage());
+                                                              ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 39
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/CmsJspLoginBean.java:363: error: [argument] incompatible argument for parameter arg0 of HttpServletResponse.sendRedirect.
+                    OpenCms.getLinkManager().substituteLink(getCmsObject(), redirectUri, null, true));
+                                                           ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 40
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/CmsJspLoginBean.java:365: error: [argument] incompatible argument for parameter arg0 of HttpServletResponse.sendRedirect.
+                getResponse().sendRedirect(getFormLink());
+                                                      ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 41
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/CmsJspLoginBean.java:397: error: [argument] incompatible argument for parameter arg0 of HttpServletResponse.sendRedirect.
+        getResponse().sendRedirect(getFormLink());
+                                              ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 42
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/CmsJspActionElement.java:502: warning: [cast.unsafe] cast from "@RTainted Object" to "@RTainted String @RUntainted []" cannot be statically verified
+                        modParameterMap.put(key, (String[])value);
+                                                 ^
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/CmsJspBean.java:204: error: [argument] incompatible argument for parameter arg0 of ServletResponse.setContentType.
+        m_controller.getTopResponse().setContentType(type);
+                                                     ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 43
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/xml/containerpage/CmsADESessionCache.java:218: error: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+            request.getSession().setAttribute(CmsADESessionCache.SESSION_ATTR_ADE_CACHE, cache);
+                                                                                         ^
+  found   : @RTainted CmsADESessionCache
+  required: @RUntainted Object, index: 44
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/search/solr/CmsSolrIndex.java:1670: error: [argument] incompatible argument for parameter arg0 of ServletResponse.setContentType.
+                    response.setContentType(ct);
+                                            ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 45
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/search/CmsSearchIndex.java:1438: error: [argument] incompatible argument for parameter pathname of File constructor.
+        File file = new File(getPath());
+                                    ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 46
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/search/CmsSearchIndex.java:1449: error: [argument] incompatible argument for parameter first of Paths.get.
+            newDir = FSDirectory.open(Paths.get(backupPath));
+                                                ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 47
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/search/CmsSearchIndex.java:1495: error: [argument] incompatible argument for parameter pathname of File constructor.
+            File f = new File(getPath());
+                                     ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 48
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/search/CmsSearchIndex.java:1505: error: [argument] incompatible argument for parameter first of Paths.get.
+            dir = FSDirectory.open(Paths.get(getPath()));
+                                                    ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 49
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/search/CmsSearchIndex.java:1768: error: [argument] incompatible argument for parameter first of Paths.get.
+            indexDirectory = FSDirectory.open(Paths.get(path));
+                                                        ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 50
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/search/CmsSearchIndex.java:1947: error: [argument] incompatible argument for parameter pathname of File constructor.
+        File file = new File(path);
+                             ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 51
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/search/solr/CmsSolrResultList.java:325: warning: [cast.unsafe] cast from "@RTainted Object" to "@RTainted String @RUntainted []" cannot be statically verified
+                        String[] li = (String[])entry;
+                                      ^
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/search/solr/CmsSolrDocument.java:313: warning: [cast.unsafe] cast from "@RTainted Object" to "@RTainted byte @RUntainted []" cannot be statically verified
+                return (byte[])o;
+                       ^
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/search/documents/CmsExtractionResultCache.java:93: error: [argument] incompatible argument for parameter pathname of File constructor.
+        File basedir = new File(m_rfsRepository);
+                                ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 52
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/search/documents/CmsExtractionResultCache.java:173: error: [argument] incompatible argument for parameter pathname of File constructor.
+            File f = new File(rfsName);
+                              ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 53
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/CmsJspTagUserTracking.java:299: error: [argument] incompatible argument for parameter arg0 of HttpSession.setAttribute.
+            session.setAttribute(sessionKey, subscribedResources);
+                                 ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 54
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/CmsJspTagUserTracking.java:299: error: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+            session.setAttribute(sessionKey, subscribedResources);
+                                             ^
+  found   : @RTainted List<@RTainted CmsResource>
+  required: @RUntainted Object, index: 55
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/CmsJspTagUserTracking.java:338: error: [argument] incompatible argument for parameter arg0 of HttpSession.setAttribute.
+            session.setAttribute(sessionKey, visitedResources);
+                                 ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 56
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/CmsJspTagUserTracking.java:338: error: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+            session.setAttribute(sessionKey, visitedResources);
+                                             ^
+  found   : @RTainted List<@RTainted CmsResource>
+  required: @RUntainted Object, index: 57
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/jsonpart/CmsJspTagJsonPart.java:117: error: [argument] incompatible argument for parameter str of Writer.write.
+                pageContext.getOut().write(CmsJsonPart.getHeader(getElement()));
+                                                                ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 58
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/search/controller/CmsSearchControllerCommon.java:247: error: [argument] incompatible argument for parameter regex of String.replaceAll.
+        return null != value ? string.replaceAll("\\%\\(" + Pattern.quote(macroName) + "\\)", value) : string;
+                                                                                     ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 59
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/util/CmsJspElFunctions.java:416: warning: [cast.unsafe] cast from "@RTainted Object" to "@RTainted byte @RUntainted []" cannot be statically verified
+            uuid = new CmsUUID((byte[])input);
+                               ^
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/CmsJspTagEnableAde.java:192: error: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+                                left);
+                                ^
+  found   : @RTainted Integer
+  required: @RUntainted Object, index: 60
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/CmsJspLoginPersistingBean.java:110: error: [argument] incompatible argument for parameter uri of Cookie.setPath.
+                cookie.setPath(getCookiePath(true));
+                                            ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 61
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/CmsJspLoginPersistingBean.java:111: error: [argument] incompatible argument for parameter arg0 of HttpServletResponse.addCookie.
+                getResponse().addCookie(cookie);
+                                        ^
+  found   : @RTainted Cookie
+  required: @RUntainted Cookie, index: 62
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jsp/CmsJspLoginPersistingBean.java:143: error: [argument] incompatible argument for parameter uri of Cookie.setPath.
+                cookie.setPath(getCookiePath(true));
+                                            ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 63
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/CmsAliasResourceHandler.java:191: error: [argument] incompatible argument for parameter arg0 of HttpServletResponse.sendRedirect.
+                res.sendRedirect(link);
+                                 ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 64
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/OpenCmsCore.java:1253: error: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+                                settings);
+                                ^
+  found   : @RTainted CmsWorkplaceSettings
+  required: @RUntainted Object, index: 65
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/OpenCmsCore.java:2175: error: [argument] incompatible argument for parameter arg1 of HttpServletResponse.sendError.
+                res.sendError(status, rv.toString());
+                                                 ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 66
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/OpenCmsCore.java:2186: error: [argument] incompatible argument for parameter arg1 of HttpServletResponse.sendError.
+                res.sendError(status, t.toString());
+                                                ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 67
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/OpenCmsCore.java:2239: error: [argument] incompatible argument for parameter arg0 of HttpServletResponse.sendRedirect.
+                        res.sendRedirect(url);
+                                         ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 68
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/OpenCmsCore.java:2256: error: [argument] incompatible argument for parameter arg0 of HttpServletResponse.sendRedirect.
+                                m_siteManager.getCurrentSite(cms).getUrl() + req.getContextPath() + req.getPathInfo());
+                                                                                                  ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 69
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/OpenCmsCore.java:2694: error: [argument] incompatible argument for parameter b of FileOutputStream.write.
+                        out.write(adeInitData.getBytes("UTF-8"));
+                                                      ^
+  found   : @RTainted byte @RUntainted []
+  required: @RUntainted byte @RUntainted [], index: 70
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/OpenCmsCore.java:2876: error: [argument] incompatible argument for parameter arg1 of HttpServletResponse.sendError.
+                    res.sendError(status, t.toString());
+                                                    ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 71
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/OpenCmsCore.java:3095: error: [argument] incompatible argument for parameter arg0 of HttpServletResponse.sendRedirect.
+                                res.sendRedirect(target);
+                                                 ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 72
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/gwt/CmsGwtServiceContext.java:204: error: [argument] incompatible argument for parameter spec of URL constructor.
+            modulePath = new URL(moduleBaseURL).getPath();
+                                 ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 73
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/gwt/CmsGwtServiceContext.java:251: error: [argument] incompatible argument for parameter pathname of File constructor.
+                File policyFile = new File(rfsPath);
+                                           ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 74
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsLinkManager.java:122: error: [argument] incompatible argument for parameter spec of URL constructor.
+            URL url = new URL(new URL(m_baseUrl, baseUri), relativeUri);
+                                                 ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 75
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsLinkManager.java:122: error: [argument] incompatible argument for parameter spec of URL constructor.
+            URL url = new URL(new URL(m_baseUrl, baseUri), relativeUri);
+                                                           ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 76
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/module/CmsModuleManager.java:259: error: [argument] incompatible argument for parameter pathname of File constructor.
+        File folder = new File(rfsAbsPath);
+                               ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 77
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/module/CmsModuleManager.java:271: error: [argument] incompatible argument for parameter parent of File constructor.
+                        File manifest = new File(moduleFile, CmsImportExportManager.EXPORT_MANIFEST);
+                                                 ^
+  found   : @RTainted File
+  required: @RUntainted File, index: 78
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/loader/CmsResourceManager.java:1192: error: [argument] incompatible argument for parameter arg0 of ServletResponse.setContentType.
+        res.setContentType(getMimeType(resource.getName(), cms.getRequestContext().getEncoding()));
+                                      ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 79
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/search/CmsSearchManager.java:417: error: [argument] incompatible argument for parameter arg0 of Thread.sleep.
+                            sleep(offlineUpdateFrequency);
+                                  ^
+  found   : @RTainted long
+  required: @RUntainted long, index: 80
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/search/CmsSearchManager.java:510: error: [argument] incompatible argument for parameter arg0 of Thread.sleep.
+                        Thread.sleep(waitTime);
+                                     ^
+  found   : @RTainted long
+  required: @RUntainted long, index: 81
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/search/CmsSearchManager.java:2037: error: [argument] incompatible argument for parameter pathname of File constructor.
+            File dataDir = new File(index.getPath());
+                                                 ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 82
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/search/CmsSearchManager.java:2049: error: [argument] incompatible argument for parameter pathname of File constructor.
+                m_solrConfig.getHome() + FileSystems.getDefault().getSeparator() + index.getName());
+                                                                                 ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 83
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/search/CmsSearchManager.java:3475: error: [argument] incompatible argument for parameter first of Paths.get.
+                Paths.get(m_solrConfig.getHome()),
+                                              ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 84
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/search/CmsSearchManager.java:3504: error: [argument] incompatible argument for parameter pathname of File constructor.
+                CmsFileUtil.addTrailingSeparator(CmsFileUtil.addTrailingSeparator(dataDir) + "index") + "write.lock"));
+                                                                                                      ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 85
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/search/CmsSearchManager.java:3508: error: [argument] incompatible argument for parameter pathname of File constructor.
+                    + "write.lock"));
+                    ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 86
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/CmsSessionManager.java:746: error: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+                    session.setAttribute(CmsSessionInfo.ATTRIBUTE_SESSION_ID, sessionInfo.getSessionId().clone());
+                                                                                                              ^
+  found   : @RTainted Object
+  required: @RUntainted Object, index: 87
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/CmsSessionManager.java:748: error: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+                    session.setAttribute(CLIENT_TOKEN, generateClientToken(req));
+                                                                          ^
+  found   : @RTainted String
+  required: @RUntainted Object, index: 88
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/CmsSessionManager.java:800: error: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+                session.setAttribute(CmsSessionInfo.ATTRIBUTE_SESSION_ID, sessionInfo.getSessionId().clone());
+                                                                                                          ^
+  found   : @RTainted Object
+  required: @RUntainted Object, index: 89
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/site/CmsSiteManagerImpl.java:1521: error: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+                    Long.valueOf(System.currentTimeMillis() + matcher.getTimeOffset()));
+                                ^
+  found   : @RTainted Long
+  required: @RUntainted Object, index: 90
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsStaticExportManager.java:782: error: [argument] incompatible argument for parameter pathname of File constructor.
+            File staticExport = new File(m_staticExportPath);
+                                         ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 91
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsStaticExportManager.java:786: error: [argument] incompatible argument for parameter pathname of File constructor.
+            File staticExportWork = new File(m_staticExportWorkPath);
+                                             ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 92
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsStaticExportManager.java:787: error: [argument] incompatible argument for parameter pathname of File constructor.
+            staticExportWork.renameTo(new File(m_staticExportPath));
+                                               ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 93
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsStaticExportManager.java:793: error: [argument] incompatible argument for parameter pathname of File constructor.
+                File staticExportRule = new File(rule.getExportPath());
+                                                                   ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 94
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsStaticExportManager.java:794: error: [argument] incompatible argument for parameter pathname of File constructor.
+                File staticExportWorkRule = new File(rule.getExportWorkPath());
+                                                                           ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 95
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsStaticExportManager.java:802: error: [argument] incompatible argument for parameter pathname of File constructor.
+                    staticExportWorkRule.renameTo(new File(rule.getExportPath()));
+                                                                             ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 96
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsStaticExportManager.java:1394: error: [argument] incompatible argument for parameter pathname of File constructor.
+                        CmsFileUtil.normalizePath(
+                                                 ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 97
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsStaticExportManager.java:2437: error: [argument] incompatible argument for parameter pathname of File constructor.
+                File staticExportBackupOld = new File(backupFolderName + Integer.valueOf(i).toString());
+                                                                       ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 98
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsStaticExportManager.java:2444: error: [argument] incompatible argument for parameter pathname of File constructor.
+                        staticExportBackupOld.renameTo(new File(backupFolderName + Integer.valueOf(i + 1).toString()));
+                                                                                 ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 99
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsStaticExportManager.java:2471: error: [argument] incompatible argument for parameter pathname of File constructor.
+        File exportFolder = new File(exportFolderName);
+                                     ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 100
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsStaticExportManager.java:2759: error: [argument] incompatible argument for parameter spec of URL constructor.
+                URL tempURL = new URL(inputString);
+                                      ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 101
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsStaticExportManager.java:2863: error: [argument] incompatible argument for parameter pathname of File constructor.
+                File exportFolder = new File(exportFolderName);
+                                             ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 102
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsStaticExportManager.java:2897: error: [argument] incompatible argument for parameter pathname of File constructor.
+                    File exportFolder = new File(exportFolderName);
+                                                 ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 103
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsStaticExportManager.java:2959: error: [argument] incompatible argument for parameter pathname of File constructor.
+        File exportFile = new File(exportFileName);
+                                   ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 104
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsStaticExportManager.java:2963: error: [argument] incompatible argument for parameter b of FileOutputStream.write.
+            exportStream.write(content);
+                               ^
+  found   : @RTainted byte @RUntainted []
+  required: @RUntainted byte @RUntainted [], index: 105
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/CmsWorkplaceAppManager.java:608: error: [argument] incompatible argument for parameter pathname of File constructor.
+            OpenCms.getSystemInfo().getAbsoluteRfsPathRelativeToWebApplication(
+                                                                              ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 106
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/CmsUIServlet.java:361: error: [argument] incompatible argument for parameter arg1 of HttpServletResponse.sendError.
+                response.sendError(status, rv.toString());
+                                                      ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 107
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/CmsUIServlet.java:373: error: [argument] incompatible argument for parameter arg1 of HttpServletResponse.sendError.
+                response.sendError(status, io.toString());
+                                                      ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 108
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/CmsUIServlet.java:382: error: [argument] incompatible argument for parameter arg1 of HttpServletResponse.sendError.
+                response.sendError(status, t.toString());
+                                                     ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 109
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/gwt/CmsGwtService.java:224: error: [argument] incompatible argument for parameter arg0 of ServletResponse.setCharacterEncoding.
+            response.setCharacterEncoding(request.getCharacterEncoding());
+                                                                      ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 110
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/util/CmsRfsFileViewer.java:407: error: [argument] incompatible argument for parameter pathname of File constructor.
+            File file = new File(path);
+                                 ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 111
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/util/CmsRfsFileViewer.java:550: error: [argument] incompatible argument for parameter pathname of File constructor.
+            File file = new File(path);
+                                 ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 112
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/util/CmsRfsFileViewer.java:557: error: [argument] incompatible argument for parameter pathname of File constructor.
+                    m_rootPath = new File(OpenCms.getSystemInfo().getLogFileRfsPath()).getParent();
+                                                                                   ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 113
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/util/CmsRfsFileViewer.java:570: error: [argument] incompatible argument for parameter pathname of File constructor.
+                m_rootPath = new File(OpenCms.getSystemInfo().getLogFileRfsPath()).getParent();
+                                                                               ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 114
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/util/CmsRfsFileViewer.java:636: error: [argument] incompatible argument for parameter pathname of File constructor.
+            path = new File(OpenCms.getSystemInfo().getLogFileRfsPath()).getParent();
+                                                                     ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 115
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/workplace/CmsDialog.java:372: error: [argument] incompatible argument for parameter arg0 of HttpServletResponse.sendRedirect.
+                    getJsp().getResponse().sendRedirect(getParamCloseLink());
+                                                                         ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 116
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/workplace/CmsDialog.java:1944: error: [argument] incompatible argument for parameter str of Writer.write.
+                    + "\";</script></head>\n");
+                    ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 117
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/workplace/CmsWorkplace.java:1015: error: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+        session.setAttribute(CmsWorkplaceManager.SESSION_WORKPLACE_SETTINGS, settings);
+                                                                             ^
+  found   : @RTainted CmsWorkplaceSettings
+  required: @RUntainted Object, index: 118
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/workplace/CmsWorkplace.java:2123: error: [argument] incompatible argument for parameter arg0 of HttpServletResponse.sendRedirect.
+        getJsp().getResponse().sendRedirect(OpenCms.getSystemInfo().getOpenCmsContext() + location);
+                                                                                        ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 119
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/workplace/CmsWorkplace.java:2313: error: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+                session.setAttribute(CmsContextInfo.ATTRIBUTE_REQUEST_TIME, Long.valueOf(timeWarpConf));
+                                                                                        ^
+  found   : @RTainted Long
+  required: @RUntainted Object, index: 120
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/workplace/editors/CmsEditor.java:1040: error: [argument] incompatible argument for parameter arg0 of HttpSession.setAttribute.
+            session.setAttribute(info.getEditorSessionInfoKey(), info);
+                                                             ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 121
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/workplace/editors/CmsEditor.java:1040: error: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+            session.setAttribute(info.getEditorSessionInfoKey(), info);
+                                                                 ^
+  found   : @RTainted CmsEditorSessionInfo
+  required: @RUntainted Object, index: 122
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/synchronize/CmsSynchronizeSettings.java:161: error: [argument] incompatible argument for parameter pathname of File constructor.
+            File destinationFolder = new File(destination);
+                                              ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 123
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/cache/CmsVfsNameBasedDiskCache.java:87: error: [argument] incompatible argument for parameter pathname of File constructor.
+            File f = new File(rfsName);
+                              ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 124
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/cache/CmsVfsNameBasedDiskCache.java:169: error: [argument] incompatible argument for parameter pathname of File constructor.
+        File f = new File(rfsName);
+                          ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 125
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/search/solr/CmsSolrConfiguration.java:209: error: [argument] incompatible argument for parameter first of Paths.get.
+                Path instanceDir = Paths.get(getHome(), DEFAULT_CONFIGSET_FOLDER);
+                                                    ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 126
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/search/solr/CmsSolrConfiguration.java:239: error: [argument] incompatible argument for parameter pathname of File constructor.
+        return new File(getHome() + DEFAULT_CONFIGSET_FOLDER + CONF_FOLDER + SolrConfig.DEFAULT_CONF_FILE);
+                                                                           ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 127
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/search/solr/CmsSolrConfiguration.java:251: error: [argument] incompatible argument for parameter pathname of File constructor.
+            m_solrFile = new File(getHome() + File.separator + solrFileName);
+                                                             ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 128
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/search/solr/CmsSolrConfiguration.java:308: error: [argument] incompatible argument for parameter parent of File constructor.
+        File file = new File(dir, "managed-schema");
+                             ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 129
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/search/solr/CmsSolrConfiguration.java:314: error: [argument] incompatible argument for parameter parent of File constructor.
+        file = new File(dir, IndexSchema.DEFAULT_SCHEMA_FILE);
+                        ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 130
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jlan/CmsJlanThreadManager.java:95: error: [argument] incompatible argument for parameter pathname of File constructor.
+        File configFile = new File(path);
+                                   ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 131
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/module/CmsModuleLog.java:100: error: [argument] incompatible argument for parameter pathname of File constructor.
+            OpenCms.getSystemInfo().getAbsoluteRfsPathRelativeToWebInf("packages/_modulelogs/" + moduleName + ".log"));
+                                                                      ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 132
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/module/CmsModuleImportExportRepository.java:215: error: [argument] incompatible argument for parameter pathname of File constructor.
+            File moduleFile = new File(moduleFilePath);
+                                       ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 133
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/module/CmsModuleImportExportRepository.java:243: error: [argument] incompatible argument for parameter pathname of File constructor.
+                    new File(tempFilePath).delete();
+                             ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 134
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/module/CmsModuleImportExportRepository.java:246: error: [argument] incompatible argument for parameter pathname of File constructor.
+                new File(tempFilePath).renameTo(new File(moduleFilePath));
+                         ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 136
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/module/CmsModuleImportExportRepository.java:246: error: [argument] incompatible argument for parameter pathname of File constructor.
+                new File(tempFilePath).renameTo(new File(moduleFilePath));
+                                                         ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 135
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/module/CmsModuleImportExportRepository.java:250: error: [argument] incompatible argument for parameter pathname of File constructor.
+            return new ModuleExportData(result, new File(moduleFilePath).lastModified());
+                                                         ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 137
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/module/CmsModuleImportExportRepository.java:300: error: [argument] incompatible argument for parameter pathname of File constructor.
+                    FileOutputStream out = new FileOutputStream(new File(targetFilePath));
+                                                                         ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 138
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/module/CmsModuleImportExportRepository.java:301: error: [argument] incompatible argument for parameter b of FileOutputStream.write.
+                    out.write(content);
+                              ^
+  found   : @RTainted byte @RUntainted []
+  required: @RUntainted byte @RUntainted [], index: 139
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/module/CmsModuleImportExportRepository.java:311: error: [argument] incompatible argument for parameter pathname of File constructor.
+                new File(targetFilePath).delete();
+                         ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 140
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/module/CmsModuleImportExportRepository.java:412: error: [argument] incompatible argument for parameter pathname of File constructor.
+        } while (new File(path).exists());
+                          ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 141
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/module/CmsModuleImportExportRepository.java:433: error: [argument] incompatible argument for parameter pathname of File constructor.
+            File folder = new File(folderPath);
+                                   ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 142
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/CmsStaticResourceHandler.java:323: error: [argument] incompatible argument for parameter arg0 of ServletResponse.setContentType.
+            response.setContentType(mimetype);
+                                    ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 143
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/CmsStaticResourceHandler.java:350: error: [argument] incompatible argument for parameter spec of URL constructor.
+                    connection = new URL(urlStr + ".gz").openConnection();
+                                                ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 144
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/CmsPermalinkResourceHandler.java:159: error: [argument] incompatible argument for parameter arg0 of HttpServletResponse.sendRedirect.
+                            res.sendRedirect(redirectLink);
+                                             ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 145
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/CmsShellCommands.java:1803: error: [argument] incompatible argument for parameter arg0 of Thread.sleep.
+            Thread.sleep(Long.parseLong(sleepMillis));
+                                       ^
+  found   : @RTainted long
+  required: @RUntainted long, index: 146
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/main/CmsShellCommands.java:2003: error: [argument] incompatible argument for parameter pathname of File constructor.
+        return m_cms.createResource(folder + filename, t, CmsFileUtil.readFile(new File(localfile)), null);
+                                                                                        ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 147
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/letsencrypt/CmsLetsEncryptUpdater.java:67: error: [argument] incompatible argument for parameter b of FileOutputStream.write.
+                fos.write(certConfig.getBytes("UTF-8"));
+                                             ^
+  found   : @RTainted byte @RUntainted []
+  required: @RUntainted byte @RUntainted [], index: 148
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/sitemanager/CmsSitesWebserverThread.java:182: error: [argument] incompatible argument for parameter pathname of File constructor.
+                File newFile = new File(filename);
+                                        ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 149
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/sitemanager/CmsSitesWebserverThread.java:188: error: [argument] incompatible argument for parameter file of FileUtils.readFileToString.
+                String content = createConfigForSite(site, FileUtils.readFileToString(new File(m_templatePath)));
+                                                                                      ^
+  found   : @RTainted File
+  required: @RUntainted File, index: 150
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/sitemanager/CmsSitesWebserverThread.java:188: error: [argument] incompatible argument for parameter pathname of File constructor.
+                String content = createConfigForSite(site, FileUtils.readFileToString(new File(m_templatePath)));
+                                                                                               ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 151
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/sitemanager/CmsSitesWebserverThread.java:190: error: [argument] incompatible argument for parameter file of FileUtils.readFileToString.
+                    content += createConfigForSite(site, FileUtils.readFileToString(new File(m_secureTemplate)));
+                                                                                    ^
+  found   : @RTainted File
+  required: @RUntainted File, index: 152
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/sitemanager/CmsSitesWebserverThread.java:190: error: [argument] incompatible argument for parameter pathname of File constructor.
+                    content += createConfigForSite(site, FileUtils.readFileToString(new File(m_secureTemplate)));
+                                                                                             ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 153
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/sitemanager/CmsSitesWebserverThread.java:193: error: [argument] incompatible argument for parameter file of FileUtils.writeStringToFile.
+                FileUtils.writeStringToFile(newFile, content);
+                                            ^
+  found   : @RTainted File
+  required: @RUntainted File, index: 154
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/sitemanager/CmsSitesWebserverThread.java:193: error: [argument] incompatible argument for parameter data of FileUtils.writeStringToFile.
+                FileUtils.writeStringToFile(newFile, content);
+                                                     ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 155
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/sitemanager/CmsSitesWebserverThread.java:262: error: [argument] incompatible argument for parameter pathname of File constructor.
+        File file = new File(m_targetPath);
+                             ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 156
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/sitemanager/CmsSitesWebserverThread.java:292: error: [argument] incompatible argument for parameter pathname of File constructor.
+        File script = new File(m_scriptPath);
+                               ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 157
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/sitemanager/CmsSitesWebserverThread.java:296: error: [argument] incompatible argument for parameter command of ProcessBuilder constructor.
+        ProcessBuilder pb = new ProcessBuilder(params.toArray(new String[params.size()]));
+                                                             ^
+  found   : @RTainted String @RUntainted []
+  required: @RUntainted String @RUntainted [], index: 158
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/sitemanager/CmsSitesWebserverThread.java:297: error: [argument] incompatible argument for parameter pathname of File constructor.
+        pb.directory(new File(script.getParent()));
+                                              ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 159
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/logfile/CmsLogFileView.java:113: error: [argument] incompatible argument for parameter arg0 of HttpSession.setAttribute.
+                ATTR_FILE_VIEW_SIZE,
+                ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 160
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/logfile/CmsLogFileView.java:114: error: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+                String.valueOf(m_logView.getWindowSize()));
+                              ^
+  found   : @RTainted String
+  required: @RUntainted Object, index: 161
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/logfile/CmsLogFileView.java:131: error: [argument] incompatible argument for parameter arg0 of HttpSession.setAttribute.
+                CmsVaadinUtils.getRequest().getSession().setAttribute(ATTR_FILE_VIEW_PATH, getCurrentFile());
+                                                                      ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 162
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/logfile/CmsLogFileView.java:131: error: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+                CmsVaadinUtils.getRequest().getSession().setAttribute(ATTR_FILE_VIEW_PATH, getCurrentFile());
+                                                                                                         ^
+  found   : @RTainted String
+  required: @RUntainted Object, index: 163
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/logfile/CmsLogFileView.java:210: error: [argument] incompatible argument for parameter arg0 of HttpSession.setAttribute.
+            CmsVaadinUtils.getRequest().getSession().setAttribute(ATTR_FILE_VIEW_CHARSET, defaultCs);
+                                                                  ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 164
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/logfile/CmsDefaultLogDownloadProvider.java:98: error: [argument] incompatible argument for parameter pathname of File constructor.
+                    zipGen.addToZip(new File(CmsLogFileApp.LOG_FOLDER), file);
+                                                          ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 165
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/logfile/CmsLogFileViewSettings.java:105: error: [argument] incompatible argument for parameter arg0 of HttpSession.setAttribute.
+                session.setAttribute(CmsLogFileView.ATTR_FILE_VIEW_CHARSET, m_charset.getValue());
+                                                   ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 166
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/logfile/CmsLogFileViewSettings.java:105: error: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+                session.setAttribute(CmsLogFileView.ATTR_FILE_VIEW_CHARSET, m_charset.getValue());
+                                                                                              ^
+  found   : @RTainted Object
+  required: @RUntainted Object, index: 167
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/logfile/CmsLogFileViewSettings.java:106: error: [argument] incompatible argument for parameter arg0 of HttpSession.setAttribute.
+                session.setAttribute(CmsLogFileView.ATTR_FILE_VIEW_SIZE, m_size.getValue());
+                                                   ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 168
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/logfile/CmsLogFileViewSettings.java:106: error: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+                session.setAttribute(CmsLogFileView.ATTR_FILE_VIEW_SIZE, m_size.getValue());
+                                                                                        ^
+  found   : @RTainted String
+  required: @RUntainted Object, index: 169
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/logfile/CmsLogFileOptionProvider.java:77: error: [argument] incompatible argument for parameter pathname of File constructor.
+        for (File file : new File(CmsLogFileApp.LOG_FOLDER).listFiles()) {
+                                               ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 170
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/logfile/CmsLogFileOptionProvider.java:81: error: [argument] incompatible argument for parameter pathname of File constructor.
+            File file = new File(dir);
+                                 ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 171
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/util/CmsFileUtil.java:202: error: [argument] incompatible argument for parameter pathname of File constructor.
+        File inputFile = new File(fromFile);
+                                  ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 172
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/util/CmsFileUtil.java:203: error: [argument] incompatible argument for parameter pathname of File constructor.
+        File outputFile = new File(toFile);
+                                   ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 173
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/util/CmsFileUtil.java:214: error: [argument] incompatible argument for parameter b of FileOutputStream.write.
+            out.write(buf, 0, len);
+                      ^
+  found   : @RTainted byte @RUntainted []
+  required: @RUntainted byte @RUntainted [], index: 174
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/util/CmsFileUtil.java:387: error: [argument] incompatible argument for parameter pathname of File constructor.
+        File file = new File(name);
+                             ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 175
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/util/CmsFileUtil.java:389: error: [argument] incompatible argument for parameter pathname of File constructor.
+            file = new File(file.getParent());
+                                          ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 176
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/util/CmsFileUtil.java:553: error: [argument] incompatible argument for parameter pathname of File constructor.
+        String path = new File(url.getPath()).getAbsolutePath();
+                                          ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 177
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/util/CmsFileUtil.java:891: error: [argument] incompatible argument for parameter pathname of File constructor.
+        File f = new File(startFolder);
+                          ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 178
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/util/CmsFileUtil.java:896: error: [argument] incompatible argument for parameter parent of File constructor.
+        File configFile = new File(f, CmsSystemInfo.FILE_TLD);
+                                   ^
+  found   : @RTainted File
+  required: @RUntainted File, index: 179
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/git/CmsGitCheckin.java:187: error: [argument] incompatible argument for parameter first of Paths.get.
+                            String relativePath = Paths.get(root.getAbsolutePath()).relativize(
+                                                                                ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 181
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/git/CmsGitCheckin.java:188: error: [argument] incompatible argument for parameter first of Paths.get.
+                                Paths.get(file.getAbsolutePath())).toString();
+                                                              ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 180
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/git/CmsGitCheckin.java:829: error: [argument] incompatible argument for parameter pathname of File constructor.
+                File dirEntry = new File(dir);
+                                         ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 182
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/git/CmsGitCheckin.java:866: error: [argument] incompatible argument for parameter pathname of File constructor.
+        addConfigurationIfValid(configurations, new File(DEFAULT_CONFIG_FILE));
+                                                         ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 183
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/git/CmsGitCheckin.java:869: error: [argument] incompatible argument for parameter pathname of File constructor.
+        File configFolder = new File(DEFAULT_CONFIG_FOLDER);
+                                     ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 184
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/git/CmsGitCheckin.java:924: error: [argument] incompatible argument for parameter command of ProcessBuilder constructor.
+            ProcessBuilder builder = new ProcessBuilder(cmd);
+                                                        ^
+  found   : @RTainted String @RUntainted []
+  required: @RUntainted String @RUntainted [], index: 185
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/git/CmsGitCheckin.java:927: error: [argument] incompatible argument for parameter pathname of File constructor.
+            Redirect redirect = Redirect.appendTo(new File(DEFAULT_LOGFILE_PATH));
+                                                           ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 186
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/CmsFileExplorer.java:1951: error: [argument] incompatible argument for parameter name of ClassLoader.loadClass.
+                    m_uploadAction);
+                    ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 187
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/module/CmsModuleImportExportHandler.java:216: error: [argument] incompatible argument for parameter pathname of File constructor.
+            File file = new File(importResource);
+                                 ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 188
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/module/CmsModuleImportExportHandler.java:233: error: [argument] incompatible argument for parameter parent of File constructor.
+                file = new File(file, CmsImportExportManager.EXPORT_MANIFEST);
+                                ^
+  found   : @RTainted File
+  required: @RUntainted File, index: 189
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/modules/CmsServerModuleImportForm.java:84: error: [argument] incompatible argument for parameter pathname of File constructor.
+        File moduleDirFile = new File(moduleDir);
+                                      ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 190
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/modules/CmsModuleImportForm.java:210: error: [argument] incompatible argument for parameter pathname of File constructor.
+                File rfsFile = new File(path);
+                                        ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 191
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/cacheadmin/CmsCacheViewApp.java:224: error: [argument] incompatible argument for parameter pathname of File constructor.
+        if (new File(CmsImageLoader.getImageRepositoryPath()).exists()) {
+                                                          ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 192
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/cacheadmin/CmsCacheViewApp.java:225: error: [argument] incompatible argument for parameter pathname of File constructor.
+            size = FileUtils.sizeOfDirectory(new File(CmsImageLoader.getImageRepositoryPath()));
+                                                                                           ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 193
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/cacheadmin/CmsImageCacheHelper.java:250: error: [argument] incompatible argument for parameter pathname of File constructor.
+        File basedir = new File(CmsImageLoader.getImageRepositoryPath());
+                                                                     ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 194
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/cacheadmin/CmsImageCacheHolder.java:91: error: [argument] incompatible argument for parameter parent of File constructor.
+                if (new File(dir, name).isDirectory()) {
+                             ^
+  found   : @RTainted File
+  required: @RUntainted File, index: 195
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/cacheadmin/CmsImageCacheHolder.java:91: error: [argument] incompatible argument for parameter child of File constructor.
+                if (new File(dir, name).isDirectory()) {
+                                  ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 196
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/cacheadmin/CmsImageCacheHolder.java:238: error: [argument] incompatible argument for parameter pathname of File constructor.
+        File basedir = new File(CmsImageLoader.getImageRepositoryPath() + root);
+                                                                        ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 197
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/dbmanager/A_CmsHTTPImportForm.java:108: error: [argument] incompatible argument for parameter pathname of File constructor.
+                File rfsFile = new File(path);
+                                        ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 198
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/db/generic/CmsSqlManager.java:294: error: [argument] incompatible argument for parameter arg0 of Connection.prepareStatement.
+        return con.prepareStatement(query);
+                                    ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 199
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/dbmanager/CmsDbManager.java:66: error: [argument] incompatible argument for parameter pathname of File constructor.
+        File folder = new File(exportpath);
+                               ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 200
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/dbmanager/CmsDbManager.java:72: error: [argument] incompatible argument for parameter parent of File constructor.
+                File diskFile = new File(exportpath, files[i]);
+                                         ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 201
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/dbmanager/CmsDbManager.java:72: error: [argument] incompatible argument for parameter child of File constructor.
+                File diskFile = new File(exportpath, files[i]);
+                                                          ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 202
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/dbmanager/CmsDbManager.java:79: error: [argument] incompatible argument for parameter pathname of File constructor.
+                    && ((new File(diskFile + File.separator + FILE_MANIFEST)).exists())) {
+                                                            ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 203
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/apps/dbmanager/A_CmsServerImportForm.java:64: error: [argument] incompatible argument for parameter pathname of File constructor.
+        File moduleDirFile = new File(moduleDir);
+                                      ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 204
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/dialogs/CmsEmbeddedDialogsUI.java:244: error: [argument] incompatible argument for parameter name of ClassLoader.loadClass.
+            dialogId);
+            ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 205
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/editors/messagebundle/CmsMessageBundleEditorModel.java:416: error: [argument] incompatible argument for parameter str of Writer.write.
+                    bw.write(key + "=" + val);
+                                       ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 206
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/components/extensions/CmsPropertyDialogExtension.java:148: error: [argument] incompatible argument for parameter arg0 of Thread.sleep.
+                Thread.sleep(delayMillis);
+                             ^
+  found   : @RTainted long
+  required: @RUntainted long, index: 207
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/components/extensions/CmsGwtDialogExtension.java:139: error: [argument] incompatible argument for parameter arg0 of Thread.sleep.
+                Thread.sleep(delayMillis);
+                             ^
+  found   : @RTainted long
+  required: @RUntainted long, index: 208
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/error/CmsErrorUI.java:144: error: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+        request.getSession().setAttribute(THROWABLE, cause);
+                                                     ^
+  found   : @RTainted Throwable
+  required: @RUntainted Object, index: 209
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/error/CmsErrorUI.java:145: error: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+        request.getSession().setAttribute(PATH, errorUri);
+                                                ^
+  found   : @RTainted String
+  required: @RUntainted Object, index: 210
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/login/CmsLoginHelper.java:563: error: [argument] incompatible argument for parameter newValue of Cookie.setValue.
+            pcTypeCookie.setValue(pcType);
+                                  ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 211
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/login/CmsLoginHelper.java:571: error: [argument] incompatible argument for parameter newValue of Cookie.setValue.
+            userNameCookie.setValue(username);
+                                    ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 212
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/login/CmsLoginHelper.java:576: error: [argument] incompatible argument for parameter newValue of Cookie.setValue.
+            ouFqnCookie.setValue(oufqn);
+                                 ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 213
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/login/CmsLoginHelper.java:659: error: [argument] incompatible argument for parameter uri of Cookie.setPath.
+            CmsStringUtil.joinPaths(
+                                   ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 214
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/login/CmsLoginHelper.java:663: error: [argument] incompatible argument for parameter arg0 of HttpServletResponse.addCookie.
+        response.addCookie(cookie);
+                           ^
+  found   : @RTainted Cookie
+  required: @RUntainted Cookie, index: 215
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/login/CmsLoginController.java:506: error: [argument] incompatible argument for parameter arg0 of HttpServletResponse.sendRedirect.
+            response.sendRedirect(getFormLink(cms));
+                                             ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 216
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/login/CmsLoginController.java:508: error: [argument] incompatible argument for parameter arg0 of HttpServletResponse.sendRedirect.
+            response.sendRedirect(OpenCms.getLinkManager().substituteLinkForUnknownTarget(cms, logoutUri, false));
+                                                                                         ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 217
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/login/CmsLoginUI.java:261: error: [argument] incompatible argument for parameter arg0 of HttpServletResponse.sendRedirect.
+            response.sendRedirect(target);
+                                  ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 218
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/login/CmsLoginUI.java:265: error: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+        request.getSession().setAttribute(CmsLoginUI.INIT_DATA_SESSION_ATTR, params);
+                                                                             ^
+  found   : @RTainted LoginParameters
+  required: @RUntainted Object, index: 219
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ui/login/CmsLoginUI.java:384: error: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+                session.setAttribute(CmsWorkplaceManager.SESSION_WORKPLACE_SETTINGS, settings);
+                                                                                     ^
+  found   : @RTainted CmsWorkplaceSettings
+  required: @RUntainted Object, index: 220
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/workplace/CmsLoginUserAgreement.java:178: error: [argument] incompatible argument for parameter arg0 of HttpServletResponse.sendRedirect.
+        getJsp().getResponse().sendRedirect(getJsp().link(getParamWpres()));
+                                                         ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 221
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/workplace/CmsLoginUserAgreement.java:189: error: [argument] incompatible argument for parameter arg0 of HttpServletResponse.sendRedirect.
+        getJsp().getResponse().sendRedirect(getJsp().link(getParamWpres()));
+                                                         ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 222
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/jlan/CmsJlanUsers.java:137: warning: [cast.unsafe] cast from "@RTainted Object" to "@RTainted byte @RUntainted []" cannot be statically verified
+                account.setMD4Password((byte[])jlanHash);
+                                       ^
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/i18n/CmsEncoder.java:700: error: [argument] incompatible argument for parameter regex of String.replaceAll.
+            result = result.replaceAll("" + charToEscape, "" + escapeChar + charToEscape);
+                                          ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 223
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/i18n/CmsResourceBundleLoader.java:381: error: [argument] incompatible argument for parameter pathname of File constructor.
+                File file = new File(path);
+                                     ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 224
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/loader/CmsDumpLoader.java:126: error: [argument] incompatible argument for parameter arg0 of HttpServletResponse.setHeader.
+                    res.setHeader(parts[0], parts[1]);
+                                       ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 225
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/loader/CmsPointerLoader.java:321: error: [argument] incompatible argument for parameter arg0 of HttpServletResponse.sendRedirect.
+        res.sendRedirect(pointer);
+                         ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 226
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/xml/xml2json/CmsJsonResourceHandler.java:366: error: [argument] incompatible argument for parameter s of PrintWriter.write.
+            writer.write(output);
+                         ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 227
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/xml/CmsXmlUtils.java:981: error: [argument] incompatible argument for parameter arg0 of XMLReader.parse.
+            reader.parse(new InputSource(xmlStream));
+                         ^
+  found   : @RTainted InputSource
+  required: @RUntainted InputSource, index: 228
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/xml/CmsXmlFileTransformer.java:369: error: [argument] incompatible argument for parameter is of DocumentBuilder.parse.
+            Document doc1 = db.parse(new ByteArrayInputStream(xml1));
+                                     ^
+  found   : @RTainted ByteArrayInputStream
+  required: @RUntainted InputStream, index: 229
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/xml/CmsXmlFileTransformer.java:371: error: [argument] incompatible argument for parameter is of DocumentBuilder.parse.
+            Document doc2 = db.parse(new ByteArrayInputStream(xml2));
+                                     ^
+  found   : @RTainted ByteArrayInputStream
+  required: @RUntainted InputStream, index: 230
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/scheduler/jobs/CmsImageCacheCleanupJob.java:74: error: [argument] incompatible argument for parameter pathname of File constructor.
+        File basedir = new File(CmsImageLoader.getImageRepositoryPath());
+                                                                     ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 231
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/workplace/editors/CmsEditorActionDefault.java:112: error: [argument] incompatible argument for parameter arg0 of HttpServletResponse.sendRedirect.
+        jsp.getResponse().sendRedirect(publishLink);
+                                       ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 232
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/workplace/tools/A_CmsHtmlIconButton.java:224: error: [argument] incompatible argument for parameter pathname of File constructor.
+                File test = new File(resourcesRoot + icon.toString());
+                                                   ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 233
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/synchronize/CmsSynchronize.java:134: error: [argument] incompatible argument for parameter pathname of File constructor.
+            File destinationFolder = new File(m_destinationPathInRfs);
+                                              ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 234
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/synchronize/CmsSynchronize.java:298: error: [argument] incompatible argument for parameter pathname of File constructor.
+                newFile.getPath().replace('/', File.separatorChar).substring(
+                                                                            ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 235
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/synchronize/CmsSynchronize.java:499: error: [argument] incompatible argument for parameter parent of File constructor.
+        return new File(path, fileName);
+                        ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 236
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/synchronize/CmsSynchronize.java:499: error: [argument] incompatible argument for parameter child of File constructor.
+        return new File(path, fileName);
+                              ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 237
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/synchronize/CmsSynchronize.java:641: error: [argument] incompatible argument for parameter parent of File constructor.
+        syncListFile = new File(m_destinationPathInRfs, SYNCLIST_FILENAME);
+                                ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 238
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/synchronize/CmsSynchronize.java:696: error: [argument] incompatible argument for parameter pathname of File constructor.
+        File rfsFile = new File(folder);
+                                ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 239
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/synchronize/CmsSynchronize.java:1058: error: [argument] incompatible argument for parameter parent of File constructor.
+        syncListFile = new File(m_destinationPathInRfs, SYNCLIST_FILENAME);
+                                ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 240
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/module/CmsResourceImportData.java:316: error: [argument] incompatible argument for parameter b of FileOutputStream.write.
+                output.write(content);
+                             ^
+  found   : @RTainted byte @RUntainted []
+  required: @RUntainted byte @RUntainted [], index: 241
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/importexport/CmsImportHelper.java:254: error: [argument] incompatible argument for parameter parent of File constructor.
+                File file = new File(getFolder(), CmsImportExportManager.EXPORT_MANIFEST);
+                                              ^
+  found   : @RTainted File
+  required: @RUntainted File, index: 242
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/importexport/CmsImportHelper.java:313: error: [argument] incompatible argument for parameter pathname of File constructor.
+        m_folder = new File(OpenCms.getSystemInfo().getAbsoluteRfsPathRelativeToWebInf(m_params.getPath()));
+                                                                                      ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 243
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/importexport/CmsImportHelper.java:328: error: [argument] incompatible argument for parameter parent of File constructor.
+        return new File(getFolder(), filename);
+                                 ^
+  found   : @RTainted File
+  required: @RUntainted File, index: 244
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/importexport/CmsImportHelper.java:328: error: [argument] incompatible argument for parameter child of File constructor.
+        return new File(getFolder(), filename);
+                                     ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 245
+Error in computing required fixes: Optional.of(mapping) assignment, exception:java.lang.IndexOutOfBoundsException: Index: 0
+At path: /home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/configuration/CmsSitesConfiguration.java
+Last visited tree: getDigester().peekParams()[14] = Optional.of(mapping)
+java.lang.IndexOutOfBoundsException: Index: 0
+	at java.base/java.util.Collections$EmptyList.get(Collections.java:4483)
+	at edu.ucr.cs.riple.taint.ucrtainting.serialization.visitors.GenericMethodFixVisitor.typeVarCanImpactFoundRequiredPair(GenericMethodFixVisitor.java:170)
+	at edu.ucr.cs.riple.taint.ucrtainting.serialization.visitors.GenericMethodFixVisitor.checkMethodTypeVarImpact(GenericMethodFixVisitor.java:129)
+	at edu.ucr.cs.riple.taint.ucrtainting.serialization.visitors.GenericMethodFixVisitor.visitMethodInvocation(GenericMethodFixVisitor.java:67)
+	at edu.ucr.cs.riple.taint.ucrtainting.serialization.visitors.GenericMethodFixVisitor.visitMethodInvocation(GenericMethodFixVisitor.java:52)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCMethodInvocation.accept(JCTree.java:1666)
+	at edu.ucr.cs.riple.taint.ucrtainting.serialization.visitors.FixComputer.visitMethodInvocation(FixComputer.java:156)
+	at edu.ucr.cs.riple.taint.ucrtainting.serialization.visitors.FixComputer.visitMethodInvocation(FixComputer.java:56)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCMethodInvocation.accept(JCTree.java:1666)
+	at edu.ucr.cs.riple.taint.ucrtainting.serialization.SerializationService.generateFixesForError(SerializationService.java:167)
+	at edu.ucr.cs.riple.taint.ucrtainting.serialization.SerializationService.serializeError(SerializationService.java:118)
+	at edu.ucr.cs.riple.taint.ucrtainting.UCRTaintingChecker.detailedReportError(UCRTaintingChecker.java:122)
+	at edu.ucr.cs.riple.taint.ucrtainting.UCRTaintingVisitor.commonAssignmentCheck(UCRTaintingVisitor.java:76)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.commonAssignmentCheck(BaseTypeVisitor.java:3037)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.commonAssignmentCheck(BaseTypeVisitor.java:2956)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.visitAssignment(BaseTypeVisitor.java:1735)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.visitAssignment(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCAssign.accept(JCTree.java:1904)
+	at jdk.compiler/com.sun.source.util.TreePathScanner.scan(TreePathScanner.java:82)
+	at org.checkerframework.framework.source.SourceVisitor.scan(SourceVisitor.java:92)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:410)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.source.util.TreeScanner.visitExpressionStatement(TreeScanner.java:433)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCExpressionStatement.accept(JCTree.java:1476)
+	at jdk.compiler/com.sun.source.util.TreePathScanner.scan(TreePathScanner.java:82)
+	at org.checkerframework.framework.source.SourceVisitor.scan(SourceVisitor.java:92)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:410)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scanAndReduce(TreeScanner.java:90)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scan(TreeScanner.java:105)
+	at jdk.compiler/com.sun.source.util.TreeScanner.visitBlock(TreeScanner.java:248)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCBlock.accept(JCTree.java:1048)
+	at jdk.compiler/com.sun.source.util.TreePathScanner.scan(TreePathScanner.java:82)
+	at org.checkerframework.framework.source.SourceVisitor.scan(SourceVisitor.java:92)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:410)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scanAndReduce(TreeScanner.java:90)
+	at jdk.compiler/com.sun.source.util.TreeScanner.visitMethod(TreeScanner.java:206)
+	at org.checkerframework.framework.source.SourceVisitor.visitMethod(SourceVisitor.java:110)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.visitMethod(BaseTypeVisitor.java:1048)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.visitMethod(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCMethodDecl.accept(JCTree.java:898)
+	at jdk.compiler/com.sun.source.util.TreePathScanner.scan(TreePathScanner.java:82)
+	at org.checkerframework.framework.source.SourceVisitor.scan(SourceVisitor.java:92)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:410)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scanAndReduce(TreeScanner.java:90)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scan(TreeScanner.java:105)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scanAndReduce(TreeScanner.java:113)
+	at jdk.compiler/com.sun.source.util.TreeScanner.visitClass(TreeScanner.java:187)
+	at org.checkerframework.framework.source.SourceVisitor.visitClass(SourceVisitor.java:98)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.processClassTree(BaseTypeVisitor.java:617)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.visitClass(BaseTypeVisitor.java:563)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.visitClass(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCClassDecl.accept(JCTree.java:808)
+	at jdk.compiler/com.sun.source.util.TreePathScanner.scan(TreePathScanner.java:82)
+	at org.checkerframework.framework.source.SourceVisitor.scan(SourceVisitor.java:92)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:410)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.visitNewClass(BaseTypeVisitor.java:2143)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.visitNewClass(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCNewClass.accept(JCTree.java:1727)
+	at jdk.compiler/com.sun.source.util.TreePathScanner.scan(TreePathScanner.java:82)
+	at org.checkerframework.framework.source.SourceVisitor.scan(SourceVisitor.java:92)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:410)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.checkArguments(BaseTypeVisitor.java:3612)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.visitMethodInvocation(BaseTypeVisitor.java:1811)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.visitMethodInvocation(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCMethodInvocation.accept(JCTree.java:1666)
+	at jdk.compiler/com.sun.source.util.TreePathScanner.scan(TreePathScanner.java:82)
+	at org.checkerframework.framework.source.SourceVisitor.scan(SourceVisitor.java:92)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:410)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.source.util.TreeScanner.visitExpressionStatement(TreeScanner.java:433)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCExpressionStatement.accept(JCTree.java:1476)
+	at jdk.compiler/com.sun.source.util.TreePathScanner.scan(TreePathScanner.java:82)
+	at org.checkerframework.framework.source.SourceVisitor.scan(SourceVisitor.java:92)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:410)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scan(TreeScanner.java:105)
+	at jdk.compiler/com.sun.source.util.TreeScanner.visitBlock(TreeScanner.java:248)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCBlock.accept(JCTree.java:1048)
+	at jdk.compiler/com.sun.source.util.TreePathScanner.scan(TreePathScanner.java:82)
+	at org.checkerframework.framework.source.SourceVisitor.scan(SourceVisitor.java:92)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:410)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scanAndReduce(TreeScanner.java:90)
+	at jdk.compiler/com.sun.source.util.TreeScanner.visitTry(TreeScanner.java:374)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCTry.accept(JCTree.java:1344)
+	at jdk.compiler/com.sun.source.util.TreePathScanner.scan(TreePathScanner.java:82)
+	at org.checkerframework.framework.source.SourceVisitor.scan(SourceVisitor.java:92)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:410)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scanAndReduce(TreeScanner.java:90)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scan(TreeScanner.java:105)
+	at jdk.compiler/com.sun.source.util.TreeScanner.visitBlock(TreeScanner.java:248)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCBlock.accept(JCTree.java:1048)
+	at jdk.compiler/com.sun.source.util.TreePathScanner.scan(TreePathScanner.java:82)
+	at org.checkerframework.framework.source.SourceVisitor.scan(SourceVisitor.java:92)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:410)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scanAndReduce(TreeScanner.java:90)
+	at jdk.compiler/com.sun.source.util.TreeScanner.visitMethod(TreeScanner.java:206)
+	at org.checkerframework.framework.source.SourceVisitor.visitMethod(SourceVisitor.java:110)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.visitMethod(BaseTypeVisitor.java:1048)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.visitMethod(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCMethodDecl.accept(JCTree.java:898)
+	at jdk.compiler/com.sun.source.util.TreePathScanner.scan(TreePathScanner.java:82)
+	at org.checkerframework.framework.source.SourceVisitor.scan(SourceVisitor.java:92)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:410)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.scan(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scanAndReduce(TreeScanner.java:90)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scan(TreeScanner.java:105)
+	at jdk.compiler/com.sun.source.util.TreeScanner.scanAndReduce(TreeScanner.java:113)
+	at jdk.compiler/com.sun.source.util.TreeScanner.visitClass(TreeScanner.java:187)
+	at org.checkerframework.framework.source.SourceVisitor.visitClass(SourceVisitor.java:98)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.processClassTree(BaseTypeVisitor.java:617)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.visitClass(BaseTypeVisitor.java:563)
+	at org.checkerframework.common.basetype.BaseTypeVisitor.visitClass(BaseTypeVisitor.java:187)
+	at jdk.compiler/com.sun.tools.javac.tree.JCTree$JCClassDecl.accept(JCTree.java:808)
+	at jdk.compiler/com.sun.source.util.TreePathScanner.scan(TreePathScanner.java:56)
+	at org.checkerframework.framework.source.SourceVisitor.visit(SourceVisitor.java:86)
+	at org.checkerframework.framework.source.SourceChecker.typeProcess(SourceChecker.java:1050)
+	at org.checkerframework.common.basetype.BaseTypeChecker.typeProcess(BaseTypeChecker.java:558)
+	at org.checkerframework.javacutil.AbstractTypeProcessor$AttributionTaskListener.finished(AbstractTypeProcessor.java:188)
+	at jdk.compiler/com.sun.tools.javac.api.ClientCodeWrapper$WrappedTaskListener.finished(ClientCodeWrapper.java:828)
+	at jdk.compiler/com.sun.tools.javac.api.MultiTaskListener.finished(MultiTaskListener.java:132)
+	at jdk.compiler/com.sun.tools.javac.main.JavaCompiler.flow(JavaCompiler.java:1417)
+	at jdk.compiler/com.sun.tools.javac.main.JavaCompiler.flow(JavaCompiler.java:1364)
+	at jdk.compiler/com.sun.tools.javac.main.JavaCompiler.compile(JavaCompiler.java:960)
+	at jdk.compiler/com.sun.tools.javac.api.JavacTaskImpl.lambda$doCall$0(JavacTaskImpl.java:104)
+	at jdk.compiler/com.sun.tools.javac.api.JavacTaskImpl.handleExceptions(JavacTaskImpl.java:147)
+	at jdk.compiler/com.sun.tools.javac.api.JavacTaskImpl.doCall(JavacTaskImpl.java:100)
+	at jdk.compiler/com.sun.tools.javac.api.JavacTaskImpl.call(JavacTaskImpl.java:94)
+	at org.gradle.internal.compiler.java.IncrementalCompileTask.call(IncrementalCompileTask.java:92)
+	at org.gradle.api.internal.tasks.compile.AnnotationProcessingCompileTask.call(AnnotationProcessingCompileTask.java:94)
+	at org.gradle.api.internal.tasks.compile.ResourceCleaningCompilationTask.call(ResourceCleaningCompilationTask.java:57)
+	at org.gradle.api.internal.tasks.compile.JdkJavaCompiler.execute(JdkJavaCompiler.java:55)
+	at org.gradle.api.internal.tasks.compile.JdkJavaCompiler.execute(JdkJavaCompiler.java:39)
+	at org.gradle.api.internal.tasks.compile.daemon.AbstractIsolatedCompilerWorkerExecutor$CompilerWorkAction.execute(AbstractIsolatedCompilerWorkerExecutor.java:78)
+	at org.gradle.workers.internal.DefaultWorkerServer.execute(DefaultWorkerServer.java:63)
+	at org.gradle.workers.internal.AbstractClassLoaderWorker$1.create(AbstractClassLoaderWorker.java:54)
+	at org.gradle.workers.internal.AbstractClassLoaderWorker$1.create(AbstractClassLoaderWorker.java:48)
+	at org.gradle.internal.classloader.ClassLoaderUtils.executeInClassloader(ClassLoaderUtils.java:100)
+	at org.gradle.workers.internal.AbstractClassLoaderWorker.executeInClassLoader(AbstractClassLoaderWorker.java:48)
+	at org.gradle.workers.internal.FlatClassLoaderWorker.run(FlatClassLoaderWorker.java:32)
+	at org.gradle.workers.internal.FlatClassLoaderWorker.run(FlatClassLoaderWorker.java:22)
+	at org.gradle.workers.internal.WorkerDaemonServer.run(WorkerDaemonServer.java:96)
+	at org.gradle.workers.internal.WorkerDaemonServer.run(WorkerDaemonServer.java:65)
+	at org.gradle.process.internal.worker.request.WorkerAction$1.call(WorkerAction.java:138)
+	at org.gradle.process.internal.worker.child.WorkerLogEventListener.withWorkerLoggingProtocol(WorkerLogEventListener.java:41)
+	at org.gradle.process.internal.worker.request.WorkerAction.lambda$run$0(WorkerAction.java:135)
+	at org.gradle.internal.operations.CurrentBuildOperationRef.with(CurrentBuildOperationRef.java:80)
+	at org.gradle.process.internal.worker.request.WorkerAction.run(WorkerAction.java:127)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:182)
+	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:164)
+	at org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:414)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/configuration/CmsSitesConfiguration.java:289: error: [assignment] incompatible types in assignment.
+                        getDigester().peekParams()[14] = Optional.of(mapping);
+                                                                    ^
+  found   : @RTainted Optional<@RTainted CmsAlternativeSiteRootMapping>
+  required: @RUntainted Object, index: 246
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/search/solr/spellchecking/CmsSpellcheckDictionaryIndexer.java:368: error: [argument] incompatible argument for parameter pathname of File constructor.
+        final File path = new File(getSolrSpellcheckRfsPath());
+                                                           ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 247
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/search/solr/spellchecking/CmsSpellcheckDictionaryIndexer.java:414: error: [argument] incompatible argument for parameter pathname of File constructor.
+        final File path = new File(getSolrSpellcheckRfsPath());
+                                                           ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 248
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/util/CmsXmlSaxWriter.java:438: error: [argument] incompatible argument for parameter str of Writer.write.
+            m_writer.write(s);
+                           ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 249
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/util/benchmark/CmsFileBenchmarkReceiver.java:93: error: [argument] incompatible argument for parameter fileName of FileWriter constructor.
+        try (FileWriter fw = new FileWriter(m_path, true)) {
+                                            ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 250
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/util/benchmark/CmsFileBenchmarkReceiver.java:104: error: [argument] incompatible argument for parameter str of Writer.write.
+            fw.write(line);
+                     ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 251
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/util/CmsRequestUtil.java:332: warning: [cast.unsafe] cast from "@RTainted Object" to "@RTainted String @RUntainted []" cannot be statically verified
+                result.put(key, (String[])values);
+                                ^
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/util/CmsRequestUtil.java:828: error: [argument] incompatible argument for parameter pathname of File constructor.
+        factory.setRepository(new File(tempFolderPath));
+                                       ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 252
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/util/CmsRequestUtil.java:928: error: [argument] incompatible argument for parameter arg0 of HttpServletResponse.sendRedirect.
+        jsp.getResponse().sendRedirect(OpenCms.getLinkManager().substituteLink(jsp.getCmsObject(), target, null, true));
+                                                                              ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 253
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/util/CmsRequestUtil.java:959: error: [argument] incompatible argument for parameter newValue of Cookie.setValue.
+                cookies[i].setValue(value);
+                                    ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 254
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/util/CmsRequestUtil.java:964: error: [argument] incompatible argument for parameter arg0 of HttpServletResponse.addCookie.
+        jsp.getResponse().addCookie(cookie);
+                                    ^
+  found   : @RTainted Cookie
+  required: @RUntainted Cookie, index: 255
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/util/CmsRequestUtil.java:1001: error: [argument] incompatible argument for parameter arg0 of HttpSession.setAttribute.
+        session.setAttribute(key, value);
+                             ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 256
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/util/CmsRequestUtil.java:1001: error: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+        session.setAttribute(key, value);
+                                  ^
+  found   : @RTainted Object
+  required: @RUntainted Object, index: 257
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/pdftools/CmsPdfThumbnailGenerator.java:88: error: [assignment] incompatible types in assignment.
+        org.jpedal.io.ObjectStore.temp_dir = CmsFileUtil.normalizePath(
+                                                                      ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 258
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/pdftools/CmsPdfResourceHandler.java:278: error: [argument] incompatible argument for parameter arg0 of ServletResponse.setContentType.
+        response.setContentType(IMAGE_MIMETYPES.get(linkObj.getFormat()));
+                                                   ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 259
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/pdftools/CmsPdfConverter.java:114: error: [argument] incompatible argument for parameter is of DocumentBuilder.parse.
+        Document doc = docbuilder.parse(new ByteArrayInputStream(xhtmlData));
+                                        ^
+  found   : @RTainted ByteArrayInputStream
+  required: @RUntainted InputStream, index: 260
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/db/CmsImportFolder.java:232: error: [argument] incompatible argument for parameter pathname of File constructor.
+        m_importResource = new File(m_importFolderName);
+                                    ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 261
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/db/CmsImportFolder.java:259: error: [argument] incompatible argument for parameter parent of File constructor.
+            currentFile = new File(folder, diskFiles[i]);
+                                   ^
+  found   : @RTainted File
+  required: @RUntainted File, index: 262
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/db/CmsImportFolder.java:259: error: [argument] incompatible argument for parameter child of File constructor.
+            currentFile = new File(folder, diskFiles[i]);
+                                                    ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 263
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ade/contenteditor/CmsWidgetUtil.java:183: error: [assignment] incompatible types in assignment.
+            remainingPath = CmsXmlUtils.concatXpath(nestedType.getName(), remainingPath);
+                                                   ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 264
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ade/galleries/CmsGalleryService.java:1308: error: [argument] incompatible argument for parameter arg0 of HttpSession.setAttribute.
+            session.setAttribute(attributeName, treeState);
+                                 ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 265
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ade/galleries/CmsGalleryService.java:1308: error: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+            session.setAttribute(attributeName, treeState);
+                                                ^
+  found   : @RTainted CmsTreeOpenState
+  required: @RUntainted Object, index: 266
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ade/upload/CmsUploadListener.java:277: error: [argument] incompatible argument for parameter arg0 of Thread.sleep.
+                Thread.sleep(m_delay);
+                             ^
+  found   : @RTainted int
+  required: @RUntainted long, index: 267
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ade/upload/CmsUploadBean.java:243: error: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+        getRequest().getSession().setAttribute(SESSION_ATTRIBUTE_LISTENER_ID, listener.getId());
+                                                                                            ^
+  found   : @RTainted CmsUUID
+  required: @RUntainted Object, index: 268
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ade/upload/CmsUploadBean.java:688: error: [argument] incompatible argument for parameter pathname of File constructor.
+        File temp = new File(OpenCms.getSystemInfo().getPackagesRfsPath());
+                                                                       ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 269
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ade/publish/CmsPublishService.java:557: error: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+        getRequest().getSession().setAttribute(SESSION_ATTR_ADE_PUB_OPTS_CACHE, options);
+                                                                                ^
+  found   : @RTainted CmsPublishOptions
+  required: @RUntainted Object, index: 270
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ade/containerpage/CmsContainerpageService.java:1886: error: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+        getRequest().getSession().setAttribute(ATTR_CLIPBOARD_TAB, Integer.valueOf(tabIndex));
+                                                                                  ^
+  found   : @RTainted Integer
+  required: @RUntainted Object, index: 271
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/json/JSONWriter.java:205: error: [argument] incompatible argument for parameter str of Writer.write.
+                m_writer.write(JSONObject.quote(s));
+                                               ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 272
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/json/JSONWriter.java:312: error: [argument] incompatible argument for parameter str of Writer.write.
+                m_writer.write(s);
+                               ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 273
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/json/JSONWriter.java:340: error: [argument] incompatible argument for parameter c of Writer.write.
+            m_writer.write(c);
+                           ^
+  found   : @RTainted char
+  required: @RUntainted int, index: 274
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/cache/CmsVfsDiskCache.java:74: error: [argument] incompatible argument for parameter pathname of File constructor.
+        File f = new File(rfsName);
+                          ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 275
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/cache/CmsVfsDiskCache.java:82: error: [argument] incompatible argument for parameter b of FileOutputStream.write.
+        fs.write(content);
+                 ^
+  found   : @RTainted byte @RUntainted []
+  required: @RUntainted byte @RUntainted [], index: 276
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/cache/CmsVfsDiskCache.java:100: error: [argument] incompatible argument for parameter pathname of File constructor.
+            File f = new File(rfsName);
+                              ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 277
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/gwt/CmsMessagesService.java:79: error: [argument] incompatible argument for parameter arg0 of ServletResponse.setCharacterEncoding.
+            response.setCharacterEncoding(characterEncoding);
+                                          ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 278
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/A_CmsStaticExportHandler.java:322: error: [argument] incompatible argument for parameter pathname of File constructor.
+        File rfsFile = new File(rfsFilePath);
+                                ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 279
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/A_CmsStaticExportHandler.java:382: error: [argument] incompatible argument for parameter pathname of File constructor.
+                                File exportFolder = new File(exportFolderName);
+                                                             ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 280
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/A_CmsStaticExportHandler.java:501: error: [argument] incompatible argument for parameter pathname of File constructor.
+                File parent = new File(file.getParent());
+                                                     ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 281
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/A_CmsStaticExportHandler.java:553: error: [argument] incompatible argument for parameter pathname of File constructor.
+                    File file = new File(rfsExportFileName);
+                                         ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 282
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/A_CmsStaticExportHandler.java:607: error: [argument] incompatible argument for parameter pathname of File constructor.
+                    File file = new File(rfsExportFileName);
+                                         ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 283
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsAfterPublishStaticExportHandler.java:259: error: [argument] incompatible argument for parameter pathname of File constructor.
+        File file = new File(rfsName);
+                             ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 284
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsAfterPublishStaticExportHandler.java:537: error: [argument] incompatible argument for parameter spec of URL constructor.
+        URL exportUrl = new URL(exportUrlStr);
+                                ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 285
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsAfterPublishStaticExportHandler.java:558: error: [argument] incompatible argument for parameter pathname of File constructor.
+        File exportFile = new File(exportFileName);
+                                   ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 286
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsAfterPublishStaticExportHandler.java:568: error: [argument] incompatible argument for parameter pathname of File constructor.
+                    exportFile = new File(exportFileName);
+                                          ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 287
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/staticexport/CmsAfterPublishMultiLanguageStaticExportHandler.java:77: error: [argument] incompatible argument for parameter pathname of File constructor.
+            result.add(new File(rule.getLocalizedRfsName(exportFileName, File.separator)));
+                                                        ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 288
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ugc/CmsUgcSessionFactory.java:108: error: [argument] incompatible argument for parameter arg0 of HttpSession.setAttribute.
+        httpSession.setAttribute("" + session.getId(), session);
+                                    ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 289
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/ugc/CmsUgcSessionFactory.java:108: error: [argument] incompatible argument for parameter arg1 of HttpSession.setAttribute.
+        httpSession.setAttribute("" + session.getId(), session);
+                                                       ^
+  found   : @RTainted CmsUgcSession
+  required: @RUntainted Object, index: 290
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/importexport/A_CmsImport.java:575: error: [argument] incompatible argument for parameter parent of File constructor.
+                File file = new File(m_importResource, filename);
+                                     ^
+  found   : @RTainted File
+  required: @RUntainted File, index: 291
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/importexport/A_CmsImport.java:575: error: [argument] incompatible argument for parameter child of File constructor.
+                File file = new File(m_importResource, filename);
+                                                       ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 292
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/importexport/CmsExportHelper.java:98: error: [argument] incompatible argument for parameter pathname of File constructor.
+            File rfsFile = new File(fileName);
+                                    ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 293
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/importexport/CmsExportHelper.java:101: error: [argument] incompatible argument for parameter file of FileWriter constructor.
+            writer = new FileWriter(rfsFile);
+                                    ^
+  found   : @RTainted File
+  required: @RUntainted File, index: 294
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/importexport/CmsExportHelper.java:104: error: [argument] incompatible argument for parameter pathname of File constructor.
+            File rfsFile = new File(m_exportPath);
+                                    ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 295
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/importexport/CmsExportHelper.java:208: error: [argument] incompatible argument for parameter pathname of File constructor.
+        File output = new File(exportPath);
+                               ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 296
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/importexport/CmsExportHelper.java:236: error: [argument] incompatible argument for parameter pathname of File constructor.
+        File rfsFile = new File(fileName);
+                                ^
+  found   : @RTainted String
+  required: @RUntainted String, index: 297
+/home/nima/Developer/taint-benchmarks/opencms-core/src/org/opencms/importexport/CmsExportHelper.java:242: error: [argument] incompatible argument for parameter b of FileOutputStream.write.
+        rfsFileOut.write(file.getContents());
+                                         ^
+  found   : @RTainted byte @RUntainted []
+  required: @RUntainted byte @RUntainted [], index: 298
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: Some input files use unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+299 errors
+12 warnings
+
+> Task :compileJava FAILED
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler error output for details.
+
+* Try:
+> Run with --info option to get more log output.
+> Run with --scan to get full insights.
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.4/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 3m 27s
+2 actionable tasks: 2 executed

@@ -1,0 +1,52 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:cms="urn:import:org.opencms.gwt.client.ui"
+	xmlns:input="urn:import:org.opencms.gwt.client.ui.input"
+	xmlns:date="urn:import:org.opencms.gwt.client.ui.input.datebox">
+	
+	<ui:with field="galleryResources" type="org.opencms.ade.galleries.client.ui.css.I_CmsLayoutBundle" />
+	<ui:with field="resources" type="org.opencms.gwt.client.ui.css.I_CmsLayoutBundle" />
+	
+	<g:HTMLPanel styleName="{resources.tabbedPanelCss.tabPanel}">
+		<div class="{resources.generalCss.cornerAll} {galleryResources.galleryDialogCss.searchTabBorderLayer}">
+			<g:HTMLPanel ui:field="m_localeRow" addStyleNames="{galleryResources.galleryDialogCss.searchTabFlexRow}">
+                        <div class="{galleryResources.galleryDialogCss.column}">
+                            <div class="{galleryResources.galleryDialogCss.searchTabInputWide}">
+                                <input:CmsCheckBox ui:field="m_includeExpiredCheckBox" />
+                            </div>
+                        </div>
+                        <div class="{galleryResources.galleryDialogCss.column}">
+                        <g:Label addStyleNames="{galleryResources.galleryDialogCss.localeLabel}" ui:field="m_localeLabel"></g:Label>
+                <div class="{galleryResources.galleryDialogCss.searchTabInputWide}">
+                    <input:CmsSelectBox ui:field="m_localeSelection" />
+                </div>
+                        </div>
+			</g:HTMLPanel>
+			<div class="{galleryResources.galleryDialogCss.searchTabRow}">
+				<g:Label ui:field="m_dateCreatedStartLabel"  addStyleNames="{galleryResources.galleryDialogCss.searchTabLabelLeft}"></g:Label>
+				<div class="{galleryResources.galleryDialogCss.searchTabInputLeft}">
+					<date:CmsDateBox ui:field="m_dateCreatedStartDateBox"/>
+				</div>
+				<div class="{galleryResources.galleryDialogCss.searchTabInputRight}">
+					<date:CmsDateBox ui:field="m_dateCreatedEndDateBox"/>
+				</div>
+				<g:Label ui:field="m_dateCreatedEndLabel"  addStyleNames="{galleryResources.galleryDialogCss.searchTabLabelRight}"></g:Label>
+			</div>
+			<div class="{galleryResources.galleryDialogCss.searchTabRow}">
+				<g:Label ui:field="m_dateModifiedStartLabel"  addStyleNames="{galleryResources.galleryDialogCss.searchTabLabelLeft}"></g:Label>
+				<div class="{galleryResources.galleryDialogCss.searchTabInputLeft}">
+					<date:CmsDateBox ui:field="m_dateModifiedStartDateBox"/>
+				</div>
+				<div class="{galleryResources.galleryDialogCss.searchTabInputRight}">
+					<date:CmsDateBox ui:field="m_dateModifiedEndDateBox"/>
+				</div>
+				<g:Label ui:field="m_dateModifiedEndLabel"  addStyleNames="{galleryResources.galleryDialogCss.searchTabLabelRight}"></g:Label>
+			</div>
+			<div class="{galleryResources.galleryDialogCss.searchTabRowRightAlign}">
+				<cms:CmsPushButton ui:field="m_clearButton"></cms:CmsPushButton>
+			</div>
+		</div>
+	</g:HTMLPanel>
+	
+</ui:UiBinder> 
